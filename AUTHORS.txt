@@ -1,0 +1,8 @@
+This plugin is using the sdks below:
+
+line-bot-sdk-php 
+line
+https://github.com/line/line-bot-sdk-php
+
+This plugin is originally from LINE AUTO POST
+https://s-page.biz/line-auto-post/
