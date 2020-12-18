@@ -2,11 +2,11 @@
 
 /*
   Plugin Name: LINE Connect
-  Plugin URI: https://www.shipweb.jp/
+  Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 1.0.0
+  Version: 1.0.1
   Author: shipweb
-  Author URI: https://www.shipweb.jp/
+  Author URI: https://blog.shipweb.jp/about
   License: GPLv3
 */
 
@@ -24,7 +24,7 @@ class lineconnect {
     /**
      * このプラグインのバージョン
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     /**
      * このプラグインのID：Ship Line Connect
@@ -264,8 +264,8 @@ class lineconnect {
      * 管理画面のトップメニューページを追加する関数
      */
     function set_plugin_menu() {
-        // トップメニュー「post2lineoa」を追加
-        add_menu_page(
+        // 設定のサブメニュー「LINE Connect」を追加
+        add_options_page(
             // ページタイトル：
             'Preferences for LINE Connect',
             // メニュータイトル：
@@ -281,43 +281,7 @@ class lineconnect {
             // ページを開いたときのURL(slug)：
             self::SLUG__SETTINGS_FORM,
             // メニューに紐づく画面を描画するcallback関数：
-            [$this, 'show_settings'],
-            // アイコン：
-            // WordPressが用意しているカートのアイコン
-            // ・参考（https://developer.wordpress.org/resource/dashicons/#awards）
-            'dashicons-format-status',
-            // メニューが表示される位置：
-            // 省略時はメニュー構造の最下部に表示される。
-            // 大きい数値ほど下に表示される。
-            // 2つのメニューが同じ位置を指定している場合は片方のみ表示され上書きされる可能性がある。
-            // 衝突のリスクは整数値でなく小数値を使用することで回避することができる。
-            // 例： 63の代わりに63.3（コード内ではクォートを使用。例えば '63.3'）
-            // 初期値はメニュー構造の最下部。
-            // ・2 - ダッシュボード
-            // ・4 - （セパレータ）
-            // ・5 - 投稿
-            // ・10 - メディア
-            // ・15 - リンク
-            // ・20 - 固定ページ
-            // ・25 - コメント
-            // ・59 - （セパレータ）
-            // ・60 - 外観（テーマ）
-            // ・65 - プラグイン
-            // ・70 - ユーザー
-            // ・75 - ツール
-            // ・80 - 設定
-            // ・99 - （セパレータ）
-            // 但しネットワーク管理者メニューでは値が以下の様に異なる。
-            // ・2 - ダッシュボード
-            // ・4 - （セパレータ）
-            // ・5 - 参加サイト
-            // ・10 - ユーザー
-            // ・15 - テーマ
-            // ・20 - プラグイン
-            // ・25 - 設定
-            // ・30 - 更新
-            // ・99 - （セパレータ）
-            99
+            [$this, 'show_settings']
         );
     }
 
