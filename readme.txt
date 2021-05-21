@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
 Tested up to: 5.5.3
-Stable tag: 1.0.1
+Stable tag: 1.1.1
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -62,6 +62,9 @@ I can make plugin for you.
 == Upgrade Notice == 
 
 == Changelog ==
+
+= 1.0.1 =
+2021-05-21 Use Flex Message. so that user who Use Windows/Mac LINE edition can account link/unlink now.  
 
 = 1.0.1 =
 2020-12-18 Move menu to sub menu of Setting

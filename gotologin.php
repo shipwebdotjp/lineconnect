@@ -1,29 +1,29 @@
 <?php
-
-//WordPress‚ÌŠî–{‹@”\‚ð“Ç‚Ýž‚Ý
-require_once ('../../../wp-load.php');
-//Ý’èƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚Ý
+//è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿
 require_once ('config.php');
 
-//ƒpƒ‰[ƒ[ƒ^‚©‚çƒŠƒ_ƒCƒŒƒNƒgæ‚ðŽæ“¾
+//WordPressã®åŸºæœ¬æ©Ÿèƒ½ã‚’èª­ã¿è¾¼ã¿
+require_once ('../../../wp-load.php');
+
+//ãƒ‘ãƒ©ãƒ¼ãƒ¡ãƒ¼ã‚¿ã‹ã‚‰ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’å–å¾—
 $redirect_to = $_GET['redirect_to'];
 
 if($redirect_to){
 	$user_id = get_current_user_id();
-	//ƒƒOƒCƒ“‚µ‚Ä‚¢‚È‚¢ê‡ƒƒOƒCƒ“ƒy[ƒW‚ÖƒŠƒ_ƒCƒŒƒNƒg
+	//ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ãªã„å ´åˆãƒ­ã‚°ã‚¤ãƒ³ãƒšãƒ¼ã‚¸ã¸ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆ
 	if(!$user_id){
 
-		//COOKIE‚ÉƒŠƒ_ƒCƒŒƒNƒgæ‚ðŠi”[
+		//COOKIEã«ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’æ ¼ç´
 		setcookie ('line_connect_redirect_to',$redirect_to, 0,'/',"",TRUE,TRUE);
 
-		//ƒŠƒ_ƒCƒŒƒNƒgURL‚ðƒZƒbƒg
+		//ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆURLã‚’ã‚»ãƒƒãƒˆ
 		$site_url=get_site_url(null, '/');
-		$redirect_url = $site_url.$login_path;
+		$redirect_url = $site_url.$login_path."?redirect_to=".$redirect_to;
 
-		//ƒƒOƒCƒ“ƒy[ƒW‚ÖƒŠƒ_ƒCƒŒƒNƒg‚³‚¹‚é
+		//ãƒ­ã‚°ã‚¤ãƒ³ãƒšãƒ¼ã‚¸ã¸ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã•ã›ã‚‹
 		header('Location: ' . $redirect_url);
 	}else{
-		//ƒƒOƒCƒ“‚µ‚Ä‚¢‚éê‡‚Í’¼ÚƒAƒJƒEƒ“ƒgƒŠƒ“ƒN—p‚Ìƒy[ƒW‚Ö
+		//ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ã‚‹å ´åˆã¯ç›´æŽ¥ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒªãƒ³ã‚¯ç”¨ã®ãƒšãƒ¼ã‚¸ã¸
 		header('Location: ' . $redirect_to);
 	}
 

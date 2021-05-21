@@ -86,17 +86,19 @@ if($type === 'message') {    // メッセージ受け取り時
             if(! empty( $users )){ //ユーザーが見つかればすでに連携されているということ
             	$user =  $users[0]; //ユーザーの一人目
             	$user_id = $user->ID; //IDを取得
-
+				
+				/*
             	//連係解除ポストバックを備えたテンプレート作成
             	$postbackTemplateAction = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder(ACCOUNT_UNLINK_START_BUTTON,'action=unlink');
             	//ボタンテンプレート作成
             	$template = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder(ACCOUNT_UNLINK_START_TITLE,ACCOUNT_UNLINK_START_BODY,NULL,[$postbackTemplateAction]);
             	//メッセージテンプレート作成
             	$message =  new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(ACCOUNT_UNLINK_START_TITLE,$template);
-            	
+            	*/
+
+				$message = createFlexMessageTemplate(["title"=>ACCOUNT_UNLINK_START_TITLE,"body"=>ACCOUNT_UNLINK_START_BODY,"type"=>"postback","label"=>ACCOUNT_UNLINK_START_BUTTON,"link"=>'action=unlink']);
             }else{
             	$message = getLinkStartMessage($userId);
-            
             }
             
         } else {
@@ -199,13 +201,17 @@ function getLinkStartMessage($userId){
     $site_url=get_site_url(null, '/');
 	//Wordpressにログインさせたあと、Nonceを作成してLINEへ送信するページへのリダイレクトをするURLを作成
     $url = $site_url.'wp-content/plugins/lineconnect/gotologin.php?redirect_to='.urlencode($site_url.'wp-content/plugins/lineconnect/accountlink.php?linkToken='.$linkToken);
-    //アカウント連係ポストバックを備えたテンプレート作成
+    
+	/*
+	//アカウント連係ポストバックを備えたテンプレート作成
 	$postbackTemplateAction = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder(ACCOUNT_LINK_START_BUTTON,$url);
 	//ボタンテンプレート作成
 	$template = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder(ACCOUNT_LINK_START_TITLE,ACCOUNT_LINK_START_BODY,NULL,[$postbackTemplateAction]);
     //メッセージテンプレート作成
     return new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(ACCOUNT_LINK_START_TITLE,$template);
+	*/
 
+	return createFlexMessageTemplate(["title"=>ACCOUNT_LINK_START_TITLE,"body"=>ACCOUNT_LINK_START_BODY,"type"=>"uri","label"=>ACCOUNT_LINK_START_BUTTON,"link"=>$url]);
 }
 
 //アカウント連携解除
@@ -232,4 +238,57 @@ function unAccountLink($userId){
 		$mes = ACCOUNT_UNLINK_FAILED_BODY;
 	}
 	return $mes;
+}
+
+//Flexメッセージテンプレートを作成
+function createFlexMessageTemplate($data){
+	$alttext = $data['title'] . "\r\n" . $data['body'];
+
+	$thumbBoxComponent = NULL;
+
+	//タイトルのTextコンポーネント
+	$titleTextComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($data['title'],NULL,NULL,NULL,NULL,NULL,TRUE,2,'bold',NULL,NULL);
+	
+	//ヘッダーブロック
+	$titleBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$titleTextComponent],NULL,NULL,'none');
+	$titleBoxComponent->setPaddingTop('xl');
+	$titleBoxComponent->setPaddingBottom('xs');
+	$titleBoxComponent->setPaddingStart('xl');
+	$titleBoxComponent->setPaddingEnd('xl');        
+	
+	//本文のTextコンポーネント
+	$bodyTextComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($data['body'],NULL,NULL,NULL,NULL,NULL,TRUE,3,NULL,NULL,NULL);
+
+	//ボディブロック
+	$bodyBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$bodyTextComponent],NULL,NULL,'none');
+	$bodyBoxComponent->setPaddingBottom('none');
+	$bodyBoxComponent->setPaddingTop('xs');
+	$bodyBoxComponent->setPaddingStart('xl');
+	$bodyBoxComponent->setPaddingEnd('xl');  
+
+	if($data['type']=="uri"){
+		//リンクアクションコンポーネント
+		$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder($data['label'],$data['link']);
+	}elseif($data['type']=="postback"){
+		//ポストバックアクションコンポーネント
+		$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder($data['label'],$data['link']);
+	}
+	//リンクのボタンコンポーネント
+	$linkButtonComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($linkActionBuilder,NULL,NULL,NULL,'link',NULL,NULL);
+	
+	//フッターブロック
+	$footerBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$linkButtonComponent],NULL,NULL,'none');
+	$footerBoxComponent->setPaddingTop('none');
+
+	//ブロックスタイル
+	$blockStyleBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\BlockStyleBuilder("#FFFFFF");
+
+	//バブルスタイル
+	$bubbleStyleBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\BubbleStylesBuilder($blockStyleBuilder,$blockStyleBuilder,$blockStyleBuilder,$blockStyleBuilder);
+
+	//バブルコンテナ
+	$bubbleContainerBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(NULL, $thumbBoxComponent, $titleBoxComponent,$bodyBoxComponent,$footerBoxComponent,$bubbleStyleBuilder);
+
+	//Flexメッセージ
+	return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($alttext, $bubbleContainerBuilder);
 }

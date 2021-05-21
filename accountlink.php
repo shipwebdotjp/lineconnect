@@ -1,31 +1,31 @@
 <?php
 
-//WordPress‚ÌŠî–{‹@”\‚ð“Ç‚Ýž‚Ý
+//WordPressã®åŸºæœ¬æ©Ÿèƒ½ã‚’èª­ã¿è¾¼ã¿
 require_once ('../../../wp-blog-header.php');
 
 $user_id = get_current_user_id();
-//ƒƒOƒCƒ“‚µ‚Ä‚¢‚È‚¢ê‡
+//ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ãªã„å ´åˆ
 if(!$user_id){
 	exit('Forbidden: Please Login first.');
 }
 
-//ƒpƒ‰[ƒ[ƒ^‚©‚çlinkToken‚ðŽæ“¾
+//ãƒ‘ãƒ©ãƒ¼ãƒ¡ãƒ¼ã‚¿ã‹ã‚‰linkTokenã‚’å–å¾—
 $linkToken = $_GET['linkToken'];
 
-//nonceì¬
+//nonceä½œæˆ
 $nonce = base64_encode(lineconnect_makeRandStr(32));
 
-//WP‚ÌƒIƒvƒVƒ‡ƒ“‚Æ‚µ‚Ä•Û‘¶
+//WPã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¨ã—ã¦ä¿å­˜
 $option_key_nonce = "lineconnect_nonce".$nonce;
 update_option($option_key_nonce, $user_id);
 
-//ƒŠƒ_ƒCƒŒƒNƒgURL‚ðƒZƒbƒg
+//ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆURLã‚’ã‚»ãƒƒãƒˆ
 $redirect_url = "https://access.line.me/dialog/bot/accountLink?linkToken=$linkToken&nonce=$nonce";
 
 header('Location: ' . $redirect_url);
 exit();
 
-//ƒ‰ƒ“ƒ_ƒ€‚È•¶Žš—ñ‚ð•Ô‚·
+//ãƒ©ãƒ³ãƒ€ãƒ ãªæ–‡å­—åˆ—ã‚’è¿”ã™
 function lineconnect_makeRandStr($length) {
     $str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
     $r_str = null;
