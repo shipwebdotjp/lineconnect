@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
 Tested up to: 5.5.3
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -19,7 +19,6 @@ Requires PHP: 5.3
 1. Download ZIP file from [GitHub](https://github.com/shipwebdotjp/lineconnect/releases)
 1. Save the .zip file to a location on your computer.
 1. Open the WP admin panel, and click “Plugins” -> “Add new”.
-1. Put lineconnect folder to plugins folder and activate plugin.
 1. Click “Upload Plugin”.. then browse to the .zip file downloaded from this page.
 1. Click “Install Now”.. and then “Activate plugin”.
 1. Select option menu “Line connect”.
@@ -59,11 +58,15 @@ If you want to customize or make plugin using LINE ID, please contact me.
 I can make plugin for you.
 [Contact](https://blog.shipweb.jp/contact)
 
-== Upgrade Notice == 
+== More infomation == 
+Please see my blog article.(Japanese)
+[LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 1.1.2 =
+2021-05-21 fix readme miss types.  
 
-= 1.0.1 =
+= 1.1.1 =
 2021-05-21 Use Flex Message. so that user who Use Windows/Mac LINE edition can account link/unlink now.  
 
 = 1.0.1 =
