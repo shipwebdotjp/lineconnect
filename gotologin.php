@@ -26,8 +26,6 @@ if($redirect_to){
 		//ログインしている場合は直接アカウントリンク用のページへ
 		header('Location: ' . $redirect_to);
 	}
-
-
 }else{
 	print "Bad args";
 }

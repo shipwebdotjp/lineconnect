@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 1.1.2
+  Version: 1.1.3
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -24,7 +24,7 @@ class lineconnect {
     /**
      * このプラグインのバージョン
      */
-    const VERSION = '1.1.1';
+    const VERSION = '1.1.3';
 
     /**
      * このプラグインのID：Ship Line Connect
@@ -142,7 +142,7 @@ class lineconnect {
     const NOTICE_TYPE__INFO = 'info';
 
     /**
-     * 暗号化する時のパスワード：STRIPEの公開キーとシークレットキーの複合化で使用
+     * 暗号化する時のパスワード：チャネルアクセストークンとシークレットキーの複合化で使用
      */
     const ENCRYPT_PASSWORD = 's9YQReXd';
 
@@ -157,7 +157,7 @@ class lineconnect {
 
     /**
      * WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションにフックする、
-     * SimpleStripeCheckoutクラスのインスタンスを生成するStatic関数
+     * LineConnectクラスのインスタンスを生成するStatic関数
      */
     static function instance() {
         return new self();
