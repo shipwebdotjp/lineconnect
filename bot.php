@@ -5,26 +5,42 @@
 
 require_once('vendor/autoload.php');	//LINE BOT SDKを読み込み
 require_once ('../../../wp-load.php');	//WordPressの基本機能を読み込み
-require_once ('config.php');			//設定ファイルを読み込み
 require_once ('lineconnect.php');		//LINE Connectを読み込み
-
-//チャネルアクセストークン（長期）
-$access_token = lineconnect::decrypt(get_option(lineconnect::OPTION_KEY__CHANNEL_ACCESS_TOKEN), lineconnect::ENCRYPT_PASSWORD);
-//チャネルシークレット
-$channelSecret = lineconnect::decrypt(get_option(lineconnect::OPTION_KEY__CHANNEL_SECRET), lineconnect::ENCRYPT_PASSWORD);
-
+require_once ('include/message.php');		//メッセージ関連を読み込み
 
 //JSONリクエストボディを取得
 $json_string = file_get_contents('php://input');
 
-//署名を検証するためにチャネルシークレットを秘密鍵として、HMAC-SHA256アルゴリズムを使用してリクエストボディのダイジェスト値を取得
-$hash = hash_hmac('sha256', $json_string, $channelSecret, true);
-//ダイジェスト値をBase64エンコード
-$signature = base64_encode($hash);
-//HTTP HeaderからX-Line-Signatureを取得
-$XLineSignature = $_SERVER['HTTP_X_LINE_SIGNATURE'];
-//署名が一致しない場合は400を返す
-if($signature != $XLineSignature){
+//検証結果
+$valid_signature = false;
+
+//チャンネルごとに署名を検証
+foreach(lineconnect::get_all_channels() as $channel_id => $channel){
+	//チャネルアクセストークン（長期）
+	//チャネルシークレット
+	$access_token = $channel['channel-access-token'];
+	$channelSecret = $channel['channel-secret'];
+
+	//LINE ID KEY
+	$secret_prefix = substr($channelSecret,0,4);
+
+	//署名を検証するためにチャネルシークレットを秘密鍵として、HMAC-SHA256アルゴリズムを使用してリクエストボディのダイジェスト値を取得
+	$hash = hash_hmac('sha256', $json_string, $channelSecret, true);
+	//ダイジェスト値をBase64エンコード
+	$signature = base64_encode($hash);
+	//HTTP HeaderからX-Line-Signatureを取得
+	$XLineSignature = $_SERVER['HTTP_X_LINE_SIGNATURE'];
+
+	//署名が一致する場合
+	if($signature == $XLineSignature){
+		$valid_signature = true;
+		break;
+	}
+}
+
+//署名がどのチャンネルにも一致しない場合は400を返す
+if(!$valid_signature){
+	http_response_code( 400 );
 	print "Bad signature";
 	exit;
 }
@@ -38,7 +54,6 @@ $reply_token = $json_obj->{'events'}[0]->{'replyToken'};
 //イベントタイプを取得
 $type = $json_obj->{'events'}[0]->{'type'};
 
-
 if($type === 'message') {    // メッセージ受け取り時
 	
 	//メッセージオブジェクトのタイプ
@@ -48,31 +63,26 @@ if($type === 'message') {    // メッセージ受け取り時
         // テキストメッセージを受け取った時
         $msg_text = $json_obj->{'events'}[0]->{'message'}->{'text'};
         // テキストに 連携開始／解除キーワード が含まれていた場合
-        if(strpos($msg_text,ACCOUNT_LINK_START_KEYWORD) !== False) {
+        if(strpos($msg_text,lineconnect::get_option('link_start_keyword')) !== False) {
             $userId = $json_obj->{'events'}[0]->{'source'}->{'userId'};
 
 			//メタ情報からLINEユーザーIDでユーザー検索
-			$user_query = new WP_User_Query( array( 'meta_key' => 'line_user_id', 'meta_value' => $userId ) );
-
-            $users = $user_query->get_results();
-            if(! empty( $users )){ //ユーザーが見つかればすでに連携されているということ
-            	$user =  $users[0]; //ユーザーの一人目
+            $user = lineconnect::get_wpuser_from_line_id($secret_prefix, $userId);
+            if($user){ //ユーザーが見つかればすでに連携されているということ
             	$user_id = $user->ID; //IDを取得
 				
-				/*
-            	//連係解除ポストバックを備えたテンプレート作成
-            	$postbackTemplateAction = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder(ACCOUNT_UNLINK_START_BUTTON,'action=unlink');
-            	//ボタンテンプレート作成
-            	$template = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder(ACCOUNT_UNLINK_START_TITLE,ACCOUNT_UNLINK_START_BODY,NULL,[$postbackTemplateAction]);
-            	//メッセージテンプレート作成
-            	$message =  new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(ACCOUNT_UNLINK_START_TITLE,$template);
-            	*/
-
-				$message = createFlexMessageTemplate(["title"=>ACCOUNT_UNLINK_START_TITLE,"body"=>ACCOUNT_UNLINK_START_BODY,"type"=>"postback","label"=>ACCOUNT_UNLINK_START_BUTTON,"link"=>'action=unlink']);
+				//連携解除メッセージ作成
+				$message = lineconnectMessage::createFlexMessage([
+					"title"=>lineconnect::get_option('unlink_start_title'),
+					"body"=>lineconnect::get_option('unlink_start_body'),
+					"type"=>"postback",
+					"label"=>lineconnect::get_option('unlink_start_button'),
+					"link"=>'action=unlink'
+				]);
             }else{
+				//連携開始メッセージ作成
             	$message = getLinkStartMessage($userId);
             }
-            
         } else {
         	$message =  null;
         }
@@ -106,17 +116,25 @@ if($type === 'message') {    // メッセージ受け取り時
 			delete_option("lineconnect_nonce".$nonce);
 
 			//Wordpressユーザーのメタ情報にLINEユーザーIDを追加
-			update_user_meta( $user_id, 'line_user_id', $userId);
-			//Wordpressユーザーのメタ情報にLINE表示名を追加
-			update_user_meta( $user_id, 'line_displayname', $profile['displayName']);
-			//Wordpressユーザーのメタ情報にLINEアイコンURLを追加
-			update_user_meta( $user_id, 'line_picture_url', $profile['pictureUrl']);
+			$line_user_data = get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
+			if(empty($line_user_data)){
+				$line_user_data = array();
+			}
+			$line_user_data[$secret_prefix] = array(
+				'id' => $userId,
+				'displayName' => $profile['displayName'],
+				'pictureUrl' => $profile['pictureUrl'],
+			);
+			update_user_meta( $user_id, lineconnect::META_KEY__LINE, $line_user_data);
+
+			//リッチメニューをセット
+			do_action('line_link_richmenu', $user_id);
 
 			//連携完了のテキストメッセージ作成
-		    $message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(ACCOUNT_LINK_FINISH_BODY);
+		    $message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(lineconnect::get_option('link_finish_body'));
 		}else{
 			//連携失敗のテキストメッセージ作成
-			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(ACCOUNT_LINK_FAILED_BODY);
+			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(lineconnect::get_option('link_failed_body'));
 		}
 	}
 } else if($type === 'postback') {
@@ -132,7 +150,12 @@ if($type === 'message') {    // メッセージ受け取り時
 
 		//連携解除完了のテキストメッセージ作成
        	$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($mes);
+    }elseif($postback === 'action=link') {
+        // 連携選択時
+        $userId = $json_obj->{'events'}[0]->{'source'}->{'userId'};
+		$message = getLinkStartMessage($userId);
     }
+
 }else if ($type == 'follow') {
 	//友達登録時　アカウントリンクイベントを作成
     $userId = $json_obj->{'events'}[0]->{'source'}->{'userId'};
@@ -156,7 +179,7 @@ exit;
 
 //アカウントリンク用のメッセージ作成
 function getLinkStartMessage($userId){
-	global $access_token,$channelSecret,$login_path;
+	global $access_token,$channelSecret;
 
 	//Bot作成
     $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
@@ -170,98 +193,54 @@ function getLinkStartMessage($userId){
     $linkToken=$res_json['linkToken'];
 
     //WordpressのサイトURLを取得
-    $site_url = get_site_url(null, '/');
-	$redirect_to = urlencode($site_url.'wp-content/plugins/lineconnect/accountlink.php?linkToken='.$linkToken);
+	$accountlink_url = plugins_url('accountlink.php', __FILE__);
+	$redirect_to = urlencode($accountlink_url.'?linkToken='.$linkToken);
 	//Wordpressにログインさせたあと、Nonceを作成してLINEへ送信するページへのリダイレクトをするURLを作成
-    $url = $site_url.'wp-content/plugins/lineconnect/gotologin.php?redirect_to='. $redirect_to;
-    
-	/*
-	//アカウント連係ポストバックを備えたテンプレート作成
-	$postbackTemplateAction = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder(ACCOUNT_LINK_START_BUTTON,$url);
-	//ボタンテンプレート作成
-	$template = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder(ACCOUNT_LINK_START_TITLE,ACCOUNT_LINK_START_BODY,NULL,[$postbackTemplateAction]);
-    //メッセージテンプレート作成
-    return new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(ACCOUNT_LINK_START_TITLE,$template);
-	*/
+	$gotologin_url = plugins_url('gotologin.php', __FILE__);
+    $url = $gotologin_url.'?redirect_to='. $redirect_to;
 
-	return createFlexMessageTemplate(["title"=>ACCOUNT_LINK_START_TITLE,"body"=>ACCOUNT_LINK_START_BODY,"type"=>"uri","label"=>ACCOUNT_LINK_START_BUTTON,"link"=>$url]);
+	//連携開始メッセージ作成
+	return lineconnectMessage::createFlexMessage([
+		"title"=>lineconnect::get_option('link_start_title'),
+		"body"=>lineconnect::get_option('link_start_body'),
+		"type"=>"uri",
+		"label"=>lineconnect::get_option('link_start_button'),
+		"link"=>$url
+	]);
 }
 
 //アカウント連携解除
 function unAccountLink($userId){
+	global $secret_prefix;
 	//メタ情報からLINEユーザーIDでユーザー検索
-	$user_query = new WP_User_Query( array( 'meta_key' => 'line_user_id', 'meta_value' => $userId ) );
+    $user = lineconnect::get_wpuser_from_line_id($secret_prefix, $userId);
 	//すでに連携されているユーザーが見つかれば
-	$users = $user_query->get_results();
-    if(! empty( $users )){
-        $user = $users[0]; //ユーザーの一人目
+    if($user){ //ユーザーが見つかればすでに連携されているということ
         $user_id = $user->ID; //IDを取得
         
-        //Wordpressユーザーのメタ情報からLINEユーザーIDを消去
-		if (delete_user_meta( $user_id, 'line_user_id')){
-			//Wordpressユーザーのメタ情報からLINE表示名を消去
-			delete_user_meta( $user_id, 'line_displayname');
-			//Wordpressユーザーのメタ情報にLINEアイコンURLを消去
-			delete_user_meta( $user_id, 'line_picture_url');
-			$mes = ACCOUNT_UNLINK_FINISH_BODY;
+		//リッチメニューを解除
+		do_action('line_unlink_richmenu', $user_id, $secret_prefix);
+
+		$user_meta_line = $user->get(lineconnect::META_KEY__LINE);
+		if($user_meta_line && $user_meta_line[$secret_prefix]){
+			unset($user_meta_line[$secret_prefix]);
+			if(empty($user_meta_line)){
+				//ほかに連携しているチャネルがなければメタデータ削除
+				if (delete_user_meta( $user_id, lineconnect::META_KEY__LINE)){
+					$mes = lineconnect::get_option('unlink_finish_body');
+				}else{
+					$mes = lineconnect::get_option('unlink_failed_body');
+				}
+			}else{
+				//ほかに連携しているチャネルがあれば残りのチャネルが入ったメタデータを更新
+				update_user_meta( $user_id, lineconnect::META_KEY__LINE, $user_meta_line);
+				$mes = lineconnect::get_option('unlink_finish_body');
+			}
 		}else{
-			$mes = ACCOUNT_UNLINK_FAILED_BODY;
+			$mes = lineconnect::get_option('unlink_failed_body');
 		}
 	}else{
-		$mes = ACCOUNT_UNLINK_FAILED_BODY;
+		$mes = lineconnect::get_option('unlink_failed_body');
 	}
 	return $mes;
-}
-
-//Flexメッセージテンプレートを作成
-function createFlexMessageTemplate($data){
-	$alttext = $data['title'] . "\r\n" . $data['body'];
-
-	$thumbBoxComponent = NULL;
-
-	//タイトルのTextコンポーネント
-	$titleTextComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($data['title'],NULL,NULL,NULL,NULL,NULL,TRUE,2,'bold',NULL,NULL);
-	
-	//ヘッダーブロック
-	$titleBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$titleTextComponent],NULL,NULL,'none');
-	$titleBoxComponent->setPaddingTop('xl');
-	$titleBoxComponent->setPaddingBottom('xs');
-	$titleBoxComponent->setPaddingStart('xl');
-	$titleBoxComponent->setPaddingEnd('xl');        
-	
-	//本文のTextコンポーネント
-	$bodyTextComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder($data['body'],NULL,NULL,NULL,NULL,NULL,TRUE,3,NULL,NULL,NULL);
-
-	//ボディブロック
-	$bodyBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$bodyTextComponent],NULL,NULL,'none');
-	$bodyBoxComponent->setPaddingBottom('none');
-	$bodyBoxComponent->setPaddingTop('xs');
-	$bodyBoxComponent->setPaddingStart('xl');
-	$bodyBoxComponent->setPaddingEnd('xl');  
-
-	if($data['type']=="uri"){
-		//リンクアクションコンポーネント
-		$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder($data['label'],$data['link']);
-	}elseif($data['type']=="postback"){
-		//ポストバックアクションコンポーネント
-		$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder($data['label'],$data['link']);
-	}
-	//リンクのボタンコンポーネント
-	$linkButtonComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($linkActionBuilder,NULL,NULL,NULL,'link',NULL,NULL);
-	
-	//フッターブロック
-	$footerBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical",[$linkButtonComponent],NULL,NULL,'none');
-	$footerBoxComponent->setPaddingTop('none');
-
-	//ブロックスタイル
-	$blockStyleBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\BlockStyleBuilder("#FFFFFF");
-
-	//バブルスタイル
-	$bubbleStyleBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\BubbleStylesBuilder($blockStyleBuilder,$blockStyleBuilder,$blockStyleBuilder,$blockStyleBuilder);
-
-	//バブルコンテナ
-	$bubbleContainerBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder(NULL, $thumbBoxComponent, $titleBoxComponent,$bodyBoxComponent,$footerBoxComponent,$bubbleStyleBuilder);
-
-	//Flexメッセージ
-	return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($alttext, $bubbleContainerBuilder);
 }
