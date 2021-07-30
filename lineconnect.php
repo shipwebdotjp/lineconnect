@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.0.0
+  Version: 2.0.1
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -404,7 +404,7 @@ class lineconnect {
      */
     function __construct() {
         // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-        if (is_super_admin() || current_user_can('administrator') || current_user_can('editor') || current_user_can('author')) {
+        //if (is_super_admin() || current_user_can('administrator') || current_user_can('editor') || current_user_can('author')) {
             // 設定されている投稿タイプごとに公開したときのコールバックを定義
             $pot_types = self::get_option('send_post_types');
             foreach ( $pot_types as $pot_type ) {
@@ -416,7 +416,7 @@ class lineconnect {
             add_action('admin_notices', ['lineconnectPublish', 'success_send_to_line']);
             // 投稿画面にチェックボックスを表示
             add_action('add_meta_boxes', ['lineconnectPublish', 'add_send_checkbox'], 10, 2 );  
-        }
+        //}
         // 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
         if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
             // 管理画面のトップメニューページを追加
@@ -537,6 +537,35 @@ class lineconnect {
             }
         }
         return null;
+    }
+
+    /**
+     * Checks if the current request is a WP REST API request.
+     *
+     * Case #1: After WP_REST_Request initialisation
+     * Case #2: Support "plain" permalink settings
+     * Case #3: It can happen that WP_Rewrite is not yet initialized,
+     *          so do this (wp-settings.php)
+     * Case #4: URL Path begins with wp-json/ (your REST prefix)
+     *          Also supports WP installations in subfolders
+     *
+     * @returns boolean
+     * @author matzeeable
+     */
+    function is_rest() {
+        $prefix = rest_get_url_prefix( );
+        if (defined('REST_REQUEST') && REST_REQUEST // (#1)
+                || isset($_GET['rest_route']) // (#2)
+                        && strpos( trim( $_GET['rest_route'], '\\/' ), $prefix , 0 ) === 0)
+                return true;
+        // (#3)
+        global $wp_rewrite;
+        if ($wp_rewrite === null) $wp_rewrite = new WP_Rewrite();
+
+        // (#4)
+        $rest_url = wp_parse_url( trailingslashit( rest_url( ) ) );
+        $current_url = wp_parse_url( add_query_arg( array( ) ) );
+        return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
     }
 
 } // end of class

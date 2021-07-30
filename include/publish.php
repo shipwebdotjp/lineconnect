@@ -84,31 +84,50 @@ class lineconnectPublish{
      * LINEメッセージを送信
      */
     static function send_to_line($post_ID, $post){
-        // ログインしていない場合は無視
-        if (!is_user_logged_in()) return;
-        // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-        if (!is_super_admin() && !current_user_can('administrator') && !current_user_can('editor') && !current_user_can('author')) return;
-        // nonceで設定したcredentialをPOST受信していない場合は無視
-        if (!isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) || !$_POST[lineconnect::CREDENTIAL_NAME__POST]) return;
-        // nonceで設定したcredentialのチェック結果に問題がある場合
-        if (!check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) return;
+        //$response = lineconnectMessage::sendMessageRole(lineconnect::get_channel(1), "premium", $post->post_title);
+        $isRestAPI = lineconnect::is_rest();
+        //REST API経由の場合は適切な認証がされているのでパス
+        if(!$isRestAPI){
+            // ログインしていない場合は無視
+            if (!is_user_logged_in()) return;
+            // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+            if (!is_super_admin() && !current_user_can('administrator') && !current_user_can('editor') && !current_user_can('author')) return;
+            // nonceで設定したcredentialをPOST受信していない場合は無視
+            if (!isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) || !$_POST[lineconnect::CREDENTIAL_NAME__POST]) return;
+            // nonceで設定したcredentialのチェック結果に問題がある場合
+            if (!check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) return;
+        }
         $ary_success_message = array();
         $ary_error_message = array();
         //チャンネルリスト毎に送信
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
             $error_message = $success_message = "";
-
+            $send_checkbox_value = "";
+            $role = "";
             $channel_access_token = $channel['channel-access-token'];
             $channel_secret = $channel['channel-secret'];
 
-            // RoleをPOSTから、なければOPTIONSテーブルから取得
-            $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
+            if($isRestAPI){
+                $req_json = json_decode(WP_REST_Server::get_raw_data());
+                $channels = $req_json->{'lc_channels'};
+                foreach($channels as $rest_cid => $rest_role){
+                    if($rest_cid == $channel_id || $rest_cid == $channel['prefix']){
+                        $send_checkbox_value = 'ON';
+                        $role = $rest_role;
+                    }
+                }
+
+            }else{
+                // RoleをPOSTから、なければOPTIONSテーブルから取得
+                $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
+                $send_checkbox_value = $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']];
+            }
             if(!$role){
                 $role =  $channel['role'];
             }
 
             // ChannelAccessTokenとChannelSecretが設定されており、LINEメッセージ送信チェックボックスにチェックがある場合
-            if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']] == 'ON') {
+            if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $send_checkbox_value == 'ON') {
                 // 投稿のタイトルを取得
                 $title = sanitize_text_field($post->post_title);
                 
@@ -129,7 +148,18 @@ class lineconnectPublish{
                 $link = get_permalink($post_ID);
 
                 // 投稿のサムネイルを取得
-                $thumb = get_the_post_thumbnail_url($post_ID);
+                if($isRestAPI){
+                    if(property_exists( $req_json, 'featured_media' )){
+                        $featured_media_id = $req_json->{'featured_media'};
+                        $thumb_array = wp_get_attachment_image_src($featured_media_id);
+                        if($thumb_array){
+                            $thumb = $thumb_array[0];
+                        }
+                    }
+                }else{
+                    $thumb = get_the_post_thumbnail_url($post_ID);
+                }
+                
                 if(substr($thumb,0,5) != "https"){  //httpsから始まらない場合はサムネなしとする
                     $thumb = "";
                 }
@@ -142,9 +172,6 @@ class lineconnectPublish{
 
                 // LINEBOT SDKの読み込み
                 // require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
-
-                // 設定ファイルの読み込み
-                require_once(plugin_dir_path(__FILE__).'../config.php');
 
                 //メッセージ関連を読み込み
                 require_once (plugin_dir_path(__FILE__).'message.php');

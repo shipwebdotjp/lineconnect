@@ -2,8 +2,8 @@
 Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
-Tested up to: 5.5.3
-Stable tag: 2.0.0
+Tested up to: 5.8
+Stable tag: 2.0.1
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -32,26 +32,36 @@ Requires PHP: 7.3
 == Technical Details == 
 
 * This plugin set LINE ID to user meta with these meta key below:
-- line_user_id
-- line_displayname
-- line_picture_url
+- key: line
+- value: array(
+    'The first 4 characters of channel secret' => array(
+        'id' => 'LINE User ID',
+        'displayName' => 'LINE Display Name',
+        'pictureUrl' => 'LINE Picture URL'
+    )
+)
 
 You can call get_user_meta function from other plugin to get LINE ID.
 For exsample: If you want to get LINE ID who user id is 1
  $user_id = 1;
- $line_id = get_user_meta( $user_id, 'line_user_id', true );
+ $line_metadata = get_user_meta( $user_id, 'line', true );
+ $line_id = $line_metadata['xxxx']['id'];
 
 == Screenshots == 
 
-![Screenshots](https://blog.shipweb.jp/wp-content/uploads/2020/12/Lineconnect-578x1024.png) 
+![Screenshots1](https://blog.shipweb.jp/wp-content/uploads/2021/07/lineconnect-ss-10.png) 
+![Screenshots2](https://blog.shipweb.jp/wp-content/uploads/2021/07/lineconnect-ss-12.png) 
+![Screenshots3](https://blog.shipweb.jp/wp-content/uploads/2021/07/lineconnect-ss-13.png) 
+![Screenshots4](https://blog.shipweb.jp/wp-content/uploads/2021/07/lineconnect-ss-14.png) 
+![Screenshots5](https://blog.shipweb.jp/wp-content/uploads/2021/07/lineconnect-ss-02.jpg) 
 
 == Frequently Asked Questions ==
 
 Q. How can I change Link starting keyword?
-A. You can change keywords in the bot.php file.
+A. You can change keywords in the Admin Panel.
 
 Q. How can I change login URL?
-A. You can change login URL by $login_path vars in the config.php
+A. You can change login URL in the Admin Panel, too.
 
 == Customize ==
 If you want to customize or make plugin using LINE ID, please contact me.
@@ -63,6 +73,10 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.0.1 =
+2021-07-30 BUg Fix. You can send LINE When you post from Rest API.  
+
+
 = 2.0.0 =
 2021-07-17 Line connect has changed to multi futrure plugin for LINE.  
 
