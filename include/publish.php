@@ -23,6 +23,30 @@ class lineconnectPublish{
         }
     }
 
+    //管理画面（投稿ページ）用にスクリプト読み込み
+    static function wpdocs_selectively_enqueue_admin_script(){
+        global $post_type,$pagenow;
+        $post_types = lineconnect::get_option('send_post_types');
+        if($pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
+            if ( in_array($post_type, $post_types) ) {
+                //jQuery uiとmultiselectを読み込み
+                wp_enqueue_script('jquery');
+                wp_enqueue_script('jquery-ui-core',false,array('jquery'));
+                wp_enqueue_script('jquery-ui-multiselect-widget',plugins_url("js/jquery.multiselect.min.js", dirname(__FILE__)),array('jquery-ui-core'),"3.0.1",true);
+                $multiselect_js = "js/slc_multiselect.js";
+                wp_enqueue_script(lineconnect::PLUGIN_PREFIX.'admin-multiselect', plugins_url($multiselect_js, dirname(__FILE__)),array('jquery-ui-multiselect-widget'),filemtime(plugin_dir_path(dirname(__FILE__)).$multiselect_js),true);
+        
+                //スタイルを読み込み
+                $jquery_ui_css = "css/jquery-ui.css";
+                wp_enqueue_style(lineconnect::PLUGIN_ID. '-admin-ui-css',plugins_url($jquery_ui_css, dirname(__FILE__)),array(),filemtime(plugin_dir_path(dirname(__FILE__)).$jquery_ui_css));
+                wp_enqueue_style('wp-color-picker');
+                $multiselect_css = "css/jquery.multiselect.css";
+                wp_enqueue_style(lineconnect::PLUGIN_PREFIX.'multiselect-css', plugins_url($multiselect_css, dirname(__FILE__)),array(),filemtime(plugin_dir_path(dirname(__FILE__)).$multiselect_css));
+
+            }
+        }
+    }
+
     /**
      * LINEにメッセージを送信するチェックボックスを表示
      */
@@ -46,11 +70,11 @@ class lineconnectPublish{
                 if($option_key == 'role-selectbox'){
                     $role = $channel['role'];
                     
-                    $role = esc_html($role);
+                    $role = is_array($role) ? $role : esc_html($role);
                     // ロール選択セレクトボックスを出力
                     // Sendboxのパラメータ名
-                    $param_role = lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix'];
-                    $input_filed = '<label for="'.$param_role.'">'.$option_name.'</label>'."<select name=".$param_role.">";
+                    $param_role = lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix']."[]";
+                    $input_filed = '<label for="'.$param_role.'">'.$option_name.'</label>'."<select name=".$param_role." multiple class='slc-multi-select'>";
                     $all_roles = array("slc_all"=>"すべての友達", "slc_linked"=>"連携済みの友達");
                     foreach (wp_roles()->get_names() as $role_name) {
                         $all_roles[esc_attr($role_name)] = translate_user_role($role_name);
@@ -113,10 +137,9 @@ class lineconnectPublish{
                 foreach($channels as $rest_cid => $rest_role){
                     if($rest_cid == $channel_id || $rest_cid == $channel['prefix']){
                         $send_checkbox_value = 'ON';
-                        $role = $rest_role;
+                        $role = explode(',',$rest_role);
                     }
                 }
-
             }else{
                 // RoleをPOSTから、なければOPTIONSテーブルから取得
                 $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
@@ -151,14 +174,19 @@ class lineconnectPublish{
                 if($isRestAPI){
                     if(property_exists( $req_json, 'featured_media' )){
                         $featured_media_id = $req_json->{'featured_media'};
-                        $thumb_array = wp_get_attachment_image_src($featured_media_id);
-                        if($thumb_array){
-                            $thumb = $thumb_array[0];
+                        foreach(array('full','large','medium','thumbnail') as $thumbsize){
+                            $thumb_array = wp_get_attachment_image_src($featured_media_id, $thumbsize);
+                            if($thumb_array && $thumb_array[1]<=1024 && $thumb_array[2]<=1024){
+                                $thumb = $thumb_array[0];
+                                break;
+                            }
                         }
                     }
                 }else{
                     $thumb = get_the_post_thumbnail_url($post_ID);
                 }
+
+                //$body .= $thumb;
                 
                 if(substr($thumb,0,5) != "https"){  //httpsから始まらない場合はサムネなしとする
                     $thumb = "";
@@ -180,7 +208,7 @@ class lineconnectPublish{
 	            $flexMessage = lineconnectMessage::createFlexMessage(
                     ["title"=>$title,"body"=>$body,"thumb"=>$thumb,"type"=>"uri","label"=>$link_label,"link"=>$link]);
 
-                if($role == "slc_all"){
+                if(in_array("slc_all", $role)){
                     //送信するロールがすべてのユーザーならブロードキャスト
                     $response = lineconnectMessage::sendBroadcastMessage($channel, $flexMessage);
                     if($response['success']){
@@ -189,10 +217,11 @@ class lineconnectPublish{
                         $error_message = '全ての友達への送信に失敗しました'.$response['message'];
                     }
                 }else{
+
                     $response = lineconnectMessage::sendMessageRole($channel, $role, $flexMessage);
                     if($response['success']){
                         if($response['num']){
-                            $success_message = $response['num'].'にLINEを送信しました';
+                            $success_message = $response['num'].'人にLINEを送信しました';
                         }else{
                             $error_message = '条件にマッチするユーザーがいませんでした';
                         }

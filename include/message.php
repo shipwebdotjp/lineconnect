@@ -93,7 +93,7 @@ class lineconnectMessage{
         return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text, $extraTexts);
     }
 
-    //連携済みユーザーへロールを指定して送信($role = slc_linked なら全ての連携済みユーザーへ送信)
+    //連携済みユーザーへロールを指定して送信($role に slc_linked が含まれるなら全ての連携済みユーザーへ送信)
     static function sendMessageRole($channel, $role, $message){
 
         // Lineconnectの読み込み
@@ -109,9 +109,13 @@ class lineconnectMessage{
         
         $secret_prefix = substr( $channel['channel-secret'],0,4);
 
-        //$roleが"slc_linked"の場合は全てのロールユーザーに送信
-        if($role == "slc_linked"){
-            $role = "";
+        if(!is_array($role)){
+            $role = array($role);
+        }
+
+        //$roleが"slc_linked"が含まれる場合は全てのロールユーザーに送信
+        if(in_array("slc_linked", $role)){
+            $role = array();
         }
         //設定されているロールユーザーに送信
         $args = array(
@@ -121,7 +125,7 @@ class lineconnectMessage{
                     'compare' => 'EXISTS'
                 )
             ),
-            'role' => $role,
+            'role__in' => $role,
             'fields'=>'all_with_meta'
         );
         $line_user_ids=array();	//送信するLINEユーザーIDの配列
@@ -187,7 +191,11 @@ class lineconnectMessage{
 
         //送信に成功した場合
         if ($response->getHTTPStatus() === 200) {
-            return array('success' => true, 'num' => $target_cnt);
+            if ( class_exists( 'lineconnectConnector' ) ) {
+                $class = new lineconnectConnector();
+                $class->callback_lineconnect_push_message(array('id'=>null,'title'=>'Push: '.$line_user_id) , false);
+            }
+            return array('success' => true);
         }else{
             return array('success' => false, 'message' => $response->getJSONDecodedBody()['message']);
         }
@@ -214,6 +222,10 @@ class lineconnectMessage{
                 return array('success' => false, 'message' => $response->getJSONDecodedBody()['message']);
             }
         }
+        if ( class_exists( 'lineconnectConnector' ) ) {
+            $class = new lineconnectConnector();
+            $class->callback_lineconnect_push_message(array('id'=>null,'title'=>'Multicast count: '.count($line_user_ids)) , false);
+        }
         //送信に成功した場合
         return array('success' => true, 'num' => count($line_user_ids));
         
@@ -233,6 +245,10 @@ class lineconnectMessage{
 
         $response = $bot->broadcast($message);
         if ($response->getHTTPStatus() === 200) {
+            if ( class_exists( 'lineconnectConnector' ) ) {
+                $class = new lineconnectConnector();
+                $class->callback_lineconnect_push_message(array('id'=>null,'title'=>'Broadcast') , false);
+            }
             return array('success' => true);
         }else{
             return array('success' => false, 'message' => $response->getJSONDecodedBody()['message']);

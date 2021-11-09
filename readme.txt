@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
 Tested up to: 5.8
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -73,9 +73,11 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.1.0 =
+2021-11-08 You can choose role multiple now. Also you can log via Stream plugin.
+
 = 2.0.1 =
 2021-07-30 BUg Fix. You can send LINE When you post from Rest API.  
-
 
 = 2.0.0 =
 2021-07-17 Line connect has changed to multi futrure plugin for LINE.  

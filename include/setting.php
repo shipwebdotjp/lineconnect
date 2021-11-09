@@ -80,6 +80,8 @@ EOM;
                             // 不正メッセージ
                             if (false !== ($invalid = get_transient(lineconnect::INVALID_PREFIX.$option_key.$channel['prefix']))) {
                                 $options['invalid'] = lineconnect::getErrorBar($invalid, lineconnect::NOTICE_TYPE__ERROR);
+                            }else{
+                                $options['invalid'] = "";
                             }
                             //パラメータ名
                             $options['param'] = lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix'];
@@ -89,7 +91,7 @@ EOM;
                                 // 無ければoptionsテーブルから取得
                                 $value = $channel[$option_key];
                             }
-                            $options['value'] = esc_html($value);
+                            $options['value'] = is_array($value) ? $value : esc_html($value);
                             $ary_option[$option_key] = $options;
                         }
                         //シークレットの先頭4文字
@@ -105,7 +107,7 @@ EOM;
                         foreach(lineconnect::CHANNEL_OPTION as $option_key => $option_name){
                             if($option_key == 'role'){
                                 // ロール選択セレクトボックスを出力
-                                $role_select = "<select name=".$ary_option[$option_key]['param'].">";
+                                $role_select = "<select name=".$ary_option[$option_key]['param']."[] multiple class='slc-multi-select' >";
                                 $all_roles = array("slc_all"=>"すべての友達", "slc_linked"=>"連携済みの友達");
                                 foreach (wp_roles()->get_names() as $role_name) {
                                     $all_roles[esc_attr($role_name)] = translate_user_role($role_name);
@@ -113,11 +115,16 @@ EOM;
                                 $role_select .= lineconnect::makeHtmlSelectOptions($all_roles, $ary_option[$option_key]['value']);
                                 $role_select .= "</select>";
                                 
-                                if($ary_option[$option_key]['value']!="slc_all"){
+                                if(empty($ary_option[$option_key]['value'])){
+                                    $target_cnt = "0人";
+                                    $target = 'ロールが選択されていません。';
+                                }elseif(!in_array("slc_all", $ary_option[$option_key]['value'])){
                                     $role = $ary_option[$option_key]['value'];
-                                    if($role == "slc_linked"){
-                                        $role = "";
+                                    
+                                    if(in_array("slc_linked", $role)){
+                                        $role = array();
                                     }
+                                    
                                     $args = array(
                                             'meta_query' => array(
                                                 array(
@@ -125,7 +132,7 @@ EOM;
                                                     'compare' => 'EXISTS'
                                                 )
                                             ),
-                                            'role' => $role,
+                                            'role__in' => $role,
                                             'fields'=>'ID'
                                         );
                                         $line_user_ids=array();
@@ -197,7 +204,7 @@ EOM;
 
                         if($option_key == 'role'){
                             // ロール選択セレクトボックスを出力
-                            $role_select = "<select name=".$param.">";
+                            $role_select = "<select name=".$param."[] multiple class='slc-multi-select' >";
                             $all_roles = array("slc_all"=>"すべての友達", "slc_linked"=>"連携済みの友達");
                             foreach (wp_roles()->get_names() as $role_name) {
                                 $all_roles[esc_attr($role_name)] = translate_user_role($role_name);
@@ -261,9 +268,11 @@ EOM;
                         if (false !== ($invalid = get_transient(lineconnect::INVALID_PREFIX.$option_key))) {
                             $options['invalid'] = lineconnect::getErrorBar($invalid, lineconnect::NOTICE_TYPE__ERROR);
                             $active_tab = intval($tab_details['prefix']) - 1;
+                        }else{
+                            $options['invalid'] = "";
                         }
                         //パラメータ名
-                        $options['param'] = lineconnect::PARAMETER_PREFIX.$option_key.($option_details['isMulti']?"[]":"");
+                        $options['param'] = lineconnect::PARAMETER_PREFIX.$option_key.(isset($option_details['isMulti'])&&$option_details['isMulti']==true?"[]":"");
 
                         //設定値
                         if (false === ($value = get_transient(lineconnect::TRANSIENT_PREFIX.$option_key))) {
@@ -286,8 +295,8 @@ EOM;
                         }
 
                         $error_class = $options['invalid'] ? 'class="error-message" ':'';
-                        $required = $option_details['required'] ? "required" : "";
-                        $hint =  $option_details['hint'] ? "<a href=# title='".$option_details['hint']."'><span class='ui-icon ui-icon-info'></span></a>" : "";
+                        $required = isset($option_details['required'])&&$option_details['required'] ? "required" : "";
+                        $hint =  isset($option_details['hint']) ? "<a href=# title='".$option_details['hint']."'><span class='ui-icon ui-icon-info'></span></a>" : "";
                         echo <<< EOM
                         <p>
                             <label for="{$options['param']}" {$error_class}>{$option_details['label']}：</label>
@@ -371,12 +380,22 @@ EOM;
                             $options = array();
 
                             //POSTされた値
-                            if($channel['prefix'] == $new_key){
-                                $options['value'] = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key.'new']));
+                            if($option_key == 'role'){
+                                if($channel['prefix'] == $new_key){
+                                    $options['value'] = $_POST[lineconnect::PARAMETER_PREFIX.$option_key.'new'];
+                                }else{
+                                    $options['value'] = $_POST[lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix']];
+                                }
+                                foreach($options['value'] as $key => $tmp){
+                                    $options['value'][$key] = trim(sanitize_text_field($tmp));
+                                }
                             }else{
-                                $options['value'] = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix']]));
+                                if($channel['prefix'] == $new_key){
+                                    $options['value'] = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key.'new']));
+                                }else{
+                                    $options['value'] = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix']]));
+                                }
                             }
-                            
                             $ary_option[$option_key] = $options;
                         }
                         $ary_option['prefix'] = array('value' => substr( $ary_option['channel-secret']['value'],0,4,));
@@ -437,7 +456,7 @@ EOM;
                         }else{
                             $value = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key]));
                         }
-                        if(!isset($value) && $option_details['required']){
+                        if(empty($value) && $option_details['required']){
                             set_transient(lineconnect::INVALID_PREFIX.$option_key,$option_details['label']."は必須項目です。", lineconnect::TRANSIENT_TIME_LIMIT);
                             $valid = false;
                         }else if(isset($option_details['regex']) && !preg_match($option_details['regex'], $value)){
@@ -540,7 +559,7 @@ EOM;
     }
 
     //管理画面用にスクリプト読み込み
-    function wpdocs_plugin_admin_scripts(){
+    static function wpdocs_plugin_admin_scripts(){
         wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-core',false,array('jquery'));
         wp_enqueue_script('jquery-ui-tabs',false,array('jquery-ui-core'));
@@ -552,7 +571,7 @@ EOM;
     }
 
     //管理画面用にスタイル読み込み
-    function wpdocs_plugin_admin_styles(){
+    static function wpdocs_plugin_admin_styles(){
         $jquery_ui_css = "css/jquery-ui.css";
         wp_enqueue_style(lineconnect::PLUGIN_ID. '-admin-ui-css',plugins_url($jquery_ui_css, dirname(__FILE__)),array(),filemtime(plugin_dir_path(dirname(__FILE__)).$jquery_ui_css));
         wp_enqueue_style('wp-color-picker');

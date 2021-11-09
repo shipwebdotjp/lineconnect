@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.0.1
+  Version: 2.1.0
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -22,14 +22,14 @@ require_once (plugin_dir_path(__FILE__ ).'include/message.php');
 
 // WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションに、
 // LineConnectクラスのインスタンスを生成するStatic関数をフック
-add_action('init', 'lineconnect::instance');
+
 
 class lineconnect {
 
     /**
      * このプラグインのバージョン
      */
-    const VERSION = '2.0.0';
+    const VERSION = '2.1.0';
 
     /**
      * このプラグインのID：Ship Line Connect
@@ -403,12 +403,13 @@ class lineconnect {
      * コンストラクタ
      */
     function __construct() {
-        // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-        //if (is_super_admin() || current_user_can('administrator') || current_user_can('editor') || current_user_can('author')) {
-            // 設定されている投稿タイプごとに公開したときのコールバックを定義
-            $pot_types = self::get_option('send_post_types');
-            foreach ( $pot_types as $pot_type ) {
-                add_action('publish_'.$pot_type, ['lineconnectPublish', 'send_to_line'], 1, 6);
+        //ログ記録のためのコネクタ呼び出し
+        add_action( 'plugins_loaded', [ $this, 'register_stream_connector' ], 99, 1  );
+
+        add_action('init', function(){
+            $post_types = self::get_option('send_post_types');
+            foreach ( $post_types as $post_type ) {
+                add_action('publish_'.$post_type, ['lineconnectPublish', 'send_to_line'], 15, 6);
             }
             // 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
             add_action('admin_notices', ['lineconnectPublish', 'error_send_to_line']);
@@ -416,36 +417,39 @@ class lineconnect {
             add_action('admin_notices', ['lineconnectPublish', 'success_send_to_line']);
             // 投稿画面にチェックボックスを表示
             add_action('add_meta_boxes', ['lineconnectPublish', 'add_send_checkbox'], 10, 2 );  
-        //}
-        // 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
-        if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
-            // 管理画面のトップメニューページを追加
-            add_action('admin_menu', ['lineconnectSetting', 'set_plugin_menu']);
-            // 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
-            // 初期設定を保存する関数をフック
-            add_action('admin_init', ['lineconnectSetting', 'save_settings']);
-        }
-        //ログイン時、LINEアカウント連携の場合リダイレクトさせる
-        add_action( 'wp_login', [$this, 'redirect_account_link'], 10, 2 );
+            // 投稿画面のとき、スクリプトを読み込む
+            add_action( 'admin_enqueue_scripts', ['lineconnectPublish', 'wpdocs_selectively_enqueue_admin_script'] );
 
-        //ユーザーにリッチメニューを関連付ける
-        add_action( 'line_link_richmenu', ['lineconnectRichmenu', 'link_richmenu'], 10, 1 );
-    
-        //ユーザーからリッチメニューを削除する
-        add_action( 'line_unlink_richmenu', ['lineconnectRichmenu', 'line_unlink_richmenu'], 10, 2 );
+            // 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
+            if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
+                // 管理画面のトップメニューページを追加
+                add_action('admin_menu', ['lineconnectSetting', 'set_plugin_menu']);
+                // 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
+                // 初期設定を保存する関数をフック
+                add_action('admin_init', ['lineconnectSetting', 'save_settings']);
+                
+            }
+            //ログイン時、LINEアカウント連携の場合リダイレクトさせる
+            add_action( 'wp_login', [$this, 'redirect_account_link'], 10, 2 );
 
-        //特定ロールの連携済みユーザーへメッセージを送信
-        add_action( 'send_message_to_role', ['lineconnectMessage', 'sendMessageRole'], 10, 3 );
+            //ユーザーにリッチメニューを関連付ける
+            add_action( 'line_link_richmenu', ['lineconnectRichmenu', 'link_richmenu'], 10, 1 );
+        
+            //ユーザーからリッチメニューを削除する
+            add_action( 'line_unlink_richmenu', ['lineconnectRichmenu', 'line_unlink_richmenu'], 10, 2 );
 
-        //特定の連携済みユーザーへメッセージを送信
-        add_action( 'send_message_to_wpuser', ['lineconnectMessage', 'sendMessageWpUser'], 10, 3 );
+            //特定ロールの連携済みユーザーへメッセージを送信
+            add_action( 'send_message_to_role', ['lineconnectMessage', 'sendMessageRole'], 10, 3 );
 
+            //特定の連携済みユーザーへメッセージを送信
+            add_action( 'send_message_to_wpuser', ['lineconnectMessage', 'sendMessageWpUser'], 10, 3 );
+        });
     }
 
     /**
      * 登録されているチャネル情報を返す
      */
-    function get_all_channels(){
+    static function get_all_channels(){
         $channels = get_option(self::OPTION_KEY__CHANNELS); //チャネル情報を取得
         return $channels;
     }
@@ -453,7 +457,7 @@ class lineconnect {
     /**
      * チャネルシークレット先頭4文字(またはチャンネル番号)から登録されているチャネル情報を返す
      */
-    function get_channel($channel_prefix){
+    static function get_channel($channel_prefix){
         $channels = get_option(self::OPTION_KEY__CHANNELS); //チャネル情報を取得
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
             if($channel_prefix === $channel_id || $channel_prefix === $channel['prefix']){
@@ -466,7 +470,7 @@ class lineconnect {
     /**
      * LINE IDからWPUserを返す
      */
-    function get_wpuser_from_line_id($secret_prefix, $line_id){
+    static function get_wpuser_from_line_id($secret_prefix, $line_id){
         $args = array(
             'meta_query' => array(
                 array(
@@ -507,7 +511,7 @@ class lineconnect {
     /**
      * 登録されているオプション情報を全て返す
      */
-    function get_all_options(){
+    static function get_all_options(){
         $options = get_option(self::OPTION_KEY__SETTINGS); //オプションを取得
         foreach(self::SETTINGS_OPTIONS as $tab_name => $tab_details){
             //flatten
@@ -523,7 +527,7 @@ class lineconnect {
     /**
      * 登録されているオプションの値を返す
      */
-    function get_option($option_name){
+    static function get_option($option_name){
         $options = get_option(self::OPTION_KEY__SETTINGS); //オプションを取得
         if(isset($options[$option_name])){
             return $options[$option_name];
@@ -568,7 +572,25 @@ class lineconnect {
         return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
     }
 
+    function register_stream_connector() {
+        /*
+        if ( ! class_exists( 'WP_Stream' ) ) {
+            die("no class wp stream");
+			return;
+		}
+        */
+        add_filter(
+			'wp_stream_connectors',
+			function( $classes ) {
+				require_once (plugin_dir_path(__FILE__ ).'include/logging.php');
+                $class = new lineconnectConnector();
+				$classes[] = $class;
+				return $classes;
+			}
+		);
+    }
+
 } // end of class
 
-
+$GLOBALS['lineconnect'] = new lineconnect;
 ?>
