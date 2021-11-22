@@ -73,6 +73,9 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.1.1 =
+2021-11-21 Show user has already linked or not in user columns. Remove unnecessary hooks in order to accelerate.
+
 = 2.1.0 =
 2021-11-08 You can choose role multiple now. Also you can log via Stream plugin.
 

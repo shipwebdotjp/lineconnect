@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.1.0
+  Version: 2.1.1
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -407,14 +407,18 @@ class lineconnect {
         add_action( 'plugins_loaded', [ $this, 'register_stream_connector' ], 99, 1  );
 
         add_action('init', function(){
+            global $post_type,$pagenow;
             $post_types = self::get_option('send_post_types');
             foreach ( $post_types as $post_type ) {
                 add_action('publish_'.$post_type, ['lineconnectPublish', 'send_to_line'], 15, 6);
             }
-            // 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
-            add_action('admin_notices', ['lineconnectPublish', 'error_send_to_line']);
-            // 投稿(公開)した際にLINE送信に成功した時のメッセージ表示
-            add_action('admin_notices', ['lineconnectPublish', 'success_send_to_line']);
+            
+            if($pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
+                // 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
+                add_action('admin_notices', ['lineconnectPublish', 'error_send_to_line']);
+                // 投稿(公開)した際にLINE送信に成功した時のメッセージ表示
+                add_action('admin_notices', ['lineconnectPublish', 'success_send_to_line']);
+            }
             // 投稿画面にチェックボックスを表示
             add_action('add_meta_boxes', ['lineconnectPublish', 'add_send_checkbox'], 10, 2 );  
             // 投稿画面のとき、スクリプトを読み込む
@@ -427,7 +431,10 @@ class lineconnect {
                 // 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
                 // 初期設定を保存する関数をフック
                 add_action('admin_init', ['lineconnectSetting', 'save_settings']);
-                
+                // ユーザー一覧一覧のコラム追加
+                add_filter('manage_users_columns', [$this, 'lc_manage_columns']);
+                // ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
+                add_filter('manage_users_custom_column', [$this, 'lc_manage_custom_columns'], 10, 3);
             }
             //ログイン時、LINEアカウント連携の場合リダイレクトさせる
             add_action( 'wp_login', [$this, 'redirect_account_link'], 10, 2 );
@@ -573,12 +580,6 @@ class lineconnect {
     }
 
     function register_stream_connector() {
-        /*
-        if ( ! class_exists( 'WP_Stream' ) ) {
-            die("no class wp stream");
-			return;
-		}
-        */
         add_filter(
 			'wp_stream_connectors',
 			function( $classes ) {
@@ -589,6 +590,37 @@ class lineconnect {
 			}
 		);
     }
+
+    // カラムを追加・削除する
+    function lc_manage_columns($columns) {
+        // 追加するカラム。 カラム名（任意） => カラムのラベル（任意）
+        $add_columns = array(
+            'lc_islinked' => 'LINE連携'
+        );
+    
+        return array_merge($columns, $add_columns);
+    }
+    
+    // セルに表示させる値
+    function lc_manage_custom_columns($output, $column_name, $user_id) {
+        switch($column_name) {
+            case 'lc_islinked':
+                $ary_output = array();
+                foreach(self::get_all_channels() as $channel_id => $channel){
+                    $secret_prefix = substr( $channel['channel-secret'],0,4);
+                    $user_meta_line = get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
+                    if($user_meta_line && $user_meta_line[$secret_prefix] && $user_meta_line[$secret_prefix]['id']){
+                        $ary_output[] = "<a href=\"./\" title=\"".$user_meta_line[$secret_prefix]['id']."\">連携済</a>";
+                    }else{
+                        $ary_output[] = "未連携";
+                    }
+                }
+                return implode("/",$ary_output);
+        }
+        return $output;
+    }
+
+
 
 } // end of class
 
