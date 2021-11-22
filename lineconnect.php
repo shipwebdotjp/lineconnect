@@ -19,6 +19,7 @@ require_once (plugin_dir_path(__FILE__ ).'include/richmenu.php');
 require_once (plugin_dir_path(__FILE__ ).'include/setting.php');
 require_once (plugin_dir_path(__FILE__ ).'include/publish.php');
 require_once (plugin_dir_path(__FILE__ ).'include/message.php');
+require_once (plugin_dir_path(__FILE__ ).'include/chat.php');
 
 // WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションに、
 // LineConnectクラスのインスタンスを生成するStatic関数をフック
@@ -354,7 +355,12 @@ class lineconnect {
     /**
      * ユーザーメタキー：line
      */
-    const META_KEY__LINE = 'line';    
+    const META_KEY__LINE = 'line';
+
+    /**
+     * 画面のslug：チャット
+     */
+    const SLUG__CHAT_FORM = self::PLUGIN_ID . '-linechat-form';
 
     /**
      * WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションにフックする、
@@ -435,6 +441,8 @@ class lineconnect {
                 add_filter('manage_users_columns', [$this, 'lc_manage_columns']);
                 // ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
                 add_filter('manage_users_custom_column', [$this, 'lc_manage_custom_columns'], 10, 3);
+                // チャット画面のトップメニューページを追加
+                add_action('admin_menu', ['lineconnectChat', 'set_plugin_menu']); 
             }
             //ログイン時、LINEアカウント連携の場合リダイレクトさせる
             add_action( 'wp_login', [$this, 'redirect_account_link'], 10, 2 );
