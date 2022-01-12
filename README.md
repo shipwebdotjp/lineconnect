@@ -13,6 +13,9 @@ Growniche社の[LINE AUTO POST](https://s-page.biz/line-auto-post/#home)を元�
 * 新規投稿の場合は自動的に送信チェックボックスにチェックが付く
 * 管理画面での設定メニューがトップメニューではなく設定メニュのサブメニューとして表示される
 * 通知メッセージをFlexメッセージに変更し、アイキャッチ画像を含めたレイアウトで通知
+## 独自機能
+### LINEチャット
+* 任意のLINEメッセージを個別ユーザーに送信可能
 
 ## インストール方法
 1. [GitHub](https://github.com/shipwebdotjp/lineconnect/releases)より最新版のZIPファイルをダウンロードします。

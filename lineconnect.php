@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.1.1
+  Version: 2.2.0
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -30,7 +30,7 @@ class lineconnect {
     /**
      * このプラグインのバージョン
      */
-    const VERSION = '2.1.0';
+    const VERSION = '2.2.0';
 
     /**
      * このプラグインのID：Ship Line Connect
@@ -442,7 +442,13 @@ class lineconnect {
                 // ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
                 add_filter('manage_users_custom_column', [$this, 'lc_manage_custom_columns'], 10, 3);
                 // チャット画面のトップメニューページを追加
-                add_action('admin_menu', ['lineconnectChat', 'set_plugin_menu']); 
+                add_action('admin_menu', ['lineconnectChat', 'set_plugin_menu']);
+                // ユーザー一覧の一括操作にメッセージ送信を追加
+                add_filter( 'bulk_actions-users', [$this,'add_bulk_users_sendmessage'], 10, 1 );
+                // 一括操作を行うフィルター
+                add_filter( 'handle_bulk_actions-users', [$this,'handle_bulk_users_sendmessage'], 10, 3 );
+                // チャット送信AJAXアクション
+                add_action( 'wp_ajax_lc_ajax_chat_send', ['lineconnectChat', 'ajax_chat_send'] );
             }
             //ログイン時、LINEアカウント連携の場合リダイレクトさせる
             add_action( 'wp_login', [$this, 'redirect_account_link'], 10, 2 );
@@ -515,6 +521,7 @@ class lineconnect {
     ログイン時にLINE連携から飛んできた場合は連携用のページへリダイレクトさせる
     */
     function redirect_account_link ( $user_login , $current_user ) {
+        error_log("logged in: ".$user_login." ID:".$current_user->ID."\n", 3, __DIR__. '/log/loggin.log');
     	if(isset($_COOKIE["line_connect_redirect_to"])){ //COOKIEにリダイレクト先がセットされていたら
     		$redirect_to = $_COOKIE["line_connect_redirect_to"]; //COKIEからリダイレクト先を取得
     		setcookie('line_connect_redirect_to',"",time() - 3600); //COKIE削除
@@ -617,8 +624,9 @@ class lineconnect {
                 foreach(self::get_all_channels() as $channel_id => $channel){
                     $secret_prefix = substr( $channel['channel-secret'],0,4);
                     $user_meta_line = get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
-                    if($user_meta_line && $user_meta_line[$secret_prefix] && $user_meta_line[$secret_prefix]['id']){
-                        $ary_output[] = "<a href=\"./\" title=\"".$user_meta_line[$secret_prefix]['id']."\">連携済</a>";
+                    if($user_meta_line && isset($user_meta_line[$secret_prefix]) && isset($user_meta_line[$secret_prefix]['id'])){
+                        $line_sendmessage_url = add_query_arg(array('users'=>$user_id, 'channel_ids' => $channel_id), admin_url( 'admin.php?page='.lineconnect::SLUG__CHAT_FORM ));
+                        $ary_output[] = "<a href=\"".$line_sendmessage_url."\" title=\"".(isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : "")."\">連携済</a>";
                     }else{
                         $ary_output[] = "未連携";
                     }
@@ -627,6 +635,26 @@ class lineconnect {
         }
         return $output;
     }
+
+    //ユーザー一括操作にメッセージ送信を追加
+    function add_bulk_users_sendmessage($actions){
+        $actions['lc_linechat'] = 'LINEメッセージ送信';
+        return $actions;
+    }
+
+    //ユーザー一括操作でLINEメッセージ送信が選択されたら
+    function handle_bulk_users_sendmessage( $sendback, $doaction, $items ) {
+        if ( $doaction !== 'lc_linechat' ) {
+            return $sendback;
+        }
+        $user_args = array();
+        foreach($items as $index => $userid){
+            $user_args['users['.$index.']'] = $userid;
+        }
+        $redirect_url = add_query_arg($user_args, admin_url( 'admin.php?page='.lineconnect::SLUG__CHAT_FORM ));
+        return $redirect_url;
+    }
+
 
 
 

@@ -135,8 +135,8 @@ class lineconnectMessage{
             //ユーザーのメタデータを取得
             foreach($users as $user){
                 $user_meta_line = $user->get(lineconnect::META_KEY__LINE);
-                if($user_meta_line && $user_meta_line[$secret_prefix]){
-                    if( $user_meta_line[$secret_prefix]['id'] ){
+                if($user_meta_line && isset($user_meta_line[$secret_prefix])){
+                    if( isset($user_meta_line[$secret_prefix]['id']) ){
                         $line_user_ids[] = $user_meta_line[$secret_prefix]['id'];
                     }
                 }
@@ -165,8 +165,8 @@ class lineconnectMessage{
 
         $secret_prefix = substr( $channel['channel-secret'],0,4);
         $user_meta_line = get_user_meta($wp_user_id, lineconnect::META_KEY__LINE, true);
-        if($user_meta_line && $user_meta_line[$secret_prefix]){
-            if( $user_meta_line[$secret_prefix]['id'] ){
+        if($user_meta_line && isset($user_meta_line[$secret_prefix])){
+            if( isset($user_meta_line[$secret_prefix]['id']) ){
                 return self::sendPushMessage($channel,  $user_meta_line[$secret_prefix]['id'], $message);
             }
         }

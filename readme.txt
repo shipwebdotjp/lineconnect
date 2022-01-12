@@ -73,6 +73,9 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.2.0 =
+2022-01-12 You can send LINE message without post from LINE Chat.
+
 = 2.1.1 =
 2021-11-21 Show user has already linked or not in user columns. Remove unnecessary hooks in order to accelerate.
 
