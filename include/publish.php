@@ -61,6 +61,8 @@ class lineconnectPublish{
         );
         echo $nonce_field;
         echo "<div>";
+        $is_send_line = get_post_meta(get_the_ID(), lineconnect::META_KEY__IS_SEND_LINE, true);
+        //error_log($is_send_line);
         //チャンネルリスト毎に出力
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
             
@@ -68,7 +70,13 @@ class lineconnectPublish{
             foreach(lineconnect::CHANNEL_FIELD as $option_key => $option_name){
                 $input_filed = "";
                 if($option_key == 'role-selectbox'){
-                    $role = $channel['role'];
+                    if(isset($is_send_line[$channel['prefix']])){
+                        $role = $is_send_line[$channel['prefix']]['role'];
+                        // error_log($channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
+                    }else{
+                        $role = $channel['role'];
+                    }
+                    
                     
                     $role = is_array($role) ? $role : esc_html($role);
                     // ロール選択セレクトボックスを出力
@@ -83,10 +91,14 @@ class lineconnectPublish{
                     $input_filed .= "</select>";
                     
                 }elseif($option_key == 'send-checkbox'){
-                    if (get_post_status(get_the_ID()) === 'publish') {
-                        $checked = '';
+                    if(isset($is_send_line[$channel['prefix']])){
+                        $checked = $is_send_line[$channel['prefix']]['isSend'] == 'ON' ? 'checked' : '';
                     }else{
-                        $checked = 'checked';
+                        if (get_post_status(get_the_ID()) === 'publish') {
+                            $checked = '';
+                        }else{
+                            $checked = 'checked';
+                        }
                     }
                     $param_select = lineconnect::PARAMETER_PREFIX.$option_key.$channel['prefix'];
                     $input_filed = '<input type="checkbox" name="' . $param_select . '" value="ON" id="id_' . $param_select . '" '.$checked.'>'.
@@ -105,24 +117,23 @@ class lineconnectPublish{
     }
 
     /**
+     * 投稿を公開
+     */
+    static function publish_post($post_ID, $post){
+        self::send_to_line($post_ID, $post);
+    }
+
+    /**
      * LINEメッセージを送信
      */
     static function send_to_line($post_ID, $post){
-        //$response = lineconnectMessage::sendMessageRole(lineconnect::get_channel(1), "premium", $post->post_title);
-        $isRestAPI = lineconnect::is_rest();
-        //REST API経由の場合は適切な認証がされているのでパス
-        if(!$isRestAPI){
-            // ログインしていない場合は無視
-            if (!is_user_logged_in()) return;
-            // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-            if (!is_super_admin() && !current_user_can('administrator') && !current_user_can('editor') && !current_user_can('author')) return;
-            // nonceで設定したcredentialをPOST受信していない場合は無視
-            if (!isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) || !$_POST[lineconnect::CREDENTIAL_NAME__POST]) return;
-            // nonceで設定したcredentialのチェック結果に問題がある場合
-            if (!check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) return;
-        }
+        //error_log("send_to_line fired!");
+        
         $ary_success_message = array();
         $ary_error_message = array();
+        $isRestAPI = lineconnect::is_rest();
+        //投稿メタを取得
+        $is_send_line = get_post_meta($post_ID, lineconnect::META_KEY__IS_SEND_LINE, true);
         //チャンネルリスト毎に送信
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
             $error_message = $success_message = "";
@@ -131,6 +142,7 @@ class lineconnectPublish{
             $channel_access_token = $channel['channel-access-token'];
             $channel_secret = $channel['channel-secret'];
 
+            //投稿メタからLINE送信チェックボックスと、ロールを取得
             if($isRestAPI){
                 $req_json = json_decode(WP_REST_Server::get_raw_data());
                 $channels = $req_json->{'lc_channels'};
@@ -140,15 +152,15 @@ class lineconnectPublish{
                         $role = explode(',',$rest_role);
                     }
                 }
-            }else{
-                // RoleをPOSTから、なければOPTIONSテーブルから取得
+            }elseif(isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)){
+                $send_checkbox_value = isset($_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]:'';
                 $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
-                $send_checkbox_value = $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']];
+                // error_log('use post:'.$channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
+            }elseif(isset($is_send_line[$channel['prefix']])){
+                $send_checkbox_value = $is_send_line[$channel['prefix']]['isSend'];
+                $role = $is_send_line[$channel['prefix']]['role'];
+                // error_log('use meta:'.$channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
             }
-            if(!$role){
-                $role =  $channel['role'];
-            }
-
             // ChannelAccessTokenとChannelSecretが設定されており、LINEメッセージ送信チェックボックスにチェックがある場合
             if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $send_checkbox_value == 'ON') {
                 // 投稿のタイトルを取得
@@ -266,6 +278,56 @@ class lineconnectPublish{
         // LINE送信に成功した旨のメッセージをTRANSIENTから取得
         if (false !== ($success_send_to_line = get_transient(lineconnect::TRANSIENT_KEY__SUCCESS_SEND_TO_LINE))) {
             echo lineconnect::getNotice($success_send_to_line, lineconnect::NOTICE_TYPE__SUCCESS);
+        }
+    }
+
+    /**
+     * 投稿を保存
+     */
+    static function save_post($post_ID, $post){
+        $isRestAPI = lineconnect::is_rest();
+        //REST API経由の場合は適切な認証がされているのでパス
+        if(!$isRestAPI){
+            // ログインしていない場合は無視
+            if (!is_user_logged_in()) return;
+            // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+            if (!is_super_admin() && !current_user_can('administrator') && !current_user_can('editor') && !current_user_can('author')) return;
+            // nonceで設定したcredentialをPOST受信していない場合は無視
+            if (!isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) || !$_POST[lineconnect::CREDENTIAL_NAME__POST]) return;
+            // nonceで設定したcredentialのチェック結果に問題がある場合
+            if (!check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) return;
+        }
+        
+        $is_send_line = array();
+        foreach(lineconnect::get_all_channels() as $channel_id => $channel){
+            if($isRestAPI){
+                $req_json = json_decode(WP_REST_Server::get_raw_data());
+                $channels = $req_json->{'lc_channels'};
+                foreach($channels as $rest_cid => $rest_role){
+                    if($rest_cid == $channel_id || $rest_cid == $channel['prefix']){
+                        $send_checkbox_value = 'ON';
+                        $role = explode(',',$rest_role);
+                    }
+                }
+            }else{
+                // RoleをPOSTから、なければOPTIONSテーブルから取得
+                $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
+                $send_checkbox_value = isset($_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]:'';
+            }
+            if(!$role){
+                $role =  $channel['role'];
+            }
+
+            $is_send_line[$channel['prefix']] = array(
+                'isSend' => $send_checkbox_value,
+                'role' => $role,
+            );
+        }
+
+        if($is_send_line){
+            update_post_meta( $post_ID, lineconnect::META_KEY__IS_SEND_LINE, $is_send_line );
+        }else{
+            delete_post_meta( $post_ID, lineconnect::META_KEY__IS_SEND_LINE);
         }
     }
 }

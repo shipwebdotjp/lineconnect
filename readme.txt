@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
 Tested up to: 5.8
-Stable tag: 2.1.0
+Stable tag: 2.3.0
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -73,6 +73,9 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.3.0 =
+2022-05-03 Notify when future post is published.
+
 = 2.2.0 =
 2022-01-12 You can send LINE message without post from LINE Chat.
 
