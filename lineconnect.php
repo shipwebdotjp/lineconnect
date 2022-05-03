@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.2.0
+  Version: 2.3.0
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -363,6 +363,11 @@ class lineconnect {
     const SLUG__CHAT_FORM = self::PLUGIN_ID . '-linechat-form';
 
     /**
+     * 投稿メタキー：is-send-line
+     */
+    const META_KEY__IS_SEND_LINE = 'is-send-line';
+
+    /**
      * WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションにフックする、
      * LineConnectクラスのインスタンスを生成するStatic関数
      */
@@ -416,9 +421,10 @@ class lineconnect {
             global $post_type,$pagenow;
             $post_types = self::get_option('send_post_types');
             foreach ( $post_types as $post_type ) {
-                add_action('publish_'.$post_type, ['lineconnectPublish', 'send_to_line'], 15, 6);
+                add_action('publish_'.$post_type, ['lineconnectPublish', 'publish_post'], 15, 6);
             }
-            
+
+            add_action( 'save_post', ['lineconnectPublish', 'save_post'], 10, 2 );
             if($pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
                 // 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
                 add_action('admin_notices', ['lineconnectPublish', 'error_send_to_line']);
@@ -578,7 +584,7 @@ class lineconnect {
      * @returns boolean
      * @author matzeeable
      */
-    function is_rest() {
+    static function is_rest() {
         $prefix = rest_get_url_prefix( );
         if (defined('REST_REQUEST') && REST_REQUEST // (#1)
                 || isset($_GET['rest_route']) // (#2)
