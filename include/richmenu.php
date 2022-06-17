@@ -11,6 +11,10 @@ class lineconnectRichmenu{
     static function updateRichMenuId($channel, $state, $richmenu_id){
         // LINE BOT SDK
         require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
+        $success_message=$error_message="";
+        if(!isset($channel['channel-access-token']) || !isset($channel['channel-secret'])){
+            return ($state == 'linked'?'連携済み':'未連携')."チャネルアクセストークンとチャネルシークレットが不正です。";
+        }
 
         $channel_access_token = $channel['channel-access-token'];
         $channel_secret = $channel['channel-secret'];
@@ -38,7 +42,7 @@ class lineconnectRichmenu{
                 //ユーザーのメタデータを取得
                 foreach($users as $user){
                     $user_meta_line = $user->get(lineconnect::META_KEY__LINE);
-                    if($user_meta_line && $user_meta_line[$secret_prefix]){
+                    if($user_meta_line && isset($user_meta_line[$secret_prefix])){
                         $line_user_ids[] = $user_meta_line[$secret_prefix]['id'];
                     }
                 }
@@ -87,24 +91,29 @@ class lineconnectRichmenu{
         // LINE BOT SDK
         require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
 
-        $channel_access_token = $channel['channel-access-token'];
-        $channel_secret = $channel['channel-secret'];
+        if(isset($channel['channel-access-token']) && isset($channel['channel-secret'])){
+            $channel_access_token = $channel['channel-access-token'];
+            $channel_secret = $channel['channel-secret'];
 
-        $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
-        $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+            $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+            $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
 
-        if($richmenu_id == ""){
-            return true;
+            if($richmenu_id == ""){
+                return true;
+            }else{
+                //リッチメニューを取得
+                $response = $bot->getRichMenu($richmenu_id);
+            }
+            //送信に成功した場合
+            if ($response->getHTTPStatus() === 200) {
+                return true;
+            }else{
+               return array(false, $response->getJSONDecodedBody()['message']);
+            }               
         }else{
-            //リッチメニューを取得
-            $response = $bot->getRichMenu($richmenu_id);
+            return array(false, 'チャネルアクセストークンとチャネルシークレットが不正です。');
         }
-        //送信に成功した場合
-        if ($response->getHTTPStatus() === 200) {
-            return true;
-        }else{
-           return array(false, $response->getJSONDecodedBody()['message']);
-        }        
+     
     }
       	
     /*

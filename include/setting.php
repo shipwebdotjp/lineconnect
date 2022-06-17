@@ -318,6 +318,9 @@ EOM;
                                 // スピナーを出力
                                 echo "<input type='number' name='{$options['param']}' value='{$options['value']}' {$required} />{$hint}";
                                 break;
+                            case 'checkbox':
+                                echo "<input type='checkbox' name='{$options['param']}' id='{$options['param']}' ".($options['value']?"checked":"")." >";
+                                break;
                             default:
                                 //テキストボックス出力
                                 echo "<input type='text' name='{$options['param']}' value='{$options['value']}' {$required} />{$hint}";
@@ -363,6 +366,7 @@ EOM;
                     'linked-richmenu' => 'linked' ,
                     'unlinked-richmenu' => 'unlinked',
                 );
+                $new_key="";
                 //新規チャネルのチェック
                 if(!empty($_POST[lineconnect::PARAMETER_PREFIX."channel-access-token"."new"]) && !empty($_POST[lineconnect::PARAMETER_PREFIX."channel-secret"."new"])){
                     $new_key = substr($_POST[lineconnect::PARAMETER_PREFIX."channel-secret"."new"],0,4,);
@@ -413,9 +417,9 @@ EOM;
                                 }
                                 // 有効フラグをFalse
                                 $valid = false;                   
-                            }elseif($valid && array_key_exists($option_key,$richmenes) && $ary_channels[$channel_id][$option_key] != $ary_option[$option_key]['value']){
+                            }elseif($valid && array_key_exists($option_key,$richmenes) && ((isset($ary_channels[$channel_id][$option_key]) && $ary_channels[$channel_id][$option_key] != $ary_option[$option_key]['value']) || (!isset($ary_channels[$channel_id][$option_key]) && $ary_option[$option_key]['value']))){
                                 //リッチメニューが変更されている場合、リッチメニューの存在チェック
-                                $rech_result = lineconnectRichmenu::checkRichMenuId($channel, $ary_option[$option_key]['value']);
+                                $rech_result = lineconnectRichmenu::checkRichMenuId(["channel-access-token"=>$ary_option["channel-access-token"]['value'],"channel-secret"=>$ary_option["channel-secret"]['value'],], $ary_option[$option_key]['value']);
                                 if(is_array($rech_result) && !$rech_result[0]){
                                     $valid = false;
                                     if($channel['prefix'] == $new_key){
@@ -448,11 +452,13 @@ EOM;
                         continue;
                     }
                     foreach($tab_details['fields'] as $option_key => $option_details){
-                        if($option_details['isMulti']){
+                        if(isset($option_details['isMulti']) && $option_details['isMulti']){
                             $value = $_POST[lineconnect::PARAMETER_PREFIX.$option_key];
                             foreach($value as $key => $tmp){
                                 $value[$key] = trim(sanitize_text_field($tmp));
                             }
+                        }else if($option_details['type'] == 'checkbox'){
+                            $value = isset($_POST[lineconnect::PARAMETER_PREFIX.$option_key]) && $_POST[lineconnect::PARAMETER_PREFIX.$option_key] == 'on' ? true : false;
                         }else{
                             $value = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key]));
                         }
@@ -481,7 +487,7 @@ EOM;
                     $new_ary_channels = array();
                     //チャンネルリスト毎にチェック
                     foreach($ary_channels as $channel_id => $channel){
-                        if($channel_value[$channel_id]['delete']){
+                        if(isset($channel_value[$channel_id]['delete']) && $channel_value[$channel_id]['delete']){
                             continue;
                         }
                         $changed = array();  //チャンネルごとの更新したリッチメニューリスト
@@ -489,9 +495,9 @@ EOM;
                             
                             //リッチメニューIDの更新処理（各ロールに応じてメニューIDを関連付け）
                             if(array_key_exists($option_key,$richmenes)){
-                                if($ary_channels[$channel_id][$option_key] != $channel_value[$channel_id][$option_key]['value']){
+                                if(((isset($ary_channels[$channel_id][$option_key]) && $ary_channels[$channel_id][$option_key] != $channel_value[$channel_id][$option_key]['value']) || (!isset($ary_channels[$channel_id][$option_key]) && $channel_value[$channel_id][$option_key]['value']))){
                                     //richmenu_idが変更されていたら
-                                    $changed[] = lineconnectRichmenu::updateRichMenuId($channel, $richmenes[$option_key], $channel_value[$channel_id][$option_key]['value']);
+                                    $changed[] = lineconnectRichmenu::updateRichMenuId(["channel-access-token"=>$channel_value[$channel_id]["channel-access-token"]['value'],"channel-secret"=>$channel_value[$channel_id]["channel-secret"]['value'],], $richmenes[$option_key], $channel_value[$channel_id][$option_key]['value']);
                                 }
                             }
                             // 保存処理
@@ -538,11 +544,13 @@ EOM;
                             continue;
                         }
                         foreach($tab_details['fields'] as $option_key => $option_details){
-                            if($option_details['isMulti']){
+                            if(isset($option_details['isMulti']) && $option_details['isMulti']){
                                 $value = $_POST[lineconnect::PARAMETER_PREFIX.$option_key];
                                 foreach($value as $key => $tmp){
                                     $value[$key] = trim(sanitize_text_field($tmp));
                                 }
+                            }else if($option_details['type'] == 'checkbox'){
+                                $value = $_POST[lineconnect::PARAMETER_PREFIX.$option_key] == 'on' ? true : false;
                             }else{
                                 $value = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX.$option_key]));
                             }

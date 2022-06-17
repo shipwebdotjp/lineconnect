@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.3.0
+  Version: 2.4.0
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -20,6 +20,7 @@ require_once (plugin_dir_path(__FILE__ ).'include/setting.php');
 require_once (plugin_dir_path(__FILE__ ).'include/publish.php');
 require_once (plugin_dir_path(__FILE__ ).'include/message.php');
 require_once (plugin_dir_path(__FILE__ ).'include/chat.php');
+require_once (plugin_dir_path(__FILE__ ).'include/comment.php');
 
 // WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションに、
 // LineConnectクラスのインスタンスを生成するStatic関数をフック
@@ -100,6 +101,7 @@ class lineconnect {
     const CHANNEL_FIELD = array(
         'send-checkbox' => 'LINE送信する',
         'role-selectbox' => '送信対象：',
+        'future-checkbox' => '予約投稿時にLINE送信する',
     );
 
     const SETTINGS_OPTIONS = array(
@@ -202,12 +204,33 @@ class lineconnect {
                     'isMulti' => true,
                     'hint' => '通知する対象の投稿タイプです。選んだ投稿タイプの編集画面にLINE送信チェックボックスが表示されます。'
                 ), 
+                'default_send_checkbox' => array(
+                    'type' => 'select',
+                    'label' => '「LINE送信する」チェックボックスのデフォルト値',
+                    'required' => true,
+                    'list' => array('on' => 'チェックあり','off' => 'チェックなし','new' => '公開済みの場合はチェックなし'),
+                    'default' => 'new',
+                    'hint' => '記事編集時、「LINE送信する」チェックボックスのデフォルト値設定です。',
+                ), 
                 'more_label' => array(
                     'type' => 'text',
                     'label' => 'リンクラベル',
                     'required' => true,
                     'default' => 'Read more',
-                ),            
+                ),
+                'send_new_comment' => array(
+                    'type' => 'checkbox',
+                    'label' => 'コメントがあった時に投稿者へLINE通知を行う',
+                    'required' => false,
+                    'default' => false,
+                    'hint' => '記事にコメントがあった場合に、その記事の投稿者へコメントがあったことを通知するかどうかの設定です。'
+                ),
+                'comment_read_label' => array(
+                    'type' => 'text',
+                    'label' => 'コメントリンクラベル',
+                    'required' => true,
+                    'default' => 'Read comment',
+                ),        
             ),
         ),
         'style' => array(
@@ -423,7 +446,6 @@ class lineconnect {
             foreach ( $post_types as $post_type ) {
                 add_action('publish_'.$post_type, ['lineconnectPublish', 'publish_post'], 15, 6);
             }
-
             add_action( 'save_post', ['lineconnectPublish', 'save_post'], 10, 2 );
             if($pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
                 // 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
@@ -470,6 +492,15 @@ class lineconnect {
 
             //特定の連携済みユーザーへメッセージを送信
             add_action( 'send_message_to_wpuser', ['lineconnectMessage', 'sendMessageWpUser'], 10, 3 );
+
+            if(self::get_option('send_new_comment')){
+                //コメントが投稿されたときのアクション
+                add_action( 'comment_post', ['lineconnectComment', 'comment_post_callback'], 10, 2 );
+
+                //コメントステータスが変化したときのアクション
+                add_action('transition_comment_status', ['lineconnectComment', 'approve_comment_callback'], 10, 3);                
+            }
+
         });
     }
 
@@ -477,7 +508,7 @@ class lineconnect {
      * 登録されているチャネル情報を返す
      */
     static function get_all_channels(){
-        $channels = get_option(self::OPTION_KEY__CHANNELS); //チャネル情報を取得
+        $channels = get_option(self::OPTION_KEY__CHANNELS, array()); //チャネル情報を取得
         return $channels;
     }
 
@@ -485,7 +516,6 @@ class lineconnect {
      * チャネルシークレット先頭4文字(またはチャンネル番号)から登録されているチャネル情報を返す
      */
     static function get_channel($channel_prefix){
-        $channels = get_option(self::OPTION_KEY__CHANNELS); //チャネル情報を取得
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
             if($channel_prefix === $channel_id || $channel_prefix === $channel['prefix']){
                 return $channel;

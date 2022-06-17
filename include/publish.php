@@ -62,6 +62,7 @@ class lineconnectPublish{
         echo $nonce_field;
         echo "<div>";
         $is_send_line = get_post_meta(get_the_ID(), lineconnect::META_KEY__IS_SEND_LINE, true);
+        $default_send_checkbox = lineconnect::get_option('default_send_checkbox');
         //error_log($is_send_line);
         //チャンネルリスト毎に出力
         foreach(lineconnect::get_all_channels() as $channel_id => $channel){
@@ -90,11 +91,15 @@ class lineconnectPublish{
                     $input_filed .= lineconnect::makeHtmlSelectOptions($all_roles, $role);
                     $input_filed .= "</select>";
                     
-                }elseif($option_key == 'send-checkbox'){
-                    if(isset($is_send_line[$channel['prefix']])){
-                        $checked = $is_send_line[$channel['prefix']]['isSend'] == 'ON' ? 'checked' : '';
-                    }else{
-                        if (get_post_status(get_the_ID()) === 'publish') {
+                }elseif($option_key == 'send-checkbox' || $option_key == 'future-checkbox' ){
+                    if($option_key == 'future-checkbox'){
+                        if(isset($is_send_line[$channel['prefix']])){
+                            $checked = $is_send_line[$channel['prefix']]['isSend'] == 'ON' ? 'checked' : '';
+                        }else{
+                            $checked = '';
+                        }
+                    }else if($option_key == 'send-checkbox'){
+                        if (($default_send_checkbox =='new' && get_post_status(get_the_ID()) === 'publish') || $default_send_checkbox =='off') {
                             $checked = '';
                         }else{
                             $checked = 'checked';
@@ -111,6 +116,7 @@ class lineconnectPublish{
             echo '<h3>'.$channel['name'].'</h3>';
             echo '<div>'.$htmls['send-checkbox'].'</div>';
             echo '<div>'.$htmls['role-selectbox'].'</div>';
+            echo '<div>'.$htmls['future-checkbox'].'</div>';
             echo '</div>';
         }
         echo "</div>";
@@ -305,21 +311,21 @@ class lineconnectPublish{
                 $channels = $req_json->{'lc_channels'};
                 foreach($channels as $rest_cid => $rest_role){
                     if($rest_cid == $channel_id || $rest_cid == $channel['prefix']){
-                        $send_checkbox_value = 'ON';
+                        $future_checkbox = 'ON';
                         $role = explode(',',$rest_role);
                     }
                 }
             }else{
                 // RoleをPOSTから、なければOPTIONSテーブルから取得
                 $role = $_POST[lineconnect::PARAMETER_PREFIX.'role-selectbox'.$channel['prefix']];
-                $send_checkbox_value = isset($_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX.'send-checkbox'.$channel['prefix']]:'';
+                $future_checkbox = isset($_POST[lineconnect::PARAMETER_PREFIX.'future-checkbox'.$channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX.'future-checkbox'.$channel['prefix']]:'';
             }
             if(!$role){
                 $role =  $channel['role'];
             }
 
             $is_send_line[$channel['prefix']] = array(
-                'isSend' => $send_checkbox_value,
+                'isSend' => $future_checkbox,
                 'role' => $role,
             );
         }
