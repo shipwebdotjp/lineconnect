@@ -136,7 +136,7 @@ class lineconnectRichmenu{
                 $target_richmenu_id = $channel['linked-richmenu'];
 
                 $user_meta_line = get_user_meta ($userid, lineconnect::META_KEY__LINE, true);
-                if($user_meta_line[$secret_prefix]){
+                if(isset($user_meta_line[$secret_prefix])){
                     if($target_richmenu_id != "" && $user_meta_line[$secret_prefix]['id']){
                         $response = $bot->linkRichMenu($user_meta_line[$secret_prefix]['id'], $target_richmenu_id);
                     }
@@ -161,7 +161,7 @@ class lineconnectRichmenu{
             //対象のチャンネルかどうかチェック
             if($target_secret_prefix == $secret_prefix || $target_secret_prefix == 'all'){
                 $user_meta_line = get_user_meta ( $userid, lineconnect::META_KEY__LINE, true  );
-                if($user_meta_line[$secret_prefix]){
+                if(isset($user_meta_line[$secret_prefix])){
                     if($user_meta_line[$secret_prefix]['id']){
                         $response = $bot->unlinkRichMenu($user_meta_line[$secret_prefix]['id']);
                     }
