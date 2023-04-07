@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.4.0
+  Version: 2.5.0
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -21,6 +21,7 @@ require_once (plugin_dir_path(__FILE__ ).'include/publish.php');
 require_once (plugin_dir_path(__FILE__ ).'include/message.php');
 require_once (plugin_dir_path(__FILE__ ).'include/chat.php');
 require_once (plugin_dir_path(__FILE__ ).'include/comment.php');
+require_once (plugin_dir_path(__FILE__ ).'include/shortcodes.php');
 
 // WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションに、
 // LineConnectクラスのインスタンスを生成するStatic関数をフック
@@ -297,7 +298,89 @@ class lineconnect {
                 ),
             ),
         ),
-        
+        'chat' => array(
+            'prefix' => '5',
+            'name' => 'チャット',
+            'fields' => array(
+                'enableChatbot' => array(
+                    'type' => 'select',
+                    'label' => 'AIによる自動応答',
+                    'required' => true,
+                    'list' => array('off' => '無効','on' => '有効'),
+                    'default' => 'off',
+                    'hint' => 'メッセージに対してAIによる自動応答を利用するかどうかの設定です。',
+                ), 
+                'openai_secret' => array(
+                    'type' => 'text',
+                    'label' => 'OpenAI API Key',
+                    'required' => false,
+                    'default' => '',
+                    'size' => 60,
+                    'hint' => 'OpenAIのAPI Keyを入力してください。',
+                ), 
+                'openai_model' => array(
+                    'type' => 'select',
+                    'label' => '使用モデル',
+                    'required' => false,
+                    'list' => array('gpt-3.5-turbo' => 'GPT-3.5 turbo','gpt-4' => 'GPT-4',),
+                    'default' => 'gpt-3.5-turbo',
+                    'hint' => 'どのモデルを使用するかの設定です。',
+                ),
+                'openai_system' => array(
+                    'type' => 'textarea',
+                    'label' => 'システムプロンプト',
+                    'required' => false,
+                    'default' => '',
+                    'hint' => 'AIに最初に与える命令です。例：「あなたは優秀なサポートスタッフです。お客様からの問い合わせに丁寧に回答してください。」',
+                ), 
+                'openai_context' => array(
+                    'type' => 'spinner',
+                    'label' => '使用する文脈数',
+                    'required' => false,
+                    'default' => 3,
+                    'regex' => '/^\d+$/',
+                    'hint' => '文脈を理解して回答を行わせるため、会話履歴をいくつ使用するかの設定です。',
+                ),
+                'openai_max_tokens' => array(
+                    'type' => 'spinner',
+                    'label' => '最大トークン数',
+                    'required' => false,
+                    'default' => 512,
+                    'regex' => '/^\d+$/',
+                    'hint' => '使用する最大トークン数です。',
+                ),
+                'openai_temperature' => array(
+                    'type' => 'text',
+                    'label' => 'サンプリング温度',
+                    'required' => false,
+                    'default' => 1,
+                    'hint' => 'パラーメーターtemperatureです。数値が高いほどより多様な単語が選ばれやすくなります。0～1の範囲で指定してください。',
+                ),
+                'openai_limit_normal' => array(
+                    'type' => 'spinner',
+                    'label' => '未連携ユーザーが1日に使用できる回数',
+                    'required' => false,
+                    'default' => 3,
+                    'regex' => '/^[+-]?\d+$/',
+                    'hint' => 'サイトアカウントと未連携のユーザーが1日に何回まで使用できるかの設定です。-1で制限なしになります。',
+                ),
+                'openai_limit_linked' => array(
+                    'type' => 'spinner',
+                    'label' => '連携済みユーザーが1日に使用できる回数',
+                    'required' => false,
+                    'default' => 5,
+                    'regex' => '/^[+-]?\d+$/',
+                    'hint' => 'サイトアカウント連携済みのユーザーが1日に何回まで使用できるかの設定です。-1で制限なしになります。',
+                ),
+                'openai_limit_message' => array(
+                    'type' => 'textarea',
+                    'label' => '制限回数を超えた場合のメッセージ',
+                    'required' => false,
+                    'default' => '1日に使用できる回数（%limit%回）を超えました。日付が変わってからお試しください。',
+                    'hint' => '1日に使用できる回数を超えた場合に表示するメッセージです。%limit%は制限回数に置き換えられます。',
+                ), 
+            ),
+        ),
     );
 
     /**
@@ -389,6 +472,53 @@ class lineconnect {
      * 投稿メタキー：is-send-line
      */
     const META_KEY__IS_SEND_LINE = 'is-send-line';
+
+    /**
+     * ボットとのチャットログ MySQLテーブル名
+     */
+    const TABLE_BOT_LOGS = 'lineconnect_bot_logs';
+    
+    /**
+     * イベントタイプ
+     */
+    const WH_EVENT_TYPE = array(
+        1 => 'message',
+        2 => 'unsend',
+        3 => 'follow',
+        4 => 'unfollow',
+        5 => 'join',
+        6 => 'leave',
+        7 => 'memberJoined',
+        8 => 'memberLeft',
+        9 => 'postback',
+        10 => 'videoPlayComplete',
+        11 => 'beacon',
+        12 => 'accountLink',
+        13 => 'things',
+    );
+    
+    /**
+     * ソースタイプ
+     */
+    const WH_SOURCE_TYPE = array(
+        1 => 'user',
+        2 => 'group',
+        3 => 'room',
+        11 => 'bot',
+    );
+    
+    /**
+     * メッセージタイプ
+     */
+    const WH_MESSAGE_TYPE = array(
+        1 => 'text',
+        2 => 'image',
+        3 => 'video',
+        4 => 'audio',
+        5 => 'file',
+        6 => 'location',
+        7 => 'sticker',
+    );
 
     /**
      * WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションにフックする、
@@ -501,7 +631,12 @@ class lineconnect {
                 add_action('transition_comment_status', ['lineconnectComment', 'approve_comment_callback'], 10, 3);                
             }
 
+            //ChatGPTとの会話ログ表示ショートコード
+            add_shortcode( 'line_connect_chat_gpt_log',  ['lineconnectShortcodes','show_chat_log'] ); 
         });
+
+        //プラグイン有効化時に呼び出し
+        register_activation_hook(__FILE__, [ $this, 'pluginActivation' ] );
     }
 
     /**
@@ -691,7 +826,36 @@ class lineconnect {
         return $redirect_url;
     }
 
+    function pluginActivation(){
+        //プラグイン有効化時
+        //テーブル作成
+        global $wpdb;
 
+        $table_name = $wpdb->prefix . self::TABLE_BOT_LOGS; 
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE $table_name (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            event_type tinyint NOT NULL,
+            source_type tinyint NOT NULL,
+            user_id varchar(255) NOT NULL,
+            bot_id varchar(255) NOT NULL,
+            message_type tinyint NOT NULL,
+            message text,
+            timestamp datetime(3) NOT NULL,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+
+        //インデックス作成
+        $sql_alter = "
+            ALTER TABLE `$table_name`
+            ADD KEY `user_id` (`user_id`);
+        ";
+        $wpdb->query( $sql_alter );
+
+    }
 
 
 } // end of class

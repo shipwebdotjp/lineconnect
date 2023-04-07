@@ -297,6 +297,8 @@ EOM;
                         $error_class = $options['invalid'] ? 'class="error-message" ':'';
                         $required = isset($option_details['required'])&&$option_details['required'] ? "required" : "";
                         $hint =  isset($option_details['hint']) ? "<a href=# title='".$option_details['hint']."'><span class='ui-icon ui-icon-info'></span></a>" : "";
+                        $size =  isset($option_details['size'])&&$option_details['size'] ? 'size="'.$option_details['size'].'" ':'';
+                        
                         echo <<< EOM
                         <p>
                             <label for="{$options['param']}" {$error_class}>{$option_details['label']}：</label>
@@ -321,9 +323,13 @@ EOM;
                             case 'checkbox':
                                 echo "<input type='checkbox' name='{$options['param']}' id='{$options['param']}' ".($options['value']?"checked":"")." >";
                                 break;
+                            case 'textarea':
+                                //テキストエリア出力
+                                echo "<textarea name='{$options['param']}' rows='5' cols='30' {$required} >{$options['value']}</textarea>{$hint}";
+                                break;
                             default:
                                 //テキストボックス出力
-                                echo "<input type='text' name='{$options['param']}' value='{$options['value']}' {$required} />{$hint}";
+                                echo "<input type='text' name='{$options['param']}' value='{$options['value']}' {$required}  {$size} />{$hint}";
                         }                    
                         echo <<< EOM
                                 {$options['invalid']}
