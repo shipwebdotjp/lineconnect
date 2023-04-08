@@ -60,6 +60,13 @@ $json_obj = json_decode($json_string);
 
 foreach($json_obj->{'events'} as $event){
 
+	//ログ書き込み
+	$isEventDuplication = writeChatLog($event);
+	if($isEventDuplication){
+		//イベントがすでに記録されていればスキップ
+		continue;
+	}
+
 	//リプレイトークンを取得
 	$reply_token = $event->{'replyToken'};
 
@@ -182,11 +189,11 @@ foreach($json_obj->{'events'} as $event){
 		//AIで応答する
 		$AiMessage = getResponseByChatGPT($event->{'source'}->{'userId'}, $secret_prefix, $event->{'message'}->{'text'});
 		// error_log(print_r($AiMessage,true));
-		if(!isset($AiMessage['error'])){
+		if(isset($AiMessage['error'])){
+			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['error']['type'].": ".$AiMessage['error']['message']);
+		}elseif(isset($AiMessage['choices'][0]['message']['content'])){
 			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['choices'][0]['message']['content']);
 			$responseByAi = true;
-		}else{
-			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['error']['type'].": ".$AiMessage['error']['message']);
 		}
 
 	}
@@ -201,8 +208,6 @@ foreach($json_obj->{'events'} as $event){
 		$resp = $bot->replyMessage($reply_token, $message);
 	}
 
-	//ログ書き込み
-	writeChatLog($event);
 
 	//応答メッセージをロギング
 	if(isset($responseByAi)){
@@ -283,12 +288,26 @@ function unAccountLink($userId){
 //チャットログ書き込み
 function writeChatLog($event){
 	global $wpdb,$secret_prefix,$channelSecret;;
-	$table = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
+	$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 
 	$event_type = $source_type = $message_type = 0;
-	$user_id = "";
+	$user_id = $event_id = "";
 	$message = null;
 
+	$event_id = $event->{'webhookEventId'};
+	if(isset($event->{'deliveryContext'}->{'isRedelivery'})){
+		if($event->{'deliveryContext'}->{'isRedelivery'}){
+			//再送イベントならすでに記録されていないかチェック
+			$event_count = $wpdb->get_var( 
+				$query = $wpdb->prepare(
+					"SELECT COUNT(id) FROM {$table_name} WHERE event_id = %s ",  $event_id
+				)
+			);
+			if($event_count){
+				return true;
+			}
+		}
+	}
 	$event_type = array_search($event->{'type'}, lineconnect::WH_EVENT_TYPE) ?: 0;
 	if(isset($event->{'source'})){
 		$source_type = array_search($event->{'source'}->{'type'}, lineconnect::WH_SOURCE_TYPE) ?: 0;
@@ -305,18 +324,6 @@ function writeChatLog($event){
 	if($event_type == 1){
 		$message_type = array_search($event->{'message'}->{'type'}, lineconnect::WH_MESSAGE_TYPE) ?: 0;
 		$message = json_encode($event->{'message'});
-		/*
-		if($message_type == 1){	//text
-			$message = $event->{'message'}->{'text'};
-		}elseif($message_type == 2){ //image
-			if($event->{'message'}->{'contentProvider'}->{'type'} == 'line'){
-				$message = getMessageContent($event->{'message'}->{'id'});
-			}else{
-				$message = $event->{'contentProvider'}->{'originalContentUrl'};
-			}
-			
-		}
-		*/
 	}
 	$floatSec = $event->{'timestamp'}/1000.0;
 	$dateTime = DateTime::createFromFormat("U\.u", sprintf('%1.6F',$floatSec));
@@ -324,6 +331,7 @@ function writeChatLog($event){
 	$timestamp = $dateTime->format('Y-m-d H:i:s.u');
 
 	$data = [
+		'event_id' => $event_id,
 		'event_type' => $event_type,
 		'source_type' => $source_type,
 		'user_id' => $user_id,
@@ -333,6 +341,7 @@ function writeChatLog($event){
 		'timestamp' => $timestamp,
 	];
 	$format = [
+		'%s', //event_id
 		'%d', //event_type
 		'%d', //source_type
 		'%s', //user_id
@@ -342,7 +351,8 @@ function writeChatLog($event){
 		'%s', //timestamp
 	];
 
-	$wpdb->insert( $table, $data, $format ); 
+	$wpdb->insert( $table_name, $data, $format );
+	return false;
 }
 
 //メッセージコンテント取得
@@ -493,12 +503,13 @@ function getResponseByChatGPT($user_id, $bot_id, $prompt){
 //AIからの応答をロギング
 function writeAiResponse($event, $responseMessage){
 	global $wpdb,$secret_prefix,$channelSecret;;
-	$table = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
+	$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 
 	$event_type = $source_type = $message_type = 0;
 	$user_id = "";
 	$message = null;
 
+	$event_id = $event->{'webhookEventId'};
 	$event_type = array_search($event->{'type'}, lineconnect::WH_EVENT_TYPE) ?: 0;
 	$source_type = array_search('bot', lineconnect::WH_SOURCE_TYPE) ?: 0;
 	if(isset($event->{'source'})){
@@ -514,7 +525,7 @@ function writeAiResponse($event, $responseMessage){
 
 	if($event_type == 1){
 		$message_type = 1;
-		$message = json_encode(["type" => "text", "text" => $responseMessage]);
+		$message = json_encode(["type" => "text", "text" => $responseMessage, "for" => $event->{'message'}->{'id'}]);
 	}
 	$floatSec = microtime(true);
 	$dateTime = DateTime::createFromFormat("U\.u", sprintf('%1.6F',$floatSec));
@@ -522,6 +533,7 @@ function writeAiResponse($event, $responseMessage){
 	$timestamp = $dateTime->format('Y-m-d H:i:s.u');
 
 	$data = [
+		'event_id' => $event_id,
 		'event_type' => $event_type,
 		'source_type' => $source_type,
 		'user_id' => $user_id,
@@ -531,6 +543,7 @@ function writeAiResponse($event, $responseMessage){
 		'timestamp' => $timestamp,
 	];
 	$format = [
+		'%s', //event_id
 		'%d', //event_type
 		'%d', //source_type
 		'%s', //user_id
@@ -540,5 +553,5 @@ function writeAiResponse($event, $responseMessage){
 		'%s', //timestamp
 	];
 
-	$wpdb->insert( $table, $data, $format ); 
+	$wpdb->insert( $table_name, $data, $format ); 
 }

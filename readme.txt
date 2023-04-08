@@ -73,6 +73,9 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.5.1 =
+2023-04-08 Fixed a bug that caused duplicate events to be recorded when events were resubmitted.
+
 = 2.5.0 =
 2023-04-07 Added auto-responder feature using Chat GPT.
 

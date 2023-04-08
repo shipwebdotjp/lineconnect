@@ -4,7 +4,7 @@
   Plugin Name: LINE Connect
   Plugin URI: https://blog.shipweb.jp/archives/281
   Description: Account link between WordPress user ID and LINE ID
-  Version: 2.5.0
+  Version: 2.5.1
   Author: shipweb
   Author URI: https://blog.shipweb.jp/about
   License: GPLv3
@@ -520,6 +520,8 @@ class lineconnect {
         7 => 'sticker',
     );
 
+    const ASSETS_SVG_FILENAME = 'assets/symbol-defs.svg';
+
     /**
      * WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションにフックする、
      * LineConnectクラスのインスタンスを生成するStatic関数
@@ -633,10 +635,15 @@ class lineconnect {
 
             //ChatGPTとの会話ログ表示ショートコード
             add_shortcode( 'line_connect_chat_gpt_log',  ['lineconnectShortcodes','show_chat_log'] ); 
+
+            // ショートコード用のCSSを読み込むため
+            add_action( 'wp_enqueue_scripts', ['lineconnectShortcodes', 'enqueue_script'] );
+
         });
 
         //プラグイン有効化時に呼び出し
         register_activation_hook(__FILE__, [ $this, 'pluginActivation' ] );
+
     }
 
     /**
@@ -836,6 +843,7 @@ class lineconnect {
 
         $sql = "CREATE TABLE $table_name (
             id int(11) NOT NULL AUTO_INCREMENT,
+            event_id varchar(32) NOT NULL,
             event_type tinyint NOT NULL,
             source_type tinyint NOT NULL,
             user_id varchar(255) NOT NULL,
@@ -843,17 +851,20 @@ class lineconnect {
             message_type tinyint NOT NULL,
             message text,
             timestamp datetime(3) NOT NULL,
-            PRIMARY KEY  (id)
+            PRIMARY KEY  (id),
+            KEY user_id (user_id),
+            KEY event_id (event_id)
         ) $charset_collate;";
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
-        //インデックス作成
-        $sql_alter = "
-            ALTER TABLE `$table_name`
-            ADD KEY `user_id` (`user_id`);
-        ";
-        $wpdb->query( $sql_alter );
+        // //インデックス作成
+        // $sql_alter = "
+        //     ALTER TABLE `$table_name`
+        //     ADD KEY `user_id` (`user_id`),
+        //     ADD KEY `event_id` (`event_id`);
+        // ";
+        // $wpdb->query( $sql_alter );
 
     }
 
