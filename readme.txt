@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 4.9.13
 Tested up to: 5.8
-Stable tag: 2.5.0
+Stable tag: 2.5.2
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -73,6 +73,9 @@ Please see my blog article.(Japanese)
 [LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
 
 == Changelog ==
+= 2.5.1 =
+2023-07-07 Added linking feature with WP LINE Login.  
+
 = 2.5.1 =
 2023-04-08 Fixed a bug that caused duplicate events to be recorded when events were resubmitted.
 

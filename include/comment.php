@@ -2,7 +2,7 @@
 
 class lineconnectComment{
     static function comment_post_callback($comment_ID, $comment_approved ){
-        if( 1 === $comment_approved ){
+        if( $comment_approved === 1){
             $comment = get_comment( $comment_ID );
             self::line_send_comment($comment);
         }

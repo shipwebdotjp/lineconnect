@@ -4,7 +4,6 @@ class lineconnectMessage{
 
     //Flexメッセージを作成
     static function createFlexMessage($data, $atts = null){
-       
         // LINEBOT SDKの読み込み
         require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
         // 設定ファイルの読み込み
@@ -172,10 +171,8 @@ class lineconnectMessage{
         }
     }
 
-
     //プッシュ（一人のユーザーに送信）
     static function sendPushMessage($channel, $line_user_id, $message){
-                       
         // LINEBOT SDKの読み込み
         require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
 
@@ -203,7 +200,6 @@ class lineconnectMessage{
 
     //マルチキャスト（複数のユーザーに送信）
     static function sendMulticastMessage($channel, $line_user_ids, $message){
-                       
         // LINEBOT SDKの読み込み
         require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
 

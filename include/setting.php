@@ -321,11 +321,20 @@ EOM;
                                 echo "<input type='number' name='{$options['param']}' value='{$options['value']}' {$required} />{$hint}";
                                 break;
                             case 'checkbox':
+                                //チェックボックスを出力
                                 echo "<input type='checkbox' name='{$options['param']}' id='{$options['param']}' ".($options['value']?"checked":"")." >";
+                                break;
+                            case 'date':
+                                //日付セレクトボックスを出力
+                                echo "<input type='date' name='{$options['param']}' value='{$options['value']}' {$required} />{$hint}";
                                 break;
                             case 'textarea':
                                 //テキストエリア出力
-                                echo "<textarea name='{$options['param']}' rows='5' cols='30' {$required} >{$options['value']}</textarea>{$hint}";
+                                echo "<textarea name='{$options['param']}' rows='{$option_details['rows']}' cols='{$option_details['cols']}' {$required} >{$options['value']}</textarea>{$hint}";
+                                break;
+                            case 'range':
+                                //Range出力
+                                echo "<input type='range' name='{$options['param']}' value='{$options['value']}' min='{$option_details['min']}' max='{$option_details['max']}' step='{$option_details['step']}' {$required} />{$hint}";
                                 break;
                             default:
                                 //テキストボックス出力

@@ -11,7 +11,7 @@ Growniche社の[LINE AUTO POST](https://s-page.biz/line-auto-post/#home)を元�
 * 連携済みのユーザーだけにLINE送信が可能
 * 特定のロールのユーザーだけにLINE送信が可能
 * 投稿画面での送信するかどうかのチェックボックスが右カラムに表示される
-* 新規投稿の場合は自動的に送信チェックボックスにチェックが付く
+* 新規投稿の場合は自動的に送信チェックボックスにチェックが付く(設定で変更可能)
 * 管理画面での設定メニューがトップメニューではなく設定メニュのサブメニューとして表示される
 * 通知メッセージをFlexメッセージに変更し、アイキャッチ画像を含めたレイアウトで通知
 * 予約投稿の公開時にLINE送信が可能
@@ -19,6 +19,8 @@ Growniche社の[LINE AUTO POST](https://s-page.biz/line-auto-post/#home)を元�
 ## 独自機能
 ### LINEチャット
 * 任意のLINEメッセージを個別ユーザーに送信可能
+### WP LINE Loginとの連携機能
+* WP LINE Loginをインストールし、Messaging APIが設定されている場合、連携と同時にログイン連携も可能
 
 ## インストール方法
 1. [GitHub](https://github.com/shipwebdotjp/lineconnect/releases)より最新版のZIPファイルをダウンロードします。
@@ -245,6 +247,13 @@ LINE連携カラムの「連携済」リンクからLINEチャットページへ
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-12.jpg" width="320">  
 チェックしたユーザーが指定された状態でLINEチャット画面が開きます。  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-13.jpg" width="320">  
+
+### WP LINE Loginとの連携機能
+下記の条件を満たす場合、LINE Connectでユーザー連携を行った際に、WP LINE Loginにおいても、該当ユーザーをLINEログイン連携状態にさせることが可能です。  
+* WP LINE Loginがインストールされている
+* LINE Loginの設定で「Messaging APIチャネルシークレット」が、LINE Coonectの「チャネルシークレット」と一致している
+
+連携解除した場合、LINEログイン連携状態も解除されます。
 
 ## カスタマイズ・プラグイン作成
 その他さまざまなカスタマイズを有償で承ります。[連絡先はこちら](https://blog.shipweb.jp/contact)
