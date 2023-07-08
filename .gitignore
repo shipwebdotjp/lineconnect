@@ -2,3 +2,6 @@ test.php
 deploy
 node_modules/
 log/
+Makefile
+release.sh
+.env
