@@ -6,7 +6,7 @@
 require_once('vendor/autoload.php'); // LINE BOT SDKを読み込み
 require_once('../../../wp-load.php'); // WordPressの基本機能を読み込み
 require_once('lineconnect.php'); // LINE Connectを読み込み
-require_once('include/message.php'); // メッセージ関連を読み込み
+// require_once('include/message.php'); // メッセージ関連を読み込み
 
 //JSONリクエストボディを取得
 $json_string = file_get_contents('php://input');
@@ -61,7 +61,8 @@ $json_obj = json_decode($json_string);
 foreach ($json_obj->{'events'} as $event) {
 	$message = null;
 	//ログ書き込み
-	$isEventDuplicationOrInsertedId = writeChatLog($event);
+	$botlog = new lineconnectBotLog($event);
+	$isEventDuplicationOrInsertedId = $botlog->writeChatLog();
 	if ($isEventDuplicationOrInsertedId === true) {
 		//イベントがすでに記録されていればスキップ
 		continue;
@@ -191,21 +192,19 @@ foreach ($json_obj->{'events'} as $event) {
 	if ($type === 'message' && in_array($event->{'message'}->{'type'}, ['image', 'video', 'audio', 'file']) && $event->{'message'}->{'contentProvider'}->{'type'} === 'line') {
 		//save content 
 		$saved_content_file_name = getMessageContent($event->{'message'}->{'id'}, isset($event->{'source'}->{'userId'}) ? $event->{'source'}->{'userId'} : "_none");
-		error_log($saved_content_file_name);
+
 		//update filepath to log table
 		$result = update_message_filepath($isEventDuplicationOrInsertedId, $saved_content_file_name);
-		error_log("update:" . $result);
 	}
 
 	if (!isset($message) && $type === 'message' && $event->{'message'}->{'type'}  === 'text' && $event->{'message'}->{'text'} != null && lineconnect::get_option('enableChatbot') == 'on') {
 		//AIで応答する
-		$AiMessage = getResponseByChatGPT($event->{'source'}->{'userId'}, $secret_prefix, $event->{'message'}->{'text'});
-		if (isset($AiMessage['error'])) {
-			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['error']['type'] . ": " . $AiMessage['error']['message']);
-		} elseif (isset($AiMessage['choices'][0]['message']['content'])) {
-			$message =  new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['choices'][0]['message']['content']);
-			$responseByAi = true;
-		}
+		$openAi = new lineconnectOpenAi();
+		$gptResponse = $openAi->getResponseByChatGPT($event->{'source'}->{'userId'}, $secret_prefix, [
+			"role" => "user",
+			"content" => $event->{'message'}->{'text'}]);
+		$message = $gptResponse['message'];
+		$responseByAi = $gptResponse['responseByAi'];
 	}
 
 	//応答メッセージがあれば送信する
@@ -219,8 +218,8 @@ foreach ($json_obj->{'events'} as $event) {
 	}
 
 	//応答メッセージをロギング
-	if (isset($responseByAi)) {
-		writeAiResponse($event, $AiMessage['choices'][0]['message']['content']);
+	if (isset($responseByAi) && $responseByAi === true) {
+		$botlog->writeAiResponse($gptResponse['rowResponse']['choices'][0]['message']['content']);
 		$responseByAi = null;
 	}
 }
@@ -296,78 +295,6 @@ function unAccountLink($userId) {
 	return $mes;
 }
 
-//チャットログ書き込み
-function writeChatLog($event) {
-	global $wpdb, $secret_prefix, $channelSecret;;
-	$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
-
-	$event_type = $source_type = $message_type = 0;
-	$user_id = $event_id = "";
-	$message = null;
-
-	$event_id = $event->{'webhookEventId'};
-	if (isset($event->{'deliveryContext'}->{'isRedelivery'})) {
-		if ($event->{'deliveryContext'}->{'isRedelivery'}) {
-			//再送イベントならすでに記録されていないかチェック
-			$event_count = $wpdb->get_var(
-				$query = $wpdb->prepare(
-					"SELECT COUNT(id) FROM {$table_name} WHERE event_id = %s ",
-					$event_id
-				)
-			);
-			if ($event_count) {
-				return true;
-			}
-		}
-	}
-	$event_type = array_search($event->{'type'}, lineconnect::WH_EVENT_TYPE) ?: 0;
-	if (isset($event->{'source'})) {
-		$source_type = array_search($event->{'source'}->{'type'}, lineconnect::WH_SOURCE_TYPE) ?: 0;
-		if (isset($event->{'source'}->{'userId'})) {
-			$user_id = $event->{'source'}->{'userId'};
-		} else {
-			$user_id = "";
-		}
-	} else {
-		$source_type = 0;
-		$user_id = "";
-	}
-
-	if ($event_type == 1) {
-		$message_type = array_search($event->{'message'}->{'type'}, lineconnect::WH_MESSAGE_TYPE) ?: 0;
-		$message = json_encode($event->{'message'});
-	}
-	$floatSec = $event->{'timestamp'} / 1000.0;
-	$dateTime = DateTime::createFromFormat("U\.u", sprintf('%1.6F', $floatSec));
-	$dateTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-	$timestamp = $dateTime->format('Y-m-d H:i:s.u');
-
-	$data = [
-		'event_id' => $event_id,
-		'event_type' => $event_type,
-		'source_type' => $source_type,
-		'user_id' => $user_id,
-		'bot_id' => $secret_prefix,
-		'message_type' => $message_type,
-		'message' => $message,
-		'timestamp' => $timestamp,
-	];
-	$format = [
-		'%s', //event_id
-		'%d', //event_type
-		'%d', //source_type
-		'%s', //user_id
-		'%s', //bot_id
-		'%d', //message_type
-		'%s', //message
-		'%s', //timestamp
-	];
-
-	$wpdb->insert($table_name, $data, $format);
-	//get inserted id
-	$inserted_id = $wpdb->insert_id;
-	return $inserted_id;
-}
 
 //メッセージコンテント取得
 function getMessageContent($messageId, $userId) {
@@ -438,379 +365,13 @@ function make_lineconnect_dir($user_dir) {
 
 //MIME type to file Extension
 function get_file_extention($mime_type) {
-	$file_extention = '';
-	$mime_map = [
-		'video/3gpp2'                                                               => '3g2',
-		'video/3gp'                                                                 => '3gp',
-		'video/3gpp'                                                                => '3gp',
-		'application/x-compressed'                                                  => '7zip',
-		'audio/x-acc'                                                               => 'aac',
-		'audio/ac3'                                                                 => 'ac3',
-		'application/postscript'                                                    => 'ai',
-		'audio/x-aiff'                                                              => 'aif',
-		'audio/aiff'                                                                => 'aif',
-		'audio/x-au'                                                                => 'au',
-		'video/x-msvideo'                                                           => 'avi',
-		'video/msvideo'                                                             => 'avi',
-		'video/avi'                                                                 => 'avi',
-		'application/x-troff-msvideo'                                               => 'avi',
-		'application/macbinary'                                                     => 'bin',
-		'application/mac-binary'                                                    => 'bin',
-		'application/x-binary'                                                      => 'bin',
-		'application/x-macbinary'                                                   => 'bin',
-		'image/bmp'                                                                 => 'bmp',
-		'image/x-bmp'                                                               => 'bmp',
-		'image/x-bitmap'                                                            => 'bmp',
-		'image/x-xbitmap'                                                           => 'bmp',
-		'image/x-win-bitmap'                                                        => 'bmp',
-		'image/x-windows-bmp'                                                       => 'bmp',
-		'image/ms-bmp'                                                              => 'bmp',
-		'image/x-ms-bmp'                                                            => 'bmp',
-		'application/bmp'                                                           => 'bmp',
-		'application/x-bmp'                                                         => 'bmp',
-		'application/x-win-bitmap'                                                  => 'bmp',
-		'application/cdr'                                                           => 'cdr',
-		'application/coreldraw'                                                     => 'cdr',
-		'application/x-cdr'                                                         => 'cdr',
-		'application/x-coreldraw'                                                   => 'cdr',
-		'image/cdr'                                                                 => 'cdr',
-		'image/x-cdr'                                                               => 'cdr',
-		'zz-application/zz-winassoc-cdr'                                            => 'cdr',
-		'application/mac-compactpro'                                                => 'cpt',
-		'application/pkix-crl'                                                      => 'crl',
-		'application/pkcs-crl'                                                      => 'crl',
-		'application/x-x509-ca-cert'                                                => 'crt',
-		'application/pkix-cert'                                                     => 'crt',
-		'text/css'                                                                  => 'css',
-		'text/x-comma-separated-values'                                             => 'csv',
-		'text/comma-separated-values'                                               => 'csv',
-		'application/vnd.msexcel'                                                   => 'csv',
-		'application/x-director'                                                    => 'dcr',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document'   => 'docx',
-		'application/x-dvi'                                                         => 'dvi',
-		'message/rfc822'                                                            => 'eml',
-		'application/x-msdownload'                                                  => 'exe',
-		'video/x-f4v'                                                               => 'f4v',
-		'audio/x-flac'                                                              => 'flac',
-		'video/x-flv'                                                               => 'flv',
-		'image/gif'                                                                 => 'gif',
-		'application/gpg-keys'                                                      => 'gpg',
-		'application/x-gtar'                                                        => 'gtar',
-		'application/x-gzip'                                                        => 'gzip',
-		'application/mac-binhex40'                                                  => 'hqx',
-		'application/mac-binhex'                                                    => 'hqx',
-		'application/x-binhex40'                                                    => 'hqx',
-		'application/x-mac-binhex40'                                                => 'hqx',
-		'text/html'                                                                 => 'html',
-		'image/x-icon'                                                              => 'ico',
-		'image/x-ico'                                                               => 'ico',
-		'image/vnd.microsoft.icon'                                                  => 'ico',
-		'text/calendar'                                                             => 'ics',
-		'application/java-archive'                                                  => 'jar',
-		'application/x-java-application'                                            => 'jar',
-		'application/x-jar'                                                         => 'jar',
-		'image/jp2'                                                                 => 'jp2',
-		'video/mj2'                                                                 => 'jp2',
-		'image/jpx'                                                                 => 'jp2',
-		'image/jpm'                                                                 => 'jp2',
-		'image/jpeg'                                                                => 'jpeg',
-		'image/pjpeg'                                                               => 'jpeg',
-		'application/x-javascript'                                                  => 'js',
-		'application/json'                                                          => 'json',
-		'text/json'                                                                 => 'json',
-		'application/vnd.google-earth.kml+xml'                                      => 'kml',
-		'application/vnd.google-earth.kmz'                                          => 'kmz',
-		'text/x-log'                                                                => 'log',
-		'audio/x-m4a'                                                               => 'm4a',
-		'audio/mp4'                                                                 => 'm4a',
-		'application/vnd.mpegurl'                                                   => 'm4u',
-		'audio/midi'                                                                => 'mid',
-		'application/vnd.mif'                                                       => 'mif',
-		'video/quicktime'                                                           => 'mov',
-		'video/x-sgi-movie'                                                         => 'movie',
-		'audio/mpeg'                                                                => 'mp3',
-		'audio/mpg'                                                                 => 'mp3',
-		'audio/mpeg3'                                                               => 'mp3',
-		'audio/mp3'                                                                 => 'mp3',
-		'video/mp4'                                                                 => 'mp4',
-		'video/mpeg'                                                                => 'mpeg',
-		'application/oda'                                                           => 'oda',
-		'audio/ogg'                                                                 => 'ogg',
-		'video/ogg'                                                                 => 'ogg',
-		'application/ogg'                                                           => 'ogg',
-		'font/otf'                                                                  => 'otf',
-		'application/x-pkcs10'                                                      => 'p10',
-		'application/pkcs10'                                                        => 'p10',
-		'application/x-pkcs12'                                                      => 'p12',
-		'application/x-pkcs7-signature'                                             => 'p7a',
-		'application/pkcs7-mime'                                                    => 'p7c',
-		'application/x-pkcs7-mime'                                                  => 'p7c',
-		'application/x-pkcs7-certreqresp'                                           => 'p7r',
-		'application/pkcs7-signature'                                               => 'p7s',
-		'application/pdf'                                                           => 'pdf',
-		'application/octet-stream'                                                  => 'pdf',
-		'application/x-x509-user-cert'                                              => 'pem',
-		'application/x-pem-file'                                                    => 'pem',
-		'application/pgp'                                                           => 'pgp',
-		'application/x-httpd-php'                                                   => 'php',
-		'application/php'                                                           => 'php',
-		'application/x-php'                                                         => 'php',
-		'text/php'                                                                  => 'php',
-		'text/x-php'                                                                => 'php',
-		'application/x-httpd-php-source'                                            => 'php',
-		'image/png'                                                                 => 'png',
-		'image/x-png'                                                               => 'png',
-		'application/powerpoint'                                                    => 'ppt',
-		'application/vnd.ms-powerpoint'                                             => 'ppt',
-		'application/vnd.ms-office'                                                 => 'ppt',
-		'application/msword'                                                        => 'doc',
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-		'application/x-photoshop'                                                   => 'psd',
-		'image/vnd.adobe.photoshop'                                                 => 'psd',
-		'audio/x-realaudio'                                                         => 'ra',
-		'audio/x-pn-realaudio'                                                      => 'ram',
-		'application/x-rar'                                                         => 'rar',
-		'application/rar'                                                           => 'rar',
-		'application/x-rar-compressed'                                              => 'rar',
-		'audio/x-pn-realaudio-plugin'                                               => 'rpm',
-		'application/x-pkcs7'                                                       => 'rsa',
-		'text/rtf'                                                                  => 'rtf',
-		'text/richtext'                                                             => 'rtx',
-		'video/vnd.rn-realvideo'                                                    => 'rv',
-		'application/x-stuffit'                                                     => 'sit',
-		'application/smil'                                                          => 'smil',
-		'text/srt'                                                                  => 'srt',
-		'image/svg+xml'                                                             => 'svg',
-		'application/x-shockwave-flash'                                             => 'swf',
-		'application/x-tar'                                                         => 'tar',
-		'application/x-gzip-compressed'                                             => 'tgz',
-		'image/tiff'                                                                => 'tiff',
-		'font/ttf'                                                                  => 'ttf',
-		'text/plain'                                                                => 'txt',
-		'text/x-vcard'                                                              => 'vcf',
-		'application/videolan'                                                      => 'vlc',
-		'text/vtt'                                                                  => 'vtt',
-		'audio/x-wav'                                                               => 'wav',
-		'audio/wave'                                                                => 'wav',
-		'audio/wav'                                                                 => 'wav',
-		'application/wbxml'                                                         => 'wbxml',
-		'video/webm'                                                                => 'webm',
-		'image/webp'                                                                => 'webp',
-		'audio/x-ms-wma'                                                            => 'wma',
-		'application/wmlc'                                                          => 'wmlc',
-		'video/x-ms-wmv'                                                            => 'wmv',
-		'video/x-ms-asf'                                                            => 'wmv',
-		'font/woff'                                                                 => 'woff',
-		'font/woff2'                                                                => 'woff2',
-		'application/xhtml+xml'                                                     => 'xhtml',
-		'application/excel'                                                         => 'xl',
-		'application/msexcel'                                                       => 'xls',
-		'application/x-msexcel'                                                     => 'xls',
-		'application/x-ms-excel'                                                    => 'xls',
-		'application/x-excel'                                                       => 'xls',
-		'application/x-dos_ms_excel'                                                => 'xls',
-		'application/xls'                                                           => 'xls',
-		'application/x-xls'                                                         => 'xls',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'         => 'xlsx',
-		'application/vnd.ms-excel'                                                  => 'xlsx',
-		'application/xml'                                                           => 'xml',
-		'text/xml'                                                                  => 'xml',
-		'text/xsl'                                                                  => 'xsl',
-		'application/xspf+xml'                                                      => 'xspf',
-		'application/x-compress'                                                    => 'z',
-		'application/x-zip'                                                         => 'zip',
-		'application/zip'                                                           => 'zip',
-		'application/x-zip-compressed'                                              => 'zip',
-		'application/s-compressed'                                                  => 'zip',
-		'multipart/x-zip'                                                           => 'zip',
-		'text/x-scriptzsh'                                                          => 'zsh',
-	];
-
-	return isset($mime_map[$mime_type]) ? $mime_map[$mime_type] : 'bin';
-}
-
-//ChatGPTで応答作成
-function getResponseByChatGPT($user_id, $bot_id, $prompt) {
-	global $wpdb, $secret_prefix;
-
-	$apiKey = lineconnect::get_option('openai_secret');
-	$url = 'https://api.openai.com/v1/chat/completions';
-
-	$headers = array(
-		"Authorization: Bearer {$apiKey}",
-		"Content-Type: application/json"
-	);
-
-	// Define messages
-	$messages = array();
-
-	if (lineconnect::get_option('openai_system')) {
-		$system_message = [
-			"role" => "system",
-			"content" => lineconnect::get_option('openai_system')
-		];
-
-		$messages[] = $system_message;
-	}
-
-	//過去の文脈を取得
-	if (isset($user_id)) {
-		$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
-		$context_num = intval(lineconnect::get_option('openai_context') * 2);
-
-		$limit_normal = intval(lineconnect::get_option('openai_limit_normal'));
-		$limit_linked = intval(lineconnect::get_option('openai_limit_linked'));
-		$overlimit = false;
-		if ($limit_normal != -1 || $limit_linked != -1) {
-
-			$convasation_count = $wpdb->get_var(
-				$wpdb->prepare(
-					"
-				SELECT COUNT(id) 
-				FROM {$table_name}
-				WHERE event_type = 1 AND source_type = 11 AND user_id = %s AND bot_id = %s AND DATE(timestamp) = CURDATE()
-				",
-					array(
-						$user_id,
-						$bot_id,
-					)
-				)
-			);
-
-			//メタ情報からLINEユーザーIDでユーザー検索
-			$user = lineconnect::get_wpuser_from_line_id($secret_prefix, $user_id);
-			if ($user) { //ユーザーが見つかればすでに連携されている
-				$limit_count = $limit_linked;
-			} else {
-				$limit_count = $limit_normal;
-			}
-			if ($limit_count != -1 && $convasation_count >= $limit_count) {
-				return  ['error' => [
-					'type' => 'エラー',
-					'message' => str_replace('%limit%', $limit_count, lineconnect::get_option('openai_limit_message'))
-				]];
-			}
-		}
-
-		$convasations = $wpdb->get_results(
-			$wpdb->prepare(
-				"
-			SELECT event_type,source_type,message_type,message 
-			FROM {$table_name}
-			WHERE event_type = 1 AND user_id = %s AND bot_id = %s
-			ORDER BY id desc
-			LIMIT 0, {$context_num}
-			",
-				array(
-					$user_id,
-					$bot_id,
-				)
-			)
-		);
-
-		foreach (array_reverse($convasations) as $convasation) {
-			$role = $convasation->source_type == 11 ? "assistant" : "user";
-			$message_object = json_decode($convasation->message, false);
-			if (json_last_error() == JSON_ERROR_NONE) {
-				if ($convasation->message_type == 1 && isset($message_object->text)) {
-					$messages[] = [
-						"role" => $role,
-						"content" => $message_object->text
-					];
-				}
-			}
-		}
-	}
-
-	//今回の質問
-	$messages[] = [
-		"role" => "user",
-		"content" => $prompt
-	];
-
-	// Define data
-	$data = array();
-	$data["model"] = lineconnect::get_option('openai_model');
-	$data["messages"] = $messages;
-	$data["max_tokens"] = intval(lineconnect::get_option('openai_max_tokens'));
-	$data["temperature"] =  floatval(lineconnect::get_option('openai_temperature'));
-	$data["user"] = $user_id;
-
-	// error_log(print_r($messages, true));
-
-	// init curl
-	$curl = curl_init($url);
-	curl_setopt($curl, CURLOPT_POST, 1);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-	$result = curl_exec($curl);
-	if (curl_errno($curl)) {
-		$responce = ['error' => curl_error($curl)];
-	} else {
-		$responce = json_decode($result, true);
-	}
-	curl_close($curl);
-	return $responce;
-}
-
-//AIからの応答をロギング
-function writeAiResponse($event, $responseMessage) {
-	global $wpdb, $secret_prefix, $channelSecret;;
-	$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
-
-	$event_type = $source_type = $message_type = 0;
-	$user_id = "";
-	$message = null;
-
-	$event_id = $event->{'webhookEventId'};
-	$event_type = array_search($event->{'type'}, lineconnect::WH_EVENT_TYPE) ?: 0;
-	$source_type = array_search('bot', lineconnect::WH_SOURCE_TYPE) ?: 0;
-	if (isset($event->{'source'})) {
-		//$source_type = array_search($event->{'source'}->{'type'}, lineconnect::WH_SOURCE_TYPE) ?: 0;
-		if (isset($event->{'source'}->{'userId'})) {
-			$user_id = $event->{'source'}->{'userId'};
-		}
-	}
-
-	if ($event_type == 1) {
-		$message_type = 1;
-		$message = json_encode(["type" => "text", "text" => $responseMessage, "for" => $event->{'message'}->{'id'}]);
-	}
-	$floatSec = microtime(true);
-	$dateTime = DateTime::createFromFormat("U\.u", sprintf('%1.6F', $floatSec));
-	$dateTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-	$timestamp = $dateTime->format('Y-m-d H:i:s.u');
-
-	$data = [
-		'event_id' => $event_id,
-		'event_type' => $event_type,
-		'source_type' => $source_type,
-		'user_id' => $user_id,
-		'bot_id' => $secret_prefix,
-		'message_type' => $message_type,
-		'message' => $message,
-		'timestamp' => $timestamp,
-	];
-	$format = [
-		'%s', //event_id
-		'%d', //event_type
-		'%d', //source_type
-		'%s', //user_id
-		'%s', //bot_id
-		'%d', //message_type
-		'%s', //message
-		'%s', //timestamp
-	];
-
-	$wpdb->insert($table_name, $data, $format);
+	return lineconnectConst::MIME_MAP[$mime_type] ?? 'bin';
 }
 
 //update message
 function update_message_filepath($logId, $file_path) {
 	global $wpdb;
-	$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
+	$table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
 	//get row from log table
 	$row = $wpdb->get_row("SELECT * FROM {$table_name} WHERE id = {$logId}");
 	if ($row) {

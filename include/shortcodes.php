@@ -1,23 +1,25 @@
 <?php
+
 /**
  * Lineconnect
  * ショートコード
  */
-class lineconnectShortcodes{
-    static function show_chat_log($atts, $content = null, $tag = ''){
-        global $wpdb;
-        $table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS; 
-        $assets_svg_url = plugins_url( lineconnect::ASSETS_SVG_FILENAME, dirname(__FILE__) );
-        
-        wp_enqueue_style( 'slc-chat' );
+class lineconnectShortcodes {
+	static function show_chat_log($atts, $content = null, $tag = '') {
+		global $wpdb;
+		require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php'); //cebe/markdownを読み込み
+		$table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+		$assets_svg_url = plugins_url(lineconnectConst::ASSETS_SVG_FILENAME, dirname(__FILE__));
 
-        $atts = wp_parse_args($atts, array(
-            'user_id'  => null,
-            'bot_id'  => null,
-            'date'  => null,
-            'max_num' => 20,
-        ));
-        $output = <<<EOL
+		wp_enqueue_style('slc-chat');
+
+		$atts = wp_parse_args($atts, array(
+			'user_id'  => null,
+			'bot_id'  => null,
+			'date'  => null,
+			'max_num' => 20,
+		));
+		$output = <<<EOL
         <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
         <symbol id="icon-chatgpt" viewBox="0 0 32 32">
@@ -32,43 +34,43 @@ class lineconnectShortcodes{
         <section class='chatbox'>
         <section class='chat-window'>
 EOL;
-        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-        $start = ($paged - 1) * $atts['max_num'];
+		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		$start = ($paged - 1) * $atts['max_num'];
 
-        $keyvalues = array();
-        if(isset($atts['user_id'])){
-            $keyvalues[] = ["key" => "AND user_id = %s ", "value" => $atts['user_id']];
-        }
-        if(isset($atts['bot_id'])){
-            $keyvalues[] = ["key" => "AND bot_id = %s ", "value" => $atts['bot_id']];
-        }
-        if(isset($atts['date']) && ($timestamp = strtotime($atts['date'])) !== false){
-            $keyvalues[] = ["key" => "AND DATE(timestamp) = %s ", "value" => date("Y-m-d", $timestamp)];
-        }
+		$keyvalues = array();
+		if (isset($atts['user_id'])) {
+			$keyvalues[] = ["key" => "AND user_id = %s ", "value" => $atts['user_id']];
+		}
+		if (isset($atts['bot_id'])) {
+			$keyvalues[] = ["key" => "AND bot_id = %s ", "value" => $atts['bot_id']];
+		}
+		if (isset($atts['date']) && ($timestamp = strtotime($atts['date'])) !== false) {
+			$keyvalues[] = ["key" => "AND DATE(timestamp) = %s ", "value" => date("Y-m-d", $timestamp)];
+		}
 
-        $addtional_query = "";
+		$addtional_query = "";
 
-        if(!empty($keyvalues)){
-            $keys = "";
-            $values=[];
-            foreach($keyvalues as $keyval){
-                $keys .= $keyval["key"];
-                $values[] = $keyval["value"];
-            }
-            $addtional_query = $wpdb->prepare( $keys, $values );            
-        }
+		if (!empty($keyvalues)) {
+			$keys = "";
+			$values = [];
+			foreach ($keyvalues as $keyval) {
+				$keys .= $keyval["key"];
+				$values[] = $keyval["value"];
+			}
+			$addtional_query = $wpdb->prepare($keys, $values);
+		}
 
-        $query = "
+		$query = "
             SELECT COUNT(id) 
             FROM {$table_name}
             WHERE event_type = 1 
-            {$addtional_query}";        
-        
-        $convasation_count = $wpdb->get_var( $query );
+            {$addtional_query}";
 
-        $convasations = $wpdb->get_results( 
-			$wpdb->prepare( 
-			"
+		$convasation_count = $wpdb->get_var($query);
+
+		$convasations = $wpdb->get_results(
+			$wpdb->prepare(
+				"
 			SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp 
 			FROM {$table_name}
 			WHERE event_type = 1
@@ -76,39 +78,41 @@ EOL;
             ORDER BY id desc
 			LIMIT %d, %d
 			",
-			[$start, $atts['max_num']]
+				[$start, $atts['max_num']]
 			)
 		);
-        //error_log("start:".$start);
+		//error_log("start:".$start);
 
-        foreach( array_reverse($convasations) as $convasation){
+		$parser = new \cebe\markdown\GithubMarkdown();
 
-            $msg_type = $convasation->source_type == 11 ? "msg-remote" : "msg-self";
-            $msg_name = $convasation->source_type == 11 ? "Chat GPT" : substr($convasation->user_id,-4);
-            $msg_time = date("Y/m/d H:i:s",$convasation->timestamp);
-            $msg_text = null;
-            $message_object = json_decode($convasation->message,false);
-            if(json_last_error() == JSON_ERROR_NONE){
-                if($convasation->message_type == 1 && isset($message_object->text)){
-                    $msg_text = nl2br( $message_object->text );
-                }
-            }
-            if(empty($msg_text)){
-                continue;
-            }
-            $user_img = $convasation->source_type != 11 ? "<svg class=\"user-img\"><use xlink:href=\"#icon-user\"></use></svg>":"";
-            $ai_img = $convasation->source_type == 11 ? "<svg class=\"user-img\"><use xlink:href=\"#icon-chatgpt\"></use></svg>":"";
-        
-            $output .= <<<EOL
+		foreach (array_reverse($convasations) as $convasation) {
+
+			$msg_type = $convasation->source_type == 11 ? "msg-remote" : "msg-self";
+			$msg_name = $convasation->source_type == 11 ? "Chat GPT" : substr($convasation->user_id, -4);
+			$msg_time = date("Y/m/d H:i:s", $convasation->timestamp);
+			$msg_text = null;
+			$message_object = json_decode($convasation->message, false);
+			if (json_last_error() == JSON_ERROR_NONE) {
+				if ($convasation->message_type == 1 && isset($message_object->text)) {
+					$msg_text = $parser->parse($message_object->text);
+				}
+			}
+			if (empty($msg_text)) {
+				continue;
+			}
+			$user_img = $convasation->source_type != 11 ? "<svg class=\"user-img\"><use xlink:href=\"#icon-user\"></use></svg>" : "";
+			$ai_img = $convasation->source_type == 11 ? "<svg class=\"user-img\"><use xlink:href=\"#icon-chatgpt\"></use></svg>" : "";
+
+			$output .= <<<EOL
         
         <article class="msg-container {$msg_type}" id="msg-{$convasation->id}">
         <div class="msg-box">
           {$ai_img}
           <div class="flr">
             <div class="messages">
-              <p class="msg">
+              <div class="msg">
                 {$msg_text}
-              </p>
+              </div>
             </div>
             <span class="timestamp"><span class="username">{$msg_name}</span>&bull;<span class="posttime">{$msg_time}</span></span>
           </div>
@@ -116,32 +120,32 @@ EOL;
         </div>
       </article>
 EOL;
-        }
-        $output .= "</section></section>";
+		}
+		$output .= "</section></section>";
 
-        $output .= "<div class=\"pnavi\">";
-        $paginate_base = get_pagenum_link(1);
-        $paginate_format = (substr($paginate_base,-1,1) == '/' ? '' : '/') . user_trailingslashit('page/%#%/','paged');
-        $paginate_base .= '%_%';
-        $total_page_cnt = ceil($convasation_count /  $atts['max_num'] );
+		$output .= "<div class=\"pnavi\">";
+		$paginate_base = get_pagenum_link(1);
+		$paginate_format = (substr($paginate_base, -1, 1) == '/' ? '' : '/') . user_trailingslashit('page/%#%/', 'paged');
+		$paginate_base .= '%_%';
+		$total_page_cnt = ceil($convasation_count /  $atts['max_num']);
 
-        $output .=  paginate_links(array(
-           'base' => $paginate_base,
-           'format' => $paginate_format,
-           'total' => $total_page_cnt,
-           'mid_size' => 1,
-           'current' => ($paged ? $paged : 1),
-           'prev_text' => '&lt;',
-           'next_text' => '&gt;',
-       ));
-       
-       $output .= "</div>";
+		$output .=  paginate_links(array(
+			'base' => $paginate_base,
+			'format' => $paginate_format,
+			'total' => $total_page_cnt,
+			'mid_size' => 1,
+			'current' => ($paged ? $paged : 1),
+			'prev_text' => '&lt;',
+			'next_text' => '&gt;',
+		));
 
-        return $output;
-    }
+		$output .= "</div>";
 
-    //ショートコード用にスクリプト登録
-    static function enqueue_script(){
-        wp_register_style( 'slc-chat', plugins_url( 'css/slc_chat.css' , dirname(__FILE__) ) );
-    }
+		return $output;
+	}
+
+	//ショートコード用にスクリプト登録
+	static function enqueue_script() {
+		wp_register_style('slc-chat', plugins_url('css/slc_chat.css', dirname(__FILE__)));
+	}
 }

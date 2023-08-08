@@ -1,33 +1,41 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => NULL,
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => NULL,
-    'name' => '__root__',
-  ),
-  'versions' => 
-  array (
-    '__root__' => 
-    array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => NULL,
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => NULL,
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'cebe/markdown' => array(
+            'pretty_version' => '1.1.2',
+            'version' => '1.1.2.0',
+            'reference' => '25b28bae8a6f185b5030673af77b32e1163d5c6e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../cebe/markdown',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'linecorp/line-bot-sdk' => array(
+            'pretty_version' => '6.0.0',
+            'version' => '6.0.0.0',
+            'reference' => '88fc4afb3c50315708b1c4487845d9c03c44a62b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../linecorp/line-bot-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-    'linecorp/line-bot-sdk' => 
-    array (
-      'pretty_version' => '6.0.0',
-      'version' => '6.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '88fc4afb3c50315708b1c4487845d9c03c44a62b',
-    ),
-  ),
 );

@@ -2,7 +2,7 @@
 LINE ConnectはWordpressユーザーとLINEユーザーを連携させるプラグインです。  
 Wordpressの投稿を連携済みのWordpressユーザーへ通知したり、連携済みかそうでないかに応じて異なるリッチメニューを登録することができます。  
 Growniche社の[LINE AUTO POST](https://s-page.biz/line-auto-post/#home)を元に改変したものです。  
-公式サイトはこちら→[LINEと連携させるWordPressプラグイン「LINE Connect」](https://blog.shipweb.jp/archives/281)  
+公式サイトはこちら→[LINEと連携させるWordPressプラグイン「LINE Connect」](https://blog.shipweb.jp/lineconnect/)  
 デモサイトはこちら→[SHIP LAB](https://gpt.shipweb.jp/)  
 ## オリジナルとの違い  
 ### Wordpressユーザーとの連携機能

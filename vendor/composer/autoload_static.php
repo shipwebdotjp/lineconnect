@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit25e6a4139d918b21922886b776894607
 {
     public static $prefixLengthsPsr4 = array (
+        'c' => 
+        array (
+            'cebe\\markdown\\' => 14,
+        ),
         'L' => 
         array (
             'LINE\\' => 5,
@@ -14,6 +18,10 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
     );
 
     public static $prefixDirsPsr4 = array (
+        'cebe\\markdown\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
         'LINE\\' => 
         array (
             0 => __DIR__ . '/..' . '/linecorp/line-bot-sdk/src',

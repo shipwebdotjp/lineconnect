@@ -47,6 +47,7 @@
 }
 .messages {
     flex: 1 0 auto;
+	max-width: 100%; 
 }
 .msg {
     display: inline-block;
@@ -54,6 +55,7 @@
     line-height: 180%;
     color: rgba(255,255,255,.7);
     margin: 0 0 4px 0;
+	max-width: 100%; 
 }
 .msg:first-of-type {
     margin-top: 8px;
@@ -82,4 +84,11 @@
 }
 .msg-self .timestamp {
     text-align: right;
+}
+
+.msg pre{
+	background-color: rgba(64,64,64,.7);
+	color: rgba(255,255,255,.9);
+	border: 1px solid #333;
+	overflow-x: auto;
 }

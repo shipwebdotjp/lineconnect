@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
+const __ = wp.i18n.__;
 
 const ChatTo = (props) => {
     return <>
-        <div className="py-2 px-4 bg-blue-200">Type</div>
+        <div className="py-2 px-4 bg-blue-200">{__('Type', 'lineconnect')}</div>
         <div className="py-2 my-2">
             {props.toType.map((value, index) => {
                 return (
@@ -39,7 +39,7 @@ const ChatToMulti = (props) => {
     // const [to, setTo] = useState('');
 
     return <>
-        <div className="py-2 px-4 bg-blue-200"><label htmlFor="chat-to">To</label></div>
+        <div className="py-2 px-4 bg-blue-200"><label htmlFor="chat-to">{__('To', 'lineconnect')}</label></div>
         {props.toUsers.length > 0 ? (
             <ul>
                 {props.toUsers.map((value, index) => {
@@ -54,7 +54,7 @@ const ChatToMulti = (props) => {
             :
             (
                 <div className='py-4 px-4 my-1 bg-green-100 border border-green-500'>
-                    ユーザーを個別に指定するには、ユーザー一覧ページでLINE連携の「連携済」リンクを利用するか、対象ユーザーにチェックを入れて一括操作で「LINEメッセージ送信」を「適用」してください。
+                    {__('To specify individual users, use the check link on the User List page, or check the check boxes for the target users and "Apply" the "Send LINE Messages" option in the batch operation.', 'lineconnect')}
                 </div>
             )}
     </>
@@ -62,7 +62,7 @@ const ChatToMulti = (props) => {
 
 const ChatToRole = (props) => {
     return <>
-        <div className="py-2 px-4 bg-blue-200"><label htmlFor="Role-to">Role</label></div>
+        <div className="py-2 px-4 bg-blue-200"><label htmlFor="Role-to">{__('Role', 'lineconnect')}</label></div>
         <div className="py-2 my-2">
             {props.roleList.map((value, index) => {
                 return (

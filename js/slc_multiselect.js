@@ -1,13 +1,14 @@
+const { __ } = wp.i18n;
 jQuery(function ($) {
     $(document).ready(function () {
         $(".slc-multi-select").multiselect({
             selectedList: 5,
             linkInfo: {
-                checkAll: { text: 'すべて選択', title: 'すべて選択' },
-                uncheckAll: { text: '選択解除', title: '選択解除' }
+                checkAll: { text: __('Check All', 'lineconnect'), title: __('Check All', 'lineconnect') },
+                uncheckAll: { text: __('UnCheck All', 'lineconnect'), title: __('UnCheck All', 'lineconnect') }
             },
-            noneSelectedText: "未選択",
-            selectedText: "# 個選択"
+            noneSelectedText: __('Select options', 'lineconnect'),
+            selectedText: __('# checked', 'lineconnect')
         });
 
     });

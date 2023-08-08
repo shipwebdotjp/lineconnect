@@ -1,6 +1,7 @@
+const __ = wp.i18n.__;
 const ChatTo = (props) => {
     return <>
-        <div className="py-2 px-4 bg-blue-200">Channel</div>
+        <div className="py-2 px-4 bg-blue-200">{__('Channel', 'lineconnect')}</div>
         <div className="py-2 my-2">
 
             {props.channelList.map((value, index) => {

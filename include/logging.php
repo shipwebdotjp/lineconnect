@@ -20,7 +20,7 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 */
 	public $actions = array(
 		'callback_lineconnect_push_message',
-		
+
 	);
 
 	/**
@@ -39,8 +39,8 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 * @return bool
 	 */
 	public function is_dependency_satisfied() {
-		$version_compare = version_compare( lineconnect::VERSION, self::PLUGIN_MIN_VERSION, '>=' );
-		if ( class_exists( 'lineconnect' ) && $version_compare ) {
+		$version_compare = version_compare(lineconnect::VERSION, self::PLUGIN_MIN_VERSION, '>=');
+		if (class_exists('lineconnect') && $version_compare) {
 			return true;
 		}
 
@@ -53,7 +53,7 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 * @return string
 	 */
 	public function get_label() {
-		return __( 'LINE Connect', 'lineconnect-text-domain' );
+		return __('LINE Connect', lineconnect::PLUGIN_NAME);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 */
 	public function get_context_labels() {
 		return array(
-			'message'    => __( 'Message', 'lineconnect-text-domain' ),
+			'message'    => __('Message', lineconnect::PLUGIN_NAME),
 		);
 	}
 
@@ -74,8 +74,8 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 */
 	public function get_action_labels() {
 		return array(
-			'published' => __( 'Published', 'lineconnect-text-domain' ),
-			'failed' => __( 'Failed', 'lineconnect-text-domain' ),
+			'published' => __('Published', lineconnect::PLUGIN_NAME),
+			'failed' => __('Failed', lineconnect::PLUGIN_NAME),
 		);
 	}
 
@@ -89,15 +89,15 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 *
 	 * @return array Action links
 	 */
-	public function action_links( $links, $record ) {
+	public function action_links($links, $record) {
 		// Check if the Foo or Bar exists
-		if ( $record->object_id && get_post_status( $record->object_id ) ) {
-			$post_type_name = "Message";//$this->get_post_type_name( get_post_type( $record->object_id ) );
+		if ($record->object_id && get_post_status($record->object_id)) {
+			$post_type_name = "Message"; //$this->get_post_type_name( get_post_type( $record->object_id ) );
 			$action_link_text = sprintf(
-				esc_html_x( 'Edit %s', 'Post type singular name', 'stream' ),
+				esc_html_x('Edit %s', 'Post type singular name', 'stream'),
 				$post_type_name
 			);
-			$links[ $action_link_text ] = get_edit_post_link( $record->object_id );
+			$links[$action_link_text] = get_edit_post_link($record->object_id);
 		}
 
 		return $links;
@@ -111,15 +111,15 @@ class lineconnectConnector extends \WP_Stream\Connector {
 	 *
 	 * @return void
 	 */
-	public function callback_lineconnect_push_message( $message, $is_error ) {
-		$action = __( 'published', 'lineconnect-text-domain' );
-		if ( $is_error ) {
-			$action = __( 'failed', 'lineconnect-text-domain' );
+	public function callback_lineconnect_push_message($message, $is_error) {
+		$action = __('Published', lineconnect::PLUGIN_NAME);
+		if ($is_error) {
+			$action = __('Failed', lineconnect::PLUGIN_NAME);
 		}
 		$this->log(
 			// Summary message
 			sprintf(
-				__( '"%1$s" message %2$s', 'lineconnect-text-domain' ),
+				__('"%1$s" message %2$s', lineconnect::PLUGIN_NAME),
 				$message['title'],
 				$action
 			),
@@ -134,5 +134,4 @@ class lineconnectConnector extends \WP_Stream\Connector {
 			$action
 		);
 	}
-
 }

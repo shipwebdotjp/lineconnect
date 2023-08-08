@@ -1,9 +1,9 @@
 === LINE Connect ===
 Contributors: shipweb
 Tags: line, userid, connect, 連携
-Requires at least: 4.9.13
-Tested up to: 5.8
-Stable tag: 2.5.2
+Requires at least: 5.0
+Tested up to: 6.2
+Stable tag: 2.6.0
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -70,9 +70,12 @@ I can make plugin for you.
 
 == More infomation == 
 Please see my blog article.(Japanese)
-[LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/archives/281)
+[LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/lineconnect/)
 
 == Changelog ==
+= 2.6.0 =
+2023-08-08 Added Function Calling feature on AI chat response using OpenAI(Chat GPT) API. English is now available. 
+
 = 2.5.1 =
 2023-07-07 Added linking feature with WP LINE Login.  
 

@@ -4,6 +4,7 @@ import ChatMessage from './ChatMessage';
 import ChatChannel from './ChatChannel';
 import ChatResult from './ChatResult';
 
+const __ = wp.i18n.__;
 const ChatForm = () => {
     const [message, setMessage] = useState('');
     const [to, setTo] = useState(lc_initdata['user_ids']);
@@ -94,7 +95,7 @@ const ChatForm = () => {
 
     return <div className="ChatForm">
         <header className="ChatHeader text-lg p-2 my-2">
-            LINEメッセージ送信
+            {__('Send LINE message', 'lineconnect')}			
         </header>
         <form onSubmit={handleSubmit}>
             <div className="ChatBody w-1/3">
@@ -109,7 +110,7 @@ const ChatForm = () => {
                     <ChatMessage handleMessageChange={setMessage} defaultValue={message} />
                 </div>
                 <div className="ChatRow">
-                    <button type="submit" className="btn-indigo">送信</button>
+                    <button type="submit" className="btn-indigo">{__('Send', 'lineconnect')}</button>
                 </div>
             </div>
         </form>

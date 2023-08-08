@@ -1,0 +1,731 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR SHIP
+# This file is distributed under the same license as the LINE Connect package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect \n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"POT-Creation-Date: 2023-08-08 11:30+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: js/slc_setting.js:17 js/slc_multiselect.js:7
+msgid "Check All"
+msgstr ""
+
+#: js/slc_setting.js:18 js/slc_multiselect.js:8
+msgid "UnCheck All"
+msgstr ""
+
+#: js/slc_setting.js:20 js/slc_multiselect.js:10
+msgid "Select options"
+msgstr ""
+
+#: js/slc_setting.js:21 js/slc_multiselect.js:11
+msgid "# checked"
+msgstr ""
+
+#: include/const.php:275
+msgid "Send update notification"
+msgstr ""
+
+#: include/const.php:276
+msgid "Send target:"
+msgstr ""
+
+#: include/const.php:277
+msgid "Send when a future post is published"
+msgstr ""
+
+#: include/const.php:281
+msgid "Channel name"
+msgstr ""
+
+#: include/const.php:282
+msgid "Channel access token"
+msgstr ""
+
+#: include/const.php:283
+msgid "Channel secret"
+msgstr ""
+
+#: include/const.php:284
+msgid "Default target role"
+msgstr ""
+
+#: include/const.php:285
+msgid "Rich menu ID for linked users"
+msgstr ""
+
+#: include/const.php:286
+msgid "Rich menu ID for unlinked users"
+msgstr ""
+
+#: include/const.php:292 line-chat/dist/slc_chat.js:29
+msgid "Channel"
+msgstr ""
+
+#: include/const.php:297
+msgid "Link"
+msgstr ""
+
+#: include/const.php:301
+msgid "Login page URL"
+msgstr ""
+
+#: include/const.php:304
+msgid "Enter the URL of the login page as a path relative to the site URL."
+msgstr ""
+
+#: include/const.php:308
+msgid "Account link/unlink start keywords"
+msgstr ""
+
+#: include/const.php:310
+msgid "Account link"
+msgstr ""
+
+#: include/const.php:314
+msgid "Message title for account linkage initiation"
+msgstr ""
+
+#: include/const.php:316
+msgid "Start account linkage"
+msgstr ""
+
+#: include/const.php:320
+msgid "Message body for account linkage initiation"
+msgstr ""
+
+#: include/const.php:323
+msgid "Start the linkage. Please login at the link."
+msgstr ""
+
+#: include/const.php:327
+msgid "Message button label to start account linkage"
+msgstr ""
+
+#: include/const.php:329
+msgid "Start linkage"
+msgstr ""
+
+#: include/const.php:333
+msgid "Account Linkage Completion Message"
+msgstr ""
+
+#: include/const.php:336
+msgid "Account linkage completed."
+msgstr ""
+
+#: include/const.php:340
+msgid "Account Linkage Failure Messages"
+msgstr ""
+
+#: include/const.php:343
+msgid "Account linkage failed."
+msgstr ""
+
+#: include/const.php:347
+msgid "Message title for account unlinking initiation"
+msgstr ""
+
+#: include/const.php:349 include/const.php:362
+msgid "Unlink account"
+msgstr ""
+
+#: include/const.php:353
+msgid "Message body for account unlinking initiation"
+msgstr ""
+
+#: include/const.php:356
+msgid "Would you like to unlink your account?"
+msgstr ""
+
+#: include/const.php:360
+msgid "Message button label to start account unlinking"
+msgstr ""
+
+#: include/const.php:366
+msgid "Account Unlinking Completion Message"
+msgstr ""
+
+#: include/const.php:369
+msgid "Account linkage has been successfully unlinked."
+msgstr ""
+
+#: include/const.php:373
+msgid "Account Unlinking Failure Message"
+msgstr ""
+
+#: include/const.php:376
+msgid "Failed to unlink the account."
+msgstr ""
+
+#: include/const.php:382
+msgid "Update Notification"
+msgstr ""
+
+#: include/const.php:386
+msgid "Post types"
+msgstr ""
+
+#: include/const.php:388
+msgid "Post"
+msgstr ""
+
+#: include/const.php:388
+msgid "Page"
+msgstr ""
+
+#: include/const.php:391
+msgid ""
+"The post type to be notified. The Send LINE checkbox will appear on the edit "
+"screen of the selected post type."
+msgstr ""
+
+#: include/const.php:395
+msgid "Default value of \"Send update notification\" checkbox"
+msgstr ""
+
+#: include/const.php:397
+msgid "Checked"
+msgstr ""
+
+#: include/const.php:397
+msgid "Unchecked"
+msgstr ""
+
+#: include/const.php:397
+msgid "Unchecked if published"
+msgstr ""
+
+#: include/const.php:399
+msgid ""
+"Default value setting for the \"Send update notification\" check box when "
+"editing an article."
+msgstr ""
+
+#: include/const.php:403
+msgid "\"More\" link label"
+msgstr ""
+
+#: include/const.php:405
+msgid "Read more"
+msgstr ""
+
+#: include/const.php:409
+msgid "Send notification to posters when comments are received"
+msgstr ""
+
+#: include/const.php:412
+msgid ""
+"This setting determines whether or not to notify the poster of an article "
+"when there is a comment on the article."
+msgstr ""
+
+#: include/const.php:416
+msgid "\"Read comment\" link label"
+msgstr ""
+
+#: include/const.php:418
+msgid "Read comment"
+msgstr ""
+
+#: include/const.php:424
+msgid "Style"
+msgstr ""
+
+#: include/const.php:428
+msgid "Image fit mode"
+msgstr ""
+
+#: include/const.php:430
+msgid "cover"
+msgstr ""
+
+#: include/const.php:430
+msgid "contain"
+msgstr ""
+
+#: include/const.php:432
+msgid ""
+"cover: The replaced content is sized to maintain its aspect ratio while "
+"filling the image area. If the image's aspect ratio does not match the "
+"aspect ratio of its area, then the image will be clipped to fit. \\n "
+"contain: The replaced image is scaled to maintain its aspect ratio while "
+"fitting within the image area. The entire image is made to fill the box, "
+"while preserving its aspect ratio, so the image will be \"letterboxed\" if "
+"its aspect ratio does not match the aspect ratio of the area."
+msgstr ""
+
+#: include/const.php:436
+msgid "Image area aspect ratio"
+msgstr ""
+
+#: include/const.php:440
+msgid ""
+"The aspect ratio of the image area. The height cannot be greater than three "
+"times the width."
+msgstr ""
+
+#: include/const.php:444
+msgid "Background color of the message"
+msgstr ""
+
+#: include/const.php:447
+msgid "The background color of the notification message."
+msgstr ""
+
+#: include/const.php:451
+msgid "Title text color"
+msgstr ""
+
+#: include/const.php:454
+msgid "The title text color of the notification message."
+msgstr ""
+
+#: include/const.php:458
+msgid "Body text color"
+msgstr ""
+
+#: include/const.php:461
+msgid "The body text color of the notification message."
+msgstr ""
+
+#: include/const.php:465
+msgid "Link text color"
+msgstr ""
+
+#: include/const.php:468
+msgid "The link text color of the notification message."
+msgstr ""
+
+#: include/const.php:472
+msgid "Max title lines"
+msgstr ""
+
+#: include/const.php:475
+msgid ""
+"This is the setting for the maximum number of lines of title to be displayed "
+"in the notification message."
+msgstr ""
+
+#: include/const.php:479
+msgid "Max body lines"
+msgstr ""
+
+#: include/const.php:482
+msgid ""
+"This is the setting for the maximum number of lines of text to be displayed "
+"in the notification message. Apart from this, it can be truncated to a "
+"maximum of 500 characters."
+msgstr ""
+
+#: include/const.php:488
+msgid "AI Chat"
+msgstr ""
+
+#: include/const.php:492
+msgid "Auto response by AI"
+msgstr ""
+
+#: include/const.php:494 include/const.php:527
+msgid "Disabled"
+msgstr ""
+
+#: include/const.php:494 include/const.php:527
+msgid "Enabled"
+msgstr ""
+
+#: include/const.php:496
+msgid ""
+"This setting determines whether or not to use AI auto-response for messages "
+"sent to official line account."
+msgstr ""
+
+#: include/const.php:500
+msgid "OpenAI API Key"
+msgstr ""
+
+#: include/const.php:504
+msgid "Enter your OpenAI API Key."
+msgstr ""
+
+#: include/const.php:508
+msgid "Model"
+msgstr ""
+
+#: include/const.php:512
+msgid "This is a setting for which model to use."
+msgstr ""
+
+#: include/const.php:516
+msgid "System prompt"
+msgstr ""
+
+#: include/const.php:521
+msgid ""
+"The initial text or instruction provided to the language model before "
+"interacting with it in a conversational manner."
+msgstr ""
+
+#: include/const.php:525
+msgid "Function Calling"
+msgstr ""
+
+#: include/const.php:529
+msgid "This setting determines whether Function Calling is used or not."
+msgstr ""
+
+#: include/const.php:533
+msgid "Functions to use"
+msgstr ""
+
+#: include/const.php:538
+msgid "Function to be enabled by Function Calling."
+msgstr ""
+
+#: include/const.php:542
+msgid "Number of context"
+msgstr ""
+
+#: include/const.php:546
+msgid ""
+"This is a setting for how many conversation histories to use in order to "
+"have the AI understand the context and respond."
+msgstr ""
+
+#: include/const.php:550
+msgid "Max tokens"
+msgstr ""
+
+#: include/const.php:554
+msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
+msgstr ""
+
+#: include/const.php:558
+msgid "Temperature"
+msgstr ""
+
+#: include/const.php:564
+msgid ""
+"This is the temperature parameter. The higher the value, the more diverse "
+"words are likely to be selected. Between 0 and 1."
+msgstr ""
+
+#: include/const.php:568
+msgid "Limit for unlinked users"
+msgstr ""
+
+#: include/const.php:572
+msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
+msgstr ""
+
+#: include/const.php:576
+msgid "Limit for linked users"
+msgstr ""
+
+#: include/const.php:580
+msgid "Number of times an linked user can use it per day. -1 is unlimited."
+msgstr ""
+
+#: include/const.php:584
+msgid "Limit message"
+msgstr ""
+
+#: include/const.php:588
+msgid ""
+"The number of times you can use it in a day (%limit% times) has been "
+"exceeded. Please try again after the date changes."
+msgstr ""
+
+#: include/const.php:589
+msgid ""
+"This message is displayed when the number of times the limit can be used in "
+"a day is exceeded. The %limit% is replaced by the limit number of times."
+msgstr ""
+
+#: include/const.php:597
+msgid "Get my user information"
+msgstr ""
+
+#: include/const.php:612
+msgid "Get the current date and time"
+msgstr ""
+
+#: include/const.php:627
+msgid "Search posts"
+msgstr ""
+
+#: include/richmenu.php:25 include/richmenu.php:94 include/chat.php:57
+msgid "Linked"
+msgstr ""
+
+#: include/richmenu.php:25 include/richmenu.php:94
+msgid "Unlinked"
+msgstr ""
+
+#: include/richmenu.php:26 include/richmenu.php:124
+msgid "Channel access token or channel secret is not set."
+msgstr ""
+
+#: include/richmenu.php:75 include/richmenu.php:90 include/logging.php:78
+#: include/logging.php:117
+msgid "Failed"
+msgstr ""
+
+#: include/comment.php:35 include/comment.php:54
+#, php-format
+msgid "New comment on %s"
+msgstr ""
+
+#: include/comment.php:36
+#, php-format
+msgid "Comment by %s"
+msgstr ""
+
+#: include/admin.php:22
+msgid "LINE"
+msgstr ""
+
+#: include/admin.php:32
+msgid "&#9745;"
+msgstr ""
+
+#: include/admin.php:33
+msgid "&#9744;"
+msgstr ""
+
+#: include/admin.php:52
+msgid "Send LINE Message"
+msgstr ""
+
+#: include/chat.php:20
+msgid "LINE Connect Chat"
+msgstr ""
+
+#: include/chat.php:22
+msgid "LINE Chat"
+msgstr ""
+
+#: include/chat.php:56
+msgid "All"
+msgstr ""
+
+#: include/chat.php:58
+msgid "Roles"
+msgstr ""
+
+#: include/chat.php:59
+msgid "Users"
+msgstr ""
+
+#: include/chat.php:197 include/chat.php:221 include/publish.php:257
+#, php-format
+msgid "Sent a LINE message to %s person."
+msgstr ""
+
+#: include/chat.php:200 include/chat.php:223 include/publish.php:259
+msgid "No users matched"
+msgstr ""
+
+#: include/chat.php:204
+msgid "Failed to send a LINE message to selected users. "
+msgstr ""
+
+#: include/chat.php:208
+msgid "No users matched."
+msgstr ""
+
+#: include/chat.php:212
+msgid "No user selected."
+msgstr ""
+
+#: include/chat.php:227
+msgid "Failed to send a LINE message to selected roles. "
+msgstr ""
+
+#: include/publish.php:102 include/setting.php:120 include/setting.php:218
+msgid "All Friends"
+msgstr ""
+
+#: include/publish.php:102 include/setting.php:120 include/setting.php:218
+msgid "Linked Friends"
+msgstr ""
+
+#: include/publish.php:248
+msgid "Sent a LINE message to all friends."
+msgstr ""
+
+#: include/publish.php:250
+msgid "Failed to send a LINE message to all friends."
+msgstr ""
+
+#: include/publish.php:262
+msgid "Failed to send a LINE message to selected roles."
+msgstr ""
+
+#: include/setting.php:24
+msgid "LINE Connect settings"
+msgstr ""
+
+#: include/setting.php:58
+msgid "Channel settings"
+msgstr ""
+
+#: include/setting.php:128 include/setting.php:157 include/setting.php:160
+#, php-format
+msgid "The number of person to be notified is %s."
+msgstr ""
+
+#: include/setting.php:129
+msgid "No role selected"
+msgstr ""
+
+#: include/setting.php:161
+msgid "No matching user"
+msgstr ""
+
+#: include/setting.php:164
+msgid "Unknown"
+msgstr ""
+
+#: include/setting.php:165
+msgid "Notify to all freinds."
+msgstr ""
+
+#: include/setting.php:192
+msgid "Delete this channel"
+msgstr ""
+
+#: include/setting.php:243
+msgid "New channel"
+msgstr ""
+
+#: include/setting.php:244
+msgid "Add new channel"
+msgstr ""
+
+#: include/setting.php:261
+msgid "Save"
+msgstr ""
+
+#: include/setting.php:444
+#, php-format
+msgid "\"%s\" is invalid in new channel."
+msgstr ""
+
+#: include/setting.php:446
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel."
+msgstr ""
+
+#: include/setting.php:456
+#, php-format
+msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
+msgstr ""
+
+#: include/setting.php:458
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
+msgstr ""
+
+#: include/setting.php:467
+msgid "The same channel secret is already registered of the new channel."
+msgstr ""
+
+#: include/setting.php:469
+#, php-format
+msgid "The same channel secret is already registered of the \"%s\"."
+msgstr ""
+
+#: include/setting.php:496
+#, php-format
+msgid "\"%s\" is required."
+msgstr ""
+
+#: include/setting.php:499
+#, php-format
+msgid "\"%s\" is invalid."
+msgstr ""
+
+#: include/setting.php:504
+#, php-format
+msgid ""
+"\"%s\" is invalid. The height cannot be greater than three times the width."
+msgstr ""
+
+#: include/setting.php:514
+msgid "Settings saved."
+msgstr ""
+
+#: include/setting.php:552
+#, php-format
+msgid "Updated the following rich menus: %s"
+msgstr ""
+
+#: include/logging.php:56
+msgid "LINE Connect"
+msgstr ""
+
+#: include/logging.php:66 line-chat/dist/slc_chat.js:461
+msgid "Message"
+msgstr ""
+
+#: include/logging.php:77 include/logging.php:115
+msgid "Published"
+msgstr ""
+
+#: include/logging.php:122
+#, php-format
+msgid "\"%1$s\" message %2$s"
+msgstr ""
+
+#: include/message.php:203
+#, php-format
+msgid "Push to %s"
+msgstr ""
+
+#: include/message.php:236
+#, php-format
+msgid "%s multicast"
+msgstr ""
+
+#: include/message.php:261
+msgid "Broadcast"
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:250
+msgid "Send LINE message"
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:346
+msgid "Send"
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:589
+msgid "Type"
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:689
+msgid "To"
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:723
+msgid ""
+"To specify individual users, use the check link on the User List page, or "
+"check the check boxes for the target users and \"Apply\" the \"Send LINE "
+"Messages\" option in the batch operation."
+msgstr ""
+
+#: line-chat/dist/slc_chat.js:743
+msgid "Role"
+msgstr ""

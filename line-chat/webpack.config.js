@@ -65,6 +65,9 @@ module.exports = (env, args) => {
             new MiniCssExtractPlugin({
                 filename: 'style.css'
             })
-        ]
+        ],
+		optimization: {
+			concatenateModules: false,
+		}
     }
 };
