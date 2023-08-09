@@ -1,303 +1,315 @@
 # LINE Connect 
-LINE ConnectはWordpressユーザーとLINEユーザーを連携させるプラグインです。  
-Wordpressの投稿を連携済みのWordpressユーザーへ通知したり、連携済みかそうでないかに応じて異なるリッチメニューを登録することができます。  
-Growniche社の[LINE AUTO POST](https://s-page.biz/line-auto-post/#home)を元に改変したものです。  
-公式サイトはこちら→[LINEと連携させるWordPressプラグイン「LINE Connect」](https://blog.shipweb.jp/lineconnect/)  
-デモサイトはこちら→[SHIP LAB](https://gpt.shipweb.jp/)  
-## オリジナルとの違い  
-### Wordpressユーザーとの連携機能
-* LINE Messaging APIを利用して、LINE公式アカウントの友達とWordpressの登録ユーザーのアカウントを連携可能
-* リッチメニューIDを連携済みのユーザーとそうでないユーザーとで分けて設定可能
-### 投稿通知
-* 連携済みのユーザーだけにLINE送信が可能
-* 特定のロールのユーザーだけにLINE送信が可能
-* 投稿画面での送信するかどうかのチェックボックスが右カラムに表示される
-* 新規投稿の場合は自動的に送信チェックボックスにチェックが付く(設定で変更可能)
-* 管理画面での設定メニューがトップメニューではなく設定メニュのサブメニューとして表示される
-* 通知メッセージをFlexメッセージに変更し、アイキャッチ画像を含めたレイアウトで通知
-* 予約投稿の公開時にLINE送信が可能
-* 記事にコメントがあった際、投稿者へのLINE通知が可能
-## 独自機能
-### LINEチャット
-* 任意のLINEメッセージを個別ユーザーに送信可能
-* Chat GPT APIを利用したメッセージへの自動応答(チャットボット)
-### WP LINE Loginとの連携機能
-* WP LINE Loginをインストールし、Messaging APIが設定されている場合、連携と同時にログイン連携も可能
+LINE Connect is a WordPress plugin that can connect Wordpress users with LINE users.    
+It can notify Wordpress post's update to the linked Wordpress users.  
+It can register different rich menus depending on whether they are linked or not.    
+Forked from [LINE AUTO POST](https://s-page.biz/line-auto-post/#home) by Growniche.  
+The official site is here -> [LINE Connect, a WordPress plugin to connect with LINE](https://blog.shipweb.jp/lineconnect/) (Japanese)    
+Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)  
 
-## インストール方法
-1. [GitHub](https://github.com/shipwebdotjp/lineconnect/releases)より最新版のZIPファイルをダウンロードします。
-2. Wordpressの管理画面へログインし、「プラグイン」メニューから「新規追加」を選び、「プラグインをアップロード」をクリックします。
-3. 「ファイルの選択」から、ダウンロードしておいたZIPファイルを選択し、「今すぐインストール」をクリックします。
-4. インストールが完了したら、プラグイン一覧画面より「LINE Connect」を有効化します。
+## Features 
+### Linking function with Wordpress users
+* Using LINE Messaging API to link friends of LINE official accounts with accounts of Wordpress users
+* Rich menu IDs can be set separately for users who have already linked and those who have not
+### Update Notification
+* Send article update notifications via LINE to linked users and users in specific roles.
+* Notification messages are sent in a card-style layout including an futured image.
+* When posts published, updated or future post is published can send notifications.
+* LINE notifications can be sent to posters when someone comment on thier articles.
+### LINE Chat
+* Arbitrary LINE messages can be sent to individual users
+* Automatic response to messages using Chat GPT API (You can use your LINE official account as a AI chatbot)
+### Connectivity with WP LINE Login
+* If WP LINE Login is installed and Messaging API is configured, login integration is possible at the same time as integration
 
-## 初期設定
-### チャネルアクセストークンとチャネルシークレット
-1. あらかじめ[LINE Developers](https://developers.line.biz/)にて、公式アカウントのMessaging APIチャネルを作成しておいてください。
-2. チャネルシークレットをチャネル基本設定から、チャネルアクセストークン（長期）をMessaging API設定より取得します。
+## How to install
+1. download the latest version of the ZIP file from [GitHub](https://github.com/shipwebdotjp/lineconnect/releases).
+2. login to the Wordpress administration page, select "Add New" from the "Plugins" menu, and click "Upload Plugin". 
+3. From "Select File", select the ZIP file you have downloaded and click "Install Now".  
+4. After installation is complete, activate "LINE Connect" from the Plug-in List screen.
+
+## Initial Setup
+### Channel Access Token and Channel Secret
+1. create a Messaging API channel for your official account at [LINE Developers](https://developers.line.biz/) in advance.
+2. obtain the Channel Secret from the Basic Settings. 
+3. Obtain a Channel Access Token (long-lived) from the Messaging API Settings.
 
 ### Webhook URL
-1. 該当の公式アカウントのLINE Messaging API設定のWebhook URLの欄に次のURLを入力します。
+1. Set the Webhook URL in Webhook settings as follows
 ```
 https://your-domain/wp-content/plugins/lineconnect/bot.php
 ```
-※your-domainの部分をご自分のドメイン名に変更してください。もしWordpressのURLがドメイン直下でない場合はWordpressディレクトリのパスを追加してください。  
-2. Webhookの利用をオンにします。 
+※Change the your-domain part to your domain name. If your Wordpress URL is not directly under your domain, add the path to your Wordpress directory.
+2. Turn on "Use webhook" toggle.
 
-	全ての友達へ投稿通知を行いたいだけの場合は、WebhookをONにする必要はありません。その場合、ユーザー連携機能は使用できなくなります。
-### 応答モード
-以前はBOT(Webhook)とチャットはどちらか一方しか利用できませんでしたが、2022年11月の仕様変更以降は併用できるようになっています。ユーザーからの問い合わせなど必要に応じてチャットを利用しつつ、ユーザー連携やChatGPTによる自動応答を利用できるようになりました。
-1. [LINE Official Account Manager](https://manager.line.biz/)にログインします。 
-2. [設定]-[応答設定]ページを開きます。 
-3. 応答機能のチャットを必要に応じて「ON」に設定します。
+Note: If you only want to send post notifications to all your friends, you do not need to turn on "Use webhook". In that case, the user linking feature will not be available.
 
-### プラグインの初期設定
-1. Wordpressの管理画面より、設定メニューから「LINE Connect」をクリックして設定画面を開きます。
-2. チャネルタブで新規チャネル追加をクリックします。
-2. チャネル名、チャネルアクセストークンとチャネルシークレットをそれぞれの欄に入力して保存します。
+### Bot and Chat
+BOT and chat can be used together. User inquiries, etc. can be responded to using chat, while user linking and automatic responses via ChatGPT can be used.
+1. Login to [LINE Official Account Manager](https://manager.line.biz/).
+2. Go to [settings]-[Response settings]. 
+3. Turn on "Chat" if manual chat response is required.
 
-### ログイン画面URLを変更している場合
-デフォルトではログインはWordpressのデフォルトログインURL「wp-login.php」を使用します。
-もしもログイン画面URLを他のURLに変更している場合は設定画面の連携タブのログインページURLを変更してください。
+### Initial Settings for the Plug-in
+1. from the Wordpress admin page, click "LINE Connect" from the settings menu to open the settings page.
+2. On the Channels tab, click "Add New Channel".
+2. Enter the Channel Name, Channel Access Token and Channel Secret and save.
 
-## 連携方法
-### 連携開始
-アカウント連携を開始するには3通りの方法があります。
-1. 公式アカウントを友達登録 
-2. 公式アカウントのトーク画面でアカウント連携・解除開始キーワードを入力して送信 
-3. リッチメニューなどからポストバックアクション「action=link」を送る 
+### If you are changing the login page URL.
+By default, this plugin uses Wordpress's default "wp-login.php" as the login URL.
+If you have changed the login page URL to another URL, please change the login page URL in the "Link" tab of the settings page.
 
-その後、連携開始リンクをタップし、Wordpressでログインすることで連係が行えます。
+## How to linking
+There are three ways to start linking accounts. 
+1. Add the official account as a friend.
+2. Enter the keyword to start linking or unlinking accounts on the official account's talk screen and send it to the account. 
+3. Send the postback action "action=link" from the rich menu.
 
-## LINE投稿方法
-### 通知する投稿タイプの選択
-1. 投稿通知タブの投稿タイプより、通知したい投稿タイプを選択して設定しておきます。カスタム投稿タイプにも対応しています。
+Then, tap the link to start the linking, and log in to Wordpress to linking.
 
-### 投稿時
-1. 投稿画面で、右カラムに「LINE Connect」ボックスが表示されるので、通知したい場合は「LINE送信する」へチェックを入れます。  
-※チェックが入っていると新規投稿だけでなく更新する場合でも通知が行われます。  
-※「予約投稿時にLINE送信する」にチェックを入れて保存すると、予約投稿が公開された時にLINE通知が行われます。  
-2. 画像付きで通知させたい場合は、アイキャッチ画像を設定してください。
-3. 「送信対象」リストからLINEで通知するユーザーを「すべての友達」「連携済みの友達」、連携済みの友達のうち各ロールに属するユーザーから選択してください。（複数選択可能）
+## How to send update notification
+### Select the post type you want to be notified about
+1. select post type you want to be notified about from the Post Types in the Update Notification tab. Custom post types are also supported.
+### When posting
+1. on the post edit screen, the "LINE Connect" box will appear in the right column, and if you want to be notified, check the "Send update notification" checkbox.  
+*If you have checked, notifications will be sent not only of new posts published, but also posts updated.  
+*If you check the "Send when a future post is published" checkbox and save it, notifications will be sent to LINE when the future posts are published.
+2. If a post has an futured image, notifications will be sent with the image.
+3. From the "Send target:" list, select the users to be notified by LINE from "All Friends", "Linked Friends", and each of the roles. You can select multiple targets.
 
-## リッチメニュー設定方法
-事前にリッチメニューをAPIを使用して作成し、リッチメニューIDを取得する必要があります。  
-※[LINE Official Account Manager](https://manager.line.biz/)で作成したリッチメニューは使用できません。  
-APIを利用したリッチメニューの作成は[リッチメニューエディタ](https://richmenu.app.e-chan.cf/)などを利用すると比較的簡単に行えます。 
-1. 作成したリッチメニューのIDをLINE Connectの設定画面より設定します。
-2. 連携済みの友達と未連携の友達用の2種類のリッチメニューを作成登録しておき、それぞれの欄にIDを設定することで、連携状態に応じて異なるリッチメニューを表示することができます。
+## How to set the rich menu
+A rich menu must be created in advance using the API and a rich menu ID must be obtained.  
+※Rich menus created in [LINE Official Account Manager](https://manager.line.biz/) cannot be used.  
+Creating rich menus using the API is relatively easy with the [Rich Menu Editor](https://richmenu.app.e-chan.cf/).
+1. set the rich menu IDs on the LINE Connect settings page.
+2. Create and register two types of rich menus, one for friends who are already linked and one for friends who are not linked, and set the IDs in the respective fields to display different rich menus depending on the status of the linking.
 
-## スクリーンショット
-友達登録している人へこのように通知されます。  
+## Screen shots
+LINE messages are displayed like this:  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2021/03/PNG-imageposttoline.png" width="320">  
-リンクテキストや背景色、サムネのアスペクト比をカスタマイズすることも可能です。  
+You can also customize link text, background color, and thumbnail aspect ratio.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2021/03/PNG-imageposttolinecustom.png" width="320">  
 
-## 管理画面の設定項目
-管理画面から通知スタイルなどのカスタマイズが行えます。
+## Settings
+You can change settings on the admin page.
 
-### チャネル
-複数のチャネルに対応しています。どのチャネルから通知するかをLINE通知メタボックスで投稿時に選択できます。  
-|項目名|説明|
+### Channel
+Multiple channels are supported. You can select which channel you would like to be notified from when posting in the LINE Notifications meta box.
+
+|item name|description|
 |----:|----|
-|チャネル名|チャネルを区別するための名前|
-|チャネルアクセストークン|チャネルアクセストークン（長期）|
-|チャネルシークレット|チャネルシークレット|
-|デフォルトの送信対象|LINE送信メタボックスでの初期値|
-|通知の対象となる人数|選択されているロールや設定で通知対象となる人数|
-|連携済みユーザー用リッチメニューID|連携済み友達用のリッチメニューID|
-|未連携ユーザー用リッチメニューID|未連携の友達用のリッチメニューID|
+|Channel name|Channel name|
+|Channel access token|channel access token (long-lived)||
+|Channel Secret|Channel Secret|
+|Default target role|Default selected role in the Send LINE meta box|
+|The number of people|Number of people to be notified by the selected role or setting|
+|Rich menu ID for linked users|Rich Menu ID for Linked Friends|
+|Rich menu ID for unlinked users|Rich menu ID for unlinked friends|
 
-### 連携
-ログインページURLや、連携開始・解除のキーワード、開始・解除時のメッセージなどを変更することができます。
-### 投稿通知
-#### 投稿タイプ
-LINE送信メタボックスを表示させる投稿タイプを選択します。Wordpressデフォルトで存在する「投稿」「固定ページ」に加えて、Custom Post Type UIなどで追加したカスタム投稿タイプも選択できます。
-#### 「LINE送信する」チェックボックスのデフォルト値
-記事編集画面での「LINE送信する」チェックボックスのデフォルト値設定です。選択肢は「チェックあり」「チェックなし」「公開済みの場合はチェックなし」です。  
-#### リンクラベル
-投稿通知の下部に表示されるリンクの表示文字列です。「もっと読む」「Read more」などURLの代わりに表示されるラベルです。
-#### コメントがあった時に投稿者へLINE通知を行う
-記事にコメントがあった時にその記事の投稿者にLINE通知を行うかどうかの設定です。投稿者のWordPressアカウントがLINE連携している必要があります。
-#### コメントリンクラベル
-コメント通知の下部に表示されるリンクの表示文字列です。
-### 通知スタイル
-投稿があったことを通知するメッセージのスタイルを変更できます。
-#### 画像表示スタイル
-- 領域全体に表示・・・画像の領域に合わせて縦横比を維持したまま画像が拡大縮小されます。はみ出した画像の周囲は切り捨てられます。
-- 画像全体を表示・・・画像全体が表示されるよう縦横比を維持したまま画像が拡大縮小されます。画像の周囲に余白が追加されます。
-#### 画像領域アクペクト比
-画像領域の縦横比を「幅:高さ」の半角数字の形で指定します。例）16:9、4:3、3:2  
-高さを幅の3倍を超える設定にはできません。よく使うアイキャッチ画像のアスペクト比に合わせておくことで、余白の切り取りが行われなくなります。
-#### 背景色
-メッセージ全体の背景色です。画像、タイトル、本文、リンク領域を個別に指定することは現在のバージョンではできません。
-#### タイトル文字色、本文文字色、リンク文字色
-それぞれの文字色です。色以外のフォントサイズや書体、太字などは設定できません。
-#### タイトル最大行数、本文最大行数
-タイトルや本文の最大行数です。これを超える場合は省略記号(…）が付き省略されます。（Android/iOSのみに有効）
-※最大行数以内であっても、500文字を超える部分は省略されて送信されます。
-### チャット
-Chat GPT APIを利用して、LINE公式アカウントに送信されたメッセージにAIが自動応答するよう設定できます。
-#### AIによる自動応答
-Chat GPTによる自動応答を利用するかどうかの設定です。使用する場合は「有効」に設定してください。
+### Link
+You can change the login page URL, keywords for starting or canceling the linking, and messages when starting or canceling the linking.
+### Update Notification
+#### Post types
+Select the post type for which you wish to display the Send Line meta box: in addition to the "Post" and "Page" that exist by default in Wordpress, you can also select a custom post type added by Custom Post Type UI or yourself.
+#### Default value of "Send update notification" checkbox
+This is the default value setting for the "Send update notifications checkbox on the article edit screen. The options are "Checked", "Unchecked", and "Unchecked if published". 
+#### "More" link label
+The display string for the link that will appear at the bottom of the post notification. The label to be displayed in place of the URL, such as "Read more".
+#### Send notification to posters when comments are received
+This setting determines whether or not notifications will be sent to the author of the article when there are comments on the article. The author's WordPress account must be linked to LINE.
+#### "Read comment" link label
+The display string for the link that appears at the bottom of the comment notification. 
+### Style
+You can change the styles of the LINE message notifications.
+#### Image fit mode
+- cover: The replaced content is sized to maintain its aspect ratio while filling the image area. If the image's aspect ratio does not match the aspect ratio of its area, then the image will be clipped to fit. 
+- contain: The replaced image is scaled to maintain its aspect ratio while fitting within the image area. The entire image is made to fill the box, while preserving its aspect ratio, so the image will be "letterboxed" if its aspect ratio does not match the aspect ratio of the area.
+#### Image area aspect ratio
+The aspect ratio of the image area. For example, 16:9, 4:3, 3:2  
+The height cannot be greater than three times the width. By matching the aspect ratio of frequently used futured images, the margins will not be cropped. 
+#### Background color of the message
+The background color of the entire message. It is not possible in the current version to specify the image, title, body, and link areas individually.
+#### Title text color, Body text color and Link text color
+The color of each area. Font size, typeface, bold type, etc. cannot be changed!.
+#### Max title lines and Max body lines
+The maximum number of lines for the title and body text. If this number is exceeded, it will be omitted with an ellipsis (...). (Android/iOS only)
+Even if the maximum number of lines is not exceeded, the part exceeding 500 characters will be omitted and sent.
+### AI Chat
+Using the Chat GPT API, you can set up AI to automatically respond to messages sent to LINE official accounts. 
+#### Auto response by AI
+Whether or not to use AI auto-response. Enable to use.
 #### OpenAI API Key
-Chat GPTを使用するためのOpenAI社のAPIキーを入力してください。APIキーをまだ取得していない場合は[こちら](https://platform.openai.com/)から取得できます。
-#### 使用モデル
-Chat GPTで使用するモデルを選択します。
-#### システムプロンプト
-Chat GPTが返答を生成する際に参考にする初期のプロンプトです。役割や回答における制限を記入します。
-#### 使用する文脈数
-Chat GPTが文脈に沿って回答するために、以前の質問と返答を何往復分含めるかの設定です。多ければ文脈をより良く理解しますが、トークン数がかさみます。
-#### 最大トークン数
-Chat GPTが生成するテキストの最大長です。選択した使用モデルの最大トークン数を超えた数値を指定することはできません。
-#### サンプリング温度
-Chat GPTが生成する返答の多様性を制御するパラメータです。低い値を設定すると堅い返答になり、高い値では多様な返答が生成されます。
-#### 未連携ユーザーが1日に使用できる回数
-未連携のユーザーがChat GPTを1日に何回まで使用できるかを設定します。
-#### 連携済みユーザーが1日に使用できる回数
-連携済みのユーザーがChat GPTを1日に何回まで使用できるかを設定します。
-#### 制限回数を超えた場合のメッセージ
-ユーザーがチャットの応答制限回数を超えてチャットを利用した場合に表示されるメッセージです。
-## 開発者向け他プラグインとの連携方法
-他プラグインからLINEメッセージ送信を呼び出せるよういくつかアクションフックが用意されています。
-### アクションフック
+Enter your OpenAI API key to use the Chat GPT API, which can be obtained [Open AI website](https://platform.openai.com/). 
+#### Model
+Which model to use.
+#### System prompt
+The initial text or instruction provided to the language model before interacting with it in a conversational manner.
+#### Function Calling
+whether Function Calling is used or not. When enabled, predefined functions can be used to return site-specific information, etc. 
+#### Functions to use
+Function to be enabled by Function Calling. Only a select function is used.
+##### Available functions
+- Get my user information
+	Information about the user who sent the message is retrieved and used in the response. 
+- Get the current date and time
+	Current date and time are used in the response.
+- Search posts
+	Function to respond based on the content of posts on the site. Searches for posts and retrieves content in your site.
+#### Number of context
+Chow many conversation histories to use in order to have the AI understand the context and respond. A larger number increases the number of tokens used. 
+#### Max tokens
+Maximum number of tokens to use. -1 is the upper limit of the model.
+#### Temperature
+The temperature parameter. The higher the value, the more diverse words are likely to be selected. Between 0 and 1.
+#### Limit for unlinked users
+Number of times an unlinked user can use it per day. -1 is unlimited.
+#### Limit for linked users
+Number of times an linked user can use it per day. -1 is unlimited.
+#### Limit message
+This message is displayed when the number of times the limit can be used in a day is exceeded. The `%limit%` is replaced by the limit number of times.
+
+## For Developers
+Several action hooks are provided to call for sending LINE messages from other plug-ins. 
+### Action hooks
 #### send_message_to_wpuser($channel, $wp_user_id, $message)
-連携済みのWordpressユーザーにLINEメッセージを送信します。
-##### 使い方
+Send a LINE message to the linked Wordpress users. 
+##### Usage
 ```
-//デフォルト（登録されているチャネルが1つならそのチャネル、複数登録されている場合は最初のチャネル）のユーザーIDが2のユーザーへメッセージ送信
-do_action('send_message_to_wpuser', null, 2, 'Wordpressからのメッセージ');
+//From default channel（First channel）
+//To User ID 2
+do_action('send_message_to_wpuser', null, 2, 'Message from Wordpress');
 
-//チャンネルシークレットの先頭4文字でチャネルを指定してチャネル情報を取得
-do_action('send_message_to_wpuser', lineconnect::get_channel('1fa8'), 3, 'Wordpressからのメッセージ');
+//Get channel information by specifying the channel with the first 4 characters of the channel secret 
+do_action('send_message_to_wpuser', lineconnect::get_channel('1fa8'), 3, 'Message from Wordpress');
 
-//送信するチャネルのアクセストークンとシークレットを連想配列で渡す場合
+//When passing the access token and secret of the channel to be sent as an array
 $channel = array(
-    'channel-access-token' => '実際のチャネルアクセストークン',
-    'channel-secret' => '実際のチャネルシークレット'
+    'channel-access-token' => 'Channel access token',
+    'channel-secret' => 'Channel Secret'
 );
-do_action('send_message_to_wpuser', $channel, 3, 'Wordpressからのメッセージ');
+do_action('send_message_to_wpuser', $channel, 3, 'Message from Wordpress');
 
-//LINE BOT SDKを利用してImageMessageBuilderを作成し、画像を送信
+//Create ImageMessageBuilder using LINE BOT SDK and send images 
 require_once(plugin_dir_path(__FILE__).'../lineconnect/vendor/autoload.php');
 $originalContentUrl = "https://example.com/img.jpg";
 $previewImageUrl = "https://example.com/img.jpg";
 $imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($originalContentUrl, $previewImageUrl);
 do_action('send_message_to_wpuser', null, 3, $imageMessageBuilder);
 ```
-##### パラメータ
+##### Parameters
 **$channel (array|null)**  
-channel-access-token、channel-secretを持つチャネル情報の連想配列か、null（デフォルトチャネルを使用）  
-※デフォルトチャネルは、登録されているチャネルが1つならそのチャネル、複数登録されている場合は最初のチャネルです。  
+Array of channel information with channel-access-token, channel-secret, or null (use default channel)
+※The default channel is the registered channel if there is one, or the first channel if there are multiple registered channels.  
 **$wp_user_id (int)**   
- メッセージを送信するユーザーのWordpress ID（LINEユーザーIDではないことに注意）  
+ Wordpress ID of the user sending the message (Note: this is not a LINE user ID)  
 **$message (string|LINE\LINEBot\MessageBuilder)**  
-送信するメッセージ。文字列の場合はテキストメッセージを作成して送信します。LINE BOT SDKを利用してMessageBuilderで作成したメッセージを送ることもできます。
+Message to be sent. If a string is given, a text message is created and sent; you can also use the LINE BOT SDK to send messages created with MessageBuilder.
 
 #### send_message_to_role($channel, $role, $message)
-ロールを指定して連携済みユーザーへLINEメッセージを送信します。``$role``に予約されている値を渡すことで、連携済みユーザー全てに送信することもできます。
-##### 使い方
+Sends LINE messages to linked users by specifying a role. You can also send to all linked users by passing a reserved value to ``$role``.
+##### Usage
 ```
-//管理者ロールのユーザーへメッセージを送信
-do_action('send_message_to_role', null, array("administrator"), 'Wordpressからのメッセージ');
+//Send a message to Administrator role 
+do_action('send_message_to_role', null, array("administrator"), 'Message from Wordpress');
 
-//すべての連携済みユーザーへメッセージを送信
-do_action('send_message_to_role', null, array("slc_linked"), 'Wordpressからのメッセージ');
+//Send message to all linked users 
+do_action('send_message_to_role', null, array("slc_linked"), 'Message from Wordpress');
 
 ```
-##### パラメータ
+##### Parameters
 **$channel, $message**  
-send_message_to_wpuserのパラメータと同じです。  
+Same as send_message_to_wpuser  
 **$role (array)**   
-送信対象とするロールスラッグの配列。例）administrator  
-``slc_linked``を指定すると、すべての連携済みユーザーへ送信します。  
+Array of role slugs to be sent. Example: array("administrator")
+If ``slc_linked`` is specified, send to all linked users. 
 
-**チャネル指定時の注意**  
-デフォルトチャネルは、チャネルの削除によって変化します。例えば複数チャネルがある場合、1番目のチャネルを削除すると、２番目のチャネルがデフォルトチャネルになります。確実を期すためにはチャネル情報を配列で指定するか、チャネル情報をシークレットの先頭4文字で取得したものを使用してください。
+**Note: channel value**  
+The default channel is changed by deleting a channel. For example, if there are multiple channels, deleting the first channel will make the second channel the default channel. To be sure, specify the channel information as an array or use the channel information obtained from the first four characters of the secret.
 ```
-$channel = lineconnect::get_channel("(シークレットの先頭4文字)");
+$channel = lineconnect::get_channel("the first four characters of the secret");
 ```
-
-### LINEユーザーIDの保存形式
-連携済みユーザーのLINEユーザーID、表示名、プロフィール画像URLはユーザーメタに``line``というキー名で保存されています。
-#### メタデータの形式  
+### Stored Formats for LINE User IDs
+The LINE user ID, display name and profile image URL of the linked user are stored in the user meta with the key name ``line``.
+#### Metadata Format
 ```
-//ユーザーID:3のLINEユーザーIDを取得
+//Get user info for user ID 3.
 $user_meta_line = get_user_meta(3, 'line', true);
 var_dump($user_meta_line);
 
 array(1) {
-  ["(シークレットの先頭4文字)"]=>
+  ["the first four characters of the secret"]=>
   array(3) {
     ["id"]=>
-    string(33) "(LINEユーザーID)"
+    string(33) "LINE user ID"
     ["displayName"]=>
-    string(12) "(表示名)"
+    string(12) "display name"
     ["pictureUrl"]=>
-    string(135) "(プロフィール画像URL)"
+    string(135) "profile image URL"
   }
 }
 ```
-数チャネルに対応しているため、チャネルシークレットの先頭4文字をキーとする連想配列がトップレベルにあり、その中に``id``,``displayName``,``pictureUrl``をキーとする連想配列が含まれます。
+There is an array at the top level whose keys are the first 4 characters of the channel secret. It contains an array whose keys are ``id``,``displayName``,``pictureUrl``.
 
-### REST APIからのチャネル・ロール指定方法
-REST APIから記事投稿する際にLINE ConnectにてLINE通知させたい場合は以下のキー＆値をJSONデータに加えてください。
+### How to Specify Channels and Roles from the REST API
+If you would like to have LINE Connect send LINE notifications when posting articles from the REST API, please add the following keys and values to the JSON data.
 ```
   "lc_channels":{
-      "(通知させたいチャネルのシークレットの先頭4文字)":"ロール名（複数ある場合は「,」で区切る）"
+      "the first four characters of the secret":"Role name (if there are multiple roles, separate them with ",")"
   }
 ```
 
-### LINE通知ログの保存
-STREAMプラグインがインストールされ有効な場合、LINE通知の種類（マルチキャスト、プッシュメッセージ、ブロードキャスト）、何通送信したかのログがStream Recordsに記録され後から閲覧できます。
+### Saving the LINE Notification Log
+If the STREAM plug-in is installed and enabled, a log of the type of LINE notification (multicast, push message, broadcast) and how many messages were sent will be recorded in Stream Records for later viewing.
 
-### LINEチャット
-記事の投稿時に記事内容をLINEで送信するのではなく、単なるテキストメッセージとしてお好きな内容でLINEメッセージを送信することができます。
-#### すべての友達、連携済みの友達、ロール指定して送信
-管理画面メニューより「LINEチャット」ページを開きます。  
+### LINE Chat
+Instead of sending the article content on LINE when submitting an article, you can send a LINE message with the content of your choice as a simple text message.
+#### Usage
+Open the "LINE Chat" page from the Administration menu.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-10.jpg" width="320">  
 **Channel**  
-送信する対象のチャネル（LINE公式アカウント）を選択します。  
+Select target channel  
 **Type**  
-どのユーザーグループに送信するかを指定します。  
-- 全て：友達登録しているユーザー全員に、連携済みかどうかにかかわらず送信します。
-- 連携済み：友達登録しているユーザーのうち、Wordpressと連携しているユーザーに送信します。
-- ロール指定：連携済みのユーザーのうち、特定のロールに属するユーザーに送信します。
-- ユーザー指定：送信するユーザーを一人ずつ個別に指定して送信します。（指定方法は後述）
+Specify which user groups to send to.  
+- All: Send to all users who are add as friends, regardless of whether they are linked or not.
+- Linked: Send to users who are linked to Wordpress among users who are add as friends.
+- Roles: Sends to users who belong to a specific role among the users who have linked with Wordpress.
+- Users: Send to each user individually. (How to specify users is described below.)
 
 **Role**  
-Typeをロール指定にした場合、どのロールに属するユーザーに送信するかを選択します。  
+Select which roles to send to users belonging to.   
 **Message**  
-送信するLINEメッセージ内容を入力します。  
+Enter the contents of the LINE message.
 
-#### ユーザーを個別に指定して送信
-LINEチャットページからは送信するユーザーを個別に指定できないため、ユーザー一覧ページから対象ユーザーを指定してください。
-**一人だけ選択する場合**  
-LINE連携カラムの「連携済」リンクからLINEチャットページへ移動すると、そのユーザーが指定された状態になります。  
-<img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-11.jpg" width="320">  
-**複数ユーザーの選択**
-対象ユーザーのチェックボックスにチェックを入れ、一括操作で「LINEメッセージ送信」を選択し「適用」ボタンをクリックします。  
-<img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-12.jpg" width="320">  
-チェックしたユーザーが指定された状態でLINEチャット画面が開きます。  
+#### Specify individual users and send
+Since you cannot specify individual users to be sent from the LINE Chat page, please specify the target users from the User List page.  
+
+**To only one user**  
+If the "check box" link in the LINE column takes you to the LINE chat page, the user will be selected.   
+<img src="https://blog.shipweb.jp/wp-content/uploads/2023/08/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88-2023-08-08-23.02.40.png" width="320">  
+
+**To multiple users**  
+Check the checkboxes for the target users, select "Send LINE Message" for the batch operation, and click the "Apply" button. 
+<img src="https://blog.shipweb.jp/wp-content/uploads/2023/08/lineconnect-ss-bulk-send.png" width="320">  
+The LINE chat screen will open with the checked user selected.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-13.jpg" width="320">  
 
-### WP LINE Loginとの連携機能
-下記の条件を満たす場合、LINE Connectでユーザー連携を行った際に、[WP LINE Login](https://blog.shipweb.jp/archives/702)においても、該当ユーザーをLINEログイン連携状態にさせることが可能です。  
-* WP LINE Loginがインストールされている
-* LINE Loginの設定で「Messaging APIチャネルシークレット」が、LINE Coonectの「チャネルシークレット」と一致している
+### Connect with WP LINE Login
+If the following conditions are met, when a user is linked via LINE Connect, the corresponding user will also be linked to LINE Login for [WP LINE Login](https://blog.shipweb.jp/wplinelogin/).
+* WP LINE Login is installed.
+* The "Messaging API Channel Secret" in the LINE Login settings matches the "Channel Secret" of LINE Coonect.
 
-連携解除した場合、LINEログイン連携状態も解除されます。
+If user unlinked, the LINE Login linking status will also be unlink.
 
-## カスタマイズ・プラグイン作成
-その他さまざまなカスタマイズを有償で承ります。[連絡先はこちら](https://blog.shipweb.jp/contact)
+## Customization
+Various other customizations are available for a fee. [Contact us](https://blog.shipweb.jp/contact)
 
-# 必要動作環境
-* Wordpress  4.9.13以上
+# Requires at least
+* Wordpress 5.0 or upper
 
-# 制作者
+# Author
 * ship [blog](https://blog.shipweb.jp/)
 
-# 謝辞
-* 素晴らしいプラグイン「LINE AUTO POST」を開発してくださったGrowniche社の方々
+# Thanks
+* I would like to thank Growniche for developing the wonderful "LINE AUTO POST" plugin.
 
-# ライセンス
+# License
 GPLv3

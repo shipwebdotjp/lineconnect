@@ -8,9 +8,23 @@ License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
 
+Connect wordpress user account with your LINE official account follower's LINE ID
+
 == Description ==
 
-* Connect wordpress user account with your LINE official account follower's LINE ID
+**Update notification**
+You can send a LINE notification to a WordPress user who is linked.	  
+Also, you can send notifications to users who have specific roles.  
+You can send notifications when feature post published or someone comment on your post too. 
+
+**LINE Chat/Chat Bot**
+Arbitrary LINE messages can be sent to individual users.  
+Automatic response to messages using Chat GPT API.  
+
+**Rich menu**
+Different rich menus can be set up depending on the linking status.
+
+[LINE Connect Official Site](https://blog.shipweb.jp/lineconnect/)  
 
 == Installation ==
 
@@ -62,15 +76,6 @@ A. You can change keywords in the Admin Panel.
 
 Q. How can I change login URL?
 A. You can change login URL in the Admin Panel, too.
-
-== Customize ==
-If you want to customize or make plugin using LINE ID, please contact me.
-I can make plugin for you.
-[Contact](https://blog.shipweb.jp/contact)
-
-== More infomation == 
-Please see my blog article.(Japanese)
-[LINEと連携させるWordpressプラグイン LINE Connect](https://blog.shipweb.jp/lineconnect/)
 
 == Changelog ==
 = 2.6.0 =
