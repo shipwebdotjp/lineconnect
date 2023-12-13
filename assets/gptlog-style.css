@@ -1,0 +1,11 @@
+.column-id{
+    width: 70px;
+}
+.column-event_type,
+.column-source_type,
+.column-message_type{
+    width: 120px;
+}
+.column-timestamp{
+    width: 155px;
+}

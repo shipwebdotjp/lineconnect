@@ -9,6 +9,7 @@
 ./include/const.php
 ./include/richmenu.php
 ./include/openai.php
+./include/chatlist.php
 ./include/comment.php
 ./include/botlog.php
 ./include/admin.php

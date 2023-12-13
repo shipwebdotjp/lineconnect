@@ -74,4 +74,36 @@ class lineconnectFunctions {
 		}
 		return $posts;
 	}
+
+	//ユーザー検索
+	function WP_User_Query($args) {
+		$args["number"] = (isset($args["number"]) && $args["number"] <= 20 ? $args["number"] : 20);	// 取得する投稿を５件までに制限
+		$args["fields"] = "all_with_meta";
+
+		//get user
+		$the_query = new WP_User_Query($args);
+		$users = [];
+		if (!empty($the_query->get_results())) {
+			foreach ($the_query->get_results() as $user) {
+				$user_data = [];
+
+				$user_data["ID"] = $user->ID;
+				$user_data["user_login"] = $user->user_login;
+				$user_data["user_email"] = $user->user_email;
+				$user_data["user_nicename"] = $user->user_nicename;
+				$user_data["display_name"] = $user->display_name;
+				$user_data["user_registered"] = $user->user_registered;
+				$user_meta_line = $user->get(lineconnect::META_KEY__LINE);
+				if ($user_meta_line && $user_meta_line[$this->secret_prefix]) {
+					$user_data["linkstatus"] = "linked";
+				}
+				//if meta_key is included in args, get meta_value and include in user_data
+				if (!empty($args["meta_key"])) {
+					$user_data[$args["meta_key"]] = $user->get($args["meta_key"]);
+				}
+				$users[] = $user_data;
+			}
+		}
+		return $users;
+	}
 }

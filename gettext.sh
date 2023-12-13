@@ -5,5 +5,5 @@ xgettext -k"__" -k"_e" -k"_n" -o languages/lineconnect.pot --files-from=list --f
 #msginit --locale=ja_JP.UTF-8 --input=languages/lineconnect.pot --output=languages/lineconnect-ja.po --no-translator 
 
 #2回目からはmsgmerge
-msgmerge --backup=simple --suffix='.bak' --update languages/lineconnect-ja.po languages/lineconnect.pot
+msgmerge --backup=simple --suffix='.bak' --update --no-fuzzy-matching languages/lineconnect-ja.po languages/lineconnect.pot
 

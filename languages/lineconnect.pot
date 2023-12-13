@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect \n"
+"Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2023-08-08 11:30+0900\n"
+"POT-Creation-Date: 2023-12-13 22:25+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,176 +86,194 @@ msgid "Enter the URL of the login page as a path relative to the site URL."
 msgstr ""
 
 #: include/const.php:308
+msgid "Automatically initiate linkage"
+msgstr ""
+
+#: include/const.php:311 include/const.php:516 include/const.php:557
+msgid "Disabled"
+msgstr ""
+
+#: include/const.php:312 include/const.php:517 include/const.php:558
+msgid "Enabled"
+msgstr ""
+
+#: include/const.php:315
+msgid ""
+"This setting determines whether or not to automatically initiate linkage "
+"When user add an official account as a friend."
+msgstr ""
+
+#: include/const.php:319
 msgid "Account link/unlink start keywords"
 msgstr ""
 
-#: include/const.php:310
+#: include/const.php:321
 msgid "Account link"
 msgstr ""
 
-#: include/const.php:314
+#: include/const.php:325
 msgid "Message title for account linkage initiation"
 msgstr ""
 
-#: include/const.php:316
+#: include/const.php:327
 msgid "Start account linkage"
 msgstr ""
 
-#: include/const.php:320
+#: include/const.php:331
 msgid "Message body for account linkage initiation"
 msgstr ""
 
-#: include/const.php:323
+#: include/const.php:334
 msgid "Start the linkage. Please login at the link."
 msgstr ""
 
-#: include/const.php:327
+#: include/const.php:338
 msgid "Message button label to start account linkage"
 msgstr ""
 
-#: include/const.php:329
+#: include/const.php:340
 msgid "Start linkage"
 msgstr ""
 
-#: include/const.php:333
+#: include/const.php:344
 msgid "Account Linkage Completion Message"
 msgstr ""
 
-#: include/const.php:336
+#: include/const.php:347
 msgid "Account linkage completed."
 msgstr ""
 
-#: include/const.php:340
+#: include/const.php:351
 msgid "Account Linkage Failure Messages"
 msgstr ""
 
-#: include/const.php:343
+#: include/const.php:354
 msgid "Account linkage failed."
 msgstr ""
 
-#: include/const.php:347
+#: include/const.php:358
 msgid "Message title for account unlinking initiation"
 msgstr ""
 
-#: include/const.php:349 include/const.php:362
+#: include/const.php:360 include/const.php:373
 msgid "Unlink account"
 msgstr ""
 
-#: include/const.php:353
+#: include/const.php:364
 msgid "Message body for account unlinking initiation"
 msgstr ""
 
-#: include/const.php:356
+#: include/const.php:367
 msgid "Would you like to unlink your account?"
 msgstr ""
 
-#: include/const.php:360
+#: include/const.php:371
 msgid "Message button label to start account unlinking"
 msgstr ""
 
-#: include/const.php:366
+#: include/const.php:377
 msgid "Account Unlinking Completion Message"
 msgstr ""
 
-#: include/const.php:369
+#: include/const.php:380
 msgid "Account linkage has been successfully unlinked."
 msgstr ""
 
-#: include/const.php:373
+#: include/const.php:384
 msgid "Account Unlinking Failure Message"
 msgstr ""
 
-#: include/const.php:376
+#: include/const.php:387
 msgid "Failed to unlink the account."
 msgstr ""
 
-#: include/const.php:382
+#: include/const.php:393
 msgid "Update Notification"
 msgstr ""
 
-#: include/const.php:386
+#: include/const.php:397
 msgid "Post types"
 msgstr ""
 
-#: include/const.php:388
+#: include/const.php:400
 msgid "Post"
 msgstr ""
 
-#: include/const.php:388
+#: include/const.php:401
 msgid "Page"
 msgstr ""
 
-#: include/const.php:391
+#: include/const.php:405
 msgid ""
 "The post type to be notified. The Send LINE checkbox will appear on the edit "
 "screen of the selected post type."
 msgstr ""
 
-#: include/const.php:395
+#: include/const.php:409
 msgid "Default value of \"Send update notification\" checkbox"
 msgstr ""
 
-#: include/const.php:397
+#: include/const.php:412
 msgid "Checked"
 msgstr ""
 
-#: include/const.php:397
+#: include/const.php:413
 msgid "Unchecked"
 msgstr ""
 
-#: include/const.php:397
+#: include/const.php:414
 msgid "Unchecked if published"
 msgstr ""
 
-#: include/const.php:399
+#: include/const.php:417
 msgid ""
 "Default value setting for the \"Send update notification\" check box when "
 "editing an article."
 msgstr ""
 
-#: include/const.php:403
+#: include/const.php:421
 msgid "\"More\" link label"
 msgstr ""
 
-#: include/const.php:405
+#: include/const.php:423
 msgid "Read more"
 msgstr ""
 
-#: include/const.php:409
+#: include/const.php:427
 msgid "Send notification to posters when comments are received"
 msgstr ""
 
-#: include/const.php:412
+#: include/const.php:430
 msgid ""
 "This setting determines whether or not to notify the poster of an article "
 "when there is a comment on the article."
 msgstr ""
 
-#: include/const.php:416
+#: include/const.php:434
 msgid "\"Read comment\" link label"
 msgstr ""
 
-#: include/const.php:418
+#: include/const.php:436
 msgid "Read comment"
 msgstr ""
 
-#: include/const.php:424
+#: include/const.php:442
 msgid "Style"
 msgstr ""
 
-#: include/const.php:428
+#: include/const.php:446
 msgid "Image fit mode"
 msgstr ""
 
-#: include/const.php:430
+#: include/const.php:449
 msgid "cover"
 msgstr ""
 
-#: include/const.php:430
+#: include/const.php:450
 msgid "contain"
 msgstr ""
 
-#: include/const.php:432
+#: include/const.php:453
 msgid ""
 "cover: The replaced content is sized to maintain its aspect ratio while "
 "filling the image area. If the image's aspect ratio does not match the "
@@ -266,203 +284,199 @@ msgid ""
 "its aspect ratio does not match the aspect ratio of the area."
 msgstr ""
 
-#: include/const.php:436
+#: include/const.php:457
 msgid "Image area aspect ratio"
 msgstr ""
 
-#: include/const.php:440
+#: include/const.php:461
 msgid ""
 "The aspect ratio of the image area. The height cannot be greater than three "
 "times the width."
 msgstr ""
 
-#: include/const.php:444
+#: include/const.php:465
 msgid "Background color of the message"
 msgstr ""
 
-#: include/const.php:447
+#: include/const.php:468
 msgid "The background color of the notification message."
 msgstr ""
 
-#: include/const.php:451
+#: include/const.php:472
 msgid "Title text color"
 msgstr ""
 
-#: include/const.php:454
+#: include/const.php:475
 msgid "The title text color of the notification message."
 msgstr ""
 
-#: include/const.php:458
+#: include/const.php:479
 msgid "Body text color"
 msgstr ""
 
-#: include/const.php:461
+#: include/const.php:482
 msgid "The body text color of the notification message."
 msgstr ""
 
-#: include/const.php:465
+#: include/const.php:486
 msgid "Link text color"
 msgstr ""
 
-#: include/const.php:468
+#: include/const.php:489
 msgid "The link text color of the notification message."
 msgstr ""
 
-#: include/const.php:472
+#: include/const.php:493
 msgid "Max title lines"
 msgstr ""
 
-#: include/const.php:475
+#: include/const.php:496
 msgid ""
 "This is the setting for the maximum number of lines of title to be displayed "
 "in the notification message."
 msgstr ""
 
-#: include/const.php:479
+#: include/const.php:500
 msgid "Max body lines"
 msgstr ""
 
-#: include/const.php:482
+#: include/const.php:503
 msgid ""
 "This is the setting for the maximum number of lines of text to be displayed "
 "in the notification message. Apart from this, it can be truncated to a "
 "maximum of 500 characters."
 msgstr ""
 
-#: include/const.php:488
+#: include/const.php:509
 msgid "AI Chat"
 msgstr ""
 
-#: include/const.php:492
+#: include/const.php:513
 msgid "Auto response by AI"
 msgstr ""
 
-#: include/const.php:494 include/const.php:527
-msgid "Disabled"
-msgstr ""
-
-#: include/const.php:494 include/const.php:527
-msgid "Enabled"
-msgstr ""
-
-#: include/const.php:496
+#: include/const.php:520
 msgid ""
 "This setting determines whether or not to use AI auto-response for messages "
 "sent to official line account."
 msgstr ""
 
-#: include/const.php:500
+#: include/const.php:524
 msgid "OpenAI API Key"
 msgstr ""
 
-#: include/const.php:504
+#: include/const.php:528
 msgid "Enter your OpenAI API Key."
 msgstr ""
 
-#: include/const.php:508
+#: include/const.php:532
 msgid "Model"
 msgstr ""
 
-#: include/const.php:512
+#: include/const.php:541
 msgid "This is a setting for which model to use."
 msgstr ""
 
-#: include/const.php:516
+#: include/const.php:545
 msgid "System prompt"
 msgstr ""
 
-#: include/const.php:521
+#: include/const.php:550
 msgid ""
 "The initial text or instruction provided to the language model before "
 "interacting with it in a conversational manner."
 msgstr ""
 
-#: include/const.php:525
+#: include/const.php:554
 msgid "Function Calling"
 msgstr ""
 
-#: include/const.php:529
+#: include/const.php:561
 msgid "This setting determines whether Function Calling is used or not."
 msgstr ""
 
-#: include/const.php:533
+#: include/const.php:565
 msgid "Functions to use"
 msgstr ""
 
-#: include/const.php:538
+#: include/const.php:570
 msgid "Function to be enabled by Function Calling."
 msgstr ""
 
-#: include/const.php:542
+#: include/const.php:574
 msgid "Number of context"
 msgstr ""
 
-#: include/const.php:546
+#: include/const.php:578
 msgid ""
 "This is a setting for how many conversation histories to use in order to "
 "have the AI understand the context and respond."
 msgstr ""
 
-#: include/const.php:550
+#: include/const.php:582
 msgid "Max tokens"
 msgstr ""
 
-#: include/const.php:554
+#: include/const.php:586
 msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
 msgstr ""
 
-#: include/const.php:558
+#: include/const.php:590
 msgid "Temperature"
 msgstr ""
 
-#: include/const.php:564
+#: include/const.php:596
 msgid ""
 "This is the temperature parameter. The higher the value, the more diverse "
 "words are likely to be selected. Between 0 and 1."
 msgstr ""
 
-#: include/const.php:568
+#: include/const.php:600
 msgid "Limit for unlinked users"
 msgstr ""
 
-#: include/const.php:572
+#: include/const.php:604
 msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
 msgstr ""
 
-#: include/const.php:576
+#: include/const.php:608
 msgid "Limit for linked users"
 msgstr ""
 
-#: include/const.php:580
+#: include/const.php:612
 msgid "Number of times an linked user can use it per day. -1 is unlimited."
 msgstr ""
 
-#: include/const.php:584
+#: include/const.php:616
 msgid "Limit message"
 msgstr ""
 
-#: include/const.php:588
+#: include/const.php:620
 msgid ""
 "The number of times you can use it in a day (%limit% times) has been "
 "exceeded. Please try again after the date changes."
 msgstr ""
 
-#: include/const.php:589
+#: include/const.php:621
 msgid ""
 "This message is displayed when the number of times the limit can be used in "
 "a day is exceeded. The %limit% is replaced by the limit number of times."
 msgstr ""
 
-#: include/const.php:597
+#: include/const.php:629
 msgid "Get my user information"
 msgstr ""
 
-#: include/const.php:612
+#: include/const.php:644
 msgid "Get the current date and time"
 msgstr ""
 
-#: include/const.php:627
+#: include/const.php:659
 msgid "Search posts"
+msgstr ""
+
+#: include/const.php:714
+msgid "Search users"
 msgstr ""
 
 #: include/richmenu.php:25 include/richmenu.php:94 include/chat.php:57
@@ -480,6 +494,55 @@ msgstr ""
 #: include/richmenu.php:75 include/richmenu.php:90 include/logging.php:78
 #: include/logging.php:117
 msgid "Failed"
+msgstr ""
+
+#: include/chatlist.php:23
+msgid "Search"
+msgstr ""
+
+#: include/chatlist.php:50
+msgid "ID"
+msgstr ""
+
+#: include/chatlist.php:51
+msgid "Event ID"
+msgstr ""
+
+#: include/chatlist.php:52
+msgid "Event Type"
+msgstr ""
+
+#: include/chatlist.php:53
+msgid "Source Type"
+msgstr ""
+
+#: include/chatlist.php:54
+msgid "User ID"
+msgstr ""
+
+#: include/chatlist.php:55
+msgid "BOT ID"
+msgstr ""
+
+#: include/chatlist.php:56
+msgid "Message Type"
+msgstr ""
+
+#: include/chatlist.php:57 include/logging.php:66
+#: line-chat/dist/slc_chat.js:461
+msgid "Message"
+msgstr ""
+
+#: include/chatlist.php:58
+msgid "DATE TIME"
+msgstr ""
+
+#: include/chatlist.php:254 include/chatlist.php:269
+msgid "Delete"
+msgstr ""
+
+#: include/chatlist.php:315
+msgid "Error: Failed to delete items."
 msgstr ""
 
 #: include/comment.php:35 include/comment.php:54
@@ -676,10 +739,6 @@ msgstr ""
 msgid "LINE Connect"
 msgstr ""
 
-#: include/logging.php:66 line-chat/dist/slc_chat.js:461
-msgid "Message"
-msgstr ""
-
 #: include/logging.php:77 include/logging.php:115
 msgid "Published"
 msgstr ""
@@ -728,4 +787,8 @@ msgstr ""
 
 #: line-chat/dist/slc_chat.js:743
 msgid "Role"
+msgstr ""
+
+#: lineconnect.php:481 lineconnect.php:483
+msgid "LINE GPT Log"
 msgstr ""
