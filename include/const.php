@@ -29,6 +29,11 @@ class lineconnectConst {
 	public static array $settings_option;
 
 	/**
+	 * 変数項目
+	 */
+	public static array $variables_option;
+
+	/**
 	 * イベントタイプ
 	 */
 	const WH_EVENT_TYPE = array(
@@ -264,6 +269,8 @@ class lineconnectConst {
 		'text/x-scriptzsh'                     => 'zsh',
 	);
 
+	const DB_VERSION_KEY = 'db_version';
+
 	/**
 	 * Function Callingで呼び出せる関数
 	 */
@@ -481,12 +488,30 @@ class lineconnectConst {
 						'default'  => '#000000',
 						'hint'     => __( 'The body text color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
+					'link_button_style'        => array(
+						'type'     => 'select',
+						'label'    => __( 'Link style', lineconnect::PLUGIN_NAME ),
+						'required' => true,
+						'list'     => array(
+							'button' => __( 'Button', lineconnect::PLUGIN_NAME ),
+							'link'   => __( 'HTML Link', lineconnect::PLUGIN_NAME ),
+						),
+						'default'  => 'link',
+						'hint'     => __( 'Button: button style. Link: HTML link style', lineconnect::PLUGIN_NAME ),
+					),
 					'link_text_color'         => array(
 						'type'     => 'color',
 						'label'    => __( 'Link text color', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#1e90ff',
 						'hint'     => __( 'The link text color of the notification message.', lineconnect::PLUGIN_NAME ),
+					),
+					'link_button_background_color'         => array(
+						'type'     => 'color',
+						'label'    => __( 'Link button background color', lineconnect::PLUGIN_NAME ),
+						'required' => true,
+						'default'  => '#00ff00',
+						'hint'     => __( 'The link button background color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
 					'title_rows'              => array(
 						'type'     => 'spinner',
@@ -764,6 +789,14 @@ class lineconnectConst {
 				'namespace'   => 'lineconnectFunctions',
 				'role'        => 'administrator',
 			),
+		);
+
+		self::$variables_option = array(
+			'plugin_version' => lineconnect::VERSION,
+			'db_version'     => array(
+				'initial' => '1.0',
+				'default' => lineconnect::DB_VERSION,
+			)
 		);
 	}
 }

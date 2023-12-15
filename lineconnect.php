@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 2.6.2
+	Version: 2.7.0
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3
@@ -38,8 +38,12 @@ class lineconnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '2.6.2';
+	const VERSION = '2.7.0';
 
+	/**
+	 * このプラグインのデータベースバージョン
+	 */
+	const DB_VERSION = '1.1';
 
 	/**
 	 * このプラグインのID：Ship Line Connect
@@ -90,6 +94,11 @@ class lineconnect {
 	 * OPTIONSテーブルのキー：Setting
 	 */
 	const OPTION_KEY__SETTINGS = self::PLUGIN_PREFIX . 'settings';
+
+	/**
+	 * OPTIONSテーブルのキー：Variable
+	 */
+	const OPTION_KEY__VARIABLES = self::PLUGIN_PREFIX . 'variables';
 
 	/**
 	 * 画面のslug：トップ
@@ -429,6 +438,28 @@ class lineconnect {
 		return null;
 	}
 
+	/** 
+	 * 登録されている設定値を返す
+	 * 
+	 */
+	static function get_variable( $variable_name, $default_value ) {
+		$variables = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
+		if ( isset( $variables[ $variable_name ] ) ) {
+			return $variables[ $variable_name ];
+		}
+		return $default_value;
+	}
+
+	/** 
+	 * 設定値を保存
+	 * 
+	 */
+	static function set_variable( $variable_name, $value ) {
+		$variables = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
+		$variables[ $variable_name ] = $value;
+		update_option( self::OPTION_KEY__VARIABLES, $variables );
+	}
+
 	/**
 	 * Checks if the current request is a WP REST API request.
 	 *
@@ -522,6 +553,12 @@ class lineconnect {
 
 	function pluginActivation() {
 		// プラグイン有効化時
+		// $current_db_version = self::get_variable( 'db_version', '1.0' );
+		self::delta_database();
+		
+	}
+
+	static function delta_database(){
 		// テーブル作成
 		global $wpdb;
 
@@ -529,21 +566,23 @@ class lineconnect {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE $table_name (
-            id int(11) NOT NULL AUTO_INCREMENT,
-            event_id varchar(32) NOT NULL,
-            event_type tinyint NOT NULL,
-            source_type tinyint NOT NULL,
-            user_id varchar(255) NOT NULL,
-            bot_id varchar(255) NOT NULL,
-            message_type tinyint NOT NULL,
-            message text,
-            timestamp datetime(3) NOT NULL,
-            PRIMARY KEY  (id),
-            KEY user_id (user_id),
-            KEY event_id (event_id)
-        ) $charset_collate;";
+			id int(11) NOT NULL AUTO_INCREMENT,
+			event_id varchar(32) NOT NULL,
+			event_type tinyint NOT NULL,
+			source_type tinyint NOT NULL,
+			user_id varchar(255) NOT NULL,
+			bot_id varchar(255) NOT NULL,
+			message_type tinyint NOT NULL,
+			message json,
+			timestamp datetime(3) NOT NULL,
+			PRIMARY KEY  (id),
+			KEY user_id (user_id),
+			KEY event_id (event_id)
+		) $charset_collate;";
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
+
+		self::set_variable( lineconnectConst::DB_VERSION_KEY, self::DB_VERSION);
 	}
 } // end of class
 

@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 2.6.2
+Stable tag: 2.7.0
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -78,6 +78,9 @@ Q. How can I change login URL?
 A. You can change login URL in the Admin Panel, too.
 
 == Changelog ==
+= 2.7.0 =
+2023-12-15 Add Filter to GPT Log page. You can now choose between button and text link styles. Fixed a bug that prevented searching from messages in the log.
+
 = 2.6.2 =
 2023-12-13 Added LINE Chat Log feature for admin. You can check LINE bot log and delete it. Add Setting whether or not show automatically linkage start message.
 

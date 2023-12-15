@@ -107,6 +107,8 @@ Multiple channels are supported. You can select which channel you would like to 
 
 ### Link
 You can change the login page URL, keywords for starting or canceling the linking, and messages when starting or canceling the linking.
+#### Automatically initiate linkage
+Automatically initiate linkage When user add an official account as a friend.
 ### Update Notification
 #### Post types
 Select the post type for which you wish to display the Send Line meta box: in addition to the "Post" and "Page" that exist by default in Wordpress, you can also select a custom post type added by Custom Post Type UI or yourself.
@@ -128,7 +130,10 @@ The aspect ratio of the image area. For example, 16:9, 4:3, 3:2
 The height cannot be greater than three times the width. By matching the aspect ratio of frequently used futured images, the margins will not be cropped. 
 #### Background color of the message
 The background color of the entire message. It is not possible in the current version to specify the image, title, body, and link areas individually.
-#### Title text color, Body text color and Link text color
+#### Link style
+- Button: button style.
+- Link: HTML link style
+#### Title text color, Body text color, Link text color and Link button background color
 The color of each area. Font size, typeface, bold type, etc. cannot be changed!.
 #### Max title lines and Max body lines
 The maximum number of lines for the title and body text. If this number is exceeded, it will be omitted with an ellipsis (...). (Android/iOS only)

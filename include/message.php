@@ -13,6 +13,133 @@
  */
 
 class lineconnectMessage {
+	//Text Component
+	static function createTextComponent($text, $atts = null) {
+		$atts = wp_parse_args($atts, array(
+			'color' => lineconnect::get_option('body_text_color'),
+			'align' => 'center',
+			'flex' => 1,
+			'size' => 'md',
+			'wrap' => false,
+			'maxLines' => 0,
+			'margin' => 'none',
+			'gravity' => 'top',
+			'weight' => 'regular',
+		));
+
+		$textComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder(
+			$text,
+			$atts['flex'],
+			$atts['margin'], //Margin
+			$atts['size'], //FontSize
+			$atts['align'], //Align
+			$atts['gravity'], //Gravity
+			$atts['wrap'], //wrap
+			$atts['maxLines'], //maxLines
+			$atts['weight'], //FontWeight
+			$atts['color'], //color
+			NULL //TemplateActionBuilder
+		);
+		return $textComponent;
+	}
+
+	//PostbackAction
+	static function createPostbackAction($label, $data, $displayText = null, $inputOption = null, $fillInText = null) {
+		$action = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder($label, $data, $displayText, $inputOption, $fillInText);
+		return $action;
+	}
+
+	//MessageTemplateActionBuilder
+	static function createMessageTemplateActionBuilder($label, $text) {
+		$action = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($label, $text);
+		return $action;
+	}
+
+	//UriTemplateActionBuilder
+	static function createUriTemplateActionBuilder($label, $uri) {
+		$action = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder($label, $uri);
+		return $action;
+	}
+
+	//Button Component
+	static function createButtonComponent($action, $atts = null) {
+		if(isset($atts['style']) && $atts['style'] == 'button'){
+			$default_color = lineconnect::get_option('link_text_color');
+			$background_color = lineconnect::get_option('link_button_background_color');
+			$border_color = lineconnect::get_option('link_button_background_color');
+		}else{
+			$default_color = lineconnect::get_option('link_text_color');
+			$background_color = lineconnect::get_option('title_backgraound_color');
+			$border_color = null;
+		}
+
+
+		$atts = wp_parse_args($atts, array(
+			'color' => $default_color,
+			'backgroundColor' => $background_color,
+			'border_color' => $border_color,
+			'layout' => 'vertical',
+			'flex' => 1,
+			'margin' => 'none',
+			'height' => 'md',
+			'style' => 'link',
+			'spacing' => 'none',
+			'cornerRadius' => '5px',
+			'alignItems' => 'center',
+			'paddingAll' => 'lg',
+		));
+
+		// make action
+		if(isset($action['type']) && $action['type'] === 'message'){
+			$templateAction = self::createMessageTemplateActionBuilder($action['label'], $action['link']);
+		}elseif(isset($action['type']) && $action['type'] === 'postback'){
+			$templateAction = self::createPostbackAction($action['label'], $action['link'], $action['link']??null);
+		}elseif(isset($action['type']) && $action['type'] === 'uri'){
+			$templateAction = self::createUriTemplateActionBuilder($action['label'], $action['link']);
+		}else{
+			$templateAction = null;
+		}
+
+		// make text component
+		if(isset($action['label'])){
+			$label = $action['label'];
+		}else{
+			$label = 'Button';
+		}
+		$textComponent = self::createTextComponent($label,['color'=>$atts['color']]);
+
+		$buttonComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder(
+			$atts['layout'], //layout
+			[$textComponent], //ComponentBuilders
+			$atts['flex'], //flex
+			$atts['spacing'], //spacing
+			$atts['margin'], //margin
+			$templateAction,			
+		);
+
+		$buttonComponent->setAlignItems($atts['alignItems']);
+		$buttonComponent->setPaddingAll($atts['paddingAll']);
+
+		//set border color
+		if(!empty($atts['border_color'])){
+			$buttonComponent->setBorderColor($atts['border_color']);
+			$buttonComponent->setCornerRadius($atts['cornerRadius']);
+			$buttonComponent->setBorderWidth('1px');
+		}
+
+		//set background color
+		if(!empty($atts['backgroundColor'])){
+			$buttonComponent->setBackgroundColor($atts['backgroundColor']);
+		}
+
+		//set width
+		if(isset($atts['width'])){
+			$buttonComponent->setWidth($atts['width']);
+		}
+
+		return $buttonComponent;
+	
+	}
 
 	//Flexメッセージを作成
 	static function createFlexMessage($data, $atts = null) {
@@ -30,6 +157,8 @@ class lineconnectMessage {
 			'title_color' => lineconnect::get_option('title_text_color'),
 			'body_color' => lineconnect::get_option('body_text_color'),
 			'link_color' => lineconnect::get_option('link_text_color'),
+			'link_button_style' => lineconnect::get_option('link_button_style'),
+			'link_button_background_color' => lineconnect::get_option('link_button_background_color'),
 		));
 
 		$alttext = $data['title'] . "\r\n" . $data['body'];
@@ -69,6 +198,7 @@ class lineconnectMessage {
 		$bodyBoxComponent->setPaddingStart('xl');
 		$bodyBoxComponent->setPaddingEnd('xl');
 
+		/*
 		if ($data['type'] == "uri") {
 			//リンクアクションコンポーネント
 			$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder($data['label'], $data['link']);
@@ -77,11 +207,12 @@ class lineconnectMessage {
 			$linkActionBuilder = new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder($data['label'], $data['link']);
 		}
 		//リンクのボタンコンポーネント
-		$linkButtonComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($linkActionBuilder, NULL, NULL, NULL, 'link', $atts['link_color'], NULL);
-
+		$linkButtonComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\ButtonComponentBuilder($linkActionBuilder, NULL, NULL, NULL, $atts['link_button_style'], ( 'link' === $atts['link_button_style'] ? $atts['link_color'] : $atts['link_button_background_color']), NULL);
+		*/
+		$linkButtonComponent = self::createButtonComponent($data, ['style' => $atts['link_button_style'], 'margin' => 'sm']);
 		//フッターブロック
 		$footerBoxComponent =  new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder("vertical", [$linkButtonComponent], NULL, NULL, 'none');
-		$footerBoxComponent->setPaddingTop('none');
+		$footerBoxComponent->setPaddingTop('sm');
 
 		//ブロックスタイル
 		$blockStyleBuilder =  new \LINE\LINEBot\MessageBuilder\Flex\BlockStyleBuilder($atts['background_color']);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2023-12-13 22:25+0900\n"
+"POT-Creation-Date: 2023-12-15 21:54+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -34,71 +34,71 @@ msgstr "未選択"
 msgid "# checked"
 msgstr "# 個選択"
 
-#: include/const.php:275
+#: include/const.php:282
 msgid "Send update notification"
 msgstr "更新通知を送信する"
 
-#: include/const.php:276
+#: include/const.php:283
 msgid "Send target:"
 msgstr "送信対象："
 
-#: include/const.php:277
+#: include/const.php:284
 msgid "Send when a future post is published"
 msgstr "予約投稿時に送信する"
 
-#: include/const.php:281
+#: include/const.php:288
 msgid "Channel name"
 msgstr "チャネル名"
 
-#: include/const.php:282
+#: include/const.php:289
 msgid "Channel access token"
 msgstr "チャネルアクセストークン"
 
-#: include/const.php:283
+#: include/const.php:290
 msgid "Channel secret"
 msgstr "チャネルシークレット"
 
-#: include/const.php:284
+#: include/const.php:291
 msgid "Default target role"
 msgstr "デフォルトの送信対象"
 
-#: include/const.php:285
+#: include/const.php:292
 msgid "Rich menu ID for linked users"
 msgstr "連携済みユーザー用リッチメニューID"
 
-#: include/const.php:286
+#: include/const.php:293
 msgid "Rich menu ID for unlinked users"
 msgstr "未連携ユーザー用リッチメニューID"
 
-#: include/const.php:292 line-chat/dist/slc_chat.js:29
+#: include/const.php:299 line-chat/dist/slc_chat.js:29
 msgid "Channel"
 msgstr "チャネル"
 
-#: include/const.php:297
+#: include/const.php:304
 msgid "Link"
 msgstr "連携"
 
-#: include/const.php:301
+#: include/const.php:308
 msgid "Login page URL"
 msgstr "ログインページURL"
 
-#: include/const.php:304
+#: include/const.php:311
 msgid "Enter the URL of the login page as a path relative to the site URL."
 msgstr "ログインページのURLをサイトURLからの相対パスで入力してください。"
 
-#: include/const.php:308
+#: include/const.php:315
 msgid "Automatically initiate linkage"
 msgstr "自動連携開始"
 
-#: include/const.php:311 include/const.php:516 include/const.php:557
+#: include/const.php:318 include/const.php:541 include/const.php:582
 msgid "Disabled"
 msgstr "無効"
 
-#: include/const.php:312 include/const.php:517 include/const.php:558
+#: include/const.php:319 include/const.php:542 include/const.php:583
 msgid "Enabled"
 msgstr "有効"
 
-#: include/const.php:315
+#: include/const.php:322
 msgid ""
 "This setting determines whether or not to automatically initiate linkage "
 "When user add an official account as a friend."
@@ -106,107 +106,107 @@ msgstr ""
 "公式アカウントを友だち追加した際に自動的にアカウント連携開始メッセージを表示"
 "するかどうかの設定です。"
 
-#: include/const.php:319
+#: include/const.php:326
 msgid "Account link/unlink start keywords"
 msgstr "アカウント連携／解除開始キーワード"
 
-#: include/const.php:321
+#: include/const.php:328
 msgid "Account link"
 msgstr "アカウント連携"
 
-#: include/const.php:325
+#: include/const.php:332
 msgid "Message title for account linkage initiation"
 msgstr "アカウント連携開始メッセージタイトル"
 
-#: include/const.php:327
+#: include/const.php:334
 msgid "Start account linkage"
 msgstr "アカウント連携開始"
 
-#: include/const.php:331
+#: include/const.php:338
 msgid "Message body for account linkage initiation"
 msgstr "アカウント連携開始メッセージ本文"
 
-#: include/const.php:334
+#: include/const.php:341
 msgid "Start the linkage. Please login at the link."
 msgstr "連携を開始します。リンク先でログインを行ってください。"
 
-#: include/const.php:338
+#: include/const.php:345
 msgid "Message button label to start account linkage"
 msgstr "アカウント連携開始メッセージボタンラベル"
 
-#: include/const.php:340
+#: include/const.php:347
 msgid "Start linkage"
 msgstr "連携開始"
 
-#: include/const.php:344
+#: include/const.php:351
 msgid "Account Linkage Completion Message"
 msgstr "アカウント連携完了メッセージ"
 
-#: include/const.php:347
+#: include/const.php:354
 msgid "Account linkage completed."
 msgstr "アカウント連携が完了しました。"
 
-#: include/const.php:351
+#: include/const.php:358
 msgid "Account Linkage Failure Messages"
 msgstr "アカウント連携失敗メッセージ"
 
-#: include/const.php:354
+#: include/const.php:361
 msgid "Account linkage failed."
 msgstr "アカウント連携に失敗しました。"
 
-#: include/const.php:358
+#: include/const.php:365
 msgid "Message title for account unlinking initiation"
 msgstr "アカウント連携解除開始メッセージタイトル"
 
-#: include/const.php:360 include/const.php:373
+#: include/const.php:367 include/const.php:380
 msgid "Unlink account"
 msgstr "連携解除"
 
-#: include/const.php:364
+#: include/const.php:371
 msgid "Message body for account unlinking initiation"
 msgstr "アカウント連携解除開始メッセージ本文"
 
-#: include/const.php:367
+#: include/const.php:374
 msgid "Would you like to unlink your account?"
 msgstr "アカウント連携を解除しますか？"
 
-#: include/const.php:371
+#: include/const.php:378
 msgid "Message button label to start account unlinking"
 msgstr "アカウント連携解除開始メッセージボタンラベル"
 
-#: include/const.php:377
+#: include/const.php:384
 msgid "Account Unlinking Completion Message"
 msgstr "アカウント連携解除完了メッセージ"
 
-#: include/const.php:380
+#: include/const.php:387
 msgid "Account linkage has been successfully unlinked."
 msgstr "アカウント連係を解除しました。"
 
-#: include/const.php:384
+#: include/const.php:391
 msgid "Account Unlinking Failure Message"
 msgstr "アカウント連携解除失敗メッセージ"
 
-#: include/const.php:387
+#: include/const.php:394
 msgid "Failed to unlink the account."
 msgstr "アカウント連携解除に失敗しました。"
 
-#: include/const.php:393
+#: include/const.php:400
 msgid "Update Notification"
 msgstr "更新通知"
 
-#: include/const.php:397
+#: include/const.php:404
 msgid "Post types"
 msgstr "投稿タイプ"
 
-#: include/const.php:400
+#: include/const.php:407
 msgid "Post"
 msgstr "投稿"
 
-#: include/const.php:401
+#: include/const.php:408
 msgid "Page"
 msgstr "固定ページ"
 
-#: include/const.php:405
+#: include/const.php:412
 msgid ""
 "The post type to be notified. The Send LINE checkbox will appear on the edit "
 "screen of the selected post type."
@@ -214,42 +214,42 @@ msgstr ""
 "通知する対象の投稿タイプです。選んだ投稿タイプの編集画面にLINE送信チェック"
 "ボックスが表示されます。"
 
-#: include/const.php:409
+#: include/const.php:416
 msgid "Default value of \"Send update notification\" checkbox"
 msgstr "「更新通知を送信する」チェックボックスのデフォルト値"
 
-#: include/const.php:412
+#: include/const.php:419
 msgid "Checked"
 msgstr "チェックあり"
 
-#: include/const.php:413
+#: include/const.php:420
 msgid "Unchecked"
 msgstr "チェックなし"
 
-#: include/const.php:414
+#: include/const.php:421
 msgid "Unchecked if published"
 msgstr "公開済みの場合はチェックなし"
 
-#: include/const.php:417
+#: include/const.php:424
 msgid ""
 "Default value setting for the \"Send update notification\" check box when "
 "editing an article."
 msgstr ""
 "記事編集時、「更新通知を送信する」チェックボックスのデフォルト値設定です。"
 
-#: include/const.php:421
+#: include/const.php:428
 msgid "\"More\" link label"
 msgstr "リンクラベル"
 
-#: include/const.php:423
+#: include/const.php:430
 msgid "Read more"
 msgstr "続きを読む"
 
-#: include/const.php:427
+#: include/const.php:434
 msgid "Send notification to posters when comments are received"
 msgstr "コメントがあった時に投稿者へLINE通知を行う"
 
-#: include/const.php:430
+#: include/const.php:437
 msgid ""
 "This setting determines whether or not to notify the poster of an article "
 "when there is a comment on the article."
@@ -257,31 +257,31 @@ msgstr ""
 "記事にコメントがあった場合に、その記事の投稿者へコメントがあったことを通知す"
 "るかどうかの設定です。"
 
-#: include/const.php:434
+#: include/const.php:441
 msgid "\"Read comment\" link label"
 msgstr "コメントリンクラベル"
 
-#: include/const.php:436
+#: include/const.php:443
 msgid "Read comment"
 msgstr "コメントを読む"
 
-#: include/const.php:442
+#: include/const.php:449
 msgid "Style"
 msgstr "通知スタイル"
 
-#: include/const.php:446
+#: include/const.php:453
 msgid "Image fit mode"
 msgstr "画像表示スタイル"
 
-#: include/const.php:449
+#: include/const.php:456
 msgid "cover"
 msgstr "領域全体に表示"
 
-#: include/const.php:450
+#: include/const.php:457
 msgid "contain"
 msgstr "画像全体を表示"
 
-#: include/const.php:453
+#: include/const.php:460
 msgid ""
 "cover: The replaced content is sized to maintain its aspect ratio while "
 "filling the image area. If the image's aspect ratio does not match the "
@@ -294,63 +294,88 @@ msgstr ""
 "領域全体：領域に合わせて画像が拡大されます。画像周囲が切り取られる場合があり"
 "ます。画像全体：画像の周囲に余白を追加して画像全体を表示します。"
 
-#: include/const.php:457
+#: include/const.php:464
 msgid "Image area aspect ratio"
 msgstr "画像領域アクペクト比"
 
-#: include/const.php:461
+#: include/const.php:468
 msgid ""
 "The aspect ratio of the image area. The height cannot be greater than three "
 "times the width."
 msgstr "画像領域のアスペクト比です。高さを幅の三倍を超える値にはできません。"
 
-#: include/const.php:465
+#: include/const.php:472
 msgid "Background color of the message"
 msgstr "背景色"
 
-#: include/const.php:468
+#: include/const.php:475
 msgid "The background color of the notification message."
 msgstr "通知メッセージの背景色です。"
 
-#: include/const.php:472
+#: include/const.php:479
 msgid "Title text color"
 msgstr "タイトル文字色"
 
-#: include/const.php:475
+#: include/const.php:482
 msgid "The title text color of the notification message."
 msgstr "通知メッセージのタイトル文字色です。"
 
-#: include/const.php:479
+#: include/const.php:486
 msgid "Body text color"
 msgstr "本文文字色"
 
-#: include/const.php:482
+#: include/const.php:489
 msgid "The body text color of the notification message."
 msgstr "通知メッセージの本文文字色です。"
 
-#: include/const.php:486
+#: include/const.php:493
+msgid "Link style"
+msgstr "リンクスタイル"
+
+#: include/const.php:496
+msgid "Button"
+msgstr "ボタン"
+
+#: include/const.php:497
+msgid "HTML Link"
+msgstr "文字リンク"
+
+#: include/const.php:500
+msgid "Button: button style. Link: HTML link style"
+msgstr ""
+"もっと読むリンクをボタンにするか、文字列のリンクで表示するかの設定です。"
+
+#: include/const.php:504
 msgid "Link text color"
 msgstr "リンク文字色"
 
-#: include/const.php:489
+#: include/const.php:507
 msgid "The link text color of the notification message."
 msgstr "通知メッセージのリンク文字色です。"
 
-#: include/const.php:493
+#: include/const.php:511
+msgid "Link button background color"
+msgstr "リンクボタン背景色"
+
+#: include/const.php:514
+msgid "The link button background color of the notification message."
+msgstr "リンクスタイルがボタンの場合の背景色です。"
+
+#: include/const.php:518
 msgid "Max title lines"
 msgstr "タイトル最大行数"
 
-#: include/const.php:496
+#: include/const.php:521
 msgid ""
 "This is the setting for the maximum number of lines of title to be displayed "
 "in the notification message."
 msgstr "通知メッセージでタイトルを最大何行まで表示するかの設定です。"
 
-#: include/const.php:500
+#: include/const.php:525
 msgid "Max body lines"
 msgstr "本文最大行数"
 
-#: include/const.php:503
+#: include/const.php:528
 msgid ""
 "This is the setting for the maximum number of lines of text to be displayed "
 "in the notification message. Apart from this, it can be truncated to a "
@@ -359,42 +384,42 @@ msgstr ""
 "通知メッセージで本文を最大何行まで表示するかの設定です。これとは別に、最大500"
 "文字に切り詰められます。"
 
-#: include/const.php:509
+#: include/const.php:534
 msgid "AI Chat"
 msgstr "AI応答"
 
-#: include/const.php:513
+#: include/const.php:538
 msgid "Auto response by AI"
 msgstr "AIによる自動応答"
 
-#: include/const.php:520
+#: include/const.php:545
 msgid ""
 "This setting determines whether or not to use AI auto-response for messages "
 "sent to official line account."
 msgstr ""
 "送られてきたメッセージに対してAIによる自動応答を利用するかどうかの設定です。"
 
-#: include/const.php:524
+#: include/const.php:549
 msgid "OpenAI API Key"
 msgstr "OpenAI APIキー"
 
-#: include/const.php:528
+#: include/const.php:553
 msgid "Enter your OpenAI API Key."
 msgstr "OpenAIのAPI Keyを入力してください。"
 
-#: include/const.php:532
+#: include/const.php:557
 msgid "Model"
 msgstr "使用モデル"
 
-#: include/const.php:541
+#: include/const.php:566
 msgid "This is a setting for which model to use."
 msgstr "どのモデルを使用するかの設定です。"
 
-#: include/const.php:545
+#: include/const.php:570
 msgid "System prompt"
 msgstr "システムプロンプト"
 
-#: include/const.php:550
+#: include/const.php:575
 msgid ""
 "The initial text or instruction provided to the language model before "
 "interacting with it in a conversational manner."
@@ -402,27 +427,27 @@ msgstr ""
 "AIに最初に与える命令です。例えば「あなたは優秀なWebサイト管理者です。お客様か"
 "らの問い合わせに丁寧に回答してください。」など"
 
-#: include/const.php:554
+#: include/const.php:579
 msgid "Function Calling"
 msgstr "Function Calling"
 
-#: include/const.php:561
+#: include/const.php:586
 msgid "This setting determines whether Function Calling is used or not."
 msgstr "Function Callingを使用するかどうかの設定です。"
 
-#: include/const.php:565
+#: include/const.php:590
 msgid "Functions to use"
 msgstr "使用するFunction"
 
-#: include/const.php:570
+#: include/const.php:595
 msgid "Function to be enabled by Function Calling."
 msgstr "Function Callingで有効にする関数です。"
 
-#: include/const.php:574
+#: include/const.php:599
 msgid "Number of context"
 msgstr "使用する文脈数"
 
-#: include/const.php:578
+#: include/const.php:603
 msgid ""
 "This is a setting for how many conversation histories to use in order to "
 "have the AI understand the context and respond."
@@ -430,19 +455,19 @@ msgstr ""
 "文脈を理解してAIが回答をするよう、会話履歴をいくつまで使用するかの設定です。"
 "数値が大きくなると使用トークン数が増加します。"
 
-#: include/const.php:582
+#: include/const.php:607
 msgid "Max tokens"
 msgstr "最大トークン数"
 
-#: include/const.php:586
+#: include/const.php:611
 msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
 msgstr "使用する最大トークン数です。「-1」でモデルの上限になります。"
 
-#: include/const.php:590
+#: include/const.php:615
 msgid "Temperature"
 msgstr "サンプリング温度"
 
-#: include/const.php:596
+#: include/const.php:621
 msgid ""
 "This is the temperature parameter. The higher the value, the more diverse "
 "words are likely to be selected. Between 0 and 1."
@@ -450,31 +475,31 @@ msgstr ""
 "temperatureパラメータです。数値が高いほどより多様な単語が選ばれやすくなりま"
 "す。0～1の範囲で指定してください。"
 
-#: include/const.php:600
+#: include/const.php:625
 msgid "Limit for unlinked users"
 msgstr "未連携ユーザーが1日に使用できる回数"
 
-#: include/const.php:604
+#: include/const.php:629
 msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
 msgstr ""
 "サイトアカウントと未連携のユーザーが1日に何回まで使用できるかの設定です。-1で"
 "制限なしになります。"
 
-#: include/const.php:608
+#: include/const.php:633
 msgid "Limit for linked users"
 msgstr "連携済みユーザーが1日に使用できる回数"
 
-#: include/const.php:612
+#: include/const.php:637
 msgid "Number of times an linked user can use it per day. -1 is unlimited."
 msgstr ""
 "サイトアカウント連携済みのユーザーが1日に何回まで使用できるかの設定です。-1で"
 "制限なしになります。"
 
-#: include/const.php:616
+#: include/const.php:641
 msgid "Limit message"
 msgstr "制限回数を超えた場合のメッセージ"
 
-#: include/const.php:620
+#: include/const.php:645
 msgid ""
 "The number of times you can use it in a day (%limit% times) has been "
 "exceeded. Please try again after the date changes."
@@ -482,7 +507,7 @@ msgstr ""
 "1日に使用できる回数（%limit%回）を超えました。日付が変わってからお試しくださ"
 "い。"
 
-#: include/const.php:621
+#: include/const.php:646
 msgid ""
 "This message is displayed when the number of times the limit can be used in "
 "a day is exceeded. The %limit% is replaced by the limit number of times."
@@ -490,19 +515,19 @@ msgstr ""
 "1日に使用できる回数を超えた場合に表示するメッセージです。%limit%は制限回数に"
 "置き換えられます。"
 
-#: include/const.php:629
+#: include/const.php:654
 msgid "Get my user information"
 msgstr "自分のユーザー情報取得"
 
-#: include/const.php:644
+#: include/const.php:669
 msgid "Get the current date and time"
 msgstr "現在日時取得"
 
-#: include/const.php:659
+#: include/const.php:684
 msgid "Search posts"
 msgstr "記事検索"
 
-#: include/const.php:714
+#: include/const.php:739
 msgid "Search users"
 msgstr "ユーザー検索"
 
@@ -523,52 +548,79 @@ msgstr "チャネルアクセストークンとチャネルシークレットが
 msgid "Failed"
 msgstr "失敗"
 
-#: include/chatlist.php:23
+#: include/chatlist.php:24
 msgid "Search"
 msgstr "検索"
 
-#: include/chatlist.php:50
+#: include/chatlist.php:52
 msgid "ID"
 msgstr ""
 
-#: include/chatlist.php:51
+#: include/chatlist.php:53
 msgid "Event ID"
 msgstr "イベントID"
 
-#: include/chatlist.php:52
+#: include/chatlist.php:54
 msgid "Event Type"
 msgstr "イベントタイプ"
 
-#: include/chatlist.php:53
+#: include/chatlist.php:55
 msgid "Source Type"
 msgstr "ソースタイプ"
 
-#: include/chatlist.php:54
+#: include/chatlist.php:56
 msgid "User ID"
 msgstr "ユーザーID"
 
-#: include/chatlist.php:55
+#: include/chatlist.php:57
 msgid "BOT ID"
 msgstr "チャネル"
 
-#: include/chatlist.php:56
+#: include/chatlist.php:58
 msgid "Message Type"
 msgstr "メッセージタイプ"
 
-#: include/chatlist.php:57 include/logging.php:66
+#: include/chatlist.php:59 include/logging.php:66
 #: line-chat/dist/slc_chat.js:461
 msgid "Message"
 msgstr "メッセージ"
 
-#: include/chatlist.php:58
+#: include/chatlist.php:60
 msgid "DATE TIME"
 msgstr "受信日時"
 
-#: include/chatlist.php:254 include/chatlist.php:269
+#: include/chatlist.php:302
+#, php-format
+msgid ""
+"You are about to delete this item '%s'\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr "次の項目を削除してもよろしいですか？ログID: %s"
+
+#: include/chatlist.php:315
+msgid "All Event Types"
+msgstr "全てのイベントタイプ"
+
+#: include/chatlist.php:319
+msgid "All Source Types"
+msgstr "全てのソースタイプ"
+
+#: include/chatlist.php:323
+msgid "All Channels"
+msgstr "全てのチャネル"
+
+#: include/chatlist.php:331
+msgid "All Message Types"
+msgstr "全てのメッセージタイプ"
+
+#: include/chatlist.php:334
+msgid "Filter"
+msgstr "絞り込み"
+
+#: include/chatlist.php:348
 msgid "Delete"
 msgstr "削除"
 
-#: include/chatlist.php:315
+#: include/chatlist.php:399
 msgid "Error: Failed to delete items."
 msgstr "削除に失敗しました。"
 
@@ -645,11 +697,11 @@ msgstr "ユーザーが選択されていません。"
 msgid "Failed to send a LINE message to selected roles. "
 msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
 
-#: include/publish.php:102 include/setting.php:120 include/setting.php:218
+#: include/publish.php:102 include/setting.php:130 include/setting.php:228
 msgid "All Friends"
 msgstr "すべての友達"
 
-#: include/publish.php:102 include/setting.php:120 include/setting.php:218
+#: include/publish.php:102 include/setting.php:130 include/setting.php:228
 msgid "Linked Friends"
 msgstr "連携済みの友達"
 
@@ -669,97 +721,107 @@ msgstr "指定されたロールのユーザーへのLINE送信に失敗しま�
 msgid "LINE Connect settings"
 msgstr "LINE Connect 設定"
 
-#: include/setting.php:58
+#: include/setting.php:60
+msgid ""
+"Database is not up to date. Click the Setting Save button to update the "
+"database. It is recommended that you make a backup of the database before "
+"updating."
+msgstr ""
+"LINE Connectのデータベースが最新ではありません。保存ボタンをクリックすると、"
+"データベースのアップデートが行われます。アップデートの前にデータベースのバッ"
+"クアップを取得することをお勧めします。"
+
+#: include/setting.php:68
 msgid "Channel settings"
 msgstr "チャネル設定"
 
-#: include/setting.php:128 include/setting.php:157 include/setting.php:160
+#: include/setting.php:138 include/setting.php:167 include/setting.php:170
 #, php-format
 msgid "The number of person to be notified is %s."
 msgstr "通知の対象となる人数は%s人です。"
 
-#: include/setting.php:129
+#: include/setting.php:139
 msgid "No role selected"
 msgstr "ロールが選択されていません。"
 
-#: include/setting.php:161
+#: include/setting.php:171
 msgid "No matching user"
 msgstr "条件にマッチするユーザーがいません。"
 
-#: include/setting.php:164
+#: include/setting.php:174
 msgid "Unknown"
 msgstr "不明"
 
-#: include/setting.php:165
+#: include/setting.php:175
 msgid "Notify to all freinds."
 msgstr "友達登録されているすべてのユーザーへ通知されます。"
 
-#: include/setting.php:192
+#: include/setting.php:202
 msgid "Delete this channel"
 msgstr "このチャネルを削除"
 
-#: include/setting.php:243
+#: include/setting.php:253
 msgid "New channel"
 msgstr "新規チャネル"
 
-#: include/setting.php:244
+#: include/setting.php:254
 msgid "Add new channel"
 msgstr "新規チャネル追加"
 
-#: include/setting.php:261
+#: include/setting.php:271
 msgid "Save"
 msgstr "保存"
 
-#: include/setting.php:444
+#: include/setting.php:454
 #, php-format
 msgid "\"%s\" is invalid in new channel."
 msgstr "新規チャネル: %sが正しくありません。"
 
-#: include/setting.php:446
+#: include/setting.php:456
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel."
 msgstr "%1$s: %2$sが正しくありません。"
 
-#: include/setting.php:456
+#: include/setting.php:466
 #, php-format
 msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
 msgstr "新規チャネル: %1$sが正しくありません。エラーメッセージ: %2$s"
 
-#: include/setting.php:458
+#: include/setting.php:468
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
 msgstr "%1$s: %2$sが正しくありません。エラーメッセージ: %3$s"
 
-#: include/setting.php:467
+#: include/setting.php:477
 msgid "The same channel secret is already registered of the new channel."
 msgstr "新規チャネル: 同じチャネルシークレットが既に登録されています。"
 
-#: include/setting.php:469
+#: include/setting.php:479
 #, php-format
 msgid "The same channel secret is already registered of the \"%s\"."
 msgstr "%s: 同じチャネルシークレットが既に登録されています。"
 
-#: include/setting.php:496
+#: include/setting.php:506
 #, php-format
 msgid "\"%s\" is required."
 msgstr "%sは必須項目です。"
 
-#: include/setting.php:499
+#: include/setting.php:509
 #, php-format
 msgid "\"%s\" is invalid."
 msgstr "%sが正しくありません。"
 
-#: include/setting.php:504
+#: include/setting.php:514
 #, php-format
 msgid ""
 "\"%s\" is invalid. The height cannot be greater than three times the width."
 msgstr "%sが正しくありません。高さには幅の3倍を超える値は指定できません。"
 
-#: include/setting.php:514
+#: include/setting.php:524
 msgid "Settings saved."
 msgstr "設定を保存しました。"
 
-#: include/setting.php:552
+#: include/setting.php:562
 #, php-format
 msgid "Updated the following rich menus: %s"
 msgstr "次のリッチメニューIDを更新しました: %s"
@@ -777,17 +839,17 @@ msgstr "送信済み"
 msgid "\"%1$s\" message %2$s"
 msgstr "%1$sメッセージを%2$s"
 
-#: include/message.php:203
+#: include/message.php:334
 #, php-format
 msgid "Push to %s"
 msgstr "%sへのプッシュ"
 
-#: include/message.php:236
+#: include/message.php:367
 #, php-format
 msgid "%s multicast"
 msgstr "%s通のマルチキャスト"
 
-#: include/message.php:261
+#: include/message.php:392
 msgid "Broadcast"
 msgstr "ブロードキャスト"
 
@@ -821,6 +883,11 @@ msgstr ""
 msgid "Role"
 msgstr "ロール"
 
-#: lineconnect.php:481 lineconnect.php:483
+#: lineconnect.php:512 lineconnect.php:514
 msgid "LINE GPT Log"
 msgstr "LINE BOTログ"
+
+#~ msgid "The database version is not up to date. Please re-activate plugin."
+#~ msgstr ""
+#~ "データベースの更新が必要です。プラグイン「LINE Connect」を一旦無効化し、再"
+#~ "度有効化してください。"

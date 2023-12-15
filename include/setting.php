@@ -53,13 +53,23 @@ class lineconnectSetting {
 			$complete_message = lineconnect::getNotice($complete_message, lineconnect::NOTICE_TYPE__SUCCESS);
 		}
 
+		$version_update_message = "";
+		//Check DB Version is latest
+		if (version_compare(lineconnect::DB_VERSION, lineconnect::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial']), '>')) {
+			$version_update_message = lineconnect::getNotice(
+				__('Database is not up to date. Click the Setting Save button to update the database. It is recommended that you make a backup of the database before updating.', lineconnect::PLUGIN_NAME),
+				lineconnect::NOTICE_TYPE__ERROR
+			);
+		}
+
+
 		// nonceフィールドを生成・取得
 		$nonce_field = wp_nonce_field(lineconnect::CREDENTIAL_ACTION__SETTINGS_FORM, lineconnect::CREDENTIAL_NAME__SETTINGS_FORM, true, false);
 		$translated_channel_settings = __('Channel settings', lineconnect::PLUGIN_NAME);
 		// 開いておくタブ
 		$active_tab = 0;
 		echo <<< EOM
-        {$complete_message}
+        {$complete_message}{$version_update_message}
         <form action="" method='post' id="line-auto-post-settings-form">
         <div class="wrap ui-tabs ui-corner-all ui-widget ui-widget-content" id="stabs">
             <ul class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
@@ -589,6 +599,10 @@ EOM;
 					}
 					// (一応)初期設定の保存完了メッセージを削除
 					delete_transient(lineconnect::TRANSIENT_KEY__SAVE_SETTINGS);
+				}
+				// Database update
+				if (version_compare(lineconnect::DB_VERSION, lineconnect::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial']), '>')) {
+					lineconnect::delta_database();
 				}
 				// 設定画面にリダイレクト
 				wp_safe_redirect(menu_page_url(lineconnect::SLUG__SETTINGS_FORM), 303);

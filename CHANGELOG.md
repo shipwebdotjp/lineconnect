@@ -1,3 +1,9 @@
 ### Feat
-Feature: Add LINE Event Listing page. You can delete specific log.
-Feature: Added a setting to indicate whether or not to automatically display a linkage start message when an official account is added as a friend.
+Feature: Add Filter to GPT Log page.
+Feature: You can now choose between button and text link styles.
+
+### Fix
+Fix: Fixed a bug that prevented searching from messages in the log.
+
+### Notice
+Notice: The database needs to be updated.
