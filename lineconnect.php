@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 2.7.0
+	Version: 2.8.0
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3
@@ -38,12 +38,12 @@ class lineconnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '2.7.0';
+	const VERSION = '2.8.0';
 
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.1';
+	const DB_VERSION = '1.2';
 
 	/**
 	 * このプラグインのID：Ship Line Connect
@@ -438,9 +438,8 @@ class lineconnect {
 		return null;
 	}
 
-	/** 
+	/**
 	 * 登録されている設定値を返す
-	 * 
 	 */
 	static function get_variable( $variable_name, $default_value ) {
 		$variables = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
@@ -450,15 +449,22 @@ class lineconnect {
 		return $default_value;
 	}
 
-	/** 
+	/**
 	 * 設定値を保存
-	 * 
 	 */
 	static function set_variable( $variable_name, $value ) {
-		$variables = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
+		$variables                   = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
 		$variables[ $variable_name ] = $value;
 		update_option( self::OPTION_KEY__VARIABLES, $variables );
 	}
+
+	/**
+	 * 現在のデータベースバージョンを返す
+	 */
+	static function get_current_db_version() {
+		return self::get_variable( lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[ lineconnectConst::DB_VERSION_KEY ]['initial'] );
+	}
+
 
 	/**
 	 * Checks if the current request is a WP REST API request.
@@ -555,10 +561,9 @@ class lineconnect {
 		// プラグイン有効化時
 		// $current_db_version = self::get_variable( 'db_version', '1.0' );
 		self::delta_database();
-		
 	}
 
-	static function delta_database(){
+	static function delta_database() {
 		// テーブル作成
 		global $wpdb;
 
@@ -582,7 +587,22 @@ class lineconnect {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
 
-		self::set_variable( lineconnectConst::DB_VERSION_KEY, self::DB_VERSION);
+		$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$sql_line_id        = "CREATE TABLE $table_name_line_id (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			channel_prefix char(4) NOT NULL,
+			line_id char(33) NOT NULL,
+			follow tinyint NOT NULL DEFAULT 1,
+			profile json,
+			tags json,
+			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id),
+            KEY line_id (line_id)
+        ) $charset_collate;";
+		dbDelta( $sql_line_id );
+
+		self::set_variable( lineconnectConst::DB_VERSION_KEY, self::DB_VERSION );
 	}
 } // end of class
 

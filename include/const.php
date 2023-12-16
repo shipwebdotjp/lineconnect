@@ -80,6 +80,11 @@ class lineconnectConst {
 	 */
 	const TABLE_BOT_LOGS = 'lineconnect_bot_logs';
 
+	/**
+	 * LINEユーザー情報 MySQLテーブル名
+	 */
+	const TABLE_LINE_ID = 'lineconnect_line_id';
+
 	const ASSETS_SVG_FILENAME = 'assets/symbol-defs.svg';
 
 	const MIME_MAP = array(
@@ -448,7 +453,7 @@ class lineconnectConst {
 				'prefix' => '4',
 				'name'   => __( 'Style', lineconnect::PLUGIN_NAME ),
 				'fields' => array(
-					'image_aspectmode'        => array(
+					'image_aspectmode'             => array(
 						'type'     => 'select',
 						'label'    => __( 'Image fit mode', lineconnect::PLUGIN_NAME ),
 						'required' => true,
@@ -459,7 +464,7 @@ class lineconnectConst {
 						'default'  => 'cover',
 						'hint'     => __( 'cover: The replaced content is sized to maintain its aspect ratio while filling the image area. If the image\'s aspect ratio does not match the aspect ratio of its area, then the image will be clipped to fit. \n contain: The replaced image is scaled to maintain its aspect ratio while fitting within the image area. The entire image is made to fill the box, while preserving its aspect ratio, so the image will be "letterboxed" if its aspect ratio does not match the aspect ratio of the area.', lineconnect::PLUGIN_NAME ),
 					),
-					'image_aspectrate'        => array(
+					'image_aspectrate'             => array(
 						'type'     => 'text',
 						'label'    => __( 'Image area aspect ratio', lineconnect::PLUGIN_NAME ),
 						'required' => true,
@@ -467,28 +472,28 @@ class lineconnectConst {
 						'regex'    => '/^[1-9]+[0-9]*:[1-9]+[0-9]*$/',
 						'hint'     => __( 'The aspect ratio of the image area. The height cannot be greater than three times the width.', lineconnect::PLUGIN_NAME ),
 					),
-					'title_backgraound_color' => array(
+					'title_backgraound_color'      => array(
 						'type'     => 'color',
 						'label'    => __( 'Background color of the message', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#FFFFFF',
 						'hint'     => __( 'The background color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'title_text_color'        => array(
+					'title_text_color'             => array(
 						'type'     => 'color',
 						'label'    => __( 'Title text color', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#000000',
 						'hint'     => __( 'The title text color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'body_text_color'         => array(
+					'body_text_color'              => array(
 						'type'     => 'color',
 						'label'    => __( 'Body text color', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#000000',
 						'hint'     => __( 'The body text color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'link_button_style'        => array(
+					'link_button_style'            => array(
 						'type'     => 'select',
 						'label'    => __( 'Link style', lineconnect::PLUGIN_NAME ),
 						'required' => true,
@@ -499,28 +504,28 @@ class lineconnectConst {
 						'default'  => 'link',
 						'hint'     => __( 'Button: button style. Link: HTML link style', lineconnect::PLUGIN_NAME ),
 					),
-					'link_text_color'         => array(
+					'link_text_color'              => array(
 						'type'     => 'color',
 						'label'    => __( 'Link text color', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#1e90ff',
 						'hint'     => __( 'The link text color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'link_button_background_color'         => array(
+					'link_button_background_color' => array(
 						'type'     => 'color',
 						'label'    => __( 'Link button background color', lineconnect::PLUGIN_NAME ),
 						'required' => true,
 						'default'  => '#00ff00',
 						'hint'     => __( 'The link button background color of the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'title_rows'              => array(
+					'title_rows'                   => array(
 						'type'     => 'spinner',
 						'label'    => __( 'Max title lines', lineconnect::PLUGIN_NAME ),
 						'required' => false,
 						'default'  => 3,
 						'hint'     => __( 'This is the setting for the maximum number of lines of title to be displayed in the notification message.', lineconnect::PLUGIN_NAME ),
 					),
-					'body_rows'               => array(
+					'body_rows'                    => array(
 						'type'     => 'spinner',
 						'label'    => __( 'Max body lines', lineconnect::PLUGIN_NAME ),
 						'required' => false,
@@ -796,7 +801,7 @@ class lineconnectConst {
 			'db_version'     => array(
 				'initial' => '1.0',
 				'default' => lineconnect::DB_VERSION,
-			)
+			),
 		);
 	}
 }

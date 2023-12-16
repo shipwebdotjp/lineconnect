@@ -93,49 +93,49 @@ class lineconnectGptLogListTable extends WP_List_Table {
 		$start_from   = ( $current_page - 1 ) * $per_page;
 
 		$keyvalues = array();
-		if ( !self::is_empty( $_REQUEST['s']??null ) ) {
-			if (version_compare('1.1', lineconnect::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial'])) < 1) {
+		if ( ! self::is_empty( $_REQUEST['s'] ?? null ) ) {
+			if ( version_compare( '1.1', lineconnect::get_variable( lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[ lineconnectConst::DB_VERSION_KEY ]['initial'] ) ) < 1 ) {
 				// for new version search from json type column
 				$keyvalues[] = array(
 					'key'   => 'AND JSON_EXTRACT(`message`, "$.text") LIKE %s',
-					'value' => array( '%' . $wpdb->esc_like( $_REQUEST['s'] ) . '%',),//
+					'value' => array( '%' . $wpdb->esc_like( $_REQUEST['s'] ) . '%' ),
 				);
-			}else{
+			} else {
 				// for old version
 				$escaped_search = json_encode( $_REQUEST['s'], JSON_UNESCAPED_SLASHES );
 				$escaped_search = trim( $escaped_search, '"' );
-				$keyvalues[] = array(
-					'key'   => 'AND message LIKE %s ',//(user_id LIKE %s OR event_id LIKE %s OR 
-					'value' => array( '%' . $wpdb->esc_like( $escaped_search ) . '%',),//
+				$keyvalues[]    = array(
+					'key'   => 'AND message LIKE %s ', // (user_id LIKE %s OR event_id LIKE %s OR
+					'value' => array( '%' . $wpdb->esc_like( $escaped_search ) . '%' ),
 				);
 			}
 		}
 
-		if( !self::is_empty( $_REQUEST['event_type']??null ) ){
+		if ( ! self::is_empty( $_REQUEST['event_type'] ?? null ) ) {
 			$keyvalues[] = array(
 				'key'   => 'AND event_type = %d ',
-				'value' => array( $_REQUEST['event_type'],),
+				'value' => array( $_REQUEST['event_type'] ),
 			);
 		}
 
-		if( !self::is_empty( $_REQUEST['source_type']??null ) ){
+		if ( ! self::is_empty( $_REQUEST['source_type'] ?? null ) ) {
 			$keyvalues[] = array(
 				'key'   => 'AND source_type = %d ',
-				'value' => array( $_REQUEST['source_type'],),
+				'value' => array( $_REQUEST['source_type'] ),
 			);
 		}
 
-		if( !self::is_empty( $_REQUEST['message_type']??null ) ){
+		if ( ! self::is_empty( $_REQUEST['message_type'] ?? null ) ) {
 			$keyvalues[] = array(
 				'key'   => 'AND message_type = %d ',
-				'value' => array( $_REQUEST['message_type'],),
+				'value' => array( $_REQUEST['message_type'] ),
 			);
 		}
 
-		if( !self::is_empty( $_REQUEST['bot_id']??null ) ){
+		if ( ! self::is_empty( $_REQUEST['bot_id'] ?? null ) ) {
 			$keyvalues[] = array(
 				'key'   => 'AND bot_id = %s ',
-				'value' => array( $_REQUEST['bot_id'],),
+				'value' => array( $_REQUEST['bot_id'] ),
 			);
 		}
 
@@ -161,19 +161,47 @@ class lineconnectGptLogListTable extends WP_List_Table {
 
 		$total_items = $wpdb->get_var( $query );
 
-		$history = $wpdb->get_results(
-			$wpdb->prepare(
-				"
-			SELECT id,bot_id,message_type,UNIX_TIMESTAMP(timestamp) as timestamp,event_type,source_type,user_id,message,event_id 
-			FROM $table_name 
-			{$addtional_query}
-			ORDER BY {$orderby} {$order} 
-			LIMIT %d, %d",
-				$start_from,
-				$per_page
-			),
-			ARRAY_A
-		);
+		if ( version_compare( lineconnect::get_current_db_version(), '1.2', '>=' ) ) {
+			$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+			$history            = $wpdb->get_results(
+				$wpdb->prepare(
+					"
+				SELECT $table_name.id as id,
+				 $table_name.bot_id as bot_id,
+				 $table_name.message_type as message_type,
+				 UNIX_TIMESTAMP($table_name.timestamp) as timestamp,
+				 $table_name.event_type as event_type,
+				 $table_name.source_type as source_type,
+				 $table_name.user_id as user_id,
+				 $table_name.message as message,
+				 $table_name.event_id as event_id,
+				 JSON_UNQUOTE(JSON_EXTRACT($table_name_line_id.profile, '$.displayName')) as displayName 
+				FROM $table_name 
+				LEFT JOIN $table_name_line_id
+				ON $table_name.user_id = $table_name_line_id.line_id
+				{$addtional_query}
+				ORDER BY {$orderby} {$order} 
+				LIMIT %d, %d",
+					$start_from,
+					$per_page
+				),
+				ARRAY_A
+			);
+		} else {
+			$history = $wpdb->get_results(
+				$wpdb->prepare(
+					"
+				SELECT id,bot_id,message_type,UNIX_TIMESTAMP(timestamp) as timestamp,event_type,source_type,user_id,message,event_id 
+				FROM $table_name 
+				{$addtional_query}
+				ORDER BY {$orderby} {$order} 
+				LIMIT %d, %d",
+					$start_from,
+					$per_page
+				),
+				ARRAY_A
+			);
+		}
 
 		$chatlog_list = array();
 		foreach ( $history as $item ) {
@@ -187,8 +215,8 @@ class lineconnectGptLogListTable extends WP_List_Table {
 			$row_data['user_id']      = $item['user_id'];
 			$row_data['message']      = $item['message'];
 			$row_data['event_id']     = $item['event_id'];
-
-			$chatlog_list[] = $row_data;
+			$row_data['displayName']  = $item['displayName'] ?? null;
+			$chatlog_list[]           = $row_data;
 		}
 		// error_log(print_r($chatlog_list,true));
 		// $columns  = $this->get_columns();
@@ -255,6 +283,16 @@ class lineconnectGptLogListTable extends WP_List_Table {
 		}
 	}
 
+	public function column_user_id( $item ) {
+		$displayName = $item['displayName'];
+		if ( empty( $displayName ) ) {
+			return $item['user_id'];
+		} else {
+			return $displayName;
+		}
+	}
+
+
 	public function column_message( $item ) {
 		$message = json_decode( $item['message'], true );
 		if ( json_last_error() == JSON_ERROR_NONE ) {
@@ -290,11 +328,11 @@ class lineconnectGptLogListTable extends WP_List_Table {
 				),
 				admin_url( 'admin.php?page=' . lineconnect::SLUG__LINE_GPTLOG )
 			);
-			$delete_nonce_url = wp_nonce_url(
+			$delete_nonce_url   = wp_nonce_url(
 				$line_deletelog_url,
 				'delete_log_item'
 			);
-			$actions = array(
+			$actions            = array(
 				// 'delete' => sprintf( '<a href="%s">%s</a>', $line_deletelog_url, __( 'Delete', lineconnect::PLUGIN_NAME ) ),
 				'delete' => sprintf(
 					'<a class="submitdelete" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
@@ -308,30 +346,31 @@ class lineconnectGptLogListTable extends WP_List_Table {
 		}
 	}
 
-	protected function extra_tablenav($which){
-		if($which == "top"){ ?>
+	protected function extra_tablenav( $which ) {
+		if ( $which == 'top' ) {
+			?>
 			<div class="alignleft actions bulkactions">
 				<select name="event_type" id="event_type" >
 					<option value=""><?php echo __( 'All Event Types', lineconnect::PLUGIN_NAME ); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_EVENT_TYPE, $_REQUEST['event_type']??null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_EVENT_TYPE, $_REQUEST['event_type'] ?? null ); ?>
 				</select>
 				<select name="source_type" id="source_type" >
 					<option value=""><?php echo __( 'All Source Types', lineconnect::PLUGIN_NAME ); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_SOURCE_TYPE, $_REQUEST['source_type']??null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_SOURCE_TYPE, $_REQUEST['source_type'] ?? null ); ?>
 				</select>
 				<select name="bot_id" id="bot_id" >
 					<option value=""><?php echo __( 'All Channels', lineconnect::PLUGIN_NAME ); ?></option>
 					<?php
 					foreach ( lineconnect::get_all_channels() as $key => $value ) {
-						echo '<option value="' . $value['prefix'] . '" '.(isset($_REQUEST['bot_id']) && $value['prefix']===$_REQUEST['bot_id']?'selected="selected"':'').'>' . $value['name'] . '</option>';
+						echo '<option value="' . $value['prefix'] . '" ' . ( isset( $_REQUEST['bot_id'] ) && $value['prefix'] === $_REQUEST['bot_id'] ? 'selected="selected"' : '' ) . '>' . $value['name'] . '</option>';
 					}
 					?>
 				</select>
 				<select name="message_type" id="message_type" >
 					<option value=""><?php echo __( 'All Message Types', lineconnect::PLUGIN_NAME ); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_MESSAGE_TYPE, $_REQUEST['message_type']??null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions( lineconnectConst::WH_MESSAGE_TYPE, $_REQUEST['message_type'] ?? null ); ?>
 				</select>
-				<?php submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );	?>
+				<?php submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) ); ?>
 			</div>
 			<?php
 		}
@@ -377,9 +416,9 @@ class lineconnectGptLogListTable extends WP_List_Table {
 	}
 
 	public function delete_items() {
-		if( is_array($_REQUEST['ids'])){
-			check_admin_referer( 'bulk-'. $this->_args['plural']);
-		}else{
+		if ( is_array( $_REQUEST['ids'] ) ) {
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
+		} else {
 			check_admin_referer( 'delete_log_item' );
 		}
 		$ids = isset( $_REQUEST['ids'] ) ? $_REQUEST['ids'] : array();

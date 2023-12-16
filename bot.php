@@ -186,11 +186,14 @@ foreach ( $json_obj->{'events'} as $event ) {
 			// 友達登録時　自動連携開始がONであれば、アカウントリンクイベントを作成
 			$userId  = $event->{'source'}->{'userId'};
 			$message = getLinkStartMessage( $userId );
+			update_line_id_follow( $userId, true );
 		}
 	} elseif ( $type == 'unfollow' ) {
 		// 友達登録解除（ブロック時）リストから消去
 		$userId = $event->{'source'}->{'userId'};
 		$mes    = unAccountLink( $userId );
+		update_line_id_follow( $userId, false );
+
 	}
 
 	// if message type is image,video,audio,file and contentProvider.type is line
@@ -395,4 +398,105 @@ function update_message_filepath( $logId, $file_path ) {
 		return $wpdb->update( $table_name, array( 'message' => json_encode( $message ) ), array( 'id' => $logId ) );
 	}
 	return false;
+}
+
+// update line id follow
+function update_line_id_follow( $line_id, $is_follow ) {
+	global $access_token, $channelSecret, $secret_prefix, $wpdb;
+	if ( version_compare( lineconnect::get_current_db_version(), '1.2', '<' ) ) {
+		return;
+	}
+
+	$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+	$line_id_row        = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT * FROM {$table_name_line_id} WHERE line_id = %s and channel_prefix = %s",
+			array(
+				$line_id,
+				$secret_prefix,
+			)
+		),
+		'ARRAY_A'
+	);
+	if ( $line_id_row ) {
+		$user_data = json_decode( $line_id_row['profile'], true );
+	} else {
+		$user_data = array();
+	}
+
+	if ( $is_follow ) {
+		// get line profile via LINE Messaging API
+		// Bot作成
+		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $access_token );
+		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channelSecret ) );
+
+		// ユーザーのプロフィール取得
+		$response = $bot->getProfile( $line_id );
+		// check if response is 200
+		if ( $response->getHTTPStatus() === 200 ) {
+			// レスポンスをJSONデコード
+			$profile = $response->getJSONDecodedBody();
+			if ( isset( $profile['displayName'] ) ) {
+				$user_data['displayName'] = $profile['displayName'];
+			}
+			if ( isset( $profile['pictureUrl'] ) ) {
+				$user_data['pictureUrl'] = $profile['pictureUrl'];
+			} else {
+				unset( $user_data['pictureUrl'] );
+			}
+			if ( isset( $profile['language'] ) ) {
+				$user_data['language'] = $profile['language'];
+			} else {
+				unset( $user_data['language'] );
+			}
+			if ( isset( $profile['statusMessage'] ) ) {
+				$user_data['statusMessage'] = $profile['statusMessage'];
+			} else {
+				unset( $user_data['statusMessage'] );
+			}
+		} else {
+			$is_follow = false;
+		}
+	}
+	if ( $line_id_row ) {
+		// update
+		$result = $wpdb->update(
+			$table_name_line_id,
+			array(
+				'follow'  => $is_follow,
+				'profile' => ! empty( $user_data ) ? json_encode( $user_data, JSON_UNESCAPED_UNICODE ) : null,
+			),
+			array(
+				'line_id'        => $line_id,
+				'channel_prefix' => $secret_prefix,
+			),
+			array(
+				'%d',
+				'%s',
+			)
+		);
+		if ( $result === false ) {
+			error_log( 'update_line_id_follow error' );
+		}
+	} else {
+		// insert
+		$result = $wpdb->insert(
+			$table_name_line_id,
+			array(
+				'channel_prefix' => $secret_prefix,
+				'line_id'        => $line_id,
+				'follow'         => $is_follow,
+				'profile'        => ! empty( $user_data ) ? json_encode( $user_data, JSON_UNESCAPED_UNICODE ) : null,
+			),
+			array(
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+			)
+		);
+		if ( $result === false ) {
+			error_log( 'insert_line_id_follow error' );
+		}
+	}
 }
