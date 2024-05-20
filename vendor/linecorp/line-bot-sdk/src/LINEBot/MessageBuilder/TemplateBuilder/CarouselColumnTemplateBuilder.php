@@ -38,6 +38,8 @@ class CarouselColumnTemplateBuilder implements TemplateBuilder
     private $imageBackgroundColor;
     /** @var TemplateActionBuilder[] */
     private $actionBuilders;
+    /** @var TemplateActionBuilder */
+    private $defaultAction;
 
     /** @var array */
     private $template;
@@ -49,15 +51,17 @@ class CarouselColumnTemplateBuilder implements TemplateBuilder
      * @param string $text
      * @param string $thumbnailImageUrl
      * @param TemplateActionBuilder[] $actionBuilders
-     * @param string|null $imageBackgroundColor
+	 * @param string|null $imageBackgroundColor
+     * @param TemplateActionBuilder $defaultAction
      */
-    public function __construct($title, $text, $thumbnailImageUrl, array $actionBuilders, $imageBackgroundColor = null)
+    public function __construct($title, $text, $thumbnailImageUrl, array $actionBuilders, $imageBackgroundColor = null, $defaultAction = null)
     {
         $this->title = $title;
         $this->text = $text;
         $this->thumbnailImageUrl = $thumbnailImageUrl;
         $this->actionBuilders = $actionBuilders;
         $this->imageBackgroundColor = $imageBackgroundColor;
+		$this->defaultAction = $defaultAction;
     }
 
     /**
@@ -86,6 +90,10 @@ class CarouselColumnTemplateBuilder implements TemplateBuilder
         if ($this->imageBackgroundColor) {
             $this->template['imageBackgroundColor'] = $this->imageBackgroundColor;
         }
+
+		if ($this->defaultAction) {
+			$this->template['defaultAction'] = $this->defaultAction->buildTemplateAction();
+		}
 
         return $this->template;
     }

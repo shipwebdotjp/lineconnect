@@ -19,11 +19,13 @@ class lineconnectSetting {
 	 */
 	static function set_plugin_menu() {
 		// 設定のサブメニュー「LINE Connect」を追加
-		$page_hook_suffix = add_options_page(
+		$page_hook_suffix = add_submenu_page(
+			// 親ページ：
+			lineconnect::SLUG__DASHBOARD,
 			// ページタイトル：
 			__( 'LINE Connect settings', lineconnect::PLUGIN_NAME ),
 			// メニュータイトル：
-			'LINE Connect',
+			__( 'Settings', lineconnect::PLUGIN_NAME ),
 			// 権限：
 			// manage_optionsは以下の管理画面設定へのアクセスを許可
 			// ・設定 > 一般設定
@@ -35,7 +37,9 @@ class lineconnectSetting {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__SETTINGS_FORM,
 			// メニューに紐づく画面を描画するcallback関数：
-			array( 'lineconnectSetting', 'show_settings' )
+			array( 'lineconnectSetting', 'show_settings' ),
+			// メニューの位置
+			1
 		);
 		add_action( "admin_print_styles-{$page_hook_suffix}", array( 'lineconnectSetting', 'wpdocs_plugin_admin_styles' ) );
 		add_action( "admin_print_scripts-{$page_hook_suffix}", array( 'lineconnectSetting', 'wpdocs_plugin_admin_scripts' ) );
@@ -319,7 +323,7 @@ EOM;
 								$option_details['list'][ $post_type->name ] = $post_type->label;
 							}
 						} elseif ( $option_key == 'openai_enabled_functions' ) {
-							foreach ( lineconnectConst::$callable_functions as $function_name => $function_schema ) {
+							foreach ( lineconnectFunctions::get_callable_functions( false ) as $function_name => $function_schema ) {
 								$option_details['list'][ $function_name ] = $function_schema['title'];
 							}
 						}
@@ -415,7 +419,7 @@ EOM;
 				$new_key       = '';
 				// 新規チャネルのチェック
 				if ( ! empty( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-access-token' . 'new' ] ) && ! empty( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-secret' . 'new' ] ) ) {
-					$new_key        = substr( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-secret' . 'new' ], 0, 4, );
+					$new_key        = substr( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-secret' . 'new' ], 0, 4 );
 					$ary_channels[] = array( 'prefix' => $new_key );
 				}
 				// チャンネルリスト毎にチェック
@@ -446,7 +450,7 @@ EOM;
 							}
 							$ary_option[ $option_key ] = $options;
 						}
-						$ary_option['prefix']         = array( 'value' => substr( $ary_option['channel-secret']['value'], 0, 4, ) );
+						$ary_option['prefix']         = array( 'value' => substr( $ary_option['channel-secret']['value'], 0, 4 ) );
 						$channel_value[ $channel_id ] = $ary_option;
 
 						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
@@ -504,7 +508,7 @@ EOM;
 					}
 					foreach ( $tab_details['fields'] as $option_key => $option_details ) {
 						if ( isset( $option_details['isMulti'] ) && $option_details['isMulti'] ) {
-							$value = $_POST[ lineconnect::PARAMETER_PREFIX . $option_key ];
+							$value =  isset( $_POST[ lineconnect::PARAMETER_PREFIX . $option_key ] ) ? $_POST[ lineconnect::PARAMETER_PREFIX . $option_key ] : [];
 							foreach ( $value as $key => $tmp ) {
 								$value[ $key ] = trim( sanitize_text_field( $tmp ) );
 							}
@@ -513,7 +517,7 @@ EOM;
 						} else {
 							$value = trim( sanitize_text_field( $_POST[ lineconnect::PARAMETER_PREFIX . $option_key ] ) );
 						}
-						if ( empty( $value ) && $option_details['required'] ) {
+						if ( self::is_empty( $value ) && $option_details['required'] ) {
 							set_transient( lineconnect::INVALID_PREFIX . $option_key, sprintf( __( '"%s" is required.', lineconnect::PLUGIN_NAME ), $option_details['label'] ), lineconnect::TRANSIENT_TIME_LIMIT );
 							$valid = false;
 						} elseif ( isset( $option_details['regex'] ) && ! preg_match( $option_details['regex'], $value ) ) {
@@ -652,5 +656,9 @@ EOM;
 		wp_enqueue_style( lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url( $setting_css, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $setting_css ) );
 		$multiselect_css = 'css/jquery.multiselect.css';
 		wp_enqueue_style( lineconnect::PLUGIN_PREFIX . 'multiselect-css', plugins_url( $multiselect_css, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $multiselect_css ) );
+	}
+
+	static function is_empty($value) {
+		return empty($value) && $value !== 0 && $value !== '0';
 	}
 }

@@ -36,6 +36,9 @@ class VideoMessageBuilder implements MessageBuilder
     /** @var string */
     private $previewImageUrl;
 
+	/** @var string|null */
+    private $trackingId;
+
     /** @var QuickReplyBuilder|null */
     private $quickReply;
 
@@ -50,17 +53,20 @@ class VideoMessageBuilder implements MessageBuilder
      *
      * @param string $originalContentUrl
      * @param string $previewImageUrl
+     * @param string|null $trackingId
      * @param QuickReplyBuilder|null $quickReply
      * @param SenderBuilder|null $sender
      */
     public function __construct(
         $originalContentUrl,
         $previewImageUrl,
+		$trackingId = null,
         QuickReplyBuilder $quickReply = null,
         SenderBuilder $sender = null
     ) {
         $this->originalContentUrl = $originalContentUrl;
         $this->previewImageUrl = $previewImageUrl;
+		$this->trackingId = $trackingId;
         $this->quickReply = $quickReply;
         $this->sender = $sender;
     }
@@ -81,6 +87,10 @@ class VideoMessageBuilder implements MessageBuilder
             'originalContentUrl' => $this->originalContentUrl,
             'previewImageUrl' => $this->previewImageUrl,
         ];
+
+		if ($this->trackingId) {
+			$video['trackingId'] = $this->trackingId;
+		}
 
         if ($this->quickReply) {
             $video['quickReply'] = $this->quickReply->buildQuickReply();

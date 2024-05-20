@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 2.8.0
+	Version: 3.0.0
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3
@@ -28,9 +28,17 @@ require_once plugin_dir_path( __FILE__ ) . 'include/const.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/botlog.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/openai.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/functions.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/dashboard.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/dm.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/action.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/trigger.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/util.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/slc_message.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/schedule.php';
 
 // WordPressの読み込みが完了してヘッダーが送信される前に実行するアクションに、
 // LineConnectクラスのインスタンスを生成するStatic関数をフック
+
 
 
 class lineconnect {
@@ -38,7 +46,7 @@ class lineconnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '2.8.0';
+	const VERSION = '3.0.0';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -71,6 +79,21 @@ class lineconnect {
 	const CREDENTIAL_ACTION__POST = self::PLUGIN_ID . '-nonce-action_post';
 
 	/**
+	 * CredentialAction：Action
+	 */
+	const CREDENTIAL_ACTION__ACTION = self::PLUGIN_ID . '-nonce-action_action';
+
+	/**
+	 * CredentialAction：Action
+	 */
+	const CREDENTIAL_ACTION__TRIGGER = self::PLUGIN_ID . '-nonce-action_trigger';
+
+	/**
+	 * CredentialAction：Message
+	 */
+	const CREDENTIAL_ACTION__MESSAGE = self::PLUGIN_ID . '-nonce-action_message';
+
+	/**
 	 * CredentialName：設定
 	 */
 	const CREDENTIAL_NAME__SETTINGS_FORM = self::PLUGIN_ID . '-nonce-name_settings-form';
@@ -79,6 +102,21 @@ class lineconnect {
 	 * CredentialName：投稿
 	 */
 	const CREDENTIAL_NAME__POST = self::PLUGIN_ID . '-nonce-name_post';
+
+	/**
+	 * CredentialName：アクション
+	 */
+	const CREDENTIAL_NAME__ACTION = self::PLUGIN_ID . '-nonce-name_action';
+
+	/**
+	 * CredentialName：Trigger
+	 */
+	const CREDENTIAL_NAME__TRIGGER = self::PLUGIN_ID . '-nonce-name_trigger';
+
+	/**
+	 * CredentialName：Message
+	 */
+	const CREDENTIAL_NAME__MESSAGE = self::PLUGIN_ID . '-nonce-name_message';
 
 	/**
 	 * (23文字)
@@ -129,6 +167,21 @@ class lineconnect {
 	 * パラメータ名：LINEメッセージ送信チェックボックス
 	 */
 	const PARAMETER__SEND_CHECKBOX = self::PLUGIN_PREFIX . 'send-checkbox';
+
+	/**
+	 * パラメータ名：LINE ACTION データ
+	 */
+	const PARAMETER__ACTION_DATA = self::PLUGIN_PREFIX . 'action-data';
+
+	/**
+	 * パラメータ名：LINE TRIGGER データ
+	 */
+	const PARAMETER__TRIGGER_DATA = self::PLUGIN_PREFIX . 'trigger-data';
+
+	/**
+	 * パラメータ名：LINE MESSAGE データ
+	 */
+	const PARAMETER__MESSAGE_DATA = self::PLUGIN_PREFIX . 'message-data';
 
 	/**
 	 * TRANSIENTキー(エラー)：LINEメッセージ送信失敗
@@ -196,9 +249,54 @@ class lineconnect {
 	const SLUG__LINE_GPTLOG = self::PLUGIN_ID . '-linegpt-log';
 
 	/**
+	 * 画面のslug：LINE Dashboard
+	 */
+	const SLUG__DASHBOARD = self::PLUGIN_ID . '-dashboard';
+
+	/**
+	 * 画面のslug：DM(LINE)
+	 */
+	const SLUG__DM_FORM = self::PLUGIN_ID . '-linedm-form';
+
+	/**
 	 * 投稿メタキー：is-send-line
 	 */
 	const META_KEY__IS_SEND_LINE = 'is-send-line';
+
+	/**
+	 * 投稿メタキー：action-data
+	 */
+	// const META_KEY__ACTION_DATA = 'action-data';
+
+	/**
+	 * 投稿メタキー：trigger-data
+	 */
+	const META_KEY__TRIGGER_DATA = 'trigger-data';
+
+	/**
+	 * 投稿メタキー：message-data
+	 */
+	const META_KEY__MESSAGE_DATA = 'message-data';
+
+	/**
+	 * 投稿メタキー：schema-version
+	 */
+	const META_KEY__SCHEMA_VERSION = 'data-schema-version';
+
+	/**
+	 * Filter hook prefix
+	 */
+	const FILTER_PREFIX = self::PLUGIN_ID . '_filter_';
+	
+	/**
+	 * Cronイベント名：
+	 */
+	const CRON_EVENT_NAME = self::PLUGIN_NAME. '_schedule_event';
+
+	/**
+	 * Cron前回実行日時オプション名：
+	 */
+	const CRON_EVENT_LAST_TIMESTAMP = self::PLUGIN_NAME. '_cron_last_timestamp';
 
 	/**
 	 * チャットログリスト表示用クラス
@@ -237,7 +335,7 @@ class lineconnect {
 	 */
 	static function getNotice( $message, $type ) {
 		return '<div class="notice notice-' . $type . ' is-dismissible">' .
-			'<p><strong>' . esc_html( $message ) . '</strong></p>' .
+			'<p><strong>' . wp_kses_post( $message ) . '</strong></p>' .
 			'<button type="button" class="notice-dismiss">' .
 			'<span class="screen-reader-text">Dismiss this notice.</span>' .
 			'</button>' .
@@ -245,7 +343,7 @@ class lineconnect {
 	}
 
 	static function getErrorBar( $message, $type ) {
-		return '<div class="error">' . esc_html( $message ) . '</div>';
+		return '<div class="error">' . wp_kses_post( $message ) . '</div>';
 	}
 
 	/**
@@ -275,8 +373,22 @@ class lineconnect {
 				// 投稿画面のとき、スクリプトを読み込む
 				add_action( 'admin_enqueue_scripts', array( 'lineconnectPublish', 'wpdocs_selectively_enqueue_admin_script' ) );
 
+				// Action関係
+				// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'lineconnectAction', 'save_post_action' ), 15, 6 );
+				// add_action( 'admin_enqueue_scripts', array( 'lineconnectAction', 'wpdocs_selectively_enqueue_admin_script' ) );
+
+				// Trigger関係
+				add_action( 'save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array( 'lineconnectTrigger', 'save_post_trigger' ), 15, 6 );
+				add_action( 'admin_enqueue_scripts', array( 'lineconnectTrigger', 'wpdocs_selectively_enqueue_admin_script' ) );
+
+				// message
+				add_action( 'save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array( 'lineconnectSLCMessage', 'save_post_message' ), 15, 6 );
+				add_action( 'admin_enqueue_scripts', array( 'lineconnectSLCMessage', 'wpdocs_selectively_enqueue_admin_script' ) );
+
 				// 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
 				if ( is_admin() && is_user_logged_in() && ( is_super_admin() || current_user_can( 'administrator' ) ) ) {
+					// LINE Connect ダッシュボードページ(親となるページ)を追加
+					add_action( 'admin_menu', array( 'lineconnectDashboard', 'set_plugin_menu' ) );
 					// 管理画面のトップメニューページを追加
 					add_action( 'admin_menu', array( 'lineconnectSetting', 'set_plugin_menu' ) );
 					// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
@@ -296,6 +408,16 @@ class lineconnect {
 					add_action( 'wp_ajax_lc_ajax_chat_send', array( 'lineconnectChat', 'ajax_chat_send' ) );
 					// BOT LOGリストのトップメニューページを追加
 					add_action( 'admin_menu', array( $this, 'set_page_gptlog' ) );
+					// DM画面のトップメニューページを追加
+					add_action( 'admin_menu', array( 'lineconnectDm', 'set_plugin_menu' ) );
+					// DM送信アクション
+					add_action( 'wp_ajax_lc_ajax_dm_send', array( 'lineconnectDm', 'ajax_dm_send' ) );
+					// ACTIONのトップメニューページを追加
+					//add_action( 'admin_menu', array( 'lineconnectAction', 'set_plugin_menu' ) );
+					// Triggerのトップメニューページを追加
+					add_action( 'admin_menu', array( 'lineconnectTrigger', 'set_plugin_menu' ) );
+					// Messageのトップメニューページを追加
+					add_action( 'admin_menu', array( 'lineconnectSLCMessage', 'set_plugin_menu' ) );
 				}
 				// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 				add_action( 'wp_login', array( $this, 'redirect_account_link' ), 10, 2 );
@@ -325,11 +447,27 @@ class lineconnect {
 
 				// ショートコード用のCSSを読み込むため
 				add_action( 'wp_enqueue_scripts', array( 'lineconnectShortcodes', 'enqueue_script' ) );
+
+				// カスタム投稿タイプの登録
+				$this->register_custom_post_type();
+
+				// add shedule interval filter
+				add_filter('cron_schedules', array( $this, 'add_cron_interval' ));
+
+				// add shedule action
+				add_action(self::CRON_EVENT_NAME, ['lineconnectSchedule', 'schedule_event']);
+
+						//set cron
+				self::cron_initialaize();
+
 			}
 		);
 
 		// プラグイン有効化時に呼び出し
 		register_activation_hook( __FILE__, array( $this, 'pluginActivation' ) );
+
+		//プラグイン無効化時に呼び出し
+		register_deactivation_hook(__FILE__, [$this, 'pluginDeactivation']);
 
 		// テキストドメイン呼出し
 		load_plugin_textdomain( self::PLUGIN_NAME, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -337,8 +475,11 @@ class lineconnect {
 		// チャットのイニシャライズ
 		// lineconnectChat::initialize();
 
+
+
 		// lineconnectConst class initialize
 		lineconnectConst::initialize();
+
 	}
 
 	/**
@@ -380,7 +521,7 @@ class lineconnect {
 			// ユーザーのメタデータを取得
 			foreach ( $users as $user ) {
 				$user_meta_line = $user->get( self::META_KEY__LINE );
-				if ( $user_meta_line && $user_meta_line[ $secret_prefix ] ) {
+				if ( $user_meta_line && isset( $user_meta_line[ $secret_prefix ] ) ) {
 					if ( $user_meta_line[ $secret_prefix ]['id'] == $line_id ) {
 						return $user;
 					}
@@ -390,6 +531,66 @@ class lineconnect {
 		return false;
 	}
 
+	/**
+	 * LINE IDからプロフィール情報を取得
+	 *
+	 * @param string  $secret_prefix チャンネルID
+	 * @param string  $line_id LINE ID
+	 * @return array 
+	 */
+	static function get_userdata_from_line_id( $secret_prefix, $line_id ) {
+		$user_data = array();
+		$line_id_row  = lineconnectUtil::line_id_row( $line_id, $secret_prefix );
+		if ( $line_id_row ) {
+			$user_data['profile']       = json_decode( $line_id_row['profile'], true );
+			$user_data['tags']          = json_decode( $line_id_row['tags'], true );
+		}
+		$wp_user = self::get_wpuser_from_line_id( $secret_prefix, $line_id );
+		if ( $wp_user ) {
+			$user_data = array_merge( $user_data, json_decode(json_encode($wp_user), true) );
+		}else if ( $line_id_row && isset($user_data['profile']['displayName']) ){
+			$user_data['data'] = array(
+				'display_name' => $user_data['profile']['displayName'],
+			);
+		}
+		return $user_data;
+	}
+
+	/**
+	 * WordPressユーザーとチャネルからLINEユーザーIDを取得
+	 *
+	 * @param WP_User $user WordPressユーザー
+	 * @param string  $secret_prefix チャネルシークレット先頭4文字
+	 * @return string LINEユーザーID
+	 */
+	public static function get_line_id_from_wpuser( $user, $secret_prefix ) {
+		$line_user_id   = null;
+		$user_meta_line = $user->get( self::META_KEY__LINE );
+		if ( $user_meta_line && isset( $user_meta_line[ $secret_prefix ] ) ) {
+			if ( isset( $user_meta_line[ $secret_prefix ]['id'] ) ) {
+				$line_user_id = $user_meta_line[ $secret_prefix ]['id'];
+			}
+		}
+		return $line_user_id;
+	}
+	/**
+	 * WordPressユーザーからLINEユーザーIDを取得
+	 *
+	 * @param WP_User $user WordPressユーザー
+	 * @return array LINEユーザーID
+	 */
+	public static function get_line_ids_from_wpuser( $user ) {
+		$line_user_ids  = array();
+		$user_meta_line = $user->get( self::META_KEY__LINE );
+		if ( $user_meta_line && is_array( $user_meta_line ) ) {
+			foreach ( $user_meta_line as $secret_prefix => $line_data ) {
+				if ( isset( $line_data['id'] ) ) {
+					$line_user_ids[] = $line_data['id'];
+				}
+			}
+		}
+		return $line_user_ids;
+	}
 	/*
 	ログイン時にLINE連携から飛んできた場合は連携用のページへリダイレクトさせる
 	*/
@@ -457,6 +658,12 @@ class lineconnect {
 		$variables[ $variable_name ] = $value;
 		update_option( self::OPTION_KEY__VARIABLES, $variables );
 	}
+	/**
+	 * 現在のプラグインバージョンを返す
+	 */
+	static function get_current_plugin_version() {
+		return self::VERSION;
+	}
 
 	/**
 	 * 現在のデータベースバージョンを返す
@@ -513,11 +720,13 @@ class lineconnect {
 	}
 
 	function set_page_gptlog() {
-		$page_hook_suffix = add_menu_page(
+		$page_hook_suffix = add_submenu_page(
+			// 親ページ：
+			self::SLUG__DASHBOARD,
 			// ページタイトル：
-			__( 'LINE GPT Log', self::PLUGIN_NAME ),
+			__( 'LINE Event Log', self::PLUGIN_NAME ),
 			// メニュータイトル：
-			__( 'LINE GPT Log', self::PLUGIN_NAME ),
+			__( 'Event Log', self::PLUGIN_NAME ),
 			// 権限：
 			// manage_optionsは以下の管理画面設定へのアクセスを許可
 			// ・設定 > 一般設定
@@ -530,7 +739,8 @@ class lineconnect {
 			self::SLUG__LINE_GPTLOG,
 			// メニューに紐づく画面を描画するcallback関数：
 			array( $this, 'show_gpt_log' ),
-			'dashicons-testimonial'
+			// メニューの位置
+			2
 		);
 
 		if ( isset( $_GET['page'] ) && self::SLUG__LINE_GPTLOG === $_GET['page'] ) {
@@ -561,6 +771,13 @@ class lineconnect {
 		// プラグイン有効化時
 		// $current_db_version = self::get_variable( 'db_version', '1.0' );
 		self::delta_database();
+	}
+
+	function pluginDeactivation(){
+		$timestamp = wp_next_scheduled( self::CRON_EVENT_NAME );
+		if(isset($timestamp)){
+			wp_unschedule_event( $timestamp, self::CRON_EVENT_NAME );
+		}
 	}
 
 	static function delta_database() {
@@ -603,6 +820,190 @@ class lineconnect {
 		dbDelta( $sql_line_id );
 
 		self::set_variable( lineconnectConst::DB_VERSION_KEY, self::DB_VERSION );
+	}
+
+	private function register_custom_post_type() {
+		// register custom post type: action
+		/*
+		register_post_type(
+			lineconnectConst::POST_TYPE_ACTION,
+			array(
+				'labels'               => array(
+					'name'                     => __( 'LC Actions', self::PLUGIN_NAME ),
+					'singular_name'            => __( 'LC Action', self::PLUGIN_NAME ),
+					'add_new'                  => __( 'Add New', self::PLUGIN_NAME ),
+					'add_new_item'             => __( 'Add New Action', self::PLUGIN_NAME ),
+					'edit_item'                => __( 'Edit Action', self::PLUGIN_NAME ),
+					'new_item'                 => __( 'New Action', self::PLUGIN_NAME ),
+					'view_item'                => __( 'View Action', self::PLUGIN_NAME ),
+					'search_items'             => __( 'Search Actions', self::PLUGIN_NAME ),
+					'not_found'                => __( 'No Actions found', self::PLUGIN_NAME ),
+					'not_found_in_trash'       => __( 'No Actions found in Trash', self::PLUGIN_NAME ),
+					'parent_item_colon'        => '',
+					'menu_name'                => __( 'LC Actions', self::PLUGIN_NAME ),
+					'all_items'                => __( 'All Actions', self::PLUGIN_NAME ),
+					'archives'                 => __( 'Action Archives', self::PLUGIN_NAME ),
+					'attributes'               => __( 'Action Attributes', self::PLUGIN_NAME ),
+					'insert_into_item'         => __( 'Insert into Action', self::PLUGIN_NAME ),
+					'uploaded_to_this_item'    => __( 'Uploaded to this Action', self::PLUGIN_NAME ),
+					'featured_image'           => __( 'Featured Image', self::PLUGIN_NAME ),
+					'set_featured_image'       => __( 'Set featured image', self::PLUGIN_NAME ),
+					'remove_featured_image'    => __( 'Remove featured image', self::PLUGIN_NAME ),
+					'use_featured_image'       => __( 'Use as featured image', self::PLUGIN_NAME ),
+					'filter_items_list'        => __( 'Filter Actions list', self::PLUGIN_NAME ),
+					'items_list_navigation'    => __( 'Actions list navigation', self::PLUGIN_NAME ),
+					'items_list'               => __( 'Actions list', self::PLUGIN_NAME ),
+					'item_published'           => __( 'Action published.', self::PLUGIN_NAME ),
+					'item_published_privately' => __( 'Action published privately.', self::PLUGIN_NAME ),
+					'item_reverted_to_draft'   => __( 'Action reverted to draft.', self::PLUGIN_NAME ),
+					'item_scheduled'           => __( 'Action scheduled.', self::PLUGIN_NAME ),
+					'item_updated'             => __( 'Action updated.', self::PLUGIN_NAME ),
+				),
+				'description'          => __( 'LINE Connect Actions', self::PLUGIN_NAME ),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
+				'show_in_rest'         => false,
+				'supports'             => array( 'title' ),
+				'register_meta_box_cb' => array( 'lineconnectAction', 'register_meta_box' ),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+		*/
+
+		// register custom post type: trigger
+		register_post_type(
+			lineconnectConst::POST_TYPE_TRIGGER,
+			array(
+				'labels'               => array(
+					'name'                     => __( 'LC Triggers', self::PLUGIN_NAME ),
+					'singular_name'            => __( 'LC Trigger', self::PLUGIN_NAME ),
+					'add_new'                  => __( 'Add New', self::PLUGIN_NAME ),
+					'add_new_item'             => __( 'Add New Trigger', self::PLUGIN_NAME ),
+					'edit_item'                => __( 'Edit Trigger', self::PLUGIN_NAME ),
+					'new_item'                 => __( 'New Trigger', self::PLUGIN_NAME ),
+					'view_item'                => __( 'View Trigger', self::PLUGIN_NAME ),
+					'search_items'             => __( 'Search Triggers', self::PLUGIN_NAME ),
+					'not_found'                => __( 'No Triggers found', self::PLUGIN_NAME ),
+					'not_found_in_trash'       => __( 'No Triggers found in Trash', self::PLUGIN_NAME ),
+					'parent_item_colon'        => '',
+					'menu_name'                => __( 'LC Triggers', self::PLUGIN_NAME ),
+					'all_items'                => __( 'All Triggers', self::PLUGIN_NAME ),
+					'archives'                 => __( 'Trigger Archives', self::PLUGIN_NAME ),
+					'attributes'               => __( 'Trigger Attributes', self::PLUGIN_NAME ),
+					'insert_into_item'         => __( 'Insert into Trigger', self::PLUGIN_NAME ),
+					'uploaded_to_this_item'    => __( 'Uploaded to this Trigger', self::PLUGIN_NAME ),
+					'featured_image'           => __( 'Featured Image', self::PLUGIN_NAME ),
+					'set_featured_image'       => __( 'Set featured image', self::PLUGIN_NAME ),
+					'remove_featured_image'    => __( 'Remove featured image', self::PLUGIN_NAME ),
+					'use_featured_image'       => __( 'Use as featured image', self::PLUGIN_NAME ),
+					'filter_items_list'        => __( 'Filter Triggers list', self::PLUGIN_NAME ),
+					'items_list_navigation'    => __( 'Triggers list navigation', self::PLUGIN_NAME ),
+					'items_list'               => __( 'Triggers list', self::PLUGIN_NAME ),
+					'item_published'           => __( 'Trigger published.', self::PLUGIN_NAME ),
+					'item_published_privately' => __( 'Trigger published privately.', self::PLUGIN_NAME ),
+					'item_reverted_to_draft'   => __( 'Trigger reverted to draft.', self::PLUGIN_NAME ),
+					'item_scheduled'           => __( 'Trigger scheduled.', self::PLUGIN_NAME ),
+					'item_updated'             => __( 'Trigger updated.', self::PLUGIN_NAME ),
+				),
+				'description'          => __( 'LINE Connect Triggers', self::PLUGIN_NAME ),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
+				'show_in_rest'         => false,
+				'supports'             => array( 'title' ),
+				'register_meta_box_cb' => array( 'lineconnectTrigger', 'register_meta_box' ),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+
+		// register custom post type: Message
+		register_post_type(
+			lineconnectConst::POST_TYPE_MESSAGE,
+			array(
+				'labels'               => array(
+					'name'                     => __( 'LC Messages', self::PLUGIN_NAME ),
+					'singular_name'            => __( 'LC Message', self::PLUGIN_NAME ),
+					'add_new'                  => __( 'Add New', self::PLUGIN_NAME ),
+					'add_new_item'             => __( 'Add New Message', self::PLUGIN_NAME ),
+					'edit_item'                => __( 'Edit Message', self::PLUGIN_NAME ),
+					'new_item'                 => __( 'New Message', self::PLUGIN_NAME ),
+					'view_item'                => __( 'View Message', self::PLUGIN_NAME ),
+					'search_items'             => __( 'Search Messages', self::PLUGIN_NAME ),
+					'not_found'                => __( 'No Messages found', self::PLUGIN_NAME ),
+					'not_found_in_trash'       => __( 'No Messages found in Trash', self::PLUGIN_NAME ),
+					'parent_item_colon'        => '',
+					'menu_name'                => __( 'LC Messages', self::PLUGIN_NAME ),
+					'all_items'                => __( 'All Messages', self::PLUGIN_NAME ),
+					'archives'                 => __( 'Message Archives', self::PLUGIN_NAME ),
+					'attributes'               => __( 'Message Attributes', self::PLUGIN_NAME ),
+					'insert_into_item'         => __( 'Insert into Message', self::PLUGIN_NAME ),
+					'uploaded_to_this_item'    => __( 'Uploaded to this Message', self::PLUGIN_NAME ),
+					'featured_image'           => __( 'Featured Image', self::PLUGIN_NAME ),
+					'set_featured_image'       => __( 'Set featured image', self::PLUGIN_NAME ),
+					'remove_featured_image'    => __( 'Remove featured image', self::PLUGIN_NAME ),
+					'use_featured_image'       => __( 'Use as featured image', self::PLUGIN_NAME ),
+					'filter_items_list'        => __( 'Filter Messages list', self::PLUGIN_NAME ),
+					'items_list_navigation'    => __( 'Messages list navigation', self::PLUGIN_NAME ),
+					'items_list'               => __( 'Messages list', self::PLUGIN_NAME ),
+					'item_published'           => __( 'Message published.', self::PLUGIN_NAME ),
+					'item_published_privately' => __( 'Message published privately.', self::PLUGIN_NAME ),
+					'item_reverted_to_draft'   => __( 'Message reverted to draft.', self::PLUGIN_NAME ),
+					'item_scheduled'           => __( 'Message scheduled.', self::PLUGIN_NAME ),
+					'item_updated'             => __( 'Message updated.', self::PLUGIN_NAME ),
+				),
+				'description'          => __( 'LINE Connect Messages', self::PLUGIN_NAME ),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
+				'show_in_rest'         => false,
+				'supports'             => array( 'title' ),
+				'register_meta_box_cb' => array( 'lineconnectSLCMessage', 'register_meta_box' ),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+	}
+
+	static function cron_initialaize(){
+		if (wp_get_schedule(self::CRON_EVENT_NAME) === false) {
+			
+			$unixTime = date('U') + 60; // 1 min after
+			$timeStamp = mktime(date('H', $unixTime), date('i', $unixTime), 0, date('m', $unixTime), date('d', $unixTime), date('Y', $unixTime));
+			wp_schedule_event($timeStamp, 'minly', self::CRON_EVENT_NAME);
+		}
+		
+		/* else {
+			
+			$unixTime = wp_next_scheduled(self::CRON_EVENT_NAME);
+			if (intval(date('i', $unixTime)) > 0) {
+				
+				wp_clear_scheduled_hook(self::CRON_EVENT_NAME);
+				$timeStamp = mktime(date('H', $unixTime), 0, 0, date('m', $unixTime), date('d', $unixTime), date('Y', $unixTime));
+				wp_schedule_event($timeStamp, 'hourly', self::CRON_EVENT_NAME);
+				
+			}
+			
+		}*/
+	}
+
+	function add_cron_interval($schedules){
+		$schedules['minly'] = array(
+			'interval' => 60,
+			'display' => 'every minutes'
+		);
+		return $schedules;
 	}
 } // end of class
 

@@ -13,61 +13,138 @@
  */
 
 class lineconnectFunctions {
-	public $lineUserId;
+	// public $lineUserId;
 	public $secret_prefix;
+	public $event;
 
-	public function __construct(string $lineUserId, string $secret_prefix) {
+	public function __construct() {
+	}
+
+	/*
+		public function set_line_user_id( string $lineUserId ) {
 		$this->lineUserId = $lineUserId;
+	} */
+
+	public function set_secret_prefix( string $secret_prefix ) {
 		$this->secret_prefix = $secret_prefix;
 	}
 
-	//自分のユーザー情報取得
+	public function set_event( object $event ) {
+		$this->event = $event;
+	}
+
+	public static function get_callable_functions( $only_enabled_gpt = false ) {
+		// get post form custom post type by WP_Query
+		$functions = array();
+		/*
+		$args      = array(
+			'post_type'      => lineconnectConst::POST_TYPE_ACTION,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+		);
+		*/
+		if ( $only_enabled_gpt ) {
+			$enabled_functions = lineconnect::get_option( ( 'openai_enabled_functions' ) );
+		}
+		/*
+		$posts = get_posts( $args );
+
+		foreach ( $posts as $post ) {
+			$action = get_post_meta( $post->ID, lineconnect::META_KEY__ACTION_DATA, true );
+			if ( ! $only_enabled_gpt || in_array( $action['function'], $enabled_functions ) ) {
+				$functions[ $action['function'] ] = array(
+					'title'       => get_the_title(),
+					'description' => $action['description'],
+					'parameters'  => $action['parameters'],
+					'namespace'   => $action['namespace'],
+					'role'        => $action['role'],
+				);
+			}
+		}
+		*/
+		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions); 
+		foreach ( $lineconnect_actions as $name => $action ) {
+			if ( ! $only_enabled_gpt || in_array( $name, $enabled_functions ) ) {
+				$functions[ $name ] = array(
+					'title'       => $action['title'],
+					'description' => $action['description'],
+					'parameters'  => $action['parameters'] ?? [],
+					'namespace'   => $action['namespace'],
+					'role'        => $action['role'],
+				);
+			}
+		}
+
+
+		return $functions;
+	}
+
+	// 自分のユーザー情報取得
 	function get_my_user_info() {
-		//メタ情報からLINEユーザーIDでユーザー検索
-		$user = lineconnect::get_wpuser_from_line_id($this->secret_prefix, $this->lineUserId);
-		if ($user) { //ユーザーが見つかればすでに連携されているということ
-			return ["linkstatus" => "linked", "user_id" => $user->ID, "user_login" => $user->user_login, "user_email" => $user->user_email, "user_nicename" => $user->user_nicename, "display_name" => $user->display_name, "user_registered" => $user->user_registered];
+		// メタ情報からLINEユーザーIDでユーザー検索
+		$user = lineconnect::get_wpuser_from_line_id( $this->secret_prefix, $this->event->source->userId );
+		if ( $user ) { // ユーザーが見つかればすでに連携されているということ
+			return array(
+				'linkstatus'      => 'linked',
+				'user_id'         => $user->ID,
+				'user_login'      => $user->user_login,
+				'user_email'      => $user->user_email,
+				'user_nicename'   => $user->user_nicename,
+				'display_name'    => $user->display_name,
+				'user_registered' => $user->user_registered,
+			);
 		} else {
-			return ["error" => "not_linked", "message" => "You are not linked to WordPress"];
+			$line_id_row  = lineconnectUtil::line_id_row( $this->event->source->userId, $this->secret_prefix );
+			if ( $line_id_row ) {
+				$profile = json_decode( $line_id_row['profile'], true );
+				return array(
+					'linkstatus'      => 'not_linked',
+					'display_name'    => $profile['displayName'],
+				);
+			}
+			return array(
+				'error'   => 'not_linked',
+				'message' => 'You are not linked to WordPress',
+			);
 		}
 	}
 
-	//現在日時取得
+	// 現在日時取得
 	function get_the_current_datetime() {
-		return ["datetime" => date(DATE_RFC2822)];
+		return array( 'datetime' => date( DATE_RFC2822 ) );
 	}
 
-	//記事検索
-	function WP_Query($args) {
+	// 記事検索
+	function WP_Query( $args ) {
 		// set not overwrite args
-		$args["has_password"] = false;		//パスワードが掛かっていない投稿のみ
-		$args["post_status"] = "publish";	//公開ステータスの投稿のみに限定
-		$args["posts_per_page"] = (isset($args["posts_per_page"]) && $args["posts_per_page"] <= 5 ? $args["posts_per_page"] : 5);	// 取得する投稿を５件までに制限
+		$args['has_password']   = false;      // パスワードが掛かっていない投稿のみ
+		$args['post_status']    = 'publish';   // 公開ステータスの投稿のみに限定
+		$args['posts_per_page'] = ( isset( $args['posts_per_page'] ) && $args['posts_per_page'] <= 5 ? $args['posts_per_page'] : 5 );   // 取得する投稿を５件までに制限
 
-		//get post
-		$the_query = new WP_Query($args);
-		$posts = [];
-		if ($the_query->have_posts()) {
-			while ($the_query->have_posts()) {
+		// get post
+		$the_query = new WP_Query( $args );
+		$posts     = array();
+		if ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
 				$post_object = get_post();
-				$post = [];
-				$post["ID"] = $post_object->ID;
-				//$post["post_name"] = $post_object->post_name;
-				$post["post_type"] = $post_object->post_type;
-				$post["post_title"] = get_the_title();
-				$post["post_date"] = $post_object->post_date;
-				$post["post_modified"] = $post_object->post_modified;
-				if ($the_query->found_posts > 1) {
-					$post["post_excerpt"] = get_the_excerpt();
+				$post        = array();
+				$post['ID']  = $post_object->ID;
+				// $post["post_name"] = $post_object->post_name;
+				$post['post_type']     = $post_object->post_type;
+				$post['post_title']    = get_the_title();
+				$post['post_date']     = $post_object->post_date;
+				$post['post_modified'] = $post_object->post_modified;
+				if ( $the_query->found_posts > 1 ) {
+					$post['post_excerpt'] = get_the_excerpt();
 				} else {
-					//omit conent size to 1024
-					$post["post_content"] = strip_tags($post_object->post_content);
-					if (mb_strlen($post["post_content"]) > 1024) {
-						$post["post_content"] = mb_substr($post["post_content"], 0, 1023) . "…";
+					// omit conent size to 1024
+					$post['post_content'] = strip_tags( $post_object->post_content );
+					if ( mb_strlen( $post['post_content'] ) > 1024 ) {
+						$post['post_content'] = mb_substr( $post['post_content'], 0, 1023 ) . '…';
 					}
 				}
-				$post["permalink"] = get_permalink();
+				$post['permalink'] = get_permalink();
 
 				$posts[] = $post;
 			}
@@ -75,35 +152,104 @@ class lineconnectFunctions {
 		return $posts;
 	}
 
-	//ユーザー検索
-	function WP_User_Query($args) {
-		$args["number"] = (isset($args["number"]) && $args["number"] <= 20 ? $args["number"] : 20);	// 取得する投稿を５件までに制限
-		$args["fields"] = "all_with_meta";
+	// ユーザー検索
+	function WP_User_Query( $args ) {
+		$args['number'] = ( isset( $args['number'] ) && $args['number'] <= 20 ? $args['number'] : 20 ); // 取得する投稿を５件までに制限
+		$args['fields'] = 'all_with_meta';
 
-		//get user
-		$the_query = new WP_User_Query($args);
-		$users = [];
-		if (!empty($the_query->get_results())) {
-			foreach ($the_query->get_results() as $user) {
-				$user_data = [];
+		// get user
+		$the_query = new WP_User_Query( $args );
+		$users     = array();
+		if ( ! empty( $the_query->get_results() ) ) {
+			foreach ( $the_query->get_results() as $user ) {
+				$user_data = array();
 
-				$user_data["ID"] = $user->ID;
-				$user_data["user_login"] = $user->user_login;
-				$user_data["user_email"] = $user->user_email;
-				$user_data["user_nicename"] = $user->user_nicename;
-				$user_data["display_name"] = $user->display_name;
-				$user_data["user_registered"] = $user->user_registered;
-				$user_meta_line = $user->get(lineconnect::META_KEY__LINE);
-				if ($user_meta_line && $user_meta_line[$this->secret_prefix]) {
-					$user_data["linkstatus"] = "linked";
+				$user_data['ID']              = $user->ID;
+				$user_data['user_login']      = $user->user_login;
+				$user_data['user_email']      = $user->user_email;
+				$user_data['user_nicename']   = $user->user_nicename;
+				$user_data['display_name']    = $user->display_name;
+				$user_data['user_registered'] = $user->user_registered;
+				$user_meta_line               = $user->get( lineconnect::META_KEY__LINE );
+				$user_data[ lineconnect::META_KEY__LINE ] = $user_meta_line;
+				if ( $user_meta_line && isset($this->secret_prefix) && $user_meta_line[ $this->secret_prefix ] ) {
+					$user_data['linkstatus'] = 'linked';
 				}
-				//if meta_key is included in args, get meta_value and include in user_data
-				if (!empty($args["meta_key"])) {
-					$user_data[$args["meta_key"]] = $user->get($args["meta_key"]);
+				// if meta_key is included in args, get meta_value and include in user_data
+				if ( ! empty( $args['meta_key'] ) ) {
+					$user_data[ $args['meta_key'] ] = $user->get( $args['meta_key'] );
 				}
 				$users[] = $user_data;
 			}
 		}
 		return $users;
+	}
+
+	// LINETEXT メッセージ取得
+	function get_text_message($body) {
+		return lineconnectMessage::createTextMessage( $body );
+	}
+
+	// LC 通知メッセージ取得
+	function get_button_message($title, $body, $thumb, $type, $label, $link, $displayText = null, $atts = null) {
+		error_log(print_r(array(
+			'title' => $title,
+			'body'  => $body,
+			'thumb' => $thumb,
+			'type'  => $type,
+			'label' => $label,
+			'link'  => $link,
+			'displayText' => $displayText,
+			'atts'  => $atts,
+		), true));
+		$message = lineconnectMessage::createFlexMessage(
+			array(
+				'title' => $title,
+				'body'  => $body,
+				'thumb' => $thumb,
+				'type'  => $type,
+				'label' => $label,
+				'link'  => $link,
+				'displayText' => $displayText,
+			),
+			$atts
+		);
+		return $message;
+	}
+
+	/**
+	 * Return LINE Connect message
+	 */
+	function get_line_connect_message( $slc_message_id, $args = null ) {
+		return lineconnectSLCMessage::get_lineconnect_message( $slc_message_id, $args );
+	}
+
+	/**
+	 * LINEメッセージのJSONを受け取って、構築したLINEメッセージを返す
+	 * 
+	 * @param $raw LINEメッセージのJSON
+	 * @return MessageBuilder
+	 */
+	function get_raw_message($raw){
+		//if raw is string to JSON
+		if(is_string($raw)){
+			$raw = json_decode($raw, true);
+		}
+		return 	lineconnectMessage::createRawMessage( $raw );
+	}
+
+	function send_mail_to_admin( $subject, $body ) {
+		$headers = array(
+			'Content-Type: text/plain; charset=UTF-8',
+			'From: LINECONNECT <' . get_option( 'admin_email' ) . '>',
+		);
+		return wp_mail( get_option( 'admin_email' ), $subject, $body, $headers );
+	}
+
+	function send_line_message( $message, $line_user_id, $secret_prefix = null) {
+		$message = lineconnectUtil::get_line_message_builder( $message );
+		$channel = lineconnect::get_channel( isset($this->secret_prefix) ? $this->secret_prefix : $secret_prefix );
+		$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $message);
+		return $response;
 	}
 }

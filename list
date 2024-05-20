@@ -1,3 +1,6 @@
+./react-jsonschema-form/dist/main.js
+./react-jsonschema-form/webpack.config.js
+./react-jsonschema-form/babel.config.js
 ./bot.php
 ./gotologin.php
 ./js/slc_setting.js
@@ -6,11 +9,19 @@
 ./accountlink.php
 ./include/functions.php
 ./include/shortcodes.php
+./include/dashboard.php
 ./include/const.php
 ./include/richmenu.php
 ./include/openai.php
+./include/action.php
+./include/rjsf.php
+./include/trigger.php
+./include/dm.php
 ./include/chatlist.php
+./include/slc_message.php
+./include/schedule.php
 ./include/comment.php
+./include/util.php
 ./include/botlog.php
 ./include/admin.php
 ./include/chat.php
@@ -19,6 +30,10 @@
 ./include/logging.php
 ./include/message.php
 ./test.php
+./line-dm/tailwind.config.js
+./line-dm/dist/slc_dm.js
+./line-dm/webpack.config.js
+./line-dm/postcss.config.js
 ./line-chat/tailwind.config.js
 ./line-chat/dist/slc_chat.js
 ./line-chat/webpack.config.js

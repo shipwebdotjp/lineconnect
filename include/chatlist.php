@@ -259,19 +259,22 @@ class lineconnectGptLogListTable extends WP_List_Table {
 	}
 
 	public function column_timestamp( $item ) {
-		return date( 'Y/m/d H:i:s', $item['timestamp'] );
+		return date( 'Y/m/d H:i:s', (int) $item['timestamp'] );
 	}
 
 	public function column_event_type( $item ) {
-		return lineconnectConst::WH_EVENT_TYPE[ $item['event_type'] ];
+		return isset( $item['event_type'] ) ? lineconnectConst::WH_EVENT_TYPE[ $item['event_type'] ] : '';
 	}
 
 	public function column_source_type( $item ) {
-		return lineconnectConst::WH_SOURCE_TYPE[ $item['source_type'] ];
+		return isset( $item['source_type'] ) ? lineconnectConst::WH_SOURCE_TYPE[ $item['source_type'] ] : '';
 	}
 
 	public function column_message_type( $item ) {
-		return lineconnectConst::WH_MESSAGE_TYPE[ $item['message_type'] ];
+		if ( $item['event_type'] === 1 ) {// message
+			return isset( $item['message_type'] ) ? lineconnectConst::WH_MESSAGE_TYPE[ $item['message_type'] ] : '';
+		}
+		return '';
 	}
 
 	public function column_bot_id( $item ) {
@@ -294,16 +297,21 @@ class lineconnectGptLogListTable extends WP_List_Table {
 
 
 	public function column_message( $item ) {
-		$message = json_decode( $item['message'], true );
-		if ( json_last_error() == JSON_ERROR_NONE ) {
-			if ( $item['message_type'] == 1 && isset( $message['text'] ) ) {
-				$msg_text = $message['text'];
-			} elseif ( in_array( $item['message_type'], array( 2, 3, 4, 5 ) ) ) {
-				// $msg_text = $message['type'];
-				if ( isset( $message['file_path'] ) ) {
-					$msg_text = $message['file_path'];
+		if ( (int) $item['event_type'] === 1 ) {
+			$message = json_decode( $item['message'], true );
+			if ( json_last_error() == JSON_ERROR_NONE ) {
+				if ( $item['message_type'] == 1 && isset( $message['text'] ) ) {
+					$msg_text = $message['text'];
+				} elseif ( in_array( $item['message_type'], array( 2, 3, 4, 5 ) ) ) {
+					// $msg_text = $message['type'];
+					if ( isset( $message['file_path'] ) ) {
+						$msg_text = $message['file_path'];
+					}
 				}
 			}
+		} elseif ( (int) $item['event_type'] === 9 ) {// postback
+			$message  = json_decode( $item['message'], true );
+			$msg_text = $message['data'];
 		}
 		if ( ! empty( $msg_text ) ) {
 			// return first 100 characters
@@ -342,6 +350,19 @@ class lineconnectGptLogListTable extends WP_List_Table {
 				),
 			);
 
+			return $this->row_actions( $actions );
+		} elseif ( $column_name === 'user_id' ) {
+			$dm_url  = add_query_arg(
+				array(
+					'line_id'        => $item['user_id'],
+					'channel_prefix' => $item['bot_id'],
+					'action'         => 'message',
+				),
+				admin_url( 'admin.php?page=' . lineconnect::SLUG__DM_FORM )
+			);
+			$actions = array(
+				'message' => sprintf( '<a href="%s">%s</a>', $dm_url, __( 'Message', lineconnect::PLUGIN_NAME ) ),
+			);
 			return $this->row_actions( $actions );
 		}
 	}

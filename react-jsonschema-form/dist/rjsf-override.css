@@ -1,0 +1,14 @@
+.form-check-label {
+    margin-left: 25px;
+    margin-top: -17px;
+}
+
+.MuiInputBase-input.MuiInput-input{
+    background: none;
+    border: 0;
+}
+
+.MuiInputBase-input.MuiInput-input:focus{
+    outline: 0;
+    box-shadow: none;
+}

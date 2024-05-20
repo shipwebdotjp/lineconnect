@@ -1,0 +1,43 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "https://raw.githubusercontent.com/shipwebdotjp/lineconnect/master/docs/schema/trigger_action_schema.json",
+    "title": "Trigger Action",
+    "description": "Triggers of the action.",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "trigger": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }            
+            },
+            "additionalProperties": {
+                "type": "object"
+            }
+        },
+        "action": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }            
+                }
+            }
+        }
+    }
+}

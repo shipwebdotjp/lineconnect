@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/shipwebdotjp/lineconnect/master/docs/schema/lineconnect_action.schema.json",
+  "title": "lineconnect Action",
+  "description": "Actions to be used in the plugin.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title",
+      "description": "The title of the function."
+    },
+    "function": {
+      "type": "string",
+      "title": "Function name",
+      "description": "The name of the function."
+    },
+    "namespace": {
+      "type": "string",
+      "title": "Namespace",
+      "description": "The namespace of the function."
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "description": "The description of the function."
+    },
+    "parameters": {
+      "type": "object",
+      "title": "Parameters",
+      "description": "The parameters of the function.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "object",
+          "default": "object",
+          "description": "The type of parameters. only accept object"
+        },
+        "properties": {
+          "type": "object",
+          "title": "Properties",
+          "description": "The indevisual property of the function.",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "title": "Type",
+                "oneOf": [
+                  {
+                    "const": "string",
+                    "title": "String"
+                  },
+                  {
+                    "const": "number",
+                    "title": "Number"
+                  },
+                  {
+                    "const": "integer",
+                    "title": "Integer"
+                  },
+                  {
+                    "const": "boolean",
+                    "title": "Boolean"
+                  },
+                  {
+                    "const": "array",
+                    "title": "Array"
+                  },
+                  {
+                    "const": "object",
+                    "title": "Object"
+                  }
+                ]
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              }
+            }
+          }
+        },
+        "required": {
+          "type": "array",
+          "title": "Required",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "properties",
+        "required"
+      ]
+    },
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "description": "User role to execute this function.",
+      "oneOf": [
+        {
+          "const": "any",
+          "title": "Anyone"
+        },
+        {
+          "const": "read",
+          "title": "Read"
+        },
+        {
+          "const": "edit_post",
+          "title": "Edit Post"
+        },
+        {
+          "const": "publish_posts",
+          "title": "Publish Posts"
+        },
+        {
+          "const": "upload_files",
+          "title": "Upload files"
+        },
+        {
+          "const": "edit_pages",
+          "title": "Edit pages"
+        },
+        {
+          "const": "edit_published_posts",
+          "title": "Edit published posts"
+        },
+        {
+          "const": "edit_others_posts",
+          "title": "Edit others posts"
+        },
+        {
+          "const": "unfiltered_html",
+          "title": "Unfiltered html"
+        },
+        {
+          "const": "manage_links",
+          "title": "Manage links"
+        },
+        {
+          "const": "manage_categories",
+          "title": "Manage categories"
+        },
+        {
+          "const": "moderate_comments",
+          "title": "Moderate comments"
+        },
+        {
+          "const": "import",
+          "title": "Import"
+        },
+        {
+          "const": "manage_options",
+          "title": "Manage options"
+        },
+        {
+          "const": "edit_files",
+          "title": "Edit files"
+        },
+        {
+          "const": "edit_users",
+          "title": "Edit users"
+        },
+        {
+          "const": "activate_plugins",
+          "title": "Activate plugins"
+        },
+        {
+          "const": "edit_themes",
+          "title": "Edit themes"
+        },
+        {
+          "const": "switch_themes",
+          "title": "Switch themes"
+        }
+      ]
+    }
+  }
+}

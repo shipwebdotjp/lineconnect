@@ -26,47 +26,59 @@ use LINE\LINEBot\TemplateActionBuilder;
  *
  * @package LINE\LINEBot\TemplateActionBuilder
  */
-class PostbackTemplateActionBuilder implements TemplateActionBuilder
-{
-    /** @var string */
-    private $label;
-    /** @var string */
-    private $data;
-    /** @var string|null */
-    private $displayText;
+class PostbackTemplateActionBuilder implements TemplateActionBuilder {
 
-    /**
-     * PostbackAction constructor.
-     *
-     * @param string $label Label of action.
-     * @param string $data Data of postback.
-     * @param string|null $displayText The text which will be sent when action is executed (optional).
-     */
-    public function __construct($label, $data, $displayText = null)
-    {
-        $this->label = $label;
-        $this->data = $data;
-        $this->displayText = $displayText;
-    }
+	/** @var string */
+	private $label;
+	/** @var string */
+	private $data;
+	/** @var string|null */
+	private $displayText;
+	/** @var string|null */
+	private $inputOption;
+	/** @var string|null */
+	private $fillInText;
 
-    /**
-     * Builds postback action structure.
-     *
-     * @return array Built postback action structure.
-     */
-    public function buildTemplateAction()
-    {
-        $action = [
-            'type' => ActionType::POSTBACK,
-            'label' => $this->label,
-            'data' => $this->data,
-        ];
+	/**
+	 * PostbackAction constructor.
+	 *
+	 * @param string      $label Label of action.
+	 * @param string      $data Data of postback.
+	 * @param string|null $displayText The text which will be sent when action is executed (optional).
+	 */
+	public function __construct( $label, $data, $displayText = null, $inputOption = null, $fillInText = null ) {
+		$this->label       = $label;
+		$this->data        = $data;
+		$this->displayText = $displayText;
+		$this->inputOption = $inputOption;
+		$this->fillInText  = $fillInText;
+	}
 
-        if (isset($this->displayText)) {
-            // If text is set, append extend field.
-            $action['displayText'] = $this->displayText;
-        }
+	/**
+	 * Builds postback action structure.
+	 *
+	 * @return array Built postback action structure.
+	 */
+	public function buildTemplateAction() {
+		$action = array(
+			'type'  => ActionType::POSTBACK,
+			'label' => $this->label,
+			'data'  => $this->data,
+		);
 
-        return $action;
-    }
+		if ( isset( $this->displayText ) ) {
+			// If text is set, append extend field.
+			$action['displayText'] = $this->displayText;
+		}
+
+		if ( isset( $this->inputOption ) ) {
+			$action['inputOption'] = $this->inputOption;
+		}
+
+		if ( isset( $this->fillInText ) ) {
+			$action['fillInText'] = $this->fillInText;
+		}
+
+		return $action;
+	}
 }

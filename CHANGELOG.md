@@ -10,9 +10,20 @@
 ### Removed
 - 
 ### Fixed
-- 
+
 ### Security
 - 
+
+## [3.0.0] - 2024-05-20
+### Added
+- Save and view event logs
+- Bulk distribution of any text
+- Send direct messages to LINE users
+- Triggered action execution
+- Message template creation
+
+### Fixed
+- Remove unnecessary comma for substr in setting.php Thnaks for EDYNMD! 
 
 ## [2.8.0]
 ### Added
