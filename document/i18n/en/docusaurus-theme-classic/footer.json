@@ -1,0 +1,38 @@
+{
+  "link.title.ドキュメント": {
+    "message": "Document",
+    "description": "The title of the footer links column with title=ドキュメント in the footer"
+  },
+  "link.title.コミュニティ": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=コミュニティ in the footer"
+  },
+  "link.title.その他": {
+    "message": "More",
+    "description": "The title of the footer links column with title=その他 in the footer"
+  },
+  "link.item.label.ユーザーガイド": {
+    "message": "User Guide",
+    "description": "The label of footer link with label=ユーザーガイド linking to /docs/intro"
+  },
+  "link.item.label.フォーラム": {
+    "message": "Disscussions",
+    "description": "The label of footer link with label=フォーラム linking to https://github.com/shipwebdotjp/lineconnect/discussions"
+  },
+  "link.item.label.Stack Overflow": {
+    "message": "Stack Overflow",
+    "description": "The label of footer link with label=Stack Overflow linking to https://stackoverflow.com/questions/tagged/lineconnect"
+  },
+  "link.item.label.ブログ": {
+    "message": "Blog",
+    "description": "The label of footer link with label=ブログ linking to https://blog.shipweb.jp/lineconnect/"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/shipwebdotjp/lineconnect"
+  },
+  "copyright": {
+    "message": "Copyright © 2024 shipweb. Built with Docusaurus.",
+    "description": "The footer copyright"
+  }
+}

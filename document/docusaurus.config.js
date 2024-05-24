@@ -8,8 +8,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'LINE Connect ドキュメント',
-  tagline: 'WordPressとLINE公式アカウントを簡単連携',
+  title: 'LINE Connect Document',
+  tagline: 'WordPress and LINE official account linking',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -30,8 +30,25 @@ const config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: 'ja',
+    locales: ['ja','en'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+      ja: {
+        label: '日本語',
+        direction: 'ltr',
+        htmlLang: 'ja',
+        calendar: 'gregory',
+        path: 'ja',
+      },
+    },
   },
 
   presets: [
@@ -44,14 +61,14 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/shipwebdotjp/lineconnect/tree/master/document',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/shipwebdotjp/lineconnect/tree/master/document',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -66,22 +83,25 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
+        title: 'LINE Connect',
+        // logo: {
+        //   alt: 'LINE Connect',
+        //   src: 'img/logo.svg',
+        // },
         items: [
           {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'User Guide',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/shipwebdotjp/lineconnect',
             label: 'GitHub',
+            position: 'right',
+          },
+          {
+            type: 'localeDropdown',
             position: 'right',
           },
         ],
@@ -90,10 +110,10 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Document',
             items: [
               {
-                label: 'Tutorial',
+                label: 'User Guide',
                 to: '/docs/intro',
               },
             ],
@@ -102,34 +122,30 @@ const config = {
             title: 'Community',
             items: [
               {
+                label: 'Forum',
+                href: 'https://github.com/shipwebdotjp/lineconnect/discussions',
+              },
+              {
                 label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://stackoverflow.com/questions/tagged/lineconnect',
               },
             ],
           },
           {
-            title: 'More',
+            title: 'Moew',
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                href: 'https://blog.shipweb.jp/lineconnect/',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/shipwebdotjp/lineconnect',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} shipweb. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,

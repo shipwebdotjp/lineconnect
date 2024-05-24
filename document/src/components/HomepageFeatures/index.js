@@ -1,37 +1,47 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import Translate, {translate} from '@docusaurus/Translate';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
+    title: translate({
+      id: 'homepage.feature.title1',
+      description: 'Title of the first feature',
+      defaultMessage: 'Quickly deliver updates',
+    }),
+    Svg: require('@site/static/img/article.svg').default,
+    description: translate({
+      id: 'homepage.feature.description1',
+      description: 'Description of the first feature',
+      defaultMessage: 'You can send article update notifications to your LINE official account friends. Send eye-catching and eye-catching messages.',
+    }),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
+    title: translate({
+      id: 'homepage.feature.title2',
+      description: 'Title of the second feature',
+      defaultMessage: 'For busy people like you',
+    }),
+    Svg: require('@site/static/img/communication.svg').default,
+    description: translate({
+      id: 'homepage.feature.description2',
+      description: 'Description of the second feature',
+      defaultMessage: 'You can have LINE automatically respond with a message of your choice triggered by sending keywords or rich menu taps.',
+    }),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
+    title: translate({
+      id: 'homepage.feature.title3',
+      description: 'Title of the third feature',
+      defaultMessage: 'Let AI do the responding for you',
+    }),
+    Svg: require('@site/static/img/synapse.svg').default,
+    description: translate({
+      id: 'homepage.feature.description3',
+      description: 'Description of the third feature',
+      defaultMessage: 'You can have it automatically respond to inquiries or perform actions in conjunction with ChatGPT.',
+    }),
   },
 ];
 

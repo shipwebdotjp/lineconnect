@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.チュートリアル - 基本編": {
+    "message": "Tutorial - Basics",
+    "description": "The label for category チュートリアル - 基本編 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.チュートリアル - 基本編.link.generated-index.description": {
+    "message": "Learn how to use LINE Connect in 5 minutes.",
+    "description": "The generated-index page description for category チュートリアル - 基本編 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial - Extras": {
+    "message": "Tutorial - Extras",
+    "description": "The label for category Tutorial - Extras in sidebar tutorialSidebar"
+  }
+}

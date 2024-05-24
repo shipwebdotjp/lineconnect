@@ -1,0 +1,18 @@
+{
+  "title": {
+    "message": "LINE Connect",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "LINE Connect",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.User Guide": {
+    "message": "ユーザーガイド",
+    "description": "Navbar item with label User Guide"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
