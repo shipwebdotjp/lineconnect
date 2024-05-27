@@ -618,7 +618,7 @@ function check_webhook_message_text_condition( $message, $data ) {
 
 function check_webhook_message_text_keyword_condition( $source, $data ) {
 	if ( isset( $source['type'] ) && $source['type'] === 'keyword' ) {
-		if ( isset( $source['keyword']['match'] ) && $source['keyword']['match'] === 'contains' ) {
+		if ( ! isset( $source['keyword']['match'] ) || $source['keyword']['match'] === 'contains' ) {
 			if ( isset( $source['keyword']['keyword'] ) && strpos( $data, $source['keyword']['keyword'] ) === false ) {
 				return false;
 			}

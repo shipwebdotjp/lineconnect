@@ -271,7 +271,7 @@ class lineconnectGptLogListTable extends WP_List_Table {
 	}
 
 	public function column_message_type( $item ) {
-		if ( $item['event_type'] === 1 ) {// message
+		if ( (int) $item['event_type'] === 1 ) {// message
 			return isset( $item['message_type'] ) ? lineconnectConst::WH_MESSAGE_TYPE[ $item['message_type'] ] : '';
 		}
 		return '';

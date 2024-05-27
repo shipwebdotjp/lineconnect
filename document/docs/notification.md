@@ -1,7 +1,3 @@
----
-sidebar_position: 2
----
-
 # Update notification
 This is a way to send LINE users notifications of updates to articles posted on WordPress.
 
@@ -14,6 +10,14 @@ This is a way to send LINE users notifications of updates to articles posted on 
 *If you check the "Send when a future post is published" checkbox and save it, notifications will be sent to LINE when the future posts are published.
 2. If a post has an futured image, notifications will be sent with the image.
 3. From the "Send target:" list, select the users to be notified by LINE from "All Friends", "Linked Friends", and each of the roles. You can select multiple targets.
+
+### How to Specify Channels and Roles from the REST API
+If you would like to have LINE Connect send LINE notifications when posting articles from the REST API, please add the following keys and values to the JSON data.
+```
+  "lc_channels":{
+      "the first four characters of the secret":"Role name (if there are multiple roles, separate them with ",")"
+  }
+```
 
 ## Screen shots
 LINE messages are displayed like this:  

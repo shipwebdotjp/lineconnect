@@ -1,7 +1,3 @@
----
-sidebar_position: 2
----
-
 # Quick Start
 ## How to install plugin
 1. download the latest version of the ZIP file from [GitHub](https://github.com/shipwebdotjp/lineconnect/releases).

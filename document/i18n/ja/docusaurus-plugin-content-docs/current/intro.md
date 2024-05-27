@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # LINE Connectとは？
 
 LINE ConnectはWordpressユーザーとLINE公式アカウントのLINEユーザーを連携させるプラグインです。  

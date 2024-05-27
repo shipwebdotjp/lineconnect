@@ -542,8 +542,8 @@ class lineconnect {
 		$user_data = array();
 		$line_id_row  = lineconnectUtil::line_id_row( $line_id, $secret_prefix );
 		if ( $line_id_row ) {
-			$user_data['profile']       = json_decode( $line_id_row['profile'], true );
-			$user_data['tags']          = json_decode( $line_id_row['tags'], true );
+			$user_data['profile']       = json_decode( $line_id_row['profile'] ?? '{}', true );
+			$user_data['tags']          = json_decode( $line_id_row['tags'] ?? '{}', true );
 		}
 		$wp_user = self::get_wpuser_from_line_id( $secret_prefix, $line_id );
 		if ( $wp_user ) {

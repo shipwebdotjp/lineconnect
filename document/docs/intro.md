@@ -1,9 +1,4 @@
----
-sidebar_position: 1
----
-
 # What's LINE Connect
-
 LINE Connect is a WordPress plugin that can connect Wordpress users with LINE users of Official LINE account.    
 It can notify Wordpress post's update to the linked Wordpress users.  
 It can register different rich menus depending on whether they are linked or not.    

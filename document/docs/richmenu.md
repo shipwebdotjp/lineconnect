@@ -1,7 +1,3 @@
----
-sidebar_position: 3
----
-
 # Rich menu
 You can set different rich menus for linked and unlinked users.
 

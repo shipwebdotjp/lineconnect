@@ -1,9 +1,5 @@
----
-sidebar_position: 2
----
-
 # クイックスタート
-
+LINE Connectを使い始める
 ## プラグインのインストール
 1. [GitHub](https://github.com/shipwebdotjp/lineconnect/releases)より最新版のZIPファイルをダウンロードします。
 2. Wordpressの管理画面へログインし、「プラグイン」メニューから「新規追加」を選び、「プラグインをアップロード」をクリックします。

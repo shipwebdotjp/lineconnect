@@ -6,13 +6,5 @@
   "sidebar.tutorialSidebar.category.Tutorial - Basics": {
     "message": "チュートリアル - 基本編",
     "description": "The label for category Tutorial - Basics in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Tutorial - Basics.link.generated-index.description": {
-    "message": "5分で学ぶLINE Connectの使い方",
-    "description": "The generated-index page description for category Tutorial - Basics in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Tutorial - Extras": {
-    "message": "チュートリアル - 応用編",
-    "description": "The label for category Tutorial - Extras in sidebar tutorialSidebar"
   }
 }

@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Linking
 By linking WordPress users and LINE users, you can identify which WordPress user the inquiry from LINE is coming from, and you can serve rich menus according to the role of WordPress.
 

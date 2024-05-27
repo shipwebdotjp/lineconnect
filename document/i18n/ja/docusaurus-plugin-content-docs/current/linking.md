@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # 連携
 WordPressユーザーとLINEユーザーの連携を行うことで、LINEからの問い合わせがどのWordPressユーザーからのものかを識別したり、リッチメニューをWordPressのロールに応じて出し分けすることが可能になります。
 

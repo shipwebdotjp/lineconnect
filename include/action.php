@@ -243,7 +243,7 @@ EOM;
 			'webhook' => json_decode(json_encode($event), true),
 			'user' =>  $event ? lineconnect::get_userdata_from_line_id( $secret_prefix, $event->{'source'}->{'userId'} ) : [],
 		);
-		error_log(print_r($injection_data['user'], true));
+		// error_log(print_r($injection_data['user'], true));
 		foreach ( $actions as $action_idx => $action ) {
 			if ( isset( $action['action_name'] ) ) {
 				//$function_schema = get_post_meta( $action['action_id'], lineconnect::META_KEY__ACTION_DATA, true );
@@ -306,7 +306,7 @@ EOM;
 							$response = call_user_func_array( $function_name, $arguments_array );// $response = $function_name( $arguments_array );
 						}
 						$injection_data['return'][$action_idx+1] = $response;
-						error_log(print_r($action, true));
+						// error_log(print_r($action, true));
 						if ( isset( $action['response_return_value'] ) && $action['response_return_value'] === true ) {
 							$message[] = lineconnectUtil::get_line_message_builder($response);
 						}
