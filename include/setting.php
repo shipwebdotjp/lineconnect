@@ -134,8 +134,8 @@ EOM;
 									'slc_all'    => __( 'All Friends', lineconnect::PLUGIN_NAME ),
 									'slc_linked' => __( 'Linked Friends', lineconnect::PLUGIN_NAME ),
 								);
-								foreach ( wp_roles()->get_names() as $role_name ) {
-									$all_roles[ esc_attr( $role_name ) ] = translate_user_role( $role_name );
+								foreach ( wp_roles()->roles as $role_name => $role ) {
+									$all_roles[ esc_attr( $role_name ) ] = translate_user_role( $role['name'] );
 								}
 								$role_select .= lineconnect::makeHtmlSelectOptions( $all_roles, $ary_option[ $option_key ]['value'] );
 								$role_select .= '</select>';
@@ -235,8 +235,8 @@ EOM;
 								'slc_all'    => __( 'All Friends', lineconnect::PLUGIN_NAME ),
 								'slc_linked' => __( 'Linked Friends', lineconnect::PLUGIN_NAME ),
 							);
-							foreach ( wp_roles()->get_names() as $role_name ) {
-								$all_roles[ esc_attr( $role_name ) ] = translate_user_role( $role_name );
+							foreach ( wp_roles()->roles as $role_name => $role ) {
+								$all_roles[ esc_attr( $role_name ) ] = translate_user_role( $role['name'] );
 							}
 							$role_select .= lineconnect::makeHtmlSelectOptions( $all_roles, $value );
 							$role_select .= '</select>';

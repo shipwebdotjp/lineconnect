@@ -231,10 +231,10 @@ EOM;
 			);
 		}
 		$all_roles = array();
-		foreach (wp_roles()->get_names() as $role_name) {
+		foreach ( wp_roles()->roles as $role_name => $role ) {
 			$all_roles[] = array(
 				'const' => esc_attr($role_name),
-				'title' => translate_user_role($role_name),
+				'title' => translate_user_role($role['name']),
 			);
 		}
 		$trigger_schema['definitions']['role']['items']['oneOf'] = $all_roles;

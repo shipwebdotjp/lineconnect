@@ -14,6 +14,10 @@
 ### Security
 - 
 
+## [3.1.0] - 2024-09-13
+### Fixed
+- Fixed a bug that users with role added with add_role were not found in search
+
 ## [3.0.0] - 2024-05-20
 ### Added
 - Save and view event logs

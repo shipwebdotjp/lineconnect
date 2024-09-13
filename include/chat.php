@@ -122,10 +122,10 @@ class lineconnectChat {
 
 		// ロールリスト
 		$all_roles = array();
-		foreach ( wp_roles()->get_names() as $role_name ) {
+		foreach ( wp_roles()->roles as $role_name => $role ) {
 			$all_roles[] = array(
 				'name'  => esc_attr( $role_name ),
-				'label' => translate_user_role( $role_name ),
+				'label' => translate_user_role( $role['name'] ),
 			);
 		}
 		$ary_init_data['roleList'] = $all_roles;
