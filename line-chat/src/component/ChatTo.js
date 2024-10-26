@@ -21,7 +21,6 @@ const ChatTo = (props) => {
         </div>
         <ChatToComponent typeValue={props.typeValue} toValue={props.toValue} toUsers={props.toUsers}
             handleRoleChange={(val, checked) => props.handleRoleChange(val, checked)} roleCheked={props.roleCheked} roleList={props.roleList} />
-        {/*<input id="chat-to" name="to" value={props.defaultValue} onChange={(e) => props.handleToChange(e.target.value)} className="p-2 my-2 border border-indigo-600 w-full" />*/}
     </>
 }
 
@@ -36,8 +35,6 @@ const ChatToComponent = (props) => {
 }
 
 const ChatToMulti = (props) => {
-    // const [to, setTo] = useState('');
-
     return <>
         <div className="py-2 px-4 bg-blue-200"><label htmlFor="chat-to">{__('To', 'lineconnect')}</label></div>
         {props.toUsers.length > 0 ? (

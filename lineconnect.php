@@ -406,6 +406,8 @@ class lineconnect {
 					add_filter( 'handle_bulk_actions-users', array( 'lineconnectAdmin', 'handle_bulk_users_sendmessage' ), 10, 3 );
 					// チャット送信AJAXアクション
 					add_action( 'wp_ajax_lc_ajax_chat_send', array( 'lineconnectChat', 'ajax_chat_send' ) );
+					// チャット送信AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_get_slc_message', array( 'lineconnectSLCMessage', 'ajax_get_slc_message' ) );
 					// BOT LOGリストのトップメニューページを追加
 					add_action( 'admin_menu', array( $this, 'set_page_gptlog' ) );
 					// DM画面のトップメニューページを追加

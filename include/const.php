@@ -682,6 +682,7 @@ class lineconnectConst {
 								'gpt-4-32k'         => 'GPT-4 32k',
 								'gpt-4-turbo-preview'         => 'GPT-4 turbo',
 								'gpt-4o'             => 'GPT-4o',
+								'gpt-4o-mini'             => 'GPT-4o mini',
 							),
 							'default'  => 'gpt-3.5-turbo',
 							'hint'     => __( 'This is a setting for which model to use.', lineconnect::PLUGIN_NAME ),
