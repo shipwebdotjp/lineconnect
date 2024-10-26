@@ -298,15 +298,13 @@ EOM;
 							} else {
 								$response = call_user_func_array( array( $class_name, $function_name ), $arguments_array );
 							}
-							// extract arguments to call function
-							// $response = $class_name->$function_name( $arguments_array );
 						} elseif ( empty( $function_schema['parameters'] ) ) {
 							$response = call_user_func( $function_name );
 						} else {
 							$response = call_user_func_array( $function_name, $arguments_array );// $response = $function_name( $arguments_array );
 						}
 						$injection_data['return'][$action_idx+1] = $response;
-						// error_log(print_r($action, true));
+						// error_log(print_r($injection_data, true));
 						if ( isset( $action['response_return_value'] ) && $action['response_return_value'] === true ) {
 							$message[] = lineconnectUtil::get_line_message_builder($response);
 						}

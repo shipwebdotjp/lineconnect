@@ -40,6 +40,7 @@ class lineconnectUtil {
 					list($chain_action_idx, $param_path) = explode('.', $chain['to'], 2);				
 					// アクション番号が現在のアクションインデックスと一致するか確認
 					// $param_pathが指し示す$action_parametersの該当する位置に$chain['data']をセットしたい。
+					// 'data': 文字列や、プレースホルダー 例)'{{$.return.1}}'
 					if ((int)$chain_action_idx === $action_idx + 1) {
 						// $param_pathが指し示す$action_parametersの該当する位置に$chain['data']をセットする
 						$action_parameters = self::set_param_by_path($action_parameters, $param_path, $chain['data']);
@@ -52,10 +53,10 @@ class lineconnectUtil {
 	}
 
 	/**
-	 * .で結合された形式のパスから、対象配列の該当場所へデータをセットする関数
+	 * .で結合された形式のパスから、対象配列の該当場所へチェインデータをセットする関数
 	 * @param array $action_parameters 対象の配列
 	 * @param string $param_path .で結合された形式のパス
-	 * @param mixed $data セットするデータ
+	 * @param mixed $data セットするチェインデータ
 	 * @return array $action_parameters セットされた後の配列
 	 */
 	public static function set_param_by_path($action_parameters, $param_path, $data)
@@ -74,11 +75,20 @@ class lineconnectUtil {
         return $action_parameters;
     }
 
+	/**
+	 * 関数のパラメーターのプレースホルダーが含まれていれば、対象データへ置換してパラメーターを用意する関数
+	 * @param array $parameters アクションから渡されるパラメーター
+	 * @param array $parameters_schemas 関数が取りうるパラメーターのスキーマ
+	 * @param array $injection_data 前のアクションの戻り値など注入用データ
+	 * @return array $parameters 置換されたパラメーター
+	 */
 	public static function prepare_arguments($parameters, $parameters_schemas, $injection_data){
 		if( is_array($parameters_schemas) ){
 			foreach ( $parameters_schemas as $idx => $parameter_schema ) {
 				$parameter_schema['name'] = $parameter_schema['name'] ?? 'param' . $idx;
 				if( isset( $parameters[ $parameter_schema['name']]) ){
+					// アクションから渡されたパラメーター名とスキーマのパラメーター名が一致する場合、
+					// かつパラメーターにプレースホルダーが含まれている場合、置換する(文字列などそのままの場合もあり)
 					//Extract and replace placeholders contained within parameters
 					// ex "Hello, {{$.return.0.name}}!" => "Hello, John!"
 					// $replaced = $parameters[ $parameter_schema['name'] ];
@@ -96,26 +106,47 @@ class lineconnectUtil {
 		return $parameters;
 	}
 
+	/**
+	 * オブジェクトのプレースホルダーを置換する関数
+	 * @param $object 対象となるオブジェクト(オブジェクトとは限らず、文字列や配列の場合もある) 
+	 * @param array $injection_data 前のアクションの戻り値など注入用データ
+	 * @return mixed $object 置換されたオブジェクト
+	 */
 	public static function replace_object_placeholder($object, $injection_data){
 		if(is_object($object)){
+			// オブジェクトの場合、オブジェクトのキーを再帰的に処理する
 			foreach($object as $key => $value){
 				$object->{$key} = self::replace_object_placeholder($value, $injection_data);
 			}
 		}else if(is_array($object)){
+			// 配列の場合、配列の要素を再帰的に処理する
 			foreach($object as $key => $value){
 				$object[$key] = self::replace_object_placeholder($value, $injection_data);
 			}
 		}elseif(is_string($object)){
-			$object = preg_replace_callback('/{{(.*?)}}/', function($matches) use (&$injection_data){
-				return self::replace_injection_data($matches[1], $injection_data);
-			}, $object);
+			//　対象が文字列の場合、プレースホルダーを置換する
+			if( preg_match('/^{{(.*?)}}$/', $object, $matches )){
+				// 全体がプレースホルダーの場合は、そのまま全置換
+				$object = self::replace_injection_data($matches[1], $injection_data);
+			}else{
+				// 文字列の一部にプレースホルダーが含まれている場合、コールバック関数を用いて置換する
+				$object = preg_replace_callback('/{{(.*?)}}/', function($matches) use (&$injection_data){
+					$replaced = self::replace_injection_data($matches[1], $injection_data);
+					return is_string( $replaced ) ? $replaced : '';				
+				}, $object);
+			}
 		}
 		return $object;
 	}
 
+	/**
+	 * プレースホルダーを実際のデータに置換する関数
+	 * @param $injection_path どのデータで置換するかを示す文字列。例) $.return.1 / $.webhook.message.text / $.user.display_name
+	 * @param array $injection_data 前のアクションの戻り値やイベントデータ、ユーザーデータなどの置き換え用データ
+	 * @return mixed $value 置換された値
+	 */
 	public static function replace_injection_data($injection_path, $injection_data){
 		$injection_path = trim($injection_path);
-
 		$value = $injection_data;
 		foreach( explode( '.', $injection_path ) as $path_part ){
 			if($path_part === '$'){
@@ -127,11 +158,15 @@ class lineconnectUtil {
 				break;
 			}
 		}
-		// error_log("value:".print_r($value,true));
 		return $value;
 	}
 
-
+	/**
+	 * 連想配列を関数の引数の順番に合わせて配列に変換する関数
+	 * @param $arguments_parsed 引数の連想配列
+	 * @param array $parameters_array 呼び出す関数がとる引数のスキーマ
+	 * @return array $arguments_array 引数の配列
+	 */
 	public static function arguments_object_to_array( $arguments_parsed, $parameters_array ) {
 		$arguments_array = array();
 		if( is_array($parameters_array) ){
@@ -144,6 +179,7 @@ class lineconnectUtil {
 		}
 		return $arguments_array;
 	}
+
 	public static function local_mktime() {
 		$defaults = array(
 			date("H"),
@@ -192,5 +228,40 @@ class lineconnectUtil {
 		'ARRAY_A'
 		);
 		return $line_id_row;
+	}
+
+	/**
+	 * 動的に翻訳を行う関数
+	 * @param $text 翻訳対象のテキスト
+	 * @return string $translated 翻訳後のテキスト
+	 */
+	public static function dynamic_translate($text){
+		if(preg_match('/The request body has (\d+) error/', $text, $matches)){
+			$translated = sprintf( _n( 'The request body has %s error.', 'The request body has %s errors.', $matches[1] , lineconnect::PLUGIN_NAME ), number_format( $matches[1] ) );
+		}elseif(strpos('Invalid reply token' , $text) !== false){
+			$translated = __( 'Invalid reply token.', lineconnect::PLUGIN_NAME );
+		}elseif(preg_match('/The property, (.*?), in the request body is invalid /', $text, $matches)){
+			$translated = sprintf( __( 'The property, %s, in the request body is invalid.', lineconnect::PLUGIN_NAME ), $matches[1] );
+		}elseif(strpos('The request body could not be parsed as JSON' , $text) !== false){
+			$translated = __( 'The request body could not be parsed as JSON.', lineconnect::PLUGIN_NAME );
+		}elseif(preg_match('/The content type, (.*?), is not supported/', $text, $matches)){
+			$translated = sprintf( __( 'The content type, %s, is not supported.', lineconnect::PLUGIN_NAME ), $matches[1] );
+		}elseif(strpos( 'Authentication failed due to the following reason:' , $text) !== false){
+			$translated = __( 'Authentication failed.', lineconnect::PLUGIN_NAME );
+		}elseif(strpos( 'Access to this API is not available for your account' , $text) !== false){
+			$translated = __( 'Access to this API is not available for your account.', lineconnect::PLUGIN_NAME );
+		}elseif(strpos( 'Failed to send messages' , $text) !== false){
+			$translated = __( 'Failed to send messages.', lineconnect::PLUGIN_NAME );
+		}elseif(strpos( 'You have reached your monthly limit.' , $text) !== false){
+			$translated = __( 'You have reached your monthly limit.', lineconnect::PLUGIN_NAME );
+		}elseif(strpos('Not found' , $text) !== false){
+			$translated = __( 'Not found.', lineconnect::PLUGIN_NAME );
+		}elseif(strpos('May not be empty' , $text) !== false){
+			$translated = __( 'May not be empty.', lineconnect::PLUGIN_NAME );
+		}else{
+			$translated = $text;
+		}
+		return $translated;
+
 	}
 }

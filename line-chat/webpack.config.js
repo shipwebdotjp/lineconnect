@@ -8,8 +8,7 @@ module.exports = (env, args) => {
     const sourceMap = mode === 'development'
 
     return {
-        //mode: 'development',
-        devtool: 'inline-source-map',
+        devtool: 'source-map',
         entry: './src/index.js',
         output: {
             path: __dirname + '/dist',
@@ -21,24 +20,26 @@ module.exports = (env, args) => {
                     test: /\.js$|jsx/,
                     exclude: /node_modules/,
                     use: {
-                        loader: 'babel-loader',   //loader名
-                        options: {                //Babelの設定
+                        loader: 'babel-loader',
+                        options: {
                             presets: [
                                 '@babel/preset-env',
-                                '@babel/preset-react',
-
+                                ['@babel/preset-react', {
+                                    development: mode === 'development'
+                                }]
                             ],
-                            env: {
-                                "development": {
-                                    "presets": [
-                                        [
-                                            '@babel/preset-react',
-                                            { "development": true }
-                                        ]
-                                    ]
-                                }
-                            },
-                            plugins: ['@babel/plugin-syntax-jsx'] //JSXパース用
+                            plugins: [
+                                '@babel/plugin-syntax-jsx',
+                                ['@wordpress/babel-plugin-makepot', {
+                                    output: './languages/line-chat.pot',
+                                    domain: 'lineconnect',
+                                    exclude: ['node_modules/**/*'],
+                                    headers: {
+                                        'Project-Id-Version': 'LINE Connect',
+                                        'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
+                                    }
+                                }]
+                            ]
                         }
                     }
                 },
@@ -53,21 +54,20 @@ module.exports = (env, args) => {
                             }
                         },
                         'postcss-loader'
-
                     ]
                 }
             ]
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.json']  // .jsxも省略可能対象にする
+            extensions: ['.js', '.jsx', '.json']
         },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: 'style.css'
             })
         ],
-		optimization: {
-			concatenateModules: false,
-		}
+        optimization: {
+            concatenateModules: false,
+        }
     }
-};
+}

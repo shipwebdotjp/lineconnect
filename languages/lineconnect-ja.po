@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2024-05-20 22:26+0900\n"
+"POT-Creation-Date: 2024-10-25 20:33+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -87,12 +87,13 @@ msgstr "連携済みユーザー用リッチメニューID"
 msgid "Rich menu ID for unlinked users"
 msgstr "未連携ユーザー用リッチメニューID"
 
-#: include/const.php:418 include/const.php:2258 include/const.php:2636
-#: line-dm/dist/slc_dm.js:29 line-chat/dist/slc_chat.js:29
+#: include/const.php:418 include/const.php:2259 include/const.php:2637
+#: line-dm/src/component/ChatChannel.js:4
+#: line-chat/src/component/ChatChannel.js:4
 msgid "Channel"
 msgstr "チャネル"
 
-#: include/const.php:423 include/const.php:980
+#: include/const.php:423 include/const.php:981
 msgid "Link"
 msgstr "連携"
 
@@ -108,11 +109,11 @@ msgstr "ログインページのURLをサイトURLからの相対パスで入力
 msgid "Automatically initiate linkage"
 msgstr "自動連携開始"
 
-#: include/const.php:437 include/const.php:660 include/const.php:703
+#: include/const.php:437 include/const.php:660 include/const.php:704
 msgid "Disabled"
 msgstr "無効"
 
-#: include/const.php:438 include/const.php:661 include/const.php:704
+#: include/const.php:438 include/const.php:661 include/const.php:705
 msgid "Enabled"
 msgstr "有効"
 
@@ -429,15 +430,15 @@ msgstr "OpenAIのAPI Keyを入力してください。"
 msgid "Model"
 msgstr "使用モデル"
 
-#: include/const.php:687
+#: include/const.php:688
 msgid "This is a setting for which model to use."
 msgstr "どのモデルを使用するかの設定です。"
 
-#: include/const.php:691
+#: include/const.php:692
 msgid "System prompt"
 msgstr "システムプロンプト"
 
-#: include/const.php:696
+#: include/const.php:697
 msgid ""
 "The initial text or instruction provided to the language model before "
 "interacting with it in a conversational manner."
@@ -445,27 +446,27 @@ msgstr ""
 "AIに最初に与える命令です。例えば「あなたは優秀なWebサイト管理者です。お客様か"
 "らの問い合わせに丁寧に回答してください。」など"
 
-#: include/const.php:700
+#: include/const.php:701
 msgid "Function Calling"
 msgstr "Function Calling"
 
-#: include/const.php:707
+#: include/const.php:708
 msgid "This setting determines whether Function Calling is used or not."
 msgstr "Function Callingを使用するかどうかの設定です。"
 
-#: include/const.php:711
+#: include/const.php:712
 msgid "Functions to use"
 msgstr "使用するFunction"
 
-#: include/const.php:716
+#: include/const.php:717
 msgid "Function to be enabled by Function Calling."
 msgstr "Function Callingで有効にする関数です。"
 
-#: include/const.php:720
+#: include/const.php:721
 msgid "Number of context"
 msgstr "使用する文脈数"
 
-#: include/const.php:724
+#: include/const.php:725
 msgid ""
 "This is a setting for how many conversation histories to use in order to "
 "have the AI understand the context and respond."
@@ -473,19 +474,19 @@ msgstr ""
 "文脈を理解してAIが回答をするよう、会話履歴をいくつまで使用するかの設定です。"
 "数値が大きくなると使用トークン数が増加します。"
 
-#: include/const.php:728
+#: include/const.php:729
 msgid "Max tokens"
 msgstr "最大トークン数"
 
-#: include/const.php:732
+#: include/const.php:733
 msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
 msgstr "使用する最大トークン数です。「-1」でモデルの上限になります。"
 
-#: include/const.php:736
+#: include/const.php:737
 msgid "Temperature"
 msgstr "サンプリング温度"
 
-#: include/const.php:742
+#: include/const.php:743
 msgid ""
 "This is the temperature parameter. The higher the value, the more diverse "
 "words are likely to be selected. Between 0 and 1."
@@ -493,31 +494,31 @@ msgstr ""
 "temperatureパラメータです。数値が高いほどより多様な単語が選ばれやすくなりま"
 "す。0～1の範囲で指定してください。"
 
-#: include/const.php:746
+#: include/const.php:747
 msgid "Limit for unlinked users"
 msgstr "未連携ユーザーが1日に使用できる回数"
 
-#: include/const.php:750
+#: include/const.php:751
 msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
 msgstr ""
 "サイトアカウントと未連携のユーザーが1日に何回まで使用できるかの設定です。-1で"
 "制限なしになります。"
 
-#: include/const.php:754
+#: include/const.php:755
 msgid "Limit for linked users"
 msgstr "連携済みユーザーが1日に使用できる回数"
 
-#: include/const.php:758
+#: include/const.php:759
 msgid "Number of times an linked user can use it per day. -1 is unlimited."
 msgstr ""
 "サイトアカウント連携済みのユーザーが1日に何回まで使用できるかの設定です。-1で"
 "制限なしになります。"
 
-#: include/const.php:762
+#: include/const.php:763
 msgid "Limit message"
 msgstr "制限回数を超えた場合のメッセージ"
 
-#: include/const.php:766
+#: include/const.php:767
 msgid ""
 "The number of times you can use it in a day (%limit% times) has been "
 "exceeded. Please try again after the date changes."
@@ -525,7 +526,7 @@ msgstr ""
 "1日に使用できる回数（%limit%回）を超えました。日付が変わってからお試しくださ"
 "い。"
 
-#: include/const.php:767
+#: include/const.php:768
 msgid ""
 "This message is displayed when the number of times the limit can be used in "
 "a day is exceeded. The %limit% is replaced by the limit number of times."
@@ -533,790 +534,793 @@ msgstr ""
 "1日に使用できる回数を超えた場合に表示するメッセージです。%limit%は制限回数に"
 "置き換えられます。"
 
-#: include/const.php:776
+#: include/const.php:777
 msgid "Get my user information"
 msgstr "自分のユーザー情報取得"
 
-#: include/const.php:782
+#: include/const.php:783
 msgid "Get the current date and time"
 msgstr "現在日時取得"
 
-#: include/const.php:788
+#: include/const.php:789
 msgid "Search posts"
 msgstr "記事検索"
 
-#: include/const.php:843
+#: include/const.php:844
 msgid "Search users"
 msgstr "ユーザー検索"
 
-#: include/const.php:897
+#: include/const.php:898
 msgid "Get LINE Connect message"
 msgstr "LINE Connectメッセージ取得"
 
-#: include/const.php:898
+#: include/const.php:899
 msgid "Get LINE Connect message."
 msgstr "LINE Connectメッセージを取得します。"
 
-#: include/const.php:903
+#: include/const.php:904
 msgid "LC Message id"
 msgstr "LINE ConnectメッセージID"
 
-#: include/const.php:909
+#: include/const.php:910
 msgid "Arguments to insert message"
 msgstr "メッセージ置換用引数"
 
-#: include/const.php:919
+#: include/const.php:920
 msgid "Get LINE text message"
 msgstr "LINEテキストメッセージ取得"
 
-#: include/const.php:920
+#: include/const.php:921
 msgid "Get LINE text message."
 msgstr "LINEテキストメッセージを取得します。"
 
-#: include/const.php:925 include/const.php:944
+#: include/const.php:926 include/const.php:945
 msgid "Message body"
 msgstr "メッセージ本文"
 
-#: include/const.php:933
+#: include/const.php:934
 msgid "Get LC notify message"
 msgstr "記事投稿通知メッセージ"
 
-#: include/const.php:934
+#: include/const.php:935
 msgid "Get LC notify message."
 msgstr "LINE Connect記事投稿通知メッセージを取得します。"
 
-#: include/const.php:939
+#: include/const.php:940
 msgid "Message title"
 msgstr "メッセージタイトル"
 
-#: include/const.php:950
+#: include/const.php:951
 msgid "Thumbnail url"
 msgstr "サムネイルURL"
 
-#: include/const.php:956
+#: include/const.php:957
 msgid "Button action type"
 msgstr "ボタンアクションタイプ"
 
-#: include/const.php:960 include/const.php:1424 include/const.php:1484
-#: include/const.php:3167 include/const.php:3675 include/chatlist.php:59
-#: include/chatlist.php:364 include/slc_message.php:90 include/logging.php:66
-#: line-dm/dist/slc_dm.js:418 line-chat/dist/slc_chat.js:461
+#: include/const.php:961 include/const.php:1425 include/const.php:1485
+#: include/const.php:3168 include/const.php:3676 include/chatlist.php:59
+#: include/chatlist.php:364 include/slc_message.php:90 include/chat.php:140
+#: include/logging.php:66 include/message.php:626
+#: line-dm/src/component/ChatMessage.js:7
+#: line-chat/src/component/ChatMessage.js:19
+#: line-chat/src/component/RJSFForm.js:127
 msgid "Message"
 msgstr "メッセージ"
 
-#: include/const.php:964 include/const.php:3602
+#: include/const.php:965 include/const.php:3603
 msgid "Postback"
 msgstr "ポストバック"
 
-#: include/const.php:968 include/const.php:3699 include/const.php:3707
+#: include/const.php:969 include/const.php:3700 include/const.php:3708
 msgid "URI"
 msgstr "URI"
 
-#: include/const.php:975 include/const.php:3141 include/const.php:3173
-#: include/const.php:3606 include/const.php:3679 include/const.php:3703
-#: include/const.php:3728 include/const.php:3784 include/const.php:3805
-#: include/const.php:3826 include/const.php:3847
+#: include/const.php:976 include/const.php:3142 include/const.php:3174
+#: include/const.php:3607 include/const.php:3680 include/const.php:3704
+#: include/const.php:3729 include/const.php:3785 include/const.php:3806
+#: include/const.php:3827 include/const.php:3848
 msgid "Label"
 msgstr "ラベル"
 
-#: include/const.php:985
+#: include/const.php:986
 msgid "Display Text"
 msgstr "表示テキスト"
 
-#: include/const.php:990
+#: include/const.php:991
 msgid "Attributes"
 msgstr "属性"
 
-#: include/const.php:1000
+#: include/const.php:1001
 msgid "Get LINE message from Raw JSON"
 msgstr "生LINEメッセージJSON取得"
 
-#: include/const.php:1001
+#: include/const.php:1002
 msgid "Get LINE message from Raw JSON."
 msgstr "LINEメッセージをJSON形式で指定します。"
 
-#: include/const.php:1006
+#: include/const.php:1007
 msgid "Raw Message JSON"
 msgstr "生LINEメッセージJSON"
 
-#: include/const.php:1013 line-dm/dist/slc_dm.js:231
-#: line-chat/dist/slc_chat.js:250
+#: include/const.php:1014 line-dm/src/component/ChatForm.js:101
+#: line-chat/src/component/ChatForm.js:99
 msgid "Send LINE message"
 msgstr "LINEメッセージ送信"
 
-#: include/const.php:1014
+#: include/const.php:1015
 msgid "Send LINE message with line user ID and Channel."
 msgstr "LINEユーザーIDとチャネルを指定してLINEメッセージを送信します。"
 
-#: include/const.php:1019
+#: include/const.php:1020
 msgid "LINE message text or object"
 msgstr "LINEメッセージ本文またはLINEメッセージJSON"
 
-#: include/const.php:1024
+#: include/const.php:1025
 msgid "LINE user id"
 msgstr "LINEユーザーID"
 
-#: include/const.php:1029
+#: include/const.php:1030
 msgid "First 4 characters of channel secret."
 msgstr "チャネルシークレットの先頭4文字"
 
-#: include/const.php:1036
+#: include/const.php:1037
 msgid "Send mail to admin"
 msgstr "管理者へメール送信"
 
-#: include/const.php:1037
+#: include/const.php:1038
 msgid "Send mail to admin."
 msgstr "管理者へメールを送信します。"
 
-#: include/const.php:1042
+#: include/const.php:1043
 msgid "Mail subject"
 msgstr "メール件名"
 
-#: include/const.php:1048
+#: include/const.php:1049
 msgid "Mail body"
 msgstr "メール本文"
 
-#: include/const.php:1082
+#: include/const.php:1083
 msgid "Function name"
 msgstr "関数名"
 
-#: include/const.php:1083
+#: include/const.php:1084
 msgid "Function name to be called"
 msgstr "呼び出される関数名"
 
-#: include/const.php:1087
+#: include/const.php:1088
 msgid "Namespace"
 msgstr "名前空間"
 
-#: include/const.php:1088
+#: include/const.php:1089
 msgid "Namespace of the function"
 msgstr "関数が属する名前空間"
 
-#: include/const.php:1092 include/const.php:1204 include/const.php:1303
+#: include/const.php:1093 include/const.php:1205 include/const.php:1304
 msgid "Description"
 msgstr "説明"
 
-#: include/const.php:1093
+#: include/const.php:1094
 msgid "Description of the action"
 msgstr "アクションの説明"
 
-#: include/const.php:1100 include/const.php:2438 line-chat/dist/slc_chat.js:743
+#: include/const.php:1101 include/const.php:2439
 msgid "Role"
 msgstr "ロール"
 
-#: include/const.php:1101
+#: include/const.php:1102
 msgid "User role to execute this function by AI Chat"
 msgstr "AI応答時にこの関数を実行可能なユーザー権限"
 
-#: include/const.php:1105
+#: include/const.php:1106
 msgid "Anyone"
 msgstr "誰でも"
 
-#: include/const.php:1188 include/const.php:2561
+#: include/const.php:1189 include/const.php:2562
 msgid "Parameters"
 msgstr "パラメーター"
 
-#: include/const.php:1189
+#: include/const.php:1190
 msgid "Parameters of the function"
 msgstr "関数のパラメーター"
 
-#: include/const.php:1205
+#: include/const.php:1206
 msgid "Description of the parameter"
 msgstr "パラメーターの説明"
 
-#: include/const.php:1209
+#: include/const.php:1210
 msgid "Required"
 msgstr "必須項目"
 
-#: include/const.php:1210
+#: include/const.php:1211
 msgid "Whether the parameter is required"
 msgstr "パラメーターが必須かどうか"
 
-#: include/const.php:1220 include/const.php:1350
+#: include/const.php:1221 include/const.php:1351
 msgid "Object"
 msgstr "オブジェクト型(Object)"
 
-#: include/const.php:1227
+#: include/const.php:1228
 msgid "Object property"
 msgstr "オブジェクトプロパティ"
 
-#: include/const.php:1242 include/const.php:1346
+#: include/const.php:1243 include/const.php:1347
 msgid "Array"
 msgstr "配列(Array)"
 
-#: include/const.php:1249
+#: include/const.php:1250
 msgid "Array element"
 msgstr "配列の要素"
 
-#: include/const.php:1256
+#: include/const.php:1257 include/message.php:625
 msgid "Property"
 msgstr "プロパティ"
 
-#: include/const.php:1257
+#: include/const.php:1258
 msgid "Object properties when data type is object"
 msgstr "データ型がオブジェクトの場合のプロパティ"
 
-#: include/const.php:1273 include/const.php:1330
+#: include/const.php:1274 include/const.php:1331
 msgid "String"
 msgstr "文字列(String)"
 
-#: include/const.php:1280 include/const.php:1314
+#: include/const.php:1281 include/const.php:1315
 msgid "Enum list"
 msgstr "Enumリスト"
 
-#: include/const.php:1281 include/const.php:1315
+#: include/const.php:1282 include/const.php:1316
 msgid "List of enum value"
 msgstr "Enum値のリスト"
 
-#: include/const.php:1307
+#: include/const.php:1308
 msgid "Addtional Property"
 msgstr "追加プロパティ"
 
-#: include/const.php:1325
+#: include/const.php:1326
 msgid "Data Type"
 msgstr "データ型"
 
-#: include/const.php:1334
+#: include/const.php:1335
 msgid "Number"
 msgstr "数値(Number)"
 
-#: include/const.php:1338
+#: include/const.php:1339
 msgid "Integer"
 msgstr "整数(Integer)"
 
-#: include/const.php:1342
+#: include/const.php:1343
 msgid "Boolean"
 msgstr "論理型(Boolean)"
 
-#: include/const.php:1354
+#: include/const.php:1355
 msgid "Null"
 msgstr "NULL"
 
-#: include/const.php:1358 include/slc_message.php:28
+#: include/const.php:1359 include/slc_message.php:28
 msgid "LINE Connect Message"
 msgstr "LINE Connectメッセージ"
 
-#: include/const.php:1362
+#: include/const.php:1363
 msgid "LINE Messaging API Channel"
 msgstr "LINEメッセージングAPIチャネル"
 
-#: include/const.php:1383
+#: include/const.php:1384
 msgid "Data type of each array element"
 msgstr "配列の各要素のデータ型"
 
-#: include/const.php:1397
+#: include/const.php:1398
 msgid "Trigger type"
 msgstr "トリガータイプ"
 
-#: include/const.php:1401 include/const.php:1416
+#: include/const.php:1402 include/const.php:1417
 msgid "Webhook"
 msgstr "Webhook"
 
-#: include/const.php:1405 include/const.php:1600
+#: include/const.php:1406 include/const.php:1601
 msgid "Schedule"
 msgstr "スケジュール"
 
-#: include/const.php:1419
+#: include/const.php:1420
 msgid "Event type"
 msgstr "イベントタイプ"
 
-#: include/const.php:1428 include/const.php:1550
+#: include/const.php:1429 include/const.php:1551
 msgid "Post back"
 msgstr "ポストバック"
 
-#: include/const.php:1432
+#: include/const.php:1433
 msgid "Account Link"
 msgstr "アカウント連携"
 
-#: include/const.php:1436 include/const.php:1566
+#: include/const.php:1437 include/const.php:1567
 msgid "Follow"
 msgstr "フォロー"
 
-#: include/const.php:1440
+#: include/const.php:1441
 msgid "Unfollow"
 msgstr "フォロー解除"
 
-#: include/const.php:1444
+#: include/const.php:1445
 msgid "Video play complete"
 msgstr "動画視聴完了"
 
-#: include/const.php:1448
+#: include/const.php:1449
 msgid "Join"
 msgstr "参加"
 
-#: include/const.php:1452
+#: include/const.php:1453
 msgid "Leave"
 msgstr "退出"
 
-#: include/const.php:1456
+#: include/const.php:1457
 msgid "Member joined"
 msgstr "メンバー参加"
 
-#: include/const.php:1460
+#: include/const.php:1461
 msgid "Member left"
 msgstr "メンバー退出"
 
-#: include/const.php:1464
+#: include/const.php:1465
 msgid "Unsend"
 msgstr "送信取り消し"
 
-#: include/const.php:1489 include/const.php:2822
+#: include/const.php:1490 include/const.php:2823
 msgid "Message type"
 msgstr "メッセージタイプ"
 
-#: include/const.php:1493 include/const.php:2826 include/const.php:2888
-#: include/const.php:2892 include/const.php:3235 include/const.php:3683
+#: include/const.php:1494 include/const.php:2827 include/const.php:2889
+#: include/const.php:2893 include/const.php:3236 include/const.php:3684
 msgid "Text"
 msgstr "テキスト"
 
-#: include/const.php:1497 include/const.php:2834 include/const.php:2934
+#: include/const.php:1498 include/const.php:2835 include/const.php:2935
 msgid "Image"
 msgstr "画像"
 
-#: include/const.php:1501 include/const.php:2838 include/const.php:2962
-#: include/const.php:3092
+#: include/const.php:1502 include/const.php:2839 include/const.php:2963
+#: include/const.php:3093
 msgid "Video"
 msgstr "動画"
 
-#: include/const.php:1505 include/const.php:2842 include/const.php:2997
+#: include/const.php:1506 include/const.php:2843 include/const.php:2998
 msgid "Audio"
 msgstr "音声"
 
-#: include/const.php:1509
+#: include/const.php:1510
 msgid "File"
 msgstr "ファイル"
 
-#: include/const.php:1513 include/const.php:2846 include/const.php:3023
-#: include/const.php:3822
+#: include/const.php:1514 include/const.php:2847 include/const.php:3024
+#: include/const.php:3823
 msgid "Location"
 msgstr "位置情報"
 
-#: include/const.php:1517 include/const.php:2830 include/const.php:2909
+#: include/const.php:1518 include/const.php:2831 include/const.php:2910
 msgid "Sticker"
 msgstr "スタンプ"
 
-#: include/const.php:1571 include/const.php:1583
+#: include/const.php:1572 include/const.php:1584
 msgid "Unblocked"
 msgstr "ブロック解除"
 
-#: include/const.php:1575 include/const.php:2331
+#: include/const.php:1576 include/const.php:2332
 msgid "Any"
 msgstr "いずれでも"
 
-#: include/const.php:1579
+#: include/const.php:1580
 msgid "Add Freind"
 msgstr "友だち追加"
 
-#: include/const.php:1603
+#: include/const.php:1604
 msgid "Schedule type"
 msgstr "スケジュールタイプ"
 
-#: include/const.php:1608 include/const.php:1627
+#: include/const.php:1609 include/const.php:1628
 msgid "Once"
 msgstr "一度"
 
-#: include/const.php:1612 include/const.php:1645
+#: include/const.php:1613 include/const.php:1646
 msgid "Repeat"
 msgstr "繰り返し"
 
-#: include/const.php:1632
+#: include/const.php:1633
 msgid "Date and time"
 msgstr "日付時刻"
 
-#: include/const.php:1649
+#: include/const.php:1650
 msgid "Every"
 msgstr "毎"
 
-#: include/const.php:1653 include/const.php:1707
+#: include/const.php:1654 include/const.php:1708
 msgid "Hour"
 msgstr "時"
 
-#: include/const.php:1657 include/const.php:1820 include/const.php:1874
+#: include/const.php:1658 include/const.php:1821 include/const.php:1875
 msgid "Day"
 msgstr "曜日"
 
-#: include/const.php:1661 include/const.php:1949
+#: include/const.php:1662 include/const.php:1950
 msgid "Date"
 msgstr "日"
 
-#: include/const.php:1665
+#: include/const.php:1666
 msgid "Week"
 msgstr "週"
 
-#: include/const.php:1669 include/const.php:2110
+#: include/const.php:1670 include/const.php:2111
 msgid "Month"
 msgstr "月"
 
-#: include/const.php:1673 include/const.php:2175
+#: include/const.php:1674 include/const.php:2176
 msgid "Year"
 msgstr "年"
 
-#: include/const.php:1680
+#: include/const.php:1681
 msgid "Start date"
 msgstr "開始日"
 
-#: include/const.php:1685
+#: include/const.php:1686
 msgid "End date"
 msgstr "終了日"
 
-#: include/const.php:1689
+#: include/const.php:1690
 msgid "Beforehand notice (min)"
 msgstr "事前通知(分)"
 
-#: include/const.php:1690
+#: include/const.php:1691
 msgid "How many minutes in advance notice"
 msgstr ""
 "入力すると、対象となる時刻よりも指定した分だけ事前にトリガーが発動します。"
 
-#: include/const.php:1714
+#: include/const.php:1715
 msgid "0 am"
 msgstr "0時"
 
-#: include/const.php:1718
+#: include/const.php:1719
 msgid "1 am"
 msgstr "1時"
 
-#: include/const.php:1722
+#: include/const.php:1723
 msgid "2 am"
 msgstr "2時"
 
-#: include/const.php:1726
+#: include/const.php:1727
 msgid "3 am"
 msgstr "3時"
 
-#: include/const.php:1730
+#: include/const.php:1731
 msgid "4 am"
 msgstr "4時"
 
-#: include/const.php:1734
+#: include/const.php:1735
 msgid "5 am"
 msgstr "5時"
 
-#: include/const.php:1738
+#: include/const.php:1739
 msgid "6 am"
 msgstr "6時"
 
-#: include/const.php:1742
+#: include/const.php:1743
 msgid "7 am"
 msgstr "7時"
 
-#: include/const.php:1746
+#: include/const.php:1747
 msgid "8 am"
 msgstr "8時"
 
-#: include/const.php:1750
+#: include/const.php:1751
 msgid "9 am"
 msgstr "9時"
 
-#: include/const.php:1754
+#: include/const.php:1755
 msgid "10 am"
 msgstr "10時"
 
-#: include/const.php:1758
+#: include/const.php:1759
 msgid "11 am"
 msgstr "11時"
 
-#: include/const.php:1762
+#: include/const.php:1763
 msgid "12 pm"
 msgstr "12時"
 
-#: include/const.php:1766
+#: include/const.php:1767
 msgid "1 pm"
 msgstr "13時"
 
-#: include/const.php:1770
+#: include/const.php:1771
 msgid "2 pm"
 msgstr "14時"
 
-#: include/const.php:1774
+#: include/const.php:1775
 msgid "3 pm"
 msgstr "15時"
 
-#: include/const.php:1778
+#: include/const.php:1779
 msgid "4 pm"
 msgstr "16時"
 
-#: include/const.php:1782
+#: include/const.php:1783
 msgid "5 pm"
 msgstr "17時"
 
-#: include/const.php:1786
+#: include/const.php:1787
 msgid "6 pm"
 msgstr "18時"
 
-#: include/const.php:1790
+#: include/const.php:1791
 msgid "7 pm"
 msgstr "19時"
 
-#: include/const.php:1794
+#: include/const.php:1795
 msgid "8 pm"
 msgstr "20時"
 
-#: include/const.php:1798
+#: include/const.php:1799
 msgid "9 pm"
 msgstr "21時"
 
-#: include/const.php:1802
+#: include/const.php:1803
 msgid "10 pm"
 msgstr "22時"
 
-#: include/const.php:1806
+#: include/const.php:1807
 msgid "11 pm"
 msgstr "23時"
 
-#: include/const.php:1826
+#: include/const.php:1827
 msgid "Way of Calc"
 msgstr "計算方法"
 
-#: include/const.php:1830
+#: include/const.php:1831
 msgid "nth day"
 msgstr "第何曜日"
 
-#: include/const.php:1834
+#: include/const.php:1835
 msgid "nth Week in a month"
 msgstr "月の第何周目"
 
-#: include/const.php:1840
+#: include/const.php:1841
 msgid "Day of the week in the month"
 msgstr "第何曜日/第何周目"
 
-#: include/const.php:1847 include/const.php:1956
+#: include/const.php:1848 include/const.php:1957
 msgid "1st"
 msgstr "1"
 
-#: include/const.php:1851 include/const.php:1960
+#: include/const.php:1852 include/const.php:1961
 msgid "2nd"
 msgstr "2"
 
-#: include/const.php:1855 include/const.php:1964
+#: include/const.php:1856 include/const.php:1965
 msgid "3rd"
 msgstr "3"
 
-#: include/const.php:1859 include/const.php:1968
+#: include/const.php:1860 include/const.php:1969
 msgid "4th"
 msgstr "4"
 
-#: include/const.php:1863 include/const.php:1972
+#: include/const.php:1864 include/const.php:1973
 msgid "5th"
 msgstr "5"
 
-#: include/const.php:1867 include/const.php:1976
+#: include/const.php:1868 include/const.php:1977
 msgid "6th"
 msgstr "6"
 
-#: include/const.php:1881 include/const.php:1925
+#: include/const.php:1882 include/const.php:1926
 msgid "Sunday"
 msgstr "日曜日"
 
-#: include/const.php:1885 include/const.php:1929
+#: include/const.php:1886 include/const.php:1930
 msgid "Monday"
 msgstr "月曜日"
 
-#: include/const.php:1889
+#: include/const.php:1890
 msgid "Tuesday"
 msgstr "火曜日"
 
-#: include/const.php:1893
+#: include/const.php:1894
 msgid "Wednesday"
 msgstr "水曜日"
 
-#: include/const.php:1897
+#: include/const.php:1898
 msgid "Thursday"
 msgstr "木曜日"
 
-#: include/const.php:1901
+#: include/const.php:1902
 msgid "Friday"
 msgstr "金曜日"
 
-#: include/const.php:1905
+#: include/const.php:1906
 msgid "Saturday"
 msgstr "土曜日"
 
-#: include/const.php:1921
+#: include/const.php:1922
 msgid "First day of the week"
 msgstr "週の最初の曜日"
 
-#: include/const.php:1980
+#: include/const.php:1981
 msgid "7th"
 msgstr "7"
 
-#: include/const.php:1984
+#: include/const.php:1985
 msgid "8th"
 msgstr "8"
 
-#: include/const.php:1988
+#: include/const.php:1989
 msgid "9th"
 msgstr "9"
 
-#: include/const.php:1992
+#: include/const.php:1993
 msgid "10th"
 msgstr "10"
 
-#: include/const.php:1996
+#: include/const.php:1997
 msgid "11th"
 msgstr "11"
 
-#: include/const.php:2000
+#: include/const.php:2001
 msgid "12th"
 msgstr "12"
 
-#: include/const.php:2004
+#: include/const.php:2005
 msgid "13th"
 msgstr "13"
 
-#: include/const.php:2008
+#: include/const.php:2009
 msgid "14th"
 msgstr "14"
 
-#: include/const.php:2012
+#: include/const.php:2013
 msgid "15th"
 msgstr "15"
 
-#: include/const.php:2016
+#: include/const.php:2017
 msgid "16th"
 msgstr "16"
 
-#: include/const.php:2020
+#: include/const.php:2021
 msgid "17th"
 msgstr "17"
 
-#: include/const.php:2024
+#: include/const.php:2025
 msgid "18th"
 msgstr "18"
 
-#: include/const.php:2028
+#: include/const.php:2029
 msgid "19th"
 msgstr "19"
 
-#: include/const.php:2032
+#: include/const.php:2033
 msgid "20th"
 msgstr "20"
 
-#: include/const.php:2036
+#: include/const.php:2037
 msgid "21st"
 msgstr "21"
 
-#: include/const.php:2040
+#: include/const.php:2041
 msgid "22nd"
 msgstr "22"
 
-#: include/const.php:2044
+#: include/const.php:2045
 msgid "23rd"
 msgstr "23"
 
-#: include/const.php:2048
+#: include/const.php:2049
 msgid "24th"
 msgstr "24"
 
-#: include/const.php:2052
+#: include/const.php:2053
 msgid "25th"
 msgstr "25"
 
-#: include/const.php:2056
+#: include/const.php:2057
 msgid "26th"
 msgstr "26"
 
-#: include/const.php:2060
+#: include/const.php:2061
 msgid "27th"
 msgstr "27"
 
-#: include/const.php:2064
+#: include/const.php:2065
 msgid "28th"
 msgstr "28"
 
-#: include/const.php:2068
+#: include/const.php:2069
 msgid "29th"
 msgstr "29"
 
-#: include/const.php:2072
+#: include/const.php:2073
 msgid "30th"
 msgstr "30"
 
-#: include/const.php:2076
+#: include/const.php:2077
 msgid "31st"
 msgstr "31"
 
-#: include/const.php:2080
+#: include/const.php:2081
 msgid "Last day of the month"
 msgstr "月の最終日"
 
-#: include/const.php:2094
+#: include/const.php:2095
 msgid "Week number"
 msgstr "週番号"
 
-#: include/const.php:2117
+#: include/const.php:2118
 msgid "January"
 msgstr "1月"
 
-#: include/const.php:2121
+#: include/const.php:2122
 msgid "February"
 msgstr "2月"
 
-#: include/const.php:2125
+#: include/const.php:2126
 msgid "March"
 msgstr "3月"
 
-#: include/const.php:2129
+#: include/const.php:2130
 msgid "April"
 msgstr "4月"
 
-#: include/const.php:2133
+#: include/const.php:2134
 msgid "May"
 msgstr "5月"
 
-#: include/const.php:2137
+#: include/const.php:2138
 msgid "June"
 msgstr "6月"
 
-#: include/const.php:2141
+#: include/const.php:2142
 msgid "July"
 msgstr "7月"
 
-#: include/const.php:2145
+#: include/const.php:2146
 msgid "August"
 msgstr "8月"
 
-#: include/const.php:2149
+#: include/const.php:2150
 msgid "September"
 msgstr "9月"
 
-#: include/const.php:2153
+#: include/const.php:2154
 msgid "October"
 msgstr "10月"
 
-#: include/const.php:2157
+#: include/const.php:2158
 msgid "November"
 msgstr "11月"
 
-#: include/const.php:2161
+#: include/const.php:2162
 msgid "December"
 msgstr "12月"
 
-#: include/const.php:2202 include/trigger.php:30
+#: include/const.php:2203 include/trigger.php:30
 msgid "Triggers"
 msgstr "トリガー"
 
-#: include/const.php:2210 include/const.php:3594
+#: include/const.php:2211 include/const.php:3595
 msgid "Action"
 msgstr "アクション"
 
-#: include/const.php:2222
+#: include/const.php:2223
 msgid "Action chain"
 msgstr "アクションチェイン"
 
-#: include/const.php:2228
+#: include/const.php:2229
 msgid "Destination argument to"
 msgstr "注入先引数"
 
-#: include/const.php:2229
+#: include/const.php:2230
 msgid "Injection Destination Argument Path. e.g. 2.message"
 msgstr "注入先引数パス。例としてアクション-2のmessageを指定する場合: 2.message"
 
-#: include/const.php:2233 include/const.php:3610 include/const.php:3732
+#: include/const.php:2234 include/const.php:3611 include/const.php:3733
 msgid "Data"
 msgstr "データ"
 
-#: include/const.php:2234
+#: include/const.php:2235
 msgid ""
 "Injection Data. You can use return value of previous action. e.g. {{$."
 "return.1}}"
@@ -1324,253 +1328,254 @@ msgstr ""
 "注入するデータ。前のアクションの返り値を利用可能。例としてアクション-1の戻り"
 "値を使用する場合: {{$.return.1}}"
 
-#: include/const.php:2243 include/const.php:2250
+#: include/const.php:2244 include/const.php:2251
 msgid "Source condition"
 msgstr "ソース条件"
 
-#: include/const.php:2247 include/const.php:2266
+#: include/const.php:2248 include/const.php:2267
 msgid "Source condition group"
 msgstr "ソース条件グループ"
 
-#: include/const.php:2254 include/const.php:2300 include/const.php:2458
-#: include/const.php:2490 include/const.php:3159 line-chat/dist/slc_chat.js:589
+#: include/const.php:2255 include/const.php:2301 include/const.php:2459
+#: include/const.php:2491 include/const.php:3160
+#: line-chat/src/component/ChatTo.js:6
 msgid "Type"
 msgstr "タイプ"
 
-#: include/const.php:2262 include/const.php:2296 include/const.php:2462
-#: include/const.php:2486
+#: include/const.php:2263 include/const.php:2297 include/const.php:2463
+#: include/const.php:2487
 msgid "Source"
 msgstr "ソース"
 
-#: include/const.php:2272 include/const.php:2472
+#: include/const.php:2273 include/const.php:2473
 msgid "Not"
 msgstr "否定"
 
-#: include/const.php:2273 include/const.php:2473
+#: include/const.php:2274 include/const.php:2474
 msgid "Logical negation"
 msgstr "論理否定"
 
-#: include/const.php:2304
+#: include/const.php:2305
 msgid "User"
 msgstr "ユーザー"
 
-#: include/const.php:2308
+#: include/const.php:2309
 msgid "Group"
 msgstr "グループ"
 
-#: include/const.php:2312
+#: include/const.php:2313
 msgid "Room"
 msgstr "ルーム"
 
-#: include/const.php:2327
+#: include/const.php:2328
 msgid "Link status"
 msgstr "連携状態"
 
-#: include/const.php:2335 include/richmenu.php:25 include/richmenu.php:94
+#: include/const.php:2336 include/richmenu.php:25 include/richmenu.php:94
 #: include/chat.php:65
 msgid "Linked"
 msgstr "連携済み"
 
-#: include/const.php:2339 include/richmenu.php:25 include/richmenu.php:94
+#: include/const.php:2340 include/richmenu.php:25 include/richmenu.php:94
 msgid "Unlinked"
 msgstr "未連携"
 
-#: include/const.php:2348 include/const.php:2369 include/const.php:2390
+#: include/const.php:2349 include/const.php:2370 include/const.php:2391
 msgid "LINE user ID"
 msgstr "LINEユーザーID"
 
-#: include/const.php:2362
+#: include/const.php:2363
 msgid "LINE group ID"
 msgstr "LINEグループID"
 
-#: include/const.php:2383
+#: include/const.php:2384
 msgid "LINE Room ID"
 msgstr "LINEトークルームID"
 
-#: include/const.php:2420 include/const.php:2618
+#: include/const.php:2421 include/const.php:2619
 msgid "Operator"
 msgstr "演算子"
 
-#: include/const.php:2424 include/const.php:2622
+#: include/const.php:2425 include/const.php:2623
 msgid "And"
 msgstr "And"
 
-#: include/const.php:2425 include/const.php:2623
+#: include/const.php:2426 include/const.php:2624
 msgid "All conditions must be true"
 msgstr "すべての条件が成立"
 
-#: include/const.php:2429 include/const.php:2627
+#: include/const.php:2430 include/const.php:2628
 msgid "Or"
 msgstr "Or"
 
-#: include/const.php:2430 include/const.php:2628
+#: include/const.php:2431 include/const.php:2629
 msgid "At least one condition must be true"
 msgstr "少なくとも1つの条件が成立"
 
-#: include/const.php:2447 include/const.php:2494 include/const.php:2513
-#: include/const.php:2517
+#: include/const.php:2448 include/const.php:2495 include/const.php:2514
+#: include/const.php:2518
 msgid "Keyword"
 msgstr "キーワード"
 
-#: include/const.php:2451 include/const.php:2466
+#: include/const.php:2452 include/const.php:2467
 msgid "Keyword condition group"
 msgstr "キーワード条件グループ"
 
-#: include/const.php:2454
+#: include/const.php:2455
 msgid "Keyword condition"
 msgstr "キーワード条件"
 
-#: include/const.php:2498 include/const.php:2557
+#: include/const.php:2499 include/const.php:2558
 msgid "Query string"
 msgstr "クエリストリング"
 
-#: include/const.php:2518
+#: include/const.php:2519
 msgid "Keyword to match"
 msgstr "マッチするキーワード"
 
-#: include/const.php:2522 include/const.php:2579
+#: include/const.php:2523 include/const.php:2580
 msgid "Match type"
 msgstr "マッチタイプ"
 
-#: include/const.php:2526 include/const.php:2583
+#: include/const.php:2527 include/const.php:2584
 msgid "Contains"
 msgstr "含む"
 
-#: include/const.php:2530 include/const.php:2587
+#: include/const.php:2531 include/const.php:2588
 msgid "Equals"
 msgstr "等しい"
 
-#: include/const.php:2534
+#: include/const.php:2535
 msgid "Starts with"
 msgstr "で始まる"
 
-#: include/const.php:2538
+#: include/const.php:2539
 msgid "Ends with"
 msgstr "で終わる"
 
-#: include/const.php:2542
+#: include/const.php:2543
 msgid "Regular expression"
 msgstr "正規表現"
 
-#: include/const.php:2564
+#: include/const.php:2565
 msgid "Parameter"
 msgstr "パラメーター"
 
-#: include/const.php:2568
+#: include/const.php:2569
 msgid "Key"
 msgstr "キー"
 
-#: include/const.php:2572
+#: include/const.php:2573
 msgid "Value"
 msgstr "値"
 
-#: include/const.php:2637
+#: include/const.php:2638
 msgid "Target channel"
 msgstr "対象チャネル"
 
-#: include/const.php:2679
+#: include/const.php:2680
 msgid "Add source condition"
 msgstr "ソース条件追加"
 
-#: include/const.php:2700
+#: include/const.php:2701
 msgid "Add query parameter"
 msgstr "クエリパラメーター追加"
 
-#: include/const.php:2707
+#: include/const.php:2708
 msgid "Add message condition"
 msgstr "メッセージ条件追加"
 
-#: include/const.php:2727
+#: include/const.php:2728
 msgid "Add postback condition"
 msgstr "ポストバック条件追加"
 
-#: include/const.php:2765
+#: include/const.php:2766
 msgid "Add day"
 msgstr "曜日追加"
 
-#: include/const.php:2776
+#: include/const.php:2777
 msgid "Add week"
 msgstr "週追加"
 
-#: include/const.php:2787
+#: include/const.php:2788
 msgid "Add year"
 msgstr "年追加"
 
-#: include/const.php:2793
+#: include/const.php:2794
 msgid "Add trigger"
 msgstr "トリガー追加"
 
-#: include/const.php:2805 include/const.php:3963 include/const.php:3976
-#: include/const.php:3991
+#: include/const.php:2806 include/const.php:3964 include/const.php:3977
+#: include/const.php:3992
 msgid "Add action"
 msgstr "アクション追加"
 
-#: include/const.php:2810
+#: include/const.php:2811
 msgid "Add chain"
 msgstr "チェイン追加"
 
-#: include/const.php:2850 include/const.php:3059
+#: include/const.php:2851 include/const.php:3060
 msgid "Image map"
 msgstr "イメージマップ"
 
-#: include/const.php:2854 include/const.php:3264
+#: include/const.php:2855 include/const.php:3265
 msgid "Button template"
 msgstr "ボタンテンプレート"
 
-#: include/const.php:2858 include/const.php:3353
+#: include/const.php:2859 include/const.php:3354
 msgid "Confirm template"
 msgstr "確認テンプレート"
 
-#: include/const.php:2862 include/const.php:3392
+#: include/const.php:2863 include/const.php:3393
 msgid "Carousel template"
 msgstr "カルーセルテンプレート"
 
-#: include/const.php:2866 include/const.php:3457
+#: include/const.php:2867 include/const.php:3458
 msgid "Image carousel template"
 msgstr "画像カルーセルテンプレート"
 
-#: include/const.php:2870
+#: include/const.php:2871
 msgid "Flex"
 msgstr "Flex"
 
-#: include/const.php:2874
+#: include/const.php:2875
 msgid "Raw"
 msgstr "生"
 
-#: include/const.php:2884
+#: include/const.php:2885
 msgid "Text message"
 msgstr "テキストメッセージ"
 
-#: include/const.php:2893
+#: include/const.php:2894
 msgid "Message text. Max character limit: 5000"
 msgstr "メッセージのテキスト。最大文字数：5000"
 
-#: include/const.php:2905
+#: include/const.php:2906
 msgid "Sticker message"
 msgstr "スタンプメッセージ"
 
-#: include/const.php:2913
+#: include/const.php:2914
 msgid "Package ID"
 msgstr "パッケージID"
 
-#: include/const.php:2914
+#: include/const.php:2915
 msgid "Package ID for a set of stickers."
 msgstr "スタンプセットのパッケージID"
 
-#: include/const.php:2918
+#: include/const.php:2919
 msgid "Sticker ID"
 msgstr "スタンプID"
 
-#: include/const.php:2930
+#: include/const.php:2931
 msgid "Image message"
 msgstr "画像メッセージ"
 
-#: include/const.php:2938 include/const.php:2967 include/const.php:3001
-#: include/const.php:3097
+#: include/const.php:2939 include/const.php:2968 include/const.php:3002
+#: include/const.php:3098
 msgid "Original content URL"
 msgstr "オリジナルファイルURL"
 
-#: include/const.php:2939
+#: include/const.php:2940
 msgid ""
 "Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
 "10 MB"
@@ -1578,20 +1583,20 @@ msgstr ""
 "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサ"
 "イズ：10MB"
 
-#: include/const.php:2944
+#: include/const.php:2945
 msgid "Preview Image Url"
 msgstr "プレビュー画像URL"
 
-#: include/const.php:2945
+#: include/const.php:2946
 msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
 msgstr ""
 "プレビュー画像のURL。画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
 
-#: include/const.php:2958
+#: include/const.php:2959
 msgid "Video message"
 msgstr "動画メッセージ"
 
-#: include/const.php:2963
+#: include/const.php:2964
 msgid ""
 "If the video isn't playing properly, make sure the video is a supported file "
 "type and the HTTP server hosting the video supports HTTP range requests."
@@ -1600,18 +1605,18 @@ msgstr ""
 "をホストしているHTTPサーバーが、HTTPの範囲リクエスト（Range request）に対応し"
 "ていることを確認してください。"
 
-#: include/const.php:2968 include/const.php:3098
+#: include/const.php:2969 include/const.php:3099
 msgid ""
 "Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
 msgstr ""
 "動画ファイルのURL。プロトコル：HTTPS、動画フォーマット：mp4、最大ファイルサイ"
 "ズ：200MB"
 
-#: include/const.php:2973 include/const.php:3102
+#: include/const.php:2974 include/const.php:3103
 msgid "Preview image URL"
 msgstr "プレビュー画像URL"
 
-#: include/const.php:2974 include/const.php:3103
+#: include/const.php:2975 include/const.php:3104
 msgid ""
 "Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
 "size: 1 MB"
@@ -1619,11 +1624,11 @@ msgstr ""
 "プレビュー画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大"
 "ファイルサイズ：1MB"
 
-#: include/const.php:2979
+#: include/const.php:2980
 msgid "Tracking ID"
 msgstr "トラッキングID"
 
-#: include/const.php:2980
+#: include/const.php:2981
 msgid ""
 "ID used to identify the video when Video viewing complete event occurs. You "
 "can use the same ID in multiple messages."
@@ -1631,11 +1636,11 @@ msgstr ""
 "動画視聴完了イベントが発生したときに、動画を識別するためのID。複数のメッセー"
 "ジで同じIDを使用することができます。"
 
-#: include/const.php:2993
+#: include/const.php:2994
 msgid "Audio message"
 msgstr "音声メッセージ"
 
-#: include/const.php:3002
+#: include/const.php:3003
 msgid ""
 "Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
 "200 MB"
@@ -1643,39 +1648,39 @@ msgstr ""
 "音声ファイルのURL。プロトコル：HTTPS、音声フォーマット：mp3またはm4a、最大"
 "ファイルサイズ：200MB"
 
-#: include/const.php:3006
+#: include/const.php:3007
 msgid "Duration"
 msgstr "継続時間"
 
-#: include/const.php:3007
+#: include/const.php:3008
 msgid "Length of audio file (milliseconds)."
 msgstr "音声ファイルの長さ（ミリ秒）"
 
-#: include/const.php:3019
+#: include/const.php:3020
 msgid "Location message"
 msgstr "位置情報メッセージ"
 
-#: include/const.php:3027 include/const.php:3311 include/const.php:3880
+#: include/const.php:3028 include/const.php:3312 include/const.php:3881
 msgid "Title"
 msgstr "タイトル"
 
-#: include/const.php:3032
+#: include/const.php:3033
 msgid "Address"
 msgstr "住所"
 
-#: include/const.php:3037
+#: include/const.php:3038
 msgid "Latitude"
 msgstr "緯度"
 
-#: include/const.php:3041
+#: include/const.php:3042
 msgid "Longitude"
 msgstr "経度"
 
-#: include/const.php:3055
+#: include/const.php:3056
 msgid "Image map message"
 msgstr "イメージマップメッセージ"
 
-#: include/const.php:3060
+#: include/const.php:3061
 msgid ""
 "Imagemap messages are messages configured with an image that has multiple "
 "tappable areas. You can assign one tappable area for the entire image or "
@@ -1685,19 +1690,19 @@ msgstr ""
 "セージです。画像全体に1つのタップ領域を割り当てることも、画像を区切って複数の"
 "タップ領域を設定することもできます。"
 
-#: include/const.php:3064
+#: include/const.php:3065
 msgid "Base Url"
 msgstr "ベースURL"
 
-#: include/const.php:3065
+#: include/const.php:3066
 msgid "Image base URL. Protocol: HTTPS"
 msgstr "画像のベースURL。プロトコル：HTTPS"
 
-#: include/const.php:3070
+#: include/const.php:3071
 msgid "Alt Text"
 msgstr "代替テキスト"
 
-#: include/const.php:3071
+#: include/const.php:3072
 msgid ""
 "Alternative text. When a user receives a message, it will appear as an "
 "alternative to the image in the notification or chat list of their device."
@@ -1705,25 +1710,25 @@ msgstr ""
 "代替テキスト。ユーザーがメッセージを受信した際に、端末の通知やトークリストで"
 "画像の代替として表示されます。"
 
-#: include/const.php:3076
+#: include/const.php:3077
 msgid "Base Size"
 msgstr "ベースサイズ"
 
-#: include/const.php:3080 include/const.php:3121 include/const.php:3195
+#: include/const.php:3081 include/const.php:3122 include/const.php:3196
 msgid "Width"
 msgstr "幅"
 
-#: include/const.php:3085 include/const.php:3125 include/const.php:3199
+#: include/const.php:3086 include/const.php:3126 include/const.php:3200
 msgid "Height"
 msgstr "高さ"
 
-#: include/const.php:3086
+#: include/const.php:3087
 msgid ""
 "Height of base image. Set to the height that corresponds to a width of 1040 "
 "pixels."
 msgstr "基本画像の幅を1040pxとした場合の高さ"
 
-#: include/const.php:3093
+#: include/const.php:3094
 msgid ""
 "You can also play a video on the image and display a label with a hyperlink "
 "after the video is finished."
@@ -1731,15 +1736,15 @@ msgstr ""
 "画像の上で動画を再生したり、動画再生後にリンク先を設定したラベルを表示したり"
 "できます。"
 
-#: include/const.php:3107 include/const.php:3179
+#: include/const.php:3108 include/const.php:3180
 msgid "Image map area"
 msgstr "イメージマップ領域"
 
-#: include/const.php:3111 include/const.php:3184
+#: include/const.php:3112 include/const.php:3185
 msgid "X"
 msgstr "X"
 
-#: include/const.php:3112
+#: include/const.php:3113
 msgid ""
 "Horizontal position of the video area relative to the left edge of the "
 "imagemap area. Value must be 0 or higher."
@@ -1747,11 +1752,11 @@ msgstr ""
 "領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
 "てください。"
 
-#: include/const.php:3116 include/const.php:3190
+#: include/const.php:3117 include/const.php:3191
 msgid "Y"
 msgstr "Y"
 
-#: include/const.php:3117
+#: include/const.php:3118
 msgid ""
 "Vertical position of the video area relative to the top edge of the imagemap "
 "area. Value must be 0 or higher."
@@ -1759,15 +1764,15 @@ msgstr ""
 "領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
 "てください。"
 
-#: include/const.php:3131
+#: include/const.php:3132
 msgid "External link"
 msgstr "外部リンク"
 
-#: include/const.php:3135 include/const.php:3217
+#: include/const.php:3136 include/const.php:3218
 msgid "Link URI"
 msgstr "リンクURI"
 
-#: include/const.php:3136
+#: include/const.php:3137
 msgid ""
 "Webpage URL. Called when the label displayed after the video is tapped. The "
 "available schemes are http, https, line, and tel"
@@ -1775,27 +1780,27 @@ msgstr ""
 "ウェブページのURL。動画再生後に表示されるラベルをタップしたときに呼び出されま"
 "す。使用できるスキームは、http、https、line、およびtelです。"
 
-#: include/const.php:3142
+#: include/const.php:3143
 msgid "Displayed after the video is finished."
 msgstr "動画の再生が終了した後に表示されます。"
 
-#: include/const.php:3151
+#: include/const.php:3152
 msgid "Image map action objects"
 msgstr "イメージマップアクションオブジェクト"
 
-#: include/const.php:3152
+#: include/const.php:3153
 msgid "Object which specifies the actions and tappable areas of an imagemap."
 msgstr "イメージマップに設定するアクションとタップ領域を表すオブジェクトです。"
 
-#: include/const.php:3155
+#: include/const.php:3156
 msgid "Image map action"
 msgstr "イメージマップアクション"
 
-#: include/const.php:3163
+#: include/const.php:3164
 msgid "URL"
 msgstr "URL"
 
-#: include/const.php:3174
+#: include/const.php:3175
 msgid ""
 "Label for the action. Spoken when the accessibility feature is enabled on "
 "the client device."
@@ -1803,7 +1808,7 @@ msgstr ""
 "アクションのラベル。ユーザーデバイスのアクセシビリティ機能が有効な場合に読み"
 "上げられます。"
 
-#: include/const.php:3180
+#: include/const.php:3181
 msgid ""
 "Defines the size of a tappable area. The top left is used as the origin of "
 "the area. Set these properties based on the baseSize.width property and the "
@@ -1812,7 +1817,7 @@ msgstr ""
 "タップ領域のサイズを表すオブジェクトです。画像の左上が座標の原点です。"
 "baseSize.widthプロパティとbaseSize.heightプロパティに基づいて指定します。"
 
-#: include/const.php:3185
+#: include/const.php:3186
 msgid ""
 "Horizontal position relative to the left edge of the area. Value must be 0 "
 "or higher."
@@ -1820,7 +1825,7 @@ msgstr ""
 "領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
 "てください。"
 
-#: include/const.php:3191
+#: include/const.php:3192
 msgid ""
 "Vertical position relative to the top edge of the area. Value must be 0 or "
 "higher."
@@ -1828,25 +1833,25 @@ msgstr ""
 "領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
 "てください。"
 
-#: include/const.php:3218
+#: include/const.php:3219
 msgid "Webpage URL. The available schemes are http, https, line, and tel"
 msgstr ""
 "ウェブページのURL。使用できるスキームは、http、https、line、およびtelです。"
 
-#: include/const.php:3255
+#: include/const.php:3256
 msgid "Button Template message"
 msgstr "ボタンテンプレートメッセージ"
 
-#: include/const.php:3259 include/const.php:3349 include/const.php:3388
-#: include/const.php:3453 include/const.php:3495
+#: include/const.php:3260 include/const.php:3350 include/const.php:3389
+#: include/const.php:3454 include/const.php:3496
 msgid "Alt text"
 msgstr "代替テキスト"
 
-#: include/const.php:3268 include/const.php:3870
+#: include/const.php:3269 include/const.php:3871
 msgid "Thumbnail image url"
 msgstr "サムネイル画像URL"
 
-#: include/const.php:3269
+#: include/const.php:3270
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
 "Max file size: 10 MB"
@@ -1854,46 +1859,46 @@ msgstr ""
 "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大横幅サイ"
 "ズ：1024px、最大ファイルサイズ：10MB"
 
-#: include/const.php:3274 include/const.php:3397
+#: include/const.php:3275 include/const.php:3398
 msgid "Image aspect ratio"
 msgstr "画像アスペクト比"
 
-#: include/const.php:3275 include/const.php:3398
+#: include/const.php:3276 include/const.php:3399
 msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
 msgstr "画像のアスペクト比。長方形：1.51:1、正方形：1:1のいずれか。"
 
-#: include/const.php:3279 include/const.php:3402
+#: include/const.php:3280 include/const.php:3403
 msgid "Rectangle"
 msgstr "長方形"
 
-#: include/const.php:3283 include/const.php:3406
+#: include/const.php:3284 include/const.php:3407
 msgid "Square"
 msgstr "正方形"
 
-#: include/const.php:3290 include/const.php:3412
+#: include/const.php:3291 include/const.php:3413
 msgid "Image size"
 msgstr "画像サイズ"
 
-#: include/const.php:3291
+#: include/const.php:3292
 msgid "Size of the image. One of: cover, contain"
 msgstr "画像の表示形式。領域全体に表示または画像全体を表示から選択します。"
 
-#: include/const.php:3295 include/const.php:3417
+#: include/const.php:3296 include/const.php:3418
 msgid "Cover"
 msgstr "領域全体に表示"
 
-#: include/const.php:3296 include/const.php:3418
+#: include/const.php:3297 include/const.php:3419
 msgid ""
 "The image fills the entire image area. Parts of the image that do not fit in "
 "the area are not displayed."
 msgstr ""
 "画像領域全体に画像を表示します。画像領域に収まらない部分は切り詰められます。"
 
-#: include/const.php:3300 include/const.php:3422
+#: include/const.php:3301 include/const.php:3423
 msgid "Contain"
 msgstr "画像全体を表示"
 
-#: include/const.php:3301 include/const.php:3423
+#: include/const.php:3302 include/const.php:3424
 msgid ""
 "The entire image is displayed in the image area. A background is displayed "
 "in the unused areas to the left and right of vertical images and in the "
@@ -1902,15 +1907,15 @@ msgstr ""
 "画像領域に画像全体を表示します。縦長の画像では左右に、横長の画像では上下に余"
 "白が表示されます。"
 
-#: include/const.php:3307 include/const.php:3876
+#: include/const.php:3308 include/const.php:3877
 msgid "Image background color"
 msgstr "画像背景色"
 
-#: include/const.php:3316 include/const.php:3358 include/const.php:3885
+#: include/const.php:3317 include/const.php:3359 include/const.php:3886
 msgid "Message text"
 msgstr "メッセージテキスト"
 
-#: include/const.php:3317
+#: include/const.php:3318
 msgid ""
 "Max character limit: 160 (no image or title) 60 (message with an image or "
 "title)"
@@ -1918,27 +1923,27 @@ msgstr ""
 "画像もタイトルも指定しない場合の最大文字数：160,画像またはタイトルを指定する"
 "場合の最大文字数：60"
 
-#: include/const.php:3324 include/const.php:3363 include/const.php:3893
+#: include/const.php:3325 include/const.php:3364 include/const.php:3894
 msgid "Actions"
 msgstr "アクション"
 
-#: include/const.php:3345
+#: include/const.php:3346
 msgid "Confirm template message"
 msgstr "確認テンプレート"
 
-#: include/const.php:3354
+#: include/const.php:3355
 msgid "Template with two action buttons."
 msgstr "2つのアクションボタンを表示するテンプレートです。"
 
-#: include/const.php:3364
+#: include/const.php:3365
 msgid "Set 2 actions for the 2 buttons"
 msgstr "2つのボタンに1つずつアクションを設定します。"
 
-#: include/const.php:3384
+#: include/const.php:3385
 msgid "Carousel template message"
 msgstr "カルーセルテンプレート"
 
-#: include/const.php:3393
+#: include/const.php:3394
 msgid ""
 "Template with multiple columns which can be cycled like a carousel. The "
 "columns are shown in order when scrolling horizontally."
@@ -1946,17 +1951,17 @@ msgstr ""
 "複数のカラムを表示するテンプレートです。カラムは横にスクロールして順番に表示"
 "できます。"
 
-#: include/const.php:3413
+#: include/const.php:3414
 msgid "Size of the image. One of: cover, contain. Applies to all columns."
 msgstr ""
 "画像の表示形式。領域全体に表示または画像全体を表示から選択します。すべてのカ"
 "ラムに適用されます。"
 
-#: include/const.php:3429 include/const.php:3462
+#: include/const.php:3430 include/const.php:3463
 msgid "Columns"
 msgstr "カラム"
 
-#: include/const.php:3430
+#: include/const.php:3431
 msgid ""
 "Keep the number of actions consistent for all columns. If you use an image "
 "or title for a column, make sure to do the same for all other columns."
@@ -1964,11 +1969,11 @@ msgstr ""
 "各カラムのアクションの数は同じにします。画像またはタイトルの有無も、各カラム"
 "で統一してください。"
 
-#: include/const.php:3449
+#: include/const.php:3450
 msgid "Image carousel template message"
 msgstr "画像カルーセルテンプレートメッセージ"
 
-#: include/const.php:3458
+#: include/const.php:3459
 msgid ""
 "Template with multiple images which can be cycled like a carousel. The "
 "images are shown in order when scrolling horizontally."
@@ -1976,15 +1981,15 @@ msgstr ""
 "複数の画像を表示するテンプレートです。画像は横にスクロールして順番に表示でき"
 "ます。"
 
-#: include/const.php:3481
+#: include/const.php:3482
 msgid "Flex message"
 msgstr "Flex message"
 
-#: include/const.php:3485
+#: include/const.php:3486
 msgid "Flex message object"
 msgstr "Flex Messageオブジェクト"
 
-#: include/const.php:3486
+#: include/const.php:3487
 msgid ""
 "Flex Messages are messages with a customizable layout. You can customize the "
 "layout freely based on the specification for CSS Flexible Box."
@@ -1992,69 +1997,69 @@ msgstr ""
 "Flex Messageは、CSS Flexible Box（CSS Flexbox）の基礎知識を使って、レイアウト"
 "を自由にカスタマイズできるメッセージです。"
 
-#: include/const.php:3490
+#: include/const.php:3491
 msgid "Flex message JSON object"
 msgstr "Flex message JSON"
 
-#: include/const.php:3491
+#: include/const.php:3492
 msgid "Flex message JSON object such as generated by Flex Message Simulator"
 msgstr "Flex Messageシミュレーターなどで作成したFlex message JSON "
 
-#: include/const.php:3497
+#: include/const.php:3498
 msgid "Alt text of Flex message"
 msgstr "Flex message 代替テキスト"
 
-#: include/const.php:3512
+#: include/const.php:3513
 msgid "Raw message"
 msgstr "生メッセージ"
 
-#: include/const.php:3516
+#: include/const.php:3517
 msgid "Raw message object"
 msgstr "生メッセージオブジェクト"
 
-#: include/const.php:3520 include/const.php:3521
+#: include/const.php:3521 include/const.php:3522
 msgid "Message JSON object"
 msgstr "メッセージJSON"
 
-#: include/const.php:3546
+#: include/const.php:3547
 msgid "Quick reply"
 msgstr "クイックリプライ"
 
-#: include/const.php:3550
+#: include/const.php:3551
 msgid "Quick reply container"
 msgstr "クイックリプライコンテナ"
 
-#: include/const.php:3553
+#: include/const.php:3554
 msgid "Quick reply button object"
 msgstr "クイックリプライボタン"
 
-#: include/const.php:3557
+#: include/const.php:3558
 msgid "Image URL"
 msgstr "アイコンURL"
 
-#: include/const.php:3570
+#: include/const.php:3571
 msgid "Sender"
 msgstr "送信者"
 
-#: include/const.php:3571
+#: include/const.php:3572
 msgid "Customize icon and display name"
 msgstr "表示名とアイコンのカスタマイズ"
 
-#: include/const.php:3575
+#: include/const.php:3576
 msgid "Sender name"
 msgstr "送信者名"
 
-#: include/const.php:3576
+#: include/const.php:3577
 msgid "Display name. Certain words such as LINE may not be used."
 msgstr ""
 "表示名。LINEなど弊社のサービスと誤認される可能性があるワードは使用できませ"
 "ん。"
 
-#: include/const.php:3581
+#: include/const.php:3582
 msgid "Sender icon URL"
 msgstr "アイコン画像URL"
 
-#: include/const.php:3582
+#: include/const.php:3583
 msgid ""
 "URL of the image to display as an icon when sending a message.HTTPS, PNG, "
 "1:1, 1MB"
@@ -2062,11 +2067,11 @@ msgstr ""
 "メッセージ送信時にアイコンとして表示する画像のURL。画像フォーマット：PNG、ア"
 "スペクト比：1:1、最大ファイルサイズ：1MB"
 
-#: include/const.php:3598
+#: include/const.php:3599
 msgid "Postback action"
 msgstr "ポストバックアクション"
 
-#: include/const.php:3611
+#: include/const.php:3612
 msgid ""
 "String returned via webhook in the postback.data property of the postback "
 "event"
@@ -2074,11 +2079,11 @@ msgstr ""
 "Webhookを介して、ポストバックイベントのpostback.dataプロパティで返される文字"
 "列"
 
-#: include/const.php:3616
+#: include/const.php:3617
 msgid "Display text"
 msgstr "表示テキスト"
 
-#: include/const.php:3617
+#: include/const.php:3618
 msgid ""
 "Text displayed in the chat as a message sent by the user when the action is "
 "performed. Required for quick reply buttons. Optional for the other message "
@@ -2088,35 +2093,35 @@ msgstr ""
 "テキスト。クイックリプライボタンでは必須です。それ以外のメッセージタイプでは"
 "省略可能です。"
 
-#: include/const.php:3622
+#: include/const.php:3623
 msgid "Input option"
 msgstr "入力オプション"
 
-#: include/const.php:3623
+#: include/const.php:3624
 msgid "The display method of such as rich menu based on user action."
 msgstr "アクションに応じた、リッチメニューなどの表示方法"
 
-#: include/const.php:3627
+#: include/const.php:3628
 msgid "Close richmenu"
 msgstr "リッチメニューを閉じる"
 
-#: include/const.php:3631
+#: include/const.php:3632
 msgid "Open richmenu"
 msgstr "リッチメニューを開く"
 
-#: include/const.php:3635
+#: include/const.php:3636
 msgid "Open keyboard"
 msgstr "キーボードを開く"
 
-#: include/const.php:3639
+#: include/const.php:3640
 msgid "Open voice"
 msgstr "ボイスメッセージ入力モードを開く"
 
-#: include/const.php:3657
+#: include/const.php:3658
 msgid "Fill in text"
 msgstr "事前入力テキスト"
 
-#: include/const.php:3658
+#: include/const.php:3659
 msgid ""
 "String to be pre-filled in the input field when the keyboard is opened. "
 "Valid only when the inputOption property is set to openKeyboard."
@@ -2124,15 +2129,15 @@ msgstr ""
 "キーボードを開いたときに、入力欄にあらかじめ入力しておく文字列。入力オプショ"
 "ンがキーボードを開くの場合にのみ有効です。"
 
-#: include/const.php:3671
+#: include/const.php:3672
 msgid "Message action"
 msgstr "メッセージアクション"
 
-#: include/const.php:3695
+#: include/const.php:3696
 msgid "URI action"
 msgstr "URIアクション"
 
-#: include/const.php:3708
+#: include/const.php:3709
 msgid ""
 "URI opened when the action is performed. The available schemes are http, "
 "https, line, and tel"
@@ -2140,71 +2145,71 @@ msgstr ""
 "アクションの実行時に開かれるURI。使用できるスキームは、http、https、line、お"
 "よびtelです。"
 
-#: include/const.php:3720
+#: include/const.php:3721
 msgid "Datetime picker action"
 msgstr "日時選択アクション"
 
-#: include/const.php:3724
+#: include/const.php:3725
 msgid "Datetime picker"
 msgstr "日時選択ダイアログ"
 
-#: include/const.php:3737
+#: include/const.php:3738
 msgid "Action mode"
 msgstr "アクションモード"
 
-#: include/const.php:3741
+#: include/const.php:3742
 msgid "Select date"
 msgstr "日付を選択します。"
 
-#: include/const.php:3745
+#: include/const.php:3746
 msgid "Select time"
 msgstr "時刻を選択します。"
 
-#: include/const.php:3749
+#: include/const.php:3750
 msgid "Select date and time"
 msgstr "日付と日時を選択します。"
 
-#: include/const.php:3755
+#: include/const.php:3756
 msgid "Initial date or time"
 msgstr "日付または時刻の初期値"
 
-#: include/const.php:3759
+#: include/const.php:3760
 msgid "Max date or time"
 msgstr "選択可能な日付または時刻の最大値"
 
-#: include/const.php:3763
+#: include/const.php:3764
 msgid "Min date or time"
 msgstr "選択可能な日付または時刻の最小値"
 
-#: include/const.php:3775
+#: include/const.php:3776
 msgid "Camera action"
 msgstr "カメラアクション"
 
-#: include/const.php:3776 include/const.php:3797 include/const.php:3818
+#: include/const.php:3777 include/const.php:3798 include/const.php:3819
 msgid "This action can be configured only with quick reply buttons."
 msgstr "クイックリプライボタンにのみ設定できるアクションです。"
 
-#: include/const.php:3780
+#: include/const.php:3781
 msgid "Camera"
 msgstr "カメラ"
 
-#: include/const.php:3796
+#: include/const.php:3797
 msgid "Camera Roll action"
 msgstr "カメラロールアクション"
 
-#: include/const.php:3801
+#: include/const.php:3802
 msgid "Camera Roll"
 msgstr "カメラロール"
 
-#: include/const.php:3817
+#: include/const.php:3818
 msgid "Location action"
 msgstr "位置情報アクション"
 
-#: include/const.php:3838
+#: include/const.php:3839
 msgid "Clipboard action"
 msgstr "クリップボードアクション"
 
-#: include/const.php:3839
+#: include/const.php:3840
 msgid ""
 "When a user taps a control associated with this action, the text specified "
 "in the clipboardText property is copied to the device clipboard."
@@ -2212,15 +2217,15 @@ msgstr ""
 "クリップボードテキストに指定されたテキストが、端末のクリップボードにコピーさ"
 "れます。"
 
-#: include/const.php:3843
+#: include/const.php:3844
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: include/const.php:3852
+#: include/const.php:3853
 msgid "Clipboard text"
 msgstr "クリップボードテキスト"
 
-#: include/const.php:3871
+#: include/const.php:3872
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1.51:1 ,"
 "Max width: 1024px, Max file size: 10 MB"
@@ -2228,7 +2233,7 @@ msgstr ""
 "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
 "1.51:1、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
 
-#: include/const.php:3886
+#: include/const.php:3887
 msgid ""
 "Max character limit: 120 (no image or title) 60 (message with an image or "
 "title)"
@@ -2236,11 +2241,11 @@ msgstr ""
 "画像もタイトルも指定しない場合の最大文字数：120、画像またはタイトルを指定する"
 "場合の最大文字数：60"
 
-#: include/const.php:3910
+#: include/const.php:3911
 msgid "Image url"
 msgstr "画像URL"
 
-#: include/const.php:3911
+#: include/const.php:3912
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1:1 ,"
 "Max width: 1024px, Max file size: 10 MB"
@@ -2248,132 +2253,132 @@ msgstr ""
 "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
 "1:1、最大横幅サイズ：1024px、"
 
-#: include/const.php:3950
+#: include/const.php:3951
 msgid "Add image map action"
 msgstr "イメージマップアクション追加"
 
-#: include/const.php:3996 include/const.php:4003
+#: include/const.php:3997 include/const.php:4004
 msgid "Add column"
 msgstr "カラム追加"
 
-#: include/const.php:4027
+#: include/const.php:4028
 msgid "Add quick reply"
 msgstr "クイックリプライ追加"
 
-#: include/const.php:4038
+#: include/const.php:4039
 msgid "Item"
 msgstr "項目"
 
-#: include/const.php:4040
+#: include/const.php:4041
 msgid "Missing items definition"
 msgstr "欠落項目の定義"
 
-#: include/const.php:4042
+#: include/const.php:4043
 msgid "Yes"
 msgstr "はい"
 
-#: include/const.php:4044
+#: include/const.php:4045
 msgid "No"
 msgstr "いいえ"
 
-#: include/const.php:4046
+#: include/const.php:4047
 msgid "Close"
 msgstr "閉じる"
 
-#: include/const.php:4048
+#: include/const.php:4049
 msgid "Errors"
 msgstr "エラー"
 
-#: include/const.php:4050
+#: include/const.php:4051
 msgid "New Value"
 msgstr "新しい値"
 
-#: include/const.php:4052
+#: include/const.php:4053
 msgid "Add"
 msgstr "追加"
 
-#: include/const.php:4054
+#: include/const.php:4055
 msgid "Add Item"
 msgstr "項目追加"
 
-#: include/const.php:4056
+#: include/const.php:4057
 msgid "Copy"
 msgstr "コピー"
 
-#: include/const.php:4058
+#: include/const.php:4059
 msgid "Move down"
 msgstr "下へ移動"
 
-#: include/const.php:4060
+#: include/const.php:4061
 msgid "Move up"
 msgstr "上へ移動"
 
-#: include/const.php:4062
+#: include/const.php:4063
 msgid "Remove"
 msgstr "削除"
 
-#: include/const.php:4064
+#: include/const.php:4065
 msgid "Now"
 msgstr "現在"
 
-#: include/const.php:4066
+#: include/const.php:4067
 msgid "Clear"
 msgstr "クリア"
 
-#: include/const.php:4068
+#: include/const.php:4069
 msgid "Select a date"
 msgstr "日付を選択"
 
-#: include/const.php:4070
+#: include/const.php:4071
 msgid "Preview"
 msgstr "プレビュー"
 
-#: include/const.php:4072
+#: include/const.php:4073
 msgid "Decrease value by 1"
 msgstr "値を1減らす"
 
-#: include/const.php:4074
+#: include/const.php:4075
 msgid "Increase value by 1"
 msgstr "値を1増やす"
 
-#: include/const.php:4077
+#: include/const.php:4078
 msgid "Unknown field type %1"
 msgstr "不明なフィールドタイプ %1"
 
-#: include/const.php:4079
+#: include/const.php:4080
 msgid "Option %1"
 msgstr "オプション %1"
 
-#: include/const.php:4083
+#: include/const.php:4084
 msgid "%1 option %2"
 msgstr "%1 オプション %2"
 
-#: include/const.php:4085
+#: include/const.php:4086
 msgid "%1 Key"
 msgstr "%1 キー"
 
-#: include/const.php:4088
+#: include/const.php:4089
 msgid "Invalid %1 object field configuration: <em>%2</em>."
 msgstr "%1 オブジェクトフィールドの設定が正しくありません: <em>%2</em>."
 
-#: include/const.php:4090
+#: include/const.php:4091
 msgid "Unsupported field schema."
 msgstr "サポートされていないフィールドスキーマ"
 
-#: include/const.php:4092
+#: include/const.php:4093
 msgid "Unsupported field schema for field <code>%1</code>."
 msgstr "サポートされていないフィールドスキーマです: <code>%1</code>."
 
-#: include/const.php:4094
+#: include/const.php:4095
 msgid "Unsupported field schema: <em>%1</em>."
 msgstr "サポートされていないフィールドスキーマです: <em>%1</em>."
 
-#: include/const.php:4098
+#: include/const.php:4099
 msgid "Unsupported field schema for field <code>%1</code>: <em>%2</em>."
 msgstr ""
 "サポートされていないフィールドスキーマです: <code>%1</code>: <em>%2</em>."
 
-#: include/const.php:4102
+#: include/const.php:4103
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr "<strong>%1</strong> (%2, %3 バイト)"
 
@@ -2517,6 +2522,53 @@ msgstr "投稿「%s」に新しいコメントがありました"
 msgid "Comment by %s"
 msgstr "%sさんから: "
 
+#: include/util.php:240
+#, php-format
+msgid "The request body has %s error."
+msgstr "リクエストボディに%s個のエラーがあります。"
+
+#: include/util.php:242
+msgid "Invalid reply token."
+msgstr "無効な返信トークンです。"
+
+#: include/util.php:244
+#, php-format
+msgid "The property, %s, in the request body is invalid."
+msgstr "リクエストボディのプロパティ「%s」が無効です。"
+
+#: include/util.php:246
+msgid "The request body could not be parsed as JSON."
+msgstr "リクエストボディをJSONとして解析できませんでした。"
+
+#: include/util.php:248
+#, php-format
+msgid "The content type, %s, is not supported."
+msgstr "コンテンツタイプ「%s」はサポートされていません。"
+
+#: include/util.php:250
+msgid "Authentication failed."
+msgstr "認証に失敗しました。"
+
+#: include/util.php:252
+msgid "Access to this API is not available for your account."
+msgstr "このAPIへのアクセスは、お使いのアカウントでは利用できません。"
+
+#: include/util.php:254
+msgid "Failed to send messages."
+msgstr "メッセージの送信に失敗しました。"
+
+#: include/util.php:256
+msgid "You have reached your monthly limit."
+msgstr "月間の制限に達しました。"
+
+#: include/util.php:258
+msgid "Not found."
+msgstr "見つかりませんでした。"
+
+#: include/util.php:260
+msgid "May not be empty."
+msgstr "空は許可されていません。"
+
 #: include/admin.php:22
 msgid "LINE"
 msgstr "LINE"
@@ -2554,28 +2606,28 @@ msgid "Users"
 msgstr "ユーザー"
 
 # php-format
-#: include/chat.php:219 include/chat.php:243 include/publish.php:257
+#: include/chat.php:257 include/chat.php:281 include/publish.php:257
 #, php-format
 msgid "Sent a LINE message to %s person."
 msgstr "%s人にLINEを送信しました"
 
-#: include/chat.php:222 include/chat.php:245 include/publish.php:259
+#: include/chat.php:260 include/chat.php:283 include/publish.php:259
 msgid "No users matched"
 msgstr "条件にマッチするユーザーがいませんでした"
 
-#: include/chat.php:226
+#: include/chat.php:264
 msgid "Failed to send a LINE message to selected users. "
 msgstr "選択されたユーザーへのLINE送信に失敗しました"
 
-#: include/chat.php:230
+#: include/chat.php:268
 msgid "No users matched."
 msgstr "条件にマッチするユーザーがいませんでした"
 
-#: include/chat.php:234
+#: include/chat.php:272
 msgid "No user selected."
 msgstr "ユーザーが選択されていません。"
 
-#: include/chat.php:249
+#: include/chat.php:287
 msgid "Failed to send a LINE message to selected roles. "
 msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
 
@@ -2726,24 +2778,24 @@ msgstr "%1$sメッセージを%2$s"
 msgid "Push to %s"
 msgstr "%sへのプッシュ"
 
-#: include/message.php:569
+#: include/message.php:570
 #, php-format
 msgid "%s multicast"
 msgstr "%s通のマルチキャスト"
 
-#: include/message.php:600
+#: include/message.php:601
 msgid "Broadcast"
 msgstr "ブロードキャスト"
 
-#: line-dm/dist/slc_dm.js:316 line-chat/dist/slc_chat.js:346
-msgid "Send"
-msgstr "送信"
+#: include/message.php:618
+msgid "Error"
+msgstr "エラー"
 
-#: line-dm/dist/slc_dm.js:554 line-chat/dist/slc_chat.js:689
+#: line-dm/src/component/ChatTo.js:6
 msgid "To"
 msgstr "送信先"
 
-#: line-dm/dist/slc_dm.js:577 line-chat/dist/slc_chat.js:723
+#: line-dm/src/component/ChatTo.js:16
 msgid ""
 "To specify individual users, use the check link on the User List page, or "
 "check the check boxes for the target users and \"Apply\" the \"Send LINE "
@@ -2753,215 +2805,224 @@ msgstr ""
 "を利用するか、対象ユーザーにチェックを入れて一括操作で「LINEメッセージ送信」"
 "を「適用」してください。"
 
-#: lineconnect.php:727
+#: line-dm/src/component/ChatForm.js:115
+#: line-chat/src/component/ChatForm.js:114
+msgid "Send"
+msgstr "送信"
+
+#: line-chat/src/component/RJSFForm.js:130
+msgid "New message"
+msgstr "新規メッセージ"
+
+#: lineconnect.php:729
 msgid "LINE Event Log"
 msgstr "LINEイベントログ"
 
-#: lineconnect.php:729
+#: lineconnect.php:731
 msgid "Event Log"
 msgstr "イベントログ"
 
-#: lineconnect.php:883 lineconnect.php:894
+#: lineconnect.php:885 lineconnect.php:896
 msgid "LC Triggers"
 msgstr "LCトリガー"
 
-#: lineconnect.php:884
+#: lineconnect.php:886
 msgid "LC Trigger"
 msgstr "LCトリガー"
 
-#: lineconnect.php:885 lineconnect.php:935
+#: lineconnect.php:887 lineconnect.php:937
 msgid "Add New"
 msgstr "新しく追加"
 
-#: lineconnect.php:886
+#: lineconnect.php:888
 msgid "Add New Trigger"
 msgstr "新しいトリガーを追加"
 
-#: lineconnect.php:887
+#: lineconnect.php:889
 msgid "Edit Trigger"
 msgstr "トリガーを編集"
 
-#: lineconnect.php:888
+#: lineconnect.php:890
 msgid "New Trigger"
 msgstr "新しいトリガー"
 
-#: lineconnect.php:889
+#: lineconnect.php:891
 msgid "View Trigger"
 msgstr "トリガーを表示"
 
-#: lineconnect.php:890
+#: lineconnect.php:892
 msgid "Search Triggers"
 msgstr "トリガーを検索"
 
-#: lineconnect.php:891
+#: lineconnect.php:893
 msgid "No Triggers found"
 msgstr "トリガーが見つかりません"
 
-#: lineconnect.php:892
+#: lineconnect.php:894
 msgid "No Triggers found in Trash"
 msgstr "ゴミ箱にトリガーはありません"
 
-#: lineconnect.php:895
+#: lineconnect.php:897
 msgid "All Triggers"
 msgstr "すべてのトリガー"
 
-#: lineconnect.php:896
+#: lineconnect.php:898
 msgid "Trigger Archives"
 msgstr "トリガーアーカイブ"
 
-#: lineconnect.php:897
+#: lineconnect.php:899
 msgid "Trigger Attributes"
 msgstr "トリガー属性"
 
-#: lineconnect.php:898
+#: lineconnect.php:900
 msgid "Insert into Trigger"
 msgstr "トリガーに挿入"
 
-#: lineconnect.php:899
+#: lineconnect.php:901
 msgid "Uploaded to this Trigger"
 msgstr "このトリガーにアップロードしました"
 
-#: lineconnect.php:900 lineconnect.php:950
+#: lineconnect.php:902 lineconnect.php:952
 msgid "Featured Image"
 msgstr "アイキャッチ画像"
 
-#: lineconnect.php:901 lineconnect.php:951
+#: lineconnect.php:903 lineconnect.php:953
 msgid "Set featured image"
 msgstr "アイキャッチ画像の設定"
 
-#: lineconnect.php:902 lineconnect.php:952
+#: lineconnect.php:904 lineconnect.php:954
 msgid "Remove featured image"
 msgstr "アイキャッチ画像の削除"
 
-#: lineconnect.php:903 lineconnect.php:953
+#: lineconnect.php:905 lineconnect.php:955
 msgid "Use as featured image"
 msgstr "アイキャッチ画像として使用"
 
-#: lineconnect.php:904
+#: lineconnect.php:906
 msgid "Filter Triggers list"
 msgstr "トリガー一覧をフィルター"
 
-#: lineconnect.php:905
+#: lineconnect.php:907
 msgid "Triggers list navigation"
 msgstr "トリガー一覧のナビゲーション"
 
-#: lineconnect.php:906
+#: lineconnect.php:908
 msgid "Triggers list"
 msgstr "トリガー一覧"
 
-#: lineconnect.php:907
+#: lineconnect.php:909
 msgid "Trigger published."
 msgstr "トリガーを公開しました"
 
-#: lineconnect.php:908
+#: lineconnect.php:910
 msgid "Trigger published privately."
 msgstr "トリガーをプライベートで公開しました"
 
-#: lineconnect.php:909
+#: lineconnect.php:911
 msgid "Trigger reverted to draft."
 msgstr "トリガーを下書きに戻しました"
 
-#: lineconnect.php:910
+#: lineconnect.php:912
 msgid "Trigger scheduled."
 msgstr "トリガーが予約公開されました"
 
-#: lineconnect.php:911
+#: lineconnect.php:913
 msgid "Trigger updated."
 msgstr "トリガーが更新されました"
 
-#: lineconnect.php:913
+#: lineconnect.php:915
 msgid "LINE Connect Triggers"
 msgstr "LINE Connect トリガー"
 
-#: lineconnect.php:933 lineconnect.php:944
+#: lineconnect.php:935 lineconnect.php:946
 msgid "LC Messages"
 msgstr "LCメッセージ"
 
-#: lineconnect.php:934
+#: lineconnect.php:936
 msgid "LC Message"
 msgstr "LCメッセージ"
 
-#: lineconnect.php:936
+#: lineconnect.php:938
 msgid "Add New Message"
 msgstr "新しいメッセージを追加"
 
-#: lineconnect.php:937
+#: lineconnect.php:939
 msgid "Edit Message"
 msgstr "メッセージを編集"
 
-#: lineconnect.php:938
+#: lineconnect.php:940
 msgid "New Message"
 msgstr "新しいメッセージ"
 
-#: lineconnect.php:939
+#: lineconnect.php:941
 msgid "View Message"
 msgstr "メッセージを表示"
 
-#: lineconnect.php:940
+#: lineconnect.php:942
 msgid "Search Messages"
 msgstr "メッセージを検索"
 
-#: lineconnect.php:941
+#: lineconnect.php:943
 msgid "No Messages found"
 msgstr "メッセージが見つかりません"
 
-#: lineconnect.php:942
+#: lineconnect.php:944
 msgid "No Messages found in Trash"
 msgstr "ゴミ箱にメッセージが見つかりません"
 
-#: lineconnect.php:945
+#: lineconnect.php:947
 msgid "All Messages"
 msgstr "すべてのメッセージ"
 
-#: lineconnect.php:946
+#: lineconnect.php:948
 msgid "Message Archives"
 msgstr "メッセージのアーカイブ"
 
-#: lineconnect.php:947
+#: lineconnect.php:949
 msgid "Message Attributes"
 msgstr "メッセージの属性"
 
-#: lineconnect.php:948
+#: lineconnect.php:950
 msgid "Insert into Message"
 msgstr "メッセージに挿入"
 
-#: lineconnect.php:949
+#: lineconnect.php:951
 msgid "Uploaded to this Message"
 msgstr "このメッセージにアップロードされました"
 
-#: lineconnect.php:954
+#: lineconnect.php:956
 msgid "Filter Messages list"
 msgstr "メッセージをフィルター"
 
-#: lineconnect.php:955
+#: lineconnect.php:957
 msgid "Messages list navigation"
 msgstr "メッセージのナビゲーション"
 
-#: lineconnect.php:956
+#: lineconnect.php:958
 msgid "Messages list"
 msgstr "メッセージ一覧"
 
-#: lineconnect.php:957
+#: lineconnect.php:959
 msgid "Message published."
 msgstr "メッセージが公開されました。"
 
-#: lineconnect.php:958
+#: lineconnect.php:960
 msgid "Message published privately."
 msgstr "メッセージが非公開にされました。"
 
-#: lineconnect.php:959
+#: lineconnect.php:961
 msgid "Message reverted to draft."
 msgstr "メッセージが下書きに戻されました。"
 
-#: lineconnect.php:960
+#: lineconnect.php:962
 msgid "Message scheduled."
 msgstr "メッセージがスケジュールされました。"
 
-#: lineconnect.php:961
+#: lineconnect.php:963
 msgid "Message updated."
 msgstr "メッセージが更新されました。"
 
-#: lineconnect.php:963
+#: lineconnect.php:965
 msgid "LINE Connect Messages"
 msgstr "LINE Connect メッセージ"
 

@@ -130,12 +130,47 @@ class lineconnectChat {
 		}
 		$ary_init_data['roleList'] = $all_roles;
 		// error_log(print_r($ary_init_data,true),3,plugin_dir_path(__FILE__ )."../log/chatlog.log");
+		$formName                         = 'chatform-data';
+		$ary_init_data['formName']        = $formName;
+		$formData = [];
+		$subSchema = lineconnectSLCMessage::get_message_schema();
+		$form = array();
+		for($i = 0; $i < 10; $i+=2){
+			$type_schema = lineconnectConst::$lineconnect_message_type_schema;
+			$type_schema['title'] = sprintf('%s (%d/%d)', __( 'Message', lineconnect::PLUGIN_NAME ), ($i/2)+1, 5);
+			$form[] = array(
+				'id' => 'type',
+				'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema ),
+				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_uischema ),
+				'formData' => lineconnectSLCMessage::get_form_type_data($formData[$i] ?? null, null),
+				'props' => new stdClass(),
+			);
+			$form[] = array(
+				'id' => 'message',
+				'schema' => ! empty($formData[$i]["type"]) ? $subSchema[$formData[$i]["type"]] : new stdClass(),
+				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', lineconnectConst::$lineconnect_message_uischema ),
+				'formData' => lineconnectSLCMessage::get_form_message_data($formData[$i+1] ?? null, null),
+				'props' => new stdClass(),
+			);
+		}
+		$ary_init_data['subSchema']          = $subSchema;
+		
+		$ary_init_data['form']        = $form;
+		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
 
-		$inidata = json_encode( $ary_init_data );
+		$slc_messages = [];
+		foreach ( lineconnectSLCMessage::get_lineconnect_message_name_array() as $post_id => $title ) {
+			$slc_messages[] = array(
+				'post_id' => $post_id,
+				'title' => $title,
+			);
+		}
+		$ary_init_data['slc_messages'] = $slc_messages;
+		$inidata = json_encode( $ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE  );
 		echo <<< EOM
 <div id="line_chat_root"></div>
 <script>
-var lc_initdata = JSON.parse('{$inidata}');
+var lc_initdata = {$inidata};
 </script>
 EOM;
 	}
@@ -168,7 +203,7 @@ EOM;
 				$error_message        = $success_message = '';
 				$send_checkbox_value  = isset( $_POST['channel'] ) && isset( $_POST['channel'][ $channel_id ] ) ? $_POST['channel'][ $channel_id ] === 'true' : false;
 				$role                 = isset( $_POST['role'] ) ? $_POST['role'] : array();
-				$message              = isset( $_POST['message'] ) ? $_POST['message'] : ' ';
+				$messages              = isset( $_POST['messages'] ) ? array_map('stripslashes_deep', $_POST['messages']) : [];
 				$to                   = isset( $_POST['to'] ) ? $_POST['to'] : array();
 				$type                 = isset( $_POST['type'] ) ? $_POST['type'] : '';
 				$channel_access_token = $channel['channel-access-token'];
@@ -177,10 +212,13 @@ EOM;
 
 				if ( strlen( $channel_access_token ) > 0 && strlen( $channel_secret ) > 0 && $send_checkbox_value ) {
 					require_once plugin_dir_path( __FILE__ ) . 'message.php';
-					$textMessage = lineconnectMessage::createTextMessage( $message );
+					// $textMessage = lineconnectMessage::createTextMessage( $message );
+					// error_log(print_r( $messages, true ));
+					$message = lineconnectSLCMessage::formData_to_multimessage($messages);
+					// error_log(print_r( $message, true ));
 					if ( $type == 'broad' ) {
 						// 送信するロールがすべての友達ならブロードキャスト
-						$response = lineconnectMessage::sendBroadcastMessage( $channel, $textMessage );
+						$response = lineconnectMessage::sendBroadcastMessage( $channel, $message );
 						if ( $response['success'] ) {
 							$success_message = '全ての友達にLINEを送信しました';
 						} else {
@@ -212,7 +250,7 @@ EOM;
 										}
 									}
 								}
-								$response = lineconnectMessage::sendMulticastMessage( $channel, $line_user_ids, $textMessage );
+								$response = lineconnectMessage::sendMulticastMessage( $channel, $line_user_ids, $message );
 								if ( $response['success'] ) {
 									if ( $response['num'] ) {
 										// $success_message = $response['num'].'人にLINEを送信しました';
@@ -237,7 +275,7 @@ EOM;
 						if ( $type == 'linked' ) {
 							$role = 'slc_linked';
 						}
-						$response = lineconnectMessage::sendMessageRole( $channel, $role, $textMessage );
+						$response = lineconnectMessage::sendMessageRole( $channel, $role, $message );
 						if ( $response['success'] ) {
 							if ( $response['num'] ) {
 								$success_message = sprintf( _n( 'Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME ), number_format( $response['num'] ) );
@@ -280,12 +318,18 @@ EOM;
 		$chat_js = 'line-chat/dist/slc_chat.js';
 		wp_enqueue_script( lineconnect::PLUGIN_PREFIX . 'chat', plugins_url( $chat_js, __DIR__ ), array( 'wp-element', 'wp-i18n' ), filemtime( plugin_dir_path( __DIR__ ) . $chat_js ), true );
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations( lineconnect::PLUGIN_PREFIX . 'chat', lineconnect::PLUGIN_NAME, plugin_dir_path( __DIR__ ) . 'languages' );
+		wp_set_script_translations( lineconnect::PLUGIN_PREFIX . 'chat', lineconnect::PLUGIN_NAME, plugin_dir_path( __DIR__ ) .'line-chat/languages' );
+		//$js_file = 'react-jsonschema-form/dist/main.js';
+		//wp_enqueue_script( lineconnect::PLUGIN_PREFIX . 'chat-rjsf', plugins_url( $js_file, __DIR__ ), array( 'wp-element', 'wp-i18n' ), filemtime( plugin_dir_path( __DIR__ ) . $js_file ), true );
+		
 	}
 
 	// 管理画面用にスタイル読み込み
 	static function wpdocs_plugin_admin_styles() {
 		$chat_css = 'line-chat/dist/style.css';
 		wp_enqueue_style( lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url( $chat_css, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $chat_css ) );
+		$override_css_file = 'react-jsonschema-form/dist/rjsf-override.css';
+		wp_enqueue_style( lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', plugins_url( $override_css_file, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $override_css_file ) );
+		
 	}
 }

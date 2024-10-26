@@ -6,7 +6,7 @@ import ChatResult from './ChatResult';
 
 const __ = wp.i18n.__;
 const ChatForm = () => {
-    const [message, setMessage] = useState('');
+    const [messages, setMessage] = useState(new Array());
     const [to, setTo] = useState(lc_initdata['user_ids']);
     const [type, setType] = useState(lc_initdata['toType']);
     const [channel, setChannel] = useState(lc_initdata['channelChecked']);
@@ -18,17 +18,17 @@ const ChatForm = () => {
     const roleList = lc_initdata['roleList'];   //ロール一覧
     const toUsers = lc_initdata['toUsers']; //宛先ユーザー一覧
 
-    function handleTypeChange(text) {
-        setType(text);
-    }
+    // function handleTypeChange(text) {
+    //     setType(text);
+    // }
 
-    function handleToChange(text) {
-        setTo(text);
-    }
+    // function handleToChange(text) {
+    //     setTo(text);
+    // }
 
-    function handleMessageChange(text) {
-        setMessage(text);
-    }
+    // function handleFormChange(text) {
+    //     setMessage(text);
+    // }
 
     function handleChannelChange(val, checked) {
         const newChannel = channel.slice();
@@ -79,7 +79,7 @@ const ChatForm = () => {
                 'to': to,
                 'role': role,
                 'channel': channel,
-                'message': message,
+                'messages': messages,
             },
             dataType: 'json'
         }).done(function (data) {
@@ -98,7 +98,7 @@ const ChatForm = () => {
             {__('Send LINE message', 'lineconnect')}			
         </header>
         <form onSubmit={handleSubmit}>
-            <div className="ChatBody w-1/3">
+            <div className="ChatBody w-full">
                 <div className="ChatRow">
                     <ChatChannel handleChannelChange={(val, checked) => handleChannelChange(val, checked)} channelCheked={channel} channelList={channelList} />
                 </div>
@@ -107,7 +107,7 @@ const ChatForm = () => {
                         handleRoleChange={(val, checked) => handleRoleChange(val, checked)} roleCheked={role} roleList={roleList} />
                 </div>
                 <div className="ChatRow">
-                    <ChatMessage handleMessageChange={setMessage} defaultValue={message} />
+                    <ChatMessage handleFormChange={setMessage} />
                 </div>
                 <div className="ChatRow">
                     <button type="submit" className="btn-indigo">{__('Send', 'lineconnect')}</button>

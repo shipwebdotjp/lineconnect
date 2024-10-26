@@ -227,12 +227,15 @@ EOM;
 	 * Return LINE message object by post_id
 	 */
 	static function get_lineconnect_message( $post_id, $args = null ) {
-		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+		$formData        = get_post_meta( $post_id, lineconnect::META_KEY__MESSAGE_DATA, true );
+		return self::formData_to_multimessage($formData, $args);
+	}
 
+	static function formData_to_multimessage($formData, $args = null){
+		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
 		$multimessagebuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
 		$message_objects     = array();
 		$message_data = array();
-		$formData        = get_post_meta( $post_id, lineconnect::META_KEY__MESSAGE_DATA, true );
 		if ( ! empty( $formData ) ) {
 			for($i=0;$i<10;$i+=2){
 				
@@ -278,7 +281,7 @@ EOM;
 				}
 			}
 			if ( ! empty( $message['sender'] ) ) {
-				$sender = lineconnectMessage::createSenderMessageBuilder( $message['sender']['name'], $message['sender']['iconUrl'] );
+				$sender = lineconnectMessage::createSenderMessageBuilder( isset($message['sender']['name']) ? $message['sender']['name'] : null, isset($message['sender']['iconUrl']) ? $message['sender']['iconUrl'] : null );
 			}
 
 			if( 'text' === $message_type ) {
@@ -387,13 +390,13 @@ EOM;
 		$actionBuilders = self::builderActions($message['message']['button_template']['actions']);
 		$defaultAction = self::buildTemplateActionBuilder($message['message']['button_template']['defaultAction']);
 		$buttonTemplate = lineconnectMessage::createButtonTemplateBuilder(
-			$message['message']['button_template']['title'],
+			isset($message['message']['button_template']['title']) ? $message['message']['button_template']['title'] : null,
 			$message['message']['button_template']['text'],
-			$message['message']['button_template']['thumbnailImageUrl'],
+			isset($message['message']['button_template']['thumbnailImageUrl']) ? $message['message']['button_template']['thumbnailImageUrl'] : null,
 			$actionBuilders,
-			$message['message']['button_template']['imageAspectRatio'],
-			$message['message']['button_template']['imageSize'],
-			$message['message']['button_template']['imageBackgroundColor'],
+			isset($message['message']['button_template']['imageAspectRatio']) ? $message['message']['button_template']['imageAspectRatio'] : null,
+			isset($message['message']['button_template']['imageSize']) ? $message['message']['button_template']['imageSize'] : null,
+			isset($message['message']['button_template']['imageBackgroundColor']) ? $message['message']['button_template']['imageBackgroundColor'] : null ,
 			$defaultAction
 		);
 		return lineconnectMessage::createTemplateMessageBuilder(
@@ -514,5 +517,42 @@ EOM;
 			}
 		}
 		return $obj;
+	}
+
+	// Ajaxでメッセージデータを返す
+	static function ajax_get_slc_message(){
+		$isSuccess = true;
+		$formData = [];
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+
+		if ( ! isset( $_POST['post_id'] ) || ! $_POST['post_id'] ) {
+			$isSuccess = false;
+		}
+
+
+		if ( $isSuccess ) {
+			$post_id = $_POST['post_id'];
+			$formData  = get_post_meta( $post_id, lineconnect::META_KEY__MESSAGE_DATA, true );
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['formData'] = $formData;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
 	}
 }

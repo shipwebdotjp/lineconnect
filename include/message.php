@@ -533,7 +533,7 @@ class lineconnectMessage {
 		} else {
 			return array(
 				'success' => false,
-				'message' => $response->getJSONDecodedBody()['message'],
+				'message' => self::prettyPrintLINEMessagingAPIError($response->getJSONDecodedBody()),
 			);
 		}
 	}
@@ -555,9 +555,10 @@ class lineconnectMessage {
 			// マルチキャストで送信
 			$response = $bot->multicast( $line_user_id_chunk, $message );
 			if ( $response->getHTTPStatus() !== 200 ) {
+				// error_log(print_r($response->getJSONDecodedBody(),true));
 				return array(
 					'success' => false,
-					'message' => $response->getJSONDecodedBody()['message'],
+					'message' => self::prettyPrintLINEMessagingAPIError($response->getJSONDecodedBody()),
 				);
 			}
 		}
@@ -606,8 +607,29 @@ class lineconnectMessage {
 		} else {
 			return array(
 				'success' => false,
-				'message' => $response->getJSONDecodedBody()['message'],
+				'message' => self::prettyPrintLINEMessagingAPIError($response->getJSONDecodedBody()),
 			);
 		}
 	}
+
+	// LINEメッセージ送信時のエラーを文字列に変換
+	static function prettyPrintLINEMessagingAPIError($error) {
+		// エラーのメインメッセージ
+		$output = "<h2>". __( 'Error', lineconnect::PLUGIN_NAME ) .": ". htmlspecialchars(lineconnectUtil::dynamic_translate($error['message']), ENT_QUOTES, 'UTF-8') . "</h2>";
+
+		// エラーの詳細がある場合
+		if (isset($error['details']) && is_array($error['details'])) {
+			$output .= "<ul>";
+			foreach ($error['details'] as $detail) {
+				$output .= "<li>";
+				$output .= "<strong>". __( 'Property', lineconnect::PLUGIN_NAME ) .": </strong> " . htmlspecialchars(lineconnectUtil::dynamic_translate($detail['property']), ENT_QUOTES, 'UTF-8') . "<br>";
+				$output .= "<strong>". __( 'Message', lineconnect::PLUGIN_NAME ) .": </strong> " . htmlspecialchars(lineconnectUtil::dynamic_translate($detail['message']), ENT_QUOTES, 'UTF-8');
+				$output .= "</li>";
+			}
+			$output .= "</ul>";
+		}
+
+		return $output;
+	}
+
 }
