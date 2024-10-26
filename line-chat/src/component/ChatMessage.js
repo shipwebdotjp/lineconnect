@@ -93,13 +93,13 @@ const ChatMessage = (props) => {
             dataType: 'json'
         }).done(function (data) {
             // console.log("done...");
-            console.log(data);
+            // console.log(data);
             setData(data.formData);
             const newform = [...form];
             // clear current formData and schema
             form.map((value, index) => {
-                console.log(index);
-                console.log(newform[index]);
+                // console.log(index);
+                // console.log(newform[index]);
                 newform[index]["formData"] = null;
                 if(index % 2 == 1){
                     newform[index]["schema"] = {};

@@ -14,6 +14,10 @@
 ### Security
 - 
 
+## [3.2.0] - 2024-10-26
+### Added
+- Messages saved in the Bulk message screen can now be loaded and used.
+
 ## [3.1.0] - 2024-09-13
 ### Fixed
 - Fixed a bug that users with role added with add_role were not found in search

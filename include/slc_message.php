@@ -426,21 +426,21 @@ EOM;
 		if(!empty($message['message']['carousel_template']['columns'])){
 			foreach($message['message']['carousel_template']['columns'] as $column){
 				$actionBuilders = self::builderActions($column['actions']);
-				$defaultAction = self::buildTemplateActionBuilder($column['defaultAction']);
+				$defaultAction = self::buildTemplateActionBuilder($column['defaultAction'] ?? null);
 				$columnTemplateBuilders[] = lineconnectMessage::createCarouselColumnTemplateBuilder(
-					$column['title'],
+					$column['title'] ?? null,
 					$column['text'],
-					$column['thumbnailImageUrl'],
+					$column['thumbnailImageUrl'] ?? null,
 					$actionBuilders,
-					$column['imageBackgroundColor'],
+					$column['imageBackgroundColor'] ?? null,
 					$defaultAction
 				);
 			}
 		}
 		$carouselTemplate = lineconnectMessage::createCarouselTemplateBuilder(
 			$columnTemplateBuilders,
-			$message['message']['carousel_template']['imageAspectRatio'],
-			$message['message']['carousel_template']['imageSize']
+			$message['message']['carousel_template']['imageAspectRatio'] ?? null,
+			$message['message']['carousel_template']['imageSize'] ?? null
 		);
 		return lineconnectMessage::createTemplateMessageBuilder(
 			$message['message']['altText'],
@@ -491,7 +491,7 @@ EOM;
 		if ( !empty( $action['message'] ) ) {
 			$templateAction = lineconnectMessage::createMessageTemplateActionBuilder( $action['message']['label'], $action['message']['text'] );
 		} elseif ( !empty( $action['postback'] )  ) {
-			$templateAction = lineconnectMessage::createPostbackAction( $action['postback']['label'], $action['postback']['data'], $action['postback']['displayText'], $action['postback']['inputOption'] ?? null, $action['postback']['fillInText'] ?? null );
+			$templateAction = lineconnectMessage::createPostbackAction( $action['postback']['label'], $action['postback']['data'], $action['postback']['displayText'] ?? null, $action['postback']['inputOption'] ?? null, $action['postback']['fillInText'] ?? null );
 		} elseif ( !empty( $action['uri'] ) ) {
 			$templateAction = lineconnectMessage::createUriTemplateActionBuilder( $action['uri']['label'], $action['uri']['uri'] );
 		} elseif ( !empty( $action['datetimepicker'] ) ) {

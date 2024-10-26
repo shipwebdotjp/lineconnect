@@ -1,6 +1,7 @@
 
 # Bulk message
-Instead of sending the article content on LINE when submitting an article, you can send a LINE message with the content of your choice as a simple text message.
+Instead of sending the article content on LINE when submitting an article, you can send a LINE message with the content of your choice as a message.  
+Messages can be used by creating a new LC message or recalling a saved message.  
 ### Usage
 Open the "Bulk message" page from the LINE Connect menu.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-10.jpg" width="320" />  
@@ -19,7 +20,7 @@ Specify which user groups to send to.
 Select which roles to send to users belonging to.   
 
 #### Message
-Enter the contents of the LINE message.
+In the template selection box, choose whether to create a new message or recall a saved message. If you select a saved message, it will be loaded. You can also modify it if necessary. For more information on LC messages, please see [LC messages](./message.md).
 
 ### Specify individual users and send
 Since you cannot specify individual users to be sent from the Bulk message page, please specify the target users from the User List page.  
