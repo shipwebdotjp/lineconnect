@@ -1,0 +1,32 @@
+{
+  "translation-revision-date": "2024-10-26 16:28:50+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "Channel": [
+        "チャネル"
+      ],
+      "Send LINE message": [
+        "LINEメッセージを送信"
+      ],
+      "Send": [
+        "送信"
+      ],
+      "Message": [
+        "メッセージ"
+      ],
+      "To specify individual users, click on the message menu in the User ID column of the Event Log page.": [
+        "ユーザーを個別に指定するには、イベントログページのユーザーIDカラムのメッセージメニューをクリックして下さい。"
+      ],
+      "To": [
+        "送信先"
+      ]
+    }
+  }
+}

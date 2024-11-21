@@ -180,7 +180,7 @@ EOM;
 		$dm_js = 'line-dm/dist/slc_dm.js';
 		wp_enqueue_script( lineconnect::PLUGIN_PREFIX . 'dm', plugins_url( $dm_js, __DIR__ ), array( 'wp-element', 'wp-i18n' ), filemtime( plugin_dir_path( __DIR__ ) . $dm_js ), true );
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations( lineconnect::PLUGIN_PREFIX . 'dm', lineconnect::PLUGIN_NAME, plugin_dir_path( __DIR__ ) . 'languages' );
+		wp_set_script_translations( lineconnect::PLUGIN_PREFIX . 'dm', lineconnect::PLUGIN_NAME, plugin_dir_path( __DIR__ ) . 'line-dm/languages' );
 	}
 
 	// 管理画面用にスタイル読み込み

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "NODE_ENV=development npx webpack -w --mode development"
+    "start": "NODE_ENV=development npx webpack -w --mode development",
+    "publish": "node po2json.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
+    "@wordpress/babel-plugin-makepot": "^6.10.0",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
