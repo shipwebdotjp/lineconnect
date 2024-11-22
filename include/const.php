@@ -394,6 +394,7 @@ class lineconnectConst {
 			array(
 				'send-checkbox'   => __( 'Send update notification', lineconnect::PLUGIN_NAME ),
 				'role-selectbox'  => __( 'Send target:', lineconnect::PLUGIN_NAME ),
+				'template-selectbox' => __( 'Message template:', lineconnect::PLUGIN_NAME ),
 				'future-checkbox' => __( 'Send when a future post is published', lineconnect::PLUGIN_NAME ),
 			)
 		);
@@ -541,6 +542,16 @@ class lineconnectConst {
 							),
 							'default'  => 'new',
 							'hint'     => __( 'Default value setting for the "Send update notification" check box when editing an article.', lineconnect::PLUGIN_NAME ),
+						),
+						'default_send_template' => array(
+							'type'     => 'select',
+							'label'    => __( 'Default template of notification message.', lineconnect::PLUGIN_NAME ),
+							'required' => true,
+							'list'     => array(
+								0  => __( 'Default template', lineconnect::PLUGIN_NAME ),
+							),
+							'default'  => 0,
+							'hint'     => __( 'Default value setting for the "Message template" select box when editing an article.', lineconnect::PLUGIN_NAME ),
 						),
 						'more_label'            => array(
 							'type'     => 'text',

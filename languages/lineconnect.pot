@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 3.2.0\n"
+"Project-Id-Version: LINE Connect 3.2.1\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2024-10-25 20:33+0900\n"
+"POT-Creation-Date: 2024-11-22 16:40+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,240 +57,256 @@ msgid "Send target:"
 msgstr ""
 
 #: include/const.php:397
+msgid "Message template:"
+msgstr ""
+
+#: include/const.php:398
 msgid "Send when a future post is published"
 msgstr ""
 
-#: include/const.php:404
+#: include/const.php:405
 msgid "Channel name"
 msgstr ""
 
-#: include/const.php:405
+#: include/const.php:406
 msgid "Channel access token"
 msgstr ""
 
-#: include/const.php:406
+#: include/const.php:407
 msgid "Channel secret"
 msgstr ""
 
-#: include/const.php:407
+#: include/const.php:408
 msgid "Default target role"
 msgstr ""
 
-#: include/const.php:408
+#: include/const.php:409
 msgid "Rich menu ID for linked users"
 msgstr ""
 
-#: include/const.php:409
+#: include/const.php:410
 msgid "Rich menu ID for unlinked users"
 msgstr ""
 
-#: include/const.php:418 include/const.php:2259 include/const.php:2637
-#: line-dm/src/component/ChatChannel.js:4
-#: line-chat/src/component/ChatChannel.js:4
+#: include/const.php:419 include/const.php:2270 include/const.php:2648
 msgid "Channel"
 msgstr ""
 
-#: include/const.php:423 include/const.php:981
+#: include/const.php:424 include/const.php:992
 msgid "Link"
 msgstr ""
 
-#: include/const.php:427
+#: include/const.php:428
 msgid "Login page URL"
 msgstr ""
 
-#: include/const.php:430
+#: include/const.php:431
 msgid "Enter the URL of the login page as a path relative to the site URL."
 msgstr ""
 
-#: include/const.php:434
+#: include/const.php:435
 msgid "Automatically initiate linkage"
 msgstr ""
 
-#: include/const.php:437 include/const.php:660 include/const.php:704
+#: include/const.php:438 include/const.php:671 include/const.php:715
 msgid "Disabled"
 msgstr ""
 
-#: include/const.php:438 include/const.php:661 include/const.php:705
+#: include/const.php:439 include/const.php:672 include/const.php:716
 msgid "Enabled"
 msgstr ""
 
-#: include/const.php:441
+#: include/const.php:442
 msgid ""
 "This setting determines whether or not to automatically initiate linkage "
 "When user add an official account as a friend."
 msgstr ""
 
-#: include/const.php:445
+#: include/const.php:446
 msgid "Account link/unlink start keywords"
 msgstr ""
 
-#: include/const.php:447
+#: include/const.php:448
 msgid "Account link"
 msgstr ""
 
-#: include/const.php:451
+#: include/const.php:452
 msgid "Message title for account linkage initiation"
 msgstr ""
 
-#: include/const.php:453
+#: include/const.php:454
 msgid "Start account linkage"
 msgstr ""
 
-#: include/const.php:457
+#: include/const.php:458
 msgid "Message body for account linkage initiation"
 msgstr ""
 
-#: include/const.php:460
+#: include/const.php:461
 msgid "Start the linkage. Please login at the link."
 msgstr ""
 
-#: include/const.php:464
+#: include/const.php:465
 msgid "Message button label to start account linkage"
 msgstr ""
 
-#: include/const.php:466
+#: include/const.php:467
 msgid "Start linkage"
 msgstr ""
 
-#: include/const.php:470
+#: include/const.php:471
 msgid "Account Linkage Completion Message"
 msgstr ""
 
-#: include/const.php:473
+#: include/const.php:474
 msgid "Account linkage completed."
 msgstr ""
 
-#: include/const.php:477
+#: include/const.php:478
 msgid "Account Linkage Failure Messages"
 msgstr ""
 
-#: include/const.php:480
+#: include/const.php:481
 msgid "Account linkage failed."
 msgstr ""
 
-#: include/const.php:484
+#: include/const.php:485
 msgid "Message title for account unlinking initiation"
 msgstr ""
 
-#: include/const.php:486 include/const.php:499
+#: include/const.php:487 include/const.php:500
 msgid "Unlink account"
 msgstr ""
 
-#: include/const.php:490
+#: include/const.php:491
 msgid "Message body for account unlinking initiation"
 msgstr ""
 
-#: include/const.php:493
+#: include/const.php:494
 msgid "Would you like to unlink your account?"
 msgstr ""
 
-#: include/const.php:497
+#: include/const.php:498
 msgid "Message button label to start account unlinking"
 msgstr ""
 
-#: include/const.php:503
+#: include/const.php:504
 msgid "Account Unlinking Completion Message"
 msgstr ""
 
-#: include/const.php:506
+#: include/const.php:507
 msgid "Account linkage has been successfully unlinked."
 msgstr ""
 
-#: include/const.php:510
+#: include/const.php:511
 msgid "Account Unlinking Failure Message"
 msgstr ""
 
-#: include/const.php:513
+#: include/const.php:514
 msgid "Failed to unlink the account."
 msgstr ""
 
-#: include/const.php:519
+#: include/const.php:520
 msgid "Update Notification"
 msgstr ""
 
-#: include/const.php:523
+#: include/const.php:524
 msgid "Post types"
 msgstr ""
 
-#: include/const.php:526
+#: include/const.php:527
 msgid "Post"
 msgstr ""
 
-#: include/const.php:527
+#: include/const.php:528
 msgid "Page"
 msgstr ""
 
-#: include/const.php:531
+#: include/const.php:532
 msgid ""
 "The post type to be notified. The Send LINE checkbox will appear on the edit "
 "screen of the selected post type."
 msgstr ""
 
-#: include/const.php:535
+#: include/const.php:536
 msgid "Default value of \"Send update notification\" checkbox"
 msgstr ""
 
-#: include/const.php:538
+#: include/const.php:539
 msgid "Checked"
 msgstr ""
 
-#: include/const.php:539
+#: include/const.php:540
 msgid "Unchecked"
 msgstr ""
 
-#: include/const.php:540
+#: include/const.php:541
 msgid "Unchecked if published"
 msgstr ""
 
-#: include/const.php:543
+#: include/const.php:544
 msgid ""
 "Default value setting for the \"Send update notification\" check box when "
 "editing an article."
 msgstr ""
 
-#: include/const.php:547
+#: include/const.php:548
+msgid "Default template of notification message."
+msgstr ""
+
+#: include/const.php:551 include/publish.php:124
+msgid "Default template"
+msgstr ""
+
+#: include/const.php:554
+msgid ""
+"Default value setting for the \"Message template\" select box when editing "
+"an article."
+msgstr ""
+
+#: include/const.php:558
 msgid "\"More\" link label"
 msgstr ""
 
-#: include/const.php:549
+#: include/const.php:560
 msgid "Read more"
 msgstr ""
 
-#: include/const.php:553
+#: include/const.php:564
 msgid "Send notification to posters when comments are received"
 msgstr ""
 
-#: include/const.php:556
+#: include/const.php:567
 msgid ""
 "This setting determines whether or not to notify the poster of an article "
 "when there is a comment on the article."
 msgstr ""
 
-#: include/const.php:560
+#: include/const.php:571
 msgid "\"Read comment\" link label"
 msgstr ""
 
-#: include/const.php:562
+#: include/const.php:573
 msgid "Read comment"
 msgstr ""
 
-#: include/const.php:568
+#: include/const.php:579
 msgid "Style"
 msgstr ""
 
-#: include/const.php:572
+#: include/const.php:583
 msgid "Image fit mode"
 msgstr ""
 
-#: include/const.php:575
+#: include/const.php:586
 msgid "cover"
 msgstr ""
 
-#: include/const.php:576
+#: include/const.php:587
 msgid "contain"
 msgstr ""
 
-#: include/const.php:579
+#: include/const.php:590
 msgid ""
 "cover: The replaced content is sized to maintain its aspect ratio while "
 "filling the image area. If the image's aspect ratio does not match the "
@@ -301,1976 +317,1971 @@ msgid ""
 "its aspect ratio does not match the aspect ratio of the area."
 msgstr ""
 
-#: include/const.php:583
+#: include/const.php:594
 msgid "Image area aspect ratio"
 msgstr ""
 
-#: include/const.php:587
+#: include/const.php:598
 msgid ""
 "The aspect ratio of the image area. The height cannot be greater than three "
 "times the width."
 msgstr ""
 
-#: include/const.php:591
+#: include/const.php:602
 msgid "Background color of the message"
 msgstr ""
 
-#: include/const.php:594
+#: include/const.php:605
 msgid "The background color of the notification message."
 msgstr ""
 
-#: include/const.php:598
+#: include/const.php:609
 msgid "Title text color"
 msgstr ""
 
-#: include/const.php:601
+#: include/const.php:612
 msgid "The title text color of the notification message."
 msgstr ""
 
-#: include/const.php:605
+#: include/const.php:616
 msgid "Body text color"
 msgstr ""
 
-#: include/const.php:608
+#: include/const.php:619
 msgid "The body text color of the notification message."
 msgstr ""
 
-#: include/const.php:612
+#: include/const.php:623
 msgid "Link style"
 msgstr ""
 
-#: include/const.php:615
+#: include/const.php:626
 msgid "Button"
 msgstr ""
 
-#: include/const.php:616
+#: include/const.php:627
 msgid "HTML Link"
 msgstr ""
 
-#: include/const.php:619
+#: include/const.php:630
 msgid "Button: button style. Link: HTML link style"
 msgstr ""
 
-#: include/const.php:623
+#: include/const.php:634
 msgid "Link text color"
 msgstr ""
 
-#: include/const.php:626
+#: include/const.php:637
 msgid "The link text color of the notification message."
 msgstr ""
 
-#: include/const.php:630
+#: include/const.php:641
 msgid "Link button background color"
 msgstr ""
 
-#: include/const.php:633
+#: include/const.php:644
 msgid "The link button background color of the notification message."
 msgstr ""
 
-#: include/const.php:637
+#: include/const.php:648
 msgid "Max title lines"
 msgstr ""
 
-#: include/const.php:640
+#: include/const.php:651
 msgid ""
 "This is the setting for the maximum number of lines of title to be displayed "
 "in the notification message."
 msgstr ""
 
-#: include/const.php:644
+#: include/const.php:655
 msgid "Max body lines"
 msgstr ""
 
-#: include/const.php:647
+#: include/const.php:658
 msgid ""
 "This is the setting for the maximum number of lines of text to be displayed "
 "in the notification message. Apart from this, it can be truncated to a "
 "maximum of 500 characters."
 msgstr ""
 
-#: include/const.php:653
+#: include/const.php:664
 msgid "AI Chat"
 msgstr ""
 
-#: include/const.php:657
+#: include/const.php:668
 msgid "Auto response by AI"
 msgstr ""
 
-#: include/const.php:664
+#: include/const.php:675
 msgid ""
 "This setting determines whether or not to use AI auto-response for messages "
 "sent to official line account."
 msgstr ""
 
-#: include/const.php:668
+#: include/const.php:679
 msgid "OpenAI API Key"
 msgstr ""
 
-#: include/const.php:672
+#: include/const.php:683
 msgid "Enter your OpenAI API Key."
 msgstr ""
 
-#: include/const.php:676
+#: include/const.php:687
 msgid "Model"
 msgstr ""
 
-#: include/const.php:688
+#: include/const.php:699
 msgid "This is a setting for which model to use."
 msgstr ""
 
-#: include/const.php:692
+#: include/const.php:703
 msgid "System prompt"
 msgstr ""
 
-#: include/const.php:697
+#: include/const.php:708
 msgid ""
 "The initial text or instruction provided to the language model before "
 "interacting with it in a conversational manner."
 msgstr ""
 
-#: include/const.php:701
+#: include/const.php:712
 msgid "Function Calling"
 msgstr ""
 
-#: include/const.php:708
+#: include/const.php:719
 msgid "This setting determines whether Function Calling is used or not."
 msgstr ""
 
-#: include/const.php:712
+#: include/const.php:723
 msgid "Functions to use"
 msgstr ""
 
-#: include/const.php:717
+#: include/const.php:728
 msgid "Function to be enabled by Function Calling."
 msgstr ""
 
-#: include/const.php:721
+#: include/const.php:732
 msgid "Number of context"
 msgstr ""
 
-#: include/const.php:725
+#: include/const.php:736
 msgid ""
 "This is a setting for how many conversation histories to use in order to "
 "have the AI understand the context and respond."
 msgstr ""
 
-#: include/const.php:729
+#: include/const.php:740
 msgid "Max tokens"
 msgstr ""
 
-#: include/const.php:733
+#: include/const.php:744
 msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
 msgstr ""
 
-#: include/const.php:737
+#: include/const.php:748
 msgid "Temperature"
 msgstr ""
 
-#: include/const.php:743
+#: include/const.php:754
 msgid ""
 "This is the temperature parameter. The higher the value, the more diverse "
 "words are likely to be selected. Between 0 and 1."
 msgstr ""
 
-#: include/const.php:747
+#: include/const.php:758
 msgid "Limit for unlinked users"
 msgstr ""
 
-#: include/const.php:751
+#: include/const.php:762
 msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
 msgstr ""
 
-#: include/const.php:755
+#: include/const.php:766
 msgid "Limit for linked users"
 msgstr ""
 
-#: include/const.php:759
+#: include/const.php:770
 msgid "Number of times an linked user can use it per day. -1 is unlimited."
 msgstr ""
 
-#: include/const.php:763
+#: include/const.php:774
 msgid "Limit message"
 msgstr ""
 
-#: include/const.php:767
+#: include/const.php:778
 msgid ""
 "The number of times you can use it in a day (%limit% times) has been "
 "exceeded. Please try again after the date changes."
 msgstr ""
 
-#: include/const.php:768
+#: include/const.php:779
 msgid ""
 "This message is displayed when the number of times the limit can be used in "
 "a day is exceeded. The %limit% is replaced by the limit number of times."
 msgstr ""
 
-#: include/const.php:777
+#: include/const.php:788
 msgid "Get my user information"
 msgstr ""
 
-#: include/const.php:783
+#: include/const.php:794
 msgid "Get the current date and time"
 msgstr ""
 
-#: include/const.php:789
+#: include/const.php:800
 msgid "Search posts"
 msgstr ""
 
-#: include/const.php:844
+#: include/const.php:855
 msgid "Search users"
 msgstr ""
 
-#: include/const.php:898
+#: include/const.php:909
 msgid "Get LINE Connect message"
 msgstr ""
 
-#: include/const.php:899
+#: include/const.php:910
 msgid "Get LINE Connect message."
 msgstr ""
 
-#: include/const.php:904
+#: include/const.php:915
 msgid "LC Message id"
 msgstr ""
 
-#: include/const.php:910
+#: include/const.php:921
 msgid "Arguments to insert message"
 msgstr ""
 
-#: include/const.php:920
+#: include/const.php:931
 msgid "Get LINE text message"
 msgstr ""
 
-#: include/const.php:921
+#: include/const.php:932
 msgid "Get LINE text message."
 msgstr ""
 
-#: include/const.php:926 include/const.php:945
+#: include/const.php:937 include/const.php:956
 msgid "Message body"
 msgstr ""
 
-#: include/const.php:934
+#: include/const.php:945
 msgid "Get LC notify message"
 msgstr ""
 
-#: include/const.php:935
+#: include/const.php:946
 msgid "Get LC notify message."
 msgstr ""
 
-#: include/const.php:940
+#: include/const.php:951
 msgid "Message title"
 msgstr ""
 
-#: include/const.php:951
+#: include/const.php:962
 msgid "Thumbnail url"
 msgstr ""
 
-#: include/const.php:957
+#: include/const.php:968
 msgid "Button action type"
 msgstr ""
 
-#: include/const.php:961 include/const.php:1425 include/const.php:1485
-#: include/const.php:3168 include/const.php:3676 include/chatlist.php:59
+#: include/const.php:972 include/const.php:1436 include/const.php:1496
+#: include/const.php:3179 include/const.php:3687 include/chatlist.php:59
 #: include/chatlist.php:364 include/slc_message.php:90 include/chat.php:140
 #: include/logging.php:66 include/message.php:626
-#: line-dm/src/component/ChatMessage.js:7
-#: line-chat/src/component/ChatMessage.js:19
-#: line-chat/src/component/RJSFForm.js:127
 msgid "Message"
 msgstr ""
 
-#: include/const.php:965 include/const.php:3603
+#: include/const.php:976 include/const.php:3614
 msgid "Postback"
 msgstr ""
 
-#: include/const.php:969 include/const.php:3700 include/const.php:3708
+#: include/const.php:980 include/const.php:3711 include/const.php:3719
 msgid "URI"
 msgstr ""
 
-#: include/const.php:976 include/const.php:3142 include/const.php:3174
-#: include/const.php:3607 include/const.php:3680 include/const.php:3704
-#: include/const.php:3729 include/const.php:3785 include/const.php:3806
-#: include/const.php:3827 include/const.php:3848
+#: include/const.php:987 include/const.php:3153 include/const.php:3185
+#: include/const.php:3618 include/const.php:3691 include/const.php:3715
+#: include/const.php:3740 include/const.php:3796 include/const.php:3817
+#: include/const.php:3838 include/const.php:3859
 msgid "Label"
 msgstr ""
 
-#: include/const.php:986
+#: include/const.php:997
 msgid "Display Text"
 msgstr ""
 
-#: include/const.php:991
+#: include/const.php:1002
 msgid "Attributes"
 msgstr ""
 
-#: include/const.php:1001
+#: include/const.php:1012
 msgid "Get LINE message from Raw JSON"
 msgstr ""
 
-#: include/const.php:1002
+#: include/const.php:1013
 msgid "Get LINE message from Raw JSON."
 msgstr ""
 
-#: include/const.php:1007
+#: include/const.php:1018
 msgid "Raw Message JSON"
 msgstr ""
 
-#: include/const.php:1014 line-dm/src/component/ChatForm.js:101
-#: line-chat/src/component/ChatForm.js:99
+#: include/const.php:1025
 msgid "Send LINE message"
 msgstr ""
 
-#: include/const.php:1015
+#: include/const.php:1026
 msgid "Send LINE message with line user ID and Channel."
 msgstr ""
 
-#: include/const.php:1020
+#: include/const.php:1031
 msgid "LINE message text or object"
 msgstr ""
 
-#: include/const.php:1025
+#: include/const.php:1036
 msgid "LINE user id"
 msgstr ""
 
-#: include/const.php:1030
+#: include/const.php:1041
 msgid "First 4 characters of channel secret."
 msgstr ""
 
-#: include/const.php:1037
+#: include/const.php:1048
 msgid "Send mail to admin"
 msgstr ""
 
-#: include/const.php:1038
+#: include/const.php:1049
 msgid "Send mail to admin."
 msgstr ""
 
-#: include/const.php:1043
+#: include/const.php:1054
 msgid "Mail subject"
 msgstr ""
 
-#: include/const.php:1049
+#: include/const.php:1060
 msgid "Mail body"
 msgstr ""
 
-#: include/const.php:1083
+#: include/const.php:1094
 msgid "Function name"
 msgstr ""
 
-#: include/const.php:1084
+#: include/const.php:1095
 msgid "Function name to be called"
 msgstr ""
 
-#: include/const.php:1088
+#: include/const.php:1099
 msgid "Namespace"
 msgstr ""
 
-#: include/const.php:1089
+#: include/const.php:1100
 msgid "Namespace of the function"
 msgstr ""
 
-#: include/const.php:1093 include/const.php:1205 include/const.php:1304
+#: include/const.php:1104 include/const.php:1216 include/const.php:1315
 msgid "Description"
 msgstr ""
 
-#: include/const.php:1094
+#: include/const.php:1105
 msgid "Description of the action"
 msgstr ""
 
-#: include/const.php:1101 include/const.php:2439
+#: include/const.php:1112 include/const.php:2450
 msgid "Role"
 msgstr ""
 
-#: include/const.php:1102
+#: include/const.php:1113
 msgid "User role to execute this function by AI Chat"
 msgstr ""
 
-#: include/const.php:1106
+#: include/const.php:1117
 msgid "Anyone"
 msgstr ""
 
-#: include/const.php:1189 include/const.php:2562
+#: include/const.php:1200 include/const.php:2573
 msgid "Parameters"
 msgstr ""
 
-#: include/const.php:1190
+#: include/const.php:1201
 msgid "Parameters of the function"
 msgstr ""
 
-#: include/const.php:1206
+#: include/const.php:1217
 msgid "Description of the parameter"
 msgstr ""
 
-#: include/const.php:1210
+#: include/const.php:1221
 msgid "Required"
 msgstr ""
 
-#: include/const.php:1211
+#: include/const.php:1222
 msgid "Whether the parameter is required"
 msgstr ""
 
-#: include/const.php:1221 include/const.php:1351
+#: include/const.php:1232 include/const.php:1362
 msgid "Object"
 msgstr ""
 
-#: include/const.php:1228
+#: include/const.php:1239
 msgid "Object property"
 msgstr ""
 
-#: include/const.php:1243 include/const.php:1347
+#: include/const.php:1254 include/const.php:1358
 msgid "Array"
 msgstr ""
 
-#: include/const.php:1250
+#: include/const.php:1261
 msgid "Array element"
 msgstr ""
 
-#: include/const.php:1257 include/message.php:625
+#: include/const.php:1268 include/message.php:625
 msgid "Property"
 msgstr ""
 
-#: include/const.php:1258
+#: include/const.php:1269
 msgid "Object properties when data type is object"
 msgstr ""
 
-#: include/const.php:1274 include/const.php:1331
+#: include/const.php:1285 include/const.php:1342
 msgid "String"
 msgstr ""
 
-#: include/const.php:1281 include/const.php:1315
+#: include/const.php:1292 include/const.php:1326
 msgid "Enum list"
 msgstr ""
 
-#: include/const.php:1282 include/const.php:1316
+#: include/const.php:1293 include/const.php:1327
 msgid "List of enum value"
 msgstr ""
 
-#: include/const.php:1308
+#: include/const.php:1319
 msgid "Addtional Property"
 msgstr ""
 
-#: include/const.php:1326
+#: include/const.php:1337
 msgid "Data Type"
 msgstr ""
 
-#: include/const.php:1335
+#: include/const.php:1346
 msgid "Number"
 msgstr ""
 
-#: include/const.php:1339
+#: include/const.php:1350
 msgid "Integer"
 msgstr ""
 
-#: include/const.php:1343
+#: include/const.php:1354
 msgid "Boolean"
 msgstr ""
 
-#: include/const.php:1355
+#: include/const.php:1366
 msgid "Null"
 msgstr ""
 
-#: include/const.php:1359 include/slc_message.php:28
+#: include/const.php:1370 include/slc_message.php:28
 msgid "LINE Connect Message"
 msgstr ""
 
-#: include/const.php:1363
+#: include/const.php:1374
 msgid "LINE Messaging API Channel"
 msgstr ""
 
-#: include/const.php:1384
+#: include/const.php:1395
 msgid "Data type of each array element"
 msgstr ""
 
-#: include/const.php:1398
+#: include/const.php:1409
 msgid "Trigger type"
 msgstr ""
 
-#: include/const.php:1402 include/const.php:1417
+#: include/const.php:1413 include/const.php:1428
 msgid "Webhook"
 msgstr ""
 
-#: include/const.php:1406 include/const.php:1601
+#: include/const.php:1417 include/const.php:1612
 msgid "Schedule"
 msgstr ""
 
-#: include/const.php:1420
+#: include/const.php:1431
 msgid "Event type"
 msgstr ""
 
-#: include/const.php:1429 include/const.php:1551
+#: include/const.php:1440 include/const.php:1562
 msgid "Post back"
 msgstr ""
 
-#: include/const.php:1433
+#: include/const.php:1444
 msgid "Account Link"
 msgstr ""
 
-#: include/const.php:1437 include/const.php:1567
+#: include/const.php:1448 include/const.php:1578
 msgid "Follow"
 msgstr ""
 
-#: include/const.php:1441
+#: include/const.php:1452
 msgid "Unfollow"
 msgstr ""
 
-#: include/const.php:1445
+#: include/const.php:1456
 msgid "Video play complete"
 msgstr ""
 
-#: include/const.php:1449
+#: include/const.php:1460
 msgid "Join"
 msgstr ""
 
-#: include/const.php:1453
+#: include/const.php:1464
 msgid "Leave"
 msgstr ""
 
-#: include/const.php:1457
+#: include/const.php:1468
 msgid "Member joined"
 msgstr ""
 
-#: include/const.php:1461
+#: include/const.php:1472
 msgid "Member left"
 msgstr ""
 
-#: include/const.php:1465
+#: include/const.php:1476
 msgid "Unsend"
 msgstr ""
 
-#: include/const.php:1490 include/const.php:2823
+#: include/const.php:1501 include/const.php:2834
 msgid "Message type"
 msgstr ""
 
-#: include/const.php:1494 include/const.php:2827 include/const.php:2889
-#: include/const.php:2893 include/const.php:3236 include/const.php:3684
+#: include/const.php:1505 include/const.php:2838 include/const.php:2900
+#: include/const.php:2904 include/const.php:3247 include/const.php:3695
 msgid "Text"
 msgstr ""
 
-#: include/const.php:1498 include/const.php:2835 include/const.php:2935
+#: include/const.php:1509 include/const.php:2846 include/const.php:2946
 msgid "Image"
 msgstr ""
 
-#: include/const.php:1502 include/const.php:2839 include/const.php:2963
-#: include/const.php:3093
+#: include/const.php:1513 include/const.php:2850 include/const.php:2974
+#: include/const.php:3104
 msgid "Video"
 msgstr ""
 
-#: include/const.php:1506 include/const.php:2843 include/const.php:2998
+#: include/const.php:1517 include/const.php:2854 include/const.php:3009
 msgid "Audio"
 msgstr ""
 
-#: include/const.php:1510
+#: include/const.php:1521
 msgid "File"
 msgstr ""
 
-#: include/const.php:1514 include/const.php:2847 include/const.php:3024
-#: include/const.php:3823
+#: include/const.php:1525 include/const.php:2858 include/const.php:3035
+#: include/const.php:3834
 msgid "Location"
 msgstr ""
 
-#: include/const.php:1518 include/const.php:2831 include/const.php:2910
+#: include/const.php:1529 include/const.php:2842 include/const.php:2921
 msgid "Sticker"
 msgstr ""
 
-#: include/const.php:1572 include/const.php:1584
+#: include/const.php:1583 include/const.php:1595
 msgid "Unblocked"
 msgstr ""
 
-#: include/const.php:1576 include/const.php:2332
+#: include/const.php:1587 include/const.php:2343
 msgid "Any"
 msgstr ""
 
-#: include/const.php:1580
+#: include/const.php:1591
 msgid "Add Freind"
 msgstr ""
 
-#: include/const.php:1604
+#: include/const.php:1615
 msgid "Schedule type"
 msgstr ""
 
-#: include/const.php:1609 include/const.php:1628
+#: include/const.php:1620 include/const.php:1639
 msgid "Once"
 msgstr ""
 
-#: include/const.php:1613 include/const.php:1646
+#: include/const.php:1624 include/const.php:1657
 msgid "Repeat"
 msgstr ""
 
-#: include/const.php:1633
+#: include/const.php:1644
 msgid "Date and time"
 msgstr ""
 
-#: include/const.php:1650
+#: include/const.php:1661
 msgid "Every"
 msgstr ""
 
-#: include/const.php:1654 include/const.php:1708
+#: include/const.php:1665 include/const.php:1719
 msgid "Hour"
 msgstr ""
 
-#: include/const.php:1658 include/const.php:1821 include/const.php:1875
+#: include/const.php:1669 include/const.php:1832 include/const.php:1886
 msgid "Day"
 msgstr ""
 
-#: include/const.php:1662 include/const.php:1950
+#: include/const.php:1673 include/const.php:1961
 msgid "Date"
 msgstr ""
 
-#: include/const.php:1666
+#: include/const.php:1677
 msgid "Week"
 msgstr ""
 
-#: include/const.php:1670 include/const.php:2111
+#: include/const.php:1681 include/const.php:2122
 msgid "Month"
 msgstr ""
 
-#: include/const.php:1674 include/const.php:2176
+#: include/const.php:1685 include/const.php:2187
 msgid "Year"
 msgstr ""
 
-#: include/const.php:1681
+#: include/const.php:1692
 msgid "Start date"
 msgstr ""
 
-#: include/const.php:1686
+#: include/const.php:1697
 msgid "End date"
 msgstr ""
 
-#: include/const.php:1690
+#: include/const.php:1701
 msgid "Beforehand notice (min)"
 msgstr ""
 
-#: include/const.php:1691
+#: include/const.php:1702
 msgid "How many minutes in advance notice"
 msgstr ""
 
-#: include/const.php:1715
+#: include/const.php:1726
 msgid "0 am"
 msgstr ""
 
-#: include/const.php:1719
+#: include/const.php:1730
 msgid "1 am"
 msgstr ""
 
-#: include/const.php:1723
+#: include/const.php:1734
 msgid "2 am"
 msgstr ""
 
-#: include/const.php:1727
+#: include/const.php:1738
 msgid "3 am"
 msgstr ""
 
-#: include/const.php:1731
+#: include/const.php:1742
 msgid "4 am"
 msgstr ""
 
-#: include/const.php:1735
+#: include/const.php:1746
 msgid "5 am"
 msgstr ""
 
-#: include/const.php:1739
+#: include/const.php:1750
 msgid "6 am"
 msgstr ""
 
-#: include/const.php:1743
+#: include/const.php:1754
 msgid "7 am"
 msgstr ""
 
-#: include/const.php:1747
+#: include/const.php:1758
 msgid "8 am"
 msgstr ""
 
-#: include/const.php:1751
+#: include/const.php:1762
 msgid "9 am"
 msgstr ""
 
-#: include/const.php:1755
+#: include/const.php:1766
 msgid "10 am"
 msgstr ""
 
-#: include/const.php:1759
+#: include/const.php:1770
 msgid "11 am"
 msgstr ""
 
-#: include/const.php:1763
+#: include/const.php:1774
 msgid "12 pm"
 msgstr ""
 
-#: include/const.php:1767
+#: include/const.php:1778
 msgid "1 pm"
 msgstr ""
 
-#: include/const.php:1771
+#: include/const.php:1782
 msgid "2 pm"
 msgstr ""
 
-#: include/const.php:1775
+#: include/const.php:1786
 msgid "3 pm"
 msgstr ""
 
-#: include/const.php:1779
+#: include/const.php:1790
 msgid "4 pm"
 msgstr ""
 
-#: include/const.php:1783
+#: include/const.php:1794
 msgid "5 pm"
 msgstr ""
 
-#: include/const.php:1787
+#: include/const.php:1798
 msgid "6 pm"
 msgstr ""
 
-#: include/const.php:1791
+#: include/const.php:1802
 msgid "7 pm"
 msgstr ""
 
-#: include/const.php:1795
+#: include/const.php:1806
 msgid "8 pm"
 msgstr ""
 
-#: include/const.php:1799
+#: include/const.php:1810
 msgid "9 pm"
 msgstr ""
 
-#: include/const.php:1803
+#: include/const.php:1814
 msgid "10 pm"
 msgstr ""
 
-#: include/const.php:1807
+#: include/const.php:1818
 msgid "11 pm"
 msgstr ""
 
-#: include/const.php:1827
+#: include/const.php:1838
 msgid "Way of Calc"
 msgstr ""
 
-#: include/const.php:1831
+#: include/const.php:1842
 msgid "nth day"
 msgstr ""
 
-#: include/const.php:1835
+#: include/const.php:1846
 msgid "nth Week in a month"
 msgstr ""
 
-#: include/const.php:1841
+#: include/const.php:1852
 msgid "Day of the week in the month"
 msgstr ""
 
-#: include/const.php:1848 include/const.php:1957
+#: include/const.php:1859 include/const.php:1968
 msgid "1st"
 msgstr ""
 
-#: include/const.php:1852 include/const.php:1961
+#: include/const.php:1863 include/const.php:1972
 msgid "2nd"
 msgstr ""
 
-#: include/const.php:1856 include/const.php:1965
+#: include/const.php:1867 include/const.php:1976
 msgid "3rd"
 msgstr ""
 
-#: include/const.php:1860 include/const.php:1969
+#: include/const.php:1871 include/const.php:1980
 msgid "4th"
 msgstr ""
 
-#: include/const.php:1864 include/const.php:1973
+#: include/const.php:1875 include/const.php:1984
 msgid "5th"
 msgstr ""
 
-#: include/const.php:1868 include/const.php:1977
+#: include/const.php:1879 include/const.php:1988
 msgid "6th"
 msgstr ""
 
-#: include/const.php:1882 include/const.php:1926
+#: include/const.php:1893 include/const.php:1937
 msgid "Sunday"
 msgstr ""
 
-#: include/const.php:1886 include/const.php:1930
+#: include/const.php:1897 include/const.php:1941
 msgid "Monday"
 msgstr ""
 
-#: include/const.php:1890
+#: include/const.php:1901
 msgid "Tuesday"
 msgstr ""
 
-#: include/const.php:1894
+#: include/const.php:1905
 msgid "Wednesday"
 msgstr ""
 
-#: include/const.php:1898
+#: include/const.php:1909
 msgid "Thursday"
 msgstr ""
 
-#: include/const.php:1902
+#: include/const.php:1913
 msgid "Friday"
 msgstr ""
 
-#: include/const.php:1906
+#: include/const.php:1917
 msgid "Saturday"
 msgstr ""
 
-#: include/const.php:1922
+#: include/const.php:1933
 msgid "First day of the week"
 msgstr ""
 
-#: include/const.php:1981
+#: include/const.php:1992
 msgid "7th"
 msgstr ""
 
-#: include/const.php:1985
+#: include/const.php:1996
 msgid "8th"
 msgstr ""
 
-#: include/const.php:1989
+#: include/const.php:2000
 msgid "9th"
 msgstr ""
 
-#: include/const.php:1993
+#: include/const.php:2004
 msgid "10th"
 msgstr ""
 
-#: include/const.php:1997
+#: include/const.php:2008
 msgid "11th"
 msgstr ""
 
-#: include/const.php:2001
+#: include/const.php:2012
 msgid "12th"
 msgstr ""
 
-#: include/const.php:2005
+#: include/const.php:2016
 msgid "13th"
 msgstr ""
 
-#: include/const.php:2009
+#: include/const.php:2020
 msgid "14th"
 msgstr ""
 
-#: include/const.php:2013
+#: include/const.php:2024
 msgid "15th"
 msgstr ""
 
-#: include/const.php:2017
+#: include/const.php:2028
 msgid "16th"
 msgstr ""
 
-#: include/const.php:2021
+#: include/const.php:2032
 msgid "17th"
 msgstr ""
 
-#: include/const.php:2025
+#: include/const.php:2036
 msgid "18th"
 msgstr ""
 
-#: include/const.php:2029
+#: include/const.php:2040
 msgid "19th"
 msgstr ""
 
-#: include/const.php:2033
+#: include/const.php:2044
 msgid "20th"
 msgstr ""
 
-#: include/const.php:2037
+#: include/const.php:2048
 msgid "21st"
 msgstr ""
 
-#: include/const.php:2041
+#: include/const.php:2052
 msgid "22nd"
 msgstr ""
 
-#: include/const.php:2045
+#: include/const.php:2056
 msgid "23rd"
 msgstr ""
 
-#: include/const.php:2049
+#: include/const.php:2060
 msgid "24th"
 msgstr ""
 
-#: include/const.php:2053
+#: include/const.php:2064
 msgid "25th"
 msgstr ""
 
-#: include/const.php:2057
+#: include/const.php:2068
 msgid "26th"
 msgstr ""
 
-#: include/const.php:2061
+#: include/const.php:2072
 msgid "27th"
 msgstr ""
 
-#: include/const.php:2065
+#: include/const.php:2076
 msgid "28th"
 msgstr ""
 
-#: include/const.php:2069
+#: include/const.php:2080
 msgid "29th"
 msgstr ""
 
-#: include/const.php:2073
+#: include/const.php:2084
 msgid "30th"
 msgstr ""
 
-#: include/const.php:2077
+#: include/const.php:2088
 msgid "31st"
 msgstr ""
 
-#: include/const.php:2081
+#: include/const.php:2092
 msgid "Last day of the month"
 msgstr ""
 
-#: include/const.php:2095
+#: include/const.php:2106
 msgid "Week number"
 msgstr ""
 
-#: include/const.php:2118
+#: include/const.php:2129
 msgid "January"
 msgstr ""
 
-#: include/const.php:2122
+#: include/const.php:2133
 msgid "February"
 msgstr ""
 
-#: include/const.php:2126
+#: include/const.php:2137
 msgid "March"
 msgstr ""
 
-#: include/const.php:2130
+#: include/const.php:2141
 msgid "April"
 msgstr ""
 
-#: include/const.php:2134
+#: include/const.php:2145
 msgid "May"
 msgstr ""
 
-#: include/const.php:2138
+#: include/const.php:2149
 msgid "June"
 msgstr ""
 
-#: include/const.php:2142
+#: include/const.php:2153
 msgid "July"
 msgstr ""
 
-#: include/const.php:2146
+#: include/const.php:2157
 msgid "August"
 msgstr ""
 
-#: include/const.php:2150
+#: include/const.php:2161
 msgid "September"
 msgstr ""
 
-#: include/const.php:2154
+#: include/const.php:2165
 msgid "October"
 msgstr ""
 
-#: include/const.php:2158
+#: include/const.php:2169
 msgid "November"
 msgstr ""
 
-#: include/const.php:2162
+#: include/const.php:2173
 msgid "December"
 msgstr ""
 
-#: include/const.php:2203 include/trigger.php:30
+#: include/const.php:2214 include/trigger.php:30
 msgid "Triggers"
 msgstr ""
 
-#: include/const.php:2211 include/const.php:3595
+#: include/const.php:2222 include/const.php:3606
 msgid "Action"
 msgstr ""
 
-#: include/const.php:2223
+#: include/const.php:2234
 msgid "Action chain"
 msgstr ""
 
-#: include/const.php:2229
+#: include/const.php:2240
 msgid "Destination argument to"
 msgstr ""
 
-#: include/const.php:2230
+#: include/const.php:2241
 msgid "Injection Destination Argument Path. e.g. 2.message"
 msgstr ""
 
-#: include/const.php:2234 include/const.php:3611 include/const.php:3733
+#: include/const.php:2245 include/const.php:3622 include/const.php:3744
 msgid "Data"
 msgstr ""
 
-#: include/const.php:2235
+#: include/const.php:2246
 msgid ""
 "Injection Data. You can use return value of previous action. e.g. {{$."
 "return.1}}"
 msgstr ""
 
-#: include/const.php:2244 include/const.php:2251
+#: include/const.php:2255 include/const.php:2262
 msgid "Source condition"
 msgstr ""
 
-#: include/const.php:2248 include/const.php:2267
+#: include/const.php:2259 include/const.php:2278
 msgid "Source condition group"
 msgstr ""
 
-#: include/const.php:2255 include/const.php:2301 include/const.php:2459
-#: include/const.php:2491 include/const.php:3160
-#: line-chat/src/component/ChatTo.js:6
+#: include/const.php:2266 include/const.php:2312 include/const.php:2470
+#: include/const.php:2502 include/const.php:3171
 msgid "Type"
 msgstr ""
 
-#: include/const.php:2263 include/const.php:2297 include/const.php:2463
-#: include/const.php:2487
+#: include/const.php:2274 include/const.php:2308 include/const.php:2474
+#: include/const.php:2498
 msgid "Source"
 msgstr ""
 
-#: include/const.php:2273 include/const.php:2473
+#: include/const.php:2284 include/const.php:2484
 msgid "Not"
 msgstr ""
 
-#: include/const.php:2274 include/const.php:2474
+#: include/const.php:2285 include/const.php:2485
 msgid "Logical negation"
 msgstr ""
 
-#: include/const.php:2305
+#: include/const.php:2316
 msgid "User"
 msgstr ""
 
-#: include/const.php:2309
+#: include/const.php:2320
 msgid "Group"
 msgstr ""
 
-#: include/const.php:2313
+#: include/const.php:2324
 msgid "Room"
 msgstr ""
 
-#: include/const.php:2328
+#: include/const.php:2339
 msgid "Link status"
 msgstr ""
 
-#: include/const.php:2336 include/richmenu.php:25 include/richmenu.php:94
+#: include/const.php:2347 include/richmenu.php:25 include/richmenu.php:94
 #: include/chat.php:65
 msgid "Linked"
 msgstr ""
 
-#: include/const.php:2340 include/richmenu.php:25 include/richmenu.php:94
+#: include/const.php:2351 include/richmenu.php:25 include/richmenu.php:94
 msgid "Unlinked"
 msgstr ""
 
-#: include/const.php:2349 include/const.php:2370 include/const.php:2391
+#: include/const.php:2360 include/const.php:2381 include/const.php:2402
 msgid "LINE user ID"
 msgstr ""
 
-#: include/const.php:2363
+#: include/const.php:2374
 msgid "LINE group ID"
 msgstr ""
 
-#: include/const.php:2384
+#: include/const.php:2395
 msgid "LINE Room ID"
 msgstr ""
 
-#: include/const.php:2421 include/const.php:2619
+#: include/const.php:2432 include/const.php:2630
 msgid "Operator"
 msgstr ""
 
-#: include/const.php:2425 include/const.php:2623
+#: include/const.php:2436 include/const.php:2634
 msgid "And"
 msgstr ""
 
-#: include/const.php:2426 include/const.php:2624
+#: include/const.php:2437 include/const.php:2635
 msgid "All conditions must be true"
 msgstr ""
 
-#: include/const.php:2430 include/const.php:2628
+#: include/const.php:2441 include/const.php:2639
 msgid "Or"
 msgstr ""
 
-#: include/const.php:2431 include/const.php:2629
+#: include/const.php:2442 include/const.php:2640
 msgid "At least one condition must be true"
 msgstr ""
 
-#: include/const.php:2448 include/const.php:2495 include/const.php:2514
-#: include/const.php:2518
+#: include/const.php:2459 include/const.php:2506 include/const.php:2525
+#: include/const.php:2529
 msgid "Keyword"
 msgstr ""
 
-#: include/const.php:2452 include/const.php:2467
+#: include/const.php:2463 include/const.php:2478
 msgid "Keyword condition group"
 msgstr ""
 
-#: include/const.php:2455
+#: include/const.php:2466
 msgid "Keyword condition"
 msgstr ""
 
-#: include/const.php:2499 include/const.php:2558
+#: include/const.php:2510 include/const.php:2569
 msgid "Query string"
 msgstr ""
 
-#: include/const.php:2519
+#: include/const.php:2530
 msgid "Keyword to match"
 msgstr ""
 
-#: include/const.php:2523 include/const.php:2580
+#: include/const.php:2534 include/const.php:2591
 msgid "Match type"
 msgstr ""
 
-#: include/const.php:2527 include/const.php:2584
+#: include/const.php:2538 include/const.php:2595
 msgid "Contains"
 msgstr ""
 
-#: include/const.php:2531 include/const.php:2588
+#: include/const.php:2542 include/const.php:2599
 msgid "Equals"
 msgstr ""
 
-#: include/const.php:2535
+#: include/const.php:2546
 msgid "Starts with"
 msgstr ""
 
-#: include/const.php:2539
+#: include/const.php:2550
 msgid "Ends with"
 msgstr ""
 
-#: include/const.php:2543
+#: include/const.php:2554
 msgid "Regular expression"
 msgstr ""
 
-#: include/const.php:2565
+#: include/const.php:2576
 msgid "Parameter"
 msgstr ""
 
-#: include/const.php:2569
+#: include/const.php:2580
 msgid "Key"
 msgstr ""
 
-#: include/const.php:2573
+#: include/const.php:2584
 msgid "Value"
 msgstr ""
 
-#: include/const.php:2638
+#: include/const.php:2649
 msgid "Target channel"
 msgstr ""
 
-#: include/const.php:2680
+#: include/const.php:2691
 msgid "Add source condition"
 msgstr ""
 
-#: include/const.php:2701
+#: include/const.php:2712
 msgid "Add query parameter"
 msgstr ""
 
-#: include/const.php:2708
+#: include/const.php:2719
 msgid "Add message condition"
 msgstr ""
 
-#: include/const.php:2728
+#: include/const.php:2739
 msgid "Add postback condition"
 msgstr ""
 
-#: include/const.php:2766
+#: include/const.php:2777
 msgid "Add day"
 msgstr ""
 
-#: include/const.php:2777
+#: include/const.php:2788
 msgid "Add week"
 msgstr ""
 
-#: include/const.php:2788
+#: include/const.php:2799
 msgid "Add year"
 msgstr ""
 
-#: include/const.php:2794
+#: include/const.php:2805
 msgid "Add trigger"
 msgstr ""
 
-#: include/const.php:2806 include/const.php:3964 include/const.php:3977
-#: include/const.php:3992
+#: include/const.php:2817 include/const.php:3975 include/const.php:3988
+#: include/const.php:4003
 msgid "Add action"
 msgstr ""
 
-#: include/const.php:2811
+#: include/const.php:2822
 msgid "Add chain"
 msgstr ""
 
-#: include/const.php:2851 include/const.php:3060
+#: include/const.php:2862 include/const.php:3071
 msgid "Image map"
 msgstr ""
 
-#: include/const.php:2855 include/const.php:3265
+#: include/const.php:2866 include/const.php:3276
 msgid "Button template"
 msgstr ""
 
-#: include/const.php:2859 include/const.php:3354
+#: include/const.php:2870 include/const.php:3365
 msgid "Confirm template"
 msgstr ""
 
-#: include/const.php:2863 include/const.php:3393
+#: include/const.php:2874 include/const.php:3404
 msgid "Carousel template"
 msgstr ""
 
-#: include/const.php:2867 include/const.php:3458
+#: include/const.php:2878 include/const.php:3469
 msgid "Image carousel template"
 msgstr ""
 
-#: include/const.php:2871
+#: include/const.php:2882
 msgid "Flex"
 msgstr ""
 
-#: include/const.php:2875
+#: include/const.php:2886
 msgid "Raw"
 msgstr ""
 
-#: include/const.php:2885
+#: include/const.php:2896
 msgid "Text message"
 msgstr ""
 
-#: include/const.php:2894
+#: include/const.php:2905
 msgid "Message text. Max character limit: 5000"
 msgstr ""
 
-#: include/const.php:2906
+#: include/const.php:2917
 msgid "Sticker message"
 msgstr ""
 
-#: include/const.php:2914
+#: include/const.php:2925
 msgid "Package ID"
 msgstr ""
 
-#: include/const.php:2915
+#: include/const.php:2926
 msgid "Package ID for a set of stickers."
 msgstr ""
 
-#: include/const.php:2919
+#: include/const.php:2930
 msgid "Sticker ID"
 msgstr ""
 
-#: include/const.php:2931
+#: include/const.php:2942
 msgid "Image message"
 msgstr ""
 
-#: include/const.php:2939 include/const.php:2968 include/const.php:3002
-#: include/const.php:3098
+#: include/const.php:2950 include/const.php:2979 include/const.php:3013
+#: include/const.php:3109
 msgid "Original content URL"
 msgstr ""
 
-#: include/const.php:2940
+#: include/const.php:2951
 msgid ""
 "Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
 "10 MB"
 msgstr ""
 
-#: include/const.php:2945
+#: include/const.php:2956
 msgid "Preview Image Url"
 msgstr ""
 
-#: include/const.php:2946
+#: include/const.php:2957
 msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
 msgstr ""
 
-#: include/const.php:2959
+#: include/const.php:2970
 msgid "Video message"
 msgstr ""
 
-#: include/const.php:2964
+#: include/const.php:2975
 msgid ""
 "If the video isn't playing properly, make sure the video is a supported file "
 "type and the HTTP server hosting the video supports HTTP range requests."
 msgstr ""
 
-#: include/const.php:2969 include/const.php:3099
+#: include/const.php:2980 include/const.php:3110
 msgid ""
 "Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
 msgstr ""
 
-#: include/const.php:2974 include/const.php:3103
+#: include/const.php:2985 include/const.php:3114
 msgid "Preview image URL"
 msgstr ""
 
-#: include/const.php:2975 include/const.php:3104
+#: include/const.php:2986 include/const.php:3115
 msgid ""
 "Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
 "size: 1 MB"
 msgstr ""
 
-#: include/const.php:2980
+#: include/const.php:2991
 msgid "Tracking ID"
 msgstr ""
 
-#: include/const.php:2981
+#: include/const.php:2992
 msgid ""
 "ID used to identify the video when Video viewing complete event occurs. You "
 "can use the same ID in multiple messages."
 msgstr ""
 
-#: include/const.php:2994
+#: include/const.php:3005
 msgid "Audio message"
 msgstr ""
 
-#: include/const.php:3003
+#: include/const.php:3014
 msgid ""
 "Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
 "200 MB"
 msgstr ""
 
-#: include/const.php:3007
+#: include/const.php:3018
 msgid "Duration"
 msgstr ""
 
-#: include/const.php:3008
+#: include/const.php:3019
 msgid "Length of audio file (milliseconds)."
 msgstr ""
 
-#: include/const.php:3020
+#: include/const.php:3031
 msgid "Location message"
 msgstr ""
 
-#: include/const.php:3028 include/const.php:3312 include/const.php:3881
+#: include/const.php:3039 include/const.php:3323 include/const.php:3892
 msgid "Title"
 msgstr ""
 
-#: include/const.php:3033
+#: include/const.php:3044
 msgid "Address"
 msgstr ""
 
-#: include/const.php:3038
+#: include/const.php:3049
 msgid "Latitude"
 msgstr ""
 
-#: include/const.php:3042
+#: include/const.php:3053
 msgid "Longitude"
 msgstr ""
 
-#: include/const.php:3056
+#: include/const.php:3067
 msgid "Image map message"
 msgstr ""
 
-#: include/const.php:3061
+#: include/const.php:3072
 msgid ""
 "Imagemap messages are messages configured with an image that has multiple "
 "tappable areas. You can assign one tappable area for the entire image or "
 "different tappable areas on divided areas of the image."
 msgstr ""
 
-#: include/const.php:3065
+#: include/const.php:3076
 msgid "Base Url"
 msgstr ""
 
-#: include/const.php:3066
+#: include/const.php:3077
 msgid "Image base URL. Protocol: HTTPS"
 msgstr ""
 
-#: include/const.php:3071
+#: include/const.php:3082
 msgid "Alt Text"
 msgstr ""
 
-#: include/const.php:3072
+#: include/const.php:3083
 msgid ""
 "Alternative text. When a user receives a message, it will appear as an "
 "alternative to the image in the notification or chat list of their device."
 msgstr ""
 
-#: include/const.php:3077
+#: include/const.php:3088
 msgid "Base Size"
 msgstr ""
 
-#: include/const.php:3081 include/const.php:3122 include/const.php:3196
+#: include/const.php:3092 include/const.php:3133 include/const.php:3207
 msgid "Width"
 msgstr ""
 
-#: include/const.php:3086 include/const.php:3126 include/const.php:3200
+#: include/const.php:3097 include/const.php:3137 include/const.php:3211
 msgid "Height"
 msgstr ""
 
-#: include/const.php:3087
+#: include/const.php:3098
 msgid ""
 "Height of base image. Set to the height that corresponds to a width of 1040 "
 "pixels."
 msgstr ""
 
-#: include/const.php:3094
+#: include/const.php:3105
 msgid ""
 "You can also play a video on the image and display a label with a hyperlink "
 "after the video is finished."
 msgstr ""
 
-#: include/const.php:3108 include/const.php:3180
+#: include/const.php:3119 include/const.php:3191
 msgid "Image map area"
 msgstr ""
 
-#: include/const.php:3112 include/const.php:3185
+#: include/const.php:3123 include/const.php:3196
 msgid "X"
 msgstr ""
 
-#: include/const.php:3113
+#: include/const.php:3124
 msgid ""
 "Horizontal position of the video area relative to the left edge of the "
 "imagemap area. Value must be 0 or higher."
 msgstr ""
 
-#: include/const.php:3117 include/const.php:3191
+#: include/const.php:3128 include/const.php:3202
 msgid "Y"
 msgstr ""
 
-#: include/const.php:3118
+#: include/const.php:3129
 msgid ""
 "Vertical position of the video area relative to the top edge of the imagemap "
 "area. Value must be 0 or higher."
 msgstr ""
 
-#: include/const.php:3132
+#: include/const.php:3143
 msgid "External link"
 msgstr ""
 
-#: include/const.php:3136 include/const.php:3218
+#: include/const.php:3147 include/const.php:3229
 msgid "Link URI"
 msgstr ""
 
-#: include/const.php:3137
+#: include/const.php:3148
 msgid ""
 "Webpage URL. Called when the label displayed after the video is tapped. The "
 "available schemes are http, https, line, and tel"
 msgstr ""
 
-#: include/const.php:3143
+#: include/const.php:3154
 msgid "Displayed after the video is finished."
 msgstr ""
 
-#: include/const.php:3152
+#: include/const.php:3163
 msgid "Image map action objects"
 msgstr ""
 
-#: include/const.php:3153
+#: include/const.php:3164
 msgid "Object which specifies the actions and tappable areas of an imagemap."
 msgstr ""
 
-#: include/const.php:3156
+#: include/const.php:3167
 msgid "Image map action"
 msgstr ""
 
-#: include/const.php:3164
+#: include/const.php:3175
 msgid "URL"
 msgstr ""
 
-#: include/const.php:3175
+#: include/const.php:3186
 msgid ""
 "Label for the action. Spoken when the accessibility feature is enabled on "
 "the client device."
 msgstr ""
 
-#: include/const.php:3181
+#: include/const.php:3192
 msgid ""
 "Defines the size of a tappable area. The top left is used as the origin of "
 "the area. Set these properties based on the baseSize.width property and the "
 "baseSize.height property."
 msgstr ""
 
-#: include/const.php:3186
+#: include/const.php:3197
 msgid ""
 "Horizontal position relative to the left edge of the area. Value must be 0 "
 "or higher."
 msgstr ""
 
-#: include/const.php:3192
+#: include/const.php:3203
 msgid ""
 "Vertical position relative to the top edge of the area. Value must be 0 or "
 "higher."
 msgstr ""
 
-#: include/const.php:3219
+#: include/const.php:3230
 msgid "Webpage URL. The available schemes are http, https, line, and tel"
 msgstr ""
 
-#: include/const.php:3256
+#: include/const.php:3267
 msgid "Button Template message"
 msgstr ""
 
-#: include/const.php:3260 include/const.php:3350 include/const.php:3389
-#: include/const.php:3454 include/const.php:3496
+#: include/const.php:3271 include/const.php:3361 include/const.php:3400
+#: include/const.php:3465 include/const.php:3507
 msgid "Alt text"
 msgstr ""
 
-#: include/const.php:3269 include/const.php:3871
+#: include/const.php:3280 include/const.php:3882
 msgid "Thumbnail image url"
 msgstr ""
 
-#: include/const.php:3270
+#: include/const.php:3281
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
 "Max file size: 10 MB"
 msgstr ""
 
-#: include/const.php:3275 include/const.php:3398
+#: include/const.php:3286 include/const.php:3409
 msgid "Image aspect ratio"
 msgstr ""
 
-#: include/const.php:3276 include/const.php:3399
+#: include/const.php:3287 include/const.php:3410
 msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
 msgstr ""
 
-#: include/const.php:3280 include/const.php:3403
+#: include/const.php:3291 include/const.php:3414
 msgid "Rectangle"
 msgstr ""
 
-#: include/const.php:3284 include/const.php:3407
+#: include/const.php:3295 include/const.php:3418
 msgid "Square"
 msgstr ""
 
-#: include/const.php:3291 include/const.php:3413
+#: include/const.php:3302 include/const.php:3424
 msgid "Image size"
 msgstr ""
 
-#: include/const.php:3292
+#: include/const.php:3303
 msgid "Size of the image. One of: cover, contain"
 msgstr ""
 
-#: include/const.php:3296 include/const.php:3418
+#: include/const.php:3307 include/const.php:3429
 msgid "Cover"
 msgstr ""
 
-#: include/const.php:3297 include/const.php:3419
+#: include/const.php:3308 include/const.php:3430
 msgid ""
 "The image fills the entire image area. Parts of the image that do not fit in "
 "the area are not displayed."
 msgstr ""
 
-#: include/const.php:3301 include/const.php:3423
+#: include/const.php:3312 include/const.php:3434
 msgid "Contain"
 msgstr ""
 
-#: include/const.php:3302 include/const.php:3424
+#: include/const.php:3313 include/const.php:3435
 msgid ""
 "The entire image is displayed in the image area. A background is displayed "
 "in the unused areas to the left and right of vertical images and in the "
 "areas above and below horizontal images."
 msgstr ""
 
-#: include/const.php:3308 include/const.php:3877
+#: include/const.php:3319 include/const.php:3888
 msgid "Image background color"
 msgstr ""
 
-#: include/const.php:3317 include/const.php:3359 include/const.php:3886
+#: include/const.php:3328 include/const.php:3370 include/const.php:3897
 msgid "Message text"
 msgstr ""
 
-#: include/const.php:3318
+#: include/const.php:3329
 msgid ""
 "Max character limit: 160 (no image or title) 60 (message with an image or "
 "title)"
 msgstr ""
 
-#: include/const.php:3325 include/const.php:3364 include/const.php:3894
+#: include/const.php:3336 include/const.php:3375 include/const.php:3905
 msgid "Actions"
 msgstr ""
 
-#: include/const.php:3346
+#: include/const.php:3357
 msgid "Confirm template message"
 msgstr ""
 
-#: include/const.php:3355
+#: include/const.php:3366
 msgid "Template with two action buttons."
 msgstr ""
 
-#: include/const.php:3365
+#: include/const.php:3376
 msgid "Set 2 actions for the 2 buttons"
 msgstr ""
 
-#: include/const.php:3385
+#: include/const.php:3396
 msgid "Carousel template message"
 msgstr ""
 
-#: include/const.php:3394
+#: include/const.php:3405
 msgid ""
 "Template with multiple columns which can be cycled like a carousel. The "
 "columns are shown in order when scrolling horizontally."
 msgstr ""
 
-#: include/const.php:3414
+#: include/const.php:3425
 msgid "Size of the image. One of: cover, contain. Applies to all columns."
 msgstr ""
 
-#: include/const.php:3430 include/const.php:3463
+#: include/const.php:3441 include/const.php:3474
 msgid "Columns"
 msgstr ""
 
-#: include/const.php:3431
+#: include/const.php:3442
 msgid ""
 "Keep the number of actions consistent for all columns. If you use an image "
 "or title for a column, make sure to do the same for all other columns."
 msgstr ""
 
-#: include/const.php:3450
+#: include/const.php:3461
 msgid "Image carousel template message"
 msgstr ""
 
-#: include/const.php:3459
+#: include/const.php:3470
 msgid ""
 "Template with multiple images which can be cycled like a carousel. The "
 "images are shown in order when scrolling horizontally."
 msgstr ""
 
-#: include/const.php:3482
+#: include/const.php:3493
 msgid "Flex message"
 msgstr ""
 
-#: include/const.php:3486
+#: include/const.php:3497
 msgid "Flex message object"
 msgstr ""
 
-#: include/const.php:3487
+#: include/const.php:3498
 msgid ""
 "Flex Messages are messages with a customizable layout. You can customize the "
 "layout freely based on the specification for CSS Flexible Box."
 msgstr ""
 
-#: include/const.php:3491
+#: include/const.php:3502
 msgid "Flex message JSON object"
 msgstr ""
 
-#: include/const.php:3492
+#: include/const.php:3503
 msgid "Flex message JSON object such as generated by Flex Message Simulator"
 msgstr ""
 
-#: include/const.php:3498
+#: include/const.php:3509
 msgid "Alt text of Flex message"
 msgstr ""
 
-#: include/const.php:3513
+#: include/const.php:3524
 msgid "Raw message"
 msgstr ""
 
-#: include/const.php:3517
+#: include/const.php:3528
 msgid "Raw message object"
 msgstr ""
 
-#: include/const.php:3521 include/const.php:3522
+#: include/const.php:3532 include/const.php:3533
 msgid "Message JSON object"
 msgstr ""
 
-#: include/const.php:3547
+#: include/const.php:3558
 msgid "Quick reply"
 msgstr ""
 
-#: include/const.php:3551
+#: include/const.php:3562
 msgid "Quick reply container"
 msgstr ""
 
-#: include/const.php:3554
+#: include/const.php:3565
 msgid "Quick reply button object"
 msgstr ""
 
-#: include/const.php:3558
+#: include/const.php:3569
 msgid "Image URL"
 msgstr ""
 
-#: include/const.php:3571
+#: include/const.php:3582
 msgid "Sender"
 msgstr ""
 
-#: include/const.php:3572
+#: include/const.php:3583
 msgid "Customize icon and display name"
 msgstr ""
 
-#: include/const.php:3576
+#: include/const.php:3587
 msgid "Sender name"
 msgstr ""
 
-#: include/const.php:3577
+#: include/const.php:3588
 msgid "Display name. Certain words such as LINE may not be used."
 msgstr ""
 
-#: include/const.php:3582
+#: include/const.php:3593
 msgid "Sender icon URL"
 msgstr ""
 
-#: include/const.php:3583
+#: include/const.php:3594
 msgid ""
 "URL of the image to display as an icon when sending a message.HTTPS, PNG, "
 "1:1, 1MB"
 msgstr ""
 
-#: include/const.php:3599
+#: include/const.php:3610
 msgid "Postback action"
 msgstr ""
 
-#: include/const.php:3612
+#: include/const.php:3623
 msgid ""
 "String returned via webhook in the postback.data property of the postback "
 "event"
 msgstr ""
 
-#: include/const.php:3617
+#: include/const.php:3628
 msgid "Display text"
 msgstr ""
 
-#: include/const.php:3618
+#: include/const.php:3629
 msgid ""
 "Text displayed in the chat as a message sent by the user when the action is "
 "performed. Required for quick reply buttons. Optional for the other message "
 "types."
 msgstr ""
 
-#: include/const.php:3623
+#: include/const.php:3634
 msgid "Input option"
 msgstr ""
 
-#: include/const.php:3624
+#: include/const.php:3635
 msgid "The display method of such as rich menu based on user action."
 msgstr ""
 
-#: include/const.php:3628
+#: include/const.php:3639
 msgid "Close richmenu"
 msgstr ""
 
-#: include/const.php:3632
+#: include/const.php:3643
 msgid "Open richmenu"
 msgstr ""
 
-#: include/const.php:3636
+#: include/const.php:3647
 msgid "Open keyboard"
 msgstr ""
 
-#: include/const.php:3640
+#: include/const.php:3651
 msgid "Open voice"
 msgstr ""
 
-#: include/const.php:3658
+#: include/const.php:3669
 msgid "Fill in text"
 msgstr ""
 
-#: include/const.php:3659
+#: include/const.php:3670
 msgid ""
 "String to be pre-filled in the input field when the keyboard is opened. "
 "Valid only when the inputOption property is set to openKeyboard."
 msgstr ""
 
-#: include/const.php:3672
+#: include/const.php:3683
 msgid "Message action"
 msgstr ""
 
-#: include/const.php:3696
+#: include/const.php:3707
 msgid "URI action"
 msgstr ""
 
-#: include/const.php:3709
+#: include/const.php:3720
 msgid ""
 "URI opened when the action is performed. The available schemes are http, "
 "https, line, and tel"
 msgstr ""
 
-#: include/const.php:3721
+#: include/const.php:3732
 msgid "Datetime picker action"
 msgstr ""
 
-#: include/const.php:3725
+#: include/const.php:3736
 msgid "Datetime picker"
 msgstr ""
 
-#: include/const.php:3738
+#: include/const.php:3749
 msgid "Action mode"
 msgstr ""
 
-#: include/const.php:3742
+#: include/const.php:3753
 msgid "Select date"
 msgstr ""
 
-#: include/const.php:3746
+#: include/const.php:3757
 msgid "Select time"
 msgstr ""
 
-#: include/const.php:3750
+#: include/const.php:3761
 msgid "Select date and time"
 msgstr ""
 
-#: include/const.php:3756
+#: include/const.php:3767
 msgid "Initial date or time"
 msgstr ""
 
-#: include/const.php:3760
+#: include/const.php:3771
 msgid "Max date or time"
 msgstr ""
 
-#: include/const.php:3764
+#: include/const.php:3775
 msgid "Min date or time"
 msgstr ""
 
-#: include/const.php:3776
+#: include/const.php:3787
 msgid "Camera action"
 msgstr ""
 
-#: include/const.php:3777 include/const.php:3798 include/const.php:3819
+#: include/const.php:3788 include/const.php:3809 include/const.php:3830
 msgid "This action can be configured only with quick reply buttons."
 msgstr ""
 
-#: include/const.php:3781
+#: include/const.php:3792
 msgid "Camera"
 msgstr ""
 
-#: include/const.php:3797
+#: include/const.php:3808
 msgid "Camera Roll action"
 msgstr ""
 
-#: include/const.php:3802
+#: include/const.php:3813
 msgid "Camera Roll"
 msgstr ""
 
-#: include/const.php:3818
+#: include/const.php:3829
 msgid "Location action"
 msgstr ""
 
-#: include/const.php:3839
+#: include/const.php:3850
 msgid "Clipboard action"
 msgstr ""
 
-#: include/const.php:3840
+#: include/const.php:3851
 msgid ""
 "When a user taps a control associated with this action, the text specified "
 "in the clipboardText property is copied to the device clipboard."
 msgstr ""
 
-#: include/const.php:3844
+#: include/const.php:3855
 msgid "Clipboard"
 msgstr ""
 
-#: include/const.php:3853
+#: include/const.php:3864
 msgid "Clipboard text"
 msgstr ""
 
-#: include/const.php:3872
+#: include/const.php:3883
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1.51:1 ,"
 "Max width: 1024px, Max file size: 10 MB"
 msgstr ""
 
-#: include/const.php:3887
+#: include/const.php:3898
 msgid ""
 "Max character limit: 120 (no image or title) 60 (message with an image or "
 "title)"
 msgstr ""
 
-#: include/const.php:3911
+#: include/const.php:3922
 msgid "Image url"
 msgstr ""
 
-#: include/const.php:3912
+#: include/const.php:3923
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1:1 ,"
 "Max width: 1024px, Max file size: 10 MB"
 msgstr ""
 
-#: include/const.php:3951
+#: include/const.php:3962
 msgid "Add image map action"
 msgstr ""
 
-#: include/const.php:3997 include/const.php:4004
+#: include/const.php:4008 include/const.php:4015
 msgid "Add column"
 msgstr ""
 
-#: include/const.php:4028
+#: include/const.php:4039
 msgid "Add quick reply"
 msgstr ""
 
-#: include/const.php:4039
+#: include/const.php:4050
 msgid "Item"
 msgstr ""
 
-#: include/const.php:4041
+#: include/const.php:4052
 msgid "Missing items definition"
 msgstr ""
 
-#: include/const.php:4043
+#: include/const.php:4054
 msgid "Yes"
 msgstr ""
 
-#: include/const.php:4045
+#: include/const.php:4056
 msgid "No"
 msgstr ""
 
-#: include/const.php:4047
+#: include/const.php:4058
 msgid "Close"
 msgstr ""
 
-#: include/const.php:4049
+#: include/const.php:4060
 msgid "Errors"
 msgstr ""
 
-#: include/const.php:4051
+#: include/const.php:4062
 msgid "New Value"
 msgstr ""
 
-#: include/const.php:4053
+#: include/const.php:4064
 msgid "Add"
 msgstr ""
 
-#: include/const.php:4055
+#: include/const.php:4066
 msgid "Add Item"
 msgstr ""
 
-#: include/const.php:4057
+#: include/const.php:4068
 msgid "Copy"
 msgstr ""
 
-#: include/const.php:4059
+#: include/const.php:4070
 msgid "Move down"
 msgstr ""
 
-#: include/const.php:4061
+#: include/const.php:4072
 msgid "Move up"
 msgstr ""
 
-#: include/const.php:4063
+#: include/const.php:4074
 msgid "Remove"
 msgstr ""
 
-#: include/const.php:4065
+#: include/const.php:4076
 msgid "Now"
 msgstr ""
 
-#: include/const.php:4067
+#: include/const.php:4078
 msgid "Clear"
 msgstr ""
 
-#: include/const.php:4069
+#: include/const.php:4080
 msgid "Select a date"
 msgstr ""
 
-#: include/const.php:4071
+#: include/const.php:4082
 msgid "Preview"
 msgstr ""
 
-#: include/const.php:4073
+#: include/const.php:4084
 msgid "Decrease value by 1"
 msgstr ""
 
-#: include/const.php:4075
+#: include/const.php:4086
 msgid "Increase value by 1"
 msgstr ""
 
-#: include/const.php:4078
+#: include/const.php:4089
 msgid "Unknown field type %1"
 msgstr ""
 
-#: include/const.php:4080
+#: include/const.php:4091
 msgid "Option %1"
 msgstr ""
 
-#: include/const.php:4084
+#: include/const.php:4095
 msgid "%1 option %2"
 msgstr ""
 
-#: include/const.php:4086
+#: include/const.php:4097
 msgid "%1 Key"
 msgstr ""
 
-#: include/const.php:4089
+#: include/const.php:4100
 msgid "Invalid %1 object field configuration: <em>%2</em>."
 msgstr ""
 
-#: include/const.php:4091
+#: include/const.php:4102
 msgid "Unsupported field schema."
 msgstr ""
 
-#: include/const.php:4093
+#: include/const.php:4104
 msgid "Unsupported field schema for field <code>%1</code>."
 msgstr ""
 
-#: include/const.php:4095
+#: include/const.php:4106
 msgid "Unsupported field schema: <em>%1</em>."
 msgstr ""
 
-#: include/const.php:4099
+#: include/const.php:4110
 msgid "Unsupported field schema for field <code>%1</code>: <em>%2</em>."
 msgstr ""
 
-#: include/const.php:4103
+#: include/const.php:4114
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr ""
 
@@ -2496,12 +2507,12 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: include/chat.php:257 include/chat.php:281 include/publish.php:257
+#: include/chat.php:257 include/chat.php:281 include/publish.php:311
 #, php-format
 msgid "Sent a LINE message to %s person."
 msgstr ""
 
-#: include/chat.php:260 include/chat.php:283 include/publish.php:259
+#: include/chat.php:260 include/chat.php:283 include/publish.php:313
 msgid "No users matched"
 msgstr ""
 
@@ -2521,23 +2532,23 @@ msgstr ""
 msgid "Failed to send a LINE message to selected roles. "
 msgstr ""
 
-#: include/publish.php:102 include/setting.php:134 include/setting.php:235
+#: include/publish.php:106 include/setting.php:134 include/setting.php:235
 msgid "All Friends"
 msgstr ""
 
-#: include/publish.php:102 include/setting.php:135 include/setting.php:236
+#: include/publish.php:106 include/setting.php:135 include/setting.php:236
 msgid "Linked Friends"
 msgstr ""
 
-#: include/publish.php:248
+#: include/publish.php:302
 msgid "Sent a LINE message to all friends."
 msgstr ""
 
-#: include/publish.php:250
+#: include/publish.php:304
 msgid "Failed to send a LINE message to all friends."
 msgstr ""
 
-#: include/publish.php:262
+#: include/publish.php:316
 msgid "Failed to send a LINE message to selected roles."
 msgstr ""
 
@@ -2597,56 +2608,56 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: include/setting.php:463
+#: include/setting.php:468
 #, php-format
 msgid "\"%s\" is invalid in new channel."
 msgstr ""
 
-#: include/setting.php:465
+#: include/setting.php:470
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel."
 msgstr ""
 
-#: include/setting.php:481
+#: include/setting.php:486
 #, php-format
 msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
 msgstr ""
 
-#: include/setting.php:483
+#: include/setting.php:488
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
 msgstr ""
 
-#: include/setting.php:492
+#: include/setting.php:497
 msgid "The same channel secret is already registered of the new channel."
 msgstr ""
 
-#: include/setting.php:494
+#: include/setting.php:499
 #, php-format
 msgid "The same channel secret is already registered of the \"%s\"."
 msgstr ""
 
-#: include/setting.php:521
+#: include/setting.php:526
 #, php-format
 msgid "\"%s\" is required."
 msgstr ""
 
-#: include/setting.php:524
+#: include/setting.php:529
 #, php-format
 msgid "\"%s\" is invalid."
 msgstr ""
 
-#: include/setting.php:529
+#: include/setting.php:534
 #, php-format
 msgid ""
 "\"%s\" is invalid. The height cannot be greater than three times the width."
 msgstr ""
 
-#: include/setting.php:539
+#: include/setting.php:544
 msgid "Settings saved."
 msgstr ""
 
-#: include/setting.php:584
+#: include/setting.php:589
 #, php-format
 msgid "Updated the following rich menus: %s"
 msgstr ""
@@ -2676,26 +2687,6 @@ msgstr ""
 
 #: include/message.php:618
 msgid "Error"
-msgstr ""
-
-#: line-dm/src/component/ChatTo.js:6
-msgid "To"
-msgstr ""
-
-#: line-dm/src/component/ChatTo.js:16
-msgid ""
-"To specify individual users, use the check link on the User List page, or "
-"check the check boxes for the target users and \"Apply\" the \"Send LINE "
-"Messages\" option in the batch operation."
-msgstr ""
-
-#: line-dm/src/component/ChatForm.js:115
-#: line-chat/src/component/ChatForm.js:114
-msgid "Send"
-msgstr ""
-
-#: line-chat/src/component/RJSFForm.js:130
-msgid "New message"
 msgstr ""
 
 #: lineconnect.php:729

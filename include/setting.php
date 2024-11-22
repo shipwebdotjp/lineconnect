@@ -322,6 +322,11 @@ EOM;
 							foreach ( $post_types as $post_type ) {
 								$option_details['list'][ $post_type->name ] = $post_type->label;
 							}
+						} elseif ( $option_key == 'default_send_template' ){
+							$slc_messages = lineconnectSLCMessage::get_lineconnect_message_name_array();
+							foreach ( $slc_messages as $message_id => $message_title ) {
+								$option_details['list'][ $message_id ] = $message_title;
+							}
 						} elseif ( $option_key == 'openai_enabled_functions' ) {
 							foreach ( lineconnectFunctions::get_callable_functions( false ) as $function_name => $function_schema ) {
 								$option_details['list'][ $function_name ] = $function_schema['title'];
