@@ -424,6 +424,9 @@ class lineconnect {
 				// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 				add_action( 'wp_login', array( $this, 'redirect_account_link' ), 10, 2 );
 
+				// ユーザーのロール変更時にリッチメニューを変更する
+				add_action( 'set_user_role', array( 'lineconnectRichmenu', 'change_user_role' ), 10, 3 );
+
 				// ユーザーにリッチメニューを関連付ける
 				add_action( 'line_link_richmenu', array( 'lineconnectRichmenu', 'link_richmenu' ), 10, 1 );
 

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 3.2.1\n"
+"Project-Id-Version: LINE Connect 3.3.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2024-11-22 16:40+0900\n"
+"POT-Creation-Date: 2024-11-22 22:23+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1349,12 +1349,11 @@ msgstr ""
 msgid "Link status"
 msgstr ""
 
-#: include/const.php:2347 include/richmenu.php:25 include/richmenu.php:94
-#: include/chat.php:65
+#: include/const.php:2347 include/richmenu.php:140 include/chat.php:65
 msgid "Linked"
 msgstr ""
 
-#: include/const.php:2351 include/richmenu.php:25 include/richmenu.php:94
+#: include/const.php:2351 include/richmenu.php:57
 msgid "Unlinked"
 msgstr ""
 
@@ -2285,13 +2284,22 @@ msgstr ""
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr ""
 
-#: include/richmenu.php:26 include/richmenu.php:124
+#: include/const.php:4129
+#, php-format
+msgid "Rich menu ID for %s."
+msgstr ""
+
+#: include/richmenu.php:33 include/richmenu.php:174
 msgid "Channel access token or channel secret is not set."
 msgstr ""
 
-#: include/richmenu.php:75 include/richmenu.php:90 include/logging.php:78
+#: include/richmenu.php:55 include/richmenu.php:138 include/logging.php:78
 #: include/logging.php:117
 msgid "Failed"
+msgstr ""
+
+#: include/richmenu.php:140
+msgid "Deleted"
 msgstr ""
 
 #: include/trigger.php:28
@@ -2608,56 +2616,56 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: include/setting.php:468
+#: include/setting.php:471
 #, php-format
 msgid "\"%s\" is invalid in new channel."
 msgstr ""
 
-#: include/setting.php:470
+#: include/setting.php:473
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel."
 msgstr ""
 
-#: include/setting.php:486
+#: include/setting.php:489
 #, php-format
 msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
 msgstr ""
 
-#: include/setting.php:488
+#: include/setting.php:491
 #, php-format
 msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
 msgstr ""
 
-#: include/setting.php:497
+#: include/setting.php:500
 msgid "The same channel secret is already registered of the new channel."
 msgstr ""
 
-#: include/setting.php:499
+#: include/setting.php:502
 #, php-format
 msgid "The same channel secret is already registered of the \"%s\"."
 msgstr ""
 
-#: include/setting.php:526
+#: include/setting.php:529
 #, php-format
 msgid "\"%s\" is required."
 msgstr ""
 
-#: include/setting.php:529
+#: include/setting.php:532
 #, php-format
 msgid "\"%s\" is invalid."
 msgstr ""
 
-#: include/setting.php:534
+#: include/setting.php:537
 #, php-format
 msgid ""
 "\"%s\" is invalid. The height cannot be greater than three times the width."
 msgstr ""
 
-#: include/setting.php:544
+#: include/setting.php:547
 msgid "Settings saved."
 msgstr ""
 
-#: include/setting.php:589
+#: include/setting.php:606
 #, php-format
 msgid "Updated the following rich menus: %s"
 msgstr ""
@@ -2689,214 +2697,214 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: lineconnect.php:729
+#: lineconnect.php:732
 msgid "LINE Event Log"
 msgstr ""
 
-#: lineconnect.php:731
+#: lineconnect.php:734
 msgid "Event Log"
 msgstr ""
 
-#: lineconnect.php:885 lineconnect.php:896
+#: lineconnect.php:888 lineconnect.php:899
 msgid "LC Triggers"
 msgstr ""
 
-#: lineconnect.php:886
+#: lineconnect.php:889
 msgid "LC Trigger"
 msgstr ""
 
-#: lineconnect.php:887 lineconnect.php:937
+#: lineconnect.php:890 lineconnect.php:940
 msgid "Add New"
 msgstr ""
 
-#: lineconnect.php:888
+#: lineconnect.php:891
 msgid "Add New Trigger"
 msgstr ""
 
-#: lineconnect.php:889
+#: lineconnect.php:892
 msgid "Edit Trigger"
 msgstr ""
 
-#: lineconnect.php:890
+#: lineconnect.php:893
 msgid "New Trigger"
 msgstr ""
 
-#: lineconnect.php:891
+#: lineconnect.php:894
 msgid "View Trigger"
 msgstr ""
 
-#: lineconnect.php:892
+#: lineconnect.php:895
 msgid "Search Triggers"
 msgstr ""
 
-#: lineconnect.php:893
+#: lineconnect.php:896
 msgid "No Triggers found"
 msgstr ""
 
-#: lineconnect.php:894
+#: lineconnect.php:897
 msgid "No Triggers found in Trash"
 msgstr ""
 
-#: lineconnect.php:897
+#: lineconnect.php:900
 msgid "All Triggers"
 msgstr ""
 
-#: lineconnect.php:898
+#: lineconnect.php:901
 msgid "Trigger Archives"
 msgstr ""
 
-#: lineconnect.php:899
+#: lineconnect.php:902
 msgid "Trigger Attributes"
 msgstr ""
 
-#: lineconnect.php:900
+#: lineconnect.php:903
 msgid "Insert into Trigger"
 msgstr ""
 
-#: lineconnect.php:901
+#: lineconnect.php:904
 msgid "Uploaded to this Trigger"
 msgstr ""
 
-#: lineconnect.php:902 lineconnect.php:952
+#: lineconnect.php:905 lineconnect.php:955
 msgid "Featured Image"
 msgstr ""
 
-#: lineconnect.php:903 lineconnect.php:953
+#: lineconnect.php:906 lineconnect.php:956
 msgid "Set featured image"
 msgstr ""
 
-#: lineconnect.php:904 lineconnect.php:954
+#: lineconnect.php:907 lineconnect.php:957
 msgid "Remove featured image"
 msgstr ""
 
-#: lineconnect.php:905 lineconnect.php:955
+#: lineconnect.php:908 lineconnect.php:958
 msgid "Use as featured image"
 msgstr ""
 
-#: lineconnect.php:906
+#: lineconnect.php:909
 msgid "Filter Triggers list"
 msgstr ""
 
-#: lineconnect.php:907
+#: lineconnect.php:910
 msgid "Triggers list navigation"
 msgstr ""
 
-#: lineconnect.php:908
+#: lineconnect.php:911
 msgid "Triggers list"
 msgstr ""
 
-#: lineconnect.php:909
+#: lineconnect.php:912
 msgid "Trigger published."
 msgstr ""
 
-#: lineconnect.php:910
+#: lineconnect.php:913
 msgid "Trigger published privately."
 msgstr ""
 
-#: lineconnect.php:911
+#: lineconnect.php:914
 msgid "Trigger reverted to draft."
 msgstr ""
 
-#: lineconnect.php:912
+#: lineconnect.php:915
 msgid "Trigger scheduled."
 msgstr ""
 
-#: lineconnect.php:913
+#: lineconnect.php:916
 msgid "Trigger updated."
 msgstr ""
 
-#: lineconnect.php:915
+#: lineconnect.php:918
 msgid "LINE Connect Triggers"
 msgstr ""
 
-#: lineconnect.php:935 lineconnect.php:946
+#: lineconnect.php:938 lineconnect.php:949
 msgid "LC Messages"
 msgstr ""
 
-#: lineconnect.php:936
+#: lineconnect.php:939
 msgid "LC Message"
 msgstr ""
 
-#: lineconnect.php:938
+#: lineconnect.php:941
 msgid "Add New Message"
 msgstr ""
 
-#: lineconnect.php:939
+#: lineconnect.php:942
 msgid "Edit Message"
 msgstr ""
 
-#: lineconnect.php:940
+#: lineconnect.php:943
 msgid "New Message"
 msgstr ""
 
-#: lineconnect.php:941
+#: lineconnect.php:944
 msgid "View Message"
 msgstr ""
 
-#: lineconnect.php:942
+#: lineconnect.php:945
 msgid "Search Messages"
 msgstr ""
 
-#: lineconnect.php:943
+#: lineconnect.php:946
 msgid "No Messages found"
 msgstr ""
 
-#: lineconnect.php:944
+#: lineconnect.php:947
 msgid "No Messages found in Trash"
 msgstr ""
 
-#: lineconnect.php:947
+#: lineconnect.php:950
 msgid "All Messages"
 msgstr ""
 
-#: lineconnect.php:948
+#: lineconnect.php:951
 msgid "Message Archives"
 msgstr ""
 
-#: lineconnect.php:949
+#: lineconnect.php:952
 msgid "Message Attributes"
 msgstr ""
 
-#: lineconnect.php:950
+#: lineconnect.php:953
 msgid "Insert into Message"
 msgstr ""
 
-#: lineconnect.php:951
+#: lineconnect.php:954
 msgid "Uploaded to this Message"
 msgstr ""
 
-#: lineconnect.php:956
+#: lineconnect.php:959
 msgid "Filter Messages list"
 msgstr ""
 
-#: lineconnect.php:957
+#: lineconnect.php:960
 msgid "Messages list navigation"
 msgstr ""
 
-#: lineconnect.php:958
+#: lineconnect.php:961
 msgid "Messages list"
 msgstr ""
 
-#: lineconnect.php:959
+#: lineconnect.php:962
 msgid "Message published."
 msgstr ""
 
-#: lineconnect.php:960
+#: lineconnect.php:963
 msgid "Message published privately."
 msgstr ""
 
-#: lineconnect.php:961
+#: lineconnect.php:964
 msgid "Message reverted to draft."
 msgstr ""
 
-#: lineconnect.php:962
+#: lineconnect.php:965
 msgid "Message scheduled."
 msgstr ""
 
-#: lineconnect.php:963
+#: lineconnect.php:966
 msgid "Message updated."
 msgstr ""
 
-#: lineconnect.php:965
+#: lineconnect.php:968
 msgid "LINE Connect Messages"
 msgstr ""

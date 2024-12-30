@@ -4115,4 +4115,19 @@ class lineconnectConst {
 			)
 		);
 	}
+
+	/**
+	 * Return channnel options
+	 * @return array channel options
+	 */
+	public static function get_channel_options() {
+		$channnel_option = self::$channnel_option;
+		// insert each role's richmenu-id
+		// 'linked-richmenu'      => __( 'Rich menu ID for linked users', lineconnect::PLUGIN_NAME ),
+		// 'unlinked-richmenu'    => __( 'Rich menu ID for unlinked users', lineconnect::PLUGIN_NAME ),
+		foreach ( wp_roles()->roles as $role_name => $role ) {
+			$channnel_option[$role_name . '-richmenu'] = sprintf( __('Rich menu ID for %s.', lineconnect::PLUGIN_NAME), translate_user_role( $role['name'] ));
+		}
+		return $channnel_option;
+	}
 }

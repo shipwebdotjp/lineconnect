@@ -96,7 +96,7 @@ EOM;
 					foreach ( lineconnect::get_all_channels() as $channel_id => $channel ) {
 
 						$ary_option = array();
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 							$options = array();
 
 							// 不正メッセージ
@@ -111,7 +111,7 @@ EOM;
 							// 設定値
 							if ( false === ( $value = get_transient( lineconnect::TRANSIENT_PREFIX . $option_key . $channel['prefix'] ) ) ) {
 								// 無ければoptionsテーブルから取得
-								$value = $channel[ $option_key ];
+								$value = $channel[ $option_key ] ?? null;
 							}
 							$options['value']          = is_array( $value ) ? $value : esc_html( $value );
 							$ary_option[ $option_key ] = $options;
@@ -126,7 +126,7 @@ EOM;
 						echo "<div class='main'>";
 
 						// オプションごとにHTML INPUTフィールド出力
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 							if ( $option_key == 'role' ) {
 								// ロール選択セレクトボックスを出力
 								$role_select = '<select name=' . $ary_option[ $option_key ]['param'] . "[] multiple class='slc-multi-select' >";
@@ -217,7 +217,7 @@ EOM;
 					$new_channel_html = '';
 					$new_has_error    = false;
 					$channel          = array( 'prefix' => 'new' );
-					foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+					foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 
 						$param = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'];
 						$value = get_transient( lineconnect::TRANSIENT_PREFIX . $option_key . $channel['prefix'] );
@@ -421,6 +421,9 @@ EOM;
 					'linked-richmenu'   => 'linked',
 					'unlinked-richmenu' => 'unlinked',
 				);
+				foreach ( wp_roles()->roles as $role_name => $role ) {
+					$richmenes[$role_name . '-richmenu'] = $role_name;
+				}
 				$new_key       = '';
 				// 新規チャネルのチェック
 				if ( ! empty( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-access-token' . 'new' ] ) && ! empty( $_POST[ lineconnect::PARAMETER_PREFIX . 'channel-secret' . 'new' ] ) ) {
@@ -435,7 +438,7 @@ EOM;
 					} else {
 						$ary_option = array();
 
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 							$options = array();
 
 							// POSTされた値
@@ -458,7 +461,7 @@ EOM;
 						$ary_option['prefix']         = array( 'value' => substr( $ary_option['channel-secret']['value'], 0, 4 ) );
 						$channel_value[ $channel_id ] = $ary_option;
 
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 							// 入力値チェック
 							if ( ( $option_key == 'channel-access-token' && ! preg_match( lineconnect::REGEXP_CHANNEL_ACCESS_TOKEN, $ary_option[ $option_key ]['value'] ) ) ||
 								( $option_key == 'channel-secret' && ! preg_match( lineconnect::REGEXP_CHANNEL_SECRET, $ary_option[ $option_key ]['value'] ) )
@@ -550,21 +553,25 @@ EOM;
 						if ( isset( $channel_value[ $channel_id ]['delete'] ) && $channel_value[ $channel_id ]['delete'] ) {
 							continue;
 						}
-						$changed = array();  // チャンネルごとの更新したリッチメニューリスト
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						$changed_richmenus = array();  // チャンネルごとの更新したリッチメニューリスト
+						$is_changed_richmenus = array(); // 変更のあったリッチメニュー
+						$ary_richmeneus = array();
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 
 							// リッチメニューIDの更新処理（各ロールに応じてメニューIDを関連付け）
 							if ( array_key_exists( $option_key, $richmenes ) ) {
+								$ary_richmeneus[ $richmenes[ $option_key ] ] = $channel_value[ $channel_id ][ $option_key ]['value'];
 								if ( ( ( isset( $ary_channels[ $channel_id ][ $option_key ] ) && $ary_channels[ $channel_id ][ $option_key ] != $channel_value[ $channel_id ][ $option_key ]['value'] ) || ( ! isset( $ary_channels[ $channel_id ][ $option_key ] ) && $channel_value[ $channel_id ][ $option_key ]['value'] ) ) ) {
 									// richmenu_idが変更されていたら
-									$changed[] = lineconnectRichmenu::updateRichMenuId(
-										array(
-											'channel-access-token' => $channel_value[ $channel_id ]['channel-access-token']['value'],
-											'channel-secret' => $channel_value[ $channel_id ]['channel-secret']['value'],
-										),
-										$richmenes[ $option_key ],
-										$channel_value[ $channel_id ][ $option_key ]['value']
-									);
+									$is_changed_richmenus[] = $richmenes[ $option_key ];
+									// $changed_richmenus[] = lineconnectRichmenu::updateRichMenuId(
+									// 	array(
+									// 		'channel-access-token' => $channel_value[ $channel_id ]['channel-access-token']['value'],
+									// 		'channel-secret' => $channel_value[ $channel_id ]['channel-secret']['value'],
+									// 	),
+									// 	$richmenes[ $option_key ],
+									// 	$channel_value[ $channel_id ][ $option_key ]['value']
+									// );
 								}
 							}
 							// 保存処理
@@ -576,11 +583,21 @@ EOM;
 							// (一応)ユーザーが入力した値をTRANSIENTから削除
 							delete_transient( lineconnect::TRANSIENT_PREFIX . $option_key . $channel['prefix'] );
 						}
+						if( !empty( $is_changed_richmenus ) ) {
+							$changed_richmenus = lineconnectRichmenu::updateRichMenuId(
+								array(
+									'channel-access-token' => $channel_value[ $channel_id ]['channel-access-token']['value'],
+									'channel-secret' => $channel_value[ $channel_id ]['channel-secret']['value'],
+								),
+								$is_changed_richmenus,
+								$ary_richmeneus
+							);
+						}
 						// Prefix
 						$ary_channels[ $channel_id ]['prefix'] = $channel_value[ $channel_id ]['prefix']['value'];
 						// リッチメニュー変更メッセージがあれば
-						if ( ! empty( $changed ) ) {
-							$totalchanged[] = $channel_value[ $channel_id ]['name']['value'] . ': ' . join( ', ', $changed );
+						if ( ! empty( $changed_richmenus ) ) {
+							$totalchanged[] = $channel_value[ $channel_id ]['name']['value'] . ': ' . join( ', ', $changed_richmenus );
 						}
 						$new_ary_channels[] = $ary_channels[ $channel_id ];
 					}
@@ -597,7 +614,7 @@ EOM;
 				} else {
 					// 有効フラグがFalseの場合
 					foreach ( $ary_channels as $channel_id => $channel ) {
-						foreach ( lineconnectConst::$channnel_option as $option_key => $option_name ) {
+						foreach ( lineconnectConst::get_channel_options() as $option_key => $option_name ) {
 							// ユーザが入力した値を5秒間保持
 							if ( $channel['prefix'] == $new_key ) {
 								set_transient( lineconnect::TRANSIENT_PREFIX . $option_key . 'new', $channel_value[ $channel_id ][ $option_key ]['value'], lineconnect::TRANSIENT_TIME_LIMIT );

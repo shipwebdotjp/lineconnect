@@ -76,6 +76,7 @@ class lineconnectPublish {
 		echo $nonce_field;
 		echo "<div>";
 		$is_send_line = get_post_meta(get_the_ID(), lineconnect::META_KEY__IS_SEND_LINE, true);
+		$is_send_line = apply_filters( lineconnect::FILTER_PREFIX . 'publish_postmeta_is_send_line', $is_send_line, get_the_ID() );
 		$default_send_checkbox = lineconnect::get_option('default_send_checkbox');
 		$default_send_template = lineconnect::get_option('default_send_template');
 		//error_log($is_send_line);
@@ -213,6 +214,8 @@ class lineconnectPublish {
 				$roles = $is_send_line[$channel['prefix']]['role'] ?? [];
 				$template = $is_send_line[$channel['prefix']]['template'] ?? 0;
 			}
+			// apply_filters compact extract $send_checkbox_value, $roles $template
+			extract(apply_filters(lineconnect::FILTER_PREFIX . 'send_notification_is_send_line', compact( 'send_checkbox_value', 'roles', 'template' ), $post_ID, $post));
 			// ChannelAccessTokenとChannelSecretが設定されており、LINEメッセージ送信チェックボックスにチェックがある場合
 			if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $send_checkbox_value == 'ON') {
 				// 投稿のタイトルを取得
