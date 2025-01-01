@@ -37,7 +37,7 @@ class lineconnectAdmin {
 					$user_meta_line = get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
 					if ($user_meta_line && isset($user_meta_line[$secret_prefix]) && isset($user_meta_line[$secret_prefix]['id'])) {
 						$line_sendmessage_url = add_query_arg(array('users' => $user_id, 'channel_ids' => $channel_id), admin_url('admin.php?page=' . lineconnect::SLUG__CHAT_FORM));
-						$ary_output[] = "<a href=\"" . $line_sendmessage_url . "\" title=\"" . (isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : "") . "\">{$linked_label}</a>";
+						$ary_output[] = "<a href=\"" . $line_sendmessage_url . "\" title=\"" . (isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : "") . "\">" . (isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : $linked_label) . "</a>";
 					} else {
 						$ary_output[] = $unlinked_label;
 					}

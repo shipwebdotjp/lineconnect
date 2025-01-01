@@ -76,7 +76,9 @@ class lineconnectPublish {
 		echo $nonce_field;
 		echo "<div>";
 		$is_send_line = get_post_meta(get_the_ID(), lineconnect::META_KEY__IS_SEND_LINE, true);
+		$is_send_line = apply_filters( lineconnect::FILTER_PREFIX . 'publish_postmeta_is_send_line', $is_send_line, get_the_ID() );
 		$default_send_checkbox = lineconnect::get_option('default_send_checkbox');
+		$default_send_template = lineconnect::get_option('default_send_template');
 		//error_log($is_send_line);
 		//チャンネルリスト毎に出力
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
@@ -86,14 +88,17 @@ class lineconnectPublish {
 				$input_filed = "";
 				if ($option_key == 'role-selectbox') {
 					if (isset($is_send_line[$channel['prefix']])) {
-						$role = $is_send_line[$channel['prefix']]['role'];
-						// error_log($channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
+						$roles = $is_send_line[$channel['prefix']]['role'] ?? $channel['role'];
+						// error_log($channel['prefix'].' saved role:'.implode(',',$roles));
+
 					} else {
-						$role = $channel['role'];
+						$roles = $channel['role'];
+						// error_log($channel['prefix'].' role:'.implode(',',$roles));
+
 					}
+					
 
-
-					$role = is_array($role) ? $role : esc_html($role);
+					$roles = is_array($roles) ? $roles : esc_html($roles);
 					// ロール選択セレクトボックスを出力
 					// Sendboxのパラメータ名
 					$param_role = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'] . "[]";
@@ -103,12 +108,31 @@ class lineconnectPublish {
 					foreach (wp_roles()->roles as $role_name => $role) {
 						$all_roles[esc_attr($role_name)] = translate_user_role($role['name']);
 					}
-					$input_filed .= lineconnect::makeHtmlSelectOptions($all_roles, $role);
+					$input_filed .= lineconnect::makeHtmlSelectOptions($all_roles, $roles);
 					$input_filed .= "</select>";
+				} elseif ( $option_key == 'template-selectbox') {
+					if (isset($is_send_line[$channel['prefix']])) {
+						$template = $is_send_line[$channel['prefix']]['template'] ?? $default_send_template;
+					} else {
+						$template = $default_send_template;
+					}
+					$template = esc_html( $template );
+					// テンプレート選択セレクトボックスを出力
+					// Sendboxのパラメータ名
+					$param_template = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'];
+					$input_filed = '<label for="' . $param_template . '">' . $option_name . '</label>' . "<select name=" . $param_template . " class=''>";
+					$slc_messages = lineconnectSLCMessage::get_lineconnect_message_name_array();
+					$all_templates = array(0 => __('Default template', lineconnect::PLUGIN_NAME));
+					foreach ($slc_messages as $template_id => $template_name) {
+						$all_templates[$template_id] = $template_name;
+					}
+					$input_filed .= lineconnect::makeHtmlSelectOptions($all_templates, $template);
+					$input_filed .= "</select>";
+
 				} elseif ($option_key == 'send-checkbox' || $option_key == 'future-checkbox') {
 					if ($option_key == 'future-checkbox') {
 						if (isset($is_send_line[$channel['prefix']])) {
-							$checked = $is_send_line[$channel['prefix']]['isSend'] == 'ON' ? 'checked' : '';
+							$checked = (isset( $is_send_line[$channel['prefix']]['isSend'] ) && $is_send_line[$channel['prefix']]['isSend'] == 'ON' ) ? 'checked' : '';
 						} else {
 							$checked = '';
 						}
@@ -130,6 +154,7 @@ class lineconnectPublish {
 			echo '<h3>' . $channel['name'] . '</h3>';
 			echo '<div>' . $htmls['send-checkbox'] . '</div>';
 			echo '<div>' . $htmls['role-selectbox'] . '</div>';
+			echo '<div>' . $htmls['template-selectbox'] . '</div>';
 			echo '<div>' . $htmls['future-checkbox'] . '</div>';
 			echo '</div>';
 		}
@@ -158,7 +183,8 @@ class lineconnectPublish {
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
 			$error_message = $success_message = "";
 			$send_checkbox_value = "";
-			$role = "";
+			$roles = array();
+			$template = 0;
 			$channel_access_token = $channel['channel-access-token'];
 			$channel_secret = $channel['channel-secret'];
 
@@ -166,21 +192,30 @@ class lineconnectPublish {
 			if ($isRestAPI) {
 				$req_json = json_decode(WP_REST_Server::get_raw_data());
 				$channels = $req_json->{'lc_channels'};
-				foreach ($channels as $rest_cid => $rest_role) {
+				foreach ($channels as $rest_cid => $rest_channel_value) {
 					if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
 						$send_checkbox_value = 'ON';
-						$role = explode(',', $rest_role);
+						// 後方互換性を保つため、文字列の場合はロールとみなす
+						if( is_string($rest_channel_value) ) {
+							$rest_role = $rest_channel_value;
+							$roles = explode(',', $rest_role);
+						} else {
+							$roles = $rest_channel_value->{'roles'};
+							$template = $rest_channel_value->{'template'};
+						}
 					}
 				}
 			} elseif (isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) {
 				$send_checkbox_value = isset($_POST[lineconnect::PARAMETER_PREFIX . 'send-checkbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'send-checkbox' . $channel['prefix']] : '';
-				$role = $_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']];
-				// error_log('use post:'.$channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
+				$roles =  isset($_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']] : [];
+				$template = $_POST[lineconnect::PARAMETER_PREFIX . 'template-selectbox' . $channel['prefix']] ?? 0;
 			} elseif (isset($is_send_line[$channel['prefix']])) {
-				$send_checkbox_value = $is_send_line[$channel['prefix']]['isSend'];
-				$role = $is_send_line[$channel['prefix']]['role'];
-				// error_log('use meta:'.$channel['prefix'].' check:'.$send_checkbox_value.' role:'.implode(',',$role));
+				$send_checkbox_value = $is_send_line[$channel['prefix']]['isSend'] ?? '';
+				$roles = $is_send_line[$channel['prefix']]['role'] ?? [];
+				$template = $is_send_line[$channel['prefix']]['template'] ?? 0;
 			}
+			// apply_filters compact extract $send_checkbox_value, $roles $template
+			extract(apply_filters(lineconnect::FILTER_PREFIX . 'send_notification_is_send_line', compact( 'send_checkbox_value', 'roles', 'template' ), $post_ID, $post));
 			// ChannelAccessTokenとChannelSecretが設定されており、LINEメッセージ送信チェックボックスにチェックがある場合
 			if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $send_checkbox_value == 'ON') {
 				// 投稿のタイトルを取得
@@ -237,13 +272,35 @@ class lineconnectPublish {
 				require_once(plugin_dir_path(__FILE__) . 'message.php');
 
 				$link_label = lineconnect::get_option('more_label');
-				$flexMessage = lineconnectMessage::createFlexMessage(
-					["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link]
-				);
+				$args = [];
+				if( !$template ){
+					$args = ["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link];
+					$buildMessage = lineconnectMessage::createFlexMessage($args);
+				}else{
+					$args = lineconnectUtil::flat( $post->to_array() );
+					// get and merge post_meta
+					foreach( get_post_meta( $post_ID, '', true ) as $key => $value ) {
+						$value = maybe_unserialize($value[0]);
+						if(is_array($value) || is_object($value)){
+							$args = array_merge( $args, lineconnectUtil::flat( $value, 'post_meta.'.$key ));
+						}elseif( is_string($value) ){
+							$args['post_meta.'.$key] = $value;
+						}
+					}
+					$args['formatted_title'] = $title;
+					$args['formatted_content'] = $body;
+					$args['post_thumbnail'] = $thumb;
+					$args['post_permalink'] = $link;
+					$args['link_label'] = $link_label;
+					$args['alttext'] = $alttext;
+					$args = apply_filters( lineconnect::FILTER_PREFIX . 'notification_message_args', $args, $template );
+					$buildMessage = lineconnectSLCMessage::get_lineconnect_message( $template, $args );
+				}
+				$buildMessage = apply_filters( lineconnect::FILTER_PREFIX . 'notification_message', $buildMessage, $args, $template );
 
-				if (in_array("slc_all", $role)) {
+				if (in_array("slc_all", $roles)) {
 					//送信するロールがすべてのユーザーならブロードキャスト
-					$response = lineconnectMessage::sendBroadcastMessage($channel, $flexMessage);
+					$response = lineconnectMessage::sendBroadcastMessage($channel, $buildMessage);
 					if ($response['success']) {
 						$success_message = __('Sent a LINE message to all friends.', lineconnect::PLUGIN_NAME);
 					} else {
@@ -251,7 +308,7 @@ class lineconnectPublish {
 					}
 				} else {
 
-					$response = lineconnectMessage::sendMessageRole($channel, $role, $flexMessage);
+					$response = lineconnectMessage::sendMessageRole($channel, $roles, $buildMessage);
 					if ($response['success']) {
 						if ($response['num']) {
 							$success_message =  sprintf(_n('Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME), number_format($response['num']));
@@ -324,28 +381,39 @@ class lineconnectPublish {
 			if ($isRestAPI) {
 				$req_json = json_decode(WP_REST_Server::get_raw_data());
 				$channels = $req_json->{'lc_channels'};
-				foreach ($channels as $rest_cid => $rest_role) {
+				foreach ($channels as $rest_cid => $rest_channel_value) {
 					if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
 						$future_checkbox = 'ON';
-						$role = explode(',', $rest_role);
+						// 後方互換性を保つため、文字列の場合はロールとみなす
+						if( is_string($rest_channel_value) ) {
+							$rest_role = $rest_channel_value;
+							$roles = explode(',', $rest_role);
+						} else {
+							$roles = $rest_channel_value->{'roles'};
+							$template = $rest_channel_value->{'template'};
+						}
 					}
 				}
 			} else {
-				// RoleをPOSTから、なければOPTIONSテーブルから取得
-				$role = $_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']];
-				$future_checkbox = isset($_POST[lineconnect::PARAMETER_PREFIX . 'future-checkbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'future-checkbox' . $channel['prefix']] : '';
+				// RoleをPOSTから取得
+				$roles = $_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']] ?? null;
+				$template = $_POST[lineconnect::PARAMETER_PREFIX . 'template-selectbox' . $channel['prefix']] ?? null;
+				$future_checkbox = isset($_POST[lineconnect::PARAMETER_PREFIX . 'future-checkbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'future-checkbox' . $channel['prefix']] : null;
 			}
-			if (!$role) {
-				$role =  $channel['role'];
-			}
+			$is_send_line[$channel['prefix']] = array();
 
-			$is_send_line[$channel['prefix']] = array(
-				'isSend' => $future_checkbox,
-				'role' => $role,
-			);
+			if ($future_checkbox == 'ON') {
+				$is_send_line[$channel['prefix']]['isSend'] = 'ON';
+			}
+			if ( isset($roles)) {
+				$is_send_line[$channel['prefix']]['role'] = $roles;
+			}
+			if ( isset($template)) {
+				$is_send_line[$channel['prefix']]['template'] = $template;
+			}
 		}
 
-		if ($is_send_line) {
+		if (!empty($is_send_line)) {
 			update_post_meta($post_ID, lineconnect::META_KEY__IS_SEND_LINE, $is_send_line);
 		} else {
 			delete_post_meta($post_ID, lineconnect::META_KEY__IS_SEND_LINE);

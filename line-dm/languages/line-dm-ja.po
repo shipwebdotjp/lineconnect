@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/component/ChatChannel.js:4
+msgid "Channel"
+msgstr "チャネル"
+
+#: src/component/ChatForm.js:101
+msgid "Send LINE message"
+msgstr "LINEメッセージを送信"
+
+#: src/component/ChatForm.js:115
+msgid "Send"
+msgstr "送信"
+
+#: src/component/ChatMessage.js:7
+msgid "Message"
+msgstr "メッセージ"
+
+#: src/component/ChatTo.js:16
+msgid ""
+"To specify individual users, click on the message menu in the User ID column "
+"of the Event Log page."
+msgstr "ユーザーを指定するには、イベントログページのユーザーIDカラムのメッセージリンクをクリックして下さい。"
+
+#: src/component/ChatTo.js:6
+msgid "To"
+msgstr "送信先"

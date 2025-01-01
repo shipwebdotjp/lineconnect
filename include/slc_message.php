@@ -512,7 +512,9 @@ EOM;
 		}elseif(is_string($obj)){
 			if(is_array($args)){
 				foreach($args as $key => $value){
-					$obj = str_replace('{{'.$key.'}}', $value, $obj);
+					if( is_string($value) ){
+						$obj = str_replace('{{'.$key.'}}', $value, $obj);
+					}
 				}
 			}
 		}

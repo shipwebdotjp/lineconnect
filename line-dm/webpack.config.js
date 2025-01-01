@@ -8,8 +8,7 @@ module.exports = (env, args) => {
     const sourceMap = mode === 'development'
 
     return {
-        //mode: 'development',
-        devtool: 'inline-source-map',
+        devtool: 'source-map',
         entry: './src/index.js',
         output: {
             path: __dirname + '/dist',
@@ -25,20 +24,22 @@ module.exports = (env, args) => {
                         options: {                //Babelの設定
                             presets: [
                                 '@babel/preset-env',
-                                '@babel/preset-react',
-
+                                ['@babel/preset-react', {
+                                    development: mode === 'development'
+                                }]
                             ],
-                            env: {
-                                "development": {
-                                    "presets": [
-                                        [
-                                            '@babel/preset-react',
-                                            { "development": true }
-                                        ]
-                                    ]
-                                }
-                            },
-                            plugins: ['@babel/plugin-syntax-jsx'] //JSXパース用
+                            plugins: [
+                                '@babel/plugin-syntax-jsx',
+                                ['@wordpress/babel-plugin-makepot', {
+                                    output: './languages/line-dm.pot',
+                                    domain: 'lineconnect',
+                                    exclude: ['node_modules/**/*'],
+                                    headers: {
+                                        'Project-Id-Version': 'LINE Connect',
+                                        'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
+                                    }
+                                }]
+                            ] //JSXパース用
                         }
                     }
                 },

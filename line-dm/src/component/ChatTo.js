@@ -13,7 +13,7 @@ const ChatTo = (props) => {
         ):
         (
             <div className='py-4 px-4 my-1 bg-green-100 border border-green-500'>
-                {__('To specify individual users, use the check link on the User List page, or check the check boxes for the target users and "Apply" the "Send LINE Messages" option in the batch operation.', 'lineconnect')}
+                {__('To specify individual users, click on the message menu in the User ID column of the Event Log page.', 'lineconnect')}
             </div>
         )}
         {/*<ChatToComponent typeValue={props.typeValue} toValue={props.toValue} toUsers={props.toUsers}<input id="chat-to" name="to" value={props.defaultValue} onChange={(e) => props.handleToChange(e.target.value)} className="p-2 my-2 border border-indigo-600 w-full" />*/}

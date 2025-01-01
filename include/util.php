@@ -264,4 +264,23 @@ class lineconnectUtil {
 		return $translated;
 
 	}
+
+	/**
+	 * 配列やオブジェクトを展開してキーを.でつなげた形でフラット化する関数
+	 * @param mixed $array_or_object 展開したい配列やオブジェクト
+	 * @param string $prefix 展開したい配列やオブジェクトのキーの接頭辞
+	 * @return array $result 展開後の配列
+	 */
+	public static function flat($ary, $prefix = '')
+	{
+		$result = [];
+		foreach ($ary as $key => $value) {
+			if (is_array($value)) {
+				$result = array_merge($result, self::flat($value, $prefix . $key . '.'));
+			} else {
+				$result[$prefix . $key] = $value;
+			}
+		}
+		return $result;
+	}
 }

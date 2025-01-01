@@ -289,5 +289,38 @@
   "theme.unlistedContent.message": {
     "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
     "description": "The unlisted content banner message"
+  },
+  "homepage.title": {
+    "message": "LINE Connect Documentation",
+    "description": "Title of the home page"
+  },
+  "homepage.tagline": {
+    "message": "A convenient plugin linking WordPress with LINE Official Account",
+    "description": "Tagline of the home page"
+  },
+  "homepage.feature.title1": {
+    "message": "Deliver Updates Quickly",
+    "description": "Title of the first feature"
+  },
+  "homepage.feature.description1": {
+    "message": "Send article update notifications to friends of your LINE Official Account. Deliver eye-catching messages with featured images.",
+    "description": "Description of the first feature"
+  },
+  "homepage.feature.title2": {
+    "message": "For Your Busy Lifestyle",
+    "description": "Title of the second feature"
+  },
+  "homepage.feature.description2": {
+    "message": "Trigger automated replies with customized messages by sending keywords or tapping on rich menus.",
+    "description": "Description of the second feature"
+  },
+  "homepage.feature.title3": {
+    "message": "Leave Responses to AI",
+    "description": "Title of the third feature"
+  },
+  "homepage.feature.description3": {
+    "message": "Integrate with ChatGPT to automatically respond to inquiries or execute actions.",
+    "description": "Description of the third feature"
   }
+  
 }
