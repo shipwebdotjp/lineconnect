@@ -192,6 +192,19 @@ EOM;
                                     {$target}
                                 </p>
 EOM;
+								// $option_keyが-richmenuで終わる場合、リッチメニューのセレクトボックスを表示
+							} elseif ( substr($option_key, -9) === '-richmenu' ) {
+								// リッチメニューのセレクトボックスを表示
+								$richmenu_select = '<select name=' . $ary_option[ $option_key ]['param'] . " class='slc-select' >";
+								$richmenu_options = array_merge(array('' => __('No selected', lineconnect::PLUGIN_NAME )), lineconnectRichmenu::get_richmenus($channel));
+								$richmenu_select .= lineconnect::makeHtmlSelectOptions( $richmenu_options, $ary_option[ $option_key ]['value'] );
+								$richmenu_select .= '</select>';
+								echo <<< EOM
+								<p>
+									<label for="{$ary_option[$option_key]['param']}">{$option_name}: </label>
+									{$richmenu_select}
+								</p>
+							EOM;
 							} else {
 								// ロール選択以外の普通のフィールド
 								$error_class = $ary_option[ $option_key ]['invalid'] ? 'class="error-message" ' : '';
@@ -283,8 +296,34 @@ EOM;
                         </div>
 EOM;
 					break;
+				case 'data':
+					// データ管理タブ
+					echo <<< EOM
+					<div id="stabs-{$tab_details['prefix']}"  class="ui-tabs-panel ui-corner-bottom ui-widget-content">
+						<h3>{$tab_details['name']}</h3>
+						<div class="metabox-holder">
+EOM;
+					foreach ( lineconnectConst::$management_command as $command_key => $command_details ) {
+						$param = lineconnect::PARAMETER_PREFIX . $command_key;
+						$label = $command_details['label'];
+						$desc  = $command_details['description'];
+						echo <<< EOM
+							<div class="postbox">
+								<h3 class="hndle"><span>{$label}</span></h3>
+								<div class="inside">
+									<p>{$desc}</p>
+									<button type="submit" name="{$param}" value="1" class="button button-secondary button-large">{$label}</button>
+								</div>
+							</div>
+EOM;
+					}
+					echo <<< EOM
+						</div>
+					</div>
+EOM;
+					break;
 				default:
-					// チャネル以外のタブ
+					// チャネル, データ管理以外のタブ
 					echo <<< EOM
                     <div id="stabs-{$tab_details['prefix']}"  class="ui-tabs-panel ui-corner-bottom ui-widget-content">
                         <h3>{$tab_details['name']}</h3>
@@ -542,6 +581,27 @@ EOM;
 					}
 				}
 
+				// コマンド実行
+				$command_result = array();
+				foreach ( lineconnectConst::$management_command as $command_key => $command_details ) {
+					if ( isset( $_POST[ lineconnect::PARAMETER_PREFIX . $command_key ] ) && $_POST[ lineconnect::PARAMETER_PREFIX . $command_key ] == 1 ) {
+						switch ( $command_key ) {
+							case 'clear_richmenu_cache':
+								// リッチメニューキャッシュをクリア
+								$result = lineconnectRichmenu::clearRichMenuCache();
+								$command_result[] = $result ? __( 'Rich menu cache cleared.', lineconnect::PLUGIN_NAME ) : __( 'Failed to clear rich menu cache.', lineconnect::PLUGIN_NAME );
+								break;
+						}
+					}
+				}
+				if(count($command_result) > 0) {
+					$complete_message = join( ' ', $command_result );
+					$valid = false;
+					set_transient( lineconnect::TRANSIENT_KEY__SAVE_SETTINGS, $complete_message, lineconnect::TRANSIENT_TIME_LIMIT );
+				}else{
+					delete_transient( lineconnect::TRANSIENT_KEY__SAVE_SETTINGS );
+				}
+
 				// すべてのチャンネルの値をチェックして、なお有効フラグがTrueの場合
 				if ( $valid ) {
 					$complete_message = __( 'Settings saved.', lineconnect::PLUGIN_NAME );
@@ -642,7 +702,7 @@ EOM;
 						}
 					}
 					// (一応)初期設定の保存完了メッセージを削除
-					delete_transient( lineconnect::TRANSIENT_KEY__SAVE_SETTINGS );
+					// delete_transient( lineconnect::TRANSIENT_KEY__SAVE_SETTINGS );
 				}
 				// Database update
 				if ( version_compare( lineconnect::DB_VERSION, lineconnect::get_variable( lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[ lineconnectConst::DB_VERSION_KEY ]['initial'] ), '>' ) ) {
