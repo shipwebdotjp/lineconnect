@@ -248,4 +248,49 @@ class lineconnectRichmenu {
 	static function change_user_role($user_id, $role, $old_roles ){
 		self::link_richmenu($user_id);
 	}
+
+	/**
+	 * チャンネルのリッチメニューリストをすべて取得
+	 * @param object $channel チャンネルデータ
+	 * @return array リッチメニューのID、タイトルを連想配列に持つ配列
+	 */
+	static function get_richmenus($channel) {
+		$channel_access_token = $channel['channel-access-token'];
+		$channel_secret = $channel['channel-secret'];
+		$secret_prefix = substr($channel_secret, 0, 4);
+
+		if ( false === ( $richmenus = get_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix ) ) ) {
+			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+			
+			$response = $bot->getRichMenuList();
+			$richmenus = array();
+			if ($response->getHTTPStatus() === 200) {
+				$temp_richmenus = $response->getJSONDecodedBody()['richmenus'];
+				foreach ($temp_richmenus as $richmenu) {
+					$richmenus[$richmenu['richMenuId']] = $richmenu['name'];
+				}
+			}
+			set_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix, $richmenus, MONTH_IN_SECONDS );	
+		}
+		return $richmenus;
+	}
+
+	/**
+	 * リッチメニューリストのキャッシュを削除
+	 * @param string|null $target_secret_prefix チャンネルシークレットの先頭4文字
+	 */
+	static function clearRichMenuCache($target_secret_prefix = null) {
+		$ary_channels  = lineconnect::get_all_channels();
+		foreach ( $ary_channels as $channel_id => $channel ) {
+			$channel_secret = $channel['channel-secret'];
+			$secret_prefix = substr($channel_secret, 0, 4);
+			if( $target_secret_prefix == null || $target_secret_prefix == $secret_prefix ){
+				delete_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix );
+			}
+		}
+		return true;
+	}
 }

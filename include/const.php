@@ -34,6 +34,11 @@ class lineconnectConst {
 	public static array $variables_option;
 
 	/**
+	 * データ管理コマンド
+	 */
+	public static array $management_command;
+
+	/**
 	 * LINE Connect アクション
 	 */
 	public static array $lineconnect_action;
@@ -411,6 +416,19 @@ class lineconnectConst {
 			)
 		);
 
+		self::$management_command = array(
+			'clear_richmenu_cache' => array(
+				'type' => 'button',
+				'label' => __( 'Clear the rich menu cache', lineconnect::PLUGIN_NAME ),
+				'description' => __( 'Clear the cache of the rich menu list.', lineconnect::PLUGIN_NAME ),
+			),
+			// 'delete_all_data'	  => array(
+			// 	'type' => 'button',
+			// 	'label' => __( 'Delete all plugin data', lineconnect::PLUGIN_NAME ),
+			// 	'description' => __( 'Delete all plugin data.', lineconnect::PLUGIN_NAME ),
+			// ),
+		);
+
 		self::$settings_option = apply_filters(
 			lineconnect::FILTER_PREFIX . 'settings_option',
 			array(
@@ -779,6 +797,11 @@ class lineconnectConst {
 							'hint'     => __( 'This message is displayed when the number of times the limit can be used in a day is exceeded. The %limit% is replaced by the limit number of times.', lineconnect::PLUGIN_NAME ),
 						),
 					),
+				),
+				'data'    => array(
+					'prefix' => '6',
+					'name'   => __( 'Data', lineconnect::PLUGIN_NAME ),
+					'fields' => array(),
 				),
 			)
 		);

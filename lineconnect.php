@@ -199,6 +199,11 @@ class lineconnect {
 	const TRANSIENT_KEY__SAVE_SETTINGS = self::PLUGIN_PREFIX . 'save-settings';
 
 	/**
+	 * TRANSIENTキーリッチメニューリスト
+	 */
+	const TRANSIENT_KEY__RICHMENUS_LIST = self::PLUGIN_PREFIX . 'richmenus-list';
+
+	/**
 	 * TRANSIENTのタイムリミット：5秒
 	 */
 	const TRANSIENT_TIME_LIMIT = 5;
