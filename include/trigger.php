@@ -246,6 +246,12 @@ EOM;
 				'title' => $channel['name'],
 			);
 		}
+		if(count($all_channels) == 0){
+			$all_channels[] = array(
+				'const' => '',
+				'title' => __('Please add channel first', lineconnect::PLUGIN_NAME),
+			);
+		}
 		$trigger_schema['definitions']['secret_prefix']['items']['oneOf'] = $all_channels;
 
 
@@ -291,6 +297,13 @@ EOM;
 					'title' => $title,
 				);
 			}
+			// if count == 0, add empty
+			if(count($schema['oneOf']) == 0){
+				$schema['oneOf'][] = array(
+					'const' => 0,
+					'title' => __('Please add message first', lineconnect::PLUGIN_NAME),
+				);
+			}
 		} elseif ( $parameter['type'] == 'slc_channel' ) {
 			$actual_type     = 'string';
 			$schema['oneOf'] = array();
@@ -298,6 +311,12 @@ EOM;
 				$schema['oneOf'][] = array(
 					'const' => $channel['prefix'],
 					'title' => $channel['name'],
+				);
+			}
+			if(count($schema['oneOf']) == 0){
+				$schema['oneOf'][] = array(
+					'const' => '',
+					'title' => __('Please add channel first', lineconnect::PLUGIN_NAME),
 				);
 			}
 		}
