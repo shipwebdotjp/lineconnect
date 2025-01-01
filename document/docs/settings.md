@@ -11,8 +11,9 @@ Multiple channels are supported. You can select which channel you would like to 
 |Channel Secret|Channel Secret|
 |Default target role|Default selected role in the Send LINE meta box|
 |The number of people|Number of people to be notified by the selected role or setting|
-|Rich menu ID for linked users|Rich Menu ID for Linked Friends|
-|Rich menu ID for unlinked users|Rich menu ID for unlinked friends|
+|Rich menu ID for linked users|Rich Menu for Linked Friends|
+|Rich menu ID for unlinked users|Rich menu for unlinked friends|
+|Rich menu ID for (role name)|Rich menu for Role name|
 
 ## Link
 You can change the login page URL, keywords for starting or canceling the linking, and messages when starting or canceling the linking.
@@ -80,3 +81,6 @@ Number of times an unlinked user can use it per day. -1 is unlimited.
 Number of times an linked user can use it per day. -1 is unlimited.
 ### Limit message
 This message is displayed when the number of times the limit can be used in a day is exceeded. The `%limit%` is replaced by the limit number of times.
+## Data
+### Update Rich Menu List
+This button is used when updating the rich menu list via the API or other means, and deleting the cache of the rich menu list held by LINE Connect to reflect the update.

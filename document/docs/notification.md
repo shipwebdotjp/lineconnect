@@ -15,23 +15,23 @@ This is a way to send LINE users notifications of updates to articles posted on 
 ### Variables that can be used when using LC messages as message templates
 |variable name|content|
 |----:|----|
-|{{formatted_title}}|Post title|
-|{{formatted_content}}|500 characters at the beginning of the text without tags, line breaks, etc.|
-|{{post_thumbnail}}|Thumbnail image URL|
-|{{post_permalink}}|post permalink|
-|{{link_label}}|“Read more” label|
-|{{alttext}}|Title, body, and link combined first 400 characters|
+|`{{formatted_title}}`|Post title|
+|`{{formatted_content}}`|500 characters at the beginning of the text without tags, line breaks, etc.|
+|`{{post_thumbnail}}`|Thumbnail image URL|
+|`{{post_permalink}}`|post permalink|
+|`{{link_label}}`|“Read more” label|
+|`{{alttext}}`|Title, body, and link combined first 400 characters|
 
 ### Properties of the WP_Post object
 Each property of the [WP_Post](https://developer.wordpress.org/reference/classes/wp_post/) object can also be used as a variable.  
 Example:
 |variable name|content|
 |----:|----|
-|{{post_date}}|Post date and time|
-|{{post_excerpt}}|excerpt of the post|
-|{{post_category.0}}|first category ID|
-|{{post_category.1}}|second category ID|
-|{{tags_input.0}}|first tag|
+|`{{post_date}}`|Post date and time|
+|`{{post_excerpt}}`|excerpt of the post|
+|`{{post_category.0}}`|first category ID|
+|`{{post_category.1}}`|second category ID|
+|`{{tags_input.0}}`|first tag|
 
 #### Custom Field Values
 Custom field values for posts are also available in `{{post_meta.custom_field_name}}`.

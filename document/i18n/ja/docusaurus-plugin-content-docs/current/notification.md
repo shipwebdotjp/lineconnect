@@ -16,23 +16,23 @@ WordPressに投稿された記事の更新通知をLINEユーザーに送信す�
 ### メッセージテンプレートとしてLCメッセージを使う場合使用できる変数
 |変数名|内容|
 |----:|----|
-|{{formatted_title}}|投稿タイトル|
-|{{formatted_content}}|タグや改行などを取り除いた本文先頭500文字|
-|{{post_thumbnail}}|アイキャッチ画像URL|
-|{{post_permalink}}|投稿パーマリンク|
-|{{link_label}}|「もっと読む」ラベル|
-|{{alttext}}|タイトル、本文、リンクを結合した先頭400文字|
+|`{{formatted_title}}`|投稿タイトル|
+|`{{formatted_content}}`|タグや改行などを取り除いた本文先頭500文字|
+|`{{post_thumbnail}}`|アイキャッチ画像URL|
+|`{{post_permalink}}`|投稿パーマリンク|
+|`{{link_label}}`|「もっと読む」ラベル|
+|`{{alttext}}`|タイトル、本文、リンクを結合した先頭400文字|
 
 #### WP_Postオブジェクトのプロパティ
 [WP_Post](https://developer.wordpress.org/reference/classes/wp_post/)オブジェクトの各プロパティも変数として使用できます。  
 例)
 |変数名|内容|
 |----:|----|
-|{{post_date}}|投稿日時|
-|{{post_excerpt}}|投稿の抜粋|
-|{{post_category.0}}|1つ目のカテゴリーID|
-|{{post_category.1}}|2つ目のカテゴリーID|
-|{{tags_input.0}}|1つ目のタグ|
+|`{{post_date}}`|投稿日時|
+|`{{post_excerpt}}`|投稿の抜粋|
+|`{{post_category.0}}`|1つ目のカテゴリーID|
+|`{{post_category.1}}`|2つ目のカテゴリーID|
+|`{{tags_input.0}}`|1つ目のタグ|
 
 #### カスタムフィールドの値
 投稿のカスタムフィールドの値も`{{post_meta.カスタムフィールド名}}`で使用できます。

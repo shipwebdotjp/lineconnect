@@ -14,6 +14,13 @@
 ### Security
 - 
 
+## [3.3.0] - 2025-01-01
+### Changed
+- ユーザーロールごとに個別のリッチメニューを設定できるようになりました。
+- リッチメニューをIDを入力する代わりに、リストから選択できるようになりました。
+- Rich menus can now be configured according to user roles.
+- Rich menus can now be selected from a list instead of entering an ID.
+
 ## [3.2.0] - 2024-10-26
 ### Added
 - Messages saved in the Bulk message screen can now be loaded and used.
