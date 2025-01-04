@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
+
+#: src/component/Channel.js:4
+msgid "Channel"
+msgstr ""
+
+#: src/component/RichmenuForm.js:76
+msgid "LINE Richmenu"
+msgstr ""
+
+#: src/component/RichmenuList.js:4
+msgid "Richmenu list"
+msgstr ""

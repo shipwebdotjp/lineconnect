@@ -87,7 +87,7 @@ class lineconnectTrigger {
 			array(
 				'id' => 'type',
 				'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_schema', lineconnectConst::$lineconnect_trigger_type_schema ),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_uischema', lineconnectConst::$lineconnect_trigger_uischema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_uischema', lineconnectConst::$lineconnect_trigger_type_uischema),
 				'formData' => self::get_form_type_data($formData[0] ?? null, $schema_version),
 				'props' => new stdClass(),
 			),

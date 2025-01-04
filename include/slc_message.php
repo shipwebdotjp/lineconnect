@@ -91,7 +91,7 @@ class lineconnectSLCMessage {
 			$form[] = array(
 				'id' => 'type',
 				'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema ),
-				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_uischema ),
+				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_type_uischema ),
 				'formData' => self::get_form_type_data($formData[$i] ?? null, $schema_version),
 				'props' => new stdClass(),
 			);

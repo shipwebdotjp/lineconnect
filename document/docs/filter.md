@@ -94,3 +94,116 @@ Then try sending “Tell me the weather forecast for London".
 2. set “Get weather forecast” in action-1, and enter London or something similar in location. 
 3. In action-2, set “Get LINE text message” and check “Send return value as LINE message”.
 4. enter `{{$.return.1.weather.0.description}}` in the body of parameters.
+
+
+# Filter Hooks for Post Notifications
+
+## slc_filter_publish_postmeta_is_send_line
+
+This filter is used to modify the initial values of the form elements in the post edit screen for update notifications: the checkbox for whether to send a notification, the list of target roles, and the message template dropdown. It filters the initial value of the post meta data `is-send-line`.
+
+### Arguments
+
+- `$is_send_line`: (mixed) The value of the LINE sending settings. Usually the value of the post meta data `is-send-line`.
+    - `role`: (array) An array of target roles.
+    - `template`: (int) The ID of the message template to use.
+    - `isSend`: (string) The value of the "Send when scheduling post" checkbox ('ON' or '').
+- `$post_ID`: (int) The post ID.
+
+### Example
+
+This example enables the "Send update notification" checkbox by default for specific post types.
+
+```php
+function my_filter_publish_postmeta_is_send_line($is_send_line, $post_ID) {
+    $post_type = get_post_type($post_ID);
+    if ($post_type === 'news') {
+        // Settings per channel
+        foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
+            $is_send_line[$channel['prefix']] = array(
+                'role' => array('slc_all'), // Send to all friends
+                'template' => 113, // Set the template ID (LC message post ID) for the specific post type
+                'isSend' => 'ON', // Check the "Send when scheduling post" checkbox by default
+            );
+        }
+    }
+    return $is_send_line;
+}
+add_filter('slc_filter_publish_postmeta_is_send_line', 'my_filter_publish_postmeta_is_send_line', 10, 2);
+```
+
+## slc_filter_send_notification_is_send_line
+
+This filter is used to modify the values of the meta box (whether to send an update notification, target roles, message template) submitted via POST when a post is published.
+
+### Arguments
+
+- `$send_data`: (array) An associative array containing the sending data. It has the following keys:
+    - `send_checkbox_value`: (string) The value of the send checkbox ('ON' or '').
+    - `roles`: (array) An array of target roles.
+    - `template`: (int) The ID of the template to use.
+- `$post_ID`: (int) The post ID.
+- `$post`: (WP_Post) The post object.
+
+### Example
+
+This example disables sending under certain conditions.
+
+```php
+function my_filter_send_notification_is_send_line($send_data, $post_ID, $post) {
+    if (true) { // Some condition
+        $send_data['send_checkbox_value'] = ''; // Forcefully prevent sending update notifications
+    }
+    return $send_data;
+}
+add_filter('slc_filter_send_notification_is_send_line', 'my_filter_send_notification_is_send_line', 10, 3);
+```
+
+## slc_filter_notification_message_args
+
+This filter is used to modify the parameters for creating message templates. You can change the arguments passed to the template.
+
+### Arguments
+
+- `$args`: (array) An associative array of arguments passed to the message template.
+- `$template`: (int) The ID of the template to use.
+
+### Example
+
+This example includes the featured image in the message template.  
+Simply including `{{post_permalink}}` in the message can cause errors if there is no featured image, so this prevents that.
+
+```php
+function my_filter_notification_message_args($args, $template) {
+    // If post_thumbnail is empty or does not start with https, set a placeholder image URL
+    if (empty($args['post_thumbnail']) || substr($args['post_thumbnail'], 0, 5) != "https") {
+        $args['post_thumbnail'] = 'https://placehold.jp/3d4070/ffffff/300x200.png?text=No%20Image';
+    }
+    return $args;
+}
+add_filter('slc_filter_notification_message_args', 'my_filter_notification_message_args', 10, 2);
+```
+
+## slc_filter_notification_message
+
+This filter is used to modify the created notification message object before sending.
+
+### Arguments
+
+- `$buildMessage`: (LINE\LINEBot\MessageBuilder) The generated message object.
+- `$args`: (array) An associative array of arguments passed to the message template.
+- `$template`: (int) The ID of the template to use.
+
+### Example
+
+This example sets the sender name and icon for the update notification message (using SenderMessageBuilder).
+
+```php
+function my_filter_notification_message($buildMessage, $args, $template) {
+    // Change the sender name and icon when sending an update notification
+    $SenderMessageBuilder = new \LINE\LINEBot\SenderBuilder\SenderMessageBuilder("author_name", "https://placehold.jp/28c832/ffffff/200x200.png?text=icon");
+    $buildMessage->setSender($SenderMessageBuilder);
+    return $buildMessage;
+}
+add_filter('slc_filter_notification_message', 'my_filter_notification_message', 10, 3);
+```

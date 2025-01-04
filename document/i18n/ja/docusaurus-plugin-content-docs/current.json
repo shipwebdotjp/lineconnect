@@ -6,5 +6,9 @@
   "sidebar.tutorialSidebar.category.Tutorial - Basics": {
     "message": "チュートリアル - 基本編",
     "description": "The label for category Tutorial - Basics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.For developers": {
+    "message": "開発者向け",
+    "description": "The label for category For developers in sidebar tutorialSidebar"
   }
 }

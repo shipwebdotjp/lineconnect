@@ -249,6 +249,11 @@ class lineconnect {
 	const SLUG__CHAT_FORM = self::PLUGIN_ID . '-linechat-form';
 
 	/**
+	 * 画面のslug：チャット
+	 */
+	const SLUG__RICHMENU_ADD = self::PLUGIN_ID . '-richmenu-add';
+
+	/**
 	 * 画面のslug：LINE GPT Log
 	 */
 	const SLUG__LINE_GPTLOG = self::PLUGIN_ID . '-linegpt-log';
@@ -425,6 +430,14 @@ class lineconnect {
 					add_action( 'admin_menu', array( 'lineconnectTrigger', 'set_plugin_menu' ) );
 					// Messageのトップメニューページを追加
 					add_action( 'admin_menu', array( 'lineconnectSLCMessage', 'set_plugin_menu' ) );
+					// リッチメニューのトップメニューページを追加
+					add_action( 'admin_menu', array( 'lineconnectRichmenu', 'set_plugin_menu' ) );
+					// リッチメニュー一覧取得AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_get_richmenus', array( 'lineconnectRichmenu', 'ajax_get_richmenus' ) );
+					//　リッチメニュー取得AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_get_richmenu', array( 'lineconnectRichmenu', 'ajax_get_richmenu' ) );
+					// リッチメニュー削除AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_delete_richmenu', array( 'lineconnectRichmenu', 'ajax_delete_richmenu' ) );
 				}
 				// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 				add_action( 'wp_login', array( $this, 'redirect_account_link' ), 10, 2 );

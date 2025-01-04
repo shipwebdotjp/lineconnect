@@ -90,6 +90,11 @@ class lineconnectConst {
 	public static array $lineconnect_trigger_type_schema;
 
 	/**
+	 * LINE Connect Trigger Type UI schema
+	 */
+	public static array $lineconnect_trigger_type_uischema;
+
+	/**
 	 * LINE Connect Trigger Types
 	 */
 	public static array $lineconnect_trigger_types;
@@ -110,6 +115,11 @@ class lineconnectConst {
 	public static array $lineconnect_message_type_schema;
 
 	/**
+	 * LINE Connect Message type UI Schema
+	 */
+	public static array $lineconnect_message_type_uischema;
+
+	/**
 	 * LINE Connect Message types
 	 */
 	public static array $lineconnect_message_types;
@@ -118,6 +128,31 @@ class lineconnectConst {
 	 * LINE Connect Message sub UI Schema
 	 */
 	public static array $lineconnect_message_uischema;
+
+	/**
+	 * LINE アクションオブジェクトスキーマ
+	 */
+	public static array $lineconnect_action_object_schema;
+
+	/**
+	 * LINE Connect Richmenu template bounds
+	 */
+	public static array $lineconnect_richmenu_template_bounds;
+
+	/**
+	 * LINE Connect Richmenu template default data
+	 */
+	public static array $lineconnect_richmenu_template_defalut_data;
+
+	/**
+	 * LINE Connect Richmenus schema
+	 */
+	public static array $lineconnect_richmenu_schema;
+
+	/**
+	 * LINE Connect Richmenu sub UI Schema
+	 */
+	public static array $lineconnect_richmenu_uischema;
 
 	/**
 	 * イベントタイプ
@@ -1440,6 +1475,20 @@ class lineconnectConst {
 							'title' => __('Schedule', lineconnect::PLUGIN_NAME),
 						),
 					),
+				),
+			),
+		);
+
+		// Trigger type UI schema
+		self::$lineconnect_trigger_type_uischema = array(
+			'ui:submitButtonOptions' => array(
+				'norender' => true,
+			),
+			'type' => array(
+				'ui:description' => __( 'Choose trigger type.', lineconnect::PLUGIN_NAME ),
+				'ui:widget' => 'radio',
+				'ui:options' => array(
+					'inline' => true,
 				),
 			),
 		);
@@ -2913,6 +2962,16 @@ class lineconnectConst {
 			),
 		);
 
+		// Message type UI schema
+		self::$lineconnect_message_type_uischema = array(
+			'ui:submitButtonOptions' => array(
+				'norender' => true,
+			),
+			'type' => array(
+				'ui:description' => __( 'Choose message type.', lineconnect::PLUGIN_NAME ),
+			),
+		);
+
 		self::$lineconnect_message_types = array(
 			'text' => array(
 				'type'       => 'object',
@@ -3564,6 +3623,314 @@ class lineconnectConst {
 			),
 		);
 
+		// message object schema
+		self::$lineconnect_action_object_schema = array(
+			'type'       => 'object',
+			'title'      => __('Action', lineconnect::PLUGIN_NAME),
+			'anyOf' => array(
+				array(
+					'type'       => 'object',
+					'title'      => __('Postback action', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'postback' => array(
+							'type' => 'object',
+							'title'      => __('Postback', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label'       => array(
+									'type'  => 'string',
+									'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
+								),
+								'data'        => array(
+									'type'      => 'string',
+									'title'     => __( 'Data', lineconnect::PLUGIN_NAME ),
+									'description' => __( 'String returned via webhook in the postback.data property of the postback event', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 300,
+								),
+								'displayText' => array(
+									'type'      => 'string',
+									'title'     => __( 'Display text', lineconnect::PLUGIN_NAME ),
+									'description' => __( 'Text displayed in the chat as a message sent by the user when the action is performed. Required for quick reply buttons. Optional for the other message types.', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 300,
+								),
+								'inputOption' => array(
+									'type'  => 'string',
+									'title' => __( 'Input option', lineconnect::PLUGIN_NAME ),
+									'description' => __( 'The display method of such as rich menu based on user action.', lineconnect::PLUGIN_NAME ),
+									'oneOf' => array(
+										array(
+											'const' => 'closeRichMenu',
+											'title' => __( 'Close richmenu', lineconnect::PLUGIN_NAME ),
+										),
+										array(
+											'const' => 'openRichMenu',
+											'title' => __( 'Open richmenu', lineconnect::PLUGIN_NAME ),
+										),
+										array(
+											'const' => 'openKeyboard',
+											'title' => __( 'Open keyboard', lineconnect::PLUGIN_NAME ),
+										),
+										array(
+											'const' => 'openVoice',
+											'title' => __( 'Open voice', lineconnect::PLUGIN_NAME ),
+										),
+									),
+								),
+							),
+							'required'   => array(
+								'data',
+							),
+							'dependencies' => array(
+								'inputOption' => array(
+									'oneOf' => array(
+										array(
+											'properties' => array(
+												'inputOption' => array(
+													'const' => 'openKeyboard',
+												),
+												'fillInText' => array(
+													'type' => 'string',
+													'title' => __( 'Fill in text', lineconnect::PLUGIN_NAME ),
+													'description' => __( 'String to be pre-filled in the input field when the keyboard is opened. Valid only when the inputOption property is set to openKeyboard.', lineconnect::PLUGIN_NAME ),
+													'maxLength' => 300,	
+												),
+											),
+										),
+									),
+								),
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('Message action', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'message' => array(
+							'type'       => 'object',
+							'title'      => __('Message', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label' => array(
+									'type'  => 'string',
+									'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
+								),
+								'text'  => array(
+									'type'      => 'string',
+									'title'     => __( 'Text', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 300,
+								),
+							),
+							'required'   => array(
+								'text',
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('URI action', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'uri' => array(
+							'type'       => 'object',
+							'title'      => __('URI', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label' => array(
+									'type'  => 'string',
+									'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
+								),
+								'uri'   => array(
+									'type'      => 'string',
+									'title'     => __( 'URI', lineconnect::PLUGIN_NAME ),
+									'description' => __( 'URI opened when the action is performed. The available schemes are http, https, line, and tel', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 1000,
+								),
+							),
+							'required'   => array(
+								'uri',
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('Datetime picker action', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'datetimepicker' => array(
+							'type'       => 'object',
+							'title'      => __('Datetime picker', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label'   => array(
+									'type'  => 'string',
+									'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
+								),
+								'data'    => array(
+									'type'      => 'string',
+									'title'     => __( 'Data', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 300,
+								),
+								'mode'    => array(
+									'type'  => 'string',
+									'title' => __( 'Action mode', lineconnect::PLUGIN_NAME ),
+									'oneOf' => array(
+										array(
+											'const' => 'date',
+											'title' => __( 'Select date', lineconnect::PLUGIN_NAME ),
+										),
+										array(
+											'const' => 'time',
+											'title' => __( 'Select time', lineconnect::PLUGIN_NAME ),
+										),
+										array(
+											'const' => 'datetime',
+											'title' => __( 'Select date and time', lineconnect::PLUGIN_NAME ),
+										),
+									),
+								),
+								'initial' => array(
+									'type'  => 'string',
+									'title' => __( 'Initial date or time', lineconnect::PLUGIN_NAME ),
+								),
+								'max'     => array(
+									'type'  => 'string',
+									'title' => __( 'Max date or time', lineconnect::PLUGIN_NAME ),
+								),
+								'min'     => array(
+									'type'  => 'string',
+									'title' => __( 'Min date or time', lineconnect::PLUGIN_NAME ),
+								),
+							),
+							'required'   => array(
+								'data',
+								'mode',
+							),
+						),
+					),
+				),
+				array(
+					'type'=> 'object',
+					'title'=> __('Camera action', lineconnect::PLUGIN_NAME),
+					'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
+					'properties'=> array(
+						'camera'=> array(
+							'type'=> 'object',
+							'title'=> __('Camera', lineconnect::PLUGIN_NAME),
+							'properties'=> array(
+								'label' => array(
+									'type'      => 'string',
+									'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 20,
+								),
+							),
+							'required'   => array(
+								'label',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 'object',
+					'title' => __('Camera Roll action', lineconnect::PLUGIN_NAME),
+					'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
+					'properties'=> array(
+						'cameraRoll'=> array(
+							'type'=> 'object',
+							'title'=> __('Camera Roll', lineconnect::PLUGIN_NAME),
+							'properties'=> array(
+								'label' => array(
+									'type'      => 'string',
+									'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 20,
+								),
+							),
+							'required'   => array(
+								'label',
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('Location action', lineconnect::PLUGIN_NAME),
+					'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'location' => array(
+							'type'       => 'object',
+							'title'      => __('Location', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label' => array(
+									'type'      => 'string',
+									'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 20,
+								),
+							),
+							'required'   => array(
+								'label',
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('Clipboard action', lineconnect::PLUGIN_NAME),
+					'description' => __('When a user taps a control associated with this action, the text specified in the clipboardText property is copied to the device clipboard.', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'clipboard' => array(
+							'type'       => 'object',
+							'title'      => __('Clipboard', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label' => array(
+									'type'  => 'string',
+									'title' => __('Label', lineconnect::PLUGIN_NAME),
+									'maxLength' => 20,
+								),
+								'clipboardText' => array(
+									'type'  => 'string',
+									'title' => __('Clipboard text', lineconnect::PLUGIN_NAME),
+									'maxLength' => 1000,
+								),
+							),
+							'required'   => array(
+								'label',
+								'clipboardText',
+							),
+						),
+					),
+				),
+				array(
+					'type'       => 'object',
+					'title'      => __('Rich menu switch action', lineconnect::PLUGIN_NAME),
+					'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'richMenuSwitch' => array(
+							'type'       => 'object',
+							'title'      => __('Rich menu switch', lineconnect::PLUGIN_NAME),
+							'properties' => array(
+								'label' => array(
+									'type'  => 'string',
+									'title' => __('Label', lineconnect::PLUGIN_NAME),
+									'maxLength' => 20,
+								),
+								'richMenuAliasId' => array(
+									'type'  => 'string',
+									'title' => __('Rich menu alias ID', lineconnect::PLUGIN_NAME),
+									'maxLength' => 300,
+								),
+								'data' => array(
+									'type'  => 'string',
+									'title' => __('Data', lineconnect::PLUGIN_NAME),
+									'description' => __( 'String returned via webhook in the postback.data property of the postback event', lineconnect::PLUGIN_NAME ),
+									'maxLength' => 300,
+								),
+							),
+							'required'   => array(
+								'data',
+								'richMenuAliasId',
+							),
+						),
+					),
+				),
+			),
+		);
+
 		// 　Message schema
 		self::$lineconnect_message_schema = array(
 			'type'        => 'object',
@@ -3624,279 +3991,7 @@ class lineconnectConst {
 				// ),
 			// ),
 			'definitions' => array(
-				'action' => array(
-					'type'       => 'object',
-					'title'      => __('Action', lineconnect::PLUGIN_NAME),
-					'anyOf' => array(
-						array(
-							'type'       => 'object',
-							'title'      => __('Postback action', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'postback' => array(
-									'type' => 'object',
-									'title'      => __('Postback', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label'       => array(
-											'type'  => 'string',
-											'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
-										),
-										'data'        => array(
-											'type'      => 'string',
-											'title'     => __( 'Data', lineconnect::PLUGIN_NAME ),
-											'description' => __( 'String returned via webhook in the postback.data property of the postback event', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 300,
-										),
-										'displayText' => array(
-											'type'      => 'string',
-											'title'     => __( 'Display text', lineconnect::PLUGIN_NAME ),
-											'description' => __( 'Text displayed in the chat as a message sent by the user when the action is performed. Required for quick reply buttons. Optional for the other message types.', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 300,
-										),
-										'inputOption' => array(
-											'type'  => 'string',
-											'title' => __( 'Input option', lineconnect::PLUGIN_NAME ),
-											'description' => __( 'The display method of such as rich menu based on user action.', lineconnect::PLUGIN_NAME ),
-											'oneOf' => array(
-												array(
-													'const' => 'closeRichMenu',
-													'title' => __( 'Close richmenu', lineconnect::PLUGIN_NAME ),
-												),
-												array(
-													'const' => 'openRichMenu',
-													'title' => __( 'Open richmenu', lineconnect::PLUGIN_NAME ),
-												),
-												array(
-													'const' => 'openKeyboard',
-													'title' => __( 'Open keyboard', lineconnect::PLUGIN_NAME ),
-												),
-												array(
-													'const' => 'openVoice',
-													'title' => __( 'Open voice', lineconnect::PLUGIN_NAME ),
-												),
-											),
-										),
-									),
-									'required'   => array(
-										'data',
-									),
-									'dependencies' => array(
-										'inputOption' => array(
-											'oneOf' => array(
-												array(
-													'properties' => array(
-														'inputOption' => array(
-															'const' => 'openKeyboard',
-														),
-														'fillInText' => array(
-															'type' => 'string',
-															'title' => __( 'Fill in text', lineconnect::PLUGIN_NAME ),
-															'description' => __( 'String to be pre-filled in the input field when the keyboard is opened. Valid only when the inputOption property is set to openKeyboard.', lineconnect::PLUGIN_NAME ),
-															'maxLength' => 300,	
-														),
-													),
-												),
-											),
-										),
-									),
-								),
-							),
-						),
-						array(
-							'type'       => 'object',
-							'title'      => __('Message action', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'message' => array(
-									'type'       => 'object',
-									'title'      => __('Message', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label' => array(
-											'type'  => 'string',
-											'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
-										),
-										'text'  => array(
-											'type'      => 'string',
-											'title'     => __( 'Text', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 300,
-										),
-									),
-									'required'   => array(
-										'text',
-									),
-								),
-							),
-						),
-						array(
-							'type'       => 'object',
-							'title'      => __('URI action', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'uri' => array(
-									'type'       => 'object',
-									'title'      => __('URI', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label' => array(
-											'type'  => 'string',
-											'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
-										),
-										'uri'   => array(
-											'type'      => 'string',
-											'title'     => __( 'URI', lineconnect::PLUGIN_NAME ),
-											'description' => __( 'URI opened when the action is performed. The available schemes are http, https, line, and tel', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 1000,
-										),
-									),
-									'required'   => array(
-										'uri',
-									),
-								),
-							),
-						),
-						array(
-							'type'       => 'object',
-							'title'      => __('Datetime picker action', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'datetimepicker' => array(
-									'type'       => 'object',
-									'title'      => __('Datetime picker', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label'   => array(
-											'type'  => 'string',
-											'title' => __( 'Label', lineconnect::PLUGIN_NAME ),
-										),
-										'data'    => array(
-											'type'      => 'string',
-											'title'     => __( 'Data', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 300,
-										),
-										'mode'    => array(
-											'type'  => 'string',
-											'title' => __( 'Action mode', lineconnect::PLUGIN_NAME ),
-											'oneOf' => array(
-												array(
-													'const' => 'date',
-													'title' => __( 'Select date', lineconnect::PLUGIN_NAME ),
-												),
-												array(
-													'const' => 'time',
-													'title' => __( 'Select time', lineconnect::PLUGIN_NAME ),
-												),
-												array(
-													'const' => 'datetime',
-													'title' => __( 'Select date and time', lineconnect::PLUGIN_NAME ),
-												),
-											),
-										),
-										'initial' => array(
-											'type'  => 'string',
-											'title' => __( 'Initial date or time', lineconnect::PLUGIN_NAME ),
-										),
-										'max'     => array(
-											'type'  => 'string',
-											'title' => __( 'Max date or time', lineconnect::PLUGIN_NAME ),
-										),
-										'min'     => array(
-											'type'  => 'string',
-											'title' => __( 'Min date or time', lineconnect::PLUGIN_NAME ),
-										),
-									),
-									'required'   => array(
-										'data',
-										'mode',
-									),
-								),
-							),
-						),
-						array(
-							'type'=> 'object',
-							'title'=> __('Camera action', lineconnect::PLUGIN_NAME),
-							'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
-							'properties'=> array(
-								'camera'=> array(
-									'type'=> 'object',
-									'title'=> __('Camera', lineconnect::PLUGIN_NAME),
-									'properties'=> array(
-										'label' => array(
-											'type'      => 'string',
-											'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 20,
-										),
-									),
-									'required'   => array(
-										'label',
-									),
-								),
-							),
-						),
-						array(
-							'type' => 'object',
-							'title' => __('Camera Roll action', lineconnect::PLUGIN_NAME),
-							'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
-							'properties'=> array(
-								'cameraRoll'=> array(
-									'type'=> 'object',
-									'title'=> __('Camera Roll', lineconnect::PLUGIN_NAME),
-									'properties'=> array(
-										'label' => array(
-											'type'      => 'string',
-											'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 20,
-										),
-									),
-									'required'   => array(
-										'label',
-									),
-								),
-							),
-						),
-						array(
-							'type'       => 'object',
-							'title'      => __('Location action', lineconnect::PLUGIN_NAME),
-							'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'location' => array(
-									'type'       => 'object',
-									'title'      => __('Location', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label' => array(
-											'type'      => 'string',
-											'title'     => __( 'Label', lineconnect::PLUGIN_NAME ),
-											'maxLength' => 20,
-										),
-									),
-									'required'   => array(
-										'label',
-									),
-								),
-							),
-						),
-						array(
-							'type'       => 'object',
-							'title'      => __('Clipboard action', lineconnect::PLUGIN_NAME),
-							'description' => __('When a user taps a control associated with this action, the text specified in the clipboardText property is copied to the device clipboard.', lineconnect::PLUGIN_NAME),
-							'properties' => array(
-								'clipboard' => array(
-									'type'       => 'object',
-									'title'      => __('Clipboard', lineconnect::PLUGIN_NAME),
-									'properties' => array(
-										'label' => array(
-											'type'  => 'string',
-											'title' => __('Label', lineconnect::PLUGIN_NAME),
-											'maxLength' => 20,
-										),
-										'clipboardText' => array(
-											'type'  => 'string',
-											'title' => __('Clipboard text', lineconnect::PLUGIN_NAME),
-											'maxLength' => 1000,
-										),
-									),
-									'required'   => array(
-										'label',
-										'clipboardText',
-									),
-								),
-							),
-						),
-					),
-				),
+				'action' => self::$lineconnect_action_object_schema,
 				'carousel_column'       => array(
 					'type'       => 'object',
 					'properties' => array(
@@ -4065,6 +4160,267 @@ class lineconnectConst {
 					),
 				// ),
 			// ),
+		);
+
+		// Richmenu type schema
+		self::$lineconnect_richmenu_template_bounds = array(
+			array(
+				'id' => '3-2_3x2_3_3',
+				'title' => __( '3:2 3x2 row1: 3 col, row2: 3 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x2_3_3.png', __DIR__ ),
+				'bounds' => array(
+					array(
+						'x'      => 0,
+						'y'      => 0,
+						'width'  => 833,
+						'height' => 833,
+					),
+					array(
+						'x'      => 834,
+						'y'      => 0,
+						'width'  => 833,
+						'height' => 833,
+					),
+					array(
+						'x'      => 1667,
+						'y'      => 0,
+						'width'  => 833,
+						'height' => 833,
+					),
+					array(
+						'x'      => 0,
+						'y'      => 833,
+						'width'  => 833,
+						'height' => 843,
+					),
+					array(
+						'x'      => 834,
+						'y'      => 833,
+						'width'  => 833,
+						'height' => 833,
+					),
+					array(
+						'x'      => 1667,
+						'y'      => 833,
+						'width'  => 833,
+						'height' => 833,
+					),
+				),
+			),
+			array(
+				'id' => '3-2_2x2_2_2',
+				'title' => __( '3:2 2x2 row1: 2 col, row2: 2 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_2x2_2_2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_1x1',
+				'title' => __( '3:2 1x1 row1: 1', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_1x1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_1x2_1_2',
+				'title' => __( '3:2 1x2 row1: 1 col, row2: 1col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_1x2_1_2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_2x1_2',
+				'title' => __( '3:2 2x1 row1: 2 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_2x1_2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_3x1_2_2-1',
+				'title' => __( '3:2 3x1 row1: 2 col, 2:1', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x1_2_2-1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_3x1_2_1-2',
+				'title' => __( '3:2 3x1 row1: 2 col, 1:2', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x1_2_1-2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_3x2_2_2-1_2_2-1',
+				'title' => __( '3:2 3x2 row1: 2 col (2:1), row2: 2col (2:1)', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x2_2_2-1_2_2-1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_3x2_1_3',
+				'title' => __( '3:2 3x2 row1: 1 col , row2: 3 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x2_1_3.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_3x2_3_1',
+				'title' => __( '3:2 3x2 row1: 3 col, row2: 1 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_3x2_3_1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_2x2_1_2',
+				'title' => __( '3:2 2x2 row1: 1 col, row2: 2 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_2x2_1_2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-2_2x2_2_1',
+				'title' => __( '3:2 2x2 row1: 2 col, row2: 1 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-2_2x2_2_1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-1_3x1_3',
+				'title' => __( '3:1 3x1 row1: 3 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-1_3x1_3.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-1_3x1_2_1-2',
+				'title' => __( '3:1 3x1 row1: 2 col (1:2)', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-1_3x1_2_1-2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-1_3x1_2_2-1',
+				'title' => __( '3:1 3x1 row1: 2 col (2:1)', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-1_3x1_2_2-1.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-1_2x1_2',
+				'title' => __( '3:1 2x1 row1: 2 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-1_2x1_2.png', __DIR__ ),
+			),
+			array(
+				'id' => '3-1_1x1_1',
+				'title' => __( '3:1 1x1 row1: 1 col', lineconnect::PLUGIN_NAME ),
+				'image' => plugins_url( 'assets/richmenu/3-1_1x1_1.png', __DIR__ ),
+			),
+		);
+
+		// Richmenu type UI schema
+		// self::$lineconnect_richmenu_type_uischema = array(
+		// 	'type' => array(
+		// 		'ui:widget' => 'radio',
+		// 		'ui:enableMarkdownInDescription' => true,
+		// 	),
+		// );
+
+		// Richmenu default data
+		self::$lineconnect_richmenu_template_defalut_data = array(
+			'size' => array(
+				'width'  => 2500,
+				'height' => 1666,
+			),
+			'selected' => true,
+			'name'     => __( 'New richmenu', lineconnect::PLUGIN_NAME ),
+			'chatBarText' => __( 'MENU', lineconnect::PLUGIN_NAME ),
+			'areas'    => array(),
+		);
+
+		// Richmenu schema
+		self::$lineconnect_richmenu_schema = array(
+			'type'       => 'object',
+			'properties' => array(
+				'size' => array(
+					'type'       => 'object',
+					'title'      => __( 'Size', lineconnect::PLUGIN_NAME ),
+					'properties' => array(
+						'width'  => array(
+							'type'  => 'integer',
+							'title' => __( 'Width', lineconnect::PLUGIN_NAME ),
+							'minimum' => 800,
+							'maximum' => 2500,
+						),
+						'height' => array(
+							'type'  => 'integer',
+							'title' => __( 'Height', lineconnect::PLUGIN_NAME ),
+							'minimum' => 250,
+						),
+					),
+					'required'   => array(
+						'width',
+						'height',
+					),
+				),
+				'selected' => array(
+					'type'    => 'boolean',
+					'title'   => __( 'Selected', lineconnect::PLUGIN_NAME ),
+					'default' => false,
+				),
+				'name'     => array(
+					'type'      => 'string',
+					'title'     => __( 'Name', lineconnect::PLUGIN_NAME ),
+					'maxLength' => 300,
+				),
+				'chatBarText' => array(
+					'type'      => 'string',
+					'title'     => __( 'Chat bar text', lineconnect::PLUGIN_NAME ),
+					'maxLength' => 14,
+				),
+				'areas'    => array(
+					'type'  => 'array',
+					'title' => __( 'Areas', lineconnect::PLUGIN_NAME ),
+					'items' => array(
+						'type'       => 'object',
+						'title'      => __( 'Area', lineconnect::PLUGIN_NAME ),
+						'properties' => array(
+							'bounds' => array(
+								'type'       => 'object',
+								'title'      => __( 'Bounds', lineconnect::PLUGIN_NAME ),
+								'properties' => array(
+									'x'      => array(
+										'type'  => 'integer',
+										'title' => __( 'X', lineconnect::PLUGIN_NAME ),
+									),
+									'y'      => array(
+										'type'  => 'integer',
+										'title' => __( 'Y', lineconnect::PLUGIN_NAME ),
+									),
+									'width'  => array(
+										'type'  => 'integer',
+										'title' => __( 'Width', lineconnect::PLUGIN_NAME ),
+									),
+									'height' => array(
+										'type'  => 'integer',
+										'title' => __( 'Height', lineconnect::PLUGIN_NAME ),
+									),
+								),
+								'required'   => array(
+									'x',
+									'y',
+									'width',
+									'height',
+								),
+							),
+							'action' => array(
+								'$ref' => '#/definitions/action',
+							),
+						),
+					),
+					'maxItems' => 20,
+				),
+			),
+			'required'   => array(
+				'size',
+				'name',
+				'chatBarText',
+				'areas',
+			),
+			'definitions' => array(
+				'action' => self::$lineconnect_action_object_schema,
+			),
+		);
+
+		// Richmenu UI schema
+		self::$lineconnect_richmenu_uischema = array(
+			'ui:submitButtonOptions' => array(
+				'norender' => true,
+			),
+			'size' => array(
+				'width' => array(
+					'ui:widget' => 'updown',
+				),
+				'height' => array(
+					'ui:widget' => 'updown',
+				),
+			),
+			'areas' => array(
+				'items' => array(
+					'ui:order' => array( 'bounds', 'action', ),
+				),
+			),
 		);
 
 		self::$lineconnect_rjsf_translate_string = apply_filters(
