@@ -69,27 +69,14 @@ class lineconnectRichmenu {
 		$ary_init_data['ajax_nonce']     = wp_create_nonce( lineconnect::CREDENTIAL_ACTION__POST );
 		$ary_init_data['formName']        = 'richmenuform-data';
 		$formData = [];
-		// $subSchema = new stdClass();//lineconnectSLCMessage::get_message_schema();
 		$form = array(
 			'id' => 'richmenu',
 			'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_schema', lineconnectConst::$lineconnect_richmenu_schema ),
 			'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_uischema', lineconnectConst::$lineconnect_richmenu_uischema ),
 			'formData' => $formData,
 			'props' => new stdClass(),
-	);
-		// $type_schema = lineconnectConst::$lineconnect_message_type_schema;
-		// $type_schema['title'] = sprintf('%s', __( 'Richmenu layout', lineconnect::PLUGIN_NAME ));
-		// $form[] = array(
-		// 	'id' => 'type',
-		// 	'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_type_schema', $type_schema ),
-		// 	'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_type_uischema', lineconnectConst::$lineconnect_richmenu_uischema ),
-		// 	'formData' => new stdClass(),
-		// 	'props' => new stdClass(),
-		// );
-		// $form[] = array(
+		);
 
-		// );
-		// $ary_init_data['subSchema']          = $subSchema;
 		$default_channel = lineconnect::get_channel(0);
 		if($default_channel){
 			$default_channel_prefix = $default_channel['prefix'];
@@ -99,16 +86,7 @@ class lineconnectRichmenu {
 		$ary_init_data['channel_prefix'] = $default_channel_prefix;
 		$ary_init_data['form']        = $form;
 		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
-/*
-		$slc_messages = [];
-		foreach ( lineconnectSLCMessage::get_lineconnect_message_name_array() as $post_id => $title ) {
-			$slc_messages[] = array(
-				'post_id' => $post_id,
-				'title' => $title,
-			);
-		}
-		$ary_init_data['slc_messages'] = $slc_messages;
-*/
+
 		$inidata = json_encode( $ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE  );
 		echo <<< EOM
 <div id="line_richmenu_root"></div>
@@ -402,10 +380,46 @@ EOM;
 		if ($response->getHTTPStatus() === 200) {
 			$temp_richmenus = $response->getJSONDecodedBody()['richmenus'];
 			foreach ($temp_richmenus as $richmenu) {
+				$richmenu_image_path = self::save_richmenu_image($channel, $richmenu['richMenuId']);
+				$richmenu['imageUrl'] = $richmenu_image_path ? wp_upload_dir()['baseurl'] . substr($richmenu_image_path, strpos($richmenu_image_path, '/lineconnect')) : '';
 				$richmenus[$richmenu['richMenuId']] = $richmenu;
 			}
 		}
 		return $richmenus;
+	}
+
+	/**
+	 * リッチメニュー画像をダウンロードして保存
+	 * @param string $channel　チャンネルデータ
+	 * @param string $richmenu_id リッチメニューID
+	 * @param string $save_dir 保存先ディレクトリ
+	 * @return string 保存したファイル名
+	 */
+	static function save_richmenu_image($channel, $rich_menu_id, $save_dir = 'richmenu') {
+		$target_dir_path = lineconnectUtil::make_lineconnect_dir($save_dir . '/' . $channel['prefix'], false);
+		if ( $target_dir_path ) {
+			// if file exists, return file path
+			if ( file_exists($target_dir_path .'/'. $rich_menu_id) ) {
+				return $target_dir_path .'/'. $rich_menu_id;
+			}
+
+			$channel_access_token = $channel['channel-access-token'];
+			$channel_secret = $channel['channel-secret'];
+			$secret_prefix = substr($channel_secret, 0, 4);
+
+			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+			$response = $bot->downloadRichMenuImage($rich_menu_id);
+			if ($response->getHTTPStatus() === 200) {
+				$target_file_path = $target_dir_path .'/'. $rich_menu_id;
+				file_put_contents($target_file_path, $response->getRawBody());
+				return $target_file_path;
+			}
+		}
+		return null;				
 	}
 
 	/**
@@ -472,7 +486,7 @@ EOM;
 
 		if ( $isSuccess ) {
 			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
-			if( !empty($channel_prefix)){
+			if( !empty($channel_prefix) && isset( $_POST['richmenu_id'] ) ){
 				$channel = lineconnect::get_channel($channel_prefix);
 				if($channel){
 					$channel_access_token = $channel['channel-access-token'];
@@ -484,7 +498,7 @@ EOM;
 					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
 					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
 
-					$response = $bot->getRichMenu($data['richmenu_id']);
+					$response = $bot->getRichMenu($_POST['richmenu_id']);
 					
 					if ($response->getHTTPStatus() === 200) {
 						$richmenu = $response->getJSONDecodedBody();
@@ -526,7 +540,91 @@ EOM;
 
 		if ( $isSuccess ) {
 			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
-			if( !empty($channel_prefix)){
+			if( !empty($channel_prefix) && isset( $_POST['richmenu_id'] ) ){
+				$richmenu_id = sanitize_text_field($_POST['richmenu_id']);
+				$channel = lineconnect::get_channel($channel_prefix);
+				if($channel){
+					$channel_access_token = $channel['channel-access-token'];
+					$channel_secret = $channel['channel-secret'];
+					$secret_prefix = substr($channel_secret, 0, 4);
+
+					// delete cache image
+					$target_dir_path = lineconnectUtil::make_lineconnect_dir('richmenu/' . $channel['prefix'], false);
+					if ( $target_dir_path ) {
+						$target_file_path = $target_dir_path .'/'. $richmenu_id;
+						if ( file_exists($target_file_path) ) {
+							unlink($target_file_path);
+						}
+					}
+
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+					$response = $bot->deleteRichmenu($richmenu_id);
+					
+					if ($response->getHTTPStatus() === 200) {
+						$success_message = __('Richmenu was successfully deleted', lineconnect::PLUGIN_NAME);
+						$richmenus = self::get_richmenus_with_data($channel);
+					}else{
+						$isSuccess = false;
+						$error_message = __('Failed to delete richmenu', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+					}
+				}
+			}else{
+				$isSuccess = false;
+				$error_message = __('Richmenu ID is not set', lineconnect::PLUGIN_NAME);
+			}
+		}
+		if( $isSuccess ){
+			self::clearRichMenuCache($secret_prefix);
+		}
+		if(!empty($success_message)){
+			$ary_success_message[] = $success_message;
+		}
+		if(!empty($error_message)){
+			$ary_error_message[] = $error_message;
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['success'] = $ary_success_message;
+		$result['error']   = $ary_error_message;
+		$result['richmenus'] = $richmenus;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
+	}
+
+	/**
+	 * AJAXでリッチメニューを作成
+	 * @return array リッチメニューリスト
+	 */
+	static function ajax_create_richmenu() {
+		$isSuccess = true;
+		$richmenus = array();
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+		$error_message = $success_message = '';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+
+		if ( $isSuccess ) {
+			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
+			if( !empty($channel_prefix) && isset( $_POST['richmenu'] ) ){
 				$channel = lineconnect::get_channel($channel_prefix);
 				if($channel){
 					$channel_access_token = $channel['channel-access-token'];
@@ -538,16 +636,52 @@ EOM;
 					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
 					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
 
-					$response = $bot->deleteRichmenu($data['richmenu_id']);
+					$richmenu = json_decode(stripslashes($_POST['richmenu']), true);
+					$richMenuSizeBuilder = new \LINE\LINEBot\RichMenuBuilder\RichMenuSizeBuilder($richmenu['size']['height'], $richmenu['size']['width']);
+					$areaBuilders = array();
+					foreach ($richmenu['areas'] as $area){
+						$richMenuAreaBoundsBuilder = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder($area['bounds']['x'], $area['bounds']['y'], $area['bounds']['width'], $area['bounds']['height']);
+						$richMenuAreaActionBuilder = lineconnectSLCMessage::buildTemplateActionBuilder($area['action']);
+						$richMenuAreaBuilder = new \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder($richMenuAreaBoundsBuilder, $richMenuAreaActionBuilder);
+						$areaBuilders[] = $richMenuAreaBuilder;
+					}
+					$richMenuBuilder = new \LINE\LINEBot\RichMenuBuilder($richMenuSizeBuilder, $richmenu['selected'], $richmenu['name'], $richmenu['chatBarText'], $areaBuilders);
+					$response = $bot->createRichMenu($richMenuBuilder);
 					
 					if ($response->getHTTPStatus() === 200) {
-						$success_message = __('Richmenu was successfully deleted', lineconnect::PLUGIN_NAME);
-						$richmenus = self::get_richmenus_with_data($channel);
+						// upload image file
+						$richmenu_id = $response->getJSONDecodedBody()['richMenuId'];
+						// if file uploaded 
+						if (isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
+							$richmenu_image_file = $_FILES['file'];
+						}else if (!empty($richmenu['richMenuId'])) {
+							$image_file_path = self::save_richmenu_image($channel, $richmenu['richMenuId']);
+							$richmenu_image_file = array(
+								'tmp_name' => $image_file_path,
+								'type' => mime_content_type($image_file_path),
+							);
+						}
+						if( isset($richmenu_image_file) ){
+							$response = $bot->uploadRichMenuImage($richmenu_id, $richmenu_image_file['tmp_name'], $richmenu_image_file['type']);
+							if ($response->getHTTPStatus() === 200) {
+								$success_message = __('Richmenu was successfully created', lineconnect::PLUGIN_NAME);
+								$richmenus = self::get_richmenus_with_data($channel);
+							}else{
+								$isSuccess = false;
+								$error_message = __('Failed to upload richmenu image', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+							}
+						}else{
+							$isSuccess = false;
+							$error_message = __('Failed to upload richmenu image', lineconnect::PLUGIN_NAME) . ": " . $richmenu_image_file['error'];
+						}
 					}else{
 						$isSuccess = false;
-						$error_message = __('Failed', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+						$error_message = __('Failed to create richmenu', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
 					}
 				}
+			}else{
+				$isSuccess = false;
+				$error_message = __('Richmenu is not set', lineconnect::PLUGIN_NAME);
 			}
 		}
 		if( $isSuccess ){
@@ -596,8 +730,15 @@ EOM;
 			$richmenu_template['title'] = $bounds['title'];
 			$richmenu_template['image'] = $bounds['image'];
 			$template_data = lineconnectConst::$lineconnect_richmenu_template_defalut_data;
-			$template_data['areas']['bounds'] = $bounds['bounds'];
-			$template_data['areas']['action'] = new stdClass();
+			$template_data['size'] = $bounds['size'];
+			$area = array();
+			foreach ($bounds['bounds'] as $area_bounds){
+				$area[] = array(
+					'bounds' => $area_bounds,
+					//'action' => new stdClass(),
+				);
+			}
+			$template_data['areas'] = $area;
 			$richmenu_template['data'] = $template_data;
 			$richmenu_templates[] = $richmenu_template;
 		}

@@ -383,7 +383,7 @@ function getMessageContent( $messageId, $userId ) {
 		// set user directory
 		$user_dir = substr( $userId, 1, 4 );
 		// make directory
-		$target_dir_path = make_lineconnect_dir( $user_dir );
+		$target_dir_path = lineconnectUtil::make_lineconnect_dir($user_dir);
 		if ( $target_dir_path ) {
 			// make file path
 			$file_path = $target_dir_path . '/' . $file_name;
@@ -394,36 +394,6 @@ function getMessageContent( $messageId, $userId ) {
 		}
 	}
 	return false;
-}
-
-// make 'lineconnect' directory in wp-content/uploads
-function make_lineconnect_dir( $user_dir ) {
-	$root_dir_path = WP_CONTENT_DIR . '/uploads/lineconnect';
-	// check if root dir exists
-	if ( ! file_exists( $root_dir_path ) ) {
-		// make root dir
-		if ( mkdir( $root_dir_path, 0777, true ) ) {
-			// put .htaccess file to root dir
-			$htaccess_file_path    = $root_dir_path . '/.htaccess';
-			$htaccess_file_content = 'deny from all';
-			file_put_contents( $htaccess_file_path, $htaccess_file_content );
-		}
-	}
-	$target_dir_path = $root_dir_path . '/' . $user_dir;
-	// check if target dir exists
-	if ( ! file_exists( $target_dir_path ) ) {
-		// make target dir
-		if ( mkdir( $target_dir_path, 0777, true ) ) {
-			// put .htaccess file to target dir
-			$htaccess_file_path    = $target_dir_path . '/.htaccess';
-			$htaccess_file_content = 'deny from all';
-			file_put_contents( $htaccess_file_path, $htaccess_file_content );
-			return $target_dir_path;
-		} else {
-			return false;
-		}
-	}
-	return $target_dir_path;
 }
 
 // MIME type to file Extension

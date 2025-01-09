@@ -81,6 +81,16 @@ class lineconnectMessage {
 		return new \LINE\LINEBot\TemplateActionBuilder\CameraTemplateActionBuilder( $label );
 	}
 
+	// RichmenuSwitchTemplateActionBuilder
+	static function createRichmenuSwitchTemplateActionBuilder( $richMenuAliasId, $data, $label = null ) {
+		return new \LINE\LINEBot\TemplateActionBuilder\RichmenuSwitchTemplateActionBuilder( $richMenuAliasId, $data, $label );
+	}
+
+	// ClipboardTemplateActionBuilder
+	static function createClipboardTemplateActionBuilder( $label, $clipboardText ) {
+		return new \LINE\LINEBot\TemplateActionBuilder\ClipboardTemplateActionBuilder( $label, $clipboardText );
+	}
+
 	// SenderMessageBuilder
 	static function createSenderMessageBuilder( $name, $iconUrl ) {
 		return new \LINE\LINEBot\SenderBuilder\SenderMessageBuilder( $name, $iconUrl );

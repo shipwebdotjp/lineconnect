@@ -31309,6 +31309,17 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+input[type="text"].MuiInputBase-input, input[type="number"].MuiInputBase-input {
+  padding: 25px 12px 8px 12px;
+  min-height: 1.4375em;
+  border: 0;
+}
+
+input[type="text"]:focus.MuiInputBase-input, input[type="number"]:focus.MuiInputBase-input  {
+  outline: 0;
+  box-shadow: none;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -184648,5 +184659,6 @@ video {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
 
 /*# sourceMappingURL=style.css.map*/

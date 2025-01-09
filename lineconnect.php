@@ -438,6 +438,8 @@ class lineconnect {
 					add_action( 'wp_ajax_lc_ajax_get_richmenu', array( 'lineconnectRichmenu', 'ajax_get_richmenu' ) );
 					// リッチメニュー削除AJAXアクション
 					add_action( 'wp_ajax_lc_ajax_delete_richmenu', array( 'lineconnectRichmenu', 'ajax_delete_richmenu' ) );
+					// リッチメニュー作成AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_create_richmenu', array( 'lineconnectRichmenu', 'ajax_create_richmenu' ) );
 				}
 				// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 				add_action( 'wp_login', array( $this, 'redirect_account_link' ), 10, 2 );

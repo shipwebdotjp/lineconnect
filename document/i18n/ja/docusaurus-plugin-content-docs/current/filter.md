@@ -201,8 +201,10 @@ add_filter('slc_filter_notification_message_args', 'my_filter_notification_messa
 ```php
 function my_filter_notification_message($buildMessage, $args, $template) {
 	// 更新通知を送信する際の送信者名とアイコンを変更する
-	$SenderMessageBuilder = new \LINE\LINEBot\SenderBuilder\SenderMessageBuilder("author_name", "https://placehold.jp/28c832/ffffff/200x200.png?text=icon");
-	$buildMessage->setSender($SenderMessageBuilder);
+	if($buildMessage instanceof \LINE\LINEBot\MessageBuilder\FlexMessageBuilder) {
+		$SenderMessageBuilder = new \LINE\LINEBot\SenderBuilder\SenderMessageBuilder("author_name", "https://placehold.jp/28c832/ffffff/200x200.png?text=author");
+		$buildMessage->setSender($SenderMessageBuilder);
+	}
     return $buildMessage;
 }
 add_filter('slc_filter_notification_message', 'my_filter_notification_message', 10, 3);

@@ -8,10 +8,74 @@ msgstr ""
 msgid "Channel"
 msgstr ""
 
-#: src/component/RichmenuForm.js:76
+#: src/component/CreateRechmenu.js:97
+msgid "Save"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:11
+msgid "File size must be less than 1MB"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:22
+msgid "Image width must be between 800px and 2500px"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:27
+msgid "Image height must be 250px or higher"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:33
+msgid "Image aspect ratio must be 1.45 or higher"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:42
+msgid "Invalid image file"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:49
+msgid "Invalid file type"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:84
+msgid "Drop the file here"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:85
+msgid "Drag and drop the file here, or click to select file"
+msgstr ""
+
+#: src/component/RichMenuUpload.js:89
+msgid "File type: JPEG or PNG"
+msgstr ""
+
+#: src/component/RichmenuForm.js:144
 msgid "LINE Richmenu"
 msgstr ""
 
-#: src/component/RichmenuList.js:4
+#: src/component/RichmenuForm.js:163
+msgid "Create Richmenu"
+msgstr ""
+
+#: src/component/RichmenuList.js:11
+msgid "Are you sure you want to delete this richmenu?"
+msgstr ""
+
+#: src/component/RichmenuList.js:18
 msgid "Richmenu list"
+msgstr ""
+
+#: src/component/RichmenuList.js:21
+msgid "Create new richmenu"
+msgstr ""
+
+#: src/component/RichmenuList.js:38
+msgid "Use as template"
+msgstr ""
+
+#: src/component/RichmenuList.js:45
+msgid "Delete"
+msgstr ""
+
+#: src/component/RichmenuTemplates.js:12
+msgid "Richmenu templates"
 msgstr ""

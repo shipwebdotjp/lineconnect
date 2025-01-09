@@ -283,4 +283,41 @@ class lineconnectUtil {
 		}
 		return $result;
 	}
+
+	/**
+	 * lineconnect用の指定されたフォルダをアップロードディレクトリに作成する
+	 * @param string $dir_name 作成するディレクトリ名
+	 * @return string $dir_path 作成されたディレクトリのパス
+	 */
+	public static function make_lineconnect_dir( $dir_name, $deny_from_all = true ) {
+		$root_dir_path = WP_CONTENT_DIR . '/uploads/lineconnect';
+		// check if root dir exists
+		if ( ! file_exists( $root_dir_path ) ) {
+			// make root dir
+			if ( mkdir( $root_dir_path, 0777, true ) ) {
+				// put .htaccess file to root dir
+				$htaccess_file_path    = $root_dir_path . '/.htaccess';
+				$htaccess_file_content = 'deny from all';
+				file_put_contents( $htaccess_file_path, $htaccess_file_content );
+			}
+		}
+		$target_dir_path = $root_dir_path . '/' . $dir_name;
+		// check if target dir exists
+		if ( ! file_exists( $target_dir_path ) ) {
+			// make target dir
+			if ( mkdir( $target_dir_path, 0777, true ) ) {
+				$htaccess_file_path    = $target_dir_path . '/.htaccess';
+				if($deny_from_all){
+					$htaccess_file_content = 'deny from all';
+				}else{
+					$htaccess_file_content = 'allow from all';
+				}
+				file_put_contents( $htaccess_file_path, $htaccess_file_content );
+				return $target_dir_path;
+			} else {
+				return false;
+			}
+		}
+		return $target_dir_path;
+	}
 }

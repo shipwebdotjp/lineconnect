@@ -254,28 +254,33 @@ EOM;
 			$message_object = $quickReply = $sender = null;
 			if ( ! empty( $message['quickReply'] ) ) {
 				$quickReplay_items = array();
-				foreach ( $message['quickReply'] as $quickReply_item ) {
-					$templateAction = null;
-					if ( isset( $quickReply_item['type'] ) && $quickReply_item['action']['type'] === 'message' ) {
-						$templateAction = lineconnectMessage::createMessageTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['text'] );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'postback' ) {
-						$templateAction = lineconnectMessage::createPostbackAction( $quickReply_item['action']['label'], $quickReply_item['action']['data'], $quickReply_item['action']['displayText'], $quickReply_item['action']['inputOption'] ?? null, $quickReply_item['action']['fillInText'] ?? null );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'uri' ) {
-						$templateAction = lineconnectMessage::createUriTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['uri'] );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'datetimepicker' ) {
-						$templateAction = lineconnectMessage::createDatetimePickerTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['data'], $quickReply_item['action']['mode'], $quickReply_item['action']['initial'], $quickReply_item['action']['max'], $quickReply_item['action']['min'] );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'cameraRoll' ) {
-						$templateAction = lineconnectMessage::createCameraRollTemplateActionBuilder( $quickReply_item['action']['label'] );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'camera' ) {
-						$templateAction = lineconnectMessage::createCameraTemplateActionBuilder( $quickReply_item['action']['label'] );
-					} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'location' ) {
-						$templateAction = lineconnectMessage::createLocationTemplateActionBuilder( $quickReply_item['action']['label'] );
+				// foreach ( $message['quickReply'] as $quickReply_item ) {
+					foreach ( $message['quickReply']['items'] as $quickReplay_container ) {
+						$templateAction = self::buildTemplateActionBuilder($quickReplay_container['action']);
+						/*
+						$templateAction = null;
+						if ( isset( $quickReply_item['type'] ) && $quickReply_item['action']['type'] === 'message' ) {
+							$templateAction = lineconnectMessage::createMessageTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['text'] );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'postback' ) {
+							$templateAction = lineconnectMessage::createPostbackAction( $quickReply_item['action']['label'], $quickReply_item['action']['data'], $quickReply_item['action']['displayText'], $quickReply_item['action']['inputOption'] ?? null, $quickReply_item['action']['fillInText'] ?? null );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'uri' ) {
+							$templateAction = lineconnectMessage::createUriTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['uri'] );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'datetimepicker' ) {
+							$templateAction = lineconnectMessage::createDatetimePickerTemplateActionBuilder( $quickReply_item['action']['label'], $quickReply_item['action']['data'], $quickReply_item['action']['mode'], $quickReply_item['action']['initial'], $quickReply_item['action']['max'], $quickReply_item['action']['min'] );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'cameraRoll' ) {
+							$templateAction = lineconnectMessage::createCameraRollTemplateActionBuilder( $quickReply_item['action']['label'] );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'camera' ) {
+							$templateAction = lineconnectMessage::createCameraTemplateActionBuilder( $quickReply_item['action']['label'] );
+						} elseif ( isset( $quickReply_item['action']['type'] ) && $quickReply_item['action']['type'] === 'location' ) {
+							$templateAction = lineconnectMessage::createLocationTemplateActionBuilder( $quickReply_item['action']['label'] );
+						}
+						*/
+						if ( ! empty( $templateAction ) ) {
+							$quickReplay_button  = lineconnectMessage::createQuickReplayButtonBuilder( $templateAction, $quickReplay_container['imageUrl'] ?? null );
+							$quickReplay_items[] = $quickReplay_button;
+						}
 					}
-					if ( ! empty( $templateAction ) ) {
-						$quickReplay_button  = lineconnectMessage::createQuickReplayButtonBuilder( $templateAction );
-						$quickReplay_items[] = $quickReplay_button;
-					}
-				}
+				// }
 				if ( ! empty( $quickReplay_items ) ) {
 					$quickReply = lineconnectMessage::createQuickReplyMessageBuilder( $quickReplay_items );
 				}
@@ -318,7 +323,7 @@ EOM;
 			}
 		}
 		foreach ( $message_objects as $message_object ) {
-			// error_log( print_r( $message_object, true ) );
+			error_log( print_r( $message_object, true ) );
 			$multimessagebuilder->add( $message_object );
 		}
 		return $multimessagebuilder;
@@ -489,13 +494,23 @@ EOM;
 	static function buildTemplateActionBuilder( $action ) {
 		$templateAction = null;
 		if ( !empty( $action['message'] ) ) {
-			$templateAction = lineconnectMessage::createMessageTemplateActionBuilder( $action['message']['label'], $action['message']['text'] );
+			$templateAction = lineconnectMessage::createMessageTemplateActionBuilder( $action['message']['label'] ?? null, $action['message']['text'] );
 		} elseif ( !empty( $action['postback'] )  ) {
-			$templateAction = lineconnectMessage::createPostbackAction( $action['postback']['label'], $action['postback']['data'], $action['postback']['displayText'] ?? null, $action['postback']['inputOption'] ?? null, $action['postback']['fillInText'] ?? null );
+			$templateAction = lineconnectMessage::createPostbackAction( $action['postback']['label'] ?? null, $action['postback']['data'], $action['postback']['displayText'] ?? null, $action['postback']['inputOption'] ?? null, $action['postback']['fillInText'] ?? null );
 		} elseif ( !empty( $action['uri'] ) ) {
-			$templateAction = lineconnectMessage::createUriTemplateActionBuilder( $action['uri']['label'], $action['uri']['uri'] );
+			$templateAction = lineconnectMessage::createUriTemplateActionBuilder( $action['uri']['label'] ?? null, $action['uri']['uri'] );
 		} elseif ( !empty( $action['datetimepicker'] ) ) {
-			$templateAction = lineconnectMessage::createDatetimePickerTemplateActionBuilder( $action['datetimepicker']['label'], $action['datetimepicker']['data'], $action['datetimepicker']['mode'], $action['datetimepicker']['initial'], $action['datetimepicker']['max'], $action['datetimepicker']['min'] );
+			$templateAction = lineconnectMessage::createDatetimePickerTemplateActionBuilder( $action['datetimepicker']['label'] ?? null, $action['datetimepicker']['data'], $action['datetimepicker']['mode'], $action['datetimepicker']['initial'], $action['datetimepicker']['max'], $action['datetimepicker']['min'] );
+		} elseif ( !empty( $action['cameraRoll'] ) ) {
+			$templateAction = lineconnectMessage::createCameraRollTemplateActionBuilder( $action['cameraRoll']['label'] );
+		} elseif ( !empty( $action['camera'] ) ) {
+			$templateAction = lineconnectMessage::createCameraTemplateActionBuilder( $action['camera']['label'] );
+		} elseif ( !empty( $action['location'] ) ) {
+			$templateAction = lineconnectMessage::createLocationTemplateActionBuilder( $action['location']['label'] );
+		} elseif ( !empty( $action['richmenuswitch'] ) ) {
+			$templateAction = lineconnectMessage::createRichMenuSwitchTemplateActionBuilder( $action['richmenuswitch']['richMenuAliasId'], $action['richmenuswitch']['data'], $action['richmenuswitch']['label'] ?? null );
+		} elseif ( !empty( $action['clipboard'] ) ) {
+			$templateAction = lineconnectMessage::createClipboardTemplateActionBuilder( $action['clipboard']['label'] ?? null, $action['clipboard']['clipboardText'] );
 		}
 		return $templateAction;
 	}

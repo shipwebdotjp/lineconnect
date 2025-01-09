@@ -27,4 +27,6 @@ class ActionType
     const CAMERA = 'camera';
     const CAMERA_ROLL = 'cameraRoll';
     const LOCATION = 'location';
+	const RICHMENU_SWITCH = 'richmenuswitch';
+	const CLIPBOARD = 'clipboard';
 }
