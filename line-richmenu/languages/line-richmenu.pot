@@ -8,7 +8,7 @@ msgstr ""
 msgid "Channel"
 msgstr ""
 
-#: src/component/CreateRechmenu.js:97
+#: src/component/CreateRechmenu.js:124
 msgid "Save"
 msgstr ""
 
@@ -48,11 +48,11 @@ msgstr ""
 msgid "File type: JPEG or PNG"
 msgstr ""
 
-#: src/component/RichmenuForm.js:144
+#: src/component/RichmenuForm.js:145
 msgid "LINE Richmenu"
 msgstr ""
 
-#: src/component/RichmenuForm.js:163
+#: src/component/RichmenuForm.js:164
 msgid "Create Richmenu"
 msgstr ""
 

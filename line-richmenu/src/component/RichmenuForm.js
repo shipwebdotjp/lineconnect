@@ -18,6 +18,7 @@ const RichmenuForm = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [imageError, setImageError] = useState(null);
+    const [areaFocusedIndex, setAreaFocusedIndex] = useState(null);
 
     const templateList = lc_initdata['templates'];
     const channelList = lc_initdata['channels'];//['1番目のチャネル', '2番目のチャネル', '3番目のチャネル']
@@ -163,10 +164,10 @@ const RichmenuForm = () => {
                     <div className="py-2 px-4 bg-blue-200">{__('Create Richmenu', 'lineconnect')}</div>
                     <div className="py-2 px-4 bg-white space-y-2">
                         <RichMenuUpload onFileSelect={handleFileSelect} error={imageError}/>
-                        <RichMenuPreview richmenu={richmenu} imageUrl={previewUrl} />
+                        <RichMenuPreview richmenu={richmenu} imageUrl={previewUrl} areaFocusedIndex={areaFocusedIndex} />
                     </div>
                     <div className="mb-4">
-                        <CreateRechmenu richmenu={richmenu} onFormChange={setRichmenu} onFormSubmit={createRichmenu} />
+                        <CreateRechmenu richmenu={richmenu} onFormChange={setRichmenu} onFormSubmit={createRichmenu} onAreaFocus={setAreaFocusedIndex} />
                     </div>
                 </>
             }

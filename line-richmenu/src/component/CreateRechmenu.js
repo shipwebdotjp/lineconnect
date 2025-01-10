@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';  // useEffectをインポー
 import validator from '@rjsf/validator-ajv8';
 // import Form from '@rjsf/material-ui';
 import Form from '@rjsf/mui';
-import { TranslatableString, englishStringTranslator, replaceStringParameters } from '@rjsf/utils';
+import { TranslatableString, englishStringTranslator, replaceStringParameters, titleId } from '@rjsf/utils';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
 // import RichmenuImage from './RichmenuImage';
@@ -50,6 +50,25 @@ const CreateRechmenu = (props) => {
         props.onFormChange(_form.formData);
     }
 
+    // フォームにフォーカスがあたった場合
+    const onFormFocus = (id) => {
+        //id: root_new_richmenu_areas_0_bounds_x
+        // get areas index
+        const index = id.match(/areas_(\d+)_/);
+        if(index){
+            props.onAreaFocus(parseInt(index[1]));
+        }
+    }
+
+    // フォームからフォーカスが外れた場合
+    const onFormBlur = (id) => {
+        // get areas index
+        const index = id.match(/areas_(\d+)_/);
+        if(index){
+            props.onAreaFocus(null);
+        }
+    }
+
 
     const changeKeyLabel = (stringToTranslate, params) => {
         if (translateString[stringToTranslate]) {
@@ -68,6 +87,12 @@ const CreateRechmenu = (props) => {
             </Button>
         );
     }
+    // const ArrayFieldItemTemplate = (props) => {
+    //     const { children, className } = props;
+    //     return <div className={className}>{children}</div>;
+    // }
+
+
 
     return (
         <>
@@ -80,6 +105,8 @@ const CreateRechmenu = (props) => {
                         validator={validator}
                         translateString={changeKeyLabel}
                         onChange={onFormChange}
+                        onFocus={onFormFocus}
+                        onBlur={onFormBlur}
                         id={`rjsf_new_richmenu`}
                         idPrefix={`root_new_richmenu`}
                         liveOmit={form.props.liveOmit ?? false}
