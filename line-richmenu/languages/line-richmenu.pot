@@ -52,6 +52,10 @@ msgstr ""
 msgid "File type: JPEG or PNG"
 msgstr ""
 
+#: src/component/RichmenuAlias.js:12
+msgid "LINE Richmenu Alias"
+msgstr ""
+
 #: src/component/RichmenuForm.js:118
 msgid "Create new richmenu from blank template"
 msgstr ""
@@ -66,8 +70,15 @@ msgstr ""
 msgid "Create Richmenu"
 msgstr ""
 
-#: src/component/RichmenuForm.js:145
-#: src/component/RichmenuIndex.js:35
+#: src/component/RichmenuIndex.js:49
+msgid "Richmenu"
+msgstr ""
+
+#: src/component/RichmenuIndex.js:58
+msgid "Richmenu alias"
+msgstr ""
+
+#: src/component/RichmenuIndex.js:67
 msgid "LINE Richmenu"
 msgstr ""
 

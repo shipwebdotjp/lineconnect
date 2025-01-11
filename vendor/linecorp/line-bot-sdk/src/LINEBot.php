@@ -653,6 +653,75 @@ class LINEBot
     }
 
     /**
+     * Gets a list of all uploaded rich menu alias.
+     *
+     * @return Response
+     */
+    public function getRichMenuAliasList()
+    {
+        return $this->httpClient->get($this->endpointBase . '/v2/bot/richmenu/alias/list');
+    }
+
+    /**
+     * Creates a rich menu alias.
+     *
+     * @param string $richMenuAliasId ID of an uploaded rich menu alias
+     * @param string $richMenuId ID of an uploaded rich menu
+     * @return Response
+     */
+    public function createRichMenuAlias($richMenuAliasId, $richMenuId)
+    {
+        /*curl -v -X POST https://api.line.me/v2/bot/richmenu/alias \
+        -H 'Authorization: Bearer {channel access token}' \
+        -H 'Content-Type: application/json' \
+        -d \
+        '{
+            "richMenuAliasId": "richmenu-alias-a",
+            "richMenuId": "richmenu-862e6ad6c267d2ddf3f42bc78554f6a4"
+        }'
+        */
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/richmenu/alias', [
+            'richMenuAliasId' => $richMenuAliasId,
+            'richMenuId' => $richMenuId,
+        ]);
+    }
+
+    /**
+     * Deletes a rich menu alias.
+     *
+     * @param string $richMenuAliasId ID of an rich menu alias
+     * @return Response
+     */
+    public function deleteRichMenuAlias($richMenuAliasId)
+    {
+        /*DELETE https://api.line.me/v2/bot/richmenu/alias/{richMenuAliasId}*/
+        $url = sprintf('%s/v2/bot/richmenu/alias/%s', $this->endpointBase, urlencode($richMenuAliasId));
+        return $this->httpClient->delete($url);
+    }
+
+    /**
+     * Update rich menu alias.
+     * @param string $richMenuAliasId ID of an rich menu alias
+     * @param string $richMenuId ID of an uploaded rich menu
+     * @return Response
+     */
+    public function updateRichMenuAlias($richMenuAliasId, $richMenuId)
+    {
+        /*curl -v -X POST https://api.line.me/v2/bot/richmenu/alias/richmenu-alias-a \
+-H 'Authorization: Bearer {channel access token}' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+    "richMenuId": "richmenu-862e6ad6c267d2ddf3f42bc78554f6a4"
+}'*/
+        $url = sprintf('%s/v2/bot/richmenu/alias/%s', $this->endpointBase, urlencode($richMenuAliasId));
+        return $this->httpClient->post($url, [
+            'richMenuId' => $richMenuId,
+        ]);
+    }
+
+
+    /**
      * Get number of sent reply messages
      *
      * @param DateTime $datetime Date the messages were sent.

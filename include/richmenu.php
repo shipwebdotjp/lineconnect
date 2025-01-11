@@ -83,6 +83,7 @@ class lineconnectRichmenu {
 		}
 		$ary_init_data['templates'] = self::get_richmenu_templates();
 		$ary_init_data['richmenus'] = $default_channel ? self::get_richmenus_with_data($default_channel) : array();
+		$ary_init_data['aliases'] = $default_channel ? self::get_richmenu_aliases($default_channel) : array();
 		$ary_init_data['channel_prefix'] = $default_channel_prefix;
 		$ary_init_data['form']        = $form;
 		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
@@ -743,5 +744,311 @@ EOM;
 			$richmenu_templates[] = $richmenu_template;
 		}
 		return $richmenu_templates;
+	}
+
+	/**
+	 * チャンネルのリッチメニューエイリアスリストをすべて取得
+	 * @param object $channel チャンネルデータ
+	 * @return array リッチメニューエイリアスIDをキー、リッチメニューIDを値として持つ配列
+	 */
+	static function get_richmenu_aliases($channel) {
+		$channel_access_token = $channel['channel-access-token'];
+		$channel_secret = $channel['channel-secret'];
+		$secret_prefix = substr($channel_secret, 0, 4);
+
+		if ( false === ( $richmenu_aliases = get_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix ) ) ) {
+			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+			// $richmenus = self::get_richmenus($channel);
+			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+			
+			$response = $bot->getRichMenuAliasList();
+			$richmenu_aliases = array();
+			if ($response->getHTTPStatus() === 200) {
+				$temp_richmenu_aliases = $response->getJSONDecodedBody()['aliases'];
+				foreach ($temp_richmenu_aliases as $richmenu_alias) {
+					$richmenu_aliases[$richmenu_alias['richMenuAliasId']] = $richmenu_alias['richMenuId'];
+				}
+			}
+			set_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix, $richmenu_aliases, MONTH_IN_SECONDS );	
+		}
+		return $richmenu_aliases;
+	}
+
+	/**
+	 * AJAXでリッチメニューエイリアス一覧を取得
+	 * @return array　リッチメニューエイリアスIDをキー、リッチメニューIDを値として持つ配列
+	 */
+	static function ajax_get_richmenus_alias() {
+		$isSuccess = true;
+		$richmenu_aliases = array();
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+
+		if ( $isSuccess ) {
+			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
+			if( !empty($channel_prefix)){
+				$channel = lineconnect::get_channel($channel_prefix);
+				if($channel){
+					$richmenu_aliases = self::get_richmenu_aliases($channel);
+				}
+			}
+		}
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $richmenu_aliases );
+		wp_die();
+	}
+
+	/**
+	 * AJAXでリッチメニューエイリアスを削除
+	 * @return array リッチメニューエイリアス一覧
+	 */
+	static function ajax_delete_richmenu_alias() {
+		$isSuccess = true;
+		$richmenu_aliases = array();
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+		$error_message = $success_message = '';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+
+		if ( $isSuccess ) {
+			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
+			if( !empty($channel_prefix) && isset( $_POST['richmenu_alias_id'] ) ){
+				$richmenu_alias_id = sanitize_text_field($_POST['richmenu_alias_id']);
+				$channel = lineconnect::get_channel($channel_prefix);
+				if($channel){
+					$channel_access_token = $channel['channel-access-token'];
+					$channel_secret = $channel['channel-secret'];
+					$secret_prefix = substr($channel_secret, 0, 4);
+
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+					$response = $bot->deleteRichMenuAlias($richmenu_alias_id);
+
+					if ($response->getHTTPStatus() === 200) {
+						$success_message = __('Richmenu alias was successfully deleted', lineconnect::PLUGIN_NAME);
+						self::clearRichMenuAliasCache($secret_prefix);
+						$richmenu_aliases = self::get_richmenu_aliases($channel);
+					}else{
+						$isSuccess = false;
+						$error_message = __('Failed to delete richmenu alias', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+					}
+				}
+			}else{
+				$isSuccess = false;
+				$error_message = __('Richmenu alias ID is not set', lineconnect::PLUGIN_NAME);
+			}
+		}
+		if(!empty($success_message)){
+			$ary_success_message[] = $success_message;
+		}
+		if(!empty($error_message)){
+			$ary_error_message[] = $error_message;
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['success'] = $ary_success_message;
+		$result['error']   = $ary_error_message;
+		$result['aliases'] = $richmenu_aliases;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
+	}
+
+	/**
+	 * AJAXでリッチメニューエイリアスを作成
+	 * @return array リッチメニューリスト
+	 */
+	static function ajax_create_richmenu_alias() {
+		$isSuccess = true;
+		$richmenu_aliases = array();
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+		$error_message = $success_message = '';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+
+		if ( $isSuccess ) {
+			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
+			if( !empty($channel_prefix) && isset( $_POST['richMenuAliasId'] ) && isset( $_POST['richMenuId'] ) ){
+				$channel = lineconnect::get_channel($channel_prefix);
+				if($channel){
+					$channel_access_token = $channel['channel-access-token'];
+					$channel_secret = $channel['channel-secret'];
+					$secret_prefix = substr($channel_secret, 0, 4);
+
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+					$richMenuAliasId = stripslashes($_POST['richMenuAliasId']);
+					$richMenuId = stripslashes($_POST['richMenuId']);
+					$response = $bot->createRichMenuAlias($richMenuAliasId, $richMenuId);
+
+					if ($response->getHTTPStatus() === 200) {
+						$success_message = __('Richmenu alias was successfully created', lineconnect::PLUGIN_NAME);
+						self::clearRichMenuAliasCache($secret_prefix);
+						$richmenu_aliases = self::get_richmenu_aliases($channel);
+					}else{
+						$isSuccess = false;
+						$error_message = __('Failed to create richmenu alias', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+					}
+				}
+			}else{
+				$isSuccess = false;
+				$error_message = __('Richmenu alias is not set', lineconnect::PLUGIN_NAME);
+			}
+		}
+
+		if(!empty($success_message)){
+			$ary_success_message[] = $success_message;
+		}
+		if(!empty($error_message)){
+			$ary_error_message[] = $error_message;
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['success'] = $ary_success_message;
+		$result['error']   = $ary_error_message;
+		$result['aliases'] = $richmenu_aliases;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
+	}
+
+	/**
+	 * AJXでリッチメニューエイリアスリストの更新
+	 * @return array リッチメニューエイリアスリスト
+	 */
+	static function ajax_update_richmenu_alias() {
+		$isSuccess = true;
+		$richmenu_aliases = array();
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+		$error_message = $success_message = '';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+
+		if ( $isSuccess ) {
+			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
+			if( !empty($channel_prefix) && isset( $_POST['richMenuAliasId'] ) && isset( $_POST['richMenuId'] ) ){
+				$channel = lineconnect::get_channel($channel_prefix);
+				if($channel){
+					$channel_access_token = $channel['channel-access-token'];
+					$channel_secret = $channel['channel-secret'];
+					$secret_prefix = substr($channel_secret, 0, 4);
+
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+					$richMenuAliasId = stripslashes($_POST['richMenuAliasId']);
+					$richMenuId = stripslashes($_POST['richMenuId']);
+					$response = $bot->updateRichMenuAlias($richMenuAliasId, $richMenuId);
+
+					if ($response->getHTTPStatus() === 200) {
+						$success_message = __('Richmenu alias was successfully updated', lineconnect::PLUGIN_NAME);
+						self::clearRichMenuAliasCache($secret_prefix);
+						$richmenu_aliases = self::get_richmenu_aliases($channel);
+					}else{
+						$isSuccess = false;
+						$error_message = __('Failed to update richmenu alias', lineconnect::PLUGIN_NAME) . ": " . $response->getRawBody();
+					}
+				}
+			}else{
+				$isSuccess = false;
+				$error_message = __('Richmenu alias or richmenu ID is not set', lineconnect::PLUGIN_NAME);
+			}
+		}
+		if(!empty($success_message)){
+			$ary_success_message[] = $success_message;
+		}
+		if(!empty($error_message)){
+			$ary_error_message[] = $error_message;
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['success'] = $ary_success_message;
+		$result['error']   = $ary_error_message;
+		$result['aliases'] = $richmenu_aliases;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
+	}
+
+	/**
+	 * リッチメニューエイリアスリストのキャッシュを削除
+	 * @param string|null $target_secret_prefix チャンネルシークレットの先頭4文字
+	 */
+	static function clearRichMenuAliasCache($target_secret_prefix = null) {
+		$ary_channels  = lineconnect::get_all_channels();
+		foreach ( $ary_channels as $channel_id => $channel ) {
+			$channel_secret = $channel['channel-secret'];
+			$secret_prefix = substr($channel_secret, 0, 4);
+			if( $target_secret_prefix == null || $target_secret_prefix == $secret_prefix ){
+				delete_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix );
+			}
+		}
+		return true;
 	}
 }

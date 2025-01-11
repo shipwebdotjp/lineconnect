@@ -204,6 +204,11 @@ class lineconnect {
 	const TRANSIENT_KEY__RICHMENUS_LIST = self::PLUGIN_PREFIX . 'richmenus-list';
 
 	/**
+	 * TRANSIENTキーリッチメニューエイリアスリスト
+	 */
+	const TRANSIENT_KEY__RICHMENU_ALIAS_LIST = self::PLUGIN_PREFIX . 'richmenus-alias-list';
+
+	/**
 	 * TRANSIENTのタイムリミット：5秒
 	 */
 	const TRANSIENT_TIME_LIMIT = 5;
@@ -249,9 +254,9 @@ class lineconnect {
 	const SLUG__CHAT_FORM = self::PLUGIN_ID . '-linechat-form';
 
 	/**
-	 * 画面のslug：チャット
+	 * 画面のslug：リッチメニュー
 	 */
-	const SLUG__RICHMENU_ADD = self::PLUGIN_ID . '-richmenu-add';
+	const SLUG__RICHMENU_ADD = self::PLUGIN_ID . '-richmenu';
 
 	/**
 	 * 画面のslug：LINE GPT Log
@@ -440,6 +445,14 @@ class lineconnect {
 					add_action( 'wp_ajax_lc_ajax_delete_richmenu', array( 'lineconnectRichmenu', 'ajax_delete_richmenu' ) );
 					// リッチメニュー作成AJAXアクション
 					add_action( 'wp_ajax_lc_ajax_create_richmenu', array( 'lineconnectRichmenu', 'ajax_create_richmenu' ) );
+					// リッチメニューエイリアス一覧取得AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_get_richmenus_alias', array( 'lineconnectRichmenu', 'ajax_get_richmenus_alias' ) );
+					// リッチメニューエイリアス削除AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_delete_richmenu_alias', array( 'lineconnectRichmenu', 'ajax_delete_richmenu_alias' ) );
+					// リッチメニューエイリアス作成AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_create_richmenu_alias', array( 'lineconnectRichmenu', 'ajax_create_richmenu_alias' ) );
+					// リッチメニューエイリアス更新AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_update_richmenu_alias', array( 'lineconnectRichmenu', 'ajax_update_richmenu_alias' ) );
 				}
 				// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 				add_action( 'wp_login', array( $this, 'redirect_account_link' ), 10, 2 );
