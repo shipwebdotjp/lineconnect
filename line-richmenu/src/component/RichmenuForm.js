@@ -164,7 +164,7 @@ const RichmenuForm = () => {
                     <div className="py-2 px-4 bg-blue-200">{__('Create Richmenu', 'lineconnect')}</div>
                     <div className="py-2 px-4 bg-white space-y-2">
                         <RichMenuUpload onFileSelect={handleFileSelect} error={imageError}/>
-                        <RichMenuPreview richmenu={richmenu} imageUrl={previewUrl} areaFocusedIndex={areaFocusedIndex} />
+                        <RichMenuPreview richmenu={richmenu} imageUrl={previewUrl} areaFocusedIndex={areaFocusedIndex} onAreaChange={setRichmenu} />
                     </div>
                     <div className="mb-4">
                         <CreateRechmenu richmenu={richmenu} onFormChange={setRichmenu} onFormSubmit={createRichmenu} onAreaFocus={setAreaFocusedIndex} />

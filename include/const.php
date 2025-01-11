@@ -4657,6 +4657,12 @@ class lineconnectConst {
 					'description' => __( 'Unique identifier for the rich menu. Max character limit: 100', lineconnect::PLUGIN_NAME ),
 					'maxLength' => 100,
 				),
+				'name'     => array(
+					'type'      => 'string',
+					'title'     => __( 'Name', lineconnect::PLUGIN_NAME ),
+					'description' => __( 'This value can be used to help manage your rich menus and is not displayed to users.', lineconnect::PLUGIN_NAME ),
+					'maxLength' => 300,
+				),
 				'size' => array(
 					'type'       => 'object',
 					'title'      => __( 'Size', lineconnect::PLUGIN_NAME ),
@@ -4681,26 +4687,9 @@ class lineconnectConst {
 						'height',
 					),
 				),
-				'selected' => array(
-					'type'    => 'boolean',
-					'title'   => __( 'Display the rich menu by default', lineconnect::PLUGIN_NAME ),
-					'default' => false,
-				),
-				'name'     => array(
-					'type'      => 'string',
-					'title'     => __( 'Name', lineconnect::PLUGIN_NAME ),
-					'description' => __( 'This value can be used to help manage your rich menus and is not displayed to users.', lineconnect::PLUGIN_NAME ),
-					'maxLength' => 300,
-				),
-				'chatBarText' => array(
-					'type'      => 'string',
-					'title'     => __( 'Chat bar text', lineconnect::PLUGIN_NAME ),
-					'description' => __( 'Text displayed in the chat bar. Max character limit: 14', lineconnect::PLUGIN_NAME ),
-					'maxLength' => 14,
-				),
 				'areas'    => array(
 					'type'  => 'array',
-					'title' => __( 'Areas', lineconnect::PLUGIN_NAME ),
+					'title' => __( 'Tap Areas', lineconnect::PLUGIN_NAME ),
 					'items' => array(
 						'type'       => 'object',
 						'title'      => __( 'Area', lineconnect::PLUGIN_NAME ),
@@ -4712,25 +4701,25 @@ class lineconnectConst {
 									'x'      => array(
 										'type'  => 'integer',
 										'title' => __( 'X', lineconnect::PLUGIN_NAME ),
-										'description' => __( 'Horizontal position of the top-left corner of the tappable area relative to the left edge of the image. Value must be 0 or higher.', lineconnect::PLUGIN_NAME ),
+										'description' => __( 'Horizontal position of the tappable area’s top-left corner (min: 0).', lineconnect::PLUGIN_NAME ),
 										'minimum' => 0,
 									),
 									'y'      => array(
 										'type'  => 'integer',
 										'title' => __( 'Y', lineconnect::PLUGIN_NAME ),
-										'description' => __( 'Vertical position of the top-left corner of the tappable area relative to the top edge of the image. Value must be 0 or higher.', lineconnect::PLUGIN_NAME ),
+										'description' => __( 'Vertical position of the tappable area’s top-left corner (min: 0).', lineconnect::PLUGIN_NAME ),
 										'minimum' => 0,
 									),
 									'width'  => array(
 										'type'  => 'integer',
 										'title' => __( 'Width', lineconnect::PLUGIN_NAME ),
-										'description' => __( 'Width of the tappable area. Value must be 2500 or lower.', lineconnect::PLUGIN_NAME ),
+										'description' => __( 'Tappable area width (max: 2500).', lineconnect::PLUGIN_NAME ),
 										'maximum' => 2500,
 									),
 									'height' => array(
 										'type'  => 'integer',
 										'title' => __( 'Height', lineconnect::PLUGIN_NAME ),
-										'description' => __( 'Height of the tappable area. Value must be 1686 or lower.', lineconnect::PLUGIN_NAME ),
+										'description' => __( 'Tappable area height (max: 1686).', lineconnect::PLUGIN_NAME ),
 										'maximum' => 1686,
 									),
 								),
@@ -4747,6 +4736,17 @@ class lineconnectConst {
 						),
 					),
 					'maxItems' => 20,
+				),
+				'selected' => array(
+					'type'    => 'boolean',
+					'title'   => __( 'Display the rich menu by default', lineconnect::PLUGIN_NAME ),
+					'default' => false,
+				),
+				'chatBarText' => array(
+					'type'      => 'string',
+					'title'     => __( 'Chat bar text', lineconnect::PLUGIN_NAME ),
+					'description' => __( 'Text displayed in the chat bar. Max character limit: 14', lineconnect::PLUGIN_NAME ),
+					'maxLength' => 14,
 				),
 			),
 			'required'   => array(

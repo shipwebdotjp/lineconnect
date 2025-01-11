@@ -1,0 +1,74 @@
+{
+  "translation-revision-date": "2025-01-10 18:37:49+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "Channel": [
+        "チャネル"
+      ],
+      "Add tap areas": [
+        "タップ領域を追加する"
+      ],
+      "Save": [
+        "保存"
+      ],
+      "File size must be less than 1MB": [
+        "ファイルサイズは1MB未満である必要があります"
+      ],
+      "Image width must be between 800px and 2500px": [
+        "画像の幅は800pxから2500pxの間である必要があります"
+      ],
+      "Image height must be 250px or higher": [
+        "画像の高さは250px以上である必要があります"
+      ],
+      "Image aspect ratio must be 1.45 or higher": [
+        "画像のアスペクト比は1.45以上である必要があります"
+      ],
+      "Invalid image file": [
+        "無効な画像ファイルです"
+      ],
+      "Invalid file type": [
+        "無効なファイルタイプです"
+      ],
+      "Drop the file here": [
+        "ここにファイルをドロップしてください"
+      ],
+      "Drag and drop the file here, or click to select file": [
+        "ファイルをここにドラッグ＆ドロップするか、クリックして選択してください"
+      ],
+      "File type: JPEG or PNG": [
+        "ファイルタイプ: JPEGまたはPNG"
+      ],
+      "LINE Richmenu": [
+        "LINEリッチメニュー"
+      ],
+      "Create Richmenu": [
+        "リッチメニューを作成する"
+      ],
+      "Are you sure you want to delete this richmenu?": [
+        "このリッチメニューを削除してもよろしいですか？"
+      ],
+      "Richmenu list": [
+        "リッチメニューリスト"
+      ],
+      "Create new richmenu": [
+        "新しいリッチメニューを作成"
+      ],
+      "Use as template": [
+        "テンプレートとして使用"
+      ],
+      "Delete": [
+        "削除"
+      ],
+      "Richmenu templates": [
+        "リッチメニューテンプレート"
+      ]
+    }
+  }
+}

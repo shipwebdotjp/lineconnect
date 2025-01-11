@@ -2,19 +2,89 @@ import React, { useState, useEffect } from 'react';  // useEffectをインポー
 import validator from '@rjsf/validator-ajv8';
 // import Form from '@rjsf/material-ui';
 import Form from '@rjsf/mui';
-import { TranslatableString, englishStringTranslator, replaceStringParameters, titleId } from '@rjsf/utils';
+import { TranslatableString, englishStringTranslator, replaceStringParameters, getTemplate, getUiOptions, titleId } from '@rjsf/utils';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
-// import RichmenuImage from './RichmenuImage';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 const __ = wp.i18n.__;
 
+// カスタムフィールドテンプレート
+const HorizontalFieldTemplate = ({ id, children, classNames, disabled, label, description, errors, rawErrors }) => {
+  return (
+    <div className={classNames}>
+      <Grid container spacing={2} alignItems="center">
+        {children}
+      </Grid>
+    </div>
+  );
+};
 
+
+const ObjectFieldTemplate = (props) => {
+    const { registry, properties, title, description, uiSchema, required, schema, idSchema } = props;
+    const options = getUiOptions(uiSchema);
+    const TitleFieldTemplate = getTemplate('TitleFieldTemplate', registry, options);
+    
+    return (
+      <div>
+        {title && (
+          <TitleFieldTemplate
+            id={titleId(idSchema)}
+            title={title}
+            required={required}
+            schema={schema}
+            uiSchema={uiSchema}
+            registry={registry}
+          />
+        )}{' '}
+        {description}
+        <Grid container spacing={2}>
+          {properties.map((prop) => (
+            (
+                <Grid item xs={prop.content.props.uiSchema["ui:column"] ?? 12} key={prop.content.key}>
+                {prop.content}
+                </Grid>
+            )
+          ))}
+        </Grid>
+      </div>
+    );
+  }
+
+// カスタムArrayFieldTitleTemplate
+const ArrayFieldTitleTemplate = (props) => {
+    const { id, title, schema, uiSchema, required, registry } = props;
+    // console.log(title); //root_new_richmenu_areas_4__title
+    const match = id.match(/areas_(\d+)__title$/);
+    if(match){
+
+        const index = match ? parseInt(match[1]) + 1 : '';
+        
+        return (
+            <Box id={id} mb={1} mt={1}>
+                <Typography variant='h5'>{title} #{index}</Typography>
+                <Divider />
+            </Box>
+        );
+    }else{
+        // return default title
+        return (
+            <Box id={id} mb={1} mt={1}>
+                <Typography variant='h5'>{title}</Typography>
+                <Divider />
+            </Box>
+        );
+    }
+};
 
 const CreateRechmenu = (props) => {
     // formの初期状態でprops.richmenuをformDataとして設定
     const [form, setForm] = useState({
         ...lc_initdata['form'],
-        formData: props.richmenu || {}  // props.richmenuが存在しない場合は空オブジェクト
+        formData: props.richmenu || {}  // 空オブジェクト
     });
     // const [file, setFile] = useState(null);  // 選択されたファイルを管理するstate
 
@@ -33,13 +103,62 @@ const CreateRechmenu = (props) => {
         },
       });
 
-    // propsのrichmenuが変更された時にformDataを更新
+    // カスタム UI Schema
+    const customUiSchema = {
+        ...form.uiSchema,
+        size: {
+            "ui:ObjectFieldTemplate": ObjectFieldTemplate,
+            width: {
+                "ui:widget": "updown",
+                "ui:column": 6,
+            },
+            height: {
+                "ui:widget": "updown",
+                "ui:column": 6,
+            },
+        },
+        areas: {
+            items: {
+                bounds: {
+                    "ui:ObjectFieldTemplate": ObjectFieldTemplate,
+                    x: {
+                        "ui:column": 3,
+                    },
+                    y: {
+                        "ui:column": 3,
+                    },
+                    width: {
+                        "ui:column": 3,
+                    },
+                    height: {
+                        "ui:column": 3,
+                    },
+                },
+                "ui:order": ["bounds", "action"],
+            },
+            "ui:options": {
+                addText: __('Add tap areas', 'lineconnect'),
+                copyable: true,
+            },
+        },
+    };
+
     useEffect(() => {
+        console.log('Form Data Updated:', props.richmenu);
+        console.log('Internal Form State:', form.formData);
         setForm(prevForm => ({
             ...prevForm,
-            formData: props.richmenu || {}
+            formData: { ...props.richmenu }, // 新しいオブジェクトを設定
         }));
     }, [props.richmenu]);
+
+    // useEffect(() => {
+    //     console.log(props.richmenu);
+    //     setForm(prevForm => ({
+    //         ...prevForm,
+    //         formData: props.richmenu || {}
+    //     }));
+    // }, [props.richmenu]);
 
     const onFormChange = ( _form, id) => {
         // console.log(JSON.stringify(form.schema));
@@ -47,6 +166,11 @@ const CreateRechmenu = (props) => {
         if(id == undefined){
             return;
         }
+        // フォームの状態を更新
+        setForm(prevForm => ({
+            ...prevForm,
+            formData: _form.formData
+        }));
         props.onFormChange(_form.formData);
     }
 
@@ -99,8 +223,9 @@ const CreateRechmenu = (props) => {
             <div className="py-2 px-4 bg-white">
                 <ThemeProvider theme={theme}>
                     <Form 
+                        key={JSON.stringify(props.richmenu)}
                         schema={form.schema}
-                        uiSchema={form.uiSchema}
+                        uiSchema={customUiSchema}
                         formData={form.formData}
                         validator={validator}
                         translateString={changeKeyLabel}
@@ -113,7 +238,7 @@ const CreateRechmenu = (props) => {
                         omitExtraData={form.props.omitExtraData ?? false}
                         liveValidate={form.props.liveValidate ?? false}
                         showErrorList={form.props.showErrorList ?? 'bottom'}
-                        templates={{ ButtonTemplates: { AddButton } }}
+                        templates={{ ButtonTemplates: { AddButton }, TitleFieldTemplate: ArrayFieldTitleTemplate }}
                         experimental_defaultFormStateBehavior={{
                             constAsDefaults: 'skipOneOf'
                         }}

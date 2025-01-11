@@ -8,7 +8,11 @@ msgstr ""
 msgid "Channel"
 msgstr ""
 
-#: src/component/CreateRechmenu.js:124
+#: src/component/CreateRechmenu.js:140
+msgid "Add tap areas"
+msgstr ""
+
+#: src/component/CreateRechmenu.js:249
 msgid "Save"
 msgstr ""
 
