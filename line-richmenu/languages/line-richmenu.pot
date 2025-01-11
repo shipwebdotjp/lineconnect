@@ -52,8 +52,78 @@ msgstr ""
 msgid "File type: JPEG or PNG"
 msgstr ""
 
-#: src/component/RichmenuAlias.js:12
+#: src/component/RichmenuAlias.js:103
+msgid "Invalid Alias ID format"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:131
+msgid "Failed to create alias"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:141
 msgid "LINE Richmenu Alias"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:148
+msgid "Create New Alias"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:152
+msgid "Alias ID"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:166
+#: src/component/RichmenuAlias.js:159
+#: src/component/RichmenuAlias.js:157
+#: src/component/RichmenuIndex.js:49
+msgid "Richmenu"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:193
+msgid "Creating..."
+msgstr ""
+
+#: src/component/RichmenuAlias.js:196
+msgid "Create Alias"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:203
+msgid "Existing Aliases"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:206
+msgid "No aliases found"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:224
+msgid "Deleting..."
+msgstr ""
+
+#: src/component/RichmenuAlias.js:227
+#: src/component/RichmenuAlias.js:220
+#: src/component/RichmenuAlias.js:218
+#: src/component/RichmenuList.js:40
+msgid "Delete"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:234
+msgid "Linked Richmenu"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:242
+msgid "Select Richmenu"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:33
+msgid "Please select a richmenu"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:66
+msgid "Are you sure you want to delete this alias?"
+msgstr ""
+
+#: src/component/RichmenuAlias.js:98
+msgid "Please fill all fields"
 msgstr ""
 
 #: src/component/RichmenuForm.js:118
@@ -61,17 +131,12 @@ msgid "Create new richmenu from blank template"
 msgstr ""
 
 #: src/component/RichmenuForm.js:127
-#: src/component/RichmenuForm.js:111
 #: src/component/RichmenuList.js:18
 msgid "Richmenu list"
 msgstr ""
 
 #: src/component/RichmenuForm.js:156
 msgid "Create Richmenu"
-msgstr ""
-
-#: src/component/RichmenuIndex.js:49
-msgid "Richmenu"
 msgstr ""
 
 #: src/component/RichmenuIndex.js:58
@@ -88,10 +153,6 @@ msgstr ""
 
 #: src/component/RichmenuList.js:33
 msgid "Use as template"
-msgstr ""
-
-#: src/component/RichmenuList.js:40
-msgid "Delete"
 msgstr ""
 
 #: src/component/RichmenuTemplates.js:12

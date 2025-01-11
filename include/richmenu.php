@@ -335,7 +335,7 @@ EOM;
 	/**
 	 * チャンネルのリッチメニューリストをすべて取得
 	 * @param object $channel チャンネルデータ
-	 * @return array リッチメニューのID、タイトルを連想配列に持つ配列
+	 * @return array リッチメニューのID、タイトルを値とする配列
 	 */
 	static function get_richmenus($channel) {
 		$channel_access_token = $channel['channel-access-token'];
@@ -843,8 +843,8 @@ EOM;
 
 		if ( $isSuccess ) {
 			$channel_prefix = isset( $_POST['channel'] ) ? $_POST['channel'] : null;
-			if( !empty($channel_prefix) && isset( $_POST['richmenu_alias_id'] ) ){
-				$richmenu_alias_id = sanitize_text_field($_POST['richmenu_alias_id']);
+			if( !empty($channel_prefix) && isset( $_POST['richMenuAliasId'] ) ){
+				$richMenuAliasId = sanitize_text_field($_POST['richMenuAliasId']);
 				$channel = lineconnect::get_channel($channel_prefix);
 				if($channel){
 					$channel_access_token = $channel['channel-access-token'];
@@ -856,7 +856,7 @@ EOM;
 					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
 					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
 
-					$response = $bot->deleteRichMenuAlias($richmenu_alias_id);
+					$response = $bot->deleteRichMenuAlias($richMenuAliasId);
 
 					if ($response->getHTTPStatus() === 200) {
 						$success_message = __('Richmenu alias was successfully deleted', lineconnect::PLUGIN_NAME);
