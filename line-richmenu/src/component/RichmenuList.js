@@ -16,11 +16,6 @@ const RichmenuList = (props) => {
     return (
         <div className="richmenu-list">
             <div className="py-2 px-4 bg-blue-200">{__('Richmenu list', 'lineconnect')}</div>
-            <div className="mb-4">
-                <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleSelect(null)}>
-                    {__('Create new richmenu', 'lineconnect')}
-                </button>
-            </div>
             <div className="py-2 my-2">
                 {Object.values(props.richmenuList).map((richmenu) => (
                     <div key={richmenu.richMenuId} className="border p-4 mb-4 rounded">

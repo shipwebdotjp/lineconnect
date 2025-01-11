@@ -1,16 +1,14 @@
 import { Rnd } from 'react-rnd';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 const RichMenuPreview = ({ richmenu, imageUrl, areaFocusedIndex, onAreaChange }) => {
-    if (!imageUrl && !richmenu.imageUrl) {
-        return null;
-    }
+    const [activeIndex, setActiveIndex] = useState(null);
 
-    const previewWidth = 500;
-    const previewAspectRatio = richmenu.size.width ? richmenu.size.height / richmenu.size.width : 2 / 3;
-    const scaleFactor = previewWidth / richmenu.size.width;
+    // マウスダウン時のハンドラー
+    const handleMouseDown = useCallback((index) => {
+        setActiveIndex(index);
+    }, []);
 
-    // ドラッグ終了時のハンドラー
     const handleDragStop = useCallback((e, d, index) => {
         const updatedRichmenu = { ...richmenu };
         const unscaledX = Math.round(d.x / scaleFactor);
@@ -48,6 +46,16 @@ const RichMenuPreview = ({ richmenu, imageUrl, areaFocusedIndex, onAreaChange })
         
         onAreaChange(updatedRichmenu);
     }, [richmenu, scaleFactor, onAreaChange]);
+    
+    if (!imageUrl && !richmenu.imageUrl) {
+        return null;
+    }
+
+    const previewWidth = 500;
+    const previewAspectRatio = richmenu.size.width ? richmenu.size.height / richmenu.size.width : 2 / 3;
+    const scaleFactor = previewWidth / richmenu.size.width;
+
+
 
     const renderBoundingBoxes = () => {
         return richmenu.areas?.map((area, index) => {
@@ -76,7 +84,12 @@ const RichMenuPreview = ({ richmenu, imageUrl, areaFocusedIndex, onAreaChange })
                     }}
                     style={{
                         border: areaFocusedIndex === index ? '2px solid rgba(255, 0, 0, 0.8)' : '2px solid rgba(64, 64, 64, 0.8)',
-                        backgroundColor: areaFocusedIndex === index ? 'rgba(255, 0, 0, 0.2)' : 'rgba(64, 64, 64, 0.2)'
+                        backgroundColor: areaFocusedIndex === index ? 'rgba(255, 0, 0, 0.2)' : 'rgba(64, 64, 64, 0.2)',
+                        zIndex: activeIndex === index ? 1000 : 100
+                    }}
+                    onMouseDown={(e) => {
+                        e.stopPropagation();
+                        handleMouseDown(index);
                     }}
                     onDragStop={(e, d) => handleDragStop(e, d, index)}
                     onResizeStop={(e, direction, ref, delta, position) => 

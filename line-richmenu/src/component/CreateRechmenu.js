@@ -144,8 +144,8 @@ const CreateRechmenu = (props) => {
     };
 
     useEffect(() => {
-        console.log('Form Data Updated:', props.richmenu);
-        console.log('Internal Form State:', form.formData);
+        // console.log('Form Data Updated:', props.richmenu);
+        // console.log('Internal Form State:', form.formData);
         setForm(prevForm => ({
             ...prevForm,
             formData: { ...props.richmenu }, // 新しいオブジェクトを設定
@@ -223,7 +223,7 @@ const CreateRechmenu = (props) => {
             <div className="py-2 px-4 bg-white">
                 <ThemeProvider theme={theme}>
                     <Form 
-                        key={JSON.stringify(props.richmenu)}
+                        
                         schema={form.schema}
                         uiSchema={customUiSchema}
                         formData={form.formData}

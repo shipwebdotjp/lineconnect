@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"Content-Type: text/plain; charset=UTF-8\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -14,11 +14,11 @@ msgstr ""
 msgid "Channel"
 msgstr "チャネル"
 
-#: src/component/CreateRechmenu.js:141
+#: src/component/CreateRechmenu.js:140
 msgid "Add tap areas"
 msgstr "タップ領域を追加する"
 
-#: src/component/CreateRechmenu.js:235
+#: src/component/CreateRechmenu.js:249
 msgid "Save"
 msgstr "保存"
 
@@ -58,31 +58,31 @@ msgstr "ファイルをここにドラッグ＆ドロップするか、クリッ
 msgid "File type: JPEG or PNG"
 msgstr "ファイルタイプ: JPEGまたはPNG"
 
-#: src/component/RichmenuForm.js:145
+#: src/component/RichmenuForm.js:108
+msgid "Create new richmenu from blank template"
+msgstr "テンプレートから新規作成"
+
+#: src/component/RichmenuForm.js:111 src/component/RichmenuList.js:18
+msgid "Richmenu list"
+msgstr "リッチメニュー一覧"
+
+#: src/component/RichmenuForm.js:134
+msgid "Create Richmenu"
+msgstr "リッチメニュー作成"
+
+#: src/component/RichmenuForm.js:145 src/component/RichmenuIndex.js:35
 msgid "LINE Richmenu"
 msgstr "LINEリッチメニュー"
-
-#: src/component/RichmenuForm.js:164
-msgid "Create Richmenu"
-msgstr "リッチメニューを作成する"
 
 #: src/component/RichmenuList.js:11
 msgid "Are you sure you want to delete this richmenu?"
 msgstr "このリッチメニューを削除してもよろしいですか？"
 
-#: src/component/RichmenuList.js:18
-msgid "Richmenu list"
-msgstr "リッチメニューリスト"
-
-#: src/component/RichmenuList.js:21
-msgid "Create new richmenu"
-msgstr "新しいリッチメニューを作成"
-
-#: src/component/RichmenuList.js:38
+#: src/component/RichmenuList.js:33
 msgid "Use as template"
 msgstr "テンプレートとして使用"
 
-#: src/component/RichmenuList.js:45
+#: src/component/RichmenuList.js:40
 msgid "Delete"
 msgstr "削除"
 

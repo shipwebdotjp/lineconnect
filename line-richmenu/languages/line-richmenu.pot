@@ -52,31 +52,34 @@ msgstr ""
 msgid "File type: JPEG or PNG"
 msgstr ""
 
-#: src/component/RichmenuForm.js:145
-msgid "LINE Richmenu"
+#: src/component/RichmenuForm.js:118
+msgid "Create new richmenu from blank template"
 msgstr ""
 
-#: src/component/RichmenuForm.js:164
+#: src/component/RichmenuForm.js:127
+#: src/component/RichmenuForm.js:111
+#: src/component/RichmenuList.js:18
+msgid "Richmenu list"
+msgstr ""
+
+#: src/component/RichmenuForm.js:156
 msgid "Create Richmenu"
+msgstr ""
+
+#: src/component/RichmenuForm.js:145
+#: src/component/RichmenuIndex.js:35
+msgid "LINE Richmenu"
 msgstr ""
 
 #: src/component/RichmenuList.js:11
 msgid "Are you sure you want to delete this richmenu?"
 msgstr ""
 
-#: src/component/RichmenuList.js:18
-msgid "Richmenu list"
-msgstr ""
-
-#: src/component/RichmenuList.js:21
-msgid "Create new richmenu"
-msgstr ""
-
-#: src/component/RichmenuList.js:38
+#: src/component/RichmenuList.js:33
 msgid "Use as template"
 msgstr ""
 
-#: src/component/RichmenuList.js:45
+#: src/component/RichmenuList.js:40
 msgid "Delete"
 msgstr ""
 
