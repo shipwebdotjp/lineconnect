@@ -9,7 +9,6 @@ const RichmenuTemplates = (props) => {
 
     return (
         <div className="richmenu-templates">
-            <div className="py-2 px-4 bg-blue-200">{__('Richmenu templates', 'lineconnect')}</div>
             <div className="py-2 my-2 flex justify-between items-center flex-wrap">
                 {props.templateList.map((template) => (
                     <div key={template.richMenuId} className="border p-4 mb-4 rounded">

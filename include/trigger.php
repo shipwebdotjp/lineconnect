@@ -319,6 +319,35 @@ EOM;
 					'title' => __('Please add channel first', lineconnect::PLUGIN_NAME),
 				);
 			}
+		} elseif ( $parameter['type'] == 'slc_richmenu' ) {
+			$actual_type     = 'string';
+			$schema['oneOf'] = array();
+			foreach ( lineconnectRichMenu::get_richmenus() as $richmenu_id => $richmenu ) {
+				$schema['oneOf'][] = array(
+					'const' => $richmenu_id,
+					'title' => $richmenu,
+				);
+			}
+			if(count($schema['oneOf']) == 0){
+				$schema['oneOf'][] = array(
+					'const' => '',
+					'title' => __('Please add richmenu first', lineconnect::PLUGIN_NAME),
+				);
+			}
+		} elseif ( $parameter['type'] == 'slc_richmenualias' ) {
+			$actual_type     = 'string';
+			$schema['oneOf'] = array();
+			foreach ( lineconnectRichMenu::get_richmenu_aliases() as $alias_id => $richmenu_id ) {
+				$schema['oneOf'][] = array(
+					'const' => $alias_id,
+				);
+			}
+			if(count($schema['oneOf']) == 0){
+				$schema['oneOf'][] = array(
+					'const' => '',
+					'title' => __('Please add richmenu alias first', lineconnect::PLUGIN_NAME),
+				);
+			}
 		}
 
 		if ( ! empty( $parameter['enum'] ) ) {

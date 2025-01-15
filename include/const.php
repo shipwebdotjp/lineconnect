@@ -1122,6 +1122,30 @@ class lineconnectConst {
 				'namespace'   => 'lineconnectFunctions',
 				'role'        => 'any',
 			),
+			'link_richmenu' => array(
+				'title'       => __('Link rich menu', lineconnect::PLUGIN_NAME),
+				'description' => __('Link rich menu with line user ID and Channel.', lineconnect::PLUGIN_NAME),
+				'parameters'  => array(
+					array(
+						'type' => 'slc_richmenu',
+						'name' => 'richmenu',
+						'description' => __('Rich menu ID', lineconnect::PLUGIN_NAME),
+						'required' => true,
+					),
+					array(
+						'type' => 'string',
+						'name' => 'line_user_id',
+						'description' => __( 'LINE user id. Default value is LINE user id of event source.', lineconnect::PLUGIN_NAME),
+					),
+					array(
+						'type' => 'slc_channel',
+						'name' => 'channel',
+						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+					),
+				),
+				'namespace'   => 'lineconnectFunctions',
+				'role'        => 'administrator',
+			),
 		);
 		
 		self::$variables_option = array(
@@ -1430,6 +1454,14 @@ class lineconnectConst {
 							array(
 								'const' => 'slc_channel',
 								'title' => __( 'LINE Messaging API Channel', lineconnect::PLUGIN_NAME ),
+							),
+							array(
+								'const' => 'slc_richmenu',
+								'title' => __( 'Richmenu', lineconnect::PLUGIN_NAME ),
+							),
+							array(
+								'const' => 'slc_richmenualias',
+								'title' => __( 'Richmenu Alias', lineconnect::PLUGIN_NAME ),
 							),
 						),
 					),
@@ -3898,9 +3930,9 @@ class lineconnectConst {
 				array(
 					'type'       => 'object',
 					'title'      => __('Rich menu switch action', lineconnect::PLUGIN_NAME),
-					'description' => __('This action can be configured only with quick reply buttons.', lineconnect::PLUGIN_NAME),
+					'description' => __('This action can be configured only with richmenus.', lineconnect::PLUGIN_NAME),
 					'properties' => array(
-						'richMenuSwitch' => array(
+						'richmenuswitch' => array(
 							'type'       => 'object',
 							'title'      => __('Rich menu switch', lineconnect::PLUGIN_NAME),
 							'properties' => array(
@@ -4170,7 +4202,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x2_3_3.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4217,7 +4249,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_2x2_2_2.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4252,7 +4284,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_1x1.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4269,7 +4301,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_1x2_1_2.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4292,7 +4324,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_2x1_2.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4315,7 +4347,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x1_2_2-1.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4338,7 +4370,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x1_2_1-2.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4361,7 +4393,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x2_2_2-1_2_2-1.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4390,7 +4422,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x2_1_3.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4425,7 +4457,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_3x2_3_1.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4460,7 +4492,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_2x2_1_2.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(
@@ -4489,7 +4521,7 @@ class lineconnectConst {
 				'image' => plugins_url( 'assets/richmenu/3-2_2x2_2_1.png', __DIR__ ),
 				'size' => array(
 					'width'  => 2500,
-					'height' => 1666,
+					'height' => 1686,
 				),
 				'bounds' => array(
 					array(

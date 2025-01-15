@@ -86,6 +86,7 @@ const CreateRechmenu = (props) => {
         ...lc_initdata['form'],
         formData: props.richmenu || {}  // 空オブジェクト
     });
+    const [formKey, setFormKey] = useState(0);
     // const [file, setFile] = useState(null);  // 選択されたファイルを管理するstate
 
         
@@ -143,20 +144,20 @@ const CreateRechmenu = (props) => {
         },
     };
 
-    useEffect(() => {
-        // console.log('Form Data Updated:', props.richmenu);
-        // console.log('Internal Form State:', form.formData);
-        setForm(prevForm => ({
-            ...prevForm,
-            formData: { ...props.richmenu }, // 新しいオブジェクトを設定
-        }));
-    }, [props.richmenu]);
+    // useEffect(() => {
+    //     // console.log('Form Data Updated:', props.richmenu);
+    //     // console.log('Internal Form State:', form.formData);
+    //     setForm(prevForm => ({
+    //         ...prevForm,
+    //         formData: { ...props.richmenu }, // 新しいオブジェクトを設定
+    //     }));
+    // }, [props.richmenu]);
 
     // useEffect(() => {
     //     console.log(props.richmenu);
     //     setForm(prevForm => ({
     //         ...prevForm,
-    //         formData: props.richmenu || {}
+    //         formData: { ...props.richmenu }
     //     }));
     // }, [props.richmenu]);
 
@@ -167,10 +168,10 @@ const CreateRechmenu = (props) => {
             return;
         }
         // フォームの状態を更新
-        setForm(prevForm => ({
-            ...prevForm,
-            formData: _form.formData
-        }));
+        // setForm(prevForm => ({
+        //     ...prevForm,
+        //     formData: _form.formData
+        // }));
         props.onFormChange(_form.formData);
     }
 
@@ -223,10 +224,10 @@ const CreateRechmenu = (props) => {
             <div className="py-2 px-4 bg-white">
                 <ThemeProvider theme={theme}>
                     <Form 
-                        
+                        key={props.areaKey}
                         schema={form.schema}
                         uiSchema={customUiSchema}
-                        formData={form.formData}
+                        formData={props.richmenu || {}}
                         validator={validator}
                         translateString={changeKeyLabel}
                         onChange={onFormChange}
@@ -246,7 +247,24 @@ const CreateRechmenu = (props) => {
                 </ThemeProvider>
             </div>
             <div className="py-2 px-4 bg-white">
-                <Button variant="contained" color="primary" onClick={() => props.onFormSubmit()}>{__('Save', 'lineconnect')}</Button>
+                <Button 
+                    variant="contained" 
+                    color="primary"
+                    disabled={props.isCreating} 
+                    onClick={() => props.onFormSubmit()}
+                >
+                        {props.isCreating ? (
+                            <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                {__('Creating...', 'lineconnect')}
+                            </span>
+                        ) : (
+                            __('Create', 'lineconnect')
+                        )}
+                </Button>
             </div>
         </>
     );

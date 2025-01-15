@@ -30,33 +30,52 @@ const RichmenuIndex = () => {
             console.log('Error: ' + error);
             console.log(XMLHttpRequest.responseText);
         });
+
+        // ajaxでチャネルのリッチメニューエイリアスを取得
+        jQuery.ajax({
+            url: lc_initdata['ajaxurl'],
+            type: 'POST',
+            data: {
+                action: 'lc_ajax_get_richmenus_alias',
+                nonce: lc_initdata['ajax_nonce'],
+                channel: channel,
+            },
+            dataType: 'json',
+        }).done(function (data) {
+            setAliasList(data);
+        }).fail(function (XMLHttpRequest, textStatus, error) {
+            console.log('Error: ' + error);
+            console.log(XMLHttpRequest.responseText);
+        });
     };
 
     const ModeButtons = ({ currentMode, onModeChange }) => {
-        const baseButtonClasses = "font-bold py-2 px-4 rounded transition-colors duration-200";
-        const activeButtonClasses = "bg-white text-blue-700 border-2 border-blue-700 shadow-sm";
-        const inactiveButtonClasses = "bg-blue-500 hover:bg-blue-700 text-white";
+        const baseButtonClasses = "py-4 px-6 block hover:text-blue-500 focus:outline-none";
+        const activeButtonClasses = "text-blue-500 border-b-2 font-medium border-blue-500";
+        const inactiveButtonClasses = "text-gray-600";
     
         return (
-            <div className="mb-4 space-x-4">
-                <button
-                    type="button"
-                    className={`${baseButtonClasses} ${
-                        currentMode === 'richmenu' ? activeButtonClasses : inactiveButtonClasses
-                    }`}
-                    onClick={() => onModeChange('richmenu')}
-                >
-                    {wp.i18n.__('Richmenu', 'lineconnect')}
-                </button>
-                <button
-                    type="button"
-                    className={`${baseButtonClasses} ${
-                        currentMode === 'alias' ? activeButtonClasses : inactiveButtonClasses
-                    }`}
-                    onClick={() => onModeChange('alias')}
-                >
-                    {wp.i18n.__('Richmenu alias', 'lineconnect')}
-                </button>
+            <div className="bg-gray-200">
+                <nav className="flex flex-col sm:flex-row">
+                    <button
+                        type="button"
+                        className={`${baseButtonClasses} ${
+                            currentMode === 'richmenu' ? activeButtonClasses : inactiveButtonClasses
+                        }`}
+                        onClick={() => onModeChange('richmenu')}
+                    >
+                        {wp.i18n.__('Richmenu', 'lineconnect')}
+                    </button>
+                    <button
+                        type="button"
+                        className={`${baseButtonClasses} ${
+                            currentMode === 'alias' ? activeButtonClasses : inactiveButtonClasses
+                        }`}
+                        onClick={() => onModeChange('alias')}
+                    >
+                        {wp.i18n.__('Richmenu alias', 'lineconnect')}
+                    </button>
+                </nav>
             </div>
         );
     };

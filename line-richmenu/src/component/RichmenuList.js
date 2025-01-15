@@ -1,3 +1,4 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 const __ = wp.i18n.__;
 
 const RichmenuList = (props) => {
@@ -15,29 +16,33 @@ const RichmenuList = (props) => {
 
     return (
         <div className="richmenu-list">
-            <div className="py-2 px-4 bg-blue-200">{__('Richmenu list', 'lineconnect')}</div>
             <div className="py-2 my-2">
                 {Object.values(props.richmenuList).map((richmenu) => (
                     <div key={richmenu.richMenuId} className="border p-4 mb-4 rounded">
                         <div className="flex justify-between items-center">
                             <div className="w-1/2 max-w-sm">
                                 <h3 className="text-lg font-bold">{richmenu.name}</h3>
-                                <img src={richmenu.imageUrl} alt={richmenu.name} className="h-auto w-full max-w-xs" />
+                                
                             </div>
-                            <div className="w-1/2 max-w-sm space-y-6 flex flex-col items-center">
+                            <div className="">
                                 <button
                                     type="button"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded w-full max-w-48"
-                                    onClick={() => handleSelect(richmenu)}
-                                >
-                                    {__('Use as template', 'lineconnect')}
-                                </button>
-                                <button
-                                    type="button"
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-4 px-4 rounded w-full max-w-48"
+                                    className="text-red-500 hover:text-red-700 disabled:text-red-300 py-4 px-4 rounded w-full max-w-48 flex items-center"
                                     onClick={() => handleDelete(richmenu.richMenuId)}
                                 >
-                                    {__('Delete', 'lineconnect')}
+                                    <DeleteIcon />{__('Delete', 'lineconnect')}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="mt-2 flex juustify-start items-center">
+                            <img src={richmenu.imageUrl} alt={richmenu.name} className="h-auto w-full max-w-xs" />
+                            <div className="w-full flex justify-center items-center">
+                                <button
+                                        type="button"
+                                        className="border border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white py-4 px-16 rounded "
+                                        onClick={() => handleSelect(richmenu)}
+                                    >
+                                        {__('Use as template', 'lineconnect')}
                                 </button>
                             </div>
                         </div>

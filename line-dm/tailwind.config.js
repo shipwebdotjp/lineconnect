@@ -1,6 +1,6 @@
 module.exports = {
   purge: {
-    //enbled: true,
+    enabled: process.env.NODE_ENV === 'production', // 本番環境のみPurge有効化
     content: ['./src/**/*.js']
   },
   darkMode: false, // or 'media' or 'class'

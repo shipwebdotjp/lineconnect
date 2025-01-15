@@ -4,6 +4,28 @@ sed -i '' "s/Stable tag: .*/Stable tag: ${LINE_CONNECT_VERSION}/" readme.txt
 sed -i '' "s/Version: .*/Version: ${LINE_CONNECT_VERSION}/" lineconnect.php
 sed -i '' "s/const VERSION = '.*/const VERSION = '${LINE_CONNECT_VERSION}';/" lineconnect.php
 
+# ワーキングディレクトリを保存して後で利用可能にする
+WORKING_DIR=`pwd`
+
+# line-richmenuに移動して、ビルドする
+cd line-richmenu
+npm run build
+cd $WORKING_DIR
+
+# line-chatに移動して、ビルドする
+cd line-chat
+npm run build
+cd $WORKING_DIR
+
+# line-dmに移動して、ビルドする
+cd line-dm
+npm run build
+cd $WORKING_DIR
+
+cd react-jsonschema-form
+npm run build
+cd $WORKING_DIR
+
 # 全てステージにのせる
 git add -A;
 

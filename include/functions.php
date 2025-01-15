@@ -252,4 +252,26 @@ class lineconnectFunctions {
 		$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $message);
 		return $response;
 	}
+
+	/**
+	 * ユーザーのリッチメニューを設定する
+	 * @param string $richmenu_id リッチメニューID
+	 * @param string $line_user_id LINEユーザーID
+	 * @param string $secret_prefix チャネルID
+	 * @return array LINE APIのレスポンス
+	 */
+	function link_richmenu( $richmenu_id, $line_user_id = null, $secret_prefix = null ) {
+		$channel = lineconnect::get_channel( isset($this->secret_prefix) ? $this->secret_prefix : $secret_prefix );
+		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
+		if ( $channel ) {
+			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+
+			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel['channel-access-token']);
+			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel['channel-secret']]);
+
+			$response = $bot->linkRichMenu( $line_user_id, $richmenu_id );
+			return $response;
+		}
+		return null;
+	}
 }

@@ -17,6 +17,7 @@
 
 import React, { useState } from 'react';
 import Result from './Result';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const __ = wp.i18n.__;
 
@@ -25,16 +26,20 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
     const [aliasId, setAliasId] = useState('');
     const [selectedRichmenu, setSelectedRichmenu] = useState('');
     const [isCreating, setIsCreating] = useState(false);
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
+    // const [selectedRichmenuIds, setSelectedRichmenuIds] = useState({});
+    const [updatingStates, setUpdatingStates] = useState({});
+    const [deletingStates, setDeletingStates] = useState({});
 
-    const handleUpdateAlias = async (aliasId, newRichmenuId) => {
+    const handleUpdateAlias = async (aliasId) => {
+        const newRichmenuId = aliasList[aliasId];
+
         if (!newRichmenuId) {
             setResult({'result': 'error', 'error': [ __('Please select a richmenu', 'lineconnect')], 'success': []});
             return;
         }
 
-        setIsUpdating(true);
+        // setIsUpdating(true);
+        setUpdatingStates(prev => ({...prev, [aliasId]: true}));
         setResult([]);
 
         jQuery.ajax({
@@ -57,7 +62,8 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
             console.log('Error: ' + error);
             console.log(XMLHttpRequest.responseText);
         }).always(function () {
-            setIsUpdating(false);
+            // setIsUpdating(false);
+            setUpdatingStates(prev => ({...prev, [aliasId]: false}));
         });
         
     };
@@ -67,7 +73,7 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
             return;
         }
 
-        setIsDeleting(true);
+        setDeletingStates(prev => ({...prev, [aliasId]: true}));
         setResult([]);
 
         jQuery.ajax({
@@ -89,7 +95,7 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
             console.log('Error: ' + error);
             console.log(XMLHttpRequest.responseText);
         }).always(function () {
-            setIsDeleting(false);
+            setDeletingStates(prev => ({...prev, [aliasId]: false}));
         });
     };
 
@@ -153,12 +159,13 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                     </label>
                     <input
                         type="text"
-                        className="w-full p-2 border rounded"
+                        className="w-64 p-2 border rounded"
                         placeholder="alias_id"
                         maxLength={32}
                         value={aliasId}
                         onChange={(e) => setAliasId(e.target.value)}
                     />
+                    <div className="text-sm text-gray-500 ml-2">{__('(1-32 characters, a-z, A-Z, 0-9, _ and -)', 'lineconnect')}</div>
                 </div>
 
                 <div className="mb-4">
@@ -177,6 +184,7 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                             </option>
                         ))}
                     </select>
+                    <div className="text-sm text-gray-500 ml-2">{__('(Select a richmenu to link)', 'lineconnect')}</div>
                 </div>
 
                 <button
@@ -193,14 +201,14 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                             {__('Creating...', 'lineconnect')}
                         </span>
                     ) : (
-                        __('Create Alias', 'lineconnect')
+                        __('Create', 'lineconnect')
                     )}
                 </button>
             </div>
 
             {/* 既存エイリアス一覧 */}
             <div className="p-4 border rounded-lg">
-                <h3 className="text-lg font-bold mb-2">{__('Existing Aliases', 'lineconnect')}</h3>
+                <h3 className="text-lg font-bold mb-2">{__('Aliases list', 'lineconnect')}</h3>
                 
                 {Object.entries(aliasList).length === 0 ? (
                     <p className="text-gray-500">{__('No aliases found', 'lineconnect')}</p>
@@ -209,22 +217,24 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                         {Object.entries(aliasList).map(([aliasId, richmenuId]) => (
                             <div key={aliasId} className="p-4 border rounded-lg">
                                 <div className="flex items-center justify-between mb-4">
-                                    <span className="font-medium">{aliasId}</span>
+                                    <span className="text-lg font-bold">{aliasId}</span>
                                     <button
-                                        className="text-red-500 hover:text-red-700 disabled:text-red-300"
+                                        className=" flex items-center text-red-500 hover:text-red-700 disabled:text-red-300"
                                         onClick={() => handleDeleteAlias(aliasId)}
-                                        disabled={isDeleting}
+                                        disabled={deletingStates[aliasId]}
                                     >
-                                        {isDeleting ? (
+                                        {deletingStates[aliasId] ? (
                                             <span className="flex items-center">
                                                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
-                                                {__('Deleting...', 'lineconnect')}
+                                                <DeleteIcon />{__('Deleting...', 'lineconnect')}
                                             </span>
                                         ) : (
-                                            __('Delete', 'lineconnect')
+                                            <>
+                                                <DeleteIcon />{__('Delete', 'lineconnect')}
+                                            </>
                                         )}
                                     </button>
                                 </div>
@@ -234,10 +244,10 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                                         {__('Linked Richmenu', 'lineconnect')}
                                     </label>
                                     <select
-                                        className="w-full p-2 border rounded disabled:opacity-50"
+                                        className="w-full p-4 border rounded disabled:opacity-50"
                                         value={richmenuId}
-                                        onChange={(e) => handleUpdateAlias(aliasId, e.target.value)}
-                                        disabled={isUpdating}
+                                        onChange={(e) => setAliasList({...aliasList, [aliasId]: e.target.value})}
+                                        disabled={updatingStates[aliasId]}
                                     >
                                         <option value="">{__('Select Richmenu', 'lineconnect')}</option>
                                         {Object.entries(richmenuList).map(([id, richmenu]) => (
@@ -246,6 +256,23 @@ const RichmenuAlias = ({ channel, richmenuList, aliasList, setAliasList }) => {
                                             </option>
                                         ))}
                                     </select>
+                                    <button
+                                        className="border border-blue-500 text-blue-500 px-4 py-2 m-2 rounded hover:bg-blue-500 hover:text-white disabled:bg-blue-300"
+                                        onClick={() => handleUpdateAlias(aliasId)}
+                                        disabled={updatingStates[aliasId]}
+                                    >
+                                        {updatingStates[aliasId] ? (
+                                            <span className="flex items-center">
+                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                {__('Updating...', 'lineconnect')}
+                                            </span>
+                                        ) : (
+                                            __('Update', 'lineconnect')
+                                        )}
+                                    </button>
                                 </div>
                             </div>
                         ))}

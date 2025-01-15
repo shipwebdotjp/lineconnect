@@ -334,31 +334,38 @@ EOM;
 
 	/**
 	 * チャンネルのリッチメニューリストをすべて取得
-	 * @param object $channel チャンネルデータ
+	 * @param object $target_channel 取得するチャンネルデータ(nullの場合は全チャンネルのチャネルデータを取得)
 	 * @return array リッチメニューのID、タイトルを値とする配列
 	 */
-	static function get_richmenus($channel) {
-		$channel_access_token = $channel['channel-access-token'];
-		$channel_secret = $channel['channel-secret'];
-		$secret_prefix = substr($channel_secret, 0, 4);
+	static function get_richmenus($target_channel = null) {
+		$all_richmenus = array();
+		foreach( lineconnect::get_all_channels() as $channel_id => $channel ){
+			if ( $target_channel == null || $channel == $target_channel ) {
+				
+				$channel_access_token = $channel['channel-access-token'];
+				$channel_secret = $channel['channel-secret'];
+				$secret_prefix = substr($channel_secret, 0, 4);
 
-		if ( false === ( $richmenus = get_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix ) ) ) {
-			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+				if ( false === ( $richmenus = get_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix ) ) ) {
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
 
-			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
-			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
-			
-			$response = $bot->getRichMenuList();
-			$richmenus = array();
-			if ($response->getHTTPStatus() === 200) {
-				$temp_richmenus = $response->getJSONDecodedBody()['richmenus'];
-				foreach ($temp_richmenus as $richmenu) {
-					$richmenus[$richmenu['richMenuId']] = $richmenu['name'];
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+					
+					$response = $bot->getRichMenuList();
+					$richmenus = array();
+					if ($response->getHTTPStatus() === 200) {
+						$temp_richmenus = $response->getJSONDecodedBody()['richmenus'];
+						foreach ($temp_richmenus as $richmenu) {
+							$richmenus[$richmenu['richMenuId']] = $richmenu['name'];
+						}
+					}
+					set_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix, $richmenus, MONTH_IN_SECONDS );	
 				}
+				$all_richmenus = array_merge($all_richmenus, $richmenus);
 			}
-			set_transient( lineconnect::TRANSIENT_KEY__RICHMENUS_LIST. $secret_prefix, $richmenus, MONTH_IN_SECONDS );	
 		}
-		return $richmenus;
+		return $all_richmenus;
 	}
 
 	/**
@@ -367,6 +374,7 @@ EOM;
 	 * @return array リッチメニューのIDをキー、リッチメニューデータを値とする配列
 	 */
 	static function get_richmenus_with_data($channel) {
+
 		$channel_access_token = $channel['channel-access-token'];
 		$channel_secret = $channel['channel-secret'];
 		$secret_prefix = substr($channel_secret, 0, 4);
@@ -748,32 +756,39 @@ EOM;
 
 	/**
 	 * チャンネルのリッチメニューエイリアスリストをすべて取得
-	 * @param object $channel チャンネルデータ
+	 * @param object $target_channel チャンネルデータ(nullの場合は全チャンネルのエイリアスを取得)
 	 * @return array リッチメニューエイリアスIDをキー、リッチメニューIDを値として持つ配列
 	 */
-	static function get_richmenu_aliases($channel) {
-		$channel_access_token = $channel['channel-access-token'];
-		$channel_secret = $channel['channel-secret'];
-		$secret_prefix = substr($channel_secret, 0, 4);
+	static function get_richmenu_aliases($target_channel = null) {
+		$all_richmenu_aliases = array();
+		foreach( lineconnect::get_all_channels() as $channel_id => $channel ){
+			if ( $target_channel == null || $channel == $target_channel ) {
+				
+				$channel_access_token = $channel['channel-access-token'];
+				$channel_secret = $channel['channel-secret'];
+				$secret_prefix = substr($channel_secret, 0, 4);
 
-		if ( false === ( $richmenu_aliases = get_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix ) ) ) {
-			require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
+				if ( false === ( $richmenu_aliases = get_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix ) ) ) {
+					require_once(plugin_dir_path(__FILE__) . '../vendor/autoload.php');
 
-			// $richmenus = self::get_richmenus($channel);
-			$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
-			$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
-			
-			$response = $bot->getRichMenuAliasList();
-			$richmenu_aliases = array();
-			if ($response->getHTTPStatus() === 200) {
-				$temp_richmenu_aliases = $response->getJSONDecodedBody()['aliases'];
-				foreach ($temp_richmenu_aliases as $richmenu_alias) {
-					$richmenu_aliases[$richmenu_alias['richMenuAliasId']] = $richmenu_alias['richMenuId'];
+					// $richmenus = self::get_richmenus($channel);
+					$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+					$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+					
+					$response = $bot->getRichMenuAliasList();
+					$richmenu_aliases = array();
+					if ($response->getHTTPStatus() === 200) {
+						$temp_richmenu_aliases = $response->getJSONDecodedBody()['aliases'];
+						foreach ($temp_richmenu_aliases as $richmenu_alias) {
+							$richmenu_aliases[$richmenu_alias['richMenuAliasId']] = $richmenu_alias['richMenuId'];
+						}
+					}
+					set_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix, $richmenu_aliases, MONTH_IN_SECONDS );	
 				}
+				$all_richmenu_aliases = array_merge($all_richmenu_aliases, $richmenu_aliases);
 			}
-			set_transient( lineconnect::TRANSIENT_KEY__RICHMENU_ALIAS_LIST. $secret_prefix, $richmenu_aliases, MONTH_IN_SECONDS );	
 		}
-		return $richmenu_aliases;
+		return $all_richmenu_aliases;
 	}
 
 	/**

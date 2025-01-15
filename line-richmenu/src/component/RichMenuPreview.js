@@ -59,6 +59,9 @@ const RichMenuPreview = ({ richmenu, imageUrl, areaFocusedIndex, onAreaChange })
 
     const renderBoundingBoxes = () => {
         return richmenu.areas?.map((area, index) => {
+            if (!area.hasOwnProperty('bounds') || !area.bounds.hasOwnProperty('x') || !area.bounds.hasOwnProperty('y') || !area.bounds.hasOwnProperty('width') || !area.bounds.hasOwnProperty('height')  || !area.bounds.hasOwnProperty('height')) {
+                return null;
+            }
             const { x, y, width, height } = area.bounds;
             const scaledX = x * scaleFactor;
             const scaledY = y * scaleFactor;

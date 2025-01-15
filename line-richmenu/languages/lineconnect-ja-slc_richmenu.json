@@ -1,5 +1,5 @@
 {
-  "translation-revision-date": "2025-01-11 20:42:16+0900",
+  "translation-revision-date": "2025-01-14 15:29:02+0900",
   "generator": "Custom PO to JED Converter",
   "domain": "lineconnect",
   "locale_data": {
@@ -15,8 +15,11 @@
       "Add tap areas": [
         "タップ領域を追加する"
       ],
-      "Save": [
-        "保存"
+      "Creating...": [
+        "作成中..."
+      ],
+      "Create": [
+        "作成"
       ],
       "File size must be less than 1MB": [
         "ファイルサイズは1MB未満である必要があります"
@@ -45,14 +48,74 @@
       "File type: JPEG or PNG": [
         "ファイルタイプ: JPEGまたはPNG"
       ],
-      "Create new richmenu from blank template": [
-        "テンプレートから新規作成"
+      "Please fill all fields": [
+        "すべての項目を入力してください"
+      ],
+      "Invalid Alias ID format": [
+        "無効なエイリアスID形式です"
+      ],
+      "Failed to create alias": [
+        "エイリアスの作成に失敗しました"
+      ],
+      "LINE Richmenu Alias": [
+        "LINEリッチメニューエイリアス"
+      ],
+      "Create New Alias": [
+        "新しいエイリアスを作成"
+      ],
+      "Alias ID": [
+        "エイリアスID"
+      ],
+      "(1-32 characters, a-z, A-Z, 0-9, _ and -)": [
+        "（1～32文字、a-z、A-Z、0-9、_ および - を使用可能）"
+      ],
+      "Richmenu": [
+        "リッチメニュー"
+      ],
+      "(Select a richmenu to link)": [
+        "（リンクするリッチメニューを選択してください）"
+      ],
+      "Aliases list": [
+        "エイリアス一覧"
+      ],
+      "No aliases found": [
+        "エイリアスが見つかりません"
+      ],
+      "Deleting...": [
+        "削除中..."
+      ],
+      "Delete": [
+        "削除"
+      ],
+      "Linked Richmenu": [
+        "紐づけ先リッチメニュー"
+      ],
+      "Select Richmenu": [
+        "リッチメニューを選択"
+      ],
+      "Updating...": [
+        "更新中..."
+      ],
+      "Update": [
+        "更新"
+      ],
+      "Please select a richmenu": [
+        "リッチメニューを選択してください"
+      ],
+      "Are you sure you want to delete this alias?": [
+        "このエイリアスを削除してもよろしいですか？"
       ],
       "Richmenu list": [
         "リッチメニュー一覧"
       ],
+      "Create new richmenu from blank template": [
+        "テンプレートから新規作成"
+      ],
       "Create Richmenu": [
         "リッチメニュー作成"
+      ],
+      "Richmenu alias": [
+        "エイリアス"
       ],
       "LINE Richmenu": [
         "LINEリッチメニュー"
@@ -62,12 +125,6 @@
       ],
       "Use as template": [
         "テンプレートとして使用"
-      ],
-      "Delete": [
-        "削除"
-      ],
-      "Richmenu templates": [
-        "リッチメニューテンプレート"
       ]
     }
   }

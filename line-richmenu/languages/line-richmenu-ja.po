@@ -14,13 +14,17 @@ msgstr ""
 msgid "Channel"
 msgstr "チャネル"
 
-#: src/component/CreateRechmenu.js:140
+#: src/component/CreateRechmenu.js:141
 msgid "Add tap areas"
 msgstr "タップ領域を追加する"
 
-#: src/component/CreateRechmenu.js:249
-msgid "Save"
-msgstr "保存"
+#: src/component/CreateRechmenu.js:262 src/component/RichmenuAlias.js:200
+msgid "Creating..."
+msgstr "作成中..."
+
+#: src/component/CreateRechmenu.js:265 src/component/RichmenuAlias.js:203
+msgid "Create"
+msgstr "作成"
 
 #: src/component/RichMenuUpload.js:11
 msgid "File size must be less than 1MB"
@@ -58,19 +62,99 @@ msgstr "ファイルをここにドラッグ＆ドロップするか、クリッ
 msgid "File type: JPEG or PNG"
 msgstr "ファイルタイプ: JPEGまたはPNG"
 
-#: src/component/RichmenuForm.js:108
-msgid "Create new richmenu from blank template"
-msgstr "テンプレートから新規作成"
+#: src/component/RichmenuAlias.js:103
+msgid "Please fill all fields"
+msgstr "すべての項目を入力してください"
 
-#: src/component/RichmenuForm.js:111 src/component/RichmenuList.js:18
+#: src/component/RichmenuAlias.js:108
+msgid "Invalid Alias ID format"
+msgstr "無効なエイリアスID形式です"
+
+#: src/component/RichmenuAlias.js:136
+msgid "Failed to create alias"
+msgstr "エイリアスの作成に失敗しました"
+
+#: src/component/RichmenuAlias.js:146
+msgid "LINE Richmenu Alias"
+msgstr "LINEリッチメニューエイリアス"
+
+#: src/component/RichmenuAlias.js:153
+msgid "Create New Alias"
+msgstr "新しいエイリアスを作成"
+
+#: src/component/RichmenuAlias.js:157
+msgid "Alias ID"
+msgstr "エイリアスID"
+
+#: src/component/RichmenuAlias.js:167
+msgid "(1-32 characters, a-z, A-Z, 0-9, _ and -)"
+msgstr "（1～32文字、a-z、A-Z、0-9、_ および - を使用可能）"
+
+#: src/component/RichmenuAlias.js:172 src/component/RichmenuIndex.js:67
+msgid "Richmenu"
+msgstr "リッチメニュー"
+
+#: src/component/RichmenuAlias.js:186
+msgid "(Select a richmenu to link)"
+msgstr "（リンクするリッチメニューを選択してください）"
+
+#: src/component/RichmenuAlias.js:210
+msgid "Aliases list"
+msgstr "エイリアス一覧"
+
+#: src/component/RichmenuAlias.js:213
+msgid "No aliases found"
+msgstr "エイリアスが見つかりません"
+
+#: src/component/RichmenuAlias.js:231
+msgid "Deleting..."
+msgstr "削除中..."
+
+#: src/component/RichmenuAlias.js:234 src/component/RichmenuList.js:32
+msgid "Delete"
+msgstr "削除"
+
+#: src/component/RichmenuAlias.js:241
+msgid "Linked Richmenu"
+msgstr "紐づけ先リッチメニュー"
+
+#: src/component/RichmenuAlias.js:249
+msgid "Select Richmenu"
+msgstr "リッチメニューを選択"
+
+#: src/component/RichmenuAlias.js:267
+msgid "Updating..."
+msgstr "更新中..."
+
+#: src/component/RichmenuAlias.js:270
+msgid "Update"
+msgstr "更新"
+
+#: src/component/RichmenuAlias.js:36
+msgid "Please select a richmenu"
+msgstr "リッチメニューを選択してください"
+
+#: src/component/RichmenuAlias.js:71
+msgid "Are you sure you want to delete this alias?"
+msgstr "このエイリアスを削除してもよろしいですか？"
+
+#: src/component/RichmenuForm.js:132
 msgid "Richmenu list"
 msgstr "リッチメニュー一覧"
 
-#: src/component/RichmenuForm.js:134
+#: src/component/RichmenuForm.js:140
+msgid "Create new richmenu from blank template"
+msgstr "テンプレートから新規作成"
+
+#: src/component/RichmenuForm.js:170
 msgid "Create Richmenu"
 msgstr "リッチメニュー作成"
 
-#: src/component/RichmenuForm.js:145 src/component/RichmenuIndex.js:35
+#: src/component/RichmenuIndex.js:76
+msgid "Richmenu alias"
+msgstr "エイリアス"
+
+#: src/component/RichmenuIndex.js:86
 msgid "LINE Richmenu"
 msgstr "LINEリッチメニュー"
 
@@ -78,14 +162,15 @@ msgstr "LINEリッチメニュー"
 msgid "Are you sure you want to delete this richmenu?"
 msgstr "このリッチメニューを削除してもよろしいですか？"
 
-#: src/component/RichmenuList.js:33
+#: src/component/RichmenuList.js:44
 msgid "Use as template"
 msgstr "テンプレートとして使用"
 
-#: src/component/RichmenuList.js:40
-msgid "Delete"
-msgstr "削除"
+#~ msgid "Saving..."
+#~ msgstr "保存中..."
 
-#: src/component/RichmenuTemplates.js:12
-msgid "Richmenu templates"
-msgstr "リッチメニューテンプレート"
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "Richmenu templates"
+#~ msgstr "リッチメニューテンプレート"

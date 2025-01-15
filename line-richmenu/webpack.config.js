@@ -38,8 +38,9 @@ module.exports = (env, args) => {
                                         'Project-Id-Version': 'LINE Connect',
                                         'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
                                     }
-                                }]
-                            ] //JSXパース用
+                                }],
+                                '@babel/plugin-transform-runtime'
+                            ]
                         }
                     }
                 },
