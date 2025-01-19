@@ -140,6 +140,19 @@ You can also use data included in received Webhook events.
 `{{$.webhook.eventObjectProperty}}`  
 Example: To use the text message sent to the official account  
 `{{$.webhook.message.text}}`  
+Example) **When using postback data**
+You can use the data directly with `{{$.webhook.postback.data}}`.  
+When data is in query string format, the parsed data is stored in params.  
+
+Example) **Replying with a specified message ID using postback**
+If the data is `action=message&slc_message_id=1354`, you can use `{{$.webhook.postback.params.slc_message_id}}` to get the value "1354".  
+By utilizing this, you can create a single common trigger that fires on `action=message`, set the "Get LINE Connect message" action, and inject the desired message ID through action chain. This eliminates the need to create individual triggers for each message.  
+[Configuration Example](/img/trigger/ex_postback_message.png)
+
+Example) **Setting profile items using postback**
+Create a postback with data `action=profile&key=value` and configure the trigger to fire on `action=profile`.  
+Select "Update LINE User Profile" as the action and input `{{$.webhook.postback.params.key}}` for key and `{{$.webhook.postback.params.value}}` for value.
+[設定例](/img/trigger/ex_postbak_update_profile.png)
 
 ##### User Data
 You can use the data of the user who sent the Webhook event.  
@@ -148,7 +161,8 @@ Example: Using the display name of a user
  If the user is already linked to a WordPress user, you can get the display name of the WordPress user; if not, you can get the display name of the LINE user.  
 `{{$.user.data.display_name}}`  
 The profile of the LINE user (profile image URL, etc.) can be used in `{{$.user.profile.[profile property]}}`.  
-The values that can be used as profile properties are `displayName`, `pictureUrl`, `language` and `statusMessage`.  
+The standard available values for profile properties are `displayName`, `pictureUrl`, `language`, and `statusMessage`.  
+In addition, you can use your own item names set in the profile update action. 
 
 
 #### action-chain

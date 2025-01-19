@@ -32,6 +32,7 @@ require_once plugin_dir_path( __FILE__ ) . 'include/dashboard.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/dm.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/action.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/trigger.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/audience.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/util.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/slc_message.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/schedule.php';
@@ -84,9 +85,14 @@ class lineconnect {
 	const CREDENTIAL_ACTION__ACTION = self::PLUGIN_ID . '-nonce-action_action';
 
 	/**
-	 * CredentialAction：Action
+	 * CredentialAction：Trigger
 	 */
 	const CREDENTIAL_ACTION__TRIGGER = self::PLUGIN_ID . '-nonce-action_trigger';
+
+	/**
+	 * CredentialAction：Audience
+	 */
+	const CREDENTIAL_ACTION__AUDIENCE = self::PLUGIN_ID . '-nonce-action_audience';
 
 	/**
 	 * CredentialAction：Message
@@ -112,6 +118,11 @@ class lineconnect {
 	 * CredentialName：Trigger
 	 */
 	const CREDENTIAL_NAME__TRIGGER = self::PLUGIN_ID . '-nonce-name_trigger';
+
+	/**
+	 * CredentialName：Audience
+	 */
+	const CREDENTIAL_NAME__AUDIENCE = self::PLUGIN_ID . '-nonce-name_audience';
 
 	/**
 	 * CredentialName：Message
@@ -177,6 +188,11 @@ class lineconnect {
 	 * パラメータ名：LINE TRIGGER データ
 	 */
 	const PARAMETER__TRIGGER_DATA = self::PLUGIN_PREFIX . 'trigger-data';
+
+	/**
+	 * パラメータ名：LINE AUDIENCE データ
+	 */
+	const PARAMETER__AUDIENCE_DATA = self::PLUGIN_PREFIX . 'audience-data';
 
 	/**
 	 * パラメータ名：LINE MESSAGE データ
@@ -289,6 +305,11 @@ class lineconnect {
 	const META_KEY__TRIGGER_DATA = 'trigger-data';
 
 	/**
+	 * 投稿メタキー：audience-data
+	 */
+	const META_KEY__AUDIENCE_DATA = 'audience-data';
+
+	/**
 	 * 投稿メタキー：message-data
 	 */
 	const META_KEY__MESSAGE_DATA = 'message-data';
@@ -396,6 +417,10 @@ class lineconnect {
 				add_action( 'save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array( 'lineconnectTrigger', 'save_post_trigger' ), 15, 6 );
 				add_action( 'admin_enqueue_scripts', array( 'lineconnectTrigger', 'wpdocs_selectively_enqueue_admin_script' ) );
 
+				// Audience関係
+				add_action( 'save_post_' . lineconnectConst::POST_TYPE_AUDIENCE, array( 'lineconnectAudience', 'save_post_audience' ), 15, 6 );
+				add_action( 'admin_enqueue_scripts', array( 'lineconnectAudience', 'wpdocs_selectively_enqueue_admin_script' ) );
+
 				// message
 				add_action( 'save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array( 'lineconnectSLCMessage', 'save_post_message' ), 15, 6 );
 				add_action( 'admin_enqueue_scripts', array( 'lineconnectSLCMessage', 'wpdocs_selectively_enqueue_admin_script' ) );
@@ -433,6 +458,8 @@ class lineconnect {
 					//add_action( 'admin_menu', array( 'lineconnectAction', 'set_plugin_menu' ) );
 					// Triggerのトップメニューページを追加
 					add_action( 'admin_menu', array( 'lineconnectTrigger', 'set_plugin_menu' ) );
+					// Audienceのトップメニューページを追加
+					add_action( 'admin_menu', array( 'lineconnectAudience', 'set_plugin_menu' ) );
 					// Messageのトップメニューページを追加
 					add_action( 'admin_menu', array( 'lineconnectSLCMessage', 'set_plugin_menu' ) );
 					// リッチメニューのトップメニューページを追加
@@ -1013,6 +1040,58 @@ class lineconnect {
 			)
 		);
 	}
+
+	// register custom post type: Audience
+	register_post_type(
+		lineconnectConst::POST_TYPE_AUDIENCE,
+		array(
+			'labels'               => array(
+				'name'                     => __( 'LC Audiences', self::PLUGIN_NAME ),
+				'singular_name'            => __( 'LC Audience', self::PLUGIN_NAME ),
+				'add_new'                  => __( 'Add New', self::PLUGIN_NAME ),
+				'add_new_item'             => __( 'Add New Audience', self::PLUGIN_NAME ),
+				'edit_item'                => __( 'Edit Audience', self::PLUGIN_NAME ),
+				'new_item'                 => __( 'New Audience', self::PLUGIN_NAME ),
+				'view_item'                => __( 'View Audience', self::PLUGIN_NAME ),
+				'search_items'             => __( 'Search Audiences', self::PLUGIN_NAME ),
+				'not_found'                => __( 'No Audiences found', self::PLUGIN_NAME ),
+				'not_found_in_trash'       => __( 'No Audiences found in Trash', self::PLUGIN_NAME ),
+				'parent_item_colon'        => '',
+				'menu_name'                => __( 'LC Audiences', self::PLUGIN_NAME ),
+				'all_items'                => __( 'All Audiences', self::PLUGIN_NAME ),
+					'archives'                 => __( 'Audience Archives', self::PLUGIN_NAME ),
+					'attributes'               => __( 'Audience Attributes', self::PLUGIN_NAME ),
+					'insert_into_item'         => __( 'Insert into Audience', self::PLUGIN_NAME ),
+					'uploaded_to_this_item'    => __( 'Uploaded to this Audience', self::PLUGIN_NAME ),
+					'featured_image'           => __( 'Featured Image', self::PLUGIN_NAME ),
+					'set_featured_image'       => __( 'Set featured image', self::PLUGIN_NAME ),
+					'remove_featured_image'    => __( 'Remove featured image', self::PLUGIN_NAME ),
+					'use_featured_image'       => __( 'Use as featured image', self::PLUGIN_NAME ),
+					'filter_items_list'        => __( 'Filter Audiences list', self::PLUGIN_NAME ),
+					'items_list_navigation'    => __( 'Audiences list navigation', self::PLUGIN_NAME ),
+					'items_list'               => __( 'Audiences list', self::PLUGIN_NAME ),
+					'item_published'           => __( 'Audience published.', self::PLUGIN_NAME ),
+					'item_published_privately' => __( 'Audience published privately.', self::PLUGIN_NAME ),
+					'item_reverted_to_draft'   => __( 'Audience reverted to draft.', self::PLUGIN_NAME ),
+					'item_scheduled'           => __( 'Audience scheduled.', self::PLUGIN_NAME ),
+					'item_updated'             => __( 'Audience updated.', self::PLUGIN_NAME ),
+				),
+				'description'          => __( 'LINE Connect Audiences', self::PLUGIN_NAME ),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
+				'show_in_rest'         => false,
+				'supports'             => array( 'title' ),
+				'register_meta_box_cb' => array( 'lineconnectAudience', 'register_meta_box' ),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+	}
+
 
 	static function cron_initialaize(){
 		if (wp_get_schedule(self::CRON_EVENT_NAME) === false) {

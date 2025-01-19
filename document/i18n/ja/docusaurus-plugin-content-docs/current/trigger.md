@@ -156,6 +156,18 @@ Webhookイベントの発行元としてLINEグループを条件として設定
 例)公式アカウントに送信されたテキストメッセージを使用する場合  
 `{{$.webhook.message.text}}`
 
+例)**ポストバックデータを使用する場合**
+dataをそのまま使用する場合`{{$.webhook.postback.data}}`で使用できます。  
+dataがクエリストリングの場合、パースしたものがparamsに入ります。  
+例)**ポストバックでメッセージIDを指定して返信する**
+dataが`action=message&slc_message_id=1354`の場合,slc_message_idの値である「1354」を取得するために`{{$.webhook.postback.params.slc_message_id}}`が使用できます。  
+これを活用することで、`action=messagee`で発動する共通のトリガーを一つ作成し、アクションに「LINE Connectメッセージ取得」を設定し、アクションチェインで送信したいメッセージIDを注入すれば、一つ一つトリガーを作成する必要がなくなります。  
+[設定例](/img/trigger/ex_postback_message.png)
+例)**ポストバックでプロフィール項目を設定する**
+dataが`action=profile&key=value`のポストバックを作成し、トリガーで`action=profile`で発動するように設定します。  
+アクションで「LINEユーザープロフィール更新」を選択し、keyに`{{$.webhook.postback.params.key}}`,valueに`{{$.webhook.postback.params.value}}`を入力します。  
+[設定例](/img/trigger/ex_postbak_update_profile.png)
+
 ##### ユーザーデータ
 Webhookイベント送信元ユーザーのデータを使用できます。  
 `{{$.user.WPUserオブジェクトのプロパティ}}`  
@@ -163,7 +175,8 @@ Webhookイベント送信元ユーザーのデータを使用できます。
  WordPressユーザーと連携済みの場合は、WordPressユーザーの表示名が、未連携の場合はLINEユーザーの表示名が取得できます。  
 `{{$.user.data.display_name}}`  
 LINEユーザーのプロフィール（プロフィール画像URLなど）は`{{$.user.profile.プロフィールプロパティ}}`で使用できます。  
-プロフィールプロパティとして使える値は`displayName`、`pictureUrl`、`language`、`statusMessage`です。  
+プロフィールプロパティとして使える値は`displayName`、`pictureUrl`、`language`、`statusMessage`が標準で用意されています。  
+加えて、プロフィール更新アクションで設定した独自の項目名も使用可能です。    
 
 #### アクションチェイン
 アクションの引数がオブジェクトやあらかじめ決められた定数から選択する形式の場合は変数の埋め込みが行えません。  

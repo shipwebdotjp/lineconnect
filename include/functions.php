@@ -274,4 +274,92 @@ class lineconnectFunctions {
 		}
 		return null;
 	}
+
+	/**
+	 * ユーザーメタを取得
+	 * @param int $user_id WordPressユーザーID
+	 * @param string $key メタキー
+	 * @return mixed メタの値
+	 */
+	function get_user_meta($user_id, $key){
+		return get_user_meta($user_id, $key, true);
+	}
+
+	/**
+	 * ユーザーメタを更新
+	 * @param int $user_id WordPressユーザーID
+	 * @param string $key メタキー
+	 * @param mixed $value メタの値
+	 * @return bool 成功・失敗
+	 */
+	function update_user_meta($user_id, $key, $value){
+		if( !lineconnectUtil::is_empty ( $value ) ){
+			return update_user_meta($user_id, $key, $value);
+		}else{
+			return delete_user_meta($user_id, $key);
+		}
+	}
+
+	/**
+	 * LINEユーザープロフィールに保存されている値を取得
+	 * 
+	 * @param string $key キー
+	 * @param string $line_user_id LINEユーザーID
+	 * @param string $secret_prefix チャネルシークレットの先頭4文字
+	 * @return mixed|null 値（存在しない場合は null）
+	 */
+	function get_user_profile_value($key, $line_user_id = null, $secret_prefix = null) {
+		global $wpdb;
+		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
+		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
+
+		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+
+		// プロフィール情報を取得
+		$profile_value = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT JSON_EXTRACT(profile, %s) FROM $table_name WHERE line_id = %s AND channel_prefix = %s",
+				'$.'. $key,  // JSONパスを正しい形式で指定
+				$line_user_id,
+				$channel_prefix
+			)
+		);
+		return json_decode( $profile_value, true );
+	}
+
+	/**
+	 * LINEユーザープロフィールに値を保存
+	 * @param string $key キー
+	 * @param mixed $value
+	 * @param string $line_user_id LINEユーザーID
+	 * @param string $secret_prefix チャネルシークレットの先頭4文字
+	 */
+	function update_user_profile( $key, $value, $line_user_id = null, $secret_prefix = null ) {
+		global $wpdb;
+		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
+		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
+
+		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+
+		// 現在のプロフィールを取得
+		$current_profile = $wpdb->get_var(
+			$wpdb->prepare("SELECT profile FROM $table_name WHERE line_id = %s AND channel_prefix = %s", $line_user_id,  $channel_prefix)
+		);
+
+		$profile_array = json_decode($current_profile, true) ?: [];
+
+		if ( ! lineconnectUtil::is_empty ( $value ) ) {
+			$profile_array[ $key ] = $value;
+		} else {
+			unset( $profile_array[ $key ] );
+		}
+		
+		// データベースを更新
+		return $wpdb->update(
+			$table_name,
+			['profile' => json_encode($profile_array, JSON_UNESCAPED_UNICODE)],
+			['line_id' => $line_user_id]
+		);
+	}
+
 }

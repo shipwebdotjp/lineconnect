@@ -240,7 +240,7 @@ EOM;
 		$message = array();
 		$injection_data = array(
 			'return' => array(),
-			'webhook' => json_decode(json_encode($event), true),
+			'webhook' => self::merge_postback_data_to_params(json_decode(json_encode($event), true)),
 			'user' =>  $event ? lineconnect::get_userdata_from_line_id( $secret_prefix, $event->{'source'}->{'userId'} ) : [],
 		);
 		// error_log(print_r($injection_data['user'], true));
@@ -317,4 +317,30 @@ EOM;
 		}
 		return $message;
 	}
+
+	/**
+	 * ポストバックイベントのデータを解析し、paramsにマージして返す関数
+	 * 
+	 * @param array $event ポストバックイベントデータ
+	 * @return array パラメータをマージしたイベント配列
+	 */
+	static function merge_postback_data_to_params($event) {
+		// 初期値: paramsを取得
+		$params = $event['postback']['params'] ?? [];
+
+		// postback.dataを取得してクエリ文字列として扱う
+		if (!empty($event['postback']['data'])) {
+			parse_str($event['postback']['data'], $data_params);
+
+			// データが解析できた場合はparamsにマージする
+			if (is_array($data_params)) {
+				$params = array_merge($params, $data_params);
+				// $eventにマージ
+				$event['postback']['params'] = $params;
+			}
+		}
+
+		return $event;
+	}
+
 }
