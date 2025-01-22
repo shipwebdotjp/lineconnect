@@ -230,6 +230,7 @@ class lineconnectUtil {
 		return $line_id_row;
 	}
 
+
 	/**
 	 * 動的に翻訳を行う関数
 	 * @param $text 翻訳対象のテキスト

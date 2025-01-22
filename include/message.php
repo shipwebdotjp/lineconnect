@@ -97,7 +97,7 @@ class lineconnectMessage {
 	}
 
 	// ButtonTemplateBuilder
-	static function createButtonTemplateBuilder( $title = null, $text, $thumbnailImageUrl, array $actionBuilders, $imageAspectRatio = null,	$imageSize = null,	$imageBackgroundColor = null, $defaultAction = null){
+	static function createButtonTemplateBuilder( $title, $text, $thumbnailImageUrl, array $actionBuilders, $imageAspectRatio = null,	$imageSize = null,	$imageBackgroundColor = null, $defaultAction = null){
 		return new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder(
 			$title,
 			$text,

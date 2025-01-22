@@ -393,6 +393,10 @@ class lineconnect {
 			'init',
 			function () {
 				global $post_type, $pagenow;
+
+				// lineconnectConst class initialize
+				lineconnectConst::initialize();
+				
 				$post_types = self::get_option( 'send_post_types' );
 				foreach ( $post_types as $post_type ) {
 					add_action( 'publish_' . $post_type, array( 'lineconnectPublish', 'publish_post' ), 15, 6 );
@@ -525,6 +529,7 @@ class lineconnect {
 						//set cron
 				self::cron_initialaize();
 
+
 			}
 		);
 
@@ -542,8 +547,7 @@ class lineconnect {
 
 
 
-		// lineconnectConst class initialize
-		lineconnectConst::initialize();
+
 
 	}
 
@@ -723,6 +727,7 @@ class lineconnect {
 		$variables[ $variable_name ] = $value;
 		update_option( self::OPTION_KEY__VARIABLES, $variables );
 	}
+	
 	/**
 	 * 現在のプラグインバージョンを返す
 	 */
@@ -1039,13 +1044,12 @@ class lineconnect {
 				'menu_position'        => null,
 			)
 		);
-	}
 
-	// register custom post type: Audience
-	register_post_type(
-		lineconnectConst::POST_TYPE_AUDIENCE,
-		array(
-			'labels'               => array(
+			// register custom post type: Audience
+		register_post_type(
+			lineconnectConst::POST_TYPE_AUDIENCE,
+			array(
+				'labels'               => array(
 				'name'                     => __( 'LC Audiences', self::PLUGIN_NAME ),
 				'singular_name'            => __( 'LC Audience', self::PLUGIN_NAME ),
 				'add_new'                  => __( 'Add New', self::PLUGIN_NAME ),
@@ -1091,7 +1095,6 @@ class lineconnect {
 			)
 		);
 	}
-
 
 	static function cron_initialaize(){
 		if (wp_get_schedule(self::CRON_EVENT_NAME) === false) {

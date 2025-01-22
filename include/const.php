@@ -4973,7 +4973,11 @@ class lineconnectConst {
 											),
 											array(
 												'const' => 'link',
-												'title' => __('Link', lineconnect::PLUGIN_NAME),
+												'title' => __('Link status', lineconnect::PLUGIN_NAME),
+											),
+											array(
+												'const' => 'role',
+												'title' => __('Role', lineconnect::PLUGIN_NAME),
 											),
 											array(
 												'const' => 'lineUserId',
@@ -4981,19 +4985,23 @@ class lineconnectConst {
 											),
 											array(
 												'const' => 'wpUserId',
-												'title' => __('WordPress User ID', lineconnect::PLUGIN_NAME),
+												'title' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
 											),
 											array(
 												'const' => 'email',
 												'title' => __('Email', lineconnect::PLUGIN_NAME),
 											),
 											array(
-												'const' => 'username',
-												'title' => __('Username', lineconnect::PLUGIN_NAME),
+												'const' => 'userLogin',
+												'title' => __('User name', lineconnect::PLUGIN_NAME),
 											),
 											array(
-												'const' => 'userMeta',
-												'title' => __('User Meta', lineconnect::PLUGIN_NAME),
+												'const' => 'displayName',
+												'title' => __('User display name', lineconnect::PLUGIN_NAME),
+											),
+											array(
+												'const' => 'usermeta',
+												'title' => __('User meta', lineconnect::PLUGIN_NAME),
 											),
 											array(
 												'const' => 'profile',
@@ -5004,12 +5012,7 @@ class lineconnectConst {
 												'title' => __('Audience condition group', lineconnect::PLUGIN_NAME),
 											),											
 										),
-									),
-									'not' => array(
-										'type' => 'boolean',
-										'title' => __('Not', lineconnect::PLUGIN_NAME),
-										'description' => __('Logical negation', lineconnect::PLUGIN_NAME),
-									),
+									)
 								),
 								'dependencies' => array(
 									'type' => array(
@@ -5038,8 +5041,12 @@ class lineconnectConst {
 																'title' => __('Type', lineconnect::PLUGIN_NAME),
 																'anyOf' => array(
 																	array(
+																		'const' => 'broadcast',
+																		'title' => __('All freinds(Broadcast)', lineconnect::PLUGIN_NAME),
+																	),
+																	array(
 																		'const' => 'all',
-																		'title' => __('All freinds', lineconnect::PLUGIN_NAME),
+																		'title' => __('All recognized freinds(Multicast)', lineconnect::PLUGIN_NAME),
 																	),
 																	array(
 																		'const' => 'linked',
@@ -5062,6 +5069,25 @@ class lineconnectConst {
 													),
 													'role' => array(
 														'$ref' => '#/definitions/role',
+													),
+													'match' => array(
+														'type' => 'string',
+														'title' => __('Match type', lineconnect::PLUGIN_NAME),
+														'description' => __('Select how to match user roles', lineconnect::PLUGIN_NAME),
+														'anyOf' => array(
+															array(
+																'const' => 'role',
+																'title' => __('Must have all roles (AND)', lineconnect::PLUGIN_NAME),
+															),
+															array(
+																'const' => 'role__in',
+																'title' => __('Must have at least one role (OR)', lineconnect::PLUGIN_NAME),
+															),
+															array(
+																'const' => 'role__not_in',
+																'title' => __('Must not have these roles (NOT)', lineconnect::PLUGIN_NAME),
+															),
+														),
 													),
 												),
 											),
@@ -5111,11 +5137,11 @@ class lineconnectConst {
 											array(
 												'properties' => array(
 													'type' => array(
-														'const' => 'username',
+														'const' => 'userLogin',
 													),
-													'username' => array(
+													'userLogin' => array(
 														'type' => 'array',
-														'title' => __('Username', lineconnect::PLUGIN_NAME),
+														'title' => __('User name', lineconnect::PLUGIN_NAME),
 														'items' => array(
 															'type' => 'string',
 														),
@@ -5125,9 +5151,23 @@ class lineconnectConst {
 											array(
 												'properties' => array(
 													'type' => array(
-														'const' => 'userMeta',
+														'const' => 'displayName',
 													),
-													'userMeta' => array(
+													'displayName' => array(
+														'type' => 'array',
+														'title' => __('User display name', lineconnect::PLUGIN_NAME),
+														'items' => array(
+															'type' => 'string',
+														),
+													),
+												),
+											),
+											array(
+												'properties' => array(
+													'type' => array(
+														'const' => 'usermeta',
+													),
+													'usermeta' => array(
 														'type' => 'array',
 														'title' => __('User Meta', lineconnect::PLUGIN_NAME),
 														'items' => array(
@@ -5138,49 +5178,81 @@ class lineconnectConst {
 																	'type' => 'string',
 																	'title' => __('Meta Key', lineconnect::PLUGIN_NAME),
 																),
-																'value' => array(
-																	'type' => 'string',
-																	'title' => __('Meta Value', lineconnect::PLUGIN_NAME),
+																'values' => array(
+																	'type' => 'array',
+																	'title' => __('Values', lineconnect::PLUGIN_NAME),
+																	'items' => array(
+																		'type' => 'string',
+																		'minItems' => 1,
+																	)
 																),
 																'match' => array(
 																	'type' => 'string',
 																	'title' => __('Match type', lineconnect::PLUGIN_NAME),
 																	'anyOf' => array(
 																		array(
-																			'const' => 'contains',
-																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'equals',
+																			'const' => '=',
 																			'title' => __('Equals', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'startsWith',
-																			'title' => __('Starts with', lineconnect::PLUGIN_NAME),
+																			'const' => '!=',
+																			'title' => __('Not equals', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'endsWith',
-																			'title' => __('Ends with', lineconnect::PLUGIN_NAME),
+																			'const' => '>',
+																			'title' => __('Greater than', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'regexp',
+																			'const' => '>=',
+																			'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => '<',
+																			'title' => __('Less than', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => '<=',
+																			'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'LIKE',
+																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT LIKE',
+																			'title' => __('Not contains', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'IN',
+																			'title' => __('In', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT IN',
+																			'title' => __('Not in', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'BETWEEN',
+																			'title' => __('Between', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT BETWEEN',
+																			'title' => __('Not Between', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'EXISTS',
+																			'title' => __('Exists', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT EXISTS',
+																			'title' => __('Not exists', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'REGEXP',
 																			'title' => __('Regular expression', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'gt',
-																			'title' => __('greater than'), lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'gte',
-																			'title' => __('greater than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'lt',
-																			'title' => __('less than', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'lte',
-																			'title' => __('less than or equal', lineconnect::PLUGIN_NAME),
+																			'const' => 'NOT REGEXP',
+																			'title' => __('Not regular expression', lineconnect::PLUGIN_NAME),
 																		),
 																	),
 																),
@@ -5196,7 +5268,7 @@ class lineconnectConst {
 													),
 													'profile' => array(
 														'type' => 'array',
-														'title' => __('Profile', lineconnect::PLUGIN_NAME),
+														'title' => __('Profile data', lineconnect::PLUGIN_NAME),
 														'items' => array(
 															'type' => 'object',
 															'required' => ['key', 'value', 'match'],
@@ -5214,40 +5286,68 @@ class lineconnectConst {
 																	'title' => __('Match type', lineconnect::PLUGIN_NAME),
 																	'anyOf' => array(
 																		array(
-																			'const' => 'contains',
-																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'equals',
+																			'const' => '=',
 																			'title' => __('Equals', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'startsWith',
-																			'title' => __('Starts with', lineconnect::PLUGIN_NAME),
+																			'const' => '!=',
+																			'title' => __('Not equals', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'endsWith',
-																			'title' => __('Ends with', lineconnect::PLUGIN_NAME),
+																			'const' => '>',
+																			'title' => __('Greater than', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'regexp',
+																			'const' => '>=',
+																			'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => '<',
+																			'title' => __('Less than', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => '<=',
+																			'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'LIKE',
+																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT LIKE',
+																			'title' => __('Not contains', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'IN',
+																			'title' => __('In', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT IN',
+																			'title' => __('Not in', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'BETWEEN',
+																			'title' => __('Between', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT BETWEEN',
+																			'title' => __('Not Between', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'EXISTS',
+																			'title' => __('Exists', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'NOT EXISTS',
+																			'title' => __('Not exists', lineconnect::PLUGIN_NAME),
+																		),
+																		array(
+																			'const' => 'REGEXP',
 																			'title' => __('Regular expression', lineconnect::PLUGIN_NAME),
 																		),
 																		array(
-																			'const' => 'gt',
-																			'title' => __('greater than'), lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'gte',
-																			'title' => __('greater than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'lt',
-																			'title' => __('less than', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'lte',
-																			'title' => __('less than or equal', lineconnect::PLUGIN_NAME),
+																			'const' => 'NOT REGEXP',
+																			'title' => __('Not regular expression', lineconnect::PLUGIN_NAME),
 																		),
 																	),
 																),
@@ -5306,6 +5406,59 @@ class lineconnectConst {
 					'items' => array(
 						'type' => 'string',
 						'oneOf' => array(),
+					),
+				),
+			),
+		);
+
+		// Audience type UI schema
+		self::$lineconnect_audience_uischema = array(
+			'ui:submitButtonOptions' => array(
+				'norender' => true,
+			),
+			'condition' => array(
+				'conditions' => array(
+					'ui:options' => array(
+						'addText' =>  __('Add condition', lineconnect::PLUGIN_NAME),
+						'copyable' => true,
+					),
+					'items' => array(
+						'userId' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add LINE user ID', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						), 
+						'wpUserId' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add WordPress user ID', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						),
+						'email' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add email', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						),
+						'username' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add username', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						),
+						'userMeta' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add user meta', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						),
+						'profile' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add profile data', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						)
 					),
 				),
 			),

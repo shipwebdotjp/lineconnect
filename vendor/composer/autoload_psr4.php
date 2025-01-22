@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'LINE\\' => array($vendorDir . '/linecorp/line-bot-sdk/src'),
+    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
 );

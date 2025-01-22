@@ -2,7 +2,12 @@ test.php
 deploy
 node_modules/
 log/
+tests/
+bin/
 Makefile
 .env
 *.bak
 CHANGES.md
+.phpunit.result.cache
+phpunit.xml
+phpunit.xml.dist
