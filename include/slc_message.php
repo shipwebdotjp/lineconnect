@@ -228,6 +228,9 @@ EOM;
 	 */
 	static function get_lineconnect_message( $post_id, $args = null ) {
 		$formData        = get_post_meta( $post_id, lineconnect::META_KEY__MESSAGE_DATA, true );
+		if(empty($formData) || $formData === false){
+			return null;
+		}			
 		return self::formData_to_multimessage($formData, $args);
 	}
 
@@ -250,7 +253,7 @@ EOM;
 		}
 		foreach ( $message_data as $message_item ) {
 			$message_type = $message_item['type'];
-			$message = self::replacePlaceHolder($message_item['message'], $args);
+			$message = lineconnectUtil::replacePlaceHolder($message_item['message'], $args);
 			$message_object = $quickReply = $sender = null;
 			if ( ! empty( $message['quickReply'] ) ) {
 				$quickReplay_items = array();
@@ -323,7 +326,7 @@ EOM;
 			}
 		}
 		foreach ( $message_objects as $message_object ) {
-			error_log( print_r( $message_object, true ) );
+			// error_log( print_r( $message_object, true ) );
 			$multimessagebuilder->add( $message_object );
 		}
 		return $multimessagebuilder;
@@ -515,26 +518,6 @@ EOM;
 		return $templateAction;
 	}
 
-	static function replacePlaceHolder($obj, $args){
-		if(is_object($obj)){
-			foreach($obj as $key => $value){
-				$obj->{$key} = self::replacePlaceHolder($value, $args);
-			}
-		}elseif(is_array($obj)){
-			foreach($obj as $key => $value){
-				$obj[$key] = self::replacePlaceHolder($value, $args);
-			}
-		}elseif(is_string($obj)){
-			if(is_array($args)){
-				foreach($args as $key => $value){
-					if( is_string($value) ){
-						$obj = str_replace('{{'.$key.'}}', $value, $obj);
-					}
-				}
-			}
-		}
-		return $obj;
-	}
 
 	// Ajaxでメッセージデータを返す
 	static function ajax_get_slc_message(){

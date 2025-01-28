@@ -36,7 +36,15 @@ class lineconnectAdmin {
 					$secret_prefix = substr($channel['channel-secret'], 0, 4);
 					$user_meta_line = get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
 					if ($user_meta_line && isset($user_meta_line[$secret_prefix]) && isset($user_meta_line[$secret_prefix]['id'])) {
-						$line_sendmessage_url = add_query_arg(array('users' => $user_id, 'channel_ids' => $channel_id), admin_url('admin.php?page=' . lineconnect::SLUG__CHAT_FORM));
+						// $line_sendmessage_url = add_query_arg(array('users' => $user_id, 'channel_ids' => $channel_id), admin_url('admin.php?page=' . lineconnect::SLUG__BULKMESSAGE_FORM));
+						$line_sendmessage_url = add_query_arg(
+							array(
+								'line_id'        => $user_meta_line[$secret_prefix]['id'],
+								'channel_prefix' => $secret_prefix,
+								'action'         => 'message',
+							),
+							admin_url( 'admin.php?page=' . lineconnect::SLUG__DM_FORM )
+						);
 						$ary_output[] = "<a href=\"" . $line_sendmessage_url . "\" title=\"" . (isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : "") . "\">" . (isset($user_meta_line[$secret_prefix]['displayName']) ? $user_meta_line[$secret_prefix]['displayName'] : $linked_label) . "</a>";
 					} else {
 						$ary_output[] = $unlinked_label;
@@ -62,7 +70,7 @@ class lineconnectAdmin {
 		foreach ($items as $index => $userid) {
 			$user_args['users[' . $index . ']'] = $userid;
 		}
-		$redirect_url = add_query_arg($user_args, admin_url('admin.php?page=' . lineconnect::SLUG__CHAT_FORM));
+		$redirect_url = add_query_arg($user_args, admin_url('admin.php?page=' . lineconnect::SLUG__BULKMESSAGE_FORM));
 		return $redirect_url;
 	}
 }

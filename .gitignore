@@ -1,8 +1,8 @@
 test.php
+evn.php
 deploy
 node_modules/
 log/
-tests/
 bin/
 Makefile
 .env

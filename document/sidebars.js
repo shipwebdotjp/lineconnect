@@ -37,6 +37,7 @@ const sidebars = {
     'dm',
     'trigger',
     'message',
+    'audience',
     {
       type: 'category',
       label: 'For developers',

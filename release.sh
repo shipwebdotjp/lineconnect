@@ -12,8 +12,8 @@ cd line-richmenu
 npm run build
 cd $WORKING_DIR
 
-# line-chatに移動して、ビルドする
-cd line-chat
+# line-bulkmessageに移動して、ビルドする
+cd line-bulkmessage
 npm run build
 cd $WORKING_DIR
 

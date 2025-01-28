@@ -248,9 +248,36 @@ class lineconnectFunctions {
 
 	function send_line_message( $message, $line_user_id, $secret_prefix = null) {
 		$message = lineconnectUtil::get_line_message_builder( $message );
+		// $line_user_id starts with U (line user id)
+		if( !preg_match('/^U[a-f0-9]{32}$/', $line_user_id) ){
+			return array(
+				'success' => false,
+				'message' => "<h2>". __( 'Error: Invalid line user ID.', lineconnect::PLUGIN_NAME ),
+			);
+		}
 		$channel = lineconnect::get_channel( isset($this->secret_prefix) ? $this->secret_prefix : $secret_prefix );
 		$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $message);
 		return $response;
+	}
+
+	/**
+	 * オーディエンスからLINEメッセージを送信する
+	 * @param mixed message メッセージ
+	 * @param int slc_audience_id LCオーディエンスID
+	 * @return array LINE APIのレスポンス
+	 */
+	function send_line_message_by_audience($message, $slc_audience_id, $message_args = null, $audience_args = null, $notification_disabled = false) {
+		$message = lineconnectUtil::get_line_message_builder( $message, $message_args );
+		$audience = lineconnectUtil::get_lineconnect_audience($slc_audience_id, $audience_args);
+		if(!empty($audience)){
+			$response = lineconnectMessage::sendAudienceMessage($audience, $message, $notification_disabled);
+			return $response;
+		}else{
+			return array(
+				'success' => false,
+				'message' => "<h2>". __('Error: Invalid audience ID.', lineconnect::PLUGIN_NAME),
+			);
+		}
 	}
 
 	/**

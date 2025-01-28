@@ -512,8 +512,54 @@ class lineconnectMessage {
 		}
 	}
 
+	//オーディエンスに送信
+	static function sendAudienceMessage($audience, $message, $notificationDisabled = false ) {
+		// LINEBOT SDKの読み込み
+		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+		foreach($audience as $secret_prefix => $audience_item){
+			$error_message        = $success_message = '';
+			$channel = lineconnect::get_channel($secret_prefix);
+
+			if($audience_item['type'] == 'broadcast'){
+				$response = self::sendBroadcastMessage($channel, $message);
+				if ( $response['success'] ) {
+					$success_message = __('Broadcast message sent successfully.', lineconnect::PLUGIN_NAME);
+				}else{
+					$error_message = __('Broadcast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
+				}
+			}elseif($audience_item['type'] == 'multicast'){
+				$response = self::sendMulticastMessage($channel, $audience_item['line_user_ids'], $message);
+				if ( $response['success'] ) {
+					// $success_message = __('Multicast message sent successfully.', lineconnect::PLUGIN_NAME);
+					$success_message = sprintf( _n( 'Multicast message sent to %s person.', 'Multicast message sent to %s people.', $response['num'], lineconnect::PLUGIN_NAME ), number_format( $response['num'] ) );
+				}else{
+					$error_message = __('Multicast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
+				}
+			}
+
+			// 送信に成功した場合
+			if ( $success_message ) {
+				$ary_success_message[] = $channel['name'] . ': ' . $success_message;
+			}
+			// 送信に失敗した場合
+			else {
+				$ary_error_message[] = $channel['name'] . ': ' . $error_message;
+			}
+		}
+
+		$result = array(
+			'success' => empty($ary_error_message),
+			'message' => implode("\n", array_merge($ary_error_message,$ary_success_message)),
+			'success_messages' => $ary_success_message,
+			'error_messages'   => $ary_error_message,
+		);
+		return $result;
+	}
+
 	// プッシュ（一人のユーザーに送信）
-	static function sendPushMessage( $channel, $line_user_id, $message ) {
+	static function sendPushMessage( $channel, $line_user_id, $message, $notificationDisabled = false ) {
 		// LINEBOT SDKの読み込み
 		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
 
@@ -525,7 +571,7 @@ class lineconnectMessage {
 		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channel_secret ) );
 
 		// プッシュで送信
-		$response = $bot->pushMessage( $line_user_id, $message );
+		$response = $bot->pushMessage( $line_user_id, $message, $notificationDisabled );
 
 		// 送信に成功した場合
 		if ( $response->getHTTPStatus() === 200 ) {

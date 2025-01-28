@@ -208,6 +208,7 @@ EOM;
 					if ( ! empty( $parameters_properties ) ) {
 						$properties['parameters'] = array(
 							'type'       => 'object',
+							'title'      => __('Parameters', lineconnect::PLUGIN_NAME),
 							'properties' => $parameters_properties,
 						);
 					}
@@ -271,6 +272,9 @@ EOM;
 		$schema      = array();
 		if(!empty($title)){
 			$schema['title'] = $title;
+		}
+		if(! empty( $parameter['title'] )){
+			$schema['title'] = $parameter['title'];
 		}
 		$actual_type = $parameter['type'];
 		if ( ! empty( $parameter['description'] ) ) {
@@ -346,6 +350,21 @@ EOM;
 				$schema['oneOf'][] = array(
 					'const' => '',
 					'title' => __('Please add richmenu alias first', lineconnect::PLUGIN_NAME),
+				);
+			}
+		} elseif ( $parameter['type'] == 'slc_audience' ) {
+			$actual_type     = 'string';
+			$schema['oneOf'] = array();
+			foreach ( lineconnectAudience::get_lineconnect_audience_name_array() as $audience_id => $audience ) {
+				$schema['oneOf'][] = array(
+					'const' => $audience_id,
+					'title' => $audience,
+				);
+			}
+			if(count($schema['oneOf']) == 0){
+				$schema['oneOf'][] = array(
+					'const' => '',
+					'title' => __('Please add audience first', lineconnect::PLUGIN_NAME),
 				);
 			}
 		}

@@ -20,7 +20,7 @@ require_once plugin_dir_path( __FILE__ ) . 'include/richmenu.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/setting.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/publish.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/message.php';
-require_once plugin_dir_path( __FILE__ ) . 'include/chat.php';
+require_once plugin_dir_path( __FILE__ ) . 'include/bulk_message.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/comment.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/shortcodes.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/admin.php';
@@ -267,7 +267,7 @@ class lineconnect {
 	/**
 	 * 画面のslug：チャット
 	 */
-	const SLUG__CHAT_FORM = self::PLUGIN_ID . '-linechat-form';
+	const SLUG__BULKMESSAGE_FORM = self::PLUGIN_ID . '-linechat-form';
 
 	/**
 	 * 画面のslug：リッチメニュー
@@ -443,15 +443,17 @@ class lineconnect {
 					// ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
 					add_filter( 'manage_users_custom_column', array( 'lineconnectAdmin', 'lc_manage_custom_columns' ), 10, 3 );
 					// チャット画面のトップメニューページを追加
-					add_action( 'admin_menu', array( 'lineconnectChat', 'set_plugin_menu' ) );
+					add_action( 'admin_menu', array( 'lineconnectBulkMessage', 'set_plugin_menu' ) );
 					// ユーザー一覧の一括操作にメッセージ送信を追加
 					add_filter( 'bulk_actions-users', array( 'lineconnectAdmin', 'add_bulk_users_sendmessage' ), 10, 1 );
 					// 一括操作を行うフィルター
 					add_filter( 'handle_bulk_actions-users', array( 'lineconnectAdmin', 'handle_bulk_users_sendmessage' ), 10, 3 );
 					// チャット送信AJAXアクション
-					add_action( 'wp_ajax_lc_ajax_chat_send', array( 'lineconnectChat', 'ajax_chat_send' ) );
-					// チャット送信AJAXアクション
+					add_action( 'wp_ajax_lc_ajax_chat_send', array( 'lineconnectBulkMessage', 'ajax_chat_send' ) );
+					// チャット送信AJAXアクション(メッセージデータ取得)
 					add_action( 'wp_ajax_lc_ajax_get_slc_message', array( 'lineconnectSLCMessage', 'ajax_get_slc_message' ) );
+					// チャット送信AJAXアクション(メッセージデータ取得)
+					add_action( 'wp_ajax_lc_ajax_get_slc_audience', array( 'lineconnectAudience', 'ajax_get_slc_audience' ) );
 					// BOT LOGリストのトップメニューページを追加
 					add_action( 'admin_menu', array( $this, 'set_page_gptlog' ) );
 					// DM画面のトップメニューページを追加
@@ -541,10 +543,6 @@ class lineconnect {
 
 		// テキストドメイン呼出し
 		load_plugin_textdomain( self::PLUGIN_NAME, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-
-		// チャットのイニシャライズ
-		// lineconnectChat::initialize();
-
 
 
 
@@ -724,6 +722,9 @@ class lineconnect {
 	 */
 	static function set_variable( $variable_name, $value ) {
 		$variables                   = get_option( self::OPTION_KEY__VARIABLES ); // オプションを取得
+		if ( $variables === false ) {
+			$variables = array();
+		}
 		$variables[ $variable_name ] = $value;
 		update_option( self::OPTION_KEY__VARIABLES, $variables );
 	}

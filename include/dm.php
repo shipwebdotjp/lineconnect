@@ -57,8 +57,8 @@ class lineconnectDm {
 		if ( ! empty( $line_id ) && ! empty( $channel_prefix ) ) {
 			$results     = lineconnectUtil::line_id_row( $line_id, $channel_prefix );
 			if ( $results ) {
-				$results['profile']       = json_decode( $results['profile'], true );
-				$results['tags']          = json_decode( $results['tags'], true );
+				$results['profile']       = json_decode( $results['profile'] ?? '', true );
+				$results['tags']          = json_decode( $results['tags'] ?? '', true );
 				$ary_init_data['line_id'] = $results;
 			} else {
 				$ary_init_data['line_id'] = array();
@@ -172,9 +172,9 @@ EOM;
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
 		/*
-		$chat_js = "line-chat/build/static/js/2.55a144b5.chunk.js";
+		$chat_js = "line-bulkmessage/build/static/js/2.55a144b5.chunk.js";
 		wp_enqueue_script(lineconnect::PLUGIN_PREFIX.'chat-2', plugins_url($chat_js, dirname(__FILE__)),array('wp-element'),filemtime(plugin_dir_path(dirname(__FILE__)).$chat_js),true);
-		$chat_js = "line-chat/build/static/js/main.baed2f09.chunk.js";
+		$chat_js = "line-bulkmessage/build/static/js/main.baed2f09.chunk.js";
 		wp_enqueue_script(lineconnect::PLUGIN_PREFIX.'chat', plugins_url($chat_js, dirname(__FILE__)),array('wp-element'),filemtime(plugin_dir_path(dirname(__FILE__)).$chat_js),true);
 		*/
 		$dm_js = 'line-dm/dist/slc_dm.js';

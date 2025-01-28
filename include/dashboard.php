@@ -108,12 +108,6 @@ EOM;
 
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
-		/*
-		$chat_js = "line-chat/build/static/js/2.55a144b5.chunk.js";
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX.'chat-2', plugins_url($chat_js, dirname(__FILE__)),array('wp-element'),filemtime(plugin_dir_path(dirname(__FILE__)).$chat_js),true);
-		$chat_js = "line-chat/build/static/js/main.baed2f09.chunk.js";
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX.'chat', plugins_url($chat_js, dirname(__FILE__)),array('wp-element'),filemtime(plugin_dir_path(dirname(__FILE__)).$chat_js),true);
-		*/
 		$dm_js = 'line-dm/dist/slc_dm.js';
 		wp_enqueue_script( lineconnect::PLUGIN_PREFIX . 'dm', plugins_url( $dm_js, __DIR__ ), array( 'wp-element', 'wp-i18n' ), filemtime( plugin_dir_path( __DIR__ ) . $dm_js ), true );
 		// JavaScriptの言語ファイル読み込み

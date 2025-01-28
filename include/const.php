@@ -863,411 +863,513 @@ class lineconnectConst {
 		);
 		
 		self::$lineconnect_actions = array(
-			'get_my_user_info'         => array(
-				'title'       => __( 'Get my user information', lineconnect::PLUGIN_NAME ),
-				'description' => 'Get my information. ID, name, email, link status, etc.',
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'get_the_current_datetime' => array(
-				'title'       => __( 'Get the current date and time', lineconnect::PLUGIN_NAME ),
-				'description' => 'Get the current date and time.',
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'WP_Query'                 => array(
-				'title'       => __( 'Search posts', lineconnect::PLUGIN_NAME ),
-				'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
-				'parameters'  => array(
-					array(
-						'type'       => 'object',
-						'properties' => array(
-							'author_name' => array(
-								'type'        => 'string',
-								'description' => "Author's user_nicename. NOT display_name nor user_login.",
-							),
-							's'           => array(
-								'type'        => 'string',
-								'description' => 'Search keyword.',
-							),
-							'p'           => array(
-								'type'        => 'integer',
-								'description' => 'Use post ID',
-							),
-							'name'        => array(
-								'type'        => 'string',
-								'description' => 'Use post slug',
-							),
-							'order'       => array(
-								'type'    => 'string',
-								'enum'    => array( 'ASC', 'DESC' ),
-								'default' => 'DESC',
-							),
-							'orderby'     => array(
-								'type'        => 'string',
-								'description' => 'Sort retrieved posts by parameter.',
-								'default'     => 'date',
-							),
-							'offset'      => array(
-								'type'        => 'integer',
-								'description' => 'number of post to displace or pass over.',
-							),
-							'year'        => array(
-								'type'        => 'integer',
-								'description' => '4 digit year',
-							),
-							'monthnum'    => array(
-								'type'        => 'integer',
-								'description' => 'Month number (from 1 to 12).',
-							),
-							'day'         => array(
-								'type'        => 'integer',
-								'description' => 'Day of the month (from 1 to 31).',
-							),
-						),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'WP_User_Query'            => array(
-				'title'       => __( 'Search users', lineconnect::PLUGIN_NAME ),
-				'description' => 'Get users information with WP_User_Query. ID, name, email, link status, etc.',
-				'parameters'  => array(
-					array(
-						'type'       => 'object',
-						'properties' => array(
-							'role'         => array(
-								'type'        => 'string',
-								'description' => 'A comma-separated list of role names that users must match to be included in results.',
-							),
-							'search'       => array(
-								'type'        => 'string',
-								'description' => 'Search keyword.',
-							),
-							'include'      => array(
-								'type'        => 'array',
-								'description' => 'List of user id to be included.',
-								'items'       => array(
-									'type' => 'integer',
-								),
-							),
-							'order'        => array(
-								'type'    => 'string',
-								'enum'    => array( 'ASC', 'DESC' ),
-								'default' => 'DESC',
-							),
-							'orderby'      => array(
-								'type'        => 'string',
-								'description' => 'Sort retrieved users by parameter.',
-								'default'     => 'login',
-							),
-							'offset'       => array(
-								'type'        => 'integer',
-								'description' => 'Offset the returned results.',
-							),
-							'meta_key'     => array(
-								'type'        => 'string',
-								'description' => 'Custom field key',
-							),
-							'meta_value'   => array(
-								'type'        => 'string',
-								'description' => 'Custom field value',
-							),
-							'meta_compare' => array(
-								'type'        => 'string',
-								'description' => 'Operator to test the ‘meta_value‘. ',
-							),
-						),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-			'get_line_connect_message' => array(
-				'title'       => __('Get LINE Connect message', lineconnect::PLUGIN_NAME),
-				'description' => __('Get LINE Connect message.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'slc_message',
-						'name' => 'slc_message_id',
-						'description' => __('LC Message id', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'object',
-						'name' => 'args',
-						'description' => __('Arguments to insert message', lineconnect::PLUGIN_NAME),
-						'additionalProperties' => array(
-							'type' => 'string',
-						),			
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'get_text_message' => array(
-				'title'       => __('Get LINE text message', lineconnect::PLUGIN_NAME),
-				'description' => __( 'Get LINE text message.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'body',
-						'description' => __( 'Message body', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'get_button_message' => array(
-				'title'       => __('Get LC notify message', lineconnect::PLUGIN_NAME),
-				'description' => __( 'Get LC notify message.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type'        => 'string',
-						'name' =>  'title',
-						'description' => __( 'Message title', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'body',
-						'description' => __( 'Message body', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'thumb',
-						'description' => __( 'Thumbnail url', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'type',
-						'description' => __('Button action type', lineconnect::PLUGIN_NAME),
-						'oneOf'       => array(
-							array(
-								'const' => 'message',
-								'title' => __( 'Message', lineconnect::PLUGIN_NAME ),
-							),
-							array(
-								'const' => 'postback',
-								'title' => __( 'Postback', lineconnect::PLUGIN_NAME ),
-							),
-							array(
-								'const' => 'uri',
-								'title' => __( 'URI', lineconnect::PLUGIN_NAME ),
-							),
-						),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'label',
-						'description' => __('Label', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'link',
-						'description' => __('Link', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'displayText',
-						'description' => __('Display Text', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'object',
-						'name' => 'atts',
-						'description' => __('Attributes', lineconnect::PLUGIN_NAME),
-						'additionalProperties' => array(
-							'type' => 'string',
-						),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'get_raw_message' => array(
-				'title'       => __('Get LINE message from Raw JSON', lineconnect::PLUGIN_NAME),
-				'description' => __('Get LINE message from Raw JSON.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'raw_json',
-						'description' => __('Raw Message JSON', lineconnect::PLUGIN_NAME),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'send_line_message' => array(
-				'title'       => __('Send LINE message', lineconnect::PLUGIN_NAME),
-				'description' => __('Send LINE message with line user ID and Channel.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'message',
-						'description' => __( 'LINE message text or object', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __( 'LINE user id', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret.', lineconnect::PLUGIN_NAME),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'send_mail_to_admin' => array(
-				'title'       => __('Send mail to admin', lineconnect::PLUGIN_NAME),
-				'description' => __('Send mail to admin.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'subject',
-						'description' => __('Mail subject', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'body',
-						'description' => __('Mail body', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'any',
-			),
-			'link_richmenu' => array(
-				'title'       => __('Link rich menu', lineconnect::PLUGIN_NAME),
-				'description' => __('Link rich menu with line user ID and Channel.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'slc_richmenu',
-						'name' => 'richmenu',
-						'description' => __('Rich menu ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __( 'LINE user id. Default value is LINE user id of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-			'get_user_meta' => array(
-				'title'       => __('Get user meta', lineconnect::PLUGIN_NAME),
-				'description' => __('Get WordPress user meta value', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'integer',
-						'name' => 'user_id',
-						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-			'update_user_meta' => array(
-				'title'       => __('Update user meta', lineconnect::PLUGIN_NAME),
-				'description' => __('Update or delete WordPress user meta value', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'integer',
-						'name' => 'user_id',
-						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'value',
-						'description' => __('Meta value. If empty, meta will be deleted.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-			'get_user_profile_value' => array(
-				'title'       => __('Get LINE user profile value', lineconnect::PLUGIN_NAME),
-				'description' => __('Get value from LINE user profile', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Profile key to get', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-			'update_user_profile' => array(
-				'title'       => __('Update LINE user profile', lineconnect::PLUGIN_NAME),
-				'description' => __('Update or delete value in LINE user profile', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Profile key to update', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'value',
-						'description' => __('Profile value. If empty, key will be deleted.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
-				),
-				'namespace'   => 'lineconnectFunctions',
-				'role'        => 'administrator',
-			),
-		);
+            'get_my_user_info'         => array(
+                'title'       => __( 'Get my user information', lineconnect::PLUGIN_NAME ),
+                'description' => 'Get my information. ID, name, email, link status, etc.',
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'get_the_current_datetime' => array(
+                'title'       => __( 'Get the current date and time', lineconnect::PLUGIN_NAME ),
+                'description' => 'Get the current date and time.',
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'WP_Query'                 => array(
+                'title'       => __( 'Search posts', lineconnect::PLUGIN_NAME ),
+                'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
+                'parameters'  => array(
+                    array(
+                        'type'       => 'object',
+                        'properties' => array(
+                            'author_name' => array(
+                                'type'        => 'string',
+                                'title'       => __('Author Name', lineconnect::PLUGIN_NAME),
+                                'description' => "Author's user_nicename. NOT display_name nor user_login.",
+                            ),
+                            's'           => array(
+                                'type'        => 'string',
+                                'title'       => __('S', lineconnect::PLUGIN_NAME),
+                                'description' => 'Search keyword.',
+                            ),
+                            'p'           => array(
+                                'type'        => 'integer',
+                                'title'       => __('P', lineconnect::PLUGIN_NAME),
+                                'description' => 'Use post ID',
+                            ),
+                            'name'        => array(
+                                'type'        => 'string',
+                                'title'       => __('Name', lineconnect::PLUGIN_NAME),
+                                'description' => 'Use post slug',
+                            ),
+                            'order'       => array(
+                                'type'    => 'string',
+                                'title'       => __('Order', lineconnect::PLUGIN_NAME),
+                                'enum'    => array( 'ASC', 'DESC' ),
+                                'default' => 'DESC',
+                            ),
+                            'orderby'     => array(
+                                'type'        => 'string',
+                                'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
+                                'description' => 'Sort retrieved posts by parameter.',
+                                'default'     => 'date',
+                            ),
+                            'offset'      => array(
+                                'type'        => 'integer',
+                                'title'       => __('Offset', lineconnect::PLUGIN_NAME),
+                                'description' => 'number of post to displace or pass over.',
+                            ),
+                            'year'        => array(
+                                'type'        => 'integer',
+                                'title'       => __('Year', lineconnect::PLUGIN_NAME),
+                                'description' => '4 digit year',
+                            ),
+                            'monthnum'    => array(
+                                'type'        => 'integer',
+                                'title'       => __('Monthnum', lineconnect::PLUGIN_NAME),
+                                'description' => 'Month number (from 1 to 12).',
+                            ),
+                            'day'         => array(
+                                'type'        => 'integer',
+                                'title'       => __('Day', lineconnect::PLUGIN_NAME),
+                                'description' => 'Day of the month (from 1 to 31).',
+                            ),
+                        ),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'WP_User_Query'            => array(
+                'title'       => __( 'Search users', lineconnect::PLUGIN_NAME ),
+                'description' => 'Get users information with WP_User_Query. ID, name, email, link status, etc.',
+                'parameters'  => array(
+                    array(
+                        'type'       => 'object',
+                        'properties' => array(
+                            'role'         => array(
+                                'type'        => 'string',
+                                'title'       => __('Role', lineconnect::PLUGIN_NAME),
+                                'description' => 'A comma-separated list of role names that users must match to be included in results.',
+                            ),
+                            'search'       => array(
+                                'type'        => 'string',
+                                'title'       => __('Search', lineconnect::PLUGIN_NAME),
+                                'description' => 'Search keyword.',
+                            ),
+                            'include'      => array(
+                                'type'        => 'array',
+                                'title'       => __('Include', lineconnect::PLUGIN_NAME),
+                                'description' => 'List of user id to be included.',
+                                'items'       => array(
+                                    'type' => 'integer',
+                                    'title'       => __('Item', lineconnect::PLUGIN_NAME),
+                                ),
+                            ),
+                            'order'        => array(
+                                'type'    => 'string',
+                                'title'       => __('Order', lineconnect::PLUGIN_NAME),
+                                'enum'    => array( 'ASC', 'DESC' ),
+                                'default' => 'DESC',
+                            ),
+                            'orderby'      => array(
+                                'type'        => 'string',
+                                'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
+                                'description' => 'Sort retrieved users by parameter.',
+                                'default'     => 'login',
+                            ),
+                            'offset'       => array(
+                                'type'        => 'integer',
+                                'title'       => __('Offset', lineconnect::PLUGIN_NAME),
+                                'description' => 'Offset the returned results.',
+                            ),
+                            'meta_key'     => array(
+                                'type'        => 'string',
+                                'title'       => __('Meta Key', lineconnect::PLUGIN_NAME),
+                                'description' => 'Custom field key',
+                            ),
+                            'meta_value'   => array(
+                                'type'        => 'string',
+                                'title'       => __('Meta Value', lineconnect::PLUGIN_NAME),
+                                'description' => 'Custom field value',
+                            ),
+                            'meta_compare' => array(
+                                'type'        => 'string',
+                                'title'       => __('Meta Compare', lineconnect::PLUGIN_NAME),
+                                'description' => 'Operator to test the ‘meta_value‘. ',
+                            ),
+                        ),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+            'get_line_connect_message' => array(
+                'title'       => __('Get LINE Connect message', lineconnect::PLUGIN_NAME),
+                'description' => __('Get LINE Connect message.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'slc_message',
+                        'name' => 'slc_message_id',
+                        'title' => __('LC Message', lineconnect::PLUGIN_NAME),
+                        'description' => __('LC Message id', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'object',
+                        'name' => 'args',
+                        'title' => __('Replacement Arguments', lineconnect::PLUGIN_NAME),
+                        'description' => __('Arguments to insert into the message', lineconnect::PLUGIN_NAME),
+                        'additionalProperties' => array(
+                            'type' => 'string',
+                        ),          
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'get_text_message' => array(
+                'title'       => __('Get LINE text message', lineconnect::PLUGIN_NAME),
+                'description' => __( 'Get LINE text message.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'body',
+                        'title' => __('Body', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'Message body', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'get_button_message' => array(
+                'title'       => __('Get LC notify message', lineconnect::PLUGIN_NAME),
+                'description' => __( 'Get LC notify message.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type'        => 'string',
+                        'name' =>  'title',
+                        'title' => __('Title', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'Message title', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'body',
+                        'title' => __('Body', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'Message body', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'thumb',
+                        'title' => __('Thumb', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'Thumbnail url', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'type',
+                        'title' => __('Type', lineconnect::PLUGIN_NAME),
+                        'description' => __('Button action type', lineconnect::PLUGIN_NAME),
+                        'oneOf'       => array(
+                            array(
+                                'const' => 'message',
+                                'title' => __( 'Message', lineconnect::PLUGIN_NAME ),
+                            ),
+                            array(
+                                'const' => 'postback',
+                                'title' => __( 'Postback', lineconnect::PLUGIN_NAME ),
+                            ),
+                            array(
+                                'const' => 'uri',
+                                'title' => __( 'URI', lineconnect::PLUGIN_NAME ),
+                            ),
+                        ),
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'label',
+                        'title' => __('Label', lineconnect::PLUGIN_NAME),
+                        'description' => __('Label', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'link',
+                        'title' => __('Link', lineconnect::PLUGIN_NAME),
+                        'description' => __('Link', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'displayText',
+                        'title' => __('Display Text', lineconnect::PLUGIN_NAME),
+                        'description' => __('Display Text', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'object',
+                        'name' => 'atts',
+                        'title' => __('Attributes', lineconnect::PLUGIN_NAME),
+                        'description' => __('Attributes', lineconnect::PLUGIN_NAME),
+                        'additionalProperties' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'get_raw_message' => array(
+                'title'       => __('Get LINE message from Raw JSON', lineconnect::PLUGIN_NAME),
+                'description' => __('Get LINE message from Raw JSON.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'raw_json',
+                        'title' => __('Raw Json', lineconnect::PLUGIN_NAME),
+                        'description' => __('Raw Message JSON', lineconnect::PLUGIN_NAME),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'send_line_message' => array(
+                'title'       => __('Send LINE message', lineconnect::PLUGIN_NAME),
+                'description' => __('Send LINE message with Audience and Channel.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'message',
+                        'title' => __('Message', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'LC message, message text or message object', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'line_user_id',
+                        'title' => __('LINE user ID', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'LINE user ID', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'slc_channel',
+                        'name' => 'channel',
+                        'title' => __('Channel', lineconnect::PLUGIN_NAME),
+                        'description' => __('Channel', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'send_line_message_by_audience' => array(
+                'title'       => __('Send LINE message with audience', lineconnect::PLUGIN_NAME),
+                'description' => __('Send LINE message with audience.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'slc_message',
+                        'title' => __( 'LC Message', lineconnect::PLUGIN_NAME),
+                        'name' => 'message',
+                        'description' => __( 'LC message, text or message object', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'slc_audience',
+                        'title' => __('LC Audience', lineconnect::PLUGIN_NAME),
+                        'name' => 'slc_audience_id',
+                        'description' => __( 'LC Audience or object', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'object',
+                        'title' => __('Message\'s Replacement Arguments', lineconnect::PLUGIN_NAME),
+                        'name' => 'message_args',
+                        'description' => __('Arguments to insert into the message', lineconnect::PLUGIN_NAME),
+                        'additionalProperties' => array(
+                            'type' => 'string',
+                        ),          
+                    ),
+                    array(
+                        'type' => 'object',
+                        'title' => __('Audience\'s Replacement Arguments', lineconnect::PLUGIN_NAME),
+                        'name' => 'audience_args',
+                        'description' => __('Arguments to insert into the audience', lineconnect::PLUGIN_NAME),
+                        'additionalProperties' => array(
+                            'type' => 'string',
+                        ),          
+                    ),
+                    array(
+                        'type' => 'boolean',
+                        'title' => __('Notification disabled', lineconnect::PLUGIN_NAME),
+                        'name' => 'notification_disabled',
+                        'title' => __('Notification Disabled', lineconnect::PLUGIN_NAME),
+                        'description' => __('Notification disabled', lineconnect::PLUGIN_NAME),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'send_mail_to_admin' => array(
+                'title'       => __('Send mail to admin', lineconnect::PLUGIN_NAME),
+                'description' => __('Send mail to admin.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'subject',
+                        'title' => __('Subject', lineconnect::PLUGIN_NAME),
+                        'description' => __('Mail subject', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'body',
+                        'title' => __('Body', lineconnect::PLUGIN_NAME),
+                        'description' => __('Mail body', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'any',
+            ),
+            'link_richmenu' => array(
+                'title'       => __('Link rich menu', lineconnect::PLUGIN_NAME),
+                'description' => __('Link rich menu with line user ID and Channel.', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'slc_richmenu',
+                        'name' => 'richmenu',
+                        'title' => __('Richmenu', lineconnect::PLUGIN_NAME),
+                        'description' => __('Rich menu ID', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'line_user_id',
+                        'title' => __('Line User Id', lineconnect::PLUGIN_NAME),
+                        'description' => __( 'LINE user id. Default value is LINE user id of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'slc_channel',
+                        'name' => 'channel',
+                        'title' => __('Channel', lineconnect::PLUGIN_NAME),
+                        'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+            'get_user_meta' => array(
+                'title'       => __('Get user meta', lineconnect::PLUGIN_NAME),
+                'description' => __('Get WordPress user meta value', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'integer',
+                        'name' => 'user_id',
+                        'title' => __('User ID', lineconnect::PLUGIN_NAME),
+                        'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'key',
+                        'title' => __('Key', lineconnect::PLUGIN_NAME),
+                        'description' => __('Meta key', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+            'update_user_meta' => array(
+                'title'       => __('Update user meta', lineconnect::PLUGIN_NAME),
+                'description' => __('Update or delete WordPress user meta value', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'integer',
+                        'name' => 'user_id',
+                        'title' => __('User ID', lineconnect::PLUGIN_NAME),
+                        'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'key',
+                        'title' => __('Key', lineconnect::PLUGIN_NAME),
+                        'description' => __('Meta key', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'value',
+                        'title' => __('Value', lineconnect::PLUGIN_NAME),
+                        'description' => __('Meta value. If empty, meta will be deleted.', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+            'get_user_profile_value' => array(
+                'title'       => __('Get LINE user profile value', lineconnect::PLUGIN_NAME),
+                'description' => __('Get value from LINE user profile', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'key',
+                        'title' => __('Key', lineconnect::PLUGIN_NAME),
+                        'description' => __('Profile key to get', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'line_user_id',
+                        'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
+                        'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'slc_channel',
+                        'name' => 'channel',
+                        'title' => __('Channel', lineconnect::PLUGIN_NAME),
+                        'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+            'update_user_profile' => array(
+                'title'       => __('Update LINE user profile', lineconnect::PLUGIN_NAME),
+                'description' => __('Update or delete value in LINE user profile', lineconnect::PLUGIN_NAME),
+                'parameters'  => array(
+                    array(
+                        'type' => 'string',
+                        'name' => 'key',
+                        'title' => __('Key', lineconnect::PLUGIN_NAME),
+                        'description' => __('Profile key to update', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'value',
+                        'title' => __('Value', lineconnect::PLUGIN_NAME),
+                        'description' => __('Profile value. If empty, key will be deleted.', lineconnect::PLUGIN_NAME),
+                        'required' => true,
+                    ),
+                    array(
+                        'type' => 'string',
+                        'name' => 'line_user_id',
+                        'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
+                        'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                    array(
+                        'type' => 'slc_channel',
+                        'name' => 'channel',
+                        'title' => __('Channel', lineconnect::PLUGIN_NAME),
+                        'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+                    ),
+                ),
+                'namespace'   => 'lineconnectFunctions',
+                'role'        => 'administrator',
+            ),
+        );
 		
 		self::$variables_option = array(
 			'plugin_version' => lineconnect::VERSION,
@@ -4954,11 +5056,13 @@ class lineconnectConst {
 			),
 			'definitions' => array(
 				'condition' => array(
+					'title' => __('Audience condition', lineconnect::PLUGIN_NAME),
 					'type' => 'object',
 					'properties' => array(
 						'conditions' => array(
 							'type' => 'array',
 							'title' => __('Audience condition group', lineconnect::PLUGIN_NAME),
+							'minItems' => 1,
 							'items' => array(
 								'type'  => 'object',
 								'title' => __('Audience condition', lineconnect::PLUGIN_NAME),
@@ -4988,15 +5092,15 @@ class lineconnectConst {
 												'title' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
 											),
 											array(
-												'const' => 'email',
+												'const' => 'user_email',
 												'title' => __('Email', lineconnect::PLUGIN_NAME),
 											),
 											array(
-												'const' => 'userLogin',
-												'title' => __('User name', lineconnect::PLUGIN_NAME),
+												'const' => 'user_login',
+												'title' => __('User login name', lineconnect::PLUGIN_NAME),
 											),
 											array(
-												'const' => 'displayName',
+												'const' => 'display_name',
 												'title' => __('User display name', lineconnect::PLUGIN_NAME),
 											),
 											array(
@@ -5010,7 +5114,7 @@ class lineconnectConst {
 											array(
 												'const' => 'group',
 												'title' => __('Audience condition group', lineconnect::PLUGIN_NAME),
-											),											
+											),
 										),
 									)
 								),
@@ -5034,7 +5138,7 @@ class lineconnectConst {
 													),
 													'link' => array(
 														'type' => 'object',
-														'title' => __('Link', lineconnect::PLUGIN_NAME),
+														'title' => __('Link status', lineconnect::PLUGIN_NAME),
 														'properties' => array(
 															'type' => array(
 																'type' => 'string',
@@ -5042,11 +5146,11 @@ class lineconnectConst {
 																'anyOf' => array(
 																	array(
 																		'const' => 'broadcast',
-																		'title' => __('All freinds(Broadcast)', lineconnect::PLUGIN_NAME),
+																		'title' => __('All friends(Broadcast)', lineconnect::PLUGIN_NAME),
 																	),
 																	array(
 																		'const' => 'all',
-																		'title' => __('All recognized freinds(Multicast)', lineconnect::PLUGIN_NAME),
+																		'title' => __('All recognized friends(Multicast)', lineconnect::PLUGIN_NAME),
 																	),
 																	array(
 																		'const' => 'linked',
@@ -5074,6 +5178,7 @@ class lineconnectConst {
 														'type' => 'string',
 														'title' => __('Match type', lineconnect::PLUGIN_NAME),
 														'description' => __('Select how to match user roles', lineconnect::PLUGIN_NAME),
+														'default' => 'role__in',
 														'anyOf' => array(
 															array(
 																'const' => 'role',
@@ -5096,9 +5201,10 @@ class lineconnectConst {
 													'type' => array(
 														'const' => 'lineUserId',
 													),
-													'userId' => array(
+													'lineUserId' => array(
 														'type' => 'array',
 														'title' => __('LINE user ID', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'string',
 														),
@@ -5113,8 +5219,9 @@ class lineconnectConst {
 													'wpUserId' => array(
 														'type' => 'array',
 														'title' => __('WordPress User ID', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
-															'type' => 'string',
+															'type' => 'integer',
 														),
 													),
 												),
@@ -5122,11 +5229,12 @@ class lineconnectConst {
 											array(
 												'properties' => array(
 													'type' => array(
-														'const' => 'email',
+														'const' => 'user_email',
 													),
-													'email' => array(
+													'user_email' => array(
 														'type' => 'array',
 														'title' => __('Email', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'string',
 															'format' => 'email',
@@ -5137,11 +5245,12 @@ class lineconnectConst {
 											array(
 												'properties' => array(
 													'type' => array(
-														'const' => 'userLogin',
+														'const' => 'user_login',
 													),
-													'userLogin' => array(
+													'user_login' => array(
 														'type' => 'array',
-														'title' => __('User name', lineconnect::PLUGIN_NAME),
+														'title' => __('User login name', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'string',
 														),
@@ -5151,11 +5260,12 @@ class lineconnectConst {
 											array(
 												'properties' => array(
 													'type' => array(
-														'const' => 'displayName',
+														'const' => 'display_name',
 													),
-													'displayName' => array(
+													'display_name' => array(
 														'type' => 'array',
 														'title' => __('User display name', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'string',
 														),
@@ -5170,89 +5280,90 @@ class lineconnectConst {
 													'usermeta' => array(
 														'type' => 'array',
 														'title' => __('User Meta', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'object',
-															'required' => ['key', 'value', 'match'],
+															'required' => ['key', 'value', 'compare'],
 															'properties' => array(
 																'key' => array(
 																	'type' => 'string',
 																	'title' => __('Meta Key', lineconnect::PLUGIN_NAME),
 																),
-																'values' => array(
-																	'type' => 'array',
-																	'title' => __('Values', lineconnect::PLUGIN_NAME),
-																	'items' => array(
-																		'type' => 'string',
-																		'minItems' => 1,
-																	)
+																'compare' => array(
+																	'$ref' => '#/definitions/compare',
 																),
-																'match' => array(
-																	'type' => 'string',
-																	'title' => __('Match type', lineconnect::PLUGIN_NAME),
-																	'anyOf' => array(
+															),
+															'dependencies' => array(
+																'compare' => array(
+																	'oneOf' => array(
 																		array(
-																			'const' => '=',
-																			'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'IN',
+																						'NOT IN',
+																					),
+																				),
+																				'values' => array(
+																					'type' => 'array',
+																					'title' => __('Values', lineconnect::PLUGIN_NAME),
+																					'minItems' => 1,
+																					'items' => array(
+																						'type' => 'string',
+																					),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '!=',
-																			'title' => __('Not equals', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'BETWEEN',
+																						'NOT BETWEEN'	,
+																					),
+																				),
+																				'values' => array(
+																					'type' => 'array',
+																					'title' => __('Values', lineconnect::PLUGIN_NAME),
+																					'minItems' => 2,
+																					'maxItems' => 2,
+																					'items' => array(
+																						'type' => 'string',
+																					),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '>',
-																			'title' => __('Greater than', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'=',
+																						'!=',
+																						'>',
+																						'>=',
+																						'<',
+																						'<=',
+																						'LIKE',
+																						'NOT LIKE',
+																						'REGEXP',
+																						'NOT REGEXP',
+																					),
+																				),
+																				'value' => array(
+																					'type' => 'string',
+																					'title' => __('Value', lineconnect::PLUGIN_NAME),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '>=',
-																			'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => '<',
-																			'title' => __('Less than', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => '<=',
-																			'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'LIKE',
-																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT LIKE',
-																			'title' => __('Not contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'IN',
-																			'title' => __('In', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT IN',
-																			'title' => __('Not in', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'BETWEEN',
-																			'title' => __('Between', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT BETWEEN',
-																			'title' => __('Not Between', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'EXISTS',
-																			'title' => __('Exists', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT EXISTS',
-																			'title' => __('Not exists', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'REGEXP',
-																			'title' => __('Regular expression', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT REGEXP',
-																			'title' => __('Not regular expression', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'EXISTS',
+																						'NOT EXISTS',
+																					),
+																				),
+																			),
 																		),
 																	),
 																),
@@ -5269,85 +5380,90 @@ class lineconnectConst {
 													'profile' => array(
 														'type' => 'array',
 														'title' => __('Profile data', lineconnect::PLUGIN_NAME),
+														'minItems' => 1,
 														'items' => array(
 															'type' => 'object',
-															'required' => ['key', 'value', 'match'],
+															'required' => ['key', 'value', 'compare'],
 															'properties' => array(
 																'key' => array(
 																	'type' => 'string',
-																	'title' => __('Profile Field', lineconnect::PLUGIN_NAME),
+																	'title' => __('Profile field', lineconnect::PLUGIN_NAME),
 																),
-																'value' => array(
-																	'type' => 'string',
-																	'title' => __('Profile Value', lineconnect::PLUGIN_NAME),
+																'compare' => array(
+																	'$ref' => '#/definitions/compare',
 																),
-																'match' => array(
-																	'type' => 'string',
-																	'title' => __('Match type', lineconnect::PLUGIN_NAME),
-																	'anyOf' => array(
+															),
+															'dependencies' => array(
+																'compare' => array(
+																	'oneOf' => array(
 																		array(
-																			'const' => '=',
-																			'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'IN',
+																						'NOT IN',
+																					),
+																				),
+																				'values' => array(
+																					'type' => 'array',
+																					'title' => __('Values', lineconnect::PLUGIN_NAME),
+																					'minItems' => 1,
+																					'items' => array(
+																						'type' => 'string',
+																					),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '!=',
-																			'title' => __('Not equals', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'BETWEEN',
+																						'NOT BETWEEN'	,
+																					),
+																				),
+																				'values' => array(
+																					'type' => 'array',
+																					'title' => __('Values', lineconnect::PLUGIN_NAME),
+																					'minItems' => 2,
+																					'maxItems' => 2,
+																					'items' => array(
+																						'type' => 'string',
+																					),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '>',
-																			'title' => __('Greater than', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'=',
+																						'!=',
+																						'>',
+																						'>=',
+																						'<',
+																						'<=',
+																						'LIKE',
+																						'NOT LIKE',
+																						'REGEXP',
+																						'NOT REGEXP',
+																					),
+																				),
+																				'value' => array(
+																					'type' => 'string',
+																					'title' => __('Value', lineconnect::PLUGIN_NAME),
+																				),
+																			),
 																		),
 																		array(
-																			'const' => '>=',
-																			'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => '<',
-																			'title' => __('Less than', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => '<=',
-																			'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'LIKE',
-																			'title' => __('Contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT LIKE',
-																			'title' => __('Not contains', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'IN',
-																			'title' => __('In', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT IN',
-																			'title' => __('Not in', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'BETWEEN',
-																			'title' => __('Between', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT BETWEEN',
-																			'title' => __('Not Between', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'EXISTS',
-																			'title' => __('Exists', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT EXISTS',
-																			'title' => __('Not exists', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'REGEXP',
-																			'title' => __('Regular expression', lineconnect::PLUGIN_NAME),
-																		),
-																		array(
-																			'const' => 'NOT REGEXP',
-																			'title' => __('Not regular expression', lineconnect::PLUGIN_NAME),
+																			'properties' => array(
+																				'compare' => array(
+																					'enum' => array(
+																						'EXISTS',
+																						'NOT EXISTS',
+																					),
+																				),
+																			),
 																		),
 																	),
 																),
@@ -5374,6 +5490,7 @@ class lineconnectConst {
 						'operator' => array(
 							'type'  => 'string',
 							'title' => __('Operator', lineconnect::PLUGIN_NAME),
+							'default' => 'and',
 							'oneOf' => array(
 								array(
 									'const' => 'and',
@@ -5408,6 +5525,77 @@ class lineconnectConst {
 						'oneOf' => array(),
 					),
 				),
+				'compare' => array(
+					'type' => 'string',
+					'title' => __('Compare method', lineconnect::PLUGIN_NAME),
+					'default' => '=',
+					'anyOf' => array(
+						array(
+							'const' => '=',
+							'title' => __('Equals', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '!=',
+							'title' => __('Not equals', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '>',
+							'title' => __('Greater than', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '>=',
+							'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '<',
+							'title' => __('Less than', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '<=',
+							'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'LIKE',
+							'title' => __('Contains (String)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT LIKE',
+							'title' => __('Not contains (String)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'IN',
+							'title' => __('In (Array)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT IN',
+							'title' => __('Not in (Array)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'BETWEEN',
+							'title' => __('Between 2 values', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT BETWEEN',
+							'title' => __('Not Between 2 values', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'EXISTS',
+							'title' => __('Exists', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT EXISTS',
+							'title' => __('Not exists', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'REGEXP',
+							'title' => __('Regular expression match', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT REGEXP',
+							'title' => __('No regular expression match', lineconnect::PLUGIN_NAME),
+						),
+					),
+				),
 			),
 		);
 
@@ -5416,7 +5604,12 @@ class lineconnectConst {
 			'ui:submitButtonOptions' => array(
 				'norender' => true,
 			),
+			
 			'condition' => array(
+				// 'ui:classNames' => 'title-hidden',
+				'ui:options' => array(
+					"label" => false,
+				),
 				'conditions' => array(
 					'ui:options' => array(
 						'addText' =>  __('Add condition', lineconnect::PLUGIN_NAME),
@@ -5458,7 +5651,11 @@ class lineconnectConst {
 								'addText' =>  __('Add profile data', lineconnect::PLUGIN_NAME),
 								'copyable' => true,
 							),
-						)
+						),
+						'condition' => array(
+							'$.ref' => 'condition',
+						),
+					
 					),
 				),
 			),

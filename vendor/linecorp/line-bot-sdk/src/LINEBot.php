@@ -949,8 +949,8 @@ class LINEBot
      */
     public function sendNarrowcast(
         MessageBuilder $messageBuilder,
-        RecipientBuilder $recipientBuilder = null,
-        DemographicFilterBuilder $demographicFilterBuilder = null,
+        ?RecipientBuilder $recipientBuilder = null,
+        ?DemographicFilterBuilder $demographicFilterBuilder = null,
         $max = null,
         $retryKey = null,
         $upToRemainingQuota = false

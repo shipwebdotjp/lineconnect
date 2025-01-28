@@ -8,6 +8,7 @@ import Form from '@rjsf/material-ui';
 import { TranslatableString, englishStringTranslator, replaceStringParameters } from '@rjsf/utils';
 import Button from '@material-ui/core/Button';
 
+
 const RJSFForm = () => {
     const [mainSchema, setMainSchema] = useState(lc_initdata['mainSchema']);
     const subSchema = lc_initdata['subSchema'];
@@ -25,6 +26,7 @@ const RJSFForm = () => {
 
     const log = (type) => console.log.bind(console, type);
 
+
     const onFormChange = ( formData, id) => {
         // console.log(formData);
         // console.log(id);
@@ -35,7 +37,6 @@ const RJSFForm = () => {
         const formIdx = parseInt(id.split('_')[1]);
         //string : field
         const field = id.split('_')[2];
-        // console.log(formIdx, field);
         let originalValue = formValueElement.value;
         if(originalValue == ''){
             originalValue = '{}';
@@ -47,16 +48,36 @@ const RJSFForm = () => {
         lc_initdata['formName'] == 'slc_trigger-data'){
             if(field == 'type'){
                 if(formData.formData.type && lc_initdata['subSchema'][formData.formData.type]){
-                    //form[1].schema = lc_initdata['subSchema'][formData.formData.type];
-                    // replace form[1].schema with subSchema[formData.formData.type] and setForm
                     const newform = [...form];
-//                    console.log(subSchema[formData.formData.type]);
                     newform[formIdx+1]["schema"] = subSchema[formData.formData.type];
-//                    console.log(newform[1]["schema"]);
                     setForm(newform);
                 }
             }
         }
+    }
+
+    const recursiveAttachUiOption = (formObj, uiSchema, orginalUiSchema) => {
+        //　再帰的なuiSchemaの適用
+        // check if formObj is Object
+        if(typeof formObj === 'object'){            
+            Object.keys(formObj).map((key) => {
+                if(uiSchema.hasOwnProperty(key) && uiSchema[key].hasOwnProperty('$ref')){
+                    if(orginalUiSchema.hasOwnProperty(uiSchema[key]['$ref'])){
+                        uiSchema[key] = orginalUiSchema[uiSchema[key]['$ref']]; //参照先のオブジェクトに置換
+                    }
+                }
+                formObj = recursiveAttachUiOption(formObj[key], uiSchema[key], orginalUiSchema);
+
+            });
+        }else if(typeof formObj === 'array'){
+            formObj.map((item) => {
+                result = recursiveAttachUiOption(item, uiSchema, orginalUiSchema);
+            });
+        }
+        else{
+            return formObj;
+        }
+
     }
 
     const changeKeyLabel = (stringToTranslate, params) => {

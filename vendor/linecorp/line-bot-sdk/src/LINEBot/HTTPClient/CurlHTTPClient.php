@@ -78,7 +78,7 @@ class CurlHTTPClient implements HTTPClient
      * @return Response Response of API request.
      * @throws CurlExecutionException
      */
-    public function post($url, array $data, array $headers = null)
+    public function post($url, array $data, ?array $headers = null)
     {
         $headers = is_null($headers) ? ['Content-Type: application/json; charset=utf-8'] : $headers;
         return $this->sendRequest('POST', $url, $headers, $data);
@@ -92,7 +92,7 @@ class CurlHTTPClient implements HTTPClient
      * @param array|null $headers Request headers.
      * @return Response Response of API request.
      */
-    public function put($url, array $data, array $headers = null)
+    public function put($url, array $data, ?array $headers = null)
     {
         $headers = is_null($headers) ? ['Content-Type: application/json; charset=utf-8'] : $headers;
         return $this->sendRequest('PUT', $url, $headers, $data);

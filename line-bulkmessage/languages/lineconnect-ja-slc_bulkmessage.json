@@ -1,0 +1,38 @@
+{
+  "translation-revision-date": "2025-01-28 13:57:17+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "Audience": [
+        "オーディエンス"
+      ],
+      "Template": [
+        "テンプレート"
+      ],
+      "New Audience": [
+        "新規オーディエンス"
+      ],
+      "Send LINE message": [
+        "LINEメッセージを送信"
+      ],
+      "Count Recipients": [
+        "送信対象数確認"
+      ],
+      "Send": [
+        "送信"
+      ],
+      "Message": [
+        "メッセージ"
+      ],
+      "New message": [
+        "新規メッセージ"
+      ]
+    }
+  }
+}

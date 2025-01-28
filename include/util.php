@@ -204,14 +204,43 @@ class lineconnectUtil {
 		return strtotime( $time, $now ) + $offset; 
 	}
 
-	public static function get_line_message_builder($source){
+	public static function get_line_message_builder($source, $args = null){
+		if ( $source instanceof \LINE\LINEBot\MessageBuilder ) {
+			return $source;
+		}
+		if( is_numeric($source) ){
+			$message = lineconnectSLCMessage::get_lineconnect_message($source, $args);
+			if( $message ){
+				return $message;
+			}
+		}
 		if ( is_string( $source ) ) {
 			return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( $source );
-		} elseif ( $source instanceof \LINE\LINEBot\MessageBuilder ) {
-			return $source;
 		} else {
 			return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( print_r( $source, true ) );
 		}
+	}
+
+	/**
+	 * 引数の型に応じてオーディエンスを取得する関数
+	 * @param mixed $source ソース: 数値→オーディエンスの投稿ID、オブジェクト→オーディエンスオブジェクトとして扱う
+	 * @return object オーディエンスオブジェクト
+	 */
+	public static function get_lineconnect_audience($source, $args = null){
+		if ( is_numeric( $source ) ) {
+			$audience = lineconnectAudience::get_lineconnect_audience($source, $args);
+			if( $audience ){
+				return $audience;
+			}
+		}
+		if ( is_object( $source ) ) {
+			if (!empty($args)){
+				return self::replacePlaceHolder( $source, $args );
+			}else{
+				return $source;
+			}
+		}
+		return null;
 	}
 
 	public static function line_id_row($line_id, $secret_prefix){
@@ -320,5 +349,32 @@ class lineconnectUtil {
 			}
 		}
 		return $target_dir_path;
+	}
+
+	/**
+	 * オブジェクトを再帰的に捜査してプレースホルダーを置換する関数
+	 * @param array $obj 捜査対象のオブジェクト
+	 * @param array $args 置換用のデータ
+	 * @return array $object 置換後のオブジェクト
+	 */
+	public static function replacePlaceHolder($obj, $args){
+		if(is_object($obj)){
+			foreach($obj as $key => $value){
+				$obj->{$key} = self::replacePlaceHolder($value, $args);
+			}
+		}elseif(is_array($obj)){
+			foreach($obj as $key => $value){
+				$obj[$key] = self::replacePlaceHolder($value, $args);
+			}
+		}elseif(is_string($obj)){
+			if(is_array($args)){
+				foreach($args as $key => $value){
+					if( is_string($value) ){
+						$obj = str_replace('{{'.$key.'}}', $value, $obj);
+					}
+				}
+			}
+		}
+		return $obj;
 	}
 }

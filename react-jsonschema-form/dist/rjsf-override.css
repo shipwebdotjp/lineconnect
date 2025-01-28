@@ -12,3 +12,8 @@
     outline: 0;
     box-shadow: none;
 }
+
+/* .title-hiddenがついたタグの孫要素(タイトル)を非表示にする */
+.title-hidden > .MuiFormControl-root.MuiFormControl-fullWidth > .MuiBox-root.jss2 {
+    display: none;
+}

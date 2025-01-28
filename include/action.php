@@ -283,7 +283,7 @@ EOM;
 							'abort' => true,
 						);
 					}
-					// error_log( 'class response:' . print_r( array( $class_name, $function_name ), true ) );
+					error_log( 'class response:' . print_r( array( $class_name, $function_name ), true ) );
 					if ( ! isset( $error ) ) {
 						$arguments_array = null;
 						if(isset($function_schema['parameters'])){
@@ -291,7 +291,7 @@ EOM;
 							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters , $function_schema['parameters'], $injection_data);
 							$arguments_array = lineconnectUtil::arguments_object_to_array( $arguments_parsed, $function_schema['parameters'] );
 						}
-						// error_log('arguments:'.print_r($arguments_array, true));
+						error_log('arguments:'.print_r($arguments_array, true));
 						if ( isset( $function_schema['namespace'] ) ) {
 							if ( empty( $function_schema['parameters'] ) ) {
 								$response = call_user_func( array( $class_name, $function_name ) );

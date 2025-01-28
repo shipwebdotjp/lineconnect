@@ -41,7 +41,7 @@ class lineconnectAudience {
     static function register_meta_box() {
         add_meta_box(
             lineconnect::META_KEY__AUDIENCE_DATA,
-            'LINE Connect Audience',
+            __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
             array('lineconnectAudience', 'show_audience_form'),
             lineconnectConst::POST_TYPE_AUDIENCE,
             'advanced',
@@ -152,6 +152,7 @@ class lineconnectAudience {
 		// if old schema veersion, migrate and return
 	}
 
+
     /**
 	 * Return audience array object post_id and title
 	 */
@@ -176,12 +177,17 @@ class lineconnectAudience {
      * @param $post_id 投稿ID
      * @return array 対応するLINEユーザーIDの配列
      */
-    static function get_lineconnect_audience($post_id){
+    static function get_lineconnect_audience($post_id, $args = null ){
 		$formData = get_post_meta( $post_id, lineconnect::META_KEY__AUDIENCE_DATA, true );
-        if(empty($formData) || !isset($formData['condition'])){
+        
+        if(empty($formData) || !isset($formData[0]['condition'])){
             return array();
         }
-        $result_line_user_ids = self::get_audience_by_condition($formData['condition']);
+        $audience = $formData[0];
+        if( !empty( $args ) ){
+            $audience = lineconnectUtil::replacePlaceHolder($audience, $args);
+        }
+        $result_line_user_ids = self::get_audience_by_condition($audience['condition']);
         return $result_line_user_ids;
     }
 
@@ -191,6 +197,7 @@ class lineconnectAudience {
      * @return array 対応するLINEユーザーIDの配列 ['channel_prefix' => ['type' => 'multicast', 'line_user_ids' => ['line_user_id1', 'line_user_id2', ...]]]
      */
     static function get_audience_by_condition($condition){
+
         $result_line_user_ids = array();
         if(!isset($condition['conditions'])){
             return $result_line_user_ids;
@@ -201,7 +208,21 @@ class lineconnectAudience {
                 $line_user_ids_by_condition_item[] = self::get_line_ids_by_channel($condition_item['secret_prefix']);
             }elseif($condition_item['type'] == 'link'){
                 $line_user_ids_by_condition_item[] = self::get_line_ids_by_linkstatus($condition_item['link']['type']);
-            }
+            }elseif($condition_item['type'] == 'role'){
+                $line_user_ids_by_condition_item[] = self::get_all_linked_line_ids($condition_item['role'] ?? [], $condition_item['match'] ?? null);
+            }elseif($condition_item['type'] == 'lineUserId'){
+                $line_user_ids_by_condition_item[] = self::get_line_ids_by_lineuserid($condition_item['lineUserId']);
+            }elseif($condition_item['type'] == 'wpUserId'){
+                $line_user_ids_by_condition_item[] = self::get_line_ids_by_wpuserid($condition_item['wpUserId']);
+            }elseif(in_array($condition_item['type'], ['user_login', 'display_name', 'user_email'])){
+                $line_user_ids_by_condition_item[] = self::get_line_ids_by_userfields($condition_item);
+            }elseif($condition_item['type'] == 'usermeta'){
+                $line_user_ids_by_condition_item[] = self::get_line_ids_by_usermeta($condition_item['usermeta']);
+            }elseif($condition_item['type'] == 'profile'){
+                $line_user_ids_by_condition_item[] = self::get_line_ids_by_profile($condition_item['profile']);
+            }elseif($condition_item['type'] == 'group'){
+                $line_user_ids_by_condition_item[] = self::get_audience_by_condition($condition_item['condition']);
+            }    
         }
         if(!isset($condition['operator']) || $condition['operator'] === 'and'){
             // 配列のIDの論理積(AND)を取得
@@ -304,20 +325,32 @@ class lineconnectAudience {
         if ( ! is_array( $roles ) ) {
 			$roles = array( $roles );
 		}
-        $args          = array(
-			'meta_query' => array(
-				array(
-					'key'     => lineconnect::META_KEY__LINE,
-					'compare' => 'EXISTS',
-				),
-			),
-			'fields'     => 'all_with_meta',
-		);
+        $args = array();
         // $rolesに"linked"が含まれない場合は、そのロールユーザーを取得
 		if ( ! in_array( 'linked', $roles ) ) {
 			$args[$match_type] = $roles;
 		}
-		$user_query    = new WP_User_Query( $args ); // 条件を指定してWordPressからユーザーを検索
+		return self::get_line_ids_by_wpuserquery($args);
+	}
+
+    /**
+     * WP_USER_Queryを使って、指定されたargsで取得したWPユーザーのLINEユーザーIDの配列を返す
+	 * @param array $args WP_User_Queryに渡すargs
+     * @return array LINEユーザーIDの配列　['channel_prefix' => ['type' => 'multicast', 'line_user_ids' => [...]]]
+     */
+    static function get_line_ids_by_wpuserquery($args) {
+        $args['fields'] = 'all_with_meta';
+        $meta_query = array(
+            'key'     => lineconnect::META_KEY__LINE,
+            'compare' => 'EXISTS',
+        );
+        if( isset( $args['meta_query'] ) ) {
+            $args['meta_query'][] = $meta_query;
+        }else{
+            $args['meta_query'] = array($meta_query);
+        }
+
+        $user_query    = new WP_User_Query( $args ); // 条件を指定してWordPressからユーザーを検索
 		$users         = $user_query->get_results(); // クエリ実行
 		if ( ! empty( $users ) ) {   // マッチするユーザーが見つかれば
 			// ユーザーのメタデータを取得
@@ -338,7 +371,7 @@ class lineconnectAudience {
 		} else {
 			return array();
 		}
-	}
+    }
 
     /**
      * 未連携のLINEユーザーIDの配列を返す
@@ -372,6 +405,223 @@ class lineconnectAudience {
         }
         
         return $unlinked_line_ids;
+    }
+
+    /**
+     * LINEユーザーIDの配列から、チャネル情報を含めたLINEユーザーIDの配列を返す
+     * @param array $line_ids LINEユーザーIDの配列 ['U1aaa', 'Udb39', ...]
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_lineuserid($line_ids){
+        global $wpdb;
+        $line_user_ids_by_channel = array();
+        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        
+        if(!empty($line_ids)){
+            $placeholders = array_fill(0, count($line_ids), '%s');
+            $query = "SELECT channel_prefix, line_id FROM {$table_name_line_id} WHERE line_id IN (" . implode(',', $placeholders) . ")";
+            
+            $results = $wpdb->get_results(
+                $wpdb->prepare($query, $line_ids)
+            );
+    
+            foreach ($results as $row) {
+                if(!isset($line_user_ids_by_channel[$row->channel_prefix])){
+                    $line_user_ids_by_channel[$row->channel_prefix] = array('type' => 'multicast', 'line_user_ids' => array());
+                }
+                $line_user_ids_by_channel[$row->channel_prefix]['line_user_ids'][] = $row->line_id;
+            }
+        }
+        
+        return $line_user_ids_by_channel;
+    }
+
+    /**
+     * WPユーザーIDの配列から、チャネル情報を含めたLINEユーザーIDの配列を返す
+     * @param array $wp_user_ids WPユーザーIDの配列 [1, 2, 3, ...]
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_wpuserid($wp_user_ids){
+        if( empty($wp_user_ids) ) {
+            return array();
+        }
+        $args = array(
+            'include'    => $wp_user_ids,
+        );
+        return self::get_line_ids_by_wpuserquery($args);
+    }
+
+    /**
+     * ユーザーのフィールドからLINEユーザーIDの配列を取得
+     * @param array $condition_item 条件項目
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_userfields($condition_item){
+        $line_user_ids_by_channels = array();
+        $type = $condition_item['type'];
+        $items = $condition_item[$type];
+        foreach($items as $item){
+            $args = array(
+                'search' => $item,
+                'search_columns' => array($type),
+            );
+            $line_user_ids_by_channels[] = self::get_line_ids_by_wpuserquery($args);
+        }
+        return self::get_or_arrays($line_user_ids_by_channels);
+    }
+
+    /**
+     * ユーザーメタからLINEユーザーIDの配列を取得
+     * @param array $usermeta ユーザーメタの配列
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_usermeta($usermetas){
+        $line_user_ids_by_channels = array();
+        foreach($usermetas as $usermeta){
+            if(!isset($usermeta['key'])){
+                continue;
+            }
+            $key = $usermeta['key'];
+            $compare = $usermeta['compare'] ?? '=';
+            $meta_query = array(
+                'key'     => $key,
+                'compare' => $compare,
+            );
+            if( in_array($compare, ['IN','NOT IN','BETWEEN','NOT BETWEEN']) ){
+                $meta_query['value'] = $usermeta['values'] ?? [];
+            }elseif( isset($usermeta['value']) ){
+                $meta_query['value'] = $usermeta['value'];
+            }
+            $args = array(
+                'meta_query' => array(
+                    $meta_query,
+                ),
+            );
+            $line_user_ids_by_channels[] = self::get_line_ids_by_wpuserquery($args);
+        }
+        return self::get_or_arrays($line_user_ids_by_channels);
+    }
+
+    /**
+     * プロフィールの絞り込み条件からLINEユーザーIDの配列を取得
+     * @param array $profile_conditions プロフィールの絞り込み条件
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_profile($profile_conditions){
+        $line_user_ids_by_channels = array();
+        foreach($profile_conditions as $profile_condition){
+            $line_user_ids_by_channels[] = self::get_line_ids_by_profilefields($profile_condition);
+        }
+        return self::get_or_arrays($line_user_ids_by_channels);
+    }
+
+    /**
+     * 個別のプロフィール絞り込み条件からLINEユーザーIDの配列を取得
+     * @param array $profile_condition 個別のプロフィール絞り込み条件
+     * @return array LINEユーザーIDの配列 ['{channel_prefix}' => ['type' => 'multicast', 'line_user_ids' => ['U1aaa', 'Udb39', ...]]]
+     */
+    static function get_line_ids_by_profilefields($profile_condition){
+        $line_user_ids_by_channel = array();
+        if(!empty($profile_condition)){
+            if( isset( $profile_condition['key'] ) ){
+                $results = self::do_profile_query($profile_condition);
+                if( empty( $results ) ) {
+                    return array();
+                }
+        
+                foreach ($results as $row) {
+                    if(!isset($line_user_ids_by_channel[$row->channel_prefix])){
+                        $line_user_ids_by_channel[$row->channel_prefix] = array('type' => 'multicast', 'line_user_ids' => array());
+                    }
+                    $line_user_ids_by_channel[$row->channel_prefix]['line_user_ids'][] = $row->line_id;
+                }
+            }
+        }
+        
+        return $line_user_ids_by_channel;
+    }
+
+    /**
+     * クエリを組み立てて実行する
+     * @param array $clause WHERE句の条件 key, compare, value, values
+     * @return SQLの実行結果
+     */
+    static function do_profile_query($clause){
+        global $wpdb;
+        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $placeholders = array();
+    
+        $key = $clause['key'];
+        $compare = isset($clause['compare']) ? strtoupper($clause['compare']) : '=';
+        
+        // JSONキーのエスケープ処理
+        $escaped_key = str_replace('"', '\\"', $key);
+        $json_path = '$."' . $escaped_key . '"';
+        $json_access = "profile->>'" . $json_path . "'";
+    
+        $where = "";
+        $condition = "";
+        $values = array();
+    
+        if (in_array($compare, ['IN', 'NOT IN'])) {
+            $values = isset($clause['values']) ? (array)$clause['values'] : array();
+            if (!empty($values)) {
+                $placeholders = $values;
+                $placeholders_str = implode(',', array_fill(0, count($values), '%s'));
+                $condition = "{$json_access} {$compare} ({$placeholders_str})";
+            } else {
+                $condition = '0=1';
+            }
+        } elseif (in_array($compare, ['BETWEEN', 'NOT BETWEEN'])) {
+            $values = isset($clause['values']) ? (array)$clause['values'] : array();
+            if (count($values) === 2) {
+                $condition = "CAST({$json_access} AS ".self::get_cast_type($values[0]).") {$compare} %s AND %s";
+                $placeholders = $values;
+            } else {
+                $condition = '0=1';
+            }
+        } elseif (in_array($compare, ['EXISTS', 'NOT EXISTS'])) {
+            $condition = "JSON_CONTAINS_PATH(profile, 'one', %s) " . ($compare === 'EXISTS' ? '= 1' : '= 0');
+            $placeholders = array($json_path);
+        } else {
+            $value = isset($clause['value']) ? $clause['value'] : null;
+            if ($value !== null) {
+                $valid_compares = ['=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'REGEXP', 'NOT REGEXP'];
+                if (!in_array($compare, $valid_compares)) {
+                    $compare = '=';
+                }
+                
+                if (in_array($compare, ['>', '>=', '<', '<='])) {
+                    $condition = "CAST({$json_access} AS ".self::get_cast_type($value).") {$compare} %s";
+                    $placeholders[] = $value;
+                //　LIKE, NOT LIKE add % 
+                } elseif (in_array($compare, ['LIKE', 'NOT LIKE'])) {
+                    $condition = "{$json_access} {$compare} %s";
+                    $placeholders[] = "%{$value}%";
+                } else {
+                    $condition = "{$json_access} {$compare} %s";
+                    $placeholders[] = $value;
+                }
+            } else {
+                $condition = '0=1';
+            }
+        }
+    
+        if ($condition) {
+            $where = "WHERE {$condition}";
+        }
+    
+        $query = "SELECT channel_prefix, line_id FROM {$table_name_line_id} {$where}";
+        // var_dump($query);
+        
+        if (!empty($placeholders)) {
+            // var_dump($placeholders);
+            $prepared_query = $wpdb->prepare($query, $placeholders);
+        } else {
+            $prepared_query = $query;
+        }
+    
+        return $wpdb->get_results($prepared_query);
     }
 
     /**
@@ -423,7 +673,9 @@ class lineconnectAudience {
                         break;
                     }
                 }
-                $result[$key] = $current_values;
+                if ($current_values['type'] === 'broadcast' || !empty($current_values['line_user_ids'])) {
+                    $result[$key] = $current_values;
+                }
             }
         }
     
@@ -439,6 +691,7 @@ class lineconnectAudience {
         if (empty($arrays)) {
             return [];
         }
+        // print_r($arrays);
 
         // 最初の配列を取得
         $first_array = array_shift($arrays);
@@ -482,15 +735,143 @@ class lineconnectAudience {
 
             // 重複を除去して結果に追加
             if (!empty($current_values['line_user_ids'])) {
-                $result[$key] = [
-                    'type' => 'multicast',
-                    'line_user_ids' => array_values(array_unique($current_values['line_user_ids']))
-                ];
+                $line_ids = array_values(array_unique($current_values['line_user_ids']));
+                if(!empty($line_ids)){
+                    $result[$key] = [
+                        'type' => 'multicast',
+                        'line_user_ids' => $line_ids,
+                    ];
+                }
             }
         }
 
         return $result;
     }
 
+    /**
+     * 与えられたデータの形式を判断してどの型にキャストするかを返す
+     * @param mixed $value 値 ex: 1, '1', 1.0, '1.0', 'a', '2025-10-21', '2025-01-01 00:00:00', '12:00:00'
+     * @return string キャストする型の文字列
+     */
+    static function get_cast_type($value) {
+        if (is_int($value)) {
+            // 整数
+            return $value >= 0 ? 'UNSIGNED' : 'SIGNED';
+        } elseif (is_float($value)) {
+            // 浮動小数点
+            return 'FLOAT';
+        } elseif (is_numeric($value)) {
+            // 文字列形式の数値
+            return strpos((string)$value, '.') !== false ? 'FLOAT' : ($value >= 0 ? 'UNSIGNED' : 'SIGNED');
+        } elseif (self::is_date($value)) {
+            // 日付形式
+            return 'DATE';
+        } elseif (self::is_datetime($value)) {
+            // 日時形式
+            return 'DATETIME';
+        } elseif (self::is_time($value)) {
+            // 時刻形式
+            return 'TIME';
+        } else {
+            // その他
+            return 'CHAR';
+        }
+    }
 
+    /**
+     * 日付形式かどうかを判定 (例: '2025-10-21')
+     * @param string $value
+     * @return bool
+     */
+    private static function is_date($value) {
+        $format = 'Y-m-d';
+        $d = DateTime::createFromFormat($format, $value);
+        return $d && $d->format($format) === $value;
+    }
+
+    /**
+     * 日時形式かどうかを判定 (例: '2025-01-01 00:00:00')
+     * @param string $value
+     * @return bool
+     */
+    private static function is_datetime($value) {
+        $format = 'Y-m-d H:i:s';
+        $d = DateTime::createFromFormat($format, $value);
+        return $d && $d->format($format) === $value;
+    }
+
+    /**
+     * 時刻形式かどうかを判定 (例: '12:00:00')
+     * @param string $value
+     * @return bool
+     */
+    private static function is_time($value) {
+        $format = 'H:i:s';
+        $d = DateTime::createFromFormat($format, $value);
+        return $d && $d->format($format) === $value;
+    }
+
+
+	// Ajaxでオーディエンスデータを返す
+	static function ajax_get_slc_audience(){
+		$isSuccess = true;
+		$formData = [];
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			$isSuccess = false;
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
+			$isSuccess = false;
+		}
+		// nonceで設定したcredentialのチェック結果に問題がある場合
+		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			$isSuccess = false;
+		}
+
+		if ( ! isset( $_POST['post_id'] ) || ! $_POST['post_id'] ) {
+			$isSuccess = false;
+		}
+
+		if ( $isSuccess ) {
+			$post_id = $_POST['post_id'];
+			$formData  = get_post_meta( $post_id, lineconnect::META_KEY__AUDIENCE_DATA, true );
+		}
+		$result['result']  = $isSuccess ? 'success' : 'failed';
+		$result['formData'] = $formData;
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $result );
+		wp_die();
+	}
+
+
+	/**
+	 * オーディエンスから各チャネルの送信人数を返す
+	 * @param array $audience
+	 * @return array チャネルごとの送信人数の配列
+	 */
+	static function get_recepients_count($audience){
+		$response = array(
+			'success' => true,
+			'success_messages' => array(),
+			'error_messages' => array()
+		);
+        if( empty($audience) ){
+            $response['error_messages'][] = __('The message will not be sent to anyone.', lineconnect::PLUGIN_NAME);
+            return $response;
+        }
+		foreach($audience as $secret_prefix => $audience_item){
+			$channel = lineconnect::get_channel($secret_prefix);
+			if($audience_item['type'] == 'broadcast'){
+				$response['success_messages' ][] = $channel['name'] . ': '.__('Message will be sent to all users who have subscribed to this channel.', lineconnect::PLUGIN_NAME);
+			}elseif($audience_item['type'] == 'multicast'){
+				$response['success_messages' ][] = $channel['name'] . ': '.sprintf( _n( 'Message will be sent to %s person.', 'Message will be sent to %s people.', count($audience_item['line_user_ids']), lineconnect::PLUGIN_NAME ), number_format( count($audience_item['line_user_ids']) ) );
+			}
+		}
+		return $response;			
+	}
 }
