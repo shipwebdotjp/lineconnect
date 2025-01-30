@@ -17,7 +17,7 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
     }
 
-    public function test_ajax_chat_send_success() {
+    public function test_ajax_chat_send_count_success() {
         // ユーザーを作成しログイン
         // $user_id = WP_UnitTestCase_Base::factory()->user->create([
         //     'role' => 'administrator', // テスト用の適切な権限を持ったユーザー
@@ -55,7 +55,7 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
     }
 
-    public function test_ajax_chat_send_no_permission() {
+    public function test_ajax_chat_send_count_no_permission() {
         // ログインしていない状態
         wp_set_current_user(0);
 
@@ -81,7 +81,7 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
         $this->assertNotEmpty($response['error'], '失敗レスポンスが配列であることを確認');
     }
 
-    public function test_ajax_chat_send条件に一致する送信対象なし(){
+    public function test_ajax_chat_send_条件に一致する送信対象なし(){
         $this->_setRole( 'administrator' );
         $_POST['nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
         $_POST['messages'] = [['type' => 'text'], ['message' => ['text' => ['text' => 'Test']]]];
