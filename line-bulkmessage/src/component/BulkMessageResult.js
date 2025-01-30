@@ -9,9 +9,7 @@ const BulkMessageResult = (props) => {
                         <ul>
                             {props.result.success.map((value, index) => {
                                 return (
-                                    <li key={index} className="p-2 my-1 mr-2">
-                                        {value}
-                                    </li>
+                                    <li key={index} className="p-2 my-1 mr-2" dangerouslySetInnerHTML={{__html: value}} />
                                 );
                             })}
                         </ul>
