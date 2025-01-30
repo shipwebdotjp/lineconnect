@@ -137,16 +137,39 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
         try {
             $this->_handleAjax('lc_ajax_chat_send');
         } catch (WPAjaxDieStopException $e) {
-            $this->assertEquals('', $e->getMessage());
+            $this->assertEquals('-1', $e->getMessage());
         } catch (WPAjaxDieContinueException $e) {
             $this->assertNotNull($e->getMessage(), '例外が発生し、エラーメッセージが空でないことを確認');
         }
 
         $response = json_decode($this->_last_response, true);
+        $this->assertNull($response, 'レスポンスがNULLであることを確認');
+    }
+
+    public function test_ajax_chat_send_validate_success() {
+        $this->_setRole( 'administrator' );
+
+        $_POST['nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
+        $_POST['messages'] = [['type' => 'text'], ['message' => ['text' => ['text' => 'Test']]]];
+        $_POST['audience'] = [['condition' => ['conditions' => [['type'=>'role', 'match'=>'role__in', 'role' => ['administrator']]]]]]; 
+        $_POST['mode'] = 'validate';
+        
+        try {
+            $this->_handleAjax('lc_ajax_chat_send');
+        } catch (WPAjaxDieStopException $e) {
+            // エラーではなく正常終了を確認
+            $this->assertEquals('', $e->getMessage());
+        } catch (WPAjaxDieContinueException $e) {
+            // その他の例外をキャッチ
+            $this->assertNotNull($e->getMessage(), '例外が発生し、エラーメッセージが空でないことを確認');
+        }
+        $response = json_decode($this->_last_response, true);
+        // var_dump($response);
         $this->assertIsArray($response, 'レスポンスは配列であることを確認');
         $this->assertArrayHasKey('result', $response, '正しいキーが含まれることを確認');
-        $this->assertEquals('failed', $response['result'], '結果フラグが正しいことを確認');
-        $this->assertEmpty($response['success'], '成功レスポンスが空であることを確認');
-        $this->assertNotEmpty($response['error'], '失敗レスポンスが配列であることを確認');
+        $this->assertEquals('success', $response['result'], '結果フラグが正しいことを確認');
+        $this->assertArrayHasKey('success', $response, '成功レスポンスが含まれることを確認');
+        $this->assertNotEmpty($response['success'], '成功レスポンスが配列であることを確認');
+        $this->assertEmpty($response['error'], '失敗レスポンスが空であることを確認');
     }
 }
