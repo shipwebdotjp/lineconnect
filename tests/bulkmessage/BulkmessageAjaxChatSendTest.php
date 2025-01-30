@@ -172,4 +172,29 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
         $this->assertNotEmpty($response['success'], '成功レスポンスが配列であることを確認');
         $this->assertEmpty($response['error'], '失敗レスポンスが空であることを確認');
     }
+
+    public function test_ajax_chat_send_validate_failed_with_invalid_message() {
+        $this->_setRole( 'administrator' );
+
+        // Invalid message structure - missing required 'text' field
+        $_POST['nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
+        $_POST['messages'] = [['type' => 'text'], ['message' => ['invalid' => 'data']]];
+        $_POST['audience'] = [['condition' => ['conditions' => [['type'=>'role', 'match'=>'role__in', 'role' => ['administrator']]]]]]; 
+        $_POST['mode'] = 'validate';
+        
+        try {
+            $this->_handleAjax('lc_ajax_chat_send');
+        } catch (WPAjaxDieStopException $e) {
+            $this->assertEquals('', $e->getMessage());
+        } catch (WPAjaxDieContinueException $e) {
+            $this->assertNotNull($e->getMessage(), '例外が発生し、エラーメッセージが空でないことを確認');
+        }
+
+        $response = json_decode($this->_last_response, true);
+        $this->assertIsArray($response, 'レスポンスは配列であることを確認');
+        $this->assertArrayHasKey('result', $response, '正しいキーが含まれることを確認');
+        $this->assertEquals('failed', $response['result'], '結果フラグが正しいことを確認');
+        $this->assertEmpty($response['success'], '成功レスポンスが空であることを確認');
+        $this->assertNotEmpty($response['error'], '失敗レスポンスが配列であることを確認');
+    }
 }
