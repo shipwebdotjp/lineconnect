@@ -22,9 +22,9 @@
 ./include/schedule.php
 ./include/comment.php
 ./include/util.php
+./include/bulk_message.php
 ./include/botlog.php
 ./include/admin.php
-./include/chat.php
 ./include/publish.php
 ./include/setting.php
 ./include/logging.php

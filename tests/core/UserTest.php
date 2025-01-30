@@ -4,7 +4,7 @@
  * @package LineConnect
  */
 
-class userTest extends WP_UnitTestCase {
+class UserTest extends WP_UnitTestCase {
     protected static $result;
 
     public static function wpSetUpBeforeClass( $factory ) {

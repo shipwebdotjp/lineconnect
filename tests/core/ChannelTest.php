@@ -4,7 +4,7 @@
  * @package LineConnect
  */
 
-class channelTest extends WP_UnitTestCase {
+class ChannelTest extends WP_UnitTestCase {
     public static function wpSetUpBeforeClass( $factory ) {
         lineconnectTest::init();
     }

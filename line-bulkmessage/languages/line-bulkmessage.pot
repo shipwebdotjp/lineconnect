@@ -9,7 +9,7 @@ msgid "Message"
 msgstr ""
 
 #: src/component/BulkMessage.js:129
-#: src/component/BulkMessageAudience.js:122
+#: src/component/BulkMessageAudience.js:124
 msgid "Template"
 msgstr ""
 
@@ -17,22 +17,30 @@ msgstr ""
 msgid "New message"
 msgstr ""
 
-#: src/component/BulkMessageAudience.js:120
+#: src/component/BulkMessageAudience.js:122
 msgid "Audience"
 msgstr ""
 
-#: src/component/BulkMessageAudience.js:124
+#: src/component/BulkMessageAudience.js:126
 msgid "New Audience"
 msgstr ""
 
-#: src/component/BulkMessageForm.js:42
-msgid "Send LINE message"
+#: src/component/BulkMessageForm.js:45
+msgid "Send LINE bulk message"
 msgstr ""
 
-#: src/component/BulkMessageForm.js:51
+#: src/component/BulkMessageForm.js:65
+msgid "Counting Recipients..."
+msgstr ""
+
+#: src/component/BulkMessageForm.js:68
 msgid "Count Recipients"
 msgstr ""
 
-#: src/component/BulkMessageForm.js:57
+#: src/component/BulkMessageForm.js:89
+msgid "Sending..."
+msgstr ""
+
+#: src/component/BulkMessageForm.js:92
 msgid "Send"
 msgstr ""

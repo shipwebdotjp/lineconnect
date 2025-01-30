@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 3.4.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-27 22:28+0900\n"
+"POT-Creation-Date: 2025-01-28 22:52+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -638,7 +638,7 @@ msgstr ""
 msgid "Get LINE Connect message."
 msgstr ""
 
-#: include/const.php:1014 include/const.php:1170 lineconnect.php:1009
+#: include/const.php:1014 include/const.php:1170 lineconnect.php:1005
 msgid "LC Message"
 msgstr ""
 
@@ -708,7 +708,7 @@ msgstr ""
 #: include/const.php:1078 include/const.php:1142 include/const.php:1763
 #: include/const.php:1823 include/const.php:3516 include/const.php:3965
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/chat.php:66 include/logging.php:66 include/message.php:682
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:682
 msgid "Message"
 msgstr ""
 
@@ -781,7 +781,7 @@ msgstr ""
 msgid "LC message, text or message object"
 msgstr ""
 
-#: include/const.php:1177 lineconnect.php:1059
+#: include/const.php:1177 lineconnect.php:1055
 msgid "LC Audience"
 msgstr ""
 
@@ -2951,7 +2951,7 @@ msgstr ""
 msgid "Richmenu alias or richmenu ID is not set"
 msgstr ""
 
-#: include/audience.php:29
+#: include/audience.php:29 include/audience.php:44
 msgid "LINE Connect Audience"
 msgstr ""
 
@@ -3161,6 +3161,14 @@ msgstr ""
 msgid "May not be empty."
 msgstr ""
 
+#: include/bulk_message.php:21
+msgid "LINE Connect Bulk message"
+msgstr ""
+
+#: include/bulk_message.php:23
+msgid "Bulk message"
+msgstr ""
+
 #: include/admin.php:22
 msgid "LINE"
 msgstr ""
@@ -3175,14 +3183,6 @@ msgstr ""
 
 #: include/admin.php:60
 msgid "Send LINE Message"
-msgstr ""
-
-#: include/chat.php:21
-msgid "LINE Connect Bulk message"
-msgstr ""
-
-#: include/chat.php:23
-msgid "Bulk message"
 msgstr ""
 
 #: include/publish.php:107 include/setting.php:134 include/setting.php:248
@@ -3388,298 +3388,298 @@ msgstr ""
 msgid "Students"
 msgstr ""
 
-#: lineconnect.php:802
+#: lineconnect.php:798
 msgid "LINE Event Log"
 msgstr ""
 
-#: lineconnect.php:804
+#: lineconnect.php:800
 msgid "Event Log"
 msgstr ""
 
-#: lineconnect.php:958 lineconnect.php:969
+#: lineconnect.php:954 lineconnect.php:965
 msgid "LC Triggers"
 msgstr ""
 
-#: lineconnect.php:959
+#: lineconnect.php:955
 msgid "LC Trigger"
 msgstr ""
 
-#: lineconnect.php:960 lineconnect.php:1010 lineconnect.php:1060
+#: lineconnect.php:956 lineconnect.php:1006 lineconnect.php:1056
 msgid "Add New"
 msgstr ""
 
-#: lineconnect.php:961
+#: lineconnect.php:957
 msgid "Add New Trigger"
 msgstr ""
 
-#: lineconnect.php:962
+#: lineconnect.php:958
 msgid "Edit Trigger"
 msgstr ""
 
-#: lineconnect.php:963
+#: lineconnect.php:959
 msgid "New Trigger"
 msgstr ""
 
-#: lineconnect.php:964
+#: lineconnect.php:960
 msgid "View Trigger"
 msgstr ""
 
-#: lineconnect.php:965
+#: lineconnect.php:961
 msgid "Search Triggers"
 msgstr ""
 
-#: lineconnect.php:966
+#: lineconnect.php:962
 msgid "No Triggers found"
 msgstr ""
 
-#: lineconnect.php:967
+#: lineconnect.php:963
 msgid "No Triggers found in Trash"
 msgstr ""
 
-#: lineconnect.php:970
+#: lineconnect.php:966
 msgid "All Triggers"
 msgstr ""
 
-#: lineconnect.php:971
+#: lineconnect.php:967
 msgid "Trigger Archives"
 msgstr ""
 
-#: lineconnect.php:972
+#: lineconnect.php:968
 msgid "Trigger Attributes"
 msgstr ""
 
-#: lineconnect.php:973
+#: lineconnect.php:969
 msgid "Insert into Trigger"
 msgstr ""
 
-#: lineconnect.php:974
+#: lineconnect.php:970
 msgid "Uploaded to this Trigger"
 msgstr ""
 
-#: lineconnect.php:975 lineconnect.php:1025 lineconnect.php:1075
+#: lineconnect.php:971 lineconnect.php:1021 lineconnect.php:1071
 msgid "Featured Image"
 msgstr ""
 
-#: lineconnect.php:976 lineconnect.php:1026 lineconnect.php:1076
+#: lineconnect.php:972 lineconnect.php:1022 lineconnect.php:1072
 msgid "Set featured image"
 msgstr ""
 
-#: lineconnect.php:977 lineconnect.php:1027 lineconnect.php:1077
+#: lineconnect.php:973 lineconnect.php:1023 lineconnect.php:1073
 msgid "Remove featured image"
 msgstr ""
 
-#: lineconnect.php:978 lineconnect.php:1028 lineconnect.php:1078
+#: lineconnect.php:974 lineconnect.php:1024 lineconnect.php:1074
 msgid "Use as featured image"
 msgstr ""
 
-#: lineconnect.php:979
+#: lineconnect.php:975
 msgid "Filter Triggers list"
 msgstr ""
 
-#: lineconnect.php:980
+#: lineconnect.php:976
 msgid "Triggers list navigation"
 msgstr ""
 
-#: lineconnect.php:981
+#: lineconnect.php:977
 msgid "Triggers list"
 msgstr ""
 
-#: lineconnect.php:982
+#: lineconnect.php:978
 msgid "Trigger published."
 msgstr ""
 
-#: lineconnect.php:983
+#: lineconnect.php:979
 msgid "Trigger published privately."
 msgstr ""
 
-#: lineconnect.php:984
+#: lineconnect.php:980
 msgid "Trigger reverted to draft."
 msgstr ""
 
-#: lineconnect.php:985
+#: lineconnect.php:981
 msgid "Trigger scheduled."
 msgstr ""
 
-#: lineconnect.php:986
+#: lineconnect.php:982
 msgid "Trigger updated."
 msgstr ""
 
-#: lineconnect.php:988
+#: lineconnect.php:984
 msgid "LINE Connect Triggers"
 msgstr ""
 
-#: lineconnect.php:1008 lineconnect.php:1019
+#: lineconnect.php:1004 lineconnect.php:1015
 msgid "LC Messages"
 msgstr ""
 
-#: lineconnect.php:1011
+#: lineconnect.php:1007
 msgid "Add New Message"
 msgstr ""
 
-#: lineconnect.php:1012
+#: lineconnect.php:1008
 msgid "Edit Message"
 msgstr ""
 
-#: lineconnect.php:1013
+#: lineconnect.php:1009
 msgid "New Message"
 msgstr ""
 
-#: lineconnect.php:1014
+#: lineconnect.php:1010
 msgid "View Message"
 msgstr ""
 
-#: lineconnect.php:1015
+#: lineconnect.php:1011
 msgid "Search Messages"
 msgstr ""
 
-#: lineconnect.php:1016
+#: lineconnect.php:1012
 msgid "No Messages found"
 msgstr ""
 
-#: lineconnect.php:1017
+#: lineconnect.php:1013
 msgid "No Messages found in Trash"
 msgstr ""
 
-#: lineconnect.php:1020
+#: lineconnect.php:1016
 msgid "All Messages"
 msgstr ""
 
-#: lineconnect.php:1021
+#: lineconnect.php:1017
 msgid "Message Archives"
 msgstr ""
 
-#: lineconnect.php:1022
+#: lineconnect.php:1018
 msgid "Message Attributes"
 msgstr ""
 
-#: lineconnect.php:1023
+#: lineconnect.php:1019
 msgid "Insert into Message"
 msgstr ""
 
-#: lineconnect.php:1024
+#: lineconnect.php:1020
 msgid "Uploaded to this Message"
 msgstr ""
 
-#: lineconnect.php:1029
+#: lineconnect.php:1025
 msgid "Filter Messages list"
 msgstr ""
 
-#: lineconnect.php:1030
+#: lineconnect.php:1026
 msgid "Messages list navigation"
 msgstr ""
 
-#: lineconnect.php:1031
+#: lineconnect.php:1027
 msgid "Messages list"
 msgstr ""
 
-#: lineconnect.php:1032
+#: lineconnect.php:1028
 msgid "Message published."
 msgstr ""
 
-#: lineconnect.php:1033
+#: lineconnect.php:1029
 msgid "Message published privately."
 msgstr ""
 
-#: lineconnect.php:1034
+#: lineconnect.php:1030
 msgid "Message reverted to draft."
 msgstr ""
 
-#: lineconnect.php:1035
+#: lineconnect.php:1031
 msgid "Message scheduled."
 msgstr ""
 
-#: lineconnect.php:1036
+#: lineconnect.php:1032
 msgid "Message updated."
 msgstr ""
 
-#: lineconnect.php:1038
+#: lineconnect.php:1034
 msgid "LINE Connect Messages"
 msgstr ""
 
-#: lineconnect.php:1058 lineconnect.php:1069
+#: lineconnect.php:1054 lineconnect.php:1065
 msgid "LC Audiences"
 msgstr ""
 
-#: lineconnect.php:1061
+#: lineconnect.php:1057
 msgid "Add New Audience"
 msgstr ""
 
-#: lineconnect.php:1062
+#: lineconnect.php:1058
 msgid "Edit Audience"
 msgstr ""
 
-#: lineconnect.php:1063
+#: lineconnect.php:1059
 msgid "New Audience"
 msgstr ""
 
-#: lineconnect.php:1064
+#: lineconnect.php:1060
 msgid "View Audience"
 msgstr ""
 
-#: lineconnect.php:1065
+#: lineconnect.php:1061
 msgid "Search Audiences"
 msgstr ""
 
-#: lineconnect.php:1066
+#: lineconnect.php:1062
 msgid "No Audiences found"
 msgstr ""
 
-#: lineconnect.php:1067
+#: lineconnect.php:1063
 msgid "No Audiences found in Trash"
 msgstr ""
 
-#: lineconnect.php:1070
+#: lineconnect.php:1066
 msgid "All Audiences"
 msgstr ""
 
-#: lineconnect.php:1071
+#: lineconnect.php:1067
 msgid "Audience Archives"
 msgstr ""
 
-#: lineconnect.php:1072
+#: lineconnect.php:1068
 msgid "Audience Attributes"
 msgstr ""
 
-#: lineconnect.php:1073
+#: lineconnect.php:1069
 msgid "Insert into Audience"
 msgstr ""
 
-#: lineconnect.php:1074
+#: lineconnect.php:1070
 msgid "Uploaded to this Audience"
 msgstr ""
 
-#: lineconnect.php:1079
+#: lineconnect.php:1075
 msgid "Filter Audiences list"
 msgstr ""
 
-#: lineconnect.php:1080
+#: lineconnect.php:1076
 msgid "Audiences list navigation"
 msgstr ""
 
-#: lineconnect.php:1081
+#: lineconnect.php:1077
 msgid "Audiences list"
 msgstr ""
 
-#: lineconnect.php:1082
+#: lineconnect.php:1078
 msgid "Audience published."
 msgstr ""
 
-#: lineconnect.php:1083
+#: lineconnect.php:1079
 msgid "Audience published privately."
 msgstr ""
 
-#: lineconnect.php:1084
+#: lineconnect.php:1080
 msgid "Audience reverted to draft."
 msgstr ""
 
-#: lineconnect.php:1085
+#: lineconnect.php:1081
 msgid "Audience scheduled."
 msgstr ""
 
-#: lineconnect.php:1086
+#: lineconnect.php:1082
 msgid "Audience updated."
 msgstr ""
 
-#: lineconnect.php:1088
+#: lineconnect.php:1084
 msgid "LINE Connect Audiences"
 msgstr ""

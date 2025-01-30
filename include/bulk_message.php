@@ -32,7 +32,7 @@ class lineconnectBulkMessage {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__BULKMESSAGE_FORM,
 			// メニューに紐づく画面を描画するcallback関数：
-			array( 'lineconnectBulkMessage', 'show_chat' ),
+			array( 'lineconnectBulkMessage', 'show_bulkmessage' ),
 			// メニューの位置
 			3
 		);
@@ -41,9 +41,9 @@ class lineconnectBulkMessage {
 	}
 
 	/**
-	 * 初期設定画面を表示
+	 * メッセージ一括配信画面を表示
 	 */
-	static function show_chat() {
+	static function show_bulkmessage() {
 		$ary_init_data = array();
 		// プラグインのオプション
 		$ary_init_data['plugin_options'] = lineconnect::get_all_options();
@@ -136,48 +136,72 @@ EOM;
 
 	// メッセージ送信
 	static function ajax_chat_send() {
-		$isSuccess = true;
-		// ログインしていない場合は無視
-		if ( ! is_user_logged_in() ) {
-			$isSuccess = false;
-		}
-		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
-			$isSuccess = false;
-		}
-		// nonceで設定したcredentialをPOST受信していない場合は無視
-		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] ) {
-			$isSuccess = false;
-		}
-		// nonceで設定したcredentialのチェック結果に問題がある場合
-		if ( ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
-			$isSuccess = false;
-		}
+		$result = self::do_chat_send();
 
-		if ( $isSuccess ) {
-			$ary_success_message = array();
-			$ary_error_message   = array();
-			$messages              = isset( $_POST['messages'] ) ? array_map('stripslashes_deep', $_POST['messages']) : [];
-			$audience              = isset( $_POST['audience'] ) ? array_map('stripslashes_deep', $_POST['audience']) : [];
-			$mode = isset( $_POST['mode'] ) ? $_POST['mode'] : '';
-			if($mode === 'send'){
-				$message = lineconnectSLCMessage::formData_to_multimessage($messages);
-				$response = lineconnectMessage::sendAudienceMessage(lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]), $message);
-			}elseif($mode === 'count'){
-				$response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]));
-			}
-			$isSuccess = $response['success'];
-			$ary_success_message = $response['success_messages'];
-			$ary_error_message   = $response['error_messages']; 
-
-		}
-
-		$result['result']  = $isSuccess ? 'success' : 'failed';
-		$result['success'] = $ary_success_message;
-		$result['error']   = $ary_error_message;
+		// $result['result']  = $isSuccess ? 'success' : 'failed';
+		// $result['success'] = $ary_success_message;
+		// $result['error']   = $ary_error_message;
 		header( 'Content-Type: application/json; charset=utf-8' );
 		echo json_encode( $result );
 		wp_die();
+	}
+
+	static function do_chat_send(){
+
+		// ログインしていない場合は無視
+		if ( ! is_user_logged_in() ) {
+			return array(
+				'result' => 'failed',
+				'success' => array(),
+				'error' => array(__('You are not logged in.', lineconnect::PLUGIN_NAME),),
+			);
+		}
+		// 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
+		if ( ! is_super_admin() && ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) && ! current_user_can( 'author' ) ) {
+			return array(
+				'result' => 'failed',
+				'success' => array(),
+				'error' => array(__('You do not have permission to send messages.', lineconnect::PLUGIN_NAME),),
+			);
+		}
+		// nonceで設定したcredentialをPOST受信していない場合は無視
+		if ( ! isset( $_POST['nonce'] ) || ! $_POST['nonce'] || ! check_ajax_referer( lineconnect::CREDENTIAL_ACTION__POST, 'nonce' ) ) {
+			return array(
+				'result' => 'failed',
+				'success' => array(),
+				'error' => array(__('Nonce is not set or invalid.', lineconnect::PLUGIN_NAME),),
+			);
+		}
+
+		$messages              = isset( $_POST['messages'] ) ? array_map('stripslashes_deep', $_POST['messages']) : [];
+		$audience              = isset( $_POST['audience'] ) ? array_map('stripslashes_deep', $_POST['audience']) : [];
+		$mode = isset( $_POST['mode'] ) ? $_POST['mode'] : '';
+		if( in_array($mode, ['send', 'count']) === false ){
+			$mode = 'send';
+		}
+
+		if($mode === 'send'){
+			$message = lineconnectSLCMessage::formData_to_multimessage($messages);
+			$recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]);
+			if( empty( $recepient ) ){
+				return array(
+					'result' => 'success',
+					'success' => array(__( 'There was no target to be sent that matched the condition.', lineconnect::PLUGIN_NAME )),
+					'error' => array(),
+				);
+			}else{
+				$response = lineconnectMessage::sendAudienceMessage($recepient, $message);
+			}
+		}elseif($mode === 'count'){
+			$response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]));
+		}
+
+		return array(
+			'result' => $response['success'] ? 'success' : 'failed',
+			'success' => $response['success_messages'],
+			'error' => $response['error_messages'],
+		);
+		
 	}
 
 

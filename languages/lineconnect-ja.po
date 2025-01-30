@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-27 22:28+0900\n"
+"POT-Creation-Date: 2025-01-28 14:16+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -590,7 +590,7 @@ msgstr "記事検索"
 
 #: include/const.php:887
 msgid "Author Name"
-msgstr ""
+msgstr "投稿者名"
 
 #: include/const.php:892
 msgid "S"
@@ -644,7 +644,7 @@ msgstr "検索"
 
 #: include/const.php:962
 msgid "Include"
-msgstr ""
+msgstr "含む"
 
 #: include/const.php:966 include/const.php:5667
 msgid "Item"
@@ -656,11 +656,11 @@ msgstr "メタキー"
 
 #: include/const.php:993
 msgid "Meta Value"
-msgstr ""
+msgstr "メタ値"
 
 #: include/const.php:998
 msgid "Meta Compare"
-msgstr ""
+msgstr "メタ比較"
 
 #: include/const.php:1008
 msgid "Get LINE Connect message"
@@ -670,7 +670,7 @@ msgstr "LINE Connectメッセージ取得"
 msgid "Get LINE Connect message."
 msgstr "LINE Connectメッセージを取得します。"
 
-#: include/const.php:1014 include/const.php:1170 lineconnect.php:1009
+#: include/const.php:1014 include/const.php:1170 lineconnect.php:1005
 msgid "LC Message"
 msgstr "LCメッセージ"
 
@@ -680,11 +680,11 @@ msgstr "LINE ConnectメッセージID"
 
 #: include/const.php:1021
 msgid "Replacement Arguments"
-msgstr ""
+msgstr "置換引数"
 
 #: include/const.php:1022 include/const.php:1186
 msgid "Arguments to insert into the message"
-msgstr ""
+msgstr "メッセージ中の置換引数"
 
 #: include/const.php:1032
 msgid "Get LINE text message"
@@ -696,7 +696,7 @@ msgstr "LINEテキストメッセージを取得します。"
 
 #: include/const.php:1038 include/const.php:1059 include/const.php:1225
 msgid "Body"
-msgstr ""
+msgstr "本文"
 
 #: include/const.php:1039 include/const.php:1060
 msgid "Message body"
@@ -721,7 +721,7 @@ msgstr "メッセージタイトル"
 
 #: include/const.php:1066
 msgid "Thumb"
-msgstr ""
+msgstr "サムネイル"
 
 #: include/const.php:1067
 msgid "Thumbnail url"
@@ -740,7 +740,7 @@ msgstr "ボタンアクションタイプ"
 #: include/const.php:1078 include/const.php:1142 include/const.php:1763
 #: include/const.php:1823 include/const.php:3516 include/const.php:3965
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/chat.php:66 include/logging.php:66 include/message.php:682
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:682
 msgid "Message"
 msgstr "メッセージ"
 
@@ -778,7 +778,7 @@ msgstr "LINEメッセージをJSON形式で指定します。"
 
 #: include/const.php:1128
 msgid "Raw Json"
-msgstr ""
+msgstr "生JSON"
 
 #: include/const.php:1129
 msgid "Raw Message JSON"
@@ -790,11 +790,11 @@ msgstr "LINEメッセージ送信"
 
 #: include/const.php:1137
 msgid "Send LINE message with Audience and Channel."
-msgstr ""
+msgstr "オーディエンスとチャネルを指定してLINEメッセージを送信"
 
 #: include/const.php:1143
 msgid "LC message, message text or message object"
-msgstr ""
+msgstr "LCメッセージ、メッセージテキストまたはオブジェクト"
 
 #: include/const.php:1149 include/const.php:1150 include/const.php:2687
 #: include/const.php:2708 include/const.php:2729 include/const.php:5206
@@ -803,43 +803,43 @@ msgstr "LINEユーザーID"
 
 #: include/const.php:1165
 msgid "Send LINE message with audience"
-msgstr ""
+msgstr "オーディエンスを指定してLINEメッセージを送信"
 
 #: include/const.php:1166
 msgid "Send LINE message with audience."
-msgstr ""
+msgstr "オーディエンスを指定してLINEメッセージを送信"
 
 #: include/const.php:1172
 msgid "LC message, text or message object"
-msgstr ""
+msgstr "LCメッセージ、メッセージテキストまたはオブジェクト"
 
-#: include/const.php:1177 lineconnect.php:1059
+#: include/const.php:1177 lineconnect.php:1055
 msgid "LC Audience"
 msgstr "LCオーディエンス"
 
 #: include/const.php:1179
 msgid "LC Audience or object"
-msgstr ""
+msgstr "LCオーディエンスオブジェクト"
 
 #: include/const.php:1184
 msgid "Message's Replacement Arguments"
-msgstr ""
+msgstr "メッセージ中の置換引数"
 
 #: include/const.php:1193
 msgid "Audience's Replacement Arguments"
-msgstr ""
+msgstr "オーディエンス中の置換引数"
 
 #: include/const.php:1195
 msgid "Arguments to insert into the audience"
-msgstr ""
+msgstr "オーディエンスに埋め込む引数"
 
 #: include/const.php:1202 include/const.php:1205
 msgid "Notification disabled"
-msgstr ""
+msgstr "通知を無効化"
 
 #: include/const.php:1204
 msgid "Notification Disabled"
-msgstr ""
+msgstr "通知を無効化"
 
 #: include/const.php:1212
 msgid "Send mail to admin"
@@ -851,7 +851,7 @@ msgstr "管理者へメールを送信します。"
 
 #: include/const.php:1218
 msgid "Subject"
-msgstr ""
+msgstr "件名"
 
 #: include/const.php:1219
 msgid "Mail subject"
@@ -879,7 +879,7 @@ msgstr "リッチメニューID"
 
 #: include/const.php:1247
 msgid "Line User Id"
-msgstr ""
+msgstr "LINEユーザーID"
 
 #: include/const.php:1248
 msgid "LINE user id. Default value is LINE user id of event source."
@@ -2449,7 +2449,7 @@ msgstr "リッチメニュー切り替えアクション"
 
 #: include/const.php:4156
 msgid "This action can be configured only with richmenus."
-msgstr ""
+msgstr "このアクションはリッチメニューにのみ設定可能です。"
 
 #: include/const.php:4160
 msgid "Rich menu switch"
@@ -2729,11 +2729,11 @@ msgstr "プロフィール"
 
 #: include/const.php:5149
 msgid "All friends(Broadcast)"
-msgstr ""
+msgstr "すべての友だち(ブロードキャスト)"
 
 #: include/const.php:5153
 msgid "All recognized friends(Multicast)"
-msgstr ""
+msgstr "すべての認識済みの友だち"
 
 #: include/const.php:5180
 msgid "Select how to match user roles"
@@ -3063,7 +3063,7 @@ msgstr "リッチメニューエイリアスの更新に失敗しました"
 msgid "Richmenu alias or richmenu ID is not set"
 msgstr "リッチメニューエイリアスまたはリッチメニューIDが設定されていません"
 
-#: include/audience.php:29
+#: include/audience.php:29 include/audience.php:44
 msgid "LINE Connect Audience"
 msgstr "LINE Connect オーディエンス"
 
@@ -3077,16 +3077,16 @@ msgstr "チャネルを追加してください"
 
 #: include/audience.php:864
 msgid "The message will not be sent to anyone."
-msgstr ""
+msgstr "メッセージは誰にも送信されません"
 
 #: include/audience.php:870
 msgid "Message will be sent to all users who have subscribed to this channel."
-msgstr ""
+msgstr "メッセージはチャネルの友だち全員に送られます"
 
 #: include/audience.php:872
 #, php-format
 msgid "Message will be sent to %s person."
-msgstr ""
+msgstr "メッセージは%s名に送信されます。"
 
 #: include/trigger.php:28
 msgid "LINE Connect Trigger"
@@ -3119,7 +3119,7 @@ msgstr "リッチメニューエイリアスを追加してください"
 
 #: include/trigger.php:367
 msgid "Please add audience first"
-msgstr ""
+msgstr "オーディエンスを追加してください"
 
 #: include/dm.php:21
 msgid "LINE Connect Direct Message"
@@ -3274,6 +3274,14 @@ msgstr "見つかりませんでした。"
 msgid "May not be empty."
 msgstr "空は許可されていません。"
 
+#: include/bulk_message.php:21
+msgid "LINE Connect Bulk message"
+msgstr "LINE Connect 一括配信"
+
+#: include/bulk_message.php:23
+msgid "Bulk message"
+msgstr "一括配信"
+
 #: include/admin.php:22
 msgid "LINE"
 msgstr "LINE"
@@ -3289,14 +3297,6 @@ msgstr "&#9744;"
 #: include/admin.php:60
 msgid "Send LINE Message"
 msgstr "LINE送信する"
-
-#: include/chat.php:21
-msgid "LINE Connect Bulk message"
-msgstr "LINE Connect 一括配信"
-
-#: include/chat.php:23
-msgid "Bulk message"
-msgstr "一括配信"
 
 #: include/publish.php:107 include/setting.php:134 include/setting.php:248
 msgid "All Friends"
@@ -3464,20 +3464,20 @@ msgstr "%1$sメッセージを%2$s"
 
 #: include/message.php:528
 msgid "Broadcast message sent successfully."
-msgstr ""
+msgstr "ブロードキャストメッセージが送信されました。"
 
 #: include/message.php:530
 msgid "Broadcast message failed to send."
-msgstr ""
+msgstr "ブロードキャストメッセージの送信に失敗しました。"
 
 #: include/message.php:536
 #, php-format
 msgid "Multicast message sent to %s person."
-msgstr ""
+msgstr "マルチキャストメッセージが%s名に送信されました。"
 
 #: include/message.php:538
 msgid "Multicast message failed to send."
-msgstr ""
+msgstr "マルチキャストメッセージの送信に失敗しました。"
 
 #: include/message.php:583
 #, php-format
@@ -3505,299 +3505,299 @@ msgstr "先生"
 msgid "Students"
 msgstr "生徒"
 
-#: lineconnect.php:802
+#: lineconnect.php:798
 msgid "LINE Event Log"
 msgstr "LINEイベントログ"
 
-#: lineconnect.php:804
+#: lineconnect.php:800
 msgid "Event Log"
 msgstr "イベントログ"
 
-#: lineconnect.php:958 lineconnect.php:969
+#: lineconnect.php:954 lineconnect.php:965
 msgid "LC Triggers"
 msgstr "LCトリガー"
 
-#: lineconnect.php:959
+#: lineconnect.php:955
 msgid "LC Trigger"
 msgstr "LCトリガー"
 
-#: lineconnect.php:960 lineconnect.php:1010 lineconnect.php:1060
+#: lineconnect.php:956 lineconnect.php:1006 lineconnect.php:1056
 msgid "Add New"
 msgstr "新しく追加"
 
-#: lineconnect.php:961
+#: lineconnect.php:957
 msgid "Add New Trigger"
 msgstr "新しいトリガーを追加"
 
-#: lineconnect.php:962
+#: lineconnect.php:958
 msgid "Edit Trigger"
 msgstr "トリガーを編集"
 
-#: lineconnect.php:963
+#: lineconnect.php:959
 msgid "New Trigger"
 msgstr "新しいトリガー"
 
-#: lineconnect.php:964
+#: lineconnect.php:960
 msgid "View Trigger"
 msgstr "トリガーを表示"
 
-#: lineconnect.php:965
+#: lineconnect.php:961
 msgid "Search Triggers"
 msgstr "トリガーを検索"
 
-#: lineconnect.php:966
+#: lineconnect.php:962
 msgid "No Triggers found"
 msgstr "トリガーが見つかりません"
 
-#: lineconnect.php:967
+#: lineconnect.php:963
 msgid "No Triggers found in Trash"
 msgstr "ゴミ箱にトリガーはありません"
 
-#: lineconnect.php:970
+#: lineconnect.php:966
 msgid "All Triggers"
 msgstr "すべてのトリガー"
 
-#: lineconnect.php:971
+#: lineconnect.php:967
 msgid "Trigger Archives"
 msgstr "トリガーアーカイブ"
 
-#: lineconnect.php:972
+#: lineconnect.php:968
 msgid "Trigger Attributes"
 msgstr "トリガー属性"
 
-#: lineconnect.php:973
+#: lineconnect.php:969
 msgid "Insert into Trigger"
 msgstr "トリガーに挿入"
 
-#: lineconnect.php:974
+#: lineconnect.php:970
 msgid "Uploaded to this Trigger"
 msgstr "このトリガーにアップロードしました"
 
-#: lineconnect.php:975 lineconnect.php:1025 lineconnect.php:1075
+#: lineconnect.php:971 lineconnect.php:1021 lineconnect.php:1071
 msgid "Featured Image"
 msgstr "アイキャッチ画像"
 
-#: lineconnect.php:976 lineconnect.php:1026 lineconnect.php:1076
+#: lineconnect.php:972 lineconnect.php:1022 lineconnect.php:1072
 msgid "Set featured image"
 msgstr "アイキャッチ画像の設定"
 
-#: lineconnect.php:977 lineconnect.php:1027 lineconnect.php:1077
+#: lineconnect.php:973 lineconnect.php:1023 lineconnect.php:1073
 msgid "Remove featured image"
 msgstr "アイキャッチ画像の削除"
 
-#: lineconnect.php:978 lineconnect.php:1028 lineconnect.php:1078
+#: lineconnect.php:974 lineconnect.php:1024 lineconnect.php:1074
 msgid "Use as featured image"
 msgstr "アイキャッチ画像として使用"
 
-#: lineconnect.php:979
+#: lineconnect.php:975
 msgid "Filter Triggers list"
 msgstr "トリガー一覧をフィルター"
 
-#: lineconnect.php:980
+#: lineconnect.php:976
 msgid "Triggers list navigation"
 msgstr "トリガー一覧のナビゲーション"
 
-#: lineconnect.php:981
+#: lineconnect.php:977
 msgid "Triggers list"
 msgstr "トリガー一覧"
 
-#: lineconnect.php:982
+#: lineconnect.php:978
 msgid "Trigger published."
 msgstr "トリガーを公開しました"
 
-#: lineconnect.php:983
+#: lineconnect.php:979
 msgid "Trigger published privately."
 msgstr "トリガーをプライベートで公開しました"
 
-#: lineconnect.php:984
+#: lineconnect.php:980
 msgid "Trigger reverted to draft."
 msgstr "トリガーを下書きに戻しました"
 
-#: lineconnect.php:985
+#: lineconnect.php:981
 msgid "Trigger scheduled."
 msgstr "トリガーが予約公開されました"
 
-#: lineconnect.php:986
+#: lineconnect.php:982
 msgid "Trigger updated."
 msgstr "トリガーが更新されました"
 
-#: lineconnect.php:988
+#: lineconnect.php:984
 msgid "LINE Connect Triggers"
 msgstr "LINE Connect トリガー"
 
-#: lineconnect.php:1008 lineconnect.php:1019
+#: lineconnect.php:1004 lineconnect.php:1015
 msgid "LC Messages"
 msgstr "LCメッセージ"
 
-#: lineconnect.php:1011
+#: lineconnect.php:1007
 msgid "Add New Message"
 msgstr "新しいメッセージを追加"
 
-#: lineconnect.php:1012
+#: lineconnect.php:1008
 msgid "Edit Message"
 msgstr "メッセージを編集"
 
-#: lineconnect.php:1013
+#: lineconnect.php:1009
 msgid "New Message"
 msgstr "新しいメッセージ"
 
-#: lineconnect.php:1014
+#: lineconnect.php:1010
 msgid "View Message"
 msgstr "メッセージを表示"
 
-#: lineconnect.php:1015
+#: lineconnect.php:1011
 msgid "Search Messages"
 msgstr "メッセージを検索"
 
-#: lineconnect.php:1016
+#: lineconnect.php:1012
 msgid "No Messages found"
 msgstr "メッセージが見つかりません"
 
-#: lineconnect.php:1017
+#: lineconnect.php:1013
 msgid "No Messages found in Trash"
 msgstr "ゴミ箱にメッセージが見つかりません"
 
-#: lineconnect.php:1020
+#: lineconnect.php:1016
 msgid "All Messages"
 msgstr "すべてのメッセージ"
 
-#: lineconnect.php:1021
+#: lineconnect.php:1017
 msgid "Message Archives"
 msgstr "メッセージのアーカイブ"
 
-#: lineconnect.php:1022
+#: lineconnect.php:1018
 msgid "Message Attributes"
 msgstr "メッセージの属性"
 
-#: lineconnect.php:1023
+#: lineconnect.php:1019
 msgid "Insert into Message"
 msgstr "メッセージに挿入"
 
-#: lineconnect.php:1024
+#: lineconnect.php:1020
 msgid "Uploaded to this Message"
 msgstr "このメッセージにアップロードされました"
 
-#: lineconnect.php:1029
+#: lineconnect.php:1025
 msgid "Filter Messages list"
 msgstr "メッセージをフィルター"
 
-#: lineconnect.php:1030
+#: lineconnect.php:1026
 msgid "Messages list navigation"
 msgstr "メッセージのナビゲーション"
 
-#: lineconnect.php:1031
+#: lineconnect.php:1027
 msgid "Messages list"
 msgstr "メッセージ一覧"
 
-#: lineconnect.php:1032
+#: lineconnect.php:1028
 msgid "Message published."
 msgstr "メッセージが公開されました。"
 
-#: lineconnect.php:1033
+#: lineconnect.php:1029
 msgid "Message published privately."
 msgstr "メッセージが非公開にされました。"
 
-#: lineconnect.php:1034
+#: lineconnect.php:1030
 msgid "Message reverted to draft."
 msgstr "メッセージが下書きに戻されました。"
 
-#: lineconnect.php:1035
+#: lineconnect.php:1031
 msgid "Message scheduled."
 msgstr "メッセージがスケジュールされました。"
 
-#: lineconnect.php:1036
+#: lineconnect.php:1032
 msgid "Message updated."
 msgstr "メッセージが更新されました。"
 
-#: lineconnect.php:1038
+#: lineconnect.php:1034
 msgid "LINE Connect Messages"
 msgstr "LINE Connect メッセージ"
 
-#: lineconnect.php:1058 lineconnect.php:1069
+#: lineconnect.php:1054 lineconnect.php:1065
 msgid "LC Audiences"
 msgstr "LCオーディエンス"
 
-#: lineconnect.php:1061
+#: lineconnect.php:1057
 msgid "Add New Audience"
 msgstr "新規オーディエンスを追加"
 
-#: lineconnect.php:1062
+#: lineconnect.php:1058
 msgid "Edit Audience"
 msgstr "オーディエンスを編集"
 
-#: lineconnect.php:1063
+#: lineconnect.php:1059
 msgid "New Audience"
 msgstr "新規オーディエンス"
 
-#: lineconnect.php:1064
+#: lineconnect.php:1060
 msgid "View Audience"
 msgstr "オーディエンスを表示"
 
-#: lineconnect.php:1065
+#: lineconnect.php:1061
 msgid "Search Audiences"
 msgstr "オーディエンスを検索"
 
-#: lineconnect.php:1066
+#: lineconnect.php:1062
 msgid "No Audiences found"
 msgstr "オーディエンスが見つかりませんでした"
 
-#: lineconnect.php:1067
+#: lineconnect.php:1063
 msgid "No Audiences found in Trash"
 msgstr "ゴミ箱内にオーディエンスはありません"
 
-#: lineconnect.php:1070
+#: lineconnect.php:1066
 msgid "All Audiences"
 msgstr "すべてのオーディエンス"
 
-#: lineconnect.php:1071
+#: lineconnect.php:1067
 msgid "Audience Archives"
 msgstr "オーディエンスアーカイブ"
 
-#: lineconnect.php:1072
+#: lineconnect.php:1068
 msgid "Audience Attributes"
 msgstr "オーディエンスの属性"
 
-#: lineconnect.php:1073
+#: lineconnect.php:1069
 msgid "Insert into Audience"
 msgstr "オーディエンスに挿入"
 
-#: lineconnect.php:1074
+#: lineconnect.php:1070
 msgid "Uploaded to this Audience"
 msgstr "このオーディエンスにアップロード済み"
 
-#: lineconnect.php:1079
+#: lineconnect.php:1075
 msgid "Filter Audiences list"
 msgstr "オーディエンスリストをフィルタリング"
 
-#: lineconnect.php:1080
+#: lineconnect.php:1076
 msgid "Audiences list navigation"
 msgstr "オーディエンスリストのナビゲーション"
 
-#: lineconnect.php:1081
+#: lineconnect.php:1077
 msgid "Audiences list"
 msgstr "オーディエンスリスト"
 
-#: lineconnect.php:1082
+#: lineconnect.php:1078
 msgid "Audience published."
 msgstr "オーディエンスが公開されました。"
 
-#: lineconnect.php:1083
+#: lineconnect.php:1079
 msgid "Audience published privately."
 msgstr "オーディエンスが非公開で公開されました。"
 
-#: lineconnect.php:1084
+#: lineconnect.php:1080
 msgid "Audience reverted to draft."
 msgstr "オーディエンスが下書きに戻されました。"
 
-#: lineconnect.php:1085
+#: lineconnect.php:1081
 msgid "Audience scheduled."
 msgstr "オーディエンスが予約されました。"
 
-#: lineconnect.php:1086
+#: lineconnect.php:1082
 msgid "Audience updated."
 msgstr "オーディエンスが更新されました。"
 
-#: lineconnect.php:1088
+#: lineconnect.php:1084
 msgid "LINE Connect Audiences"
 msgstr "LINE Connect オーディエンス"
 

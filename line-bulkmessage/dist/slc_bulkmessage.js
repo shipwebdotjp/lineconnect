@@ -43088,6 +43088,8 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
   var log = function log(type) {
     return console.log.bind(console, type);
   };
+
+  //　初期データを反映させる
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var newData = _toConsumableArray(data);
     newData[0] = lc_initdata['audienceForm'][0]['formData'];
@@ -43095,6 +43097,8 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
     setData(newData);
     props.handleFormChange(newData);
   }, []);
+
+  // フォームが変更された時
   var onFormChange = function onFormChange(_form, id) {
     // console.log(_form);
     // console.log(id);
@@ -43132,7 +43136,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58,
+        lineNumber: 60,
         columnNumber: 13
       }
     }), uiOptions['addText'] || 'Add');
@@ -43197,7 +43201,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 120,
+      lineNumber: 122,
       columnNumber: 13
     }
   }, __('Audience', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43205,7 +43209,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 121,
+      lineNumber: 123,
       columnNumber: 13
     }
   }, __('Template', 'lineconnect'), ":", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
@@ -43217,7 +43221,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123,
+      lineNumber: 125,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
@@ -43225,7 +43229,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 124,
+      lineNumber: 126,
       columnNumber: 21
     }
   }, __('New Audience', 'lineconnect')), slc_audiences.map(function (value, index) {
@@ -43235,7 +43239,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 127,
+        lineNumber: 129,
         columnNumber: 29
       }
     }, value['title']);
@@ -43263,7 +43267,7 @@ var BulkMessageAudience = function BulkMessageAudience(props) {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 133,
+        lineNumber: 135,
         columnNumber: 21
       }
     });
@@ -43288,8 +43292,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _BulkMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BulkMessage */ "./src/component/BulkMessage.js");
 /* harmony import */ var _BulkMessageAudience__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BulkMessageAudience */ "./src/component/BulkMessageAudience.js");
 /* harmony import */ var _BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BulkMessageResult */ "./src/component/BulkMessageResult.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var _jsxFileName = "/Applications/MAMP/htdocs/wptest/wp-content/plugins/lineconnect/line-bulkmessage/src/component/BulkMessageForm.js",
   _this = undefined;
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -43297,35 +43307,42 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
-// import ChatTo from './ChatTo';
 
 
-// import ChatChannel from './ChatChannel';
 
 var __ = wp.i18n.__;
 var BulkMessageForm = function BulkMessageForm() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Array()),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
     messages = _useState2[0],
     setMessage = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Array()),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState4 = _slicedToArray(_useState3, 2),
     audience = _useState4[0],
     setAudience = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Array()),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState6 = _slicedToArray(_useState5, 2),
-    result = _useState6[0],
-    setResult = _useState6[1];
+    results = _useState6[0],
+    setResults = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+    _useState8 = _slicedToArray(_useState7, 2),
+    loadingStates = _useState8[0],
+    setLoadingStates = _useState8[1]; // 修正
+
   var handleSubmit = function handleSubmit(e) {
-    console.log(e.target);
     e.preventDefault();
     sendAjaxRequest('send');
   };
   var sendAjaxRequest = function sendAjaxRequest(mode) {
+    setLoadingStates(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, mode, true));
+    });
+    setResults(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, mode, null));
+    });
     jQuery.ajax({
       type: "POST",
       url: lc_initdata['ajaxurl'],
-      // admin-ajax.php のURLが格納された変数
       data: {
         'action': 'lc_ajax_chat_send',
         'nonce': lc_initdata['ajax_nonce'],
@@ -43335,11 +43352,18 @@ var BulkMessageForm = function BulkMessageForm() {
       },
       dataType: 'json'
     }).done(function (data) {
-      setResult(data);
+      setResults(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, mode, data));
+      });
     }).fail(function (XMLHttpRequest, textStatus, error) {
-      setResult({
-        "result": "failed",
-        "error": [error, XMLHttpRequest.responseText]
+      setResults(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, mode, {
+          error: error
+        }));
+      });
+    }).always(function () {
+      setLoadingStates(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, mode, false));
       });
     });
   };
@@ -43348,111 +43372,205 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40,
-      columnNumber: 12
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
-    className: "ChatHeader text-lg mx-2 my-2 w-auto",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 41,
+      lineNumber: 43,
       columnNumber: 9
     }
-  }, __('Send LINE message', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    result: result,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
+    className: "ChatHeader text-lg mx-2 my-4 w-auto",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 44,
-      columnNumber: 9
+      columnNumber: 13
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+  }, __('Send LINE bulk message', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     onSubmit: handleSubmit,
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45,
-      columnNumber: 9
+      lineNumber: 47,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "ChatBody w-full bg-white",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46,
-      columnNumber: 13
+      lineNumber: 48,
+      columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "ChatRow",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47,
-      columnNumber: 17
+      lineNumber: 49,
+      columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageAudience__WEBPACK_IMPORTED_MODULE_2__["default"], {
     handleFormChange: setAudience,
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 48,
-      columnNumber: 21
+      lineNumber: 50,
+      columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "ChatRow px-4 py-2 my-2",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
-      columnNumber: 17
+      lineNumber: 52,
+      columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "button",
     className: "button button-secondary button-large",
+    disabled: loadingStates['count'],
     onClick: function onClick() {
       return sendAjaxRequest('count');
     },
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51,
-      columnNumber: 21
+      lineNumber: 53,
+      columnNumber: 25
     }
-  }, __('Count Recipients', 'lineconnect'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, loadingStates['count'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 60,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+    className: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 61,
+      columnNumber: 33
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "black",
+    strokeWidth: "4",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 62,
+      columnNumber: 37
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    className: "opacity-75",
+    fill: "black",
+    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 63,
+      columnNumber: 37
+    }
+  })), __('Counting Recipients...', 'lineconnect')) : __('Count Recipients', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    result: results['count'],
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 72,
+      columnNumber: 25
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "ChatRow",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
-      columnNumber: 17
+      lineNumber: 74,
+      columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessage__WEBPACK_IMPORTED_MODULE_1__["default"], {
     handleFormChange: setMessage,
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54,
-      columnNumber: 21
+      lineNumber: 75,
+      columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "ChatRow px-4 py-2 my-2",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56,
-      columnNumber: 17
+      lineNumber: 77,
+      columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "submit",
     className: "button button-primary button-large",
+    disabled: loadingStates['send'],
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
-      columnNumber: 21
+      lineNumber: 78,
+      columnNumber: 25
     }
-  }, __('Send', 'lineconnect'))))));
+  }, loadingStates['send'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 84,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+    className: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 85,
+      columnNumber: 33
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "black",
+    strokeWidth: "4",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 86,
+      columnNumber: 37
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    className: "opacity-75",
+    fill: "black",
+    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 87,
+      columnNumber: 37
+    }
+  })), __('Sending...', 'lineconnect')) : __('Send', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    result: results['send'],
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 95,
+      columnNumber: 25
+    }
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BulkMessageForm);
 
@@ -43474,7 +43592,8 @@ var _jsxFileName = "/Applications/MAMP/htdocs/wptest/wp-content/plugins/lineconn
   _this = undefined;
 
 var BulkMessageResult = function BulkMessageResult(props) {
-  if (props.result.hasOwnProperty("result")) {
+  var _props$result;
+  if ((_props$result = props.result) !== null && _props$result !== void 0 && _props$result.hasOwnProperty("result")) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, props.result.success.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "py-2 px-4 my-2 bg-green-100 border border-green-500 w-1/3",
       __self: _this,

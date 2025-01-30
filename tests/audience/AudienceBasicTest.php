@@ -1,6 +1,6 @@
 <?php
 
-class AudienceTest extends WP_UnitTestCase {
+class AudienceBasicTest extends WP_UnitTestCase {
     protected static $result;
     public static function wpSetUpBeforeClass( $factory ) {
         self::$result = lineconnectTest::init();

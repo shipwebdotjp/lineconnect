@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const BulkMessageResult = (props) => {
-    if (props.result.hasOwnProperty("result")) {
+    if (props.result?.hasOwnProperty("result")) {
         return (
             <>
                 {props.result.success.length > 0 && (

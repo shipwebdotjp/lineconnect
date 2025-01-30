@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2024-10-26 12:30+0900\n"
+"POT-Creation-Date: 2025-01-28 14:17+0900\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ja\n"
@@ -23,17 +23,9 @@ msgstr "テンプレート"
 msgid "New message"
 msgstr "新規メッセージ"
 
-#: src/component/BulkMessageAudience.js:120
-msgid "Audience"
-msgstr "オーディエンス"
-
-#: src/component/BulkMessageAudience.js:124
-msgid "New Audience"
-msgstr "新規オーディエンス"
-
 #: src/component/BulkMessageForm.js:42
-msgid "Send LINE message"
-msgstr "LINEメッセージを送信"
+msgid "Send LINE bulk message"
+msgstr "LINEメッセージ一括配信"
 
 #: src/component/BulkMessageForm.js:51
 msgid "Count Recipients"
@@ -43,23 +35,10 @@ msgstr "送信対象数確認"
 msgid "Send"
 msgstr "送信"
 
-#~ msgid "Channel"
-#~ msgstr "チャネル"
+#: src/component/BulkMessageAudience.js:120
+msgid "Audience"
+msgstr "オーディエンス"
 
-#~ msgid "To"
-#~ msgstr "送信先"
-
-#~ msgid ""
-#~ "To specify individual users, use the check link on the User List page, or "
-#~ "check the check boxes for the target users and \"Apply\" the \"Send LINE "
-#~ "Messages\" option in the batch operation."
-#~ msgstr ""
-#~ "ユーザーを個別に指定するには、ユーザー一覧ページでLINE連携の「連携済」リン"
-#~ "クを利用するか、対象ユーザーにチェックを入れて一括操作で「LINEメッセージ送"
-#~ "信」を「適用」してください。"
-
-#~ msgid "Type"
-#~ msgstr "タイプ"
-
-#~ msgid "Role"
-#~ msgstr "ロール"
+#: src/component/BulkMessageAudience.js:124
+msgid "New Audience"
+msgstr "新規オーディエンス"

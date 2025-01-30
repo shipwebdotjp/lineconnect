@@ -1,4 +1,7 @@
 {
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "require": {
         "linecorp/line-bot-sdk": "^6.0",
         "cebe/markdown": "~1.1.1"

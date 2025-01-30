@@ -11,3 +11,4 @@ CHANGES.md
 .phpunit.result.cache
 phpunit.xml
 phpunit.xml.dist
+.aider*

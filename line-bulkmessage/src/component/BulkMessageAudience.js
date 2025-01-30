@@ -18,6 +18,7 @@ const BulkMessageAudience = (props) => {
 
     const log = (type) => console.log.bind(console, type);
 
+    //　初期データを反映させる
     useEffect(() => {
         const newData = [...data];
         newData[0] = lc_initdata['audienceForm'][0]['formData'];
@@ -26,6 +27,7 @@ const BulkMessageAudience = (props) => {
         props.handleFormChange(newData);
     }, [])
 
+    // フォームが変更された時
     const onFormChange = ( _form, id) => {
         // console.log(_form);
         // console.log(id);

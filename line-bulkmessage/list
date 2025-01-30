@@ -1,0 +1,9 @@
+./tailwind.config.js
+./webpack.config.js
+./postcss.config.js
+./po2json.js
+./src/index.js
+./src/component/BulkMessage.js
+./src/component/BulkMessageForm.js
+./src/component/BulkMessageAudience.js
+./src/component/BulkMessageResult.js

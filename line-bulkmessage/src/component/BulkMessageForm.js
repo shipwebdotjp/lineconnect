@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-// import ChatTo from './ChatTo';
 import BulkMessage from './BulkMessage';
 import BulkMessageAudience from './BulkMessageAudience';
-// import ChatChannel from './ChatChannel';
 import BulkMessageResult from './BulkMessageResult';
 
 const __ = wp.i18n.__;
 const BulkMessageForm = () => {
-    const [messages, setMessage] = useState(new Array());
-    const [audience, setAudience] = useState(new Array());
-    const [result, setResult] = useState(new Array());
+    const [messages, setMessage] = useState([]);
+    const [audience, setAudience] = useState([]);
+    const [results, setResults] = useState({});
+    const [loadingStates, setLoadingStates] = useState({}); // 修正
 
     const handleSubmit = (e) => {
-        console.log(e.target);
         e.preventDefault();
         sendAjaxRequest('send');
     };
 
-    const sendAjaxRequest = (mode) => {        
+    const sendAjaxRequest = (mode) => {
+        setLoadingStates((prev) => ({ ...prev, [mode]: true }));
+        setResults((prev) => ({ ...prev, [mode]: null }));
+
         jQuery.ajax({
             type: "POST",
-            url: lc_initdata['ajaxurl'], // admin-ajax.php のURLが格納された変数
+            url: lc_initdata['ajaxurl'],
             data: {
                 'action': 'lc_ajax_chat_send',
                 'nonce': lc_initdata['ajax_nonce'],
@@ -29,36 +30,74 @@ const BulkMessageForm = () => {
                 'mode': mode,
             },
             dataType: 'json'
-        }).done(function (data) {
-            setResult(data);
-        }).fail(function (XMLHttpRequest, textStatus, error) {
-            setResult({ "result": "failed", "error": [error, XMLHttpRequest.responseText] });
-        });        
-    }
+        }).done((data) => {
+            setResults((prev) => ({ ...prev, [mode]: data }));
+        }).fail((XMLHttpRequest, textStatus, error) => {
+            setResults((prev) => ({ ...prev, [mode]: { error: error } }));
+        }).always(() => {
+            setLoadingStates((prev) => ({ ...prev, [mode]: false }));
+        });
+    };
 
+    return (
+        <div className="ChatForm">
+            <header className="ChatHeader text-lg mx-2 my-4 w-auto">
+                {__('Send LINE bulk message', 'lineconnect')}			
+            </header>
+            <form onSubmit={handleSubmit}>
+                <div className="ChatBody w-full bg-white">
+                    <div className="ChatRow">
+                        <BulkMessageAudience handleFormChange={setAudience} />
+                    </div>
+                    <div className="ChatRow px-4 py-2 my-2">
+                        <button
+                            type="button"
+                            className="button button-secondary button-large"
+                            disabled={loadingStates['count']}
+                            onClick={() => sendAjaxRequest('count')}
+                        >
+                            {loadingStates['count'] ? (
+                            <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                {__('Counting Recipients...', 'lineconnect')}
+                            </span>
+                        ) : (
+                            __('Count Recipients', 'lineconnect')
+                        )}
+                           
+                        </button>
+                        <BulkMessageResult result={results['count']} />
+                    </div>
+                    <div className="ChatRow">
+                        <BulkMessage handleFormChange={setMessage} />
+                    </div>
+                    <div className="ChatRow px-4 py-2 my-2">
+                        <button
+                            type="submit"
+                            className="button button-primary button-large"
+                            disabled={loadingStates['send']}
+                        >
+                            {loadingStates['send'] ? (
+                            <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                {__('Sending...', 'lineconnect')}
+                            </span>
+                            ) : (
+                                __('Send', 'lineconnect')
+                            )}
+                        </button>
+                        <BulkMessageResult result={results['send']} />
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
+};
 
-    return <div className="ChatForm">
-        <header className="ChatHeader text-lg mx-2 my-2 w-auto">
-            {__('Send LINE message', 'lineconnect')}			
-        </header>
-        <BulkMessageResult result={result} />
-        <form onSubmit={handleSubmit}>
-            <div className="ChatBody w-full bg-white">
-                <div className="ChatRow">
-                    <BulkMessageAudience handleFormChange={setAudience} />
-                </div>
-                <div className="ChatRow px-4 py-2 my-2">
-                    <button type="button" className="button button-secondary button-large" onClick={() => sendAjaxRequest('count')}>{__('Count Recipients', 'lineconnect')}</button>
-                </div>
-                <div className="ChatRow">
-                    <BulkMessage handleFormChange={setMessage} />
-                </div>
-                <div className="ChatRow px-4 py-2 my-2">
-                    <button type="submit" className="button button-primary button-large">{__('Send', 'lineconnect')}</button>
-                </div>
-            </div>
-        </form>
-    </div>
-}
-
-export default BulkMessageForm
+export default BulkMessageForm;
