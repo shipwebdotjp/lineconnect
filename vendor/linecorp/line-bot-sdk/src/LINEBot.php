@@ -143,6 +143,19 @@ class LINEBot
     }
 
     /**
+     * Validates the reply message objects before sending.
+     *
+     * @param MessageBuilder $messageBuilder Message builder to validate.
+     * @return Response
+     */
+    public function validateReplyMessage(MessageBuilder $messageBuilder)
+    {
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/message/validate/reply', [
+            'messages' => $messageBuilder->buildMessage(),
+        ]);
+    }
+
+    /**
      * Replies text message(s) to destination which is associated with reply token.
      *
      * This method receives variable texts. It can send text(s) message as bulk.
@@ -199,6 +212,19 @@ class LINEBot
     }
 
     /**
+     * Validates the push message
+     *
+     * @param MessageBuilder $messageBuilder Message builder to validate.
+     * @return Response
+     */
+    public function validatePushMessage(MessageBuilder $messageBuilder)
+    {
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/message/validate/push', [
+            'messages' => $messageBuilder->buildMessage(),
+        ]);
+    }
+
+    /**
      * Sends arbitrary message to multi destinations.
      *
      * @param array $tos Identifiers of destination.
@@ -225,6 +251,19 @@ class LINEBot
     }
 
     /**
+     * Validates the multicast message objects before sending.
+     *
+     * @param MessageBuilder $messageBuilder Message builder to validate.
+     * @return Response
+     */
+    public function validateMulticastMessage(MessageBuilder $messageBuilder)
+    {
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/message/validate/multicast', [
+            'messages' => $messageBuilder->buildMessage(),
+        ]);
+    }
+
+    /**
      * Sends push messages to multiple users at any time.
      * LINE@ accounts cannot call this API endpoint. Please migrate it to a LINE official account.
      *
@@ -243,6 +282,19 @@ class LINEBot
             'messages' => $messageBuilder->buildMessage(),
             'notificationDisabled' => $notificationDisabled,
         ], $headers);
+    }
+
+    /**
+     * Validates the broadcast message objects before sending.
+     *
+     * @param MessageBuilder $messageBuilder Message builder to validate.
+     * @return Response
+     */
+    public function validateBroadcastMessage(MessageBuilder $messageBuilder)
+    {
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/message/validate/broadcast', [
+            'messages' => $messageBuilder->buildMessage(),
+        ]);
     }
 
     /**
@@ -978,6 +1030,19 @@ class LINEBot
             $headers[] = HTTPHeader::LINE_RETRY_KEY . ': ' .$retryKey;
         }
         return $this->httpClient->post($this->endpointBase . '/v2/bot/message/narrowcast', $params, $headers);
+    }
+
+    /**
+     * Validates the narrowcast message objects before sending.
+     *
+     * @param MessageBuilder $messageBuilder Message builder to validate.
+     * @return Response
+     */
+    public function validateNarrowcastMessage(MessageBuilder $messageBuilder)
+    {
+        return $this->httpClient->post($this->endpointBase . '/v2/bot/message/validate/narrowcast', [
+            'messages' => $messageBuilder->buildMessage(),
+        ]);
     }
 
     /**

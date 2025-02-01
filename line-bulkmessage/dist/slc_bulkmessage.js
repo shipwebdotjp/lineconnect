@@ -43483,7 +43483,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72,
+      lineNumber: 71,
       columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43491,7 +43491,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 74,
+      lineNumber: 73,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessage__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -43499,28 +43499,31 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75,
+      lineNumber: 74,
       columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "ChatRow px-4 py-2 my-2",
+    className: "ChatRow px-4 py-2 my-2 space-x-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 76,
+      columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: "button",
+    className: "button button-secondary button-large mr-2",
+    disabled: loadingStates['validate'],
+    onClick: function onClick() {
+      return sendAjaxRequest('validate');
+    },
     __self: _this,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 77,
-      columnNumber: 21
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    type: "submit",
-    className: "button button-primary button-large",
-    disabled: loadingStates['send'],
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 78,
       columnNumber: 25
     }
-  }, loadingStates['send'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+  }, loadingStates['validate'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "flex items-center",
     __self: _this,
     __source: {
@@ -43562,12 +43565,72 @@ var BulkMessageForm = function BulkMessageForm() {
       lineNumber: 87,
       columnNumber: 37
     }
-  })), __('Sending...', 'lineconnect')) : __('Send', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    result: results['send'],
+  })), __('Validating...', 'lineconnect')) : __('Validate', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: "submit",
+    className: "button button-primary button-large",
+    disabled: loadingStates['send'],
     __self: _this,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 95,
+      columnNumber: 25
+    }
+  }, loadingStates['send'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 101,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+    className: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 102,
+      columnNumber: 33
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "black",
+    strokeWidth: "4",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 103,
+      columnNumber: 37
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    className: "opacity-75",
+    fill: "black",
+    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 104,
+      columnNumber: 37
+    }
+  })), __('Sending...', 'lineconnect')) : __('Send', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    result: results['validate'],
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 112,
+      columnNumber: 25
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    result: results['send'],
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 113,
       columnNumber: 25
     }
   })))));
@@ -43595,7 +43658,7 @@ var BulkMessageResult = function BulkMessageResult(props) {
   var _props$result;
   if ((_props$result = props.result) !== null && _props$result !== void 0 && _props$result.hasOwnProperty("result")) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, props.result.success.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "py-2 px-4 my-2 bg-green-100 border border-green-500 w-1/3",
+      className: "py-2 px-4 my-2 bg-green-100 border border-green-500 w-full max-w-screen-sm",
       __self: _this,
       __source: {
         fileName: _jsxFileName,
@@ -43613,39 +43676,45 @@ var BulkMessageResult = function BulkMessageResult(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
         key: index,
         className: "p-2 my-1 mr-2",
+        dangerouslySetInnerHTML: {
+          __html: value
+        },
         __self: _this,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 12,
           columnNumber: 37
         }
-      }, value);
+      });
     }))), props.result.error.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "py-2 px-4 my-2 bg-red-100 border border-red-500 w-1/3",
+      className: "py-2 px-4 my-2 bg-red-100 border border-red-500 w-full max-w-screen-sm",
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 21,
+        lineNumber: 19,
         columnNumber: 21
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 22,
+        lineNumber: 20,
         columnNumber: 25
       }
     }, props.result.error.map(function (value, index) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
         key: index,
         className: "p-2 my-1 mr-2",
+        dangerouslySetInnerHTML: {
+          __html: value
+        },
         __self: _this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 25,
+          lineNumber: 23,
           columnNumber: 37
         }
-      }, value);
+      });
     }))));
   } else {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null);

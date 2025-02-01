@@ -176,11 +176,11 @@ EOM;
 		$messages              = isset( $_POST['messages'] ) ? array_map('stripslashes_deep', $_POST['messages']) : [];
 		$audience              = isset( $_POST['audience'] ) ? array_map('stripslashes_deep', $_POST['audience']) : [];
 		$mode = isset( $_POST['mode'] ) ? $_POST['mode'] : '';
-		if( in_array($mode, ['send', 'count']) === false ){
+		if( in_array($mode, ['send', 'count', 'validate']) === false ){
 			$mode = 'send';
 		}
 
-		if($mode === 'send'){
+		if($mode === 'send' || $mode === 'validate'){
 			$message = lineconnectSLCMessage::formData_to_multimessage($messages);
 			$recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]);
 			if( empty( $recepient ) ){
@@ -190,7 +190,11 @@ EOM;
 					'error' => array(),
 				);
 			}else{
-				$response = lineconnectMessage::sendAudienceMessage($recepient, $message);
+				if($mode === 'validate'){
+					$response = lineconnectMessage::validateAudienceMessage($recepient, $message);
+				}else{
+					$response = lineconnectMessage::sendAudienceMessage($recepient, $message);
+				}
 			}
 		}elseif($mode === 'count'){
 			$response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition']??[]));

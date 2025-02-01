@@ -513,34 +513,88 @@ class lineconnectMessage {
 	}
 
 	//オーディエンスに送信
-	static function sendAudienceMessage($audience, $message, $notificationDisabled = false ) {
+	static function sendAudienceMessage($recepient, $message, $notificationDisabled = false ) {
 		// LINEBOT SDKの読み込み
 		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
 		$ary_success_message = array();
 		$ary_error_message   = array();
-		foreach($audience as $secret_prefix => $audience_item){
+		foreach($recepient as $secret_prefix => $recepient_item){
 			$error_message        = $success_message = '';
 			$channel = lineconnect::get_channel($secret_prefix);
 
-			if($audience_item['type'] == 'broadcast'){
-				$response = self::sendBroadcastMessage($channel, $message);
+			if($recepient_item['type'] == 'broadcast'){
+				$response = self::sendBroadcastMessage($channel, $message, $notificationDisabled);
 				if ( $response['success'] ) {
 					$success_message = __('Broadcast message sent successfully.', lineconnect::PLUGIN_NAME);
 				}else{
 					$error_message = __('Broadcast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
 				}
-			}elseif($audience_item['type'] == 'multicast'){
-				$response = self::sendMulticastMessage($channel, $audience_item['line_user_ids'], $message);
+			}elseif($recepient_item['type'] == 'multicast'){
+				$response = self::sendMulticastMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
 				if ( $response['success'] ) {
 					// $success_message = __('Multicast message sent successfully.', lineconnect::PLUGIN_NAME);
 					$success_message = sprintf( _n( 'Multicast message sent to %s person.', 'Multicast message sent to %s people.', $response['num'], lineconnect::PLUGIN_NAME ), number_format( $response['num'] ) );
 				}else{
 					$error_message = __('Multicast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
 				}
+			}elseif($recepient_item['type'] == 'push'){
+				$response = self::sendPushMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
+				if ( $response['success'] ) {
+					$success_message = __('Push message sent successfully.', lineconnect::PLUGIN_NAME);
+				}else{
+					$error_message = __('Push message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
+				}
+			
 			}
 
 			// 送信に成功した場合
 			if ( $success_message ) {
+				$ary_success_message[] = $channel['name'] . ': ' . $success_message;
+			}
+			// 送信に失敗した場合
+			else {
+				$ary_error_message[] = $channel['name'] . ': ' . $error_message;
+			}
+		}
+
+		$result = array(
+			'success' => empty($ary_error_message),
+			'message' => implode("\n", array_merge($ary_error_message,$ary_success_message)),
+			'success_messages' => $ary_success_message,
+			'error_messages'   => $ary_error_message,
+		);
+		return $result;
+	}
+
+	/**
+	 * レシピエントオブジェクトからメッセージオブジェクトを検証する
+	 * @param array $recepient レシピエント
+	 * @param \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message メッセージオブジェクト
+	 * @return array
+	 */
+	static function validateAudienceMessage($recepient, $message) {
+		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+		$ary_success_message = array();
+		$ary_error_message   = array();
+		foreach($recepient as $secret_prefix => $recepient_item){
+			$error_message        = $success_message = '';
+			$channel = lineconnect::get_channel($secret_prefix);
+
+			if($recepient_item['type'] == 'broadcast'){
+				$success_message .= __('Message will be sent to all users who have subscribed to this channel.', lineconnect::PLUGIN_NAME);
+			}elseif($recepient_item['type'] == 'multicast'){
+				$success_message .= sprintf( _n( 'Message will be sent to %s person.', 'Message will be sent to %s people.', count($recepient_item['line_user_ids']), lineconnect::PLUGIN_NAME ), number_format( count($recepient_item['line_user_ids']) ) );
+			}
+
+			$response = self::validateMessage($recepient_item['type'], $channel, $message);
+			if ( $response['success'] ) {
+				$success_message .= __('Valid message.', lineconnect::PLUGIN_NAME);
+			}else{
+				$error_message .= __('Invalid message.', lineconnect::PLUGIN_NAME). $response['message'];
+			}
+
+			// 送信に成功した場合
+			if ( $error_message === '' ) {
 				$ary_success_message[] = $channel['name'] . ': ' . $success_message;
 			}
 			// 送信に失敗した場合
@@ -569,7 +623,18 @@ class lineconnectMessage {
 		// LINE BOT
 		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $channel_access_token );
 		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channel_secret ) );
-
+		// メッセージに含まれるプレースホルダーへユーザーデータの埋め込み
+		$user_data = lineconnect::get_userdata_from_line_id($channel['prefix'], $line_user_id );
+		$injection_data = array(
+			'user' => $user_data,
+		);
+		$messages = lineconnectUtil::replace_object_placeholder($message->buildMessage(), $injection_data);
+        // メッセージオブジェクトの再構築
+		$multimessagebuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+        foreach($messages as $msg) {
+            $multimessagebuilder->add(lineconnectMessage::createRawMessage($msg));
+        }
+        $message = $multimessagebuilder;
 		// プッシュで送信
 		$response = $bot->pushMessage( $line_user_id, $message, $notificationDisabled );
 
@@ -595,7 +660,7 @@ class lineconnectMessage {
 	}
 
 	// マルチキャスト（複数のユーザーに送信）
-	static function sendMulticastMessage( $channel, $line_user_ids, $message ) {
+	static function sendMulticastMessage( $channel, $line_user_ids, $message, $notificationDisabled ) {
 		// LINEBOT SDKの読み込み
 		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
 
@@ -609,7 +674,7 @@ class lineconnectMessage {
 		// 最大500人なので、500個ごとに配列を分割して送信
 		foreach ( array_chunk( $line_user_ids, 500 ) as $line_user_id_chunk ) {
 			// マルチキャストで送信
-			$response = $bot->multicast( $line_user_id_chunk, $message );
+			$response = $bot->multicast( $line_user_id_chunk, $message, $notificationDisabled );
 			if ( $response->getHTTPStatus() !== 200 ) {
 				// error_log(print_r($response->getJSONDecodedBody(),true));
 				return array(
@@ -636,7 +701,7 @@ class lineconnectMessage {
 	}
 
 	// ブロードキャスト（すべての友達登録されているユーザーに送信）
-	static function sendBroadcastMessage( $channel, $message ) {
+	static function sendBroadcastMessage( $channel, $message, $notificationDisabled ) {
 		// LINEBOT SDKの読み込み
 		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
 
@@ -647,7 +712,7 @@ class lineconnectMessage {
 		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $channel_access_token );
 		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channel_secret ) );
 
-		$response = $bot->broadcast( $message );
+		$response = $bot->broadcast( $message, $notificationDisabled );
 		if ( $response->getHTTPStatus() === 200 ) {
 			if ( class_exists( 'lineconnectConnector' ) ) {
 				$class = new lineconnectConnector();
@@ -686,6 +751,52 @@ class lineconnectMessage {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * メッセージオブジェクトを検証
+	 * @param string $type
+	 * @param array $channel
+	 * @param \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message
+	 * @return array
+	 */
+	static function validateMessage($type, $channel, $message) {
+		// LINEBOT SDKの読み込み
+		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+
+		$channel_access_token = $channel['channel-access-token'];
+		$channel_secret       = $channel['channel-secret'];
+
+		// LINE BOT
+		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $channel_access_token );
+		$bot        = new \LINE\LINEBot($httpClient, array( 'channelSecret' => $channel_secret ));
+
+		// バリデーション
+		switch($type){
+			case 'broadcast':
+				$response = $bot->validateBroadcastMessage($message);
+				break;
+			case 'multicast':
+				$response = $bot->validateMulticastMessage($message);
+				break;
+			case 'push':
+				$response = $bot->validatePushMessage($message);
+				break;
+			case 'reply':
+				$response = $bot->validateReplyMessage($message);
+				break;
+			case 'narrowcast':
+				$response = $bot->validateNarrowcastMessage($message);
+				break;
+		}
+		if ( $response->getHTTPStatus() === 200 ) {
+			return array( 'success' => true );
+		} else {
+			return array(
+				'success' => false,
+				'message' => self::prettyPrintLINEMessagingAPIError($response->getJSONDecodedBody()),
+			);
+		}
 	}
 
 }

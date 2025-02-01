@@ -87,18 +87,6 @@ class lineconnectUtil {
 			foreach ( $parameters_schemas as $idx => $parameter_schema ) {
 				$parameter_schema['name'] = $parameter_schema['name'] ?? 'param' . $idx;
 				if( isset( $parameters[ $parameter_schema['name']]) ){
-					// アクションから渡されたパラメーター名とスキーマのパラメーター名が一致する場合、
-					// かつパラメーターにプレースホルダーが含まれている場合、置換する(文字列などそのままの場合もあり)
-					//Extract and replace placeholders contained within parameters
-					// ex "Hello, {{$.return.0.name}}!" => "Hello, John!"
-					// $replaced = $parameters[ $parameter_schema['name'] ];
-					// if( preg_match('/^{{(.*?)}}$/', $replaced, $matches) ){
-					// 	$replaced = self::replace_injection_data($matches[1], $injection_data);
-					// }else{
-					// 	$replaced = preg_replace_callback('/{{(.*?)}}/', function($matches) use (&$injection_data){
-					// 		return self::replace_injection_data($matches[1], $injection_data);
-					// 	},$replaced);
-					// }
 					$parameters[ $parameter_schema['name'] ] = self::replace_object_placeholder($parameters[ $parameter_schema['name'] ], $injection_data);
 				}
 			}
@@ -107,13 +95,15 @@ class lineconnectUtil {
 	}
 
 	/**
-	 * オブジェクトのプレースホルダーを置換する関数
-	 * @param $object 対象となるオブジェクト(オブジェクトとは限らず、文字列や配列の場合もある) 
+	 * オブジェクトの値にプレースホルダーが含まれる場合、再帰的置換する関数
+	 * @param mixed $object 対象となるオブジェクト(オブジェクトとは限らず、メッセージであったり、文字列や配列の場合もある) 
 	 * @param array $injection_data 前のアクションの戻り値など注入用データ
 	 * @return mixed $object 置換されたオブジェクト
 	 */
 	public static function replace_object_placeholder($object, $injection_data){
-		if(is_object($object)){
+		if ( $object instanceof \LINE\LINEBot\MessageBuilder ) {
+			$object = self::replace_object_placeholder($object->buildMessage(), $injection_data);
+		}elseif(is_object($object)){
 			// オブジェクトの場合、オブジェクトのキーを再帰的に処理する
 			foreach($object as $key => $value){
 				$object->{$key} = self::replace_object_placeholder($value, $injection_data);
@@ -288,6 +278,8 @@ class lineconnectUtil {
 			$translated = __( 'Not found.', lineconnect::PLUGIN_NAME );
 		}elseif(strpos('May not be empty' , $text) !== false){
 			$translated = __( 'May not be empty.', lineconnect::PLUGIN_NAME );
+		}elseif(preg_match('/Size must be between ([0-9,]+) and ([0-9,]+)/', $text, $matches)){
+			$translated = sprintf( __('Size must be between %s and %s.', lineconnect::PLUGIN_NAME), $matches[1], $matches[2] );
 		}else{
 			$translated = $text;
 		}

@@ -25,6 +25,14 @@ msgstr ""
 msgid "New Audience"
 msgstr ""
 
+#: src/component/BulkMessageForm.js:106
+msgid "Sending..."
+msgstr ""
+
+#: src/component/BulkMessageForm.js:109
+msgid "Send"
+msgstr ""
+
 #: src/component/BulkMessageForm.js:45
 msgid "Send LINE bulk message"
 msgstr ""
@@ -38,9 +46,9 @@ msgid "Count Recipients"
 msgstr ""
 
 #: src/component/BulkMessageForm.js:89
-msgid "Sending..."
+msgid "Validating..."
 msgstr ""
 
 #: src/component/BulkMessageForm.js:92
-msgid "Send"
+msgid "Validate"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 3.4.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-28 22:52+0900\n"
+"POT-Creation-Date: 2025-01-30 22:14+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3161,12 +3161,33 @@ msgstr ""
 msgid "May not be empty."
 msgstr ""
 
+#: include/util.php:292
+#, php-format
+msgid "Size must be between %s and %s."
+msgstr ""
+
 #: include/bulk_message.php:21
 msgid "LINE Connect Bulk message"
 msgstr ""
 
 #: include/bulk_message.php:23
 msgid "Bulk message"
+msgstr ""
+
+#: include/bulk_message.php:156
+msgid "You are not logged in."
+msgstr ""
+
+#: include/bulk_message.php:164
+msgid "You do not have permission to send messages."
+msgstr ""
+
+#: include/bulk_message.php:172
+msgid "Nonce is not set or invalid."
+msgstr ""
+
+#: include/bulk_message.php:189
+msgid "There was no target to be sent that matched the condition."
 msgstr ""
 
 #: include/admin.php:22

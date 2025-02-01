@@ -122,7 +122,7 @@ class CurlHTTPClient implements HTTPClient
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_BINARYTRANSFER => true,
+            // CURLOPT_BINARYTRANSFER => true,
             CURLOPT_HEADER => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         ];
