@@ -28,7 +28,7 @@ const BulkMessageForm = () => {
                 'nonce': lc_initdata['ajax_nonce'],
                 'messages': messages,
                 'audience': audience,
-                'notificationDisabled': notificationDisabled,
+                'notificationDisabled': notificationDisabled ? 1 : 0,
                 'mode': mode,
             },
             dataType: 'json'
@@ -89,7 +89,8 @@ const BulkMessageForm = () => {
                             </label>
                         </div>
                     </div>
-                    <div className="ChatRow px-4 py-2 my-2 space-x-2">
+                    <div className="ChatRow px-4 py-2 mt-2">
+                        <div className="space-x-2">
                         <button
                             type="button"
                             className="button button-secondary button-large mr-2"
@@ -125,8 +126,11 @@ const BulkMessageForm = () => {
                                 __('Send', 'lineconnect')
                             )}
                         </button>
-                        <BulkMessageResult result={results['validate']} />
-                        <BulkMessageResult result={results['send']} />
+                        </div>
+                        <div>
+                            <BulkMessageResult result={results['validate']} />
+                            <BulkMessageResult result={results['send']} />
+                        </div>
                     </div>
                 </div>
             </form>

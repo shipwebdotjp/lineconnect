@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-30 22:14+0900\n"
+"POT-Creation-Date: 2025-02-02 21:45+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -36,11 +36,11 @@ msgstr "# 個選択"
 
 #: include/functions.php:255
 msgid "Error: Invalid line user ID."
-msgstr ""
+msgstr "エラー: 無効なLINEユーザーIDです。"
 
 #: include/functions.php:278
 msgid "Error: Invalid audience ID."
-msgstr ""
+msgstr "エラー: 無効なオーディエンスIDです。"
 
 #: include/dashboard.php:19 include/dashboard.php:45
 msgid "LINE Connect Dashboard"
@@ -740,7 +740,7 @@ msgstr "ボタンアクションタイプ"
 #: include/const.php:1078 include/const.php:1142 include/const.php:1763
 #: include/const.php:1823 include/const.php:3516 include/const.php:3965
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/bulk_message.php:66 include/logging.php:66 include/message.php:682
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:785
 msgid "Message"
 msgstr "メッセージ"
 
@@ -900,19 +900,23 @@ msgid "Get WordPress user meta value"
 msgstr "WordPressユーザーのメタ値を取得"
 
 #: include/const.php:1267 include/const.php:1289 include/chatlist.php:56
+#: tests/util/UtilPrepareArgumentsTest.php:72
 msgid "User ID"
 msgstr "ユーザーID"
 
 #: include/const.php:1268 include/const.php:1290 include/const.php:5092
+#: tests/util/UtilPrepareArgumentsTest.php:73
 msgid "WordPress user ID"
 msgstr "WordPressユーザーID"
 
 #: include/const.php:1274 include/const.php:1296 include/const.php:1318
 #: include/const.php:1345 include/const.php:2907
+#: tests/util/UtilPrepareArgumentsTest.php:79
 msgid "Key"
 msgstr "キー"
 
 #: include/const.php:1275 include/const.php:1297
+#: tests/util/UtilPrepareArgumentsTest.php:80
 msgid "Meta key"
 msgstr "メタキー"
 
@@ -1037,7 +1041,7 @@ msgstr "配列(Array)"
 msgid "Array element"
 msgstr "配列の要素"
 
-#: include/const.php:1573 include/message.php:681
+#: include/const.php:1573 include/message.php:784
 msgid "Property"
 msgstr "プロパティ"
 
@@ -3079,7 +3083,7 @@ msgstr "チャネルを追加してください"
 msgid "The message will not be sent to anyone."
 msgstr "メッセージは誰にも送信されません"
 
-#: include/audience.php:870
+#: include/audience.php:870 include/message.php:603
 msgid "Message will be sent to all users who have subscribed to this channel."
 msgstr "メッセージはチャネルの友だち全員に送られます"
 
@@ -3227,54 +3231,54 @@ msgstr "投稿「%s」に新しいコメントがありました"
 msgid "Comment by %s"
 msgstr "%sさんから: "
 
-#: include/util.php:270
+#: include/util.php:288
 #, php-format
 msgid "The request body has %s error."
 msgstr "リクエストボディに%s個のエラーがあります。"
 
-#: include/util.php:272
+#: include/util.php:290
 msgid "Invalid reply token."
 msgstr "無効な返信トークンです。"
 
-#: include/util.php:274
+#: include/util.php:292
 #, php-format
 msgid "The property, %s, in the request body is invalid."
 msgstr "リクエストボディのプロパティ「%s」が無効です。"
 
-#: include/util.php:276
+#: include/util.php:294
 msgid "The request body could not be parsed as JSON."
 msgstr "リクエストボディをJSONとして解析できませんでした。"
 
-#: include/util.php:278
+#: include/util.php:296
 #, php-format
 msgid "The content type, %s, is not supported."
 msgstr "コンテンツタイプ「%s」はサポートされていません。"
 
-#: include/util.php:280
+#: include/util.php:298
 msgid "Authentication failed."
 msgstr "認証に失敗しました。"
 
-#: include/util.php:282
+#: include/util.php:300
 msgid "Access to this API is not available for your account."
 msgstr "このAPIへのアクセスは、お使いのアカウントでは利用できません。"
 
-#: include/util.php:284
+#: include/util.php:302
 msgid "Failed to send messages."
 msgstr "メッセージの送信に失敗しました。"
 
-#: include/util.php:286
+#: include/util.php:304
 msgid "You have reached your monthly limit."
 msgstr "月間の制限に達しました。"
 
-#: include/util.php:288
+#: include/util.php:306
 msgid "Not found."
 msgstr "見つかりませんでした。"
 
-#: include/util.php:290
+#: include/util.php:308
 msgid "May not be empty."
 msgstr "空は許可されていません。"
 
-#: include/util.php:292
+#: include/util.php:310
 #, php-format
 msgid "Size must be between %s and %s."
 msgstr "サイズは%sから%sの間である必要があります。"
@@ -3289,19 +3293,19 @@ msgstr "一括配信"
 
 #: include/bulk_message.php:156
 msgid "You are not logged in."
-msgstr ""
+msgstr "ログインしていません。"
 
 #: include/bulk_message.php:164
 msgid "You do not have permission to send messages."
-msgstr ""
+msgstr "メッセージを送信する権限がありません。"
 
 #: include/bulk_message.php:172
 msgid "Nonce is not set or invalid."
-msgstr ""
+msgstr "Nonceが設定されていないか、無効です。"
 
-#: include/bulk_message.php:189
+#: include/bulk_message.php:190
 msgid "There was no target to be sent that matched the condition."
-msgstr ""
+msgstr "条件に一致する送信対象がありませんでした。"
 
 #: include/admin.php:22
 msgid "LINE"
@@ -3483,38 +3487,66 @@ msgstr "送信済み"
 msgid "\"%1$s\" message %2$s"
 msgstr "%1$sメッセージを%2$s"
 
-#: include/message.php:528
+#: include/message.php:533
 msgid "Broadcast message sent successfully."
 msgstr "ブロードキャストメッセージが送信されました。"
 
-#: include/message.php:530
+#: include/message.php:535
 msgid "Broadcast message failed to send."
 msgstr "ブロードキャストメッセージの送信に失敗しました。"
 
-#: include/message.php:536
+#: include/message.php:541
 #, php-format
 msgid "Multicast message sent to %s person."
 msgstr "マルチキャストメッセージが%s名に送信されました。"
 
-#: include/message.php:538
+#: include/message.php:543
 msgid "Multicast message failed to send."
 msgstr "マルチキャストメッセージの送信に失敗しました。"
 
-#: include/message.php:583
+#: include/message.php:557
+#, php-format
+msgid "Push message sent to %s person."
+msgstr "%s 人にプッシュメッセージを送信しました。"
+
+#: include/message.php:559
+#, php-format
+msgid "Push message failed to sent to %s person."
+msgstr "%s 人へのプッシュメッセージの送信に失敗しました。"
+
+#: include/message.php:605
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr "メッセージはマルチキャストで %s 人に送信されます。"
+
+#: include/message.php:607
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr "メッセージはプッシュで %s 人に送信されます。"
+
+#: include/message.php:618
+msgid "Valid message."
+msgstr "有効なメッセージです。"
+
+#: include/message.php:620
+msgid "Invalid message."
+msgstr "無効なメッセージです。"
+
+#: include/message.php:686
 #, php-format
 msgid "Push to %s"
 msgstr "%sへのプッシュ"
 
-#: include/message.php:626
+#: include/message.php:729
 #, php-format
 msgid "%s multicast"
 msgstr "%s通のマルチキャスト"
 
-#: include/message.php:657
+#: include/message.php:760
 msgid "Broadcast"
 msgstr "ブロードキャスト"
 
-#: include/message.php:674
+#: include/message.php:777
 msgid "Error"
 msgstr "エラー"
 
@@ -4058,3 +4090,4 @@ msgstr "LINE Connect オーディエンス"
 #~ msgstr ""
 #~ "データベースの更新が必要です。プラグイン「LINE Connect」を一旦無効化し、再"
 #~ "度有効化してください。"
+

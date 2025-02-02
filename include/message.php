@@ -521,15 +521,20 @@ class lineconnectMessage {
 		foreach($recepient as $secret_prefix => $recepient_item){
 			$error_message        = $success_message = '';
 			$channel = lineconnect::get_channel($secret_prefix);
+			$type = $recepient_item['type'];
+			// if multicast and has placeholder then push
+			if($type == 'multicast' && lineconnectUtil::has_object_placeholder($message)){
+				$type = 'push';
+			}
 
-			if($recepient_item['type'] == 'broadcast'){
+			if($type == 'broadcast'){
 				$response = self::sendBroadcastMessage($channel, $message, $notificationDisabled);
 				if ( $response['success'] ) {
 					$success_message = __('Broadcast message sent successfully.', lineconnect::PLUGIN_NAME);
 				}else{
 					$error_message = __('Broadcast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
 				}
-			}elseif($recepient_item['type'] == 'multicast'){
+			}elseif($type == 'multicast'){
 				$response = self::sendMulticastMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
 				if ( $response['success'] ) {
 					// $success_message = __('Multicast message sent successfully.', lineconnect::PLUGIN_NAME);
@@ -537,12 +542,21 @@ class lineconnectMessage {
 				}else{
 					$error_message = __('Multicast message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
 				}
-			}elseif($recepient_item['type'] == 'push'){
-				$response = self::sendPushMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
-				if ( $response['success'] ) {
-					$success_message = __('Push message sent successfully.', lineconnect::PLUGIN_NAME);
+			}elseif($type == 'push'){
+				$ary_push_success = array();
+				$ary_push_error = array();
+				foreach($recepient_item['line_user_ids'] as $line_user_id){
+					$response = self::sendPushMessage($channel, $line_user_id, $message, $notificationDisabled);
+					if ( $response['success'] ) {
+						$ary_push_success[] = $line_user_id;
+					}else{
+						$ary_push_error[] = $line_user_id;
+					}
+				}
+				if ( empty($ary_push_error) ) {
+					$success_message = sprintf(_n('Push message sent to %s person.', 'Push message sent to %s people.', count($ary_push_success), lineconnect::PLUGIN_NAME), number_format( count($ary_push_success) ));
 				}else{
-					$error_message = __('Push message failed to send.', lineconnect::PLUGIN_NAME). $response['message'];
+					$error_message = sprintf(_n('Push message failed to sent to %s person.', 'Push message failed to sent to %s people.', count($ary_push_error), lineconnect::PLUGIN_NAME), number_format( count($ary_push_error) ));
 				}
 			
 			}
@@ -579,14 +593,27 @@ class lineconnectMessage {
 		foreach($recepient as $secret_prefix => $recepient_item){
 			$error_message        = $success_message = '';
 			$channel = lineconnect::get_channel($secret_prefix);
-
-			if($recepient_item['type'] == 'broadcast'){
-				$success_message .= __('Message will be sent to all users who have subscribed to this channel.', lineconnect::PLUGIN_NAME);
-			}elseif($recepient_item['type'] == 'multicast'){
-				$success_message .= sprintf( _n( 'Message will be sent to %s person.', 'Message will be sent to %s people.', count($recepient_item['line_user_ids']), lineconnect::PLUGIN_NAME ), number_format( count($recepient_item['line_user_ids']) ) );
+			$type = $recepient_item['type'];
+			// if multicast and has placeholder then push
+			if($type == 'multicast' && lineconnectUtil::has_object_placeholder($message)){
+				$type = 'push';
 			}
 
-			$response = self::validateMessage($recepient_item['type'], $channel, $message);
+			if($type == 'broadcast'){
+				$success_message .= __('Message will be sent to all users who have subscribed to this channel.', lineconnect::PLUGIN_NAME);
+			}elseif($type == 'multicast'){
+				$success_message .= sprintf( _n( 'Message will be sent to %s person by multicast.', 'Message will be sent to %s people by multicast.', count($recepient_item['line_user_ids']), lineconnect::PLUGIN_NAME ), number_format( count($recepient_item['line_user_ids']) ) );
+			}elseif($type == 'push'){
+				$success_message .= sprintf(_n('Message will be sent to %s person by push.', 'Message will be sent to %s people by push.', count($recepient_item['line_user_ids']), lineconnect::PLUGIN_NAME), number_format( count($recepient_item['line_user_ids']) ));
+			}
+
+			if($type == 'push'){
+				$replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
+			}else{
+				$replaced_message = $message;
+			}
+			$success_message .= ' ';
+			$response = self::validateMessage($type, $channel, $replaced_message);
 			if ( $response['success'] ) {
 				$success_message .= __('Valid message.', lineconnect::PLUGIN_NAME);
 			}else{
@@ -612,17 +639,14 @@ class lineconnectMessage {
 		return $result;
 	}
 
-	// プッシュ（一人のユーザーに送信）
-	static function sendPushMessage( $channel, $line_user_id, $message, $notificationDisabled = false ) {
-		// LINEBOT SDKの読み込み
-		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
-
-		$channel_access_token = $channel['channel-access-token'];
-		$channel_secret       = $channel['channel-secret'];
-
-		// LINE BOT
-		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $channel_access_token );
-		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channel_secret ) );
+	/**
+	 * プッシュメッセージようにプレースホルダーを置換する
+	 * @param array $channel チャネル情報
+	 * @param string $line_user_id LINEユーザーID
+	 * @param \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message プレースホルダーを含んだメッセージオブジェクト
+	 * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message 置換済みメッセージオブジェクト<
+	 */
+	static function replacePlaceHolder( $channel, $line_user_id, $message ){
 		// メッセージに含まれるプレースホルダーへユーザーデータの埋め込み
 		$user_data = lineconnect::get_userdata_from_line_id($channel['prefix'], $line_user_id );
 		$injection_data = array(
@@ -634,10 +658,24 @@ class lineconnectMessage {
         foreach($messages as $msg) {
             $multimessagebuilder->add(lineconnectMessage::createRawMessage($msg));
         }
-        $message = $multimessagebuilder;
+        return $multimessagebuilder;
+	}
+
+	// プッシュ（一人のユーザーに送信）
+	static function sendPushMessage( $channel, $line_user_id, $message, $notificationDisabled = false ) {
+		// LINEBOT SDKの読み込み
+		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+
+		$channel_access_token = $channel['channel-access-token'];
+		$channel_secret       = $channel['channel-secret'];
+
+		// LINE BOT
+		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient( $channel_access_token );
+		$bot        = new \LINE\LINEBot( $httpClient, array( 'channelSecret' => $channel_secret ) );
+		$message = self::replacePlaceHolder( $channel, $line_user_id, $message );
 		// プッシュで送信
 		$response = $bot->pushMessage( $line_user_id, $message, $notificationDisabled );
-
+	
 		// 送信に成功した場合
 		if ( $response->getHTTPStatus() === 200 ) {
 			if ( class_exists( 'lineconnectConnector' ) ) {

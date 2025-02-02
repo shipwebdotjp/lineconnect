@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-28 14:17+0900\n"
+"POT-Creation-Date: 2025-02-02 21:54+0900\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ja\n"
@@ -15,7 +15,7 @@ msgstr ""
 msgid "Message"
 msgstr "メッセージ"
 
-#: src/component/BulkMessage.js:129 src/component/BulkMessageAudience.js:122
+#: src/component/BulkMessage.js:129 src/component/BulkMessageAudience.js:124
 msgid "Template"
 msgstr "テンプレート"
 
@@ -23,22 +23,30 @@ msgstr "テンプレート"
 msgid "New message"
 msgstr "新規メッセージ"
 
-#: src/component/BulkMessageForm.js:42
+#: src/component/BulkMessageForm.js:47
 msgid "Send LINE bulk message"
 msgstr "LINEメッセージ一括配信"
 
-#: src/component/BulkMessageForm.js:51
+#: src/component/BulkMessageForm.js:70
 msgid "Count Recipients"
 msgstr "送信対象数確認"
 
-#: src/component/BulkMessageForm.js:57
+#: src/component/BulkMessageForm.js:88
+msgid "Disable notification"
+msgstr "通知を無効にする"
+
+#: src/component/BulkMessageForm.js:108
+msgid "Validate"
+msgstr "検証"
+
+#: src/component/BulkMessageForm.js:125
 msgid "Send"
 msgstr "送信"
 
-#: src/component/BulkMessageAudience.js:120
+#: src/component/BulkMessageAudience.js:122
 msgid "Audience"
 msgstr "オーディエンス"
 
-#: src/component/BulkMessageAudience.js:124
+#: src/component/BulkMessageAudience.js:126
 msgid "New Audience"
 msgstr "新規オーディエンス"

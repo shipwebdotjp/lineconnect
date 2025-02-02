@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 3.4.0\n"
+"Project-Id-Version: LINE Connect 3.4.0±\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-01-30 22:14+0900\n"
+"POT-Creation-Date: 2025-02-02 21:45+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -708,7 +708,7 @@ msgstr ""
 #: include/const.php:1078 include/const.php:1142 include/const.php:1763
 #: include/const.php:1823 include/const.php:3516 include/const.php:3965
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/bulk_message.php:66 include/logging.php:66 include/message.php:682
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:785
 msgid "Message"
 msgstr ""
 
@@ -868,19 +868,23 @@ msgid "Get WordPress user meta value"
 msgstr ""
 
 #: include/const.php:1267 include/const.php:1289 include/chatlist.php:56
+#: tests/util/UtilPrepareArgumentsTest.php:72
 msgid "User ID"
 msgstr ""
 
 #: include/const.php:1268 include/const.php:1290 include/const.php:5092
+#: tests/util/UtilPrepareArgumentsTest.php:73
 msgid "WordPress user ID"
 msgstr ""
 
 #: include/const.php:1274 include/const.php:1296 include/const.php:1318
 #: include/const.php:1345 include/const.php:2907
+#: tests/util/UtilPrepareArgumentsTest.php:79
 msgid "Key"
 msgstr ""
 
 #: include/const.php:1275 include/const.php:1297
+#: tests/util/UtilPrepareArgumentsTest.php:80
 msgid "Meta key"
 msgstr ""
 
@@ -1005,7 +1009,7 @@ msgstr ""
 msgid "Array element"
 msgstr ""
 
-#: include/const.php:1573 include/message.php:681
+#: include/const.php:1573 include/message.php:784
 msgid "Property"
 msgstr ""
 
@@ -2967,7 +2971,7 @@ msgstr ""
 msgid "The message will not be sent to anyone."
 msgstr ""
 
-#: include/audience.php:870
+#: include/audience.php:870 include/message.php:603
 msgid "Message will be sent to all users who have subscribed to this channel."
 msgstr ""
 
@@ -3114,54 +3118,54 @@ msgstr ""
 msgid "Comment by %s"
 msgstr ""
 
-#: include/util.php:270
+#: include/util.php:288
 #, php-format
 msgid "The request body has %s error."
 msgstr ""
 
-#: include/util.php:272
+#: include/util.php:290
 msgid "Invalid reply token."
 msgstr ""
 
-#: include/util.php:274
+#: include/util.php:292
 #, php-format
 msgid "The property, %s, in the request body is invalid."
 msgstr ""
 
-#: include/util.php:276
+#: include/util.php:294
 msgid "The request body could not be parsed as JSON."
 msgstr ""
 
-#: include/util.php:278
+#: include/util.php:296
 #, php-format
 msgid "The content type, %s, is not supported."
 msgstr ""
 
-#: include/util.php:280
+#: include/util.php:298
 msgid "Authentication failed."
 msgstr ""
 
-#: include/util.php:282
+#: include/util.php:300
 msgid "Access to this API is not available for your account."
 msgstr ""
 
-#: include/util.php:284
+#: include/util.php:302
 msgid "Failed to send messages."
 msgstr ""
 
-#: include/util.php:286
+#: include/util.php:304
 msgid "You have reached your monthly limit."
 msgstr ""
 
-#: include/util.php:288
+#: include/util.php:306
 msgid "Not found."
 msgstr ""
 
-#: include/util.php:290
+#: include/util.php:308
 msgid "May not be empty."
 msgstr ""
 
-#: include/util.php:292
+#: include/util.php:310
 #, php-format
 msgid "Size must be between %s and %s."
 msgstr ""
@@ -3186,7 +3190,7 @@ msgstr ""
 msgid "Nonce is not set or invalid."
 msgstr ""
 
-#: include/bulk_message.php:189
+#: include/bulk_message.php:190
 msgid "There was no target to be sent that matched the condition."
 msgstr ""
 
@@ -3366,38 +3370,66 @@ msgstr ""
 msgid "\"%1$s\" message %2$s"
 msgstr ""
 
-#: include/message.php:528
+#: include/message.php:533
 msgid "Broadcast message sent successfully."
 msgstr ""
 
-#: include/message.php:530
+#: include/message.php:535
 msgid "Broadcast message failed to send."
 msgstr ""
 
-#: include/message.php:536
+#: include/message.php:541
 #, php-format
 msgid "Multicast message sent to %s person."
 msgstr ""
 
-#: include/message.php:538
+#: include/message.php:543
 msgid "Multicast message failed to send."
 msgstr ""
 
-#: include/message.php:583
+#: include/message.php:557
+#, php-format
+msgid "Push message sent to %s person."
+msgstr ""
+
+#: include/message.php:559
+#, php-format
+msgid "Push message failed to sent to %s person."
+msgstr ""
+
+#: include/message.php:605
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr ""
+
+#: include/message.php:607
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr ""
+
+#: include/message.php:618
+msgid "Valid message."
+msgstr ""
+
+#: include/message.php:620
+msgid "Invalid message."
+msgstr ""
+
+#: include/message.php:686
 #, php-format
 msgid "Push to %s"
 msgstr ""
 
-#: include/message.php:626
+#: include/message.php:729
 #, php-format
 msgid "%s multicast"
 msgstr ""
 
-#: include/message.php:657
+#: include/message.php:760
 msgid "Broadcast"
 msgstr ""
 
-#: include/message.php:674
+#: include/message.php:777
 msgid "Error"
 msgstr ""
 

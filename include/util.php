@@ -128,6 +128,34 @@ class lineconnectUtil {
 		}
 		return $object;
 	}
+                                                                                                                                                                                                                                        
+	/**                                                                                                                                                                                                                                     
+	 * オブジェクトの値にプレースホルダーが含まれるかチェックする関数                                                                                                                                                                       
+	* @param mixed $object 検査対象のオブジェクト                                                                                                                                                                                          
+	* @return bool プレースホルダーが含まれる場合true                                                                                                                                                                                      
+	*/                                                                                                                                                                                                                                     
+	public static function has_object_placeholder($object) {                                                                                                                                                                                
+		if ($object instanceof \LINE\LINEBot\MessageBuilder) {                                                                                                                                                                              
+			// メッセージビルダーはメッセージ配列化してチェック                                                                                                                                                                             
+			return self::has_object_placeholder($object->buildMessage());                                                                                                                                                                   
+		} elseif (is_object($object)) {                                                                                                                                                                                                     
+			foreach (get_object_vars($object) as $value) {                                                                                                                                                                                  
+				if (self::has_object_placeholder($value)) {                                                                                                                                                                                 
+					return true;                                                                                                                                                                                                            
+				}                                                                                                                                                                                                                           
+			}                                                                                                                                                                                                                               
+		} elseif (is_array($object)) {                                                                                                                                                                                                      
+			foreach ($object as $value) {                                                                                                                                                                                                   
+				if (self::has_object_placeholder($value)) {                                                                                                                                                                                 
+					return true;                                                                                                                                                                                                            
+				}                                                                                                                                                                                                                           
+			}                                                                                                                                                                                                                               
+		} elseif (is_string($object)) {                                                                                                                                                                                                     
+			// 全体がプレースホルダー or 部分にプレースホルダーを含む場合                                                                                                                                                                   
+			return preg_match('/{{.*?}}/', $object) === 1;                                                                                                                                                                                  
+		}                                                                                                                                                                                                                                   
+		return false;                                                                                                                                                                                                                       
+	}      
 
 	/**
 	 * プレースホルダーを実際のデータに置換する関数

@@ -1,36 +1,40 @@
+# Bulk Message
 
-# Bulk message
-Instead of sending the article content on LINE when submitting an article, you can send a LINE message with the content of your choice as a message.  
+You can send a bulk LINE message to users extracted based on various conditions.  
+Users can be extracted by recalling an LC audience or creating a new set of extraction criteria.  
 Messages can be used by creating a new LC message or recalling a saved message.  
-### Usage
-Open the "Bulk message" page from the LINE Connect menu.  
-<img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-10.jpg" width="320" />  
 
-#### Channel
-Select target channel  
+## Audience
 
-#### Type
-Specify which user groups to send to.  
-- All: Send to all users who are add as friends, regardless of whether they are linked or not.
-- Linked: Send to users who are linked to Wordpress among users who are add as friends.
-- Roles: Sends to users who belong to a specific role among the users who have linked with Wordpress.
-- Users: Send to each user individually. (How to specify users is described below.)
+The extraction criteria for target users are called "audiences."  
+Note that these audiences are different from the ones in the official LINE account.  
+To distinguish them, we refer to the extraction criteria created in LINE Connect as **LC audiences** and those in the official LINE account as **LINE audiences**.  
 
-#### Role  
-Select which roles to send to users belonging to.   
+In the template selection box, you can choose to create a new audience or recall an existing one.  
+If you want to create a new one, select **New Audience**.  
+If you select an already created audience, it will be loaded, and you can modify it if necessary.  
+For more details on audiences, please see [Audiences](./audience.md).  
 
-#### Message
-In the template selection box, choose whether to create a new message or recall a saved message. If you select a saved message, it will be loaded. You can also modify it if necessary. For more information on LC messages, please see [LC messages](./message.md).
+## Message
 
-### Specify individual users and send
-Since you cannot specify individual users to be sent from the Bulk message page, please specify the target users from the User List page.  
+In the template selection box, you can choose to create a new message or recall a saved message.  
+If you select a saved message, it will be loaded, and you can modify it if necessary.  
+For more information on LC messages, please see [LC Messages](./message.md).  
 
-#### To only one user
-If the "check box" link in the LINE column takes you to the Bulk message page, the user will be selected.   
+## Disable Notifications
+
+If you want to send a message without notifying users, enable the **Disable Notifications** option.  
+
+## Specifying Target Users from the Admin User Page  
+
+### Selecting a Single User  
+
+The display name in the LINE column acts as a link. Clicking this link will take you to the bulk message page with the corresponding LINE user ID pre-selected.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2023/08/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88-2023-08-08-23.02.40.png" width="320" />  
 
-#### To multiple users
-Check the checkboxes for the target users, select "Send LINE Message" for the batch operation, and click the "Apply" button. 
-<img src="https://blog.shipweb.jp/wp-content/uploads/2023/08/lineconnect-ss-bulk-send.png" width="320" />  
-The LINE chat screen will open with the checked user selected.  
+### Selecting Multiple Users  
+
+Check the checkboxes for the target users, select **Send LINE Message** from the bulk action dropdown, and click the **Apply** button.  
+<img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-12.jpg" width="320" />  
+The bulk message page will open with the selected WordPress user IDs pre-specified.  
 <img src="https://blog.shipweb.jp/wp-content/uploads/2022/01/lineconnect-ss-13.jpg" width="320" />  

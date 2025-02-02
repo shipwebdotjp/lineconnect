@@ -176,6 +176,7 @@ EOM;
 		$messages              = isset( $_POST['messages'] ) ? array_map('stripslashes_deep', $_POST['messages']) : [];
 		$audience              = isset( $_POST['audience'] ) ? array_map('stripslashes_deep', $_POST['audience']) : [];
 		$mode = isset( $_POST['mode'] ) ? $_POST['mode'] : '';
+		$notificationDisabled = isset($_POST['notificationDisabled']) && $_POST['notificationDisabled'] == 1;
 		if( in_array($mode, ['send', 'count', 'validate']) === false ){
 			$mode = 'send';
 		}
@@ -193,7 +194,7 @@ EOM;
 				if($mode === 'validate'){
 					$response = lineconnectMessage::validateAudienceMessage($recepient, $message);
 				}else{
-					$response = lineconnectMessage::sendAudienceMessage($recepient, $message);
+					$response = lineconnectMessage::sendAudienceMessage($recepient, $message, $notificationDisabled);
 				}
 			}
 		}elseif($mode === 'count'){

@@ -43327,8 +43327,11 @@ var BulkMessageForm = function BulkMessageForm() {
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState8 = _slicedToArray(_useState7, 2),
     loadingStates = _useState8[0],
-    setLoadingStates = _useState8[1]; // 修正
-
+    setLoadingStates = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    notificationDisabled = _useState10[0],
+    setNotificationDisabled = _useState10[1];
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     sendAjaxRequest('send');
@@ -43348,6 +43351,7 @@ var BulkMessageForm = function BulkMessageForm() {
         'nonce': lc_initdata['ajax_nonce'],
         'messages': messages,
         'audience': audience,
+        'notificationDisabled': notificationDisabled ? 1 : 0,
         'mode': mode
       },
       dataType: 'json'
@@ -43372,7 +43376,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43,
+      lineNumber: 45,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
@@ -43380,7 +43384,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
+      lineNumber: 46,
       columnNumber: 13
     }
   }, __('Send LINE bulk message', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
@@ -43388,7 +43392,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47,
+      lineNumber: 49,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43396,7 +43400,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 48,
+      lineNumber: 50,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43404,7 +43408,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49,
+      lineNumber: 51,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageAudience__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -43412,7 +43416,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
+      lineNumber: 52,
       columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43420,7 +43424,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52,
+      lineNumber: 54,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -43433,7 +43437,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
+      lineNumber: 55,
       columnNumber: 25
     }
   }, loadingStates['count'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
@@ -43441,7 +43445,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 60,
+      lineNumber: 62,
       columnNumber: 29
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
@@ -43452,7 +43456,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61,
+      lineNumber: 63,
       columnNumber: 33
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
@@ -43465,7 +43469,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62,
+      lineNumber: 64,
       columnNumber: 37
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
@@ -43475,7 +43479,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63,
+      lineNumber: 65,
       columnNumber: 37
     }
   })), __('Counting Recipients...', 'lineconnect')) : __('Count Recipients', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -43483,7 +43487,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71,
+      lineNumber: 73,
       columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -43491,7 +43495,7 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73,
+      lineNumber: 75,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessage__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -43499,16 +43503,63 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 74,
+      lineNumber: 76,
       columnNumber: 25
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "ChatRow px-4 py-2 my-2 space-x-2",
+    className: "ChatRow px-4 py-2 my-2",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 76,
+      lineNumber: 78,
       columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 79,
+      columnNumber: 25
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "checkbox",
+    id: "notificationDisabled",
+    name: "notificationDisabled",
+    checked: notificationDisabled,
+    onChange: function onChange(e) {
+      return setNotificationDisabled(e.target.checked);
+    },
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80,
+      columnNumber: 29
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+    htmlFor: "notificationDisabled",
+    className: "ml-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 87,
+      columnNumber: 29
+    }
+  }, __('Disable notification', 'lineconnect')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "ChatRow px-4 py-2 mt-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 92,
+      columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "space-x-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 93,
+      columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "button",
@@ -43520,62 +43571,10 @@ var BulkMessageForm = function BulkMessageForm() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 77,
+      lineNumber: 94,
       columnNumber: 25
     }
   }, loadingStates['validate'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "flex items-center",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 84,
-      columnNumber: 29
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
-    className: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 85,
-      columnNumber: 33
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
-    className: "opacity-25",
-    cx: "12",
-    cy: "12",
-    r: "10",
-    stroke: "black",
-    strokeWidth: "4",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 86,
-      columnNumber: 37
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    className: "opacity-75",
-    fill: "black",
-    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 87,
-      columnNumber: 37
-    }
-  })), __('Validating...', 'lineconnect')) : __('Validate', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    type: "submit",
-    className: "button button-primary button-large",
-    disabled: loadingStates['send'],
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 95,
-      columnNumber: 25
-    }
-  }, loadingStates['send'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "flex items-center",
     __self: _this,
     __source: {
@@ -43617,23 +43616,82 @@ var BulkMessageForm = function BulkMessageForm() {
       lineNumber: 104,
       columnNumber: 37
     }
-  })), __('Sending...', 'lineconnect')) : __('Send', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    result: results['validate'],
+  })), __('Validating...', 'lineconnect')) : __('Validate', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: "submit",
+    className: "button button-primary button-large",
+    disabled: loadingStates['send'],
     __self: _this,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 112,
       columnNumber: 25
     }
+  }, loadingStates['send'] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 118,
+      columnNumber: 29
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+    className: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 119,
+      columnNumber: 33
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "black",
+    strokeWidth: "4",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 120,
+      columnNumber: 37
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    className: "opacity-75",
+    fill: "black",
+    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 121,
+      columnNumber: 37
+    }
+  })), __('Sending...', 'lineconnect')) : __('Send', 'lineconnect'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 130,
+      columnNumber: 25
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    result: results['validate'],
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 131,
+      columnNumber: 29
+    }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BulkMessageResult__WEBPACK_IMPORTED_MODULE_3__["default"], {
     result: results['send'],
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113,
-      columnNumber: 25
+      lineNumber: 132,
+      columnNumber: 29
     }
-  })))));
+  }))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BulkMessageForm);
 

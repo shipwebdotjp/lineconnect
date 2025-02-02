@@ -33,6 +33,10 @@
 ./tests/initdb.php
 ./tests/core/UserTest.php
 ./tests/core/ChannelTest.php
+./tests/util/UtilPrepareArgumentsTest.php
+./tests/util/UtilHasObjectPlaceholderTest.php
+./tests/util/UtilReplaceTest.php
+./tests/util/UtilInjectParamTest.php
 ./tests/env.php
 ./tests/bulkmessage/BulkmessageAjaxChatSendTest.php
 ./tests/bootstrap.php

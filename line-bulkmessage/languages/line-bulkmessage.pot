@@ -26,29 +26,33 @@ msgid "New Audience"
 msgstr ""
 
 #: src/component/BulkMessageForm.js:106
-msgid "Sending..."
-msgstr ""
-
-#: src/component/BulkMessageForm.js:109
-msgid "Send"
-msgstr ""
-
-#: src/component/BulkMessageForm.js:45
-msgid "Send LINE bulk message"
-msgstr ""
-
-#: src/component/BulkMessageForm.js:65
-msgid "Counting Recipients..."
-msgstr ""
-
-#: src/component/BulkMessageForm.js:68
-msgid "Count Recipients"
-msgstr ""
-
-#: src/component/BulkMessageForm.js:89
 msgid "Validating..."
 msgstr ""
 
-#: src/component/BulkMessageForm.js:92
+#: src/component/BulkMessageForm.js:109
 msgid "Validate"
+msgstr ""
+
+#: src/component/BulkMessageForm.js:123
+msgid "Sending..."
+msgstr ""
+
+#: src/component/BulkMessageForm.js:126
+msgid "Send"
+msgstr ""
+
+#: src/component/BulkMessageForm.js:47
+msgid "Send LINE bulk message"
+msgstr ""
+
+#: src/component/BulkMessageForm.js:67
+msgid "Counting Recipients..."
+msgstr ""
+
+#: src/component/BulkMessageForm.js:70
+msgid "Count Recipients"
+msgstr ""
+
+#: src/component/BulkMessageForm.js:88
+msgid "Disable notification"
 msgstr ""
