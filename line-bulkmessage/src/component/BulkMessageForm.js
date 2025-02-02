@@ -81,7 +81,12 @@ const BulkMessageForm = () => {
                                 type="checkbox"
                                 id="notificationDisabled"
                                 name="notificationDisabled"
+                                checked={notificationDisabled}
+                                onChange={(e) => setNotificationDisabled(e.target.checked)}
                             />
+                            <label htmlFor="notificationDisabled" className="ml-2">
+                                {__('Disable notification', 'lineconnect')}
+                            </label>
                         </div>
                     </div>
                     <div className="ChatRow px-4 py-2 my-2 space-x-2">
