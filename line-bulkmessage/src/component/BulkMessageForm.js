@@ -8,7 +8,8 @@ const BulkMessageForm = () => {
     const [messages, setMessage] = useState([]);
     const [audience, setAudience] = useState([]);
     const [results, setResults] = useState({});
-    const [loadingStates, setLoadingStates] = useState({}); // 修正
+    const [loadingStates, setLoadingStates] = useState({});
+    const [notificationDisabled, setNotificationDisabled] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,6 +28,7 @@ const BulkMessageForm = () => {
                 'nonce': lc_initdata['ajax_nonce'],
                 'messages': messages,
                 'audience': audience,
+                'notificationDisabled': notificationDisabled,
                 'mode': mode,
             },
             dataType: 'json'
@@ -72,6 +74,15 @@ const BulkMessageForm = () => {
                     </div>
                     <div className="ChatRow">
                         <BulkMessage handleFormChange={setMessage} />
+                    </div>
+                    <div className="ChatRow px-4 py-2 my-2">
+                        <div className="flex items-center">
+                            <input 
+                                type="checkbox"
+                                id="notificationDisabled"
+                                name="notificationDisabled"
+                            />
+                        </div>
                     </div>
                     <div className="ChatRow px-4 py-2 my-2 space-x-2">
                         <button
