@@ -17,6 +17,10 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         array (
             'cebe\\markdown\\' => 14,
         ),
+        'S' => 
+        array (
+            'SHIPWEB\\LineConnect\\' => 20,
+        ),
         'P' => 
         array (
             'PhpParser\\' => 10,
@@ -37,6 +41,10 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
         ),
+        'SHIPWEB\\LineConnect\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -56,8 +64,20 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
     );
 
     public static $classMap = array (
+        'AudienceBasicTest' => __DIR__ . '/../..' . '/tests/audience/AudienceBasicTest.php',
+        'AudienceChannelTest' => __DIR__ . '/../..' . '/tests/audience/AudienceChannelTest.php',
+        'AudienceComplexConditionsTest' => __DIR__ . '/../..' . '/tests/audience/AudienceComplexConditionsTest.php',
+        'AudienceFieldsTest' => __DIR__ . '/../..' . '/tests/audience/AudienceFieldsTest.php',
+        'AudienceLineUserIdTest' => __DIR__ . '/../..' . '/tests/audience/AudienceLineUserIdTest.php',
+        'AudienceLinkTest' => __DIR__ . '/../..' . '/tests/audience/AudienceLinkTest.php',
+        'AudienceNestedTest' => __DIR__ . '/../..' . '/tests/audience/AudienceNestedTest.php',
+        'AudienceProfileTest' => __DIR__ . '/../..' . '/tests/audience/AudienceProfileTest.php',
+        'AudienceRoleTest' => __DIR__ . '/../..' . '/tests/audience/AudienceRoleTest.php',
+        'AudienceUserMetaTest' => __DIR__ . '/../..' . '/tests/audience/AudienceUserMetaTest.php',
+        'AudienceWpUserIdTest' => __DIR__ . '/../..' . '/tests/audience/AudienceWpUserIdTest.php',
+        'BulkmessageAjaxChatSendTest' => __DIR__ . '/../..' . '/tests/bulkmessage/BulkmessageAjaxChatSendTest.php',
+        'ChannelTest' => __DIR__ . '/../..' . '/tests/core/ChannelTest.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'LineconnectAudienceTest' => __DIR__ . '/../..' . '/tests/lineconnectAudienceTest.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -479,7 +499,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
-        'SampleTest' => __DIR__ . '/../..' . '/tests/test-sample.php',
+        'SampleTest' => __DIR__ . '/../..' . '/tests/SampleTest.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -688,6 +708,12 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'UserTest' => __DIR__ . '/../..' . '/tests/core/UserTest.php',
+        'UtilHasObjectPlaceholderTest' => __DIR__ . '/../..' . '/tests/util/UtilHasObjectPlaceholderTest.php',
+        'UtilInjectParamTest' => __DIR__ . '/../..' . '/tests/util/UtilInjectParamTest.php',
+        'UtilPrepareArgumentsTest' => __DIR__ . '/../..' . '/tests/util/UtilPrepareArgumentsTest.php',
+        'UtilReplaceTest' => __DIR__ . '/../..' . '/tests/util/UtilReplaceTest.php',
+        'lineconnectTest' => __DIR__ . '/../..' . '/tests/initdb.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

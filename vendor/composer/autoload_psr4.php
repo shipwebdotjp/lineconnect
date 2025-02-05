@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'SHIPWEB\\LineConnect\\' => array($baseDir . '/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'LINE\\' => array($vendorDir . '/linecorp/line-bot-sdk/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),

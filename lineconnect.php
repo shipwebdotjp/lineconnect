@@ -15,7 +15,7 @@
 	https://www.gnu.org/licenses/gpl-3.0.txt
 
 */
-
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/richmenu.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/setting.php';
 require_once plugin_dir_path( __FILE__ ) . 'include/publish.php';
@@ -528,7 +528,7 @@ class lineconnect {
 				// add shedule action
 				add_action(self::CRON_EVENT_NAME, ['lineconnectSchedule', 'schedule_event']);
 
-						//set cron
+				//set cron
 				self::cron_initialaize();
 
 
@@ -543,9 +543,6 @@ class lineconnect {
 
 		// テキストドメイン呼出し
 		load_plugin_textdomain( self::PLUGIN_NAME, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-
-
-
 
 	}
 
@@ -1126,6 +1123,13 @@ class lineconnect {
 		);
 		return $schedules;
 	}
+
+	// static function getScenario(){
+	// 	$scenario = new SHIPWEB\LineConnect\Scenario();
+	// 	print_r($scenario->run());
+	// 	$scenarios = SHIPWEB\LineConnect\Scenario::getScenarios();
+	// 	print_r($scenarios);
+	// }
 } // end of class
 
 $GLOBALS['lineconnect'] = new lineconnect();

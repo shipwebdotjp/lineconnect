@@ -10,6 +10,11 @@
         "phpunit/phpunit": "^9.0",
         "yoast/phpunit-polyfills": "^3.1"
     },
+    "autoload": {
+        "psr-4": {
+            "SHIPWEB\\LineConnect\\": "src/"
+        }
+    },
     "autoload-dev": {
         "classmap": [
             "tests"
