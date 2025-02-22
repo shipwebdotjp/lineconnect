@@ -9,10 +9,10 @@
 
 class lineconnectTest {
     public static function init() {
-        global $wpdb, $lineconnect;
+        global $wpdb;
         $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
 
-        $lineconnect->pluginActivation();
+        \LineConnect::pluginActivation();
         $result = array(
             'user' => array(),
             'audience' => array(),
@@ -21,7 +21,7 @@ class lineconnectTest {
         update_option( lineconnect::OPTION_KEY__CHANNELS, json_decode( file_get_contents( __DIR__ . '/log/channels.json' ), true ) );
         // 新規ロールを追加
         add_role('teacher', __( 'Teacher'  ));
-        add_role('students', __( 'Students'  ));
+        add_role('student', __( 'Student'  ));
 
         // ユーザーを作成
         $user_array = json_decode( file_get_contents( __DIR__ . '/log/users.json' ), true );

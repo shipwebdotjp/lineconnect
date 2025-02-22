@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SHIPWEB\\LineConnect\\": "src/"
+            "Shipweb\\LineConnect\\": "src/"
         }
     },
     "autoload-dev": {

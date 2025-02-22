@@ -19,7 +19,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         ),
         'S' => 
         array (
-            'SHIPWEB\\LineConnect\\' => 20,
+            'Shipweb\\LineConnect\\' => 20,
         ),
         'P' => 
         array (
@@ -41,7 +41,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
         ),
-        'SHIPWEB\\LineConnect\\' => 
+        'Shipweb\\LineConnect\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),

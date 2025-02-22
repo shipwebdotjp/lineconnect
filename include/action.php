@@ -70,7 +70,7 @@ class lineconnectAction {
 		// }
 	}
 */
-/*
+	/*
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
 		$js_file = 'react-jsonschema-form/dist/main.js';
@@ -134,7 +134,7 @@ class lineconnectAction {
 		require_once plugin_dir_path( __FILE__ ) . 'rjsf.php';
 		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field );
 */
-		/*
+	/*
 		error_log( json_encode( $ary_init_data['mainSchema'], JSON_PRETTY_PRINT ) );
 		$hidden_json_filed = '<input type="hidden" id="' . $formName . '" name="' . $formName . '">';
 
@@ -147,7 +147,7 @@ class lineconnectAction {
 		</script>
 EOM;
 */
-/*
+	/*
 	}
 */
 
@@ -199,9 +199,9 @@ EOM;
 		$action_name_array = array();
 		$posts             = get_posts( $args );
 		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions); 
-		foreach ( $lineconnect_actions as $name => $action ) {
-			$action_name_array[ $name ] = $action['title'];
+		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
+		foreach ($lineconnect_actions as $name => $action) {
+			$action_name_array[$name] = $action['title'];
 		}
 		return $action_name_array;
 	}
@@ -220,7 +220,7 @@ EOM;
 		);
 		$posts             = get_posts( $args );
 		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions); 
+		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
 		return $lineconnect_actions;
 		/*
 		$action_data_array = array();
@@ -234,24 +234,24 @@ EOM;
 		*/
 	}
 
-	static function do_action($actions, $chains, $event = null, $secret_prefix = null){
-		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
+	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null) {
+		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 
 		$message = array();
 		$injection_data = array(
 			'return' => array(),
 			'webhook' => self::merge_postback_data_to_params(json_decode(json_encode($event), true)),
-			'user' =>  $event ? lineconnect::get_userdata_from_line_id( $secret_prefix, $event->{'source'}->{'userId'} ) : [],
+			'user' =>  $event ? lineconnect::get_userdata_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) : [],
 		);
 		// error_log(print_r($injection_data['user'], true));
-		foreach ( $actions as $action_idx => $action ) {
-			if ( isset( $action['action_name'] ) ) {
+		foreach ($actions as $action_idx => $action) {
+			if (isset($action['action_name'])) {
 				//$function_schema = get_post_meta( $action['action_id'], lineconnect::META_KEY__ACTION_DATA, true );
 				$function_schema = self::get_lineconnect_action_data_array()[$action['action_name']];
-				if ( isset( $function_schema ) ) {
-					$function_name = $action['action_name'];//$function_schema['function'];
-					if ( isset( $function_schema['namespace'] ) ) {
-						if ( ! class_exists( $function_schema['namespace'] ) ) {
+				if (isset($function_schema)) {
+					$function_name = $action['action_name']; //$function_schema['function'];
+					if (isset($function_schema['namespace'])) {
+						if (! class_exists($function_schema['namespace'])) {
 							$error = array(
 								'error' => "NameError: namespace '$function_schema[namespace]' is not exists",
 								'abort' => true,
@@ -259,58 +259,60 @@ EOM;
 						}
 						try {
 							$class_name = new $function_schema['namespace']();
-							if ( $secret_prefix && method_exists( $class_name, 'set_secret_prefix' ) ) {
-								$class_name->set_secret_prefix( $secret_prefix );
+							if ($secret_prefix && method_exists($class_name, 'set_secret_prefix')) {
+								$class_name->set_secret_prefix($secret_prefix);
 							}
-							if ( $event && method_exists( $class_name, 'set_event' ) ) {
-								$class_name->set_event( $event );
+							if ($event && method_exists($class_name, 'set_event')) {
+								$class_name->set_event($event);
 							}
-						} catch ( \Exception $e ) {
+							if ($scenario_id && method_exists($class_name, 'set_scenario_id')) {
+								$class_name->set_scenario_id($scenario_id);
+							}
+						} catch (\Exception $e) {
 							$error = array(
 								'error' => "NameError: namespace '$function_schema[namespace]' is not exists",
 								'abort' => true,
 							);
 						}
-						if ( ! method_exists( $class_name, $function_name ) ) {
+						if (! method_exists($class_name, $function_name)) {
 							$error = array(
 								'error' => "NameError: name '$function_name' in namespace '$function_schema[namespace]' is not defined",
 								'abort' => true,
 							);
 						}
-					} elseif ( ! function_exists( $function_name ) ) {
+					} elseif (! function_exists($function_name)) {
 						$error = array(
 							'error' => "NameError: name '$function_name' is not exists",
 							'abort' => true,
 						);
 					}
-					error_log( 'class response:' . print_r( array( $class_name, $function_name ), true ) );
-					if ( ! isset( $error ) ) {
+					// error_log( 'class response:' . print_r( array( $class_name, $function_name ), true ) );
+					if (! isset($error)) {
 						$arguments_array = null;
-						if(isset($function_schema['parameters'])){
+						if (isset($function_schema['parameters'])) {
 							$action_parameters =  lineconnectUtil::inject_param($action_idx, $action['parameters'], $chains);
-							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters , $function_schema['parameters'], $injection_data);
-							$arguments_array = lineconnectUtil::arguments_object_to_array( $arguments_parsed, $function_schema['parameters'] );
+							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters, $function_schema['parameters'], $injection_data);
+							$arguments_array = lineconnectUtil::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
 						}
-						error_log('arguments:'.print_r($arguments_array, true));
-						if ( isset( $function_schema['namespace'] ) ) {
-							if ( empty( $function_schema['parameters'] ) ) {
-								$response = call_user_func( array( $class_name, $function_name ) );
+						// error_log('arguments:' . print_r($arguments_array, true));
+						if (isset($function_schema['namespace'])) {
+							if (empty($function_schema['parameters'])) {
+								$response = call_user_func(array($class_name, $function_name));
 							} else {
-								$response = call_user_func_array( array( $class_name, $function_name ), $arguments_array );
+								$response = call_user_func_array(array($class_name, $function_name), $arguments_array);
 							}
-						} elseif ( empty( $function_schema['parameters'] ) ) {
-							$response = call_user_func( $function_name );
+						} elseif (empty($function_schema['parameters'])) {
+							$response = call_user_func($function_name);
 						} else {
-							$response = call_user_func_array( $function_name, $arguments_array );// $response = $function_name( $arguments_array );
+							$response = call_user_func_array($function_name, $arguments_array); // $response = $function_name( $arguments_array );
 						}
-						$injection_data['return'][$action_idx+1] = $response;
+						$injection_data['return'][$action_idx + 1] = $response;
 						// error_log(print_r($injection_data, true));
-						if ( isset( $action['response_return_value'] ) && $action['response_return_value'] === true ) {
+						if (isset($action['response_return_value']) && $action['response_return_value'] === true) {
 							$message[] = lineconnectUtil::get_line_message_builder($response);
 						}
 					} else {
-						$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( $error['error'] );
-
+						$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($error['error']);
 					}
 				}
 			}
@@ -342,5 +344,4 @@ EOM;
 
 		return $event;
 	}
-
 }

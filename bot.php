@@ -695,13 +695,6 @@ function check_webhook_source_condition( $condition, $event, $secret_prefix ) {
 				return false;
 			}
 			$user_roles        = (array) $user->roles;
-			/*
-			$user_roles_name = array();
-			foreach ( $user_roles as $role ) {
-				$user_roles_name[] = wp_roles()->get_names()[$role];
-			}
-			*/
-
 			$user_roles_result = array_intersect( $condition['role'], $user_roles );
 			if ( empty( $user_roles_result ) ) {
 				return false;

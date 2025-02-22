@@ -42,7 +42,7 @@ class lineconnectDm {
 	}
 
 	/**
-	 * 初期設定画面を表示
+	 * DM送信画面を表示
 	 */
 	static function show_dm() {
 		$ary_init_data = array();

@@ -837,4 +837,17 @@ class lineconnectMessage {
 		}
 	}
 
+	/**
+	 * メッセージの配列からマルチメッセージを作成
+	 * @param array $messages メッセージの配列
+	 * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder
+	 */
+
+	public static function createMultiMessage(array $messages): \LINE\LINEBot\MessageBuilder\MultiMessageBuilder {
+		$multiMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+		foreach ($messages as $message) {
+			$multiMessageBuilder->add($message);
+		}
+		return $multiMessageBuilder;
+	}
 }

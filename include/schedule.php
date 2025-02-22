@@ -12,162 +12,187 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-class lineconnectSchedule {
-    static function schedule_event(){
-		$last_run = get_option(lineconnect::CRON_EVENT_LAST_TIMESTAMP);
-        //update last run time
-        update_option(lineconnect::CRON_EVENT_LAST_TIMESTAMP, time(), false);
-		// error_log("last run:". wp_date("Y-m-d H:i:s",$last_run). " thistime: ". wp_date("Y-m-d H:i:s",time()));
-		$response = self::run_schedule($last_run);
-		if(isset($response['success']) && $response['success']){
-			//error_log("Cron Success". print_r($response, true));
-		}else{
-			error_log("Cron Failed". print_r($response, true));
-			//liceconnectError::error_logging($response);
-		}
-		// if between $last_run and now day changed
-		if(empty($last_run) || wp_date('Ymd', $last_run) != wp_date('Ymd')){
-			//$response = self::send_error_log();
-		}
-	}
+use \Shipweb\LineConnect\Scenario\Scenario;
 
-    static function run_schedule($last_run){
-        if(empty($last_run)){
+class lineconnectSchedule {
+    static function schedule_event() {
+        $last_run = get_option(lineconnect::CRON_EVENT_LAST_TIMESTAMP);
+        $current_time = time();
+        //update last run time
+        update_option(lineconnect::CRON_EVENT_LAST_TIMESTAMP, $current_time, false);
+        // error_log("last run:". wp_date("Y-m-d H:i:s",$last_run). " thistime: ". wp_date("Y-m-d H:i:s",time()));
+        $response = self::run_schedule($last_run, $current_time);
+        if (isset($response['success']) && $response['success']) {
+            //error_log("Cron Success". print_r($response, true));
+        } else {
+            error_log("Cron Failed" . print_r($response, true));
+            //liceconnectError::error_logging($response);
+        }
+        // if between $last_run and now day changed
+        if (empty($last_run) || wp_date('Ymd', $last_run) != wp_date('Ymd')) {
+            //$response = self::send_error_log();
+        }
+    }
+
+    static function run_schedule($last_run, $current_time) {
+        if (empty($last_run)) {
             $last_run = time() - 3600;
         }
-        $current_time = time();
+        // $current_time = time();
         $success = true;
-        $messages = [];
+        //トリガー実行
         $triggers = self::get_schedules();
-        foreach ( $triggers as $trigger ) {
+        foreach ($triggers as $trigger) {
             $matched_array = array();
-            if(!isset($trigger['triggers'])){
+            if (!isset($trigger['triggers'])) {
                 continue;
             }
-            foreach ( $trigger['triggers'] as $schedule ) {
-                $matched_array[] = self::check_schedule_condition( $schedule, $last_run, $current_time );
+            foreach ($trigger['triggers'] as $schedule) {
+                $matched_array[] = self::check_schedule_condition($schedule, $last_run, $current_time);
             }
             // $trigger['triggers']の各条件のいずれかに一致する場合
-            if ( ! in_array( true, $matched_array ) ) {
+            if (! in_array(true, $matched_array)) {
                 // error_log( 'no trigger  match:' );
                 continue;
             }
             // error_log( 'trigger type match:' . print_r( $trigger, true ) );
 
-            if ( isset( $trigger['action'] ) ) {
+            if (isset($trigger['action'])) {
                 $action_return = lineconnectAction::do_action($trigger['action'], $trigger['chain']);
-                error_log( 'trigger action result: '. print_r($action_return, true));
+                error_log('trigger action result: ' . print_r($action_return, true));
             }
-            
         }
+        //シナリオ実行
+        $messages = array();
+        $response = array();
+        $scenarios = self::get_scenarios($last_run, $current_time);
+        foreach ($scenarios as $scenario) {
+            $scenario_result = Scenario::execute_step($scenario['id'], $scenario['next'], $scenario['line_id'], $scenario['channel_prefix']);
+            $response[] = $scenario_result;
+            error_log('Scenario Result: ' . print_r($scenario_result, true));
+            if (!$scenario_result) {
+                $messages[] = array(
+                    'scenario_id' => $scenario['id'],
+                    'step' => $scenario['next'],
+                    'line_id' => $scenario['line_id'],
+                    'channel_prefix' => $scenario['channel_prefix'],
+                    'status' => 'failed',
+                    'message' => __('Failed to execute scenario', 'lineconnect'),
+                );
+            }
+        }
+        if (in_array(false, $response)) {
+            $success = false;
+        }
+
         return array(
             'success' => $success,
+            'messages' => $messages,
         );
     }
 
-    static function get_schedules(){
+    static function get_schedules() {
         $triggers = array();
         $args     = array(
             'post_type'      => lineconnectConst::POST_TYPE_TRIGGER,
             'post_status'    => 'publish',
             'posts_per_page' => -1,
         );
-        $posts    = get_posts( $args );
-        foreach ( $posts as $post ) {
-            $form = get_post_meta( $post->ID, lineconnect::META_KEY__TRIGGER_DATA, true );
-            if ( isset( $form[0]['type'] ) && $form[0]['type'] === 'schedule' ) {
+        $posts    = get_posts($args);
+        foreach ($posts as $post) {
+            $form = get_post_meta($post->ID, lineconnect::META_KEY__TRIGGER_DATA, true);
+            if (isset($form[0]['type']) && $form[0]['type'] === 'schedule') {
                 $triggers[] = $form[1];
             }
         }
         return $triggers;
     }
 
-    static function check_schedule_condition($schedule, $last_run, $current_time){
-        if($schedule['type'] === 'once'){
+    static function check_schedule_condition($schedule, $last_run, $current_time) {
+        if ($schedule['type'] === 'once') {
             $sheduled_time = strtotime($schedule['once']['datetime']);
-            if($last_run < $sheduled_time && $sheduled_time <= $current_time){
+            if ($last_run < $sheduled_time && $sheduled_time <= $current_time) {
                 return true;
             }
-        }elseif($schedule['type'] === 'repeat'){
+        } elseif ($schedule['type'] === 'repeat') {
             return self::check_repeat_schedule($schedule, $last_run, $current_time);
         }
     }
 
-    static function check_repeat_schedule($schedule, $last_run, $current_time){
+    static function check_repeat_schedule($schedule, $last_run, $current_time) {
         $next_run = 0;
         $base_time = strtotime($schedule['repeat']['start']);
         $end_time = isset($schedule['repeat']['end']) ? strtotime($schedule['repeat']['end']) : null;
         $lag_second = isset($schedule['repeat']['lag']) ? $schedule['repeat']['lag'] * 60 : 0;
         $target_time = $current_time + $lag_second;
         $offset = get_option('gmt_offset') * 60 * 60;
-        if($schedule['repeat']['every'] === 'hour'){
-            foreach($schedule['repeat']['hour'] as $hour){
+        if ($schedule['repeat']['every'] === 'hour') {
+            foreach ($schedule['repeat']['hour'] as $hour) {
                 $calced_time = mktime($hour, wp_date('i', $base_time), wp_date('s', $base_time), wp_date('m',  $target_time), wp_date('d',  $target_time), wp_date('Y',  $target_time)) - $offset;
                 $schedule_time = $calced_time - $lag_second;
-                if(self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+                if (self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
                     return true;
                 }
             }
-        }elseif($schedule['repeat']['every'] === 'day'){
-            foreach($schedule['repeat']['day'] as $day){
+        } elseif ($schedule['repeat']['every'] === 'day') {
+            foreach ($schedule['repeat']['day'] as $day) {
                 $dayoftheweekinthemonth = $day['number'];
                 $dayoftheweek = $day['day'];
                 $calctype = $day['type'];
                 $startdayofweek = $day['startdayofweek'] ?? 0;
-                if(count($dayoftheweekinthemonth) === 0){
-                    $dayoftheweekinthemonth = [1,2,3,4,5];
+                if (count($dayoftheweekinthemonth) === 0) {
+                    $dayoftheweekinthemonth = [1, 2, 3, 4, 5];
                 }
-                if(count($dayoftheweek) === 0){
-                    $dayoftheweek = [0,1,2,3,4,5,6];
+                if (count($dayoftheweek) === 0) {
+                    $dayoftheweek = [0, 1, 2, 3, 4, 5, 6];
                 }
-                foreach($dayoftheweekinthemonth as $weekinmonth){
-                    foreach($dayoftheweek as $d){
-                        if(self::calc_time_by_weekinmonth_day($last_run, $base_time, $end_time, $current_time, $lag_second, $weekinmonth, $d, $calctype, $startdayofweek, $offset)){
+                foreach ($dayoftheweekinthemonth as $weekinmonth) {
+                    foreach ($dayoftheweek as $d) {
+                        if (self::calc_time_by_weekinmonth_day($last_run, $base_time, $end_time, $current_time, $lag_second, $weekinmonth, $d, $calctype, $startdayofweek, $offset)) {
                             return true;
                         }
                     }
                 }
-
             }
-        }elseif($schedule['repeat']['every'] === 'date'){
-            foreach($schedule['repeat']['date'] as $date){
-                if($date == 0){
+        } elseif ($schedule['repeat']['every'] === 'date') {
+            foreach ($schedule['repeat']['date'] as $date) {
+                if ($date == 0) {
                     // last day of month
                     $date = wp_date('t', $target_time);
                 }
                 $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), wp_date('m', $target_time), $date, wp_date('Y', $target_time)) - $offset;
-                if(self::check_if_same_month($target_time, $calced_time)){
+                if (self::check_if_same_month($target_time, $calced_time)) {
                     $schedule_time = $calced_time - $lag_second;
-                    if(self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+                    if (self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
                         return true;
                     }
                 }
             }
-        }elseif($schedule['repeat']['every'] === 'week'){
-            foreach($schedule['repeat']['week'] as $week){
+        } elseif ($schedule['repeat']['every'] === 'week') {
+            foreach ($schedule['repeat']['week'] as $week) {
                 $day_of_week = date('N', $base_time);
                 $week_start_date = new DateTime();
-                $week_start_date->setISODate(date('Y',$target_time),$week, $day_of_week);
+                $week_start_date->setISODate(date('Y', $target_time), $week, $day_of_week);
                 $week_start_date->setTime(date('H', $base_time), date('i', $base_time), date('s', $base_time));
                 $calced_time = $week_start_date->getTimestamp();
                 $schedule_time = $calced_time - $lag_second;
-                if(self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+                if (self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
                     return true;
                 }
             }
-        }elseif($schedule['repeat']['every'] === 'month'){
-            foreach($schedule['repeat']['month'] as $month){
-                $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), $month, wp_date('d', $base_time), wp_date('Y', $target_time))- $offset;
+        } elseif ($schedule['repeat']['every'] === 'month') {
+            foreach ($schedule['repeat']['month'] as $month) {
+                $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), $month, wp_date('d', $base_time), wp_date('Y', $target_time)) - $offset;
                 $schedule_time = $calced_time - $lag_second;
-                if(self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+                if (self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
                     return true;
                 }
             }
-        }elseif($schedule['repeat']['every'] === 'year'){
-            foreach($schedule['repeat']['year'] as $year){
-                $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), wp_date('m', $base_time), wp_date('d', $base_time), $year)- $offset;
+        } elseif ($schedule['repeat']['every'] === 'year') {
+            foreach ($schedule['repeat']['year'] as $year) {
+                $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), wp_date('m', $base_time), wp_date('d', $base_time), $year) - $offset;
                 $schedule_time = $calced_time - $lag_second;
-                if(self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+                if (self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
                     return true;
                 }
             }
@@ -189,14 +214,14 @@ class lineconnectSchedule {
      * @param $startdayofweek : 何曜日を週の初めとするか(0:日, 1:月, 2:火, 3:水, 4:木, 5:金, 6:土)
      * @return $schedule_time : 実行時間
      */
-    static function calc_time_by_weekinmonth_day($last_run, $base_time, $end_time, $current_time, $lag_second, $nthday, $day, $calctype, $startdayofweek, $offset){
+    static function calc_time_by_weekinmonth_day($last_run, $base_time, $end_time, $current_time, $lag_second, $nthday, $day, $calctype, $startdayofweek, $offset) {
         $target_time = $current_time + $lag_second;
         $firstdate = mktime(wp_date('H', $target_time), wp_date('i', $target_time), wp_date('s', $target_time), wp_date('m', $target_time), 1, wp_date('Y', $target_time)) - $offset;
         $firstdate_day = wp_date('w', $firstdate);
-        if($calctype === 'nthday'){
+        if ($calctype === 'nthday') {
             $target_date = 1 + ($nthday - 1) * 7 + (7 + $day - $firstdate_day) % 7;
-        }elseif($calctype === 'nthweek'){
-            switch($startdayofweek){
+        } elseif ($calctype === 'nthweek') {
+            switch ($startdayofweek) {
                 case 0: //日曜始まり
                     $target_date = 1 + ($nthday - 1) * 7 + ($day - $firstdate_day) % 7;
                     break;
@@ -208,11 +233,11 @@ class lineconnectSchedule {
         }
         $calced_time = mktime(wp_date('H', $base_time), wp_date('i', $base_time), wp_date('s', $base_time), wp_date('m', $firstdate), $target_date, wp_date('Y', $firstdate)) - $offset;
         // error_log( "calced_time". wp_date("Y-m-d H:i:s",$calced_time)." target_date;".$target_date );
-        if(!self::check_if_same_month($target_time, $calced_time)){
+        if (!self::check_if_same_month($target_time, $calced_time)) {
             return false;
         }
         $schedule_time = $calced_time - $lag_second;
-        if(!self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)){
+        if (!self::check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time)) {
             return false;
         }
         return true;
@@ -256,14 +281,14 @@ class lineconnectSchedule {
      * @param $calced_time : UnixTime
      * @return bool : 同じ月に属しているか
      */
-    static function check_if_same_month($target_time, $calced_time){
-        if(wp_date('m', $target_time) === wp_date('m', $calced_time)){
+    static function check_if_same_month($target_time, $calced_time) {
+        if (wp_date('m', $target_time) === wp_date('m', $calced_time)) {
             return true;
         }
         return false;
     }
 
-    static function check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time){
+    static function check_on_time($calced_time, $schedule_time, $last_run, $current_time, $base_time, $end_time) {
         /*
         error_log(
             ' last_run: ' .  wp_date("Y-m-d H:i:s",$last_run) .
@@ -274,12 +299,61 @@ class lineconnectSchedule {
             ' end_time: ' .  wp_date("Y-m-d H:i:s",$end_time)
         );
         */
-        if($last_run < $schedule_time &&
+        if (
+            $last_run < $schedule_time &&
             $schedule_time <= $current_time &&
             $calced_time >= $base_time &&
-            (!$end_time || $calced_time <= $end_time)){
+            (!$end_time || $calced_time <= $end_time)
+        ) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 実行予定時刻が前回実行時刻と現在の時刻の間のシナリオを取得
+     * @param int $last_run 前回実行時刻
+     * @param int $current_time 現在の時刻
+     * @return array $scenarios シナリオ
+     */
+    static function get_scenarios($last_run, $current_time) {
+        global $wpdb;
+        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+
+        $query = "SELECT 
+            line_id.line_id,
+            line_id.channel_prefix,
+            scenario_data.id,
+            scenario_data.next
+        FROM $table_name_line_id as line_id,
+        JSON_TABLE(scenarios, '$.*' COLUMNS (
+            id INT PATH '$.id',
+            next VARCHAR(255) PATH '$.next',
+            next_date DATETIME PATH '$.next_date',
+            status VARCHAR(50) PATH '$.status'
+        )) AS scenario_data
+        WHERE scenario_data.next_date > %s
+        AND scenario_data.next_date <= %s
+        AND scenario_data.status = 'active'
+        ORDER BY scenario_data.next_date ASC;";
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                $query,
+                array(
+                    wp_date('Y-m-d H:i:s', $last_run),
+                    wp_date('Y-m-d H:i:s', $current_time)
+                )
+            ),
+            ARRAY_A
+        );
+        /*
+        if (empty($results)) {
+            error_log('No active scenarios found after last run: ' . wp_date("Y-m-d H:i:s", $last_run) . ' and before current time: ' . wp_date("Y-m-d H:i:s", $current_time));
+        } else {
+            error_log(print_r($results, true));
+        }
+*/
+        return $results ? $results : array();
     }
 }
