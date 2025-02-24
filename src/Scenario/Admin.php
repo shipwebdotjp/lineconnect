@@ -54,7 +54,7 @@ class Admin {
 			// チェックボックスのID
 			lineconnect::META_KEY__TRIGGER_DATA,
 			// チェックボックスのラベル名
-			'LINE Connect Scenario',
+			__('LINE Connect Scenario', lineconnect::PLUGIN_NAME),
 			// チェックボックスを表示するコールバック関数
 			array(ScenarioAdmin::class, 'show_json_edit_form'),
 			// 投稿画面に表示
@@ -138,5 +138,60 @@ class Admin {
 			return !empty($formData) ? $formData : new stdClass();
 		}
 		// if old schema veersion, migrate and return
+	}
+
+	/**
+	 * カスタム投稿タイプの一覧にカラムを追加
+	 */
+	public static function add_columns($columns) {
+		$new_columns = array();
+
+		// タイトルの後にステータスカラムを挿入
+		foreach ($columns as $key => $value) {
+			$new_columns[$key] = $value;
+			if ($key === 'title') {
+				$new_columns['active_users'] = __('Active', lineconnect::PLUGIN_NAME);
+				$new_columns['completed_users'] = __('Completed', lineconnect::PLUGIN_NAME);
+				$new_columns['error_users'] = __('Error', lineconnect::PLUGIN_NAME);
+				$new_columns['paused_users'] = __('Paused', lineconnect::PLUGIN_NAME);
+			}
+		}
+
+		return $new_columns;
+	}
+
+	/**
+	 * カスタムカラムの内容を表示
+	 */
+	public static function add_columns_content($column_name, $post_id) {
+		global $wpdb;
+
+		// ステータスカラムのみ処理
+		if (!in_array($column_name, ['active_users', 'completed_users', 'error_users', 'paused_users'])) {
+			return;
+		}
+
+		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$status_map = [
+			'active_users' => Scenario::STATUS_ACTIVE,
+			'completed_users' => Scenario::STATUS_COMPLETED,
+			'error_users' => Scenario::STATUS_ERROR,
+			'paused_users' => Scenario::STATUS_PAUSED
+		];
+
+		$status = $status_map[$column_name];
+
+		// JSONカラムからステータスごとのカウントを取得するクエリ
+		$query = $wpdb->prepare(
+			"SELECT COUNT(*) as count 
+			FROM {$table_name} 
+			WHERE 
+				JSON_EXTRACT(scenarios, '$.\"%d\".status') = %s",
+			$post_id,
+			$status
+		);
+
+		$count = $wpdb->get_var($query);
+		echo intval($count);
 	}
 }

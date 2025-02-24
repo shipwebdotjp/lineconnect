@@ -4195,7 +4195,7 @@ msgstr "絶対日時"
 
 #: src/Scenario/Scenario.php:143
 msgid "The absolute date time to execute next step."
-msgstr "次のステップを実行するための絶対日時。"
+msgstr "次のステップを実行する日時を絶対日時で指定する。"
 
 #: src/Scenario/Scenario.php:147
 msgid "Relative Interval Value"
@@ -4248,7 +4248,7 @@ msgid ""
 "Choose whether to execute the step immediately after the exact interval "
 "elapses or to align the execution to a specified minute marker within the "
 "next hour."
-msgstr "ステップを、設定した間隔値が経過した後ぴったりに実行するか、指定したタイミングで実行するかを選択します。"
+msgstr "ステップを、設定した間隔値が経過した後ぴったりに実行するか、経過後指定したタイミングで実行するかを選択します。"
 
 #: src/Scenario/Scenario.php:206 src/Scenario/Scenario.php:257
 msgid "Exact Interval Execution"
@@ -4278,7 +4278,7 @@ msgstr "時刻の「分」を指定してください（例：HH:05の場合は5
 
 #: src/Scenario/Scenario.php:253
 msgid "Choose whether to execute the step immediately after the exact interval elapses or to align the execution to a specific time on subsequent days."
-msgstr "設定した間隔値が経過した後ぴったりに実行するか、設定した日数経過後の特定の時刻に合実行するかを選択してください。"
+msgstr "設定した間隔値が経過した後ぴったりに実行するか、特定の時刻に実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:258
 msgid "The step executes precisely after the full interval has elapsed (for example, if the interval is 2 days, it runs exactly 48 hours later)."
@@ -4290,7 +4290,7 @@ msgstr "指定日時"
 
 #: src/Scenario/Scenario.php:263
 msgid "After advancing by the specified number of days, the step executes at the designated time (e.g., 14:30 would trigger at 2:30 PM on the target day)."
-msgstr "指定された日数が経過した後、設定された時刻に実行されます（例：14:30と設定した場合、該当日の午後2時30分に実行）。"
+msgstr "指定された分の日数を加えた日の、設定された時刻に実行されます（例：14:30と設定した場合、該当日の午後2時30分に実行）。"
 
 #: src/Scenario/Scenario.php:286 src/Scenario/Scenario.php:329
 #: src/Scenario/Scenario.php:377 src/Scenario/Scenario.php:420
@@ -4308,16 +4308,16 @@ msgstr "時刻をHH:mm形式で指定してください（例：12:10）。"
 
 #: src/Scenario/Scenario.php:303
 msgid "Choose whether to execute the step at a specific time within the week or to align execution to a specific weekday and time."
-msgstr "ちょうど間隔値が経過した後のその曜日の特定の時刻に実行するか、特定の曜日と時刻に合わせて実行するかを選択してください。"
+msgstr "設定された週数が経過した後の特定の時刻に実行するか、特定の曜日と時刻に合わせて実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:307 src/Scenario/Scenario.php:398
 #: src/Scenario/Scenario.php:589
 msgid "Exact Time Execution"
-msgstr "実行する時刻"
+msgstr "実行する時刻を指定する"
 
 #: src/Scenario/Scenario.php:308
 msgid "The step executes at a specified time within the week (e.g., 12:10 on any day of the week)."
-msgstr "ちょうど間隔値が経過した後のその曜日の特定の時刻に実行されます（例：その曜日の12:10）。"
+msgstr "設定された週数が経過した後、指定された時刻に実行されます（例：その週の12:10）。"
 
 #: src/Scenario/Scenario.php:312
 msgid "Align to Weekday and Time"
@@ -4337,11 +4337,11 @@ msgstr "曜日を指定してください（例：土曜日）。"
 
 #: src/Scenario/Scenario.php:394
 msgid "Choose whether to execute the step at a specific time within the month or to align execution to a specific day and time."
-msgstr "ぴったり間隔値が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせて実行するかを選択してください。"
+msgstr "指定された月数が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせて実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:399
 msgid "The step executes at a specified time within the month (e.g., 12:10 on any day of the month)."
-msgstr "ぴったり間隔値が経過した日の指定された時刻に実行されます（例：その日の12:10）。"
+msgstr "指定された月数が経過した後、指定された時刻に実行されます（例：その日の12:10）。"
 
 #: src/Scenario/Scenario.php:403
 msgid "Align to Day and Time"
@@ -4349,7 +4349,7 @@ msgstr "日付と時刻を指定する"
 
 #: src/Scenario/Scenario.php:404
 msgid "The step executes on a specified day of the month at a specified time (e.g., the 15th at 12:10)."
-msgstr "指定した日と時刻に実行されます（例：15日の12:10）。"
+msgstr "指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の12:10）。"
 
 #: src/Scenario/Scenario.php:562 src/Scenario/Scenario.php:804
 msgid "Day of the month"

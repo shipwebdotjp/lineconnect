@@ -1,0 +1,52 @@
+{
+    "type": "object",
+    "patternProperties": {
+        "^[0-9]+$": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "logs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "step": {
+                                "type": "string"
+                            },
+                            "result": {
+                                "type": "string"
+                            },
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "next": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "next_date": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "started_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    }
+}
