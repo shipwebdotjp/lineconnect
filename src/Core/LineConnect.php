@@ -4,6 +4,9 @@
 
 use \Shipweb\LineConnect\Scenario\Scenario;
 use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
+use \Shipweb\LineConnect\ActionFlow\ActionFlow;
+use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
+use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
 
 class LineConnect {
 
@@ -390,6 +393,10 @@ class LineConnect {
 		add_action('save_post_' . Scenario::POST_TYPE, array(ScenarioAdmin::class, 'save_post'), 15, 6);
 		add_action('admin_enqueue_scripts', array(ScenarioAdmin::class, 'wpdocs_selectively_enqueue_admin_script'));
 
+		// ActionFlow
+		add_action('save_post_' . ActionFlow::POST_TYPE, array(ActionFlowAdmin::class, 'save_post'), 15, 6);
+		add_action('admin_enqueue_scripts', array(ActionFlowAdmin::class, 'wpdocs_selectively_enqueue_admin_script'));
+
 		// 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
@@ -413,8 +420,12 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_chat_send', array('lineconnectBulkMessage', 'ajax_chat_send'));
 			// チャット送信AJAXアクション(メッセージデータ取得)
 			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
-			// チャット送信AJAXアクション(メッセージデータ取得)
+			// チャット送信AJAXアクション(オーディエンスデータ取得)
 			add_action('wp_ajax_lc_ajax_get_slc_audience', array('lineconnectAudience', 'ajax_get_slc_audience'));
+			// アクション実行AJAXアクション(アクションフローデータ取得)
+			add_action('wp_ajax_lc_ajax_get_slc_actionflow', array(\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow'));
+			// アクション実行AJAXアクション(アクション実行)
+			add_action('wp_ajax_lc_ajax_action_execute', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'ajax_action_execute'));
 			// BOT LOGリストのトップメニューページを追加
 			add_action('admin_menu', array($this, 'set_page_gptlog'));
 			// DM画面のトップメニューページを追加
@@ -433,6 +444,8 @@ class LineConnect {
 			add_action('admin_menu', array('lineconnectRichmenu', 'set_plugin_menu'));
 			// シナリオのトップメニューページを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
+			// アクションフローのトップメニューページを追加
+			add_action('admin_menu', array(\Shipweb\LineConnect\ActionFlow\Admin::class, 'set_plugin_menu'));
 			//シナリオにカラム追加
 			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
 			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
@@ -452,6 +465,8 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array('lineconnectRichmenu', 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array('lineconnectRichmenu', 'ajax_update_richmenu_alias'));
+			// アクション実行のトップページメニューを追加
+			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
@@ -1138,6 +1153,56 @@ class LineConnect {
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
 				'register_meta_box_cb' => array(ScenarioAdmin::class, 'register_meta_box'),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+
+		// register custom post type: ActionFlow
+		register_post_type(
+			ActionFlow::POST_TYPE,
+			array(
+				'labels'               => array(
+					'name'                     => __('Action Flows', self::PLUGIN_NAME),
+					'singular_name'            => __('Action Flow', self::PLUGIN_NAME),
+					'add_new'                  => __('Add New', self::PLUGIN_NAME),
+					'add_new_item'             => __('Add New Action Flow', self::PLUGIN_NAME),
+					'edit_item'                => __('Edit Action Flow', self::PLUGIN_NAME),
+					'new_item'                 => __('New Action Flow', self::PLUGIN_NAME),
+					'view_item'                => __('View Action Flow', self::PLUGIN_NAME),
+					'search_items'             => __('Search Action Flows', self::PLUGIN_NAME),
+					'not_found'                => __('No Action Flows found', self::PLUGIN_NAME),
+					'not_found_in_trash'       => __('No Action Flows found in Trash', self::PLUGIN_NAME),
+					'parent_item_colon'        => '',
+					'menu_name'                => __('Action Flows', self::PLUGIN_NAME),
+					'all_items'                => __('All Action Flows', self::PLUGIN_NAME),
+					'archives'                 => __('Action Flow Archives', self::PLUGIN_NAME),
+					'attributes'               => __('Action Flow Attributes', self::PLUGIN_NAME),
+					'insert_into_item'         => __('Insert into Action Flow', self::PLUGIN_NAME),
+					'uploaded_to_this_item'    => __('Uploaded to this Action Flow', self::PLUGIN_NAME),
+					'featured_image'           => __('Featured Image', self::PLUGIN_NAME),
+					'set_featured_image'       => __('Set featured image', self::PLUGIN_NAME),
+					'remove_featured_image'    => __('Remove featured image', self::PLUGIN_NAME),
+					'use_featured_image'       => __('Use as featured image', self::PLUGIN_NAME),
+					'filter_items_list'        => __('Filter Action Flows list', self::PLUGIN_NAME),
+					'items_list_navigation'    => __('Action Flows list navigation', self::PLUGIN_NAME),
+					'items_list'               => __('Action Flows list', self::PLUGIN_NAME),
+					'item_published'           => __('Action Flow published.', self::PLUGIN_NAME),
+					'item_published_privately' => __('Action Flow published privately.', self::PLUGIN_NAME),
+					'item_reverted_to_draft'   => __('Action Flow reverted to draft.', self::PLUGIN_NAME),
+					'item_scheduled'           => __('Action Flow scheduled.', self::PLUGIN_NAME),
+					'item_updated'             => __('Action Flow updated.', self::PLUGIN_NAME),
+				),
+				'description'          => __('LINE Connect Action Flows', self::PLUGIN_NAME),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false,
+				'show_in_rest'         => false,
+				'supports'             => array('title'),
+				'register_meta_box_cb' => array(ActionFlowAdmin::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,

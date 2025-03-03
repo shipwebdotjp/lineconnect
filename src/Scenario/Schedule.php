@@ -139,6 +139,7 @@ class Schedule {
             $nextExecuted->setTime(substr($time, 0, 2), substr($time, 3, 2)); // 指定された時刻に設定
         }
 
+
         return $nextExecuted->format('Y-m-d H:i:s');
     }
 

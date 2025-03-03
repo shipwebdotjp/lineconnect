@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 3.4.0±\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-02-22 22:19+0900\n"
+"POT-Creation-Date: 2025-03-03 22:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -544,6 +544,7 @@ msgstr ""
 
 #: include/const.php:859 include/const.php:2824 include/const.php:4338
 #: include/const.php:4460 include/const.php:4612 src/Scenario/Scenario.php:119
+#: src/ActionFlow/ActionFlow.php:81
 msgid "Data"
 msgstr ""
 
@@ -643,7 +644,7 @@ msgstr ""
 msgid "Get LINE Connect message."
 msgstr ""
 
-#: include/const.php:1014 include/const.php:1170 src/Core/LineConnect.php:1002
+#: include/const.php:1014 include/const.php:1170 src/Core/LineConnect.php:1019
 msgid "LC Message"
 msgstr ""
 
@@ -714,7 +715,7 @@ msgstr ""
 #: include/const.php:1078 include/const.php:1142 include/const.php:2015
 #: include/const.php:2075 include/const.php:3954 include/const.php:4403
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/bulk_message.php:66 include/logging.php:66 include/message.php:785
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:784
 msgid "Message"
 msgstr ""
 
@@ -788,7 +789,7 @@ msgstr ""
 msgid "LC message, text or message object"
 msgstr ""
 
-#: include/const.php:1177 src/Core/LineConnect.php:1052
+#: include/const.php:1177 src/Core/LineConnect.php:1069
 msgid "LC Audience"
 msgstr ""
 
@@ -1014,7 +1015,7 @@ msgid "Start LINE Connect Scenario."
 msgstr ""
 
 #: include/const.php:1493 include/const.php:1541 include/const.php:1580
-#: src/Core/LineConnect.php:1102
+#: src/Core/LineConnect.php:1119
 msgid "Scenario"
 msgstr ""
 
@@ -1086,19 +1087,19 @@ msgstr ""
 msgid "The status to set."
 msgstr ""
 
-#: include/const.php:1592
+#: include/const.php:1592 src/Scenario/Admin.php:153
 msgid "Active"
 msgstr ""
 
-#: include/const.php:1596 include/message.php:777
+#: include/const.php:1596 include/message.php:776 src/Scenario/Admin.php:155
 msgid "Error"
 msgstr ""
 
-#: include/const.php:1600
+#: include/const.php:1600 src/Scenario/Admin.php:156
 msgid "Paused"
 msgstr ""
 
-#: include/const.php:1604
+#: include/const.php:1604 src/Scenario/Admin.php:154
 msgid "Completed"
 msgstr ""
 
@@ -1134,8 +1135,8 @@ msgstr ""
 msgid "Anyone"
 msgstr ""
 
-#: include/const.php:1757 include/const.php:3338 include/trigger.php:211
-#: src/Scenario/Scenario.php:1376
+#: include/const.php:1757 include/const.php:3338 include/action.php:230
+#: include/trigger.php:211
 msgid "Parameters"
 msgstr ""
 
@@ -1171,7 +1172,7 @@ msgstr ""
 msgid "Array element"
 msgstr ""
 
-#: include/const.php:1825 include/message.php:784
+#: include/const.php:1825 include/message.php:783
 msgid "Property"
 msgstr ""
 
@@ -1750,22 +1751,28 @@ msgid "Triggers"
 msgstr ""
 
 #: include/const.php:2801 include/const.php:4322
+#: src/ActionFlow/ActionFlow.php:58 src/ActionFlow/ActionFlow.php:182
+#: src/ActionFlow/ActionFlow.php:189
 msgid "Action"
 msgstr ""
 
 #: include/const.php:2813 src/Scenario/Scenario.php:108
+#: src/ActionFlow/ActionFlow.php:70
 msgid "Action chain"
 msgstr ""
 
 #: include/const.php:2819 src/Scenario/Scenario.php:114
+#: src/ActionFlow/ActionFlow.php:76
 msgid "Destination argument to"
 msgstr ""
 
 #: include/const.php:2820 src/Scenario/Scenario.php:115
+#: src/ActionFlow/ActionFlow.php:77
 msgid "Injection Destination Argument Path. e.g. 2.message"
 msgstr ""
 
 #: include/const.php:2825 src/Scenario/Scenario.php:120
+#: src/ActionFlow/ActionFlow.php:82
 msgid ""
 "Injection Data. You can use return value of previous action. e.g. "
 "{{$.return.1}}"
@@ -1959,11 +1966,13 @@ msgid "Add trigger"
 msgstr ""
 
 #: include/const.php:3582 include/const.php:4786 include/const.php:4799
-#: include/const.php:4814 src/Scenario/Scenario.php:1521
+#: include/const.php:4814 src/Scenario/Scenario.php:1524
+#: src/ActionFlow/ActionFlow.php:116
 msgid "Add action"
 msgstr ""
 
-#: include/const.php:3587 src/Scenario/Scenario.php:1526
+#: include/const.php:3587 src/Scenario/Scenario.php:1529
+#: src/ActionFlow/ActionFlow.php:121
 msgid "Add chain"
 msgstr ""
 
@@ -2935,11 +2944,11 @@ msgstr ""
 msgid "No regular expression match"
 msgstr ""
 
-#: include/const.php:6053 src/Scenario/Scenario.php:1505
+#: include/const.php:6053 src/Scenario/Scenario.php:1508
 msgid "Add condition"
 msgstr ""
 
-#: include/const.php:6059 src/Scenario/Scenario.php:1455
+#: include/const.php:6059 src/Scenario/Scenario.php:1458
 msgid "Add LINE user ID"
 msgstr ""
 
@@ -2955,7 +2964,7 @@ msgstr ""
 msgid "Add username"
 msgstr ""
 
-#: include/const.php:6083 src/Scenario/Scenario.php:1483
+#: include/const.php:6083 src/Scenario/Scenario.php:1486
 msgid "Add user meta"
 msgstr ""
 
@@ -3169,8 +3178,8 @@ msgstr ""
 msgid "Audiences"
 msgstr ""
 
-#: include/audience.php:138 include/trigger.php:253 include/util.php:456
-#: src/Scenario/Scenario.php:1418
+#: include/audience.php:138 include/trigger.php:253 include/util.php:459
+#: src/Scenario/Scenario.php:1421
 msgid "Please add channel first"
 msgstr ""
 
@@ -3178,7 +3187,7 @@ msgstr ""
 msgid "The message will not be sent to anyone."
 msgstr ""
 
-#: include/audience.php:870 include/message.php:603
+#: include/audience.php:870 include/message.php:602
 msgid "Message will be sent to all users who have subscribed to this channel."
 msgstr ""
 
@@ -3187,21 +3196,21 @@ msgstr ""
 msgid "Message will be sent to %s person."
 msgstr ""
 
-#: include/trigger.php:28
-msgid "LINE Connect Trigger"
-msgstr ""
-
-#: include/trigger.php:187 src/Scenario/Scenario.php:1359
+#: include/action.php:210 include/trigger.php:187
 msgid "Send the return value as a response"
 msgstr ""
 
-#: include/trigger.php:188 src/Scenario/Scenario.php:1360
+#: include/action.php:211 include/trigger.php:188
 msgid ""
 "Send the return value of this action as a response message by LINE message"
 msgstr ""
 
-#: include/trigger.php:225 src/Scenario/Scenario.php:1390
+#: include/action.php:245 include/trigger.php:225
 msgid "Please add action first"
+msgstr ""
+
+#: include/trigger.php:28
+msgid "LINE Connect Trigger"
 msgstr ""
 
 #: include/dm.php:21
@@ -3365,23 +3374,23 @@ msgstr ""
 msgid "Size must be between %s and %s."
 msgstr ""
 
-#: include/util.php:441
+#: include/util.php:444
 msgid "Please add message first"
 msgstr ""
 
-#: include/util.php:471
+#: include/util.php:474
 msgid "Please add richmenu first"
 msgstr ""
 
-#: include/util.php:485
+#: include/util.php:488
 msgid "Please add richmenu alias first"
 msgstr ""
 
-#: include/util.php:500
+#: include/util.php:503
 msgid "Please add audience first"
 msgstr ""
 
-#: include/util.php:515
+#: include/util.php:518
 msgid "Please add scenario first"
 msgstr ""
 
@@ -3393,19 +3402,19 @@ msgstr ""
 msgid "Bulk message"
 msgstr ""
 
-#: include/bulk_message.php:156
+#: include/bulk_message.php:156 src/ActionExecute/Admin.php:158
 msgid "You are not logged in."
 msgstr ""
 
-#: include/bulk_message.php:164
+#: include/bulk_message.php:164 src/ActionExecute/Admin.php:166
 msgid "You do not have permission to send messages."
 msgstr ""
 
-#: include/bulk_message.php:172
+#: include/bulk_message.php:172 src/ActionExecute/Admin.php:174
 msgid "Nonce is not set or invalid."
 msgstr ""
 
-#: include/bulk_message.php:190
+#: include/bulk_message.php:190 src/ActionExecute/Admin.php:194
 msgid "There was no target to be sent that matched the condition."
 msgstr ""
 
@@ -3612,35 +3621,35 @@ msgstr ""
 msgid "Push message failed to sent to %s person."
 msgstr ""
 
-#: include/message.php:605
+#: include/message.php:604
 #, php-format
 msgid "Message will be sent to %s person by multicast."
 msgstr ""
 
-#: include/message.php:607
+#: include/message.php:606
 #, php-format
 msgid "Message will be sent to %s person by push."
 msgstr ""
 
-#: include/message.php:618
+#: include/message.php:617
 msgid "Valid message."
 msgstr ""
 
-#: include/message.php:620
+#: include/message.php:619
 msgid "Invalid message."
 msgstr ""
 
-#: include/message.php:686
+#: include/message.php:685
 #, php-format
 msgid "Push to %s"
 msgstr ""
 
-#: include/message.php:729
+#: include/message.php:728
 #, php-format
 msgid "%s multicast"
 msgstr ""
 
-#: include/message.php:760
+#: include/message.php:759
 msgid "Broadcast"
 msgstr ""
 
@@ -3652,394 +3661,499 @@ msgstr ""
 msgid "Student"
 msgstr ""
 
-#: src/Core/LineConnect.php:529
+#: src/Core/LineConnect.php:546
 msgid "LINE Event Log"
 msgstr ""
 
-#: src/Core/LineConnect.php:531
+#: src/Core/LineConnect.php:548
 msgid "Event Log"
 msgstr ""
 
-#: src/Core/LineConnect.php:951 src/Core/LineConnect.php:962
+#: src/Core/LineConnect.php:968 src/Core/LineConnect.php:979
 msgid "LC Triggers"
 msgstr ""
 
-#: src/Core/LineConnect.php:952
+#: src/Core/LineConnect.php:969
 msgid "LC Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:953 src/Core/LineConnect.php:1003
-#: src/Core/LineConnect.php:1053 src/Core/LineConnect.php:1103
-msgid "Add New"
-msgstr ""
-
-#: src/Core/LineConnect.php:954
-msgid "Add New Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:955
-msgid "Edit Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:956
-msgid "New Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:957
-msgid "View Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:958
-msgid "Search Triggers"
-msgstr ""
-
-#: src/Core/LineConnect.php:959
-msgid "No Triggers found"
-msgstr ""
-
-#: src/Core/LineConnect.php:960
-msgid "No Triggers found in Trash"
-msgstr ""
-
-#: src/Core/LineConnect.php:963
-msgid "All Triggers"
-msgstr ""
-
-#: src/Core/LineConnect.php:964
-msgid "Trigger Archives"
-msgstr ""
-
-#: src/Core/LineConnect.php:965
-msgid "Trigger Attributes"
-msgstr ""
-
-#: src/Core/LineConnect.php:966
-msgid "Insert into Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:967
-msgid "Uploaded to this Trigger"
-msgstr ""
-
-#: src/Core/LineConnect.php:968 src/Core/LineConnect.php:1018
-#: src/Core/LineConnect.php:1068 src/Core/LineConnect.php:1118
-msgid "Featured Image"
-msgstr ""
-
-#: src/Core/LineConnect.php:969 src/Core/LineConnect.php:1019
-#: src/Core/LineConnect.php:1069 src/Core/LineConnect.php:1119
-msgid "Set featured image"
 msgstr ""
 
 #: src/Core/LineConnect.php:970 src/Core/LineConnect.php:1020
 #: src/Core/LineConnect.php:1070 src/Core/LineConnect.php:1120
-msgid "Remove featured image"
+#: src/Core/LineConnect.php:1170
+msgid "Add New"
 msgstr ""
 
-#: src/Core/LineConnect.php:971 src/Core/LineConnect.php:1021
-#: src/Core/LineConnect.php:1071 src/Core/LineConnect.php:1121
-msgid "Use as featured image"
+#: src/Core/LineConnect.php:971
+msgid "Add New Trigger"
 msgstr ""
 
 #: src/Core/LineConnect.php:972
-msgid "Filter Triggers list"
+msgid "Edit Trigger"
 msgstr ""
 
 #: src/Core/LineConnect.php:973
-msgid "Triggers list navigation"
+msgid "New Trigger"
 msgstr ""
 
 #: src/Core/LineConnect.php:974
-msgid "Triggers list"
+msgid "View Trigger"
 msgstr ""
 
 #: src/Core/LineConnect.php:975
-msgid "Trigger published."
+msgid "Search Triggers"
 msgstr ""
 
 #: src/Core/LineConnect.php:976
-msgid "Trigger published privately."
+msgid "No Triggers found"
 msgstr ""
 
 #: src/Core/LineConnect.php:977
-msgid "Trigger reverted to draft."
+msgid "No Triggers found in Trash"
 msgstr ""
 
-#: src/Core/LineConnect.php:978
-msgid "Trigger scheduled."
-msgstr ""
-
-#: src/Core/LineConnect.php:979
-msgid "Trigger updated."
+#: src/Core/LineConnect.php:980
+msgid "All Triggers"
 msgstr ""
 
 #: src/Core/LineConnect.php:981
+msgid "Trigger Archives"
+msgstr ""
+
+#: src/Core/LineConnect.php:982
+msgid "Trigger Attributes"
+msgstr ""
+
+#: src/Core/LineConnect.php:983
+msgid "Insert into Trigger"
+msgstr ""
+
+#: src/Core/LineConnect.php:984
+msgid "Uploaded to this Trigger"
+msgstr ""
+
+#: src/Core/LineConnect.php:985 src/Core/LineConnect.php:1035
+#: src/Core/LineConnect.php:1085 src/Core/LineConnect.php:1135
+#: src/Core/LineConnect.php:1185
+msgid "Featured Image"
+msgstr ""
+
+#: src/Core/LineConnect.php:986 src/Core/LineConnect.php:1036
+#: src/Core/LineConnect.php:1086 src/Core/LineConnect.php:1136
+#: src/Core/LineConnect.php:1186
+msgid "Set featured image"
+msgstr ""
+
+#: src/Core/LineConnect.php:987 src/Core/LineConnect.php:1037
+#: src/Core/LineConnect.php:1087 src/Core/LineConnect.php:1137
+#: src/Core/LineConnect.php:1187
+msgid "Remove featured image"
+msgstr ""
+
+#: src/Core/LineConnect.php:988 src/Core/LineConnect.php:1038
+#: src/Core/LineConnect.php:1088 src/Core/LineConnect.php:1138
+#: src/Core/LineConnect.php:1188
+msgid "Use as featured image"
+msgstr ""
+
+#: src/Core/LineConnect.php:989
+msgid "Filter Triggers list"
+msgstr ""
+
+#: src/Core/LineConnect.php:990
+msgid "Triggers list navigation"
+msgstr ""
+
+#: src/Core/LineConnect.php:991
+msgid "Triggers list"
+msgstr ""
+
+#: src/Core/LineConnect.php:992
+msgid "Trigger published."
+msgstr ""
+
+#: src/Core/LineConnect.php:993
+msgid "Trigger published privately."
+msgstr ""
+
+#: src/Core/LineConnect.php:994
+msgid "Trigger reverted to draft."
+msgstr ""
+
+#: src/Core/LineConnect.php:995
+msgid "Trigger scheduled."
+msgstr ""
+
+#: src/Core/LineConnect.php:996
+msgid "Trigger updated."
+msgstr ""
+
+#: src/Core/LineConnect.php:998
 msgid "LINE Connect Triggers"
 msgstr ""
 
-#: src/Core/LineConnect.php:1001 src/Core/LineConnect.php:1012
+#: src/Core/LineConnect.php:1018 src/Core/LineConnect.php:1029
 msgid "LC Messages"
 msgstr ""
 
-#: src/Core/LineConnect.php:1004
+#: src/Core/LineConnect.php:1021
 msgid "Add New Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1005
+#: src/Core/LineConnect.php:1022
 msgid "Edit Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1006
+#: src/Core/LineConnect.php:1023
 msgid "New Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1007
+#: src/Core/LineConnect.php:1024
 msgid "View Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1008
+#: src/Core/LineConnect.php:1025
 msgid "Search Messages"
 msgstr ""
 
-#: src/Core/LineConnect.php:1009
+#: src/Core/LineConnect.php:1026
 msgid "No Messages found"
 msgstr ""
 
-#: src/Core/LineConnect.php:1010
+#: src/Core/LineConnect.php:1027
 msgid "No Messages found in Trash"
 msgstr ""
 
-#: src/Core/LineConnect.php:1013
+#: src/Core/LineConnect.php:1030
 msgid "All Messages"
 msgstr ""
 
-#: src/Core/LineConnect.php:1014
+#: src/Core/LineConnect.php:1031
 msgid "Message Archives"
 msgstr ""
 
-#: src/Core/LineConnect.php:1015
+#: src/Core/LineConnect.php:1032
 msgid "Message Attributes"
 msgstr ""
 
-#: src/Core/LineConnect.php:1016
+#: src/Core/LineConnect.php:1033
 msgid "Insert into Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1017
+#: src/Core/LineConnect.php:1034
 msgid "Uploaded to this Message"
 msgstr ""
 
-#: src/Core/LineConnect.php:1022
+#: src/Core/LineConnect.php:1039
 msgid "Filter Messages list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1023
+#: src/Core/LineConnect.php:1040
 msgid "Messages list navigation"
 msgstr ""
 
-#: src/Core/LineConnect.php:1024
+#: src/Core/LineConnect.php:1041
 msgid "Messages list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1025
+#: src/Core/LineConnect.php:1042
 msgid "Message published."
 msgstr ""
 
-#: src/Core/LineConnect.php:1026
+#: src/Core/LineConnect.php:1043
 msgid "Message published privately."
 msgstr ""
 
-#: src/Core/LineConnect.php:1027
+#: src/Core/LineConnect.php:1044
 msgid "Message reverted to draft."
 msgstr ""
 
-#: src/Core/LineConnect.php:1028
+#: src/Core/LineConnect.php:1045
 msgid "Message scheduled."
 msgstr ""
 
-#: src/Core/LineConnect.php:1029
+#: src/Core/LineConnect.php:1046
 msgid "Message updated."
 msgstr ""
 
-#: src/Core/LineConnect.php:1031
+#: src/Core/LineConnect.php:1048
 msgid "LINE Connect Messages"
 msgstr ""
 
-#: src/Core/LineConnect.php:1051 src/Core/LineConnect.php:1062
+#: src/Core/LineConnect.php:1068 src/Core/LineConnect.php:1079
 msgid "LC Audiences"
 msgstr ""
 
-#: src/Core/LineConnect.php:1054
+#: src/Core/LineConnect.php:1071
 msgid "Add New Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1055
+#: src/Core/LineConnect.php:1072
 msgid "Edit Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1056
+#: src/Core/LineConnect.php:1073
 msgid "New Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1057
+#: src/Core/LineConnect.php:1074
 msgid "View Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1058
+#: src/Core/LineConnect.php:1075
 msgid "Search Audiences"
 msgstr ""
 
-#: src/Core/LineConnect.php:1059
+#: src/Core/LineConnect.php:1076
 msgid "No Audiences found"
 msgstr ""
 
-#: src/Core/LineConnect.php:1060
+#: src/Core/LineConnect.php:1077
 msgid "No Audiences found in Trash"
 msgstr ""
 
-#: src/Core/LineConnect.php:1063
+#: src/Core/LineConnect.php:1080
 msgid "All Audiences"
 msgstr ""
 
-#: src/Core/LineConnect.php:1064
+#: src/Core/LineConnect.php:1081
 msgid "Audience Archives"
 msgstr ""
 
-#: src/Core/LineConnect.php:1065
+#: src/Core/LineConnect.php:1082
 msgid "Audience Attributes"
 msgstr ""
 
-#: src/Core/LineConnect.php:1066
+#: src/Core/LineConnect.php:1083
 msgid "Insert into Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1067
+#: src/Core/LineConnect.php:1084
 msgid "Uploaded to this Audience"
 msgstr ""
 
-#: src/Core/LineConnect.php:1072
+#: src/Core/LineConnect.php:1089
 msgid "Filter Audiences list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1073
+#: src/Core/LineConnect.php:1090
 msgid "Audiences list navigation"
 msgstr ""
 
-#: src/Core/LineConnect.php:1074
+#: src/Core/LineConnect.php:1091
 msgid "Audiences list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1075
+#: src/Core/LineConnect.php:1092
 msgid "Audience published."
 msgstr ""
 
-#: src/Core/LineConnect.php:1076
+#: src/Core/LineConnect.php:1093
 msgid "Audience published privately."
 msgstr ""
 
-#: src/Core/LineConnect.php:1077
+#: src/Core/LineConnect.php:1094
 msgid "Audience reverted to draft."
 msgstr ""
 
-#: src/Core/LineConnect.php:1078
+#: src/Core/LineConnect.php:1095
 msgid "Audience scheduled."
 msgstr ""
 
-#: src/Core/LineConnect.php:1079
+#: src/Core/LineConnect.php:1096
 msgid "Audience updated."
 msgstr ""
 
-#: src/Core/LineConnect.php:1081
+#: src/Core/LineConnect.php:1098
 msgid "LINE Connect Audiences"
 msgstr ""
 
-#: src/Core/LineConnect.php:1101 src/Core/LineConnect.php:1112
+#: src/Core/LineConnect.php:1118 src/Core/LineConnect.php:1129
 #: src/Scenario/Admin.php:32
 msgid "Scenarios"
 msgstr ""
 
-#: src/Core/LineConnect.php:1104
+#: src/Core/LineConnect.php:1121
 msgid "Add New Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1105
+#: src/Core/LineConnect.php:1122
 msgid "Edit Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1106
+#: src/Core/LineConnect.php:1123
 msgid "New Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1107
+#: src/Core/LineConnect.php:1124
 msgid "View Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1108
+#: src/Core/LineConnect.php:1125
 msgid "Search Scenarios"
 msgstr ""
 
-#: src/Core/LineConnect.php:1109
+#: src/Core/LineConnect.php:1126
 msgid "No Scenarios found"
 msgstr ""
 
-#: src/Core/LineConnect.php:1110
+#: src/Core/LineConnect.php:1127
 msgid "No Scenarios found in Trash"
 msgstr ""
 
-#: src/Core/LineConnect.php:1113
+#: src/Core/LineConnect.php:1130
 msgid "All Scenarios"
 msgstr ""
 
-#: src/Core/LineConnect.php:1114
+#: src/Core/LineConnect.php:1131
 msgid "Scenario Archives"
 msgstr ""
 
-#: src/Core/LineConnect.php:1115
+#: src/Core/LineConnect.php:1132
 msgid "Scenario Attributes"
 msgstr ""
 
-#: src/Core/LineConnect.php:1116
+#: src/Core/LineConnect.php:1133
 msgid "Insert into Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1117
+#: src/Core/LineConnect.php:1134
 msgid "Uploaded to this Scenario"
 msgstr ""
 
-#: src/Core/LineConnect.php:1122
+#: src/Core/LineConnect.php:1139
 msgid "Filter Scenarios list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1123
+#: src/Core/LineConnect.php:1140
 msgid "Scenarios list navigation"
 msgstr ""
 
-#: src/Core/LineConnect.php:1124
+#: src/Core/LineConnect.php:1141
 msgid "Scenarios list"
 msgstr ""
 
-#: src/Core/LineConnect.php:1125
+#: src/Core/LineConnect.php:1142
 msgid "Scenario published."
 msgstr ""
 
-#: src/Core/LineConnect.php:1126
+#: src/Core/LineConnect.php:1143
 msgid "Scenario published privately."
 msgstr ""
 
-#: src/Core/LineConnect.php:1127
+#: src/Core/LineConnect.php:1144
 msgid "Scenario reverted to draft."
 msgstr ""
 
-#: src/Core/LineConnect.php:1128
+#: src/Core/LineConnect.php:1145
 msgid "Scenario scheduled."
 msgstr ""
 
-#: src/Core/LineConnect.php:1129
+#: src/Core/LineConnect.php:1146
 msgid "Scenario updated."
 msgstr ""
 
-#: src/Core/LineConnect.php:1131
+#: src/Core/LineConnect.php:1148
 msgid "LINE Connect Scenarios"
+msgstr ""
+
+#: src/Core/LineConnect.php:1168 src/Core/LineConnect.php:1179
+msgid "Action Flows"
+msgstr ""
+
+#: src/Core/LineConnect.php:1169
+msgid "Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1171
+msgid "Add New Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1172
+msgid "Edit Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1173
+msgid "New Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1174
+msgid "View Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1175
+msgid "Search Action Flows"
+msgstr ""
+
+#: src/Core/LineConnect.php:1176
+msgid "No Action Flows found"
+msgstr ""
+
+#: src/Core/LineConnect.php:1177
+msgid "No Action Flows found in Trash"
+msgstr ""
+
+#: src/Core/LineConnect.php:1180
+msgid "All Action Flows"
+msgstr ""
+
+#: src/Core/LineConnect.php:1181
+msgid "Action Flow Archives"
+msgstr ""
+
+#: src/Core/LineConnect.php:1182
+msgid "Action Flow Attributes"
+msgstr ""
+
+#: src/Core/LineConnect.php:1183
+msgid "Insert into Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1184
+msgid "Uploaded to this Action Flow"
+msgstr ""
+
+#: src/Core/LineConnect.php:1189
+msgid "Filter Action Flows list"
+msgstr ""
+
+#: src/Core/LineConnect.php:1190
+msgid "Action Flows list navigation"
+msgstr ""
+
+#: src/Core/LineConnect.php:1191
+msgid "Action Flows list"
+msgstr ""
+
+#: src/Core/LineConnect.php:1192
+msgid "Action Flow published."
+msgstr ""
+
+#: src/Core/LineConnect.php:1193
+msgid "Action Flow published privately."
+msgstr ""
+
+#: src/Core/LineConnect.php:1194
+msgid "Action Flow reverted to draft."
+msgstr ""
+
+#: src/Core/LineConnect.php:1195
+msgid "Action Flow scheduled."
+msgstr ""
+
+#: src/Core/LineConnect.php:1196
+msgid "Action Flow updated."
+msgstr ""
+
+#: src/Core/LineConnect.php:1198
+msgid "LINE Connect Action Flows"
+msgstr ""
+
+#: src/ActionExecute/Admin.php:32
+msgid "LINE Connect Action Execute"
+msgstr ""
+
+#: src/ActionExecute/Admin.php:34
+msgid "Action Execute"
 msgstr ""
 
 #: src/Scenario/Scenario.php:80 src/Scenario/Scenario.php:81
@@ -4333,62 +4447,84 @@ msgid ""
 "etc.)."
 msgstr ""
 
-#: src/Scenario/Scenario.php:1460
+#: src/Scenario/Scenario.php:1463
 msgid "Add LINE group ID"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1465
+#: src/Scenario/Scenario.php:1468
 msgid "Add LINE Room ID"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1478 src/Scenario/Scenario.php:1495
+#: src/Scenario/Scenario.php:1481 src/Scenario/Scenario.php:1498
 msgid "Add value"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1500
+#: src/Scenario/Scenario.php:1503
 msgid "Add profile"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1516
+#: src/Scenario/Scenario.php:1519 src/ActionFlow/ActionFlow.php:111
 msgid "Add parameter"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1531
+#: src/Scenario/Scenario.php:1534
 msgid "Add step"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1560
+#: src/Scenario/Scenario.php:1563
 msgid "Scenario already started"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1565
+#: src/Scenario/Scenario.php:1568
 msgid "Scenario is currently active"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1568
+#: src/Scenario/Scenario.php:1571
 msgid "Scenario is not completed"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1577
+#: src/Scenario/Scenario.php:1580
 msgid "Invalid flag provided"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1587
+#: src/Scenario/Scenario.php:1590
 msgid "Failed to start scenario"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1745 src/Scenario/Scenario.php:1878
+#: src/Scenario/Scenario.php:1748 src/Scenario/Scenario.php:1881
 msgid "Scenario not found"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1753
+#: src/Scenario/Scenario.php:1756
 msgid "Scenario already completed"
 msgstr ""
 
-#: src/Scenario/Scenario.php:1769 src/Scenario/Scenario.php:1903
+#: src/Scenario/Scenario.php:1772 src/Scenario/Scenario.php:1906
 msgid "Step not found"
 msgstr ""
 
-#: src/Scenario/Admin.php:30
+#: src/Scenario/Admin.php:30 src/Scenario/Admin.php:57
 msgid "LINE Connect Scenario"
+msgstr ""
+
+#: src/ActionFlow/ActionFlow.php:158
+msgid "Broadcast is not supported."
+msgstr ""
+
+#: src/ActionFlow/ActionFlow.php:179
+#, php-format
+msgid "Action executed %s person."
+msgstr ""
+
+#: src/ActionFlow/ActionFlow.php:186
+#, php-format
+msgid "Action execution failed for %s person."
+msgstr ""
+
+#: src/ActionFlow/Admin.php:32 src/ActionFlow/Admin.php:59
+msgid "LINE Connect ActionFlow"
+msgstr ""
+
+#: src/ActionFlow/Admin.php:34
+msgid "ActionFlows"
 msgstr ""

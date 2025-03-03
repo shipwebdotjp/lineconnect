@@ -48,8 +48,11 @@
 ./tests/env.php
 ./tests/bulkmessage/BulkmessageAjaxChatSendTest.php
 ./tests/bootstrap.php
+./tests/ActionExecute/ActionExecuteAjaxActionExecuteTest.php
+./tests/scenario/SetScenarioStepTest.php
 ./tests/scenario/ScenarioScheduleTest.php
 ./tests/scenario/ScenarioDataLoadSaveTest.php
+./tests/ActionFlow/ActionFlowAjaxChatSendTest.php
 ./tests/audience/AudienceWpUserIdTest.php
 ./tests/audience/AudienceNestedTest.php
 ./tests/audience/AudienceLineUserIdTest.php
@@ -64,8 +67,12 @@
 ./test.php
 ./lineconnect.php
 ./src/Core/LineConnect.php
+./src/ActionExecute/ActionExecute.php
+./src/ActionExecute/Admin.php
 ./src/Utilities/ArrayPrinter.php
 ./src/Utilities/Condition.php
 ./src/Scenario/Scenario.php
 ./src/Scenario/Schedule.php
 ./src/Scenario/Admin.php
+./src/ActionFlow/ActionFlow.php
+./src/ActionFlow/Admin.php

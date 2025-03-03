@@ -14,177 +14,6 @@
 
 
 class lineconnectAction {
-
-	/**
-	 * 管理画面メニューの基本構造が配置された後に実行するアクションにフックする、
-	 * 管理画面のトップメニューページを追加する関数
-	 */
-	/*
-	static function set_plugin_menu() {
-		// 設定のサブメニュー「LINE Connect」を追加
-		$page_hook_suffix = add_submenu_page(
-		// 親ページ：
-			lineconnect::SLUG__DASHBOARD,
-			// ページタイトル：
-			__( 'LINE Connect Action', lineconnect::PLUGIN_NAME ),
-			// メニュータイトル：
-			__( 'Actions', lineconnect::PLUGIN_NAME ),
-			// 権限：
-			// manage_optionsは以下の管理画面設定へのアクセスを許可
-			// ・設定 > 一般設定
-			// ・設定 > 投稿設定
-			// ・設定 > 表示設定
-			// ・設定 > ディスカッション
-			// ・設定 > パーマリンク設定
-			'manage_options',
-			// ページを開いたときのURL(slug)：
-			'edit.php?post_type=slc_action',
-			// メニューに紐づく画面を描画するcallback関数：
-			false,
-			// メニューの位置
-			null
-		);
-		// add_action( "admin_print_styles-{$page_hook_suffix}", array( 'lineconnectAction', 'wpdocs_plugin_admin_styles' ) );
-		// add_action( "admin_print_scripts-{$page_hook_suffix}", array( 'lineconnectAction', 'wpdocs_plugin_admin_scripts' ) );
-		// remove_menu_page( lineconnect::SLUG__DM_FORM );
-	}
-
-	static function register_meta_box() {
-		// 投稿ページと固定ページ両方でLINE送信チェックボックスを表示
-		// $screens = lineconnect::get_option('send_post_types');
-		// foreach ($screens as $screen) {
-			add_meta_box(
-				// チェックボックスのID
-				lineconnect::PARAMETER__ACTION_DATA,
-				// チェックボックスのラベル名
-				'LINE Connect Action',
-				// チェックボックスを表示するコールバック関数
-				array( 'lineconnectAction', 'show_json_edit_form' ),
-				// 投稿画面に表示
-				lineconnectConst::POST_TYPE_ACTION,
-				// 投稿画面の下に表示
-				'advanced',
-				// 優先度(default)
-				'default'
-			);
-		// }
-	}
-*/
-	/*
-	// 管理画面用にスクリプト読み込み
-	static function wpdocs_plugin_admin_scripts() {
-		$js_file = 'react-jsonschema-form/dist/main.js';
-		wp_enqueue_script( lineconnect::PLUGIN_PREFIX . 'action', plugins_url( $js_file, __DIR__ ), array( 'wp-element', 'wp-i18n' ), filemtime( plugin_dir_path( __DIR__ ) . $js_file ), true );
-		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations( lineconnect::PLUGIN_PREFIX . 'action', lineconnect::PLUGIN_NAME, plugin_dir_path( __DIR__ ) . 'languages' );
-	}
-
-	// 管理画面用にスタイル読み込み
-	static function wpdocs_plugin_admin_styles() {
-		$css_file = 'react-jsonschema-form/dist/style.css';
-		wp_enqueue_style( lineconnect::PLUGIN_PREFIX . 'action-css', plugins_url( $css_file, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $css_file ) );
-	}
-	*/
-
-	// 管理画面（投稿ページ）用にスクリプト読み込み
-	/*
-	static function wpdocs_selectively_enqueue_admin_script() {
-		require_once plugin_dir_path( __FILE__ ) . 'rjsf.php';
-		lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_ACTION);
-	}
-	*/
-
-	/**
-	 * JSONスキーマからフォームを表示
-	 */
-	/*
-	static function show_json_edit_form() {
-		$ary_init_data = array();
-		$schema_version = get_post_meta( get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true );
-		$formData                          = get_post_meta( get_the_ID(), lineconnect::META_KEY__ACTION_DATA, true );
-		$form = array(
-			array(
-				'id' => 'action',
-				'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_action_schema', lineconnectConst::$lineconnect_action_schema ),
-				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_action_uischema', lineconnectConst::$lineconnect_action_uischema),
-				'formData' => self::get_form_data($formData ?? null, $schema_version),
-				'props' => new stdClass(),
-			),
-		);
-		// $ary_init_data['ajax_nonce'] = wp_create_nonce( lineconnect::CREDENTIAL_ACTION__ACTION );
-		// $schema_file                 = plugin_dir_path( __DIR__ ) . 'docs/schema/lineconnect_action.schema.json';
-		// $ary_init_data['mainSchema']                    = lineconnectConst::$lineconnect_action_schema;// json_decode( file_get_contents( $schema_file ), true );
-		// $ary_init_data['mainUiSchema']                  = lineconnectConst::$lineconnect_action_uischema;
-		// $formData                                   = get_post_meta( get_the_ID(), lineconnect::META_KEY__ACTION_DATA, true );
-		// $ary_init_data['formData']                  = ! empty( $formData ) ? $formData : new StdClass();
-		
-		$ary_init_data['formName']                  = lineconnect::PARAMETER_PREFIX . lineconnect::PARAMETER__ACTION_DATA;
-		$ary_init_data['form']        = $form;
-		$ary_init_data['translateString']           = lineconnectConst::$lineconnect_rjsf_translate_string;
-		$ary_init_data['translateString']['%1 Key'] = __( 'Property Name', lineconnect::PLUGIN_NAME );
-
-		//$inidata = json_encode( $ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE );
-		// nonceフィールドを生成・取得
-		$nonce_field = wp_nonce_field(
-			lineconnect::CREDENTIAL_ACTION__ACTION,
-			lineconnect::CREDENTIAL_NAME__ACTION,
-			true,
-			false
-		);
-		require_once plugin_dir_path( __FILE__ ) . 'rjsf.php';
-		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field );
-*/
-	/*
-		error_log( json_encode( $ary_init_data['mainSchema'], JSON_PRETTY_PRINT ) );
-		$hidden_json_filed = '<input type="hidden" id="' . $formName . '" name="' . $formName . '">';
-
-		echo $nonce_field;
-		echo <<< EOM
-		{$hidden_json_filed}
-		<div id="app"></div>
-		<script>
-		var lc_initdata = {$inidata};
-		</script>
-EOM;
-*/
-	/*
-	}
-*/
-
-	/**
-	 * Return form data
-	 */
-	/*
-	static function get_form_data($formData, $schema_version) {
-		if(empty($schema_version) || $schema_version == lineconnectConst::ACTION_SCHEMA_VERSION){
-			return !empty($formData) ? $formData : new stdClass();
-		}
-		// if old schema veersion, migrate and return
-	}
-	*/
-
-	/**
-	 * 記事を保存
-	 */
-	/*
-	static function save_post_action( $post_ID, $post, $update ) {
-		if ( isset( $_POST[ lineconnect::CREDENTIAL_NAME__ACTION ] ) && check_admin_referer( lineconnect::CREDENTIAL_ACTION__ACTION, lineconnect::CREDENTIAL_NAME__ACTION ) ) {
-			$action_data = isset( $_POST[ lineconnect::PARAMETER_PREFIX . lineconnect::PARAMETER__ACTION_DATA ] ) ?  stripslashes( $_POST[ lineconnect::PARAMETER_PREFIX . lineconnect::PARAMETER__ACTION_DATA ]  ) : '';
-			error_log( print_r( $action_data, true ) );
-			if ( ! empty( $action_data ) ) {
-				$json_action_data = json_decode( $action_data, true );
-				if ( ! empty( $json_action_data[0] ) ) {
-					update_post_meta( $post_ID, lineconnect::META_KEY__ACTION_DATA, $json_action_data[0] );
-				} else {
-					delete_post_meta( $post_ID, lineconnect::META_KEY__ACTION_DATA );
-				}
-			} else {
-				delete_post_meta( $post_ID, lineconnect::META_KEY__ACTION_DATA );
-			}
-		}
-	}
-	*/
-
 	/**
 	 * Return action array object post_id and title
 	 */
@@ -236,7 +65,7 @@ EOM;
 
 	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null) {
 		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
-
+		$results = array();
 		$message = array();
 		$injection_data = array(
 			'return' => array(),
@@ -245,6 +74,7 @@ EOM;
 		);
 		// error_log(print_r($injection_data['user'], true));
 		foreach ($actions as $action_idx => $action) {
+			$error = null;
 			if (isset($action['action_name'])) {
 				//$function_schema = get_post_meta( $action['action_id'], lineconnect::META_KEY__ACTION_DATA, true );
 				$function_schema = self::get_lineconnect_action_data_array()[$action['action_name']];
@@ -286,7 +116,7 @@ EOM;
 							'abort' => true,
 						);
 					}
-					// error_log( 'class response:' . print_r( array( $class_name, $function_name ), true ) );
+					// error_log('class response:' . print_r(array($class_name, $function_name), true));
 					if (! isset($error)) {
 						$arguments_array = null;
 						if (isset($function_schema['parameters'])) {
@@ -307,17 +137,29 @@ EOM;
 							$response = call_user_func_array($function_name, $arguments_array); // $response = $function_name( $arguments_array );
 						}
 						$injection_data['return'][$action_idx + 1] = $response;
-						// error_log(print_r($injection_data, true));
-						if (isset($action['response_return_value']) && $action['response_return_value'] === true) {
+						// error_log("val" . ($action['response_return_value'] === true ? 'true' : 'false'));
+						if (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
+							// error_log(print_r($response, true));
+							// error_log(print_r($action['response_return_value'], true));
 							$message[] = lineconnectUtil::get_line_message_builder($response);
 						}
 					} else {
-						$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($error['error']);
+						// $message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($error['error']);
 					}
 				}
 			}
+			$results[$action_idx] = array(
+				'success' => !isset($error),
+				'response' => $response ?? null,
+				'error' => $error ?? null,
+			);
 		}
-		return $message;
+		return array(
+			//'resultsの配列の'success'が全てtrueの場合はtrue、一つでもfalseがある場合はfalse
+			'success' => (count(array_filter(array_column($results, 'success'))) === count($results)) ? true : false,
+			'messages' => $message,
+			'results' => $results,
+		);
 	}
 
 	/**
@@ -343,5 +185,71 @@ EOM;
 		}
 
 		return $event;
+	}
+
+	/**
+	 * アクションスキーマを返す
+	 * 
+	 * @param array one_of
+	 * @return void
+	 */
+	public static function build_action_schema_items(array &$one_of): void {
+		$action_array = self::get_lineconnect_action_data_array();
+
+		if (!empty($action_array)) {
+			foreach ($action_array as $name => $action) {
+				$properties = array(
+					'action_name' => array(
+						'type'    => 'string',
+						'const'   => $name,
+						'default' => $name,
+					),
+					'response_return_value' => array(
+						'type'    => 'boolean',
+						'default' => true,
+						'title'   => __('Send the return value as a response', lineconnect::PLUGIN_NAME),
+						'description' => __('Send the return value of this action as a response message by LINE message', lineconnect::PLUGIN_NAME),
+					),
+				);
+
+				if (isset($action['parameters'])) {
+					$parameters = $action['parameters'];
+					$parameters_properties = array();
+
+					if (!empty($parameters)) {
+						foreach ($parameters as $idx => $parameter) {
+							$key = $parameter['name'] ?? 'param' . $idx;
+							$val = lineconnectUtil::get_parameter_schema($key, $parameter);
+							$parameters_properties[$key] = $val;
+						}
+					}
+
+					if (!empty($parameters_properties)) {
+						$properties['parameters'] = array(
+							'type'       => 'object',
+							'title'      => __('Parameters', lineconnect::PLUGIN_NAME),
+							'properties' => $parameters_properties,
+						);
+					}
+				}
+
+				$one_of[] = array(
+					'title'      => $action['title'],
+					'properties' => $properties,
+					'required'   => array('action_name'),
+				);
+			}
+		} else {
+			$one_of = array(
+				array(
+					'title'      => __('Please add action first', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'action_name' => array(
+							'type' => 'null',
+						),
+					),
+				),
+			);
+		}
 	}
 }

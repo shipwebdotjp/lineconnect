@@ -14,6 +14,13 @@
 ### Security
 - 
 
+## [3.4.0] - 2025-03-03
+### Added
+- リッチメニューとリッチメニューエイリアスの作成、管理機能を追加
+- 個別ユーザーとリッチメニューとのリンクが行えるアクションを追加
+- Added ability to create and manage rich menus and rich menu aliases
+- Added an action to link individual users to the rich menu
+
 ## [3.3.0] - 2025-01-01
 ### Changed
 - ユーザーロールごとに個別のリッチメニューを設定できるようになりました。

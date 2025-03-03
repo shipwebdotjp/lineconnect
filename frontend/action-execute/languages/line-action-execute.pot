@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
+
+#: src/component/ActionFlow.js:92
+msgid "Action Flow"
+msgstr ""
+
+#: src/component/ActionFlow.js:94
+#: src/component/Audience.js:106
+msgid "Template"
+msgstr ""
+
+#: src/component/ActionFlow.js:96
+msgid "New Action Flow"
+msgstr ""
+
+#: src/component/Audience.js:104
+msgid "Audience"
+msgstr ""
+
+#: src/component/Audience.js:108
+msgid "New Audience"
+msgstr ""
+
+#: src/component/Form.js:46
+msgid "Execute Action Flow"
+msgstr ""
+
+#: src/component/Form.js:66
+msgid "Counting Recipients..."
+msgstr ""
+
+#: src/component/Form.js:69
+msgid "Count Recipients"
+msgstr ""
+
+#: src/component/Form.js:90
+msgid "Executing..."
+msgstr ""
+
+#: src/component/Form.js:93
+msgid "Execute"
+msgstr ""

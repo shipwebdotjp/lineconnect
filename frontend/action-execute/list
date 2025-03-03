@@ -1,0 +1,9 @@
+./tailwind.config.js
+./webpack.config.js
+./postcss.config.js
+./po2json.js
+./src/index.js
+./src/component/ActionFlow.js
+./src/component/Form.js
+./src/component/Result.js
+./src/component/Audience.js

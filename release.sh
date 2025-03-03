@@ -26,6 +26,10 @@ cd react-jsonschema-form
 npm run build
 cd $WORKING_DIR
 
+cd frontend/action-execute
+npm run build
+cd $WORKING_DIR
+
 # 全てステージにのせる
 git add -A;
 

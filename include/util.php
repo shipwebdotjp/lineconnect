@@ -413,6 +413,9 @@ class lineconnectUtil {
 		if (! empty($parameter['description'])) {
 			$schema['description'] = $parameter['description'];
 		}
+		if (! empty($parameter['oneOf'])) {
+			$schema['oneOf'] = $parameter['oneOf'];
+		}
 		if ($parameter['type'] == 'object') {
 			if (! empty($parameter['properties'])) {
 				$schema['properties'] = array();

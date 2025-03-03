@@ -253,9 +253,9 @@ class lineconnectFunctions {
 		return wp_mail(get_option('admin_email'), $subject, $body, $headers);
 	}
 
-	function send_line_message($message, $line_user_id, $secret_prefix = null) {
+	function send_line_message($message, $line_user_id = null, $secret_prefix = null) {
 		$message = lineconnectUtil::get_line_message_builder($message);
-		// $line_user_id starts with U (line user id)
+		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 		if (!preg_match('/^U[a-f0-9]{32}$/', $line_user_id)) {
 			return array(
 				'success' => false,
@@ -460,7 +460,7 @@ class lineconnectFunctions {
 			$wpdb->prepare("SELECT tags FROM $table_name WHERE line_id = %s AND channel_prefix = %s", $line_user_id,  $channel_prefix)
 		);
 
-		$tags_array = json_decode($current_tags, true) ?: [];
+		$tags_array = $current_tags ? (json_decode($current_tags, true) ?: []) : [];
 
 		// タグを追加
 		foreach ($tags as $tag) {
@@ -593,7 +593,7 @@ class lineconnectFunctions {
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 		$secret_prefix = $secret_prefix ?? $this->secret_prefix;
 		if (empty($line_user_id) || empty($secret_prefix)) {
-			return ['result' => 'error', 'message' => 'Invalid user ID or secret prefix'];
+			return false;
 		}
 		return Scenario::update_scenario_status($scenario_id, $status, $line_user_id, $secret_prefix);
 	}

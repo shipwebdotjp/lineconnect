@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-02-22 22:19+0900\n"
+"POT-Creation-Date: 2025-03-03 22:09+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -576,6 +576,7 @@ msgstr ""
 
 #: include/const.php:859 include/const.php:2824 include/const.php:4338
 #: include/const.php:4460 include/const.php:4612 src/Scenario/Scenario.php:119
+#: src/ActionFlow/ActionFlow.php:81
 msgid "Data"
 msgstr "データ"
 
@@ -675,7 +676,7 @@ msgstr "LINE Connectメッセージ取得"
 msgid "Get LINE Connect message."
 msgstr "LINE Connectメッセージを取得します。"
 
-#: include/const.php:1014 include/const.php:1170 src/Core/LineConnect.php:1002
+#: include/const.php:1014 include/const.php:1170 src/Core/LineConnect.php:1019
 msgid "LC Message"
 msgstr "LCメッセージ"
 
@@ -746,7 +747,7 @@ msgstr "ボタンアクションタイプ"
 #: include/const.php:1078 include/const.php:1142 include/const.php:2015
 #: include/const.php:2075 include/const.php:3954 include/const.php:4403
 #: include/chatlist.php:59 include/chatlist.php:364 include/slc_message.php:90
-#: include/bulk_message.php:66 include/logging.php:66 include/message.php:785
+#: include/bulk_message.php:66 include/logging.php:66 include/message.php:784
 msgid "Message"
 msgstr "メッセージ"
 
@@ -820,7 +821,7 @@ msgstr "オーディエンスを指定してLINEメッセージを送信"
 msgid "LC message, text or message object"
 msgstr "LCメッセージ、メッセージテキストまたはオブジェクト"
 
-#: include/const.php:1177 src/Core/LineConnect.php:1052
+#: include/const.php:1177 src/Core/LineConnect.php:1069
 msgid "LC Audience"
 msgstr "LCオーディエンス"
 
@@ -1046,7 +1047,7 @@ msgid "Start LINE Connect Scenario."
 msgstr "シナリオを開始します。"
 
 #: include/const.php:1493 include/const.php:1541 include/const.php:1580
-#: src/Core/LineConnect.php:1102
+#: src/Core/LineConnect.php:1119
 msgid "Scenario"
 msgstr "シナリオ"
 
@@ -1056,11 +1057,11 @@ msgstr "シナリオID"
 
 #: include/const.php:1500
 msgid "Scenario restart flag"
-msgstr "シナリオがすでに開始されている場合の条件"
+msgstr "シナリオがすでに開始されている場合の動作"
 
 #: include/const.php:1501
 msgid "When restart a scenario."
-msgstr "シナリオがすでに開始されている場合でも、設定した条件の場合は最初から開始します"
+msgstr "シナリオがすでに開始されている場合の動作を設定します。"
 
 #: include/const.php:1505
 msgid "Never restart"
@@ -1069,7 +1070,7 @@ msgstr "開始しない"
 #: include/const.php:1509
 msgid "Restart only completed"
 msgstr "完了している場合のみ開始"
-    
+
 #: include/const.php:1513
 msgid "Always restart"
 msgstr "常に開始"
@@ -1116,21 +1117,21 @@ msgstr "ステータス"
 
 #: include/const.php:1588
 msgid "The status to set."
-msgstr "設定するステータス。"   
+msgstr "設定するステータス。"
 
-#: include/const.php:1592
+#: include/const.php:1592 src/Scenario/Admin.php:153
 msgid "Active"
 msgstr "アクティブ"
 
-#: include/const.php:1596 include/message.php:777
+#: include/const.php:1596 include/message.php:776 src/Scenario/Admin.php:155
 msgid "Error"
 msgstr "エラー"
 
-#: include/const.php:1600
+#: include/const.php:1600 src/Scenario/Admin.php:156
 msgid "Paused"
 msgstr "一時停止"
 
-#: include/const.php:1604
+#: include/const.php:1604 src/Scenario/Admin.php:154
 msgid "Completed"
 msgstr "完了"
 
@@ -1166,8 +1167,8 @@ msgstr "AI応答時にこの関数を実行可能なユーザー権限"
 msgid "Anyone"
 msgstr "誰でも"
 
-#: include/const.php:1757 include/const.php:3338 include/trigger.php:211
-#: src/Scenario/Scenario.php:1376
+#: include/const.php:1757 include/const.php:3338 include/action.php:230
+#: include/trigger.php:211
 msgid "Parameters"
 msgstr "パラメーター"
 
@@ -1203,7 +1204,7 @@ msgstr "配列(Array)"
 msgid "Array element"
 msgstr "配列の要素"
 
-#: include/const.php:1825 include/message.php:784
+#: include/const.php:1825 include/message.php:783
 msgid "Property"
 msgstr "プロパティ"
 
@@ -1783,22 +1784,28 @@ msgid "Triggers"
 msgstr "トリガー"
 
 #: include/const.php:2801 include/const.php:4322
+#: src/ActionFlow/ActionFlow.php:58 src/ActionFlow/ActionFlow.php:182
+#: src/ActionFlow/ActionFlow.php:189
 msgid "Action"
 msgstr "アクション"
 
 #: include/const.php:2813 src/Scenario/Scenario.php:108
+#: src/ActionFlow/ActionFlow.php:70
 msgid "Action chain"
 msgstr "アクションチェイン"
 
 #: include/const.php:2819 src/Scenario/Scenario.php:114
+#: src/ActionFlow/ActionFlow.php:76
 msgid "Destination argument to"
 msgstr "注入先引数"
 
 #: include/const.php:2820 src/Scenario/Scenario.php:115
+#: src/ActionFlow/ActionFlow.php:77
 msgid "Injection Destination Argument Path. e.g. 2.message"
 msgstr "注入先引数パス。例としてアクション-2のmessageを指定する場合: 2.message"
 
 #: include/const.php:2825 src/Scenario/Scenario.php:120
+#: src/ActionFlow/ActionFlow.php:82
 msgid ""
 "Injection Data. You can use return value of previous action. e.g. "
 "{{$.return.1}}"
@@ -1994,11 +2001,13 @@ msgid "Add trigger"
 msgstr "トリガー追加"
 
 #: include/const.php:3582 include/const.php:4786 include/const.php:4799
-#: include/const.php:4814 src/Scenario/Scenario.php:1521
+#: include/const.php:4814 src/Scenario/Scenario.php:1524
+#: src/ActionFlow/ActionFlow.php:116
 msgid "Add action"
 msgstr "アクション追加"
 
-#: include/const.php:3587 src/Scenario/Scenario.php:1526
+#: include/const.php:3587 src/Scenario/Scenario.php:1529
+#: src/ActionFlow/ActionFlow.php:121
 msgid "Add chain"
 msgstr "チェイン追加"
 
@@ -3046,11 +3055,11 @@ msgstr "正規表現に一致"
 msgid "No regular expression match"
 msgstr "正規表現に一致しない"
 
-#: include/const.php:6053 src/Scenario/Scenario.php:1505
+#: include/const.php:6053 src/Scenario/Scenario.php:1508
 msgid "Add condition"
 msgstr "条件を追加"
 
-#: include/const.php:6059 src/Scenario/Scenario.php:1455
+#: include/const.php:6059 src/Scenario/Scenario.php:1458
 msgid "Add LINE user ID"
 msgstr "LINEユーザーIDを追加"
 
@@ -3066,7 +3075,7 @@ msgstr "メールアドレスを追加"
 msgid "Add username"
 msgstr "ユーザー名を追加"
 
-#: include/const.php:6083 src/Scenario/Scenario.php:1483
+#: include/const.php:6083 src/Scenario/Scenario.php:1486
 msgid "Add user meta"
 msgstr "ユーザーメタを追加"
 
@@ -3281,8 +3290,8 @@ msgstr "LINE Connect オーディエンス"
 msgid "Audiences"
 msgstr "オーディエンス"
 
-#: include/audience.php:138 include/trigger.php:253 include/util.php:456
-#: src/Scenario/Scenario.php:1418
+#: include/audience.php:138 include/trigger.php:253 include/util.php:459
+#: src/Scenario/Scenario.php:1421
 msgid "Please add channel first"
 msgstr "チャネルを追加してください"
 
@@ -3290,7 +3299,7 @@ msgstr "チャネルを追加してください"
 msgid "The message will not be sent to anyone."
 msgstr "メッセージは誰にも送信されません"
 
-#: include/audience.php:870 include/message.php:603
+#: include/audience.php:870 include/message.php:602
 msgid "Message will be sent to all users who have subscribed to this channel."
 msgstr "メッセージはチャネルの友だち全員に送られます"
 
@@ -3299,22 +3308,22 @@ msgstr "メッセージはチャネルの友だち全員に送られます"
 msgid "Message will be sent to %s person."
 msgstr "メッセージは%s名に送信されます。"
 
-#: include/trigger.php:28
-msgid "LINE Connect Trigger"
-msgstr "LINE Connect トリガー"
-
-#: include/trigger.php:187 src/Scenario/Scenario.php:1359
+#: include/action.php:210 include/trigger.php:187
 msgid "Send the return value as a response"
 msgstr "戻り値をLINEメッセージで送信"
 
-#: include/trigger.php:188 src/Scenario/Scenario.php:1360
+#: include/action.php:211 include/trigger.php:188
 msgid ""
 "Send the return value of this action as a response message by LINE message"
 msgstr "LINEメッセージの応答メッセージとしてこのアクションの戻り値を送信"
 
-#: include/trigger.php:225 src/Scenario/Scenario.php:1390
+#: include/action.php:245 include/trigger.php:225
 msgid "Please add action first"
 msgstr "アクションを追加してください"
+
+#: include/trigger.php:28
+msgid "LINE Connect Trigger"
+msgstr "LINE Connect トリガー"
 
 #: include/dm.php:21
 msgid "LINE Connect Direct Message"
@@ -3478,23 +3487,23 @@ msgstr "空は許可されていません。"
 msgid "Size must be between %s and %s."
 msgstr "サイズは%sから%sの間である必要があります。"
 
-#: include/util.php:441
+#: include/util.php:444
 msgid "Please add message first"
 msgstr "メッセージを追加してください"
 
-#: include/util.php:471
+#: include/util.php:474
 msgid "Please add richmenu first"
 msgstr "リッチメニューを追加してください"
 
-#: include/util.php:485
+#: include/util.php:488
 msgid "Please add richmenu alias first"
 msgstr "リッチメニューエイリアスを追加してください"
 
-#: include/util.php:500
+#: include/util.php:503
 msgid "Please add audience first"
 msgstr "オーディエンスを追加してください"
 
-#: include/util.php:515
+#: include/util.php:518
 msgid "Please add scenario first"
 msgstr ""
 
@@ -3506,19 +3515,19 @@ msgstr "LINE Connect 一括配信"
 msgid "Bulk message"
 msgstr "一括配信"
 
-#: include/bulk_message.php:156
+#: include/bulk_message.php:156 src/ActionExecute/Admin.php:158
 msgid "You are not logged in."
 msgstr "ログインしていません。"
 
-#: include/bulk_message.php:164
+#: include/bulk_message.php:164 src/ActionExecute/Admin.php:166
 msgid "You do not have permission to send messages."
 msgstr "メッセージを送信する権限がありません。"
 
-#: include/bulk_message.php:172
+#: include/bulk_message.php:172 src/ActionExecute/Admin.php:174
 msgid "Nonce is not set or invalid."
 msgstr "Nonceが設定されていないか、無効です。"
 
-#: include/bulk_message.php:190
+#: include/bulk_message.php:190 src/ActionExecute/Admin.php:194
 msgid "There was no target to be sent that matched the condition."
 msgstr "条件に一致する送信対象がありませんでした。"
 
@@ -3729,35 +3738,35 @@ msgstr "%s 人にプッシュメッセージを送信しました。"
 msgid "Push message failed to sent to %s person."
 msgstr "%s 人へのプッシュメッセージの送信に失敗しました。"
 
-#: include/message.php:605
+#: include/message.php:604
 #, php-format
 msgid "Message will be sent to %s person by multicast."
 msgstr "メッセージはマルチキャストで %s 人に送信されます。"
 
-#: include/message.php:607
+#: include/message.php:606
 #, php-format
 msgid "Message will be sent to %s person by push."
 msgstr "メッセージはプッシュで %s 人に送信されます。"
 
-#: include/message.php:618
+#: include/message.php:617
 msgid "Valid message."
 msgstr "有効なメッセージです。"
 
-#: include/message.php:620
+#: include/message.php:619
 msgid "Invalid message."
 msgstr "無効なメッセージです。"
 
-#: include/message.php:686
+#: include/message.php:685
 #, php-format
 msgid "Push to %s"
 msgstr "%sへのプッシュ"
 
-#: include/message.php:729
+#: include/message.php:728
 #, php-format
 msgid "%s multicast"
 msgstr "%s通のマルチキャスト"
 
-#: include/message.php:760
+#: include/message.php:759
 msgid "Broadcast"
 msgstr "ブロードキャスト"
 
@@ -3769,395 +3778,500 @@ msgstr "先生"
 msgid "Student"
 msgstr ""
 
-#: src/Core/LineConnect.php:529
+#: src/Core/LineConnect.php:546
 msgid "LINE Event Log"
 msgstr "LINEイベントログ"
 
-#: src/Core/LineConnect.php:531
+#: src/Core/LineConnect.php:548
 msgid "Event Log"
 msgstr "イベントログ"
 
-#: src/Core/LineConnect.php:951 src/Core/LineConnect.php:962
+#: src/Core/LineConnect.php:968 src/Core/LineConnect.php:979
 msgid "LC Triggers"
 msgstr "LCトリガー"
 
-#: src/Core/LineConnect.php:952
+#: src/Core/LineConnect.php:969
 msgid "LC Trigger"
 msgstr "LCトリガー"
 
-#: src/Core/LineConnect.php:953 src/Core/LineConnect.php:1003
-#: src/Core/LineConnect.php:1053 src/Core/LineConnect.php:1103
+#: src/Core/LineConnect.php:970 src/Core/LineConnect.php:1020
+#: src/Core/LineConnect.php:1070 src/Core/LineConnect.php:1120
+#: src/Core/LineConnect.php:1170
 msgid "Add New"
 msgstr "新しく追加"
 
-#: src/Core/LineConnect.php:954
+#: src/Core/LineConnect.php:971
 msgid "Add New Trigger"
 msgstr "新しいトリガーを追加"
 
-#: src/Core/LineConnect.php:955
+#: src/Core/LineConnect.php:972
 msgid "Edit Trigger"
 msgstr "トリガーを編集"
 
-#: src/Core/LineConnect.php:956
+#: src/Core/LineConnect.php:973
 msgid "New Trigger"
 msgstr "新しいトリガー"
 
-#: src/Core/LineConnect.php:957
+#: src/Core/LineConnect.php:974
 msgid "View Trigger"
 msgstr "トリガーを表示"
 
-#: src/Core/LineConnect.php:958
+#: src/Core/LineConnect.php:975
 msgid "Search Triggers"
 msgstr "トリガーを検索"
 
-#: src/Core/LineConnect.php:959
+#: src/Core/LineConnect.php:976
 msgid "No Triggers found"
 msgstr "トリガーが見つかりません"
 
-#: src/Core/LineConnect.php:960
+#: src/Core/LineConnect.php:977
 msgid "No Triggers found in Trash"
 msgstr "ゴミ箱にトリガーはありません"
 
-#: src/Core/LineConnect.php:963
+#: src/Core/LineConnect.php:980
 msgid "All Triggers"
 msgstr "すべてのトリガー"
 
-#: src/Core/LineConnect.php:964
+#: src/Core/LineConnect.php:981
 msgid "Trigger Archives"
 msgstr "トリガーアーカイブ"
 
-#: src/Core/LineConnect.php:965
+#: src/Core/LineConnect.php:982
 msgid "Trigger Attributes"
 msgstr "トリガー属性"
 
-#: src/Core/LineConnect.php:966
+#: src/Core/LineConnect.php:983
 msgid "Insert into Trigger"
 msgstr "トリガーに挿入"
 
-#: src/Core/LineConnect.php:967
+#: src/Core/LineConnect.php:984
 msgid "Uploaded to this Trigger"
 msgstr "このトリガーにアップロードしました"
 
-#: src/Core/LineConnect.php:968 src/Core/LineConnect.php:1018
-#: src/Core/LineConnect.php:1068 src/Core/LineConnect.php:1118
+#: src/Core/LineConnect.php:985 src/Core/LineConnect.php:1035
+#: src/Core/LineConnect.php:1085 src/Core/LineConnect.php:1135
+#: src/Core/LineConnect.php:1185
 msgid "Featured Image"
 msgstr "アイキャッチ画像"
 
-#: src/Core/LineConnect.php:969 src/Core/LineConnect.php:1019
-#: src/Core/LineConnect.php:1069 src/Core/LineConnect.php:1119
+#: src/Core/LineConnect.php:986 src/Core/LineConnect.php:1036
+#: src/Core/LineConnect.php:1086 src/Core/LineConnect.php:1136
+#: src/Core/LineConnect.php:1186
 msgid "Set featured image"
 msgstr "アイキャッチ画像の設定"
 
-#: src/Core/LineConnect.php:970 src/Core/LineConnect.php:1020
-#: src/Core/LineConnect.php:1070 src/Core/LineConnect.php:1120
+#: src/Core/LineConnect.php:987 src/Core/LineConnect.php:1037
+#: src/Core/LineConnect.php:1087 src/Core/LineConnect.php:1137
+#: src/Core/LineConnect.php:1187
 msgid "Remove featured image"
 msgstr "アイキャッチ画像の削除"
 
-#: src/Core/LineConnect.php:971 src/Core/LineConnect.php:1021
-#: src/Core/LineConnect.php:1071 src/Core/LineConnect.php:1121
+#: src/Core/LineConnect.php:988 src/Core/LineConnect.php:1038
+#: src/Core/LineConnect.php:1088 src/Core/LineConnect.php:1138
+#: src/Core/LineConnect.php:1188
 msgid "Use as featured image"
 msgstr "アイキャッチ画像として使用"
 
-#: src/Core/LineConnect.php:972
+#: src/Core/LineConnect.php:989
 msgid "Filter Triggers list"
 msgstr "トリガー一覧をフィルター"
 
-#: src/Core/LineConnect.php:973
+#: src/Core/LineConnect.php:990
 msgid "Triggers list navigation"
 msgstr "トリガー一覧のナビゲーション"
 
-#: src/Core/LineConnect.php:974
+#: src/Core/LineConnect.php:991
 msgid "Triggers list"
 msgstr "トリガー一覧"
 
-#: src/Core/LineConnect.php:975
+#: src/Core/LineConnect.php:992
 msgid "Trigger published."
 msgstr "トリガーを公開しました"
 
-#: src/Core/LineConnect.php:976
+#: src/Core/LineConnect.php:993
 msgid "Trigger published privately."
 msgstr "トリガーをプライベートで公開しました"
 
-#: src/Core/LineConnect.php:977
+#: src/Core/LineConnect.php:994
 msgid "Trigger reverted to draft."
 msgstr "トリガーを下書きに戻しました"
 
-#: src/Core/LineConnect.php:978
+#: src/Core/LineConnect.php:995
 msgid "Trigger scheduled."
 msgstr "トリガーが予約公開されました"
 
-#: src/Core/LineConnect.php:979
+#: src/Core/LineConnect.php:996
 msgid "Trigger updated."
 msgstr "トリガーが更新されました"
 
-#: src/Core/LineConnect.php:981
+#: src/Core/LineConnect.php:998
 msgid "LINE Connect Triggers"
 msgstr "LINE Connect トリガー"
 
-#: src/Core/LineConnect.php:1001 src/Core/LineConnect.php:1012
+#: src/Core/LineConnect.php:1018 src/Core/LineConnect.php:1029
 msgid "LC Messages"
 msgstr "LCメッセージ"
 
-#: src/Core/LineConnect.php:1004
+#: src/Core/LineConnect.php:1021
 msgid "Add New Message"
 msgstr "新しいメッセージを追加"
 
-#: src/Core/LineConnect.php:1005
+#: src/Core/LineConnect.php:1022
 msgid "Edit Message"
 msgstr "メッセージを編集"
 
-#: src/Core/LineConnect.php:1006
+#: src/Core/LineConnect.php:1023
 msgid "New Message"
 msgstr "新しいメッセージ"
 
-#: src/Core/LineConnect.php:1007
+#: src/Core/LineConnect.php:1024
 msgid "View Message"
 msgstr "メッセージを表示"
 
-#: src/Core/LineConnect.php:1008
+#: src/Core/LineConnect.php:1025
 msgid "Search Messages"
 msgstr "メッセージを検索"
 
-#: src/Core/LineConnect.php:1009
+#: src/Core/LineConnect.php:1026
 msgid "No Messages found"
 msgstr "メッセージが見つかりません"
 
-#: src/Core/LineConnect.php:1010
+#: src/Core/LineConnect.php:1027
 msgid "No Messages found in Trash"
 msgstr "ゴミ箱にメッセージが見つかりません"
 
-#: src/Core/LineConnect.php:1013
+#: src/Core/LineConnect.php:1030
 msgid "All Messages"
 msgstr "すべてのメッセージ"
 
-#: src/Core/LineConnect.php:1014
+#: src/Core/LineConnect.php:1031
 msgid "Message Archives"
 msgstr "メッセージのアーカイブ"
 
-#: src/Core/LineConnect.php:1015
+#: src/Core/LineConnect.php:1032
 msgid "Message Attributes"
 msgstr "メッセージの属性"
 
-#: src/Core/LineConnect.php:1016
+#: src/Core/LineConnect.php:1033
 msgid "Insert into Message"
 msgstr "メッセージに挿入"
 
-#: src/Core/LineConnect.php:1017
+#: src/Core/LineConnect.php:1034
 msgid "Uploaded to this Message"
 msgstr "このメッセージにアップロードされました"
 
-#: src/Core/LineConnect.php:1022
+#: src/Core/LineConnect.php:1039
 msgid "Filter Messages list"
 msgstr "メッセージをフィルター"
 
-#: src/Core/LineConnect.php:1023
+#: src/Core/LineConnect.php:1040
 msgid "Messages list navigation"
 msgstr "メッセージのナビゲーション"
 
-#: src/Core/LineConnect.php:1024
+#: src/Core/LineConnect.php:1041
 msgid "Messages list"
 msgstr "メッセージ一覧"
 
-#: src/Core/LineConnect.php:1025
+#: src/Core/LineConnect.php:1042
 msgid "Message published."
 msgstr "メッセージが公開されました。"
 
-#: src/Core/LineConnect.php:1026
+#: src/Core/LineConnect.php:1043
 msgid "Message published privately."
 msgstr "メッセージが非公開にされました。"
 
-#: src/Core/LineConnect.php:1027
+#: src/Core/LineConnect.php:1044
 msgid "Message reverted to draft."
 msgstr "メッセージが下書きに戻されました。"
 
-#: src/Core/LineConnect.php:1028
+#: src/Core/LineConnect.php:1045
 msgid "Message scheduled."
 msgstr "メッセージがスケジュールされました。"
 
-#: src/Core/LineConnect.php:1029
+#: src/Core/LineConnect.php:1046
 msgid "Message updated."
 msgstr "メッセージが更新されました。"
 
-#: src/Core/LineConnect.php:1031
+#: src/Core/LineConnect.php:1048
 msgid "LINE Connect Messages"
 msgstr "LINE Connect メッセージ"
 
-#: src/Core/LineConnect.php:1051 src/Core/LineConnect.php:1062
+#: src/Core/LineConnect.php:1068 src/Core/LineConnect.php:1079
 msgid "LC Audiences"
 msgstr "LCオーディエンス"
 
-#: src/Core/LineConnect.php:1054
+#: src/Core/LineConnect.php:1071
 msgid "Add New Audience"
 msgstr "新規オーディエンスを追加"
 
-#: src/Core/LineConnect.php:1055
+#: src/Core/LineConnect.php:1072
 msgid "Edit Audience"
 msgstr "オーディエンスを編集"
 
-#: src/Core/LineConnect.php:1056
+#: src/Core/LineConnect.php:1073
 msgid "New Audience"
 msgstr "新規オーディエンス"
 
-#: src/Core/LineConnect.php:1057
+#: src/Core/LineConnect.php:1074
 msgid "View Audience"
 msgstr "オーディエンスを表示"
 
-#: src/Core/LineConnect.php:1058
+#: src/Core/LineConnect.php:1075
 msgid "Search Audiences"
 msgstr "オーディエンスを検索"
 
-#: src/Core/LineConnect.php:1059
+#: src/Core/LineConnect.php:1076
 msgid "No Audiences found"
 msgstr "オーディエンスが見つかりませんでした"
 
-#: src/Core/LineConnect.php:1060
+#: src/Core/LineConnect.php:1077
 msgid "No Audiences found in Trash"
 msgstr "ゴミ箱内にオーディエンスはありません"
 
-#: src/Core/LineConnect.php:1063
+#: src/Core/LineConnect.php:1080
 msgid "All Audiences"
 msgstr "すべてのオーディエンス"
 
-#: src/Core/LineConnect.php:1064
+#: src/Core/LineConnect.php:1081
 msgid "Audience Archives"
 msgstr "オーディエンスアーカイブ"
 
-#: src/Core/LineConnect.php:1065
+#: src/Core/LineConnect.php:1082
 msgid "Audience Attributes"
 msgstr "オーディエンスの属性"
 
-#: src/Core/LineConnect.php:1066
+#: src/Core/LineConnect.php:1083
 msgid "Insert into Audience"
 msgstr "オーディエンスに挿入"
 
-#: src/Core/LineConnect.php:1067
+#: src/Core/LineConnect.php:1084
 msgid "Uploaded to this Audience"
 msgstr "このオーディエンスにアップロード済み"
 
-#: src/Core/LineConnect.php:1072
+#: src/Core/LineConnect.php:1089
 msgid "Filter Audiences list"
 msgstr "オーディエンスリストをフィルタリング"
 
-#: src/Core/LineConnect.php:1073
+#: src/Core/LineConnect.php:1090
 msgid "Audiences list navigation"
 msgstr "オーディエンスリストのナビゲーション"
 
-#: src/Core/LineConnect.php:1074
+#: src/Core/LineConnect.php:1091
 msgid "Audiences list"
 msgstr "オーディエンスリスト"
 
-#: src/Core/LineConnect.php:1075
+#: src/Core/LineConnect.php:1092
 msgid "Audience published."
 msgstr "オーディエンスが公開されました。"
 
-#: src/Core/LineConnect.php:1076
+#: src/Core/LineConnect.php:1093
 msgid "Audience published privately."
 msgstr "オーディエンスが非公開で公開されました。"
 
-#: src/Core/LineConnect.php:1077
+#: src/Core/LineConnect.php:1094
 msgid "Audience reverted to draft."
 msgstr "オーディエンスが下書きに戻されました。"
 
-#: src/Core/LineConnect.php:1078
+#: src/Core/LineConnect.php:1095
 msgid "Audience scheduled."
 msgstr "オーディエンスが予約されました。"
 
-#: src/Core/LineConnect.php:1079
+#: src/Core/LineConnect.php:1096
 msgid "Audience updated."
 msgstr "オーディエンスが更新されました。"
 
-#: src/Core/LineConnect.php:1081
+#: src/Core/LineConnect.php:1098
 msgid "LINE Connect Audiences"
 msgstr "LINE Connect オーディエンス"
 
-#: src/Core/LineConnect.php:1101 src/Core/LineConnect.php:1112
+#: src/Core/LineConnect.php:1118 src/Core/LineConnect.php:1129
 #: src/Scenario/Admin.php:32
 msgid "Scenarios"
 msgstr "シナリオ"
 
-#: src/Core/LineConnect.php:1104
+#: src/Core/LineConnect.php:1121
 msgid "Add New Scenario"
 msgstr "新規シナリオを追加"
 
-#: src/Core/LineConnect.php:1105
+#: src/Core/LineConnect.php:1122
 msgid "Edit Scenario"
 msgstr "シナリオを編集"
 
-#: src/Core/LineConnect.php:1106
+#: src/Core/LineConnect.php:1123
 msgid "New Scenario"
 msgstr "新規シナリオ"
 
-#: src/Core/LineConnect.php:1107
+#: src/Core/LineConnect.php:1124
 msgid "View Scenario"
 msgstr "シナリオを表示"
 
-#: src/Core/LineConnect.php:1108
+#: src/Core/LineConnect.php:1125
 msgid "Search Scenarios"
 msgstr "シナリオを検索"
 
-#: src/Core/LineConnect.php:1109
+#: src/Core/LineConnect.php:1126
 msgid "No Scenarios found"
 msgstr "シナリオが見つかりません"
 
-#: src/Core/LineConnect.php:1110
+#: src/Core/LineConnect.php:1127
 msgid "No Scenarios found in Trash"
 msgstr "ゴミ箱にシナリオが見つかりません"
 
-#: src/Core/LineConnect.php:1113
+#: src/Core/LineConnect.php:1130
 msgid "All Scenarios"
 msgstr "すべてのシナリオ"
 
-#: src/Core/LineConnect.php:1114
+#: src/Core/LineConnect.php:1131
 msgid "Scenario Archives"
 msgstr "シナリオアーカイブ"
 
-#: src/Core/LineConnect.php:1115
+#: src/Core/LineConnect.php:1132
 msgid "Scenario Attributes"
 msgstr "シナリオ属性"
 
-#: src/Core/LineConnect.php:1116
+#: src/Core/LineConnect.php:1133
 msgid "Insert into Scenario"
 msgstr "シナリオに挿入"
 
-#: src/Core/LineConnect.php:1117
+#: src/Core/LineConnect.php:1134
 msgid "Uploaded to this Scenario"
 msgstr "このシナリオにアップロード済み"
 
-#: src/Core/LineConnect.php:1122
+#: src/Core/LineConnect.php:1139
 msgid "Filter Scenarios list"
 msgstr "シナリオリストを絞り込む"
 
-#: src/Core/LineConnect.php:1123
+#: src/Core/LineConnect.php:1140
 msgid "Scenarios list navigation"
 msgstr "シナリオリストのナビゲーション"
 
-#: src/Core/LineConnect.php:1124
+#: src/Core/LineConnect.php:1141
 msgid "Scenarios list"
 msgstr "シナリオリスト"
 
-#: src/Core/LineConnect.php:1125
+#: src/Core/LineConnect.php:1142
 msgid "Scenario published."
 msgstr "シナリオを公開しました。"
 
-#: src/Core/LineConnect.php:1126
+#: src/Core/LineConnect.php:1143
 msgid "Scenario published privately."
 msgstr "シナリオを非公開で公開しました。"
 
-#: src/Core/LineConnect.php:1127
+#: src/Core/LineConnect.php:1144
 msgid "Scenario reverted to draft."
 msgstr "シナリオを下書きに戻しました。"
 
-#: src/Core/LineConnect.php:1128
+#: src/Core/LineConnect.php:1145
 msgid "Scenario scheduled."
 msgstr "シナリオを予約しました。"
 
-#: src/Core/LineConnect.php:1129
+#: src/Core/LineConnect.php:1146
 msgid "Scenario updated."
 msgstr "シナリオを更新しました。"
 
-#: src/Core/LineConnect.php:1131
+#: src/Core/LineConnect.php:1148
 msgid "LINE Connect Scenarios"
 msgstr "LINE Connectシナリオ"
+
+#: src/Core/LineConnect.php:1168 src/Core/LineConnect.php:1179
+msgid "Action Flows"
+msgstr "アクションフロー"
+
+#: src/Core/LineConnect.php:1169
+msgid "Action Flow"
+msgstr "アクションフロー"
+
+#: src/Core/LineConnect.php:1171
+msgid "Add New Action Flow"
+msgstr "新しいアクションフローを追加"
+
+#: src/Core/LineConnect.php:1172
+msgid "Edit Action Flow"
+msgstr "アクションフローを編集"
+
+#: src/Core/LineConnect.php:1173
+msgid "New Action Flow"
+msgstr "新規アクションフロー"
+
+#: src/Core/LineConnect.php:1174
+msgid "View Action Flow"
+msgstr "アクションフローを表示"
+
+#: src/Core/LineConnect.php:1175
+msgid "Search Action Flows"
+msgstr "アクションフローを検索"
+
+#: src/Core/LineConnect.php:1176
+msgid "No Action Flows found"
+msgstr "アクションフローが見つかりません"
+
+#: src/Core/LineConnect.php:1177
+msgid "No Action Flows found in Trash"
+msgstr "ゴミ箱にアクションフローが見つかりません"
+
+#: src/Core/LineConnect.php:1180
+msgid "All Action Flows"
+msgstr "すべてのアクションフロー"
+
+#: src/Core/LineConnect.php:1181
+msgid "Action Flow Archives"
+msgstr "アクションフローアーカイブ"
+
+#: src/Core/LineConnect.php:1182
+msgid "Action Flow Attributes"
+msgstr "アクションフロー属性"
+
+#: src/Core/LineConnect.php:1183
+msgid "Insert into Action Flow"
+msgstr "アクションフローに挿入"
+
+#: src/Core/LineConnect.php:1184
+msgid "Uploaded to this Action Flow"
+msgstr "このアクションフローにアップロード済み"
+
+#: src/Core/LineConnect.php:1189
+msgid "Filter Action Flows list"
+msgstr "アクションフローリストを絞り込む"
+
+#: src/Core/LineConnect.php:1190
+msgid "Action Flows list navigation"
+msgstr "アクションフローリストのナビゲーション"
+
+#: src/Core/LineConnect.php:1191
+msgid "Action Flows list"
+msgstr "アクションフローリスト"
+
+#: src/Core/LineConnect.php:1192
+msgid "Action Flow published."
+msgstr "アクションフローを公開しました。"
+
+#: src/Core/LineConnect.php:1193
+msgid "Action Flow published privately."
+msgstr "アクションフローを非公開で公開しました。"
+
+#: src/Core/LineConnect.php:1194
+msgid "Action Flow reverted to draft."
+msgstr "アクションフローを下書きに戻しました。"
+
+#: src/Core/LineConnect.php:1195
+msgid "Action Flow scheduled."
+msgstr "アクションフローを予約しました。"
+
+#: src/Core/LineConnect.php:1196
+msgid "Action Flow updated."
+msgstr "アクションフローを更新しました。"
+
+#: src/Core/LineConnect.php:1198
+msgid "LINE Connect Action Flows"
+msgstr "LINE Connect アクションフロー"
+
+#: src/ActionExecute/Admin.php:32
+msgid "LINE Connect Action Execute"
+msgstr "LINE Connect アクション実行"
+
+#: src/ActionExecute/Admin.php:34
+msgid "Action Execute"
+msgstr "アクション実行"
 
 #: src/Scenario/Scenario.php:80 src/Scenario/Scenario.php:81
 msgid "Steps"
@@ -4248,7 +4362,9 @@ msgid ""
 "Choose whether to execute the step immediately after the exact interval "
 "elapses or to align the execution to a specified minute marker within the "
 "next hour."
-msgstr "ステップを、設定した間隔値が経過した後ぴったりに実行するか、経過後指定したタイミングで実行するかを選択します。"
+msgstr ""
+"ステップを、設定した間隔値が経過した後ぴったりに実行するか、経過後指定したタ"
+"イミングで実行するかを選択します。"
 
 #: src/Scenario/Scenario.php:206 src/Scenario/Scenario.php:257
 msgid "Exact Interval Execution"
@@ -4258,15 +4374,22 @@ msgstr "間隔値経過後ピッタリに実行"
 msgid ""
 "The step executes precisely after the full interval has elapsed (for "
 "example, if the interval is 1 hour, it runs exactly 1 hour later)."
-msgstr "ステップは、設定した間隔値が経過した後ぴったりの時刻に実行されます（例えば、間隔が1時間の場合、ぴったり1時間後に実行されます）。"
+msgstr ""
+"ステップは、設定した間隔値が経過した後ぴったりの時刻に実行されます（例えば、"
+"間隔が1時間の場合、ぴったり1時間後に実行されます）。"
 
 #: src/Scenario/Scenario.php:211
 msgid "Align to Minute Marker"
 msgstr "実行する分を指定する"
 
 #: src/Scenario/Scenario.php:212
-msgid "After advancing by the specified number of hours, the step executes at the designated minute mark (for example, if set to minute 05, it executes at HH:05)."
-msgstr "指定された時間数が経過した後、設定された分に実行されます（例：05分に設定した場合、HH:05に実行）。"
+msgid ""
+"After advancing by the specified number of hours, the step executes at the "
+"designated minute mark (for example, if set to minute 05, it executes at "
+"HH:05)."
+msgstr ""
+"指定された時間数が経過した後、設定された分に実行されます（例：05分に設定した"
+"場合、HH:05に実行）。"
 
 #: src/Scenario/Scenario.php:236
 msgid "Minute"
@@ -4277,20 +4400,32 @@ msgid "Specify the minute within the hour (e.g., 5 for HH:05)."
 msgstr "時刻の「分」を指定してください（例：HH:05の場合は5）。"
 
 #: src/Scenario/Scenario.php:253
-msgid "Choose whether to execute the step immediately after the exact interval elapses or to align the execution to a specific time on subsequent days."
-msgstr "設定した間隔値が経過した後ぴったりに実行するか、特定の時刻に実行するかを選択してください。"
+msgid ""
+"Choose whether to execute the step immediately after the exact interval "
+"elapses or to align the execution to a specific time on subsequent days."
+msgstr ""
+"設定した間隔値が経過した後ぴったりに実行するか、特定の時刻に実行するかを選択"
+"してください。"
 
 #: src/Scenario/Scenario.php:258
-msgid "The step executes precisely after the full interval has elapsed (for example, if the interval is 2 days, it runs exactly 48 hours later)."
-msgstr "設定した間隔値が経過した後ぴったりに実行されます（例：間隔が2日の場合、ちょうど48時間後に実行）。"
+msgid ""
+"The step executes precisely after the full interval has elapsed (for "
+"example, if the interval is 2 days, it runs exactly 48 hours later)."
+msgstr ""
+"設定した間隔値が経過した後ぴったりに実行されます（例：間隔が2日の場合、ちょう"
+"ど48時間後に実行）。"
 
 #: src/Scenario/Scenario.php:262
 msgid "Specific Daily Time"
 msgstr "指定日時"
 
 #: src/Scenario/Scenario.php:263
-msgid "After advancing by the specified number of days, the step executes at the designated time (e.g., 14:30 would trigger at 2:30 PM on the target day)."
-msgstr "指定された分の日数を加えた日の、設定された時刻に実行されます（例：14:30と設定した場合、該当日の午後2時30分に実行）。"
+msgid ""
+"After advancing by the specified number of days, the step executes at the "
+"designated time (e.g., 14:30 would trigger at 2:30 PM on the target day)."
+msgstr ""
+"指定された分の日数を加えた日の、設定された時刻に実行されます（例：14:30と設定"
+"した場合、該当日の午後2時30分に実行）。"
 
 #: src/Scenario/Scenario.php:286 src/Scenario/Scenario.php:329
 #: src/Scenario/Scenario.php:377 src/Scenario/Scenario.php:420
@@ -4307,8 +4442,12 @@ msgid "Specify the time of day in HH:mm format (e.g., 12:10)."
 msgstr "時刻をHH:mm形式で指定してください（例：12:10）。"
 
 #: src/Scenario/Scenario.php:303
-msgid "Choose whether to execute the step at a specific time within the week or to align execution to a specific weekday and time."
-msgstr "設定された週数が経過した後の特定の時刻に実行するか、特定の曜日と時刻に合わせて実行するかを選択してください。"
+msgid ""
+"Choose whether to execute the step at a specific time within the week or to "
+"align execution to a specific weekday and time."
+msgstr ""
+"設定された週数が経過した後の特定の時刻に実行するか、特定の曜日と時刻に合わせ"
+"て実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:307 src/Scenario/Scenario.php:398
 #: src/Scenario/Scenario.php:589
@@ -4316,15 +4455,21 @@ msgid "Exact Time Execution"
 msgstr "実行する時刻を指定する"
 
 #: src/Scenario/Scenario.php:308
-msgid "The step executes at a specified time within the week (e.g., 12:10 on any day of the week)."
-msgstr "設定された週数が経過した後、指定された時刻に実行されます（例：その週の12:10）。"
+msgid ""
+"The step executes at a specified time within the week (e.g., 12:10 on any "
+"day of the week)."
+msgstr ""
+"設定された週数が経過した後、指定された時刻に実行されます（例：その週の"
+"12:10）。"
 
 #: src/Scenario/Scenario.php:312
 msgid "Align to Weekday and Time"
 msgstr "曜日と時刻を指定する"
 
 #: src/Scenario/Scenario.php:313
-msgid "The step executes on a specified weekday at a specified time (e.g., Saturday at 12:10)."
+msgid ""
+"The step executes on a specified weekday at a specified time (e.g., Saturday "
+"at 12:10)."
 msgstr "指定された曜日の指定時刻に実行されます（例：土曜日の12:10）。"
 
 #: src/Scenario/Scenario.php:371
@@ -4336,20 +4481,32 @@ msgid "Specify the day of the week (e.g., Saturday)."
 msgstr "曜日を指定してください（例：土曜日）。"
 
 #: src/Scenario/Scenario.php:394
-msgid "Choose whether to execute the step at a specific time within the month or to align execution to a specific day and time."
-msgstr "指定された月数が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせて実行するかを選択してください。"
+msgid ""
+"Choose whether to execute the step at a specific time within the month or to "
+"align execution to a specific day and time."
+msgstr ""
+"指定された月数が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせ"
+"て実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:399
-msgid "The step executes at a specified time within the month (e.g., 12:10 on any day of the month)."
-msgstr "指定された月数が経過した後、指定された時刻に実行されます（例：その日の12:10）。"
+msgid ""
+"The step executes at a specified time within the month (e.g., 12:10 on any "
+"day of the month)."
+msgstr ""
+"指定された月数が経過した後、指定された時刻に実行されます（例：その日の"
+"12:10）。"
 
 #: src/Scenario/Scenario.php:403
 msgid "Align to Day and Time"
 msgstr "日付と時刻を指定する"
 
 #: src/Scenario/Scenario.php:404
-msgid "The step executes on a specified day of the month at a specified time (e.g., the 15th at 12:10)."
-msgstr "指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の12:10）。"
+msgid ""
+"The step executes on a specified day of the month at a specified time (e.g., "
+"the 15th at 12:10)."
+msgstr ""
+"指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の"
+"12:10）。"
 
 #: src/Scenario/Scenario.php:562 src/Scenario/Scenario.php:804
 msgid "Day of the month"
@@ -4360,12 +4517,20 @@ msgid "Specify the day of the month (e.g., 15)."
 msgstr "日付を指定してください（例：15）。"
 
 #: src/Scenario/Scenario.php:585
-msgid "Choose whether to execute the step at a specific time within the year or to align execution to a specific month, day, and time."
-msgstr "ぴったり間隔値が経過した日の指定された時刻に実行するか、特定の月日と時刻に合わせて実行するかを選択してください。"
+msgid ""
+"Choose whether to execute the step at a specific time within the year or to "
+"align execution to a specific month, day, and time."
+msgstr ""
+"ぴったり間隔値が経過した日の指定された時刻に実行するか、特定の月日と時刻に合"
+"わせて実行するかを選択してください。"
 
 #: src/Scenario/Scenario.php:590
-msgid "The step executes at a specified time within the year (e.g., 12:10 on any date)."
-msgstr "ぴったり間隔値が経過した日の指定された時刻に実行されます（例：任意の日の12:10）。"
+msgid ""
+"The step executes at a specified time within the year (e.g., 12:10 on any "
+"date)."
+msgstr ""
+"ぴったり間隔値が経過した日の指定された時刻に実行されます（例：任意の日の"
+"12:10）。"
 
 #: src/Scenario/Scenario.php:594
 msgid "Align to Month, Day, and Time"
@@ -4402,8 +4567,12 @@ msgid "Destination"
 msgstr "宛先"
 
 #: src/Scenario/Scenario.php:1331
-msgid "Determines whether the step is executed exactly after the interval or at the next standard time reference."
-msgstr "ステップを間隔がちょうど経過した後に実行するか、次の基準となるタイミングに実行するかを決定します。"
+msgid ""
+"Determines whether the step is executed exactly after the interval or at the "
+"next standard time reference."
+msgstr ""
+"ステップを間隔がちょうど経過した後に実行するか、次の基準となるタイミングに実"
+"行するかを決定します。"
 
 #: src/Scenario/Scenario.php:1335
 msgid "Exact After Interval"
@@ -4418,68 +4587,104 @@ msgid "Base Time Reference"
 msgstr "基準タイミング"
 
 #: src/Scenario/Scenario.php:1341
-msgid "Executes the step at the next base time reference (e.g., the next hour, day, etc.)."
+msgid ""
+"Executes the step at the next base time reference (e.g., the next hour, day, "
+"etc.)."
 msgstr "次の基準となるタイミング（次の時間、日など）にステップを実行します。"
 
-#: src/Scenario/Scenario.php:1460
+#: src/Scenario/Scenario.php:1463
 msgid "Add LINE group ID"
 msgstr "LINEグループIDを追加"
 
-#: src/Scenario/Scenario.php:1465
+#: src/Scenario/Scenario.php:1468
 msgid "Add LINE Room ID"
 msgstr "LINEルームIDを追加"
 
-#: src/Scenario/Scenario.php:1478 src/Scenario/Scenario.php:1495
+#: src/Scenario/Scenario.php:1481 src/Scenario/Scenario.php:1498
 msgid "Add value"
 msgstr "値を追加"
 
-#: src/Scenario/Scenario.php:1500
+#: src/Scenario/Scenario.php:1503
 msgid "Add profile"
 msgstr "プロフィール追加"
 
-#: src/Scenario/Scenario.php:1516
+#: src/Scenario/Scenario.php:1519 src/ActionFlow/ActionFlow.php:111
 msgid "Add parameter"
 msgstr "パラメータ追加"
 
-#: src/Scenario/Scenario.php:1531
+#: src/Scenario/Scenario.php:1534
 msgid "Add step"
 msgstr "ステップ追加"
 
-#: src/Scenario/Scenario.php:1560
+#: src/Scenario/Scenario.php:1563
 msgid "Scenario already started"
 msgstr "シナリオは既に開始されています"
 
-#: src/Scenario/Scenario.php:1565
+#: src/Scenario/Scenario.php:1568
 msgid "Scenario is currently active"
 msgstr "シナリオは現在アクティブです"
 
-#: src/Scenario/Scenario.php:1568
+#: src/Scenario/Scenario.php:1571
 msgid "Scenario is not completed"
 msgstr "シナリオは完了していません"
 
-#: src/Scenario/Scenario.php:1577
+#: src/Scenario/Scenario.php:1580
 msgid "Invalid flag provided"
 msgstr "無効なフラグが指定されました"
 
-#: src/Scenario/Scenario.php:1587
+#: src/Scenario/Scenario.php:1590
 msgid "Failed to start scenario"
 msgstr "シナリオの開始に失敗しました"
 
-#: src/Scenario/Scenario.php:1745 src/Scenario/Scenario.php:1878
+#: src/Scenario/Scenario.php:1748 src/Scenario/Scenario.php:1881
 msgid "Scenario not found"
 msgstr "シナリオが見つかりません"
 
-#: src/Scenario/Scenario.php:1753
+#: src/Scenario/Scenario.php:1756
 msgid "Scenario already completed"
 msgstr "シナリオは既に完了しています"
 
-#: src/Scenario/Scenario.php:1769 src/Scenario/Scenario.php:1903
+#: src/Scenario/Scenario.php:1772 src/Scenario/Scenario.php:1906
 msgid "Step not found"
 msgstr "ステップが見つかりません"
 
-#: src/Scenario/Admin.php:30
+#: src/Scenario/Admin.php:30 src/Scenario/Admin.php:57
 msgid "LINE Connect Scenario"
 msgstr "LINE Connectシナリオ"
+
+#: src/ActionFlow/ActionFlow.php:158
+msgid "Broadcast is not supported."
+msgstr "ブロードキャストはサポートされていません。"
+
+#: src/ActionFlow/ActionFlow.php:179
+#, php-format
+msgid "Action executed %s person."
+msgstr "アクションが%s人に実行されました。"
+
+#: src/ActionFlow/ActionFlow.php:186
+#, php-format
+msgid "Action execution failed for %s person."
+msgstr "アクションの実行が%s人に対して失敗しました。"
+
+#: src/ActionFlow/Admin.php:32 src/ActionFlow/Admin.php:59
+msgid "LINE Connect ActionFlow"
+msgstr "LINE Connectアクションフロー"
+
+#: src/ActionFlow/Admin.php:34
+msgid "ActionFlows"
+msgstr "アクションフロー"
+
+#~ msgid "Template"
+#~ msgstr "テンプレート"
+
+#~ msgid "Execute Action Flow"
+#~ msgstr "アクションフローを実行"
+
+#~ msgid "Count Recipients"
+#~ msgstr "受信者の数をカウント"
+
+#~ msgid "Execute"
+#~ msgstr "実行"
 
 #~ msgid "Students"
 #~ msgstr "生徒"

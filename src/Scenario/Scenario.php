@@ -1344,6 +1344,8 @@ class Scenario {
 				),
 			),
 		);
+		lineconnectAction::build_action_schema_items($step_schema['items']['properties']['actions']['items']['oneOf']);
+		/*
 		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
 		if (!empty($action_array)) {
 			foreach ($action_array as $name => $action) {
@@ -1396,6 +1398,7 @@ class Scenario {
 				),
 			);
 		}
+		*/
 		$all_roles = array();
 		foreach (wp_roles()->roles as $role_name => $role) {
 			$all_roles[] = array(
@@ -1777,26 +1780,23 @@ class Scenario {
 		$event->source->userId = $line_user_id;
 		$condition_matched = Condition::evaluate_conditions($step_data['condition'], $secret_prefix, $line_user_id);
 		if ($condition_matched) {
-			$messages = lineconnectAction::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
-			if (! empty($messages)) {
+			$action_result = lineconnectAction::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
+			if (! empty($action_result['messages'])) {
 				$channel = lineconnect::get_channel($secret_prefix);
-				$multimessage = lineconnectMessage::createMultiMessage($messages);
+				$multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);
 				$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $multimessage);
-
-				if (!$response['success']) {
-					$log = array(
-						'step' => $step_data['id'],
-						'date' => wp_date('Y-m-d H:i:s'),
-						'result' => 'error',
-						'message' => $response['message'] ?? '',
-					);
-					$logs = array_merge($line_user_scenario_status['logs'] ?? [], [$log]);
-					self::update_scenario_status($scenario_id, self::STATUS_ERROR, $line_user_id, $secret_prefix, ['logs' => $logs]);
-					return $log; // Uncommenting to return false when there's an error
-				}
 			}
-			//
-
+			if (!$action_result['success'] || (isset($response['success']) && !$response['success'])) {
+				$log = array(
+					'step' => $step_data['id'],
+					'date' => wp_date('Y-m-d H:i:s'),
+					'result' => 'error',
+					'message' => !$action_result['success'] ? $action_result['results'] : ($response['message'] ?? ''),
+				);
+				$logs = array_merge($line_user_scenario_status['logs'] ?? [], [$log]);
+				self::update_scenario_status($scenario_id, self::STATUS_ERROR, $line_user_id, $secret_prefix, ['logs' => $logs]);
+				return $log; // Returning error log if there's an error
+			}
 		}
 		$log = array(
 			'step' => $step_data['id'],
@@ -1849,7 +1849,10 @@ class Scenario {
 				$status = self::STATUS_ACTIVE;
 				$last_executed_at = $line_user_scenario_status['next_date'] ?? wp_date('Y-m-d H:i:s');
 				$next_date = Schedule::getNextSchedule($step_data['schedule'] ?? [], $last_executed_at);
-				if (!$next_date) {
+				$now = new \DateTime();
+				if (!$next_date || $now > new \DateTime($next_date)) { // if next date is in the past set current date
+					// error_log(print_r($next_date, true));
+					// error_log(print_r($now, true));
 					$next_date = wp_date('Y-m-d H:i:s');
 				}
 				$addtional['next'] = $next;
@@ -1883,7 +1886,7 @@ class Scenario {
 
 		$current_step_data = null;
 		foreach ($scenario as $step) {
-			if (isset($line_user_scenario_status['next']) && $line_user_scenario_status['next'] === null || $step['id'] === $line_user_scenario_status['next']) {
+			if (isset($line_user_scenario_status['next']) && ($line_user_scenario_status['next'] === null || $step['id'] === $line_user_scenario_status['next'])) {
 				$current_step_data = $step;
 				break;
 			}
@@ -1906,7 +1909,8 @@ class Scenario {
 
 		$next = $next_step_data['id'] ?? null;
 		$next_date = $next_date ? wp_date('Y-m-d H:i:s', strtotime($next_date)) : ($line_user_scenario_status['next_date'] ?? (Schedule::getNextSchedule($current_step_data['schedule'] ?? [], wp_date('Y-m-d H:i:s')) ?? wp_date('Y-m-d H:i:s')));
-		if (!$next_date) {
+		$now = new \DateTime();
+		if (!$next_date || $now > new \DateTime($next_date)) { // if next date is in the past set current date
 			$next_date = wp_date('Y-m-d H:i:s');
 		}
 

@@ -38,6 +38,9 @@ const sidebars = {
     'trigger',
     'message',
     'audience',
+    'scenario',
+    'actionflow',
+    'action-execute',
     {
       type: 'category',
       label: 'For developers',
