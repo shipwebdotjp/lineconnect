@@ -79,7 +79,7 @@ Filter users based on user metadata.
 #### Comparison Methods
 The following comparison operators can be used:
 
-- **=, !=, >, >=, <, <=**
+- **`=`, `!=`, `>`, `>=`, `<`, `<=`**
   - `!=` targets users where the key exists and the value is different. If the key does not exist, it is **not** included.
 
 - **Partial Match (LIKE), Not a Partial Match (NOT LIKE)**
