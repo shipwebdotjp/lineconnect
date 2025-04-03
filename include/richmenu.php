@@ -39,7 +39,7 @@ class lineconnectRichmenu {
 			// メニューに紐づく画面を描画するcallback関数：
 			array('lineconnectRichmenu', 'show_add_richmenu'),
 			// メニューの位置
-			100
+			NULL
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectRichmenu', 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectRichmenu', 'wpdocs_plugin_admin_scripts'));

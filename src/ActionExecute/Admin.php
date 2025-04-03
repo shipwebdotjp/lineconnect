@@ -45,7 +45,7 @@ class Admin {
             // メニューに紐づく画面を描画するcallback関数：
             array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'show_form'),
             // メニューの位置
-            20
+            NULL
         );
         add_action("admin_print_styles-{$page_hook_suffix}", array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'wpdocs_plugin_admin_styles'));
         add_action("admin_print_scripts-{$page_hook_suffix}", array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'wpdocs_plugin_admin_scripts'));

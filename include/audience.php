@@ -29,9 +29,9 @@ class lineconnectAudience {
             __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
             __('Audiences', lineconnect::PLUGIN_NAME),
             'manage_options',
-            'edit.php?post_type=slc_audience',
+            'edit.php?post_type=' . lineconnectConst::POST_TYPE_AUDIENCE,
             false,
-            50
+            NULL
         );
     }
 

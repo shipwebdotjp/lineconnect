@@ -41,11 +41,11 @@ class Admin {
             // ・設定 > パーマリンク設定
             'manage_options',
             // ページを開いたときのURL(slug)：
-            'edit.php?post_type=slc_' . ActionFlow::NAME,
+            'edit.php?post_type=' . ActionFlow::POST_TYPE,
             // メニューに紐づく画面を描画するcallback関数：
             false,
             // メニューの位置
-            80
+            NULL
         );
         // remove_menu_page( lineconnect::SLUG__DM_FORM );
     }

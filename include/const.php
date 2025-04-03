@@ -12,6 +12,11 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use Shipweb\LineConnect\ActionExecute\ActionExecute;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\Scenario\Scenario;
+
+
 class lineconnectConst {
 	/**
 	 * チャンネルごとに持つパラメーター（設定画面）
@@ -261,7 +266,6 @@ class lineconnectConst {
 	 * DBバージョンのキー
 	 */
 	const DB_VERSION_KEY = 'db_version';
-
 
 	const ASSETS_SVG_FILENAME = 'assets/symbol-defs.svg';
 

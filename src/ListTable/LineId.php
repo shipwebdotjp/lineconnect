@@ -267,8 +267,33 @@ class LineId extends \WP_List_Table {
     public function column_created_at($item) {
         return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($item['created_at']));
     }
+
     public function column_updated_at($item) {
         return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($item['updated_at']));
+    }
+
+    protected function handle_row_actions($item, $column_name, $primary) {
+        if ($column_name === 'line_id') {
+            $dm_url  = add_query_arg(
+                array(
+                    'line_id'        => $item['line_id'],
+                    'channel_prefix' => $item['channel_prefix'],
+                    'action'         => 'message',
+                ),
+                admin_url('admin.php?page=' . lineconnect::SLUG__DM_FORM)
+            );
+            // copy line_id to clipboard
+            $copy_line_id = sprintf(
+                '<a class="copy-line-id" onclick="copyToClipboard(\'%s\', this)" style="cursor: pointer;">%s</a>',
+                esc_attr($item['line_id']),
+                __('Copy', lineconnect::PLUGIN_NAME)
+            );
+            $actions = array(
+                'message' => sprintf('<a href="%s">%s</a>', $dm_url, __('Message', lineconnect::PLUGIN_NAME)),
+                'copy'    => $copy_line_id,
+            );
+            return $this->row_actions($actions);
+        }
     }
 
     protected function extra_tablenav($which) {

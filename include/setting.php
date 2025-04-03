@@ -39,7 +39,7 @@ class lineconnectSetting {
 			// メニューに紐づく画面を描画するcallback関数：
 			array('lineconnectSetting', 'show_settings'),
 			// メニューの位置
-			200
+			NULL
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectSetting', 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectSetting', 'wpdocs_plugin_admin_scripts'));

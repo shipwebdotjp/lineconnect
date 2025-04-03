@@ -21,12 +21,15 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 * Insert user's name etc. into the message and send it
 ### Direct Messages
 * Text messages can be sent to LINE users who have an event log, even if they are not connected to LINE.
-### Trigger
-* Execute specified actions as triggers for specified dates and times and various Webhook events
 ### Audience
 * Create audiences that narrow down users based on user attributes and call them when sending messages or executing actions
 ### Scenario
 * Execute actions such as sending messages at specified time intervals
+### Action Flow
+* Execute actions in sequence
+* Action chain that uses the return value of the action in the next action
+### Trigger
+* Execute specified actions as triggers for specified dates and times and various Webhook events
 ### Rich Menu
 * Create a new rich menu based on existing rich menus and templates
 * Rich menu ID can be set for linked users, unlinked users, and roles

@@ -41,7 +41,7 @@ class lineconnectSLCMessage {
 			// メニューに紐づく画面を描画するcallback関数：
 			false,
 			// メニューの位置
-			60
+			NULL
 		);
 		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}

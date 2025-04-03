@@ -34,7 +34,7 @@ class lineconnectDm {
 			// メニューに紐づく画面を描画するcallback関数：
 			array('lineconnectDm', 'show_dm'),
 			// メニューの位置
-			40
+			NULL
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectDm', 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectDm', 'wpdocs_plugin_admin_scripts'));
@@ -74,7 +74,7 @@ class lineconnectDm {
 		echo <<< EOM
 <div id="line_dm_root"></div>
 <script>
-var lc_initdata = JSON.parse(`{$inidata}`);
+var lc_initdata = {$inidata};
 </script>
 EOM;
 	}

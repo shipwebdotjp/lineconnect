@@ -16,7 +16,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.1.3';
+	const VERSION = '4.1.4';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -415,26 +415,60 @@ class LineConnect {
 
 		// 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
+			//メニュー追加
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
 			add_action('admin_menu', array(DashboardAdmin::class, 'set_plugin_menu'));
-			// 管理画面のトップメニューページを追加
+			// 一括配信のメニューページを追加
+			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
+			// ダイレクトメッセージのメニューを追加
+			add_action('admin_menu', array('lineconnectDm', 'set_plugin_menu'));
+			// アクション実行のトップページメニューを追加
+			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
+			// LCメッセージのメニューを追加
+			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
+			// オーディエンスのメニューを追加
+			add_action('admin_menu', array('lineconnectAudience', 'set_plugin_menu'));
+			// アクションフローのメニューを追加
+			add_action('admin_menu', array(\Shipweb\LineConnect\ActionFlow\Admin::class, 'set_plugin_menu'));
+			// トリガーのメニューを追加
+			add_action('admin_menu', array('lineconnectTrigger', 'set_plugin_menu'));
+			// シナリオのメニューを追加
+			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
+			// リッチメニューのメニューを追加
+			add_action('admin_menu', array('lineconnectRichmenu', 'set_plugin_menu'));
+			// LINE IDリストのメニューを追加
+			add_action('admin_menu', array($this, 'set_page_lineid'));
+			// BOT LOGリストのメニューを追加
+			add_action('admin_menu', array($this, 'set_page_gptlog'));
+			// 設定画面のメニューを追加
 			add_action('admin_menu', array('lineconnectSetting', 'set_plugin_menu'));
+			// オーディエンスダウンロードメニューページを追加
+			add_action('admin_menu', array('lineconnectAudience', 'set_download_menu'));
+
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック
 			add_action('admin_init', array('lineconnectSetting', 'save_settings'));
+
+			//カラム追加
 			// ユーザー一覧一覧のコラム追加
 			add_filter('manage_users_columns', array('lineconnectAdmin', 'lc_manage_columns'));
 			// ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
 			add_filter('manage_users_custom_column', array('lineconnectAdmin', 'lc_manage_custom_columns'), 10, 3);
-			// チャット画面のトップメニューページを追加
-			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
 			// ユーザー一覧の一括操作にメッセージ送信を追加
 			add_filter('bulk_actions-users', array('lineconnectAdmin', 'add_bulk_users_sendmessage'), 10, 1);
 			// 一括操作を行うフィルター
 			add_filter('handle_bulk_actions-users', array('lineconnectAdmin', 'handle_bulk_users_sendmessage'), 10, 3);
-			// チャット送信AJAXアクション
+			//シナリオにカラム追加
+			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
+			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
+			//オーディエンスにダウンロードカラム追加
+			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array('lineconnectAudience', 'add_download_column'));
+			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array('lineconnectAudience', 'add_download_column_content'), 10, 2);
+
+			// AJAXアクション
+			// 一括配信AJAXアクション
 			add_action('wp_ajax_lc_ajax_chat_send', array('lineconnectBulkMessage', 'ajax_chat_send'));
-			// チメッセージデータ取得AJAXアクション
+			// LCメッセージデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
 			// オーディエンスデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_audience', array('lineconnectAudience', 'ajax_get_slc_audience'));
@@ -444,37 +478,11 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_action_execute', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'ajax_action_execute'));
 			// ダッシュボードデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_dashboard', array(\Shipweb\LineConnect\Dashboard\Admin::class, 'ajax_get_dashboard'));
-			// LINE IDリストのトップメニューページを追加
-			add_action('admin_menu', array($this, 'set_page_lineid'));
-			// BOT LOGリストのトップメニューページを追加
-			add_action('admin_menu', array($this, 'set_page_gptlog'));
-			// DM画面のトップメニューページを追加
-			add_action('admin_menu', array('lineconnectDm', 'set_plugin_menu'));
 			// DM送信アクション
 			add_action('wp_ajax_lc_ajax_dm_send', array('lineconnectDm', 'ajax_dm_send'));
-			// ACTIONのトップメニューページを追加
-			//add_action( 'admin_menu', array( 'lineconnectAction', 'set_plugin_menu' ) );
-			// Triggerのトップメニューページを追加
-			add_action('admin_menu', array('lineconnectTrigger', 'set_plugin_menu'));
-			// Audienceのトップメニューページを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_plugin_menu'));
-			// Messageのトップメニューページを追加
-			// Audienceのダウンロードメニューページを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_download_menu'));
-			// Messageのトップメニューページを追加
-			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
-			// リッチメニューのトップメニューページを追加
-			add_action('admin_menu', array('lineconnectRichmenu', 'set_plugin_menu'));
-			// シナリオのトップメニューページを追加
-			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
-			// アクションフローのトップメニューページを追加
-			add_action('admin_menu', array(\Shipweb\LineConnect\ActionFlow\Admin::class, 'set_plugin_menu'));
-			//シナリオにカラム追加
-			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
-			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
 			// リッチメニュー一覧取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_richmenus', array('lineconnectRichmenu', 'ajax_get_richmenus'));
-			//　リッチメニュー取得AJAXアクション
+			// リッチメニュー取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_richmenu', array('lineconnectRichmenu', 'ajax_get_richmenu'));
 			// リッチメニュー削除AJAXアクション
 			add_action('wp_ajax_lc_ajax_delete_richmenu', array('lineconnectRichmenu', 'ajax_delete_richmenu'));
@@ -488,11 +496,6 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array('lineconnectRichmenu', 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array('lineconnectRichmenu', 'ajax_update_richmenu_alias'));
-			// アクション実行のトップページメニューを追加
-			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
-			//オーディエンスにダウンロードカラム追加
-			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array('lineconnectAudience', 'add_download_column'));
-			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array('lineconnectAudience', 'add_download_column_content'), 10, 2);
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
@@ -572,7 +575,7 @@ class LineConnect {
 			'manage_options',
 			self::SLUG__LINE_ID_LIST,
 			array($this, 'show_lineid_list'),
-			110
+			NULL
 		);
 
 		if (isset($_GET['page']) && self::SLUG__LINE_ID_LIST === $_GET['page']) {
@@ -583,6 +586,8 @@ class LineConnect {
 	function load_settings_page_lineid() {
 		require_once $this->root_dir . 'src/ListTable/LineId.php';
 		$this->lineid_list_table = new \Shipweb\LineConnect\ListTable\LineId();
+		$jsfile = 'assets/js/clipboard.js';
+		wp_enqueue_script(self::PLUGIN_PREFIX . 'clipboard-js', plugins_url($jsfile, $this->root_dir . self::PLUGIN_ENTRY_FILE_NAME), array(), filemtime($this->root_dir . $jsfile), true);
 	}
 
 	function show_lineid_list() {
@@ -610,7 +615,7 @@ class LineConnect {
 			// メニューに紐づく画面を描画するcallback関数：
 			array($this, 'show_gpt_log'),
 			// メニューの位置
-			120
+			NULL
 		);
 
 		if (isset($_GET['page']) && self::SLUG__LINE_GPTLOG === $_GET['page']) {

@@ -37,11 +37,11 @@ class lineconnectTrigger {
 			// ・設定 > パーマリンク設定
 			'manage_options',
 			// ページを開いたときのURL(slug)：
-			'edit.php?post_type=slc_trigger',
+			'edit.php?post_type=' . lineconnectConst::POST_TYPE_TRIGGER,
 			// メニューに紐づく画面を描画するcallback関数：
 			false,
 			// メニューの位置
-			90
+			NULL
 		);
 		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}

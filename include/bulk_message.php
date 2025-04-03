@@ -34,7 +34,7 @@ class lineconnectBulkMessage {
 			// メニューに紐づく画面を描画するcallback関数：
 			array('lineconnectBulkMessage', 'show_bulkmessage'),
 			// メニューの位置
-			20
+			NULL
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectBulkMessage', 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectBulkMessage', 'wpdocs_plugin_admin_scripts'));
