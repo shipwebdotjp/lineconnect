@@ -13,6 +13,14 @@
 
 ### Security
 - 
+## [4.1.1] - 2025-04-03
+### Changed
+- インストール用ZIPから不要なフォルダを削除し、サイズを減らしました。
+- Removed unnecessary folders from the installation ZIP to reduce size.
+
+### Fixed
+- ダッシュボードが表示されないバグを修正しました。
+- Fixed a bug that caused the dashboard to not display.
 
 ## [4.1.0] - 2025-04-03
 ### Added
