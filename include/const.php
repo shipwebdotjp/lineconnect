@@ -248,6 +248,16 @@ class lineconnectConst {
 	const TABLE_LINE_ID = 'lineconnect_line_id';
 
 	/**
+	 * LINE公式アカウント統計ログ MySQLテーブル名
+	 */
+	const TABLE_LINE_STATS = 'lineconnect_line_stats';
+
+	/**
+	 * LINE公式アカウント日々の増減数ログ MySQLテーブル名
+	 */
+	const TABLE_LINE_DAILY = 'lineconnect_line_daily';
+
+	/**
 	 * DBバージョンのキー
 	 */
 	const DB_VERSION_KEY = 'db_version';
@@ -1038,6 +1048,9 @@ class lineconnectConst {
 						'title' => __('Body', lineconnect::PLUGIN_NAME),
 						'description' => __('Message body', lineconnect::PLUGIN_NAME),
 						'required' => true,
+						'ui' => array(
+							'widget' => 'textarea',
+						),
 					),
 				),
 				'namespace'   => 'lineconnectFunctions',
@@ -1124,7 +1137,7 @@ class lineconnectConst {
 				'parameters'  => array(
 					array(
 						'type' => 'string',
-						'name' => 'raw_json',
+						'name' => 'json',
 						'title' => __('Raw Json', lineconnect::PLUGIN_NAME),
 						'description' => __('Raw Message JSON', lineconnect::PLUGIN_NAME),
 					),

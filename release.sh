@@ -2,7 +2,7 @@
 source ./.env
 sed -i '' "s/Stable tag: .*/Stable tag: ${LINE_CONNECT_VERSION}/" readme.txt
 sed -i '' "s/Version: .*/Version: ${LINE_CONNECT_VERSION}/" lineconnect.php
-sed -i '' "s/const VERSION = '.*/const VERSION = '${LINE_CONNECT_VERSION}';/" lineconnect.php
+sed -i '' "s/const VERSION = '.*/const VERSION = '${LINE_CONNECT_VERSION}';/" src/Core/LineConnect.php
 
 # ワーキングディレクトリを保存して後で利用可能にする
 WORKING_DIR=`pwd`
@@ -27,6 +27,16 @@ npm run build
 cd $WORKING_DIR
 
 cd frontend/action-execute
+npm run build
+cd $WORKING_DIR
+
+# ダッシュボードのビルド
+cd frontend/dashboard
+npm run build
+cd $WORKING_DIR
+
+## documentのビルド
+cd document
 npm run build
 cd $WORKING_DIR
 

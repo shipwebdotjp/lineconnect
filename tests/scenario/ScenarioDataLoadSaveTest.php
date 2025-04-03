@@ -267,12 +267,12 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $result = $func->set_scenario_step(self::$scenarios[0], 'first', '+1 minutes', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
         $this->assertEquals($result['next_date'], wp_date('Y-m-d H:i:s', strtotime('+1 minutes')), "Next date should be adjusted by +1 minute.");
 
-        $result = $func->set_scenario_step(self::$scenarios[0], 'first', '2025-01-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
-        $this->assertEquals($result['next_date'], '2025-01-01 15:00:00', "Next date should match the set date.");
+        $result = $func->set_scenario_step(self::$scenarios[0], 'first', '2125-01-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
+        $this->assertEquals($result['next_date'], '2125-01-01 15:00:00', "Next date should match the set date.");
 
         $func->set_scenario_id(self::$scenarios[0]);
-        $result = $func->set_scenario_step(null, 'first', '2025-02-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
-        $this->assertEquals($result['next_date'], '2025-02-01 15:00:00', "Next date should be adjusted by +1 minute.");
+        $result = $func->set_scenario_step(null, 'first', '2125-02-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
+        $this->assertEquals($result['next_date'], '2125-02-01 15:00:00', "Next date should be adjusted by +1 minute.");
 
         //条件分岐シナリオテスト
         $result = $func->start_scenario(self::$scenarios[1]);
@@ -330,6 +330,18 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $result = Scenario::execute_step(999999999999999, null, "U1ccd59c9cace6053f6614fb6997f978d", "2f38");
         $this->assertEquals($result['result'], 'error', "Executing a non-existent scenario should return an error.");
         $this->assertArrayHasKey('message', $result, "Error message should be present in the response for non-existent scenario.");
+
+        //シナリオ再スタート時にnextとnext_dateがリセットされることを確認
+        $result = $func_2f38_Uicc->start_scenario(self::$scenarios[1], 'always');
+        $this->assertEquals($result['result'], 'success', "Failed to start the conditional branch scenario.");
+        $status = Scenario::get_scenario_status(self::$scenarios[1], "U1ccd59c9cace6053f6614fb6997f978d", "2f38");
+        $this->assertNotEmpty($status, "Failed to get scenario status after starting conditional branch.");
+        $this->assertArrayHasKey('status', $status, "Status key is missing in the response for conditional branch.");
+        $this->assertEquals($status['status'], 'active', "Conditional branch scenario status is not active.");
+        $this->assertArrayHasKey('next', $status, "Next key is missing in the response for conditional branch.");
+        $this->assertArrayHasKey('next_date', $status, "Next date key is missing in the response for conditional branch.");
+        $this->assertEquals($status['next'], 'second', "Next scenario should be second for conditional branch.");
+        $this->assertEquals($status['next_date'], date('Y-m-d H:i:s', strtotime('+10 minutes')), "Next date should be 10 minutes after the start.");
     }
 
     public function test_duble_start_scenario() {

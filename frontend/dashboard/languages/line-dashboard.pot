@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
+
+#: src/routes/daily.jsx:105
+msgid "Back to Overview"
+msgstr ""
+
+#: src/routes/daily.jsx:110
+#: src/routes/dashboard.jsx:138
+msgid "Previous Month"
+msgstr ""
+
+#: src/routes/daily.jsx:137
+#: src/routes/dashboard.jsx:167
+msgid "Next Month"
+msgstr ""
+
+#: src/routes/daily.jsx:141
+#: src/routes/dashboard.jsx:171
+msgid "Refresh"
+msgstr ""
+
+#: src/routes/daily.jsx:148
+msgid "Daily Channel Statistics"
+msgstr ""
+
+#: src/routes/daily.jsx:160
+msgid "Date"
+msgstr ""
+
+#: src/routes/daily.jsx:161
+msgid "Followers"
+msgstr ""
+
+#: src/routes/daily.jsx:162
+#: src/routes/dashboard.jsx:193
+msgid "Target reach"
+msgstr ""
+
+#: src/routes/daily.jsx:163
+#: src/routes/dashboard.jsx:194
+msgid "Blocks"
+msgstr ""
+
+#: src/routes/daily.jsx:164
+#: src/routes/dashboard.jsx:196
+msgid "Linked"
+msgstr ""
+
+#: src/routes/daily.jsx:165
+msgid "New Follows"
+msgstr ""
+
+#: src/routes/daily.jsx:166
+msgid "Unfollows"
+msgstr ""
+
+#: src/routes/daily.jsx:167
+msgid "New Links"
+msgstr ""
+
+#: src/routes/daily.jsx:168
+msgid "Unlinks"
+msgstr ""
+
+#: src/routes/daily.jsx:169
+#: src/routes/dashboard.jsx:197
+msgid "Paid Messages"
+msgstr ""
+
+#: src/routes/daily.jsx:178
+#: src/routes/dashboard.jsx:207
+msgid "Loading..."
+msgstr ""
+
+#: src/routes/daily.jsx:200
+msgid "No data available for this period."
+msgstr ""
+
+#: src/routes/daily.jsx:52
+#: src/routes/dashboard.jsx:72
+msgid "Failed to fetch data. Please try again later."
+msgstr ""
+
+#: src/routes/daily.jsx:97
+msgid "Daily Statistics"
+msgstr ""
+
+#: src/routes/dashboard.jsx:129
+msgid "Search by channel name"
+msgstr ""
+
+#: src/routes/dashboard.jsx:178
+msgid "Channel Stats"
+msgstr ""
+
+#: src/routes/dashboard.jsx:191
+msgid "Channel Name"
+msgstr ""
+
+#: src/routes/dashboard.jsx:192
+msgid "Friends added"
+msgstr ""
+
+#: src/routes/dashboard.jsx:195
+msgid "Recognized count"
+msgstr ""
+
+#: src/routes/dashboard.jsx:233
+msgid "Profile"
+msgstr ""
+
+#: src/routes/dashboard.jsx:239
+msgid "No data found"
+msgstr ""
+
+#: src/routes/root.jsx:17
+msgid "Channels"
+msgstr ""

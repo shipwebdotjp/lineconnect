@@ -7,6 +7,7 @@ use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
 use \Shipweb\LineConnect\ActionFlow\ActionFlow;
 use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
 use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
+use \Shipweb\LineConnect\Dashboard\Admin as DashboardAdmin;
 
 class LineConnect {
 
@@ -15,12 +16,12 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '3.4.0';
+	const VERSION = '4.1.0';
 
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.3';
+	const DB_VERSION = '1.4';
 	// 1.3: line_user_idテーブルにinteractions, scenario, statsカラムの追加
 
 	/**
@@ -249,6 +250,16 @@ class LineConnect {
 	const SLUG__LINE_GPTLOG = self::PLUGIN_ID . '-linegpt-log';
 
 	/**
+	 * 画面のslug：LINE ID List
+	 */
+	const SLUG__LINE_ID_LIST = self::PLUGIN_ID . '-lineid-list';
+
+	/**
+	 * 画面のslug：オーディエンスダウンロード
+	 */
+	const SLUG__AUDIENCE_DOWNLOAD = self::PLUGIN_ID . '-audience-download';
+
+	/**
 	 * 画面のslug：LINE Dashboard
 	 */
 	const SLUG__DASHBOARD = self::PLUGIN_ID . '-dashboard';
@@ -307,6 +318,11 @@ class LineConnect {
 	 * チャットログリスト表示用クラス
 	 */
 	var $wp_gptlog_list_table;
+
+	/**
+	 * LINE IDリスト表示用クラス
+	 */
+	var $lineid_list_table;
 
 	/**
 	 * プラグインのルートディレクトリ
@@ -400,7 +416,7 @@ class LineConnect {
 		// 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
-			add_action('admin_menu', array('lineconnectDashboard', 'set_plugin_menu'));
+			add_action('admin_menu', array(DashboardAdmin::class, 'set_plugin_menu'));
 			// 管理画面のトップメニューページを追加
 			add_action('admin_menu', array('lineconnectSetting', 'set_plugin_menu'));
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
@@ -418,14 +434,18 @@ class LineConnect {
 			add_filter('handle_bulk_actions-users', array('lineconnectAdmin', 'handle_bulk_users_sendmessage'), 10, 3);
 			// チャット送信AJAXアクション
 			add_action('wp_ajax_lc_ajax_chat_send', array('lineconnectBulkMessage', 'ajax_chat_send'));
-			// チャット送信AJAXアクション(メッセージデータ取得)
+			// チメッセージデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
-			// チャット送信AJAXアクション(オーディエンスデータ取得)
+			// オーディエンスデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_audience', array('lineconnectAudience', 'ajax_get_slc_audience'));
-			// アクション実行AJAXアクション(アクションフローデータ取得)
+			// アクションフローデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_actionflow', array(\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow'));
-			// アクション実行AJAXアクション(アクション実行)
+			// アクション実行AJAXアクション
 			add_action('wp_ajax_lc_ajax_action_execute', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'ajax_action_execute'));
+			// ダッシュボードデータ取得AJAXアクション
+			add_action('wp_ajax_lc_ajax_get_dashboard', array(\Shipweb\LineConnect\Dashboard\Admin::class, 'ajax_get_dashboard'));
+			// LINE IDリストのトップメニューページを追加
+			add_action('admin_menu', array($this, 'set_page_lineid'));
 			// BOT LOGリストのトップメニューページを追加
 			add_action('admin_menu', array($this, 'set_page_gptlog'));
 			// DM画面のトップメニューページを追加
@@ -438,6 +458,9 @@ class LineConnect {
 			add_action('admin_menu', array('lineconnectTrigger', 'set_plugin_menu'));
 			// Audienceのトップメニューページを追加
 			add_action('admin_menu', array('lineconnectAudience', 'set_plugin_menu'));
+			// Messageのトップメニューページを追加
+			// Audienceのダウンロードメニューページを追加
+			add_action('admin_menu', array('lineconnectAudience', 'set_download_menu'));
 			// Messageのトップメニューページを追加
 			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
 			// リッチメニューのトップメニューページを追加
@@ -467,6 +490,9 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array('lineconnectRichmenu', 'ajax_update_richmenu_alias'));
 			// アクション実行のトップページメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
+			//オーディエンスにダウンロードカラム追加
+			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array('lineconnectAudience', 'add_download_column'));
+			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array('lineconnectAudience', 'add_download_column_content'), 10, 2);
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
@@ -538,6 +564,31 @@ class LineConnect {
 		);
 	}
 
+	function set_page_lineid() {
+		$page_hook_suffix = add_submenu_page(
+			self::SLUG__DASHBOARD,
+			__('LINE ID List', self::PLUGIN_NAME),
+			__('LINE ID List', self::PLUGIN_NAME),
+			'manage_options',
+			self::SLUG__LINE_ID_LIST,
+			array($this, 'show_lineid_list'),
+			110
+		);
+
+		if (isset($_GET['page']) && self::SLUG__LINE_ID_LIST === $_GET['page']) {
+			add_action('admin_enqueue_scripts', array($this, 'load_settings_page_lineid'));
+		}
+	}
+
+	function load_settings_page_lineid() {
+		require_once $this->root_dir . 'src/ListTable/LineId.php';
+		$this->lineid_list_table = new \Shipweb\LineConnect\ListTable\LineId();
+	}
+
+	function show_lineid_list() {
+		$this->lineid_list_table->show_list();
+	}
+
 	function set_page_gptlog() {
 		$page_hook_suffix = add_submenu_page(
 			// 親ページ：
@@ -559,7 +610,7 @@ class LineConnect {
 			// メニューに紐づく画面を描画するcallback関数：
 			array($this, 'show_gpt_log'),
 			// メニューの位置
-			2
+			120
 		);
 
 		if (isset($_GET['page']) && self::SLUG__LINE_GPTLOG === $_GET['page']) {
@@ -903,6 +954,51 @@ class LineConnect {
             KEY line_id (line_id)
         ) $charset_collate;";
 		dbDelta($sql_line_id);
+
+		$table_name_line_stats = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
+
+		$sql_line_stats = "CREATE TABLE $table_name_line_stats (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			channel_prefix char(4) NOT NULL,
+			date date NOT NULL,
+			followers int DEFAULT NULL,
+			targetedReaches int DEFAULT NULL,
+			blocks int DEFAULT NULL,
+			recognized int DEFAULT NULL,
+			linked int DEFAULT NULL,
+			broadcast int DEFAULT NULL,
+			targeting int DEFAULT NULL,
+			autoResponse int DEFAULT NULL,
+			welcomeResponse int DEFAULT NULL,
+			chat int DEFAULT NULL,
+			apiBroadcast int DEFAULT NULL,
+			apiPush int DEFAULT NULL,
+			apiMulticast int DEFAULT NULL,
+			apiNarrowcast int DEFAULT NULL,
+			apiReply int DEFAULT NULL,
+			demographic json,
+			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id),
+			UNIQUE KEY unique_channel_date (channel_prefix, date)
+		) $charset_collate;";
+		dbDelta($sql_line_stats);
+
+		$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+		$sql_line_daily = "CREATE TABLE $table_name_line_daily (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			channel_prefix char(4) NOT NULL,
+			date date NOT NULL,
+			follow int DEFAULT 0,
+			unfollow int DEFAULT 0,
+			link int DEFAULT 0,
+			unlink int DEFAULT 0,
+			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id),
+			UNIQUE KEY unique_channel_date (channel_prefix, date)
+		) $charset_collate;";
+		dbDelta($sql_line_daily);
 
 		self::set_variable(lineconnectConst::DB_VERSION_KEY, self::DB_VERSION);
 	}

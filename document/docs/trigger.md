@@ -101,3 +101,9 @@ The trigger will not activate if the current time is after the end date.
 ### Action
 This is the action to be executed when the trigger is activated.  
 To know more about the action, please refer to the [Action Flow](./actionflow.md) documentation.
+
+:::info[Check "Send the return value as a LINE message"]
+The return value is sent as a response message only when the trigger type is a Webhook event.  
+If the trigger type is a schedule, checking this will not send the return value as a LINE message.  
+In that case, you can use the action chain feature to set the return value as an argument for the "Send LINE Message" action to send a LINE message to the desired user.  
+:::

@@ -4,7 +4,8 @@ You can send a bulk LINE message to users extracted based on various conditions.
 Users can be extracted by recalling an LC audience or creating a new set of extraction criteria.  
 Messages can be used by creating a new LC message or recalling a saved message.  
 
-## Audience
+## Settings
+### Audience
 
 The extraction criteria for target users are called "audiences."  
 Note that these audiences are different from the ones in the official LINE account.  
@@ -15,13 +16,13 @@ If you want to create a new one, select **New Audience**.
 If you select an already created audience, it will be loaded, and you can modify it if necessary.  
 For more details on audiences, please see [Audiences](./audience.md).  
 
-## Message
+### Message
 
 In the template selection box, you can choose to create a new message or recall a saved message.  
 If you select a saved message, it will be loaded, and you can modify it if necessary.  
 For more information on LC messages, please see [LC Messages](./message.md).  
 
-## Disable Notifications
+### Disable Notifications
 
 If you want to send a message without notifying users, enable the **Disable Notifications** option.  
 

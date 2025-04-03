@@ -12,6 +12,8 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use Shipweb\LineConnect\Core\Stats;
+
 class lineconnectMessage {
 	// Text Component
 	static function createTextComponent($text, $atts = null) {
@@ -639,11 +641,11 @@ class lineconnectMessage {
 	}
 
 	/**
-	 * プッシュメッセージようにプレースホルダーを置換する
+	 * プッシュメッセージ用にプレースホルダーを置換する
 	 * @param array $channel チャネル情報
 	 * @param string $line_user_id LINEユーザーID
 	 * @param \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message プレースホルダーを含んだメッセージオブジェクト
-	 * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message 置換済みメッセージオブジェクト<
+	 * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder $message 置換済みメッセージオブジェクト
 	 */
 	static function replacePlaceHolder($channel, $line_user_id, $message) {
 		// メッセージに含まれるプレースホルダーへユーザーデータの埋め込み
@@ -687,6 +689,7 @@ class lineconnectMessage {
 					false
 				);
 			}
+			Stats::increase_stats_message($channel['prefix'], 'apiPush', 1);
 			return array('success' => true);
 		} else {
 			return array(
@@ -730,6 +733,7 @@ class lineconnectMessage {
 				false
 			);
 		}
+		Stats::increase_stats_message($channel['prefix'], 'apiMulticast', count($line_user_ids));
 		// 送信に成功した場合
 		return array(
 			'success' => true,
@@ -761,6 +765,7 @@ class lineconnectMessage {
 					false
 				);
 			}
+			Stats::increase_stats_message($channel['prefix'], 'apiBroadcast', null);
 			return array('success' => true);
 		} else {
 			return array(

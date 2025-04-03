@@ -9,21 +9,29 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 ## Features 
 ### Linking function with Wordpress users
 * Using LINE Messaging API to link friends of LINE official accounts with accounts of Wordpress users
-* Rich menu IDs can be set separately for users who have already linked and those who have not
 ### Update Notification
 * Send article update notifications via LINE to linked users and users in specific roles.
 * Notification messages are sent in a card-style layout including an futured image.
+* Notification message layout can be customized to original layout with Flex message.
 * When posts published, updated or future post is published can send notifications.
 * LINE notifications can be sent to posters when someone comment on thier articles.
 ### Bulk message
 * Arbitrary LINE text messages can be sent to individual users
 * Save LINE messages and use them for messages sent by actions
+* Insert user's name etc. into the message and send it
 ### Direct Messages
 * Text messages can be sent to LINE users who have an event log, even if they are not connected to LINE.
-### Connectivity with Chat
+### Trigger
+* Execute specified actions as triggers for specified dates and times and various Webhook events
+### Audience
+* Create audiences that narrow down users based on user attributes and call them when sending messages or executing actions
+### Scenario
+* Execute actions such as sending messages at specified time intervals
+### Rich Menu
+* Create a new rich menu based on existing rich menus and templates
+* Rich menu ID can be set for linked users, unlinked users, and roles
+### Chat Integration
 * Automatic response to messages using Chat GPT API (You can use your LINE official account as a AI chatbot)
-* Can execute specified actions triggered by messages or postback actions
-* Can execute specified actions such as sending LINE messages at scheduled times and dates, days
 ### Connectivity with WP LINE Login
 * If WP LINE Login is installed and Messaging API is configured, login integration is possible at the same time as integration
 

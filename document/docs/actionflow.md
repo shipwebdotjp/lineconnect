@@ -13,7 +13,10 @@ The following types of actions are available. It is also possible to add custom 
 - Actions that search for information and return it
 - Actions that perform operations such as sending messages
 
+:::note
 Actions are shared with the Function Calling feature used for AI responses.
+:::
+
 ### Return Value of Actions
 #### Send the return value as a response
 If checked, the return value of the action will be sent as a response message to the originator of the Webhook event.
@@ -22,12 +25,6 @@ The type of message sent varies depending on the type of return value:
 - String: Sent as a LINE text message
 - Instance of LINE\LINEBot\MessageBuilder: Sent as a LINE message object
 - Others: Sent as a dumped LINE text message
-
-:::info
-The return value is sent as a response message only when the trigger type is a Webhook event.  
-If the trigger type is a schedule, checking this will not send the return value as a LINE message.  
-In that case, you can use the action chain feature to set the return value as an argument for the "Send LINE Message" action to send a LINE message to the desired user.  
-:::
 
 ### Embedding Variables
 If the argument of the action is a string, each variable can be embedded and used.  

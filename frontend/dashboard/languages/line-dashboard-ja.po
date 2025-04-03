@@ -1,0 +1,127 @@
+# Japanese translations for LINE Connect package
+# LINE Connect パッケージに対する英訳.
+# Copyright (C) 2025 SHIP
+# This file is distributed under the same license as the LINE Connect package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect 4.0.0\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"POT-Creation-Date: Mon Mar 31 2025 22:14:27 GMT+0900 (Japan Standard Time)\n"
+"PO-Revision-Date: 2025-03-31 06:16+0900\n"
+"Last-Translator: AI Assistant\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/routes/daily.jsx:52 src/routes/dashboard.jsx:72
+msgid "Failed to fetch data. Please try again later."
+msgstr "データの取得に失敗しました。後でもう一度お試しください。"
+
+#: src/routes/daily.jsx:96
+msgid "Daily Statistics"
+msgstr "日次統計"
+
+#: src/routes/daily.jsx:104
+msgid "Back to Overview"
+msgstr "概要に戻る"
+
+#: src/routes/daily.jsx:109 src/routes/dashboard.jsx:138
+msgid "Previous Month"
+msgstr "前の月"
+
+#: src/routes/daily.jsx:136 src/routes/dashboard.jsx:167
+msgid "Next Month"
+msgstr "次の月"
+
+#: src/routes/daily.jsx:140 src/routes/dashboard.jsx:171
+msgid "Refresh"
+msgstr "更新"
+
+#: src/routes/daily.jsx:147
+msgid "Daily Channel Statistics"
+msgstr "チャンネル日次統計"
+
+#: src/routes/daily.jsx:159
+msgid "Date"
+msgstr "日付"
+
+#: src/routes/daily.jsx:160
+msgid "Followers"
+msgstr "友だち数"
+
+#: src/routes/daily.jsx:161 src/routes/dashboard.jsx:193
+msgid "Target reach"
+msgstr "ターゲットリーチ"
+
+#: src/routes/daily.jsx:162 src/routes/dashboard.jsx:194
+msgid "Blocks"
+msgstr "ブロック数"
+
+#: src/routes/daily.jsx:163 src/routes/dashboard.jsx:196
+msgid "Linked"
+msgstr "連携済み数"
+
+#: src/routes/daily.jsx:164
+msgid "New Follows"
+msgstr "新規友だち追加数"
+
+#: src/routes/daily.jsx:165
+msgid "Unfollows"
+msgstr "新規ブロック数"
+
+#: src/routes/daily.jsx:166
+msgid "New Links"
+msgstr "新規連携数"
+
+#: src/routes/daily.jsx:167
+msgid "Unlinks"
+msgstr "新規連携解除数"
+
+#: src/routes/daily.jsx:168 src/routes/dashboard.jsx:197
+msgid "Paid Messages"
+msgstr "有償メッセージ数"
+
+#: src/routes/daily.jsx:177 src/routes/dashboard.jsx:207
+msgid "Loading..."
+msgstr "読み込み中..."
+
+#: src/routes/daily.jsx:199
+msgid "No data available for this period."
+msgstr "この期間のデータはありません。"
+
+#: src/routes/dashboard.jsx:121 src/routes/dashboard.jsx:178
+msgid "Channel Stats"
+msgstr "チャンネル統計"
+
+#: src/routes/dashboard.jsx:129
+msgid "Search by channel name"
+msgstr "チャンネル名で検索"
+
+#: src/routes/dashboard.jsx:191
+msgid "Channel Name"
+msgstr "チャンネル名"
+
+#: src/routes/dashboard.jsx:192
+msgid "Friends added"
+msgstr "追加された友だち数"
+
+#: src/routes/dashboard.jsx:195
+msgid "Recognized count"
+msgstr "認識済みの友だち数"
+
+#: src/routes/dashboard.jsx:198 src/routes/dashboard.jsx:233
+msgid "Profile"
+msgstr "プロフィール"
+
+#: src/routes/dashboard.jsx:239
+msgid "No data found"
+msgstr "データが見つかりません"
+
+#: src/routes/root.jsx:17
+msgid "Channels"
+msgstr "チャンネル"

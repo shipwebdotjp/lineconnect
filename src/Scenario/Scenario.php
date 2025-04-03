@@ -1518,6 +1518,18 @@ class Scenario {
 							'ui:options' => array(
 								'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
 							),
+							'body' => array(
+								'ui:widget' => 'textarea',
+								'ui:options' => array(
+									'rows' => 5,
+								),
+							),
+							'json' => array(
+								'ui:widget' => 'textarea',
+								'ui:options' => array(
+									'rows' => 5,
+								),
+							),
 						),
 					),
 					'ui:options' => array(
@@ -1582,7 +1594,7 @@ class Scenario {
 		}
 
 		// シナリオを開始
-		$result = self::update_scenario_status($scenario_id, self::STATUS_ACTIVE, $line_user_id, $secret_prefix);
+		$result = self::update_scenario_status($scenario_id, self::STATUS_ACTIVE, $line_user_id, $secret_prefix, null, ['next', 'next_date']);
 		if ($result) {
 			return self::execute_step($scenario_id, null, $line_user_id, $secret_prefix);
 		}
@@ -1633,7 +1645,7 @@ class Scenario {
 	 * @param string $secret_prefix チャネルシークレットの先頭4文字
 	 * @return bool 成功・失敗
 	 */
-	public static function update_scenario_status(int $scenario_id, string $status, string $line_user_id, string $secret_prefix, ?array $addtional = null): bool {
+	public static function update_scenario_status(int $scenario_id, string $status, string $line_user_id, string $secret_prefix, ?array $addtional = null, ?array $unsets = null): bool {
 		global $wpdb;
 
 		// status check
@@ -1676,6 +1688,11 @@ class Scenario {
 			unset($scenario_array['next_date']);
 		}
 
+		if (!empty($unsets)) {
+			foreach ($unsets as $unset) {
+				unset($scenario_array[$unset]);
+			}
+		}
 
 		$scenarios_array[$scenario_id] = $scenario_array;
 

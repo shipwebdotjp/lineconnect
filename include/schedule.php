@@ -13,6 +13,7 @@
  */
 
 use \Shipweb\LineConnect\Scenario\Scenario;
+use \Shipweb\LineConnect\Core\Stats;
 
 class lineconnectSchedule {
     static function schedule_event() {
@@ -31,6 +32,12 @@ class lineconnectSchedule {
         // if between $last_run and now day changed
         if (empty($last_run) || wp_date('Ymd', $last_run) != wp_date('Ymd')) {
             //$response = self::send_error_log();
+        }
+        if (empty($last_run) || wp_date('YmdH', $last_run) != wp_date('YmdH')) {
+            //1時間ごとに実行
+            if (version_compare(lineconnect::get_current_db_version(), '1.4', '>=')) {
+                Stats::fetch_line_message_stats();
+            }
         }
     }
 

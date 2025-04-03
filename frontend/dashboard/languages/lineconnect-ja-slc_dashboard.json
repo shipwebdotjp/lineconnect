@@ -1,0 +1,95 @@
+{
+  "translation-revision-date": "2025-03-31 22:27:31+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "Failed to fetch data. Please try again later.": [
+        "データの取得に失敗しました。後でもう一度お試しください。"
+      ],
+      "Daily Statistics": [
+        "日次統計"
+      ],
+      "Back to Overview": [
+        "概要に戻る"
+      ],
+      "Previous Month": [
+        "前の月"
+      ],
+      "Next Month": [
+        "次の月"
+      ],
+      "Refresh": [
+        "更新"
+      ],
+      "Daily Channel Statistics": [
+        "チャンネル日次統計"
+      ],
+      "Date": [
+        "日付"
+      ],
+      "Followers": [
+        "友だち数"
+      ],
+      "Target reach": [
+        "ターゲットリーチ"
+      ],
+      "Blocks": [
+        "ブロック数"
+      ],
+      "Linked": [
+        "連携済み数"
+      ],
+      "New Follows": [
+        "新規友だち追加数"
+      ],
+      "Unfollows": [
+        "新規ブロック数"
+      ],
+      "New Links": [
+        "新規連携数"
+      ],
+      "Unlinks": [
+        "新規連携解除数"
+      ],
+      "Paid Messages": [
+        "有償メッセージ数"
+      ],
+      "Loading...": [
+        "読み込み中..."
+      ],
+      "No data available for this period.": [
+        "この期間のデータはありません。"
+      ],
+      "Channel Stats": [
+        "チャンネル統計"
+      ],
+      "Search by channel name": [
+        "チャンネル名で検索"
+      ],
+      "Channel Name": [
+        "チャンネル名"
+      ],
+      "Friends added": [
+        "追加された友だち数"
+      ],
+      "Recognized count": [
+        "認識済みの友だち数"
+      ],
+      "Profile": [
+        "プロフィール"
+      ],
+      "No data found": [
+        "データが見つかりません"
+      ],
+      "Channels": [
+        "チャンネル"
+      ]
+    }
+  }
+}

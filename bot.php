@@ -4,6 +4,8 @@ LINE Bot
 	Copyright 2020 shipweb
 */
 
+use Shipweb\LineConnect\Core\Stats;
+
 require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
 require_once 'lineconnect.php'; // LINE Connectを読み込み
@@ -157,6 +159,9 @@ foreach ($json_obj->{'events'} as $event) {
 				// リッチメニューをセット
 				do_action('line_link_richmenu', $user_id);
 
+				//デイリー連携数を増加
+				Stats::increase_daily_link($secret_prefix);
+
 				// 連携完了のテキストメッセージ作成
 				$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(lineconnect::get_option('link_finish_body'));
 			} else {
@@ -175,6 +180,8 @@ foreach ($json_obj->{'events'} as $event) {
 			$userId = $event->{'source'}->{'userId'};
 			$mes    = unAccountLink($userId);
 
+			Stats::increase_daily_unlink($secret_prefix);
+
 			// 連携解除完了のテキストメッセージ作成
 			$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($mes);
 		} elseif ($postback === 'action=link') {
@@ -189,11 +196,13 @@ foreach ($json_obj->{'events'} as $event) {
 			$message[] = getLinkStartMessage($userId);
 		}
 		update_line_id_follow($userId, true);
+		increase_daily_followers($secret_prefix);
 	} elseif ($type == 'unfollow') {
 		// 友達登録解除（ブロック時）リストから消去
 		$userId = $event->{'source'}->{'userId'};
 		$mes    = unAccountLink($userId);
 		update_line_id_follow($userId, false);
+		increase_daily_unfollowers($secret_prefix);
 	}
 
 	// if message type is image,video,audio,file and contentProvider.type is line
@@ -710,4 +719,36 @@ function check_webhook_secret_prefix_condition($secret_prefixs, $event, $secret_
 		return false;
 	}
 	return true;
+}
+
+// デイリーフォロワー数を増加
+function increase_daily_followers($channel_prefix) {
+	global $wpdb;
+	$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+	$today                = wp_date('Y-m-d');
+	$wpdb->query($wpdb->prepare(
+		"INSERT INTO {$table_name_line_daily} 
+        (channel_prefix, date, follow) 
+        VALUES (%s, %s, 1)
+        ON DUPLICATE KEY UPDATE 
+        follow = follow + 1",
+		$channel_prefix,
+		$today
+	));
+}
+
+// デイリーアンフォロワー数を増加
+function increase_daily_unfollowers($channel_prefix) {
+	global $wpdb;
+	$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+	$today                = wp_date('Y-m-d');
+	$wpdb->query($wpdb->prepare(
+		"INSERT INTO {$table_name_line_daily} 
+		(channel_prefix, date, unfollow) 
+		VALUES (%s, %s, 1)
+		ON DUPLICATE KEY UPDATE 
+		unfollow = unfollow + 1",
+		$channel_prefix,
+		$today
+	));
 }

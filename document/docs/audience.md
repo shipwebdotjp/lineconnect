@@ -123,3 +123,9 @@ Specify how to combine multiple conditions:
 
 **Exception:** When **Broadcast** is selected, all conditions **except for Channel** are ignored.
 
+## Audience List
+### CSV Download
+You can download the list of LINE users narrowed down by audience criteria in CSV format.  
+The CSV format is one line per LINE user ID.  
+The downloaded file can be used as an audience in the LINE Official Account Manager.  
+In this case, please upload the CSV file using the User ID Upload function.

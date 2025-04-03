@@ -22,12 +22,12 @@ class lineconnectTrigger {
 	static function set_plugin_menu() {
 		// 設定のサブメニュー「LINE Connect」を追加
 		$page_hook_suffix = add_submenu_page(
-		// 親ページ：
+			// 親ページ：
 			lineconnect::SLUG__DASHBOARD,
 			// ページタイトル：
-			__( 'LINE Connect Trigger', lineconnect::PLUGIN_NAME ),
+			__('LINE Connect Trigger', lineconnect::PLUGIN_NAME),
 			// メニュータイトル：
-			__( 'Triggers', lineconnect::PLUGIN_NAME ),
+			__('Triggers', lineconnect::PLUGIN_NAME),
 			// 権限：
 			// manage_optionsは以下の管理画面設定へのアクセスを許可
 			// ・設定 > 一般設定
@@ -41,7 +41,7 @@ class lineconnectTrigger {
 			// メニューに紐づく画面を描画するcallback関数：
 			false,
 			// メニューの位置
-			null
+			90
 		);
 		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}
@@ -50,26 +50,26 @@ class lineconnectTrigger {
 		// 投稿ページと固定ページ両方でLINE送信チェックボックスを表示
 		// $screens = lineconnect::get_option('send_post_types');
 		// foreach ($screens as $screen) {
-			add_meta_box(
-				// チェックボックスのID
-				lineconnect::META_KEY__TRIGGER_DATA,
-				// チェックボックスのラベル名
-				'LINE Connect Trigger',
-				// チェックボックスを表示するコールバック関数
-				array( 'lineconnectTrigger', 'show_json_edit_form' ),
-				// 投稿画面に表示
-				lineconnectConst::POST_TYPE_TRIGGER,
-				// 投稿画面の下に表示
-				'advanced',
-				// 優先度(default)
-				'default'
-			);
+		add_meta_box(
+			// チェックボックスのID
+			lineconnect::META_KEY__TRIGGER_DATA,
+			// チェックボックスのラベル名
+			'LINE Connect Trigger',
+			// チェックボックスを表示するコールバック関数
+			array('lineconnectTrigger', 'show_json_edit_form'),
+			// 投稿画面に表示
+			lineconnectConst::POST_TYPE_TRIGGER,
+			// 投稿画面の下に表示
+			'advanced',
+			// 優先度(default)
+			'default'
+		);
 		// }
 	}
 
 	// 管理画面（投稿ページ）用にスクリプト読み込み
 	static function wpdocs_selectively_enqueue_admin_script() {
-		require_once plugin_dir_path( __FILE__ ) . 'rjsf.php';
+		require_once plugin_dir_path(__FILE__) . 'rjsf.php';
 		lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_TRIGGER);
 	}
 
@@ -80,13 +80,13 @@ class lineconnectTrigger {
 		$ary_init_data = array();
 		$formName                         = lineconnect::PARAMETER__TRIGGER_DATA;
 		$ary_init_data['formName']        = $formName;
-		$schema_version = get_post_meta( get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true );
-		$formData                         = get_post_meta( get_the_ID(), lineconnect::META_KEY__TRIGGER_DATA, true );
+		$schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
+		$formData                         = get_post_meta(get_the_ID(), lineconnect::META_KEY__TRIGGER_DATA, true);
 		$subSchema = self::get_trigger_schema();
 		$form = array(
 			array(
 				'id' => 'type',
-				'schema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_schema', lineconnectConst::$lineconnect_trigger_type_schema ),
+				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_schema', lineconnectConst::$lineconnect_trigger_type_schema),
 				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_uischema', lineconnectConst::$lineconnect_trigger_type_uischema),
 				'formData' => self::get_form_type_data($formData[0] ?? null, $schema_version),
 				'props' => new stdClass(),
@@ -116,8 +116,8 @@ class lineconnectTrigger {
 			true,
 			false
 		);
-		require_once plugin_dir_path( __FILE__ ) . 'rjsf.php';
-		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field );
+		require_once plugin_dir_path(__FILE__) . 'rjsf.php';
+		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
 		// error_log( json_encode( $ary_init_data['subSchema'], JSON_PRETTY_PRINT ) );
 
 		/*
@@ -141,28 +141,25 @@ EOM;
 	/**
 	 * 記事を保存
 	 */
-	static function save_post_trigger( $post_ID, $post, $update ) {
-		if ( isset( $_POST[ lineconnect::CREDENTIAL_NAME__TRIGGER ] ) && check_admin_referer( lineconnect::CREDENTIAL_ACTION__TRIGGER, lineconnect::CREDENTIAL_NAME__TRIGGER ) ) {
-			$trigger_data = isset( $_POST[ lineconnect::PARAMETER__TRIGGER_DATA ] ) ?  stripslashes( $_POST[ lineconnect::PARAMETER__TRIGGER_DATA ] )  : '';
+	static function save_post_trigger($post_ID, $post, $update) {
+		if (isset($_POST[lineconnect::CREDENTIAL_NAME__TRIGGER]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__TRIGGER, lineconnect::CREDENTIAL_NAME__TRIGGER)) {
+			$trigger_data = isset($_POST[lineconnect::PARAMETER__TRIGGER_DATA]) ?  stripslashes($_POST[lineconnect::PARAMETER__TRIGGER_DATA])  : '';
 
-			if ( ! empty( $trigger_data ) ) {
-				$json_trigger_data = json_decode( $trigger_data, true );
-				if ( ! empty( $json_trigger_data ) ) {
+			if (! empty($trigger_data)) {
+				$json_trigger_data = json_decode($trigger_data, true);
+				if (! empty($json_trigger_data)) {
 					// error_log( print_r( $trigger_data, true ) );
-					update_post_meta( $post_ID, lineconnect::META_KEY__TRIGGER_DATA, $json_trigger_data );
-					update_post_meta( $post_ID, lineconnect::META_KEY__SCHEMA_VERSION, lineconnectConst::TRIGGER_SCHEMA_VERSION );
-
+					update_post_meta($post_ID, lineconnect::META_KEY__TRIGGER_DATA, $json_trigger_data);
+					update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, lineconnectConst::TRIGGER_SCHEMA_VERSION);
 				} else {
 					// error_log( 'delete' . print_r( $trigger_data, true ) );
-					delete_post_meta( $post_ID, lineconnect::META_KEY__TRIGGER_DATA );
+					delete_post_meta($post_ID, lineconnect::META_KEY__TRIGGER_DATA);
 					delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
-
 				}
 			} else {
 				// error_log( 'empty' . print_r( $trigger_data, true ) );
-				delete_post_meta( $post_ID, lineconnect::META_KEY__TRIGGER_DATA );
+				delete_post_meta($post_ID, lineconnect::META_KEY__TRIGGER_DATA);
 				delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
-
 			}
 		}
 	}
@@ -173,8 +170,8 @@ EOM;
 	static function get_trigger_schema() {
 		$trigger_schema = lineconnectConst::$lineconnect_trigger_schema;
 		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
-		if(!empty($action_array)){
-			foreach ( $action_array as $name => $action ) {
+		if (!empty($action_array)) {
+			foreach ($action_array as $name => $action) {
 				$properties = array(
 					'action_name' => array(
 						'type'    => 'string',
@@ -184,18 +181,18 @@ EOM;
 					'response_return_value' => array(
 						'type'	=> 'boolean',
 						'default' => true,
-						'title' => __('Send the return value as a response' , lineconnect::PLUGIN_NAME),
+						'title' => __('Send the return value as a response', lineconnect::PLUGIN_NAME),
 						'description' => __('Send the return value of this action as a response message by LINE message', lineconnect::PLUGIN_NAME),
 					),
 				);
-				if ( isset( $action['parameters'] ) ) {
-					$parameters            = $action['parameters'];//['properties']
+				if (isset($action['parameters'])) {
+					$parameters            = $action['parameters']; //['properties']
 					$parameters_properties = array();
-					if ( ! empty( $parameters ) ) {
-						foreach ( $parameters as $idx => $parameter ) {
+					if (! empty($parameters)) {
+						foreach ($parameters as $idx => $parameter) {
 							$key                           = $parameter['name'] ?? 'param' . $idx;
-							$val                           = lineconnectUtil::get_parameter_schema( $key  , $parameter );
-							$parameters_properties[ $key ] = $val;
+							$val                           = lineconnectUtil::get_parameter_schema($key, $parameter);
+							$parameters_properties[$key] = $val;
 							/*
 							$parameters_properties[ $key . '-injection' ] = array(
 								'type'    => 'string',
@@ -205,7 +202,7 @@ EOM;
 							*/
 						}
 					}
-					if ( ! empty( $parameters_properties ) ) {
+					if (! empty($parameters_properties)) {
 						$properties['parameters'] = array(
 							'type'       => 'object',
 							'title'      => __('Parameters', lineconnect::PLUGIN_NAME),
@@ -213,16 +210,16 @@ EOM;
 						);
 					}
 				}
-				$trigger_schema['properties']['action']['items']['oneOf'][] = array(// ['properties']['parameters']
+				$trigger_schema['properties']['action']['items']['oneOf'][] = array( // ['properties']['parameters']
 					'title'      => $action['title'],
 					'properties' => $properties,
-					'required'   => array( 'action_name' ),
+					'required'   => array('action_name'),
 				);
 			}
-		}else{
+		} else {
 			$trigger_schema['properties']['action']['items']['oneOf'] = array(
 				array(
-					'title'      => __('Please add action first' , lineconnect::PLUGIN_NAME),
+					'title'      => __('Please add action first', lineconnect::PLUGIN_NAME),
 					'properties' => array(
 						'action_name' => array(
 							'type'    => 'null',
@@ -232,7 +229,7 @@ EOM;
 			);
 		}
 		$all_roles = array();
-		foreach ( wp_roles()->roles as $role_name => $role ) {
+		foreach (wp_roles()->roles as $role_name => $role) {
 			$all_roles[] = array(
 				'const' => esc_attr($role_name),
 				'title' => translate_user_role($role['name']),
@@ -241,13 +238,13 @@ EOM;
 		$trigger_schema['definitions']['role']['items']['oneOf'] = $all_roles;
 
 		$all_channels = array();
-		foreach(lineconnect::get_all_channels() as $channel_id => $channel ) {
+		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
 			$all_channels[] = array(
 				'const' => $channel['prefix'],
 				'title' => $channel['name'],
 			);
 		}
-		if(count($all_channels) == 0){
+		if (count($all_channels) == 0) {
 			$all_channels[] = array(
 				'const' => '',
 				'title' => __('Please add channel first', lineconnect::PLUGIN_NAME),
@@ -257,7 +254,7 @@ EOM;
 
 
 		$trigger_schema_bytype = array();
-		foreach(lineconnectConst::$lineconnect_trigger_types as $type => $schema){
+		foreach (lineconnectConst::$lineconnect_trigger_types as $type => $schema) {
 			$trigger_schema_bytype[$type] = $trigger_schema;
 			$trigger_schema_bytype[$type]['properties']['triggers']['items'] = $schema;
 		}
@@ -265,12 +262,12 @@ EOM;
 		return $trigger_schema_bytype;
 	}
 
-	
+
 	/**
 	 * Return type data
 	 */
 	static function get_form_type_data($formData, $schema_version) {
-		if(empty($schema_version) || $schema_version == lineconnectConst::TRIGGER_SCHEMA_VERSION){
+		if (empty($schema_version) || $schema_version == lineconnectConst::TRIGGER_SCHEMA_VERSION) {
 			return !empty($formData) ? $formData : new stdClass();
 		}
 		// if old schema veersion, migrate and return
@@ -280,7 +277,7 @@ EOM;
 	 * Return trigger data
 	 */
 	static function get_form_trigger_data($formData, $schema_version) {
-		if(empty($schema_version) || $schema_version == lineconnectConst::TRIGGER_SCHEMA_VERSION){
+		if (empty($schema_version) || $schema_version == lineconnectConst::TRIGGER_SCHEMA_VERSION) {
 			return !empty($formData) ? $formData : new stdClass();
 		}
 		// if old schema veersion, migrate and return

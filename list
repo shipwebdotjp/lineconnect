@@ -8,7 +8,6 @@
 ./accountlink.php
 ./include/functions.php
 ./include/shortcodes.php
-./include/dashboard.php
 ./include/const.php
 ./include/richmenu.php
 ./include/openai.php
@@ -66,9 +65,13 @@
 ./tests/audience/AudienceRoleTest.php
 ./test.php
 ./lineconnect.php
+./src/Core/Stats.php
 ./src/Core/LineConnect.php
 ./src/ActionExecute/ActionExecute.php
 ./src/ActionExecute/Admin.php
+./src/Dashboard/Dashboard.php
+./src/Dashboard/RESTAPI.php
+./src/Dashboard/Admin.php
 ./src/Utilities/ArrayPrinter.php
 ./src/Utilities/Condition.php
 ./src/Scenario/Scenario.php
@@ -76,3 +79,4 @@
 ./src/Scenario/Admin.php
 ./src/ActionFlow/ActionFlow.php
 ./src/ActionFlow/Admin.php
+./src/ListTable/LineId.php

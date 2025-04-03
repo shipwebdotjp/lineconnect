@@ -43,7 +43,7 @@ class Admin {
 			// メニューに紐づく画面を描画するcallback関数：
 			false,
 			// メニューの位置
-			null
+			70
 		);
 		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}
