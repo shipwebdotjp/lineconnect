@@ -13,6 +13,12 @@
 
 ### Security
 - 
+
+## [4.1.2] - 2025-04-03
+### Fixed
+- インストール用ZIPの除外ファイルを修正
+- Fixed the exclusion files in the installation ZIP.
+
 ## [4.1.1] - 2025-04-03
 ### Changed
 - インストール用ZIPから不要なフォルダを削除し、サイズを減らしました。
