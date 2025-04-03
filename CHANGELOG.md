@@ -14,6 +14,10 @@
 ### Security
 - 
 
+## [4.1.3] - 2025-04-03
+### Fixed
+- generate-installable-zip.yamlを修正
+
 ## [4.1.2] - 2025-04-03
 ### Fixed
 - インストール用ZIPの除外ファイルを修正

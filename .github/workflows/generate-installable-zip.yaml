@@ -26,10 +26,13 @@ jobs:
       - name: Build project
         run: |
           mkdir build
+      - name: UnInstall dependencies
+        run: |
+          composer remove --dev phpunit/phpunit yoast/phpunit-polyfills
       - name: Create artifact
         uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -X -r build/lineconnect.zip . -x *.git* node_modules/* document/* tests/* vendor/phpunit/*  vendor/doctrine/*  vendor/myclabs/*  vendor/nikic/*  vendor/phar-io/*  vendor/sebastian/*  vendor/theseer/*  vendor/yoast/* CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* gettext.sh mo.sh phpunit.xml release.sh test.php
+          args: zip -X -r build/lineconnect.zip . -x *.git* node_modules/* docs/* document/* tests/* CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* gettext.sh mo.sh phpunit.xml release.sh test.php
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
