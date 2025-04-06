@@ -51,6 +51,7 @@
 ./tests/scenario/SetScenarioStepTest.php
 ./tests/scenario/ScenarioScheduleTest.php
 ./tests/scenario/ScenarioDataLoadSaveTest.php
+./tests/scenario/ExecuteScenarioStepTest.php
 ./tests/ActionFlow/ActionFlowAjaxChatSendTest.php
 ./tests/audience/AudienceWpUserIdTest.php
 ./tests/audience/AudienceNestedTest.php
@@ -65,6 +66,7 @@
 ./tests/audience/AudienceRoleTest.php
 ./test.php
 ./lineconnect.php
+./assets/js/clipboard.js
 ./src/Core/Stats.php
 ./src/Core/LineConnect.php
 ./src/ActionExecute/ActionExecute.php

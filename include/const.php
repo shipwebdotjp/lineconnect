@@ -1025,14 +1025,12 @@ class lineconnectConst {
 					array(
 						'type' => 'slc_message',
 						'name' => 'slc_message_id',
-						'title' => __('LC Message', lineconnect::PLUGIN_NAME),
 						'description' => __('LC Message id', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'object',
 						'name' => 'args',
-						'title' => __('Replacement Arguments', lineconnect::PLUGIN_NAME),
 						'description' => __('Arguments to insert into the message', lineconnect::PLUGIN_NAME),
 						'additionalProperties' => array(
 							'type' => 'string',
@@ -1049,12 +1047,8 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'body',
-						'title' => __('Body', lineconnect::PLUGIN_NAME),
 						'description' => __('Message body', lineconnect::PLUGIN_NAME),
 						'required' => true,
-						'ui' => array(
-							'widget' => 'textarea',
-						),
 					),
 				),
 				'namespace'   => 'lineconnectFunctions',
@@ -1067,27 +1061,23 @@ class lineconnectConst {
 					array(
 						'type'        => 'string',
 						'name' =>  'title',
-						'title' => __('Title', lineconnect::PLUGIN_NAME),
 						'description' => __('Message title', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'string',
 						'name' => 'body',
-						'title' => __('Body', lineconnect::PLUGIN_NAME),
 						'description' => __('Message body', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'thumb',
-						'title' => __('Thumb', lineconnect::PLUGIN_NAME),
 						'description' => __('Thumbnail url', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'type',
-						'title' => __('Type', lineconnect::PLUGIN_NAME),
 						'description' => __('Button action type', lineconnect::PLUGIN_NAME),
 						'oneOf'       => array(
 							array(
@@ -1107,25 +1097,21 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'label',
-						'title' => __('Label', lineconnect::PLUGIN_NAME),
 						'description' => __('Label', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'string',
 						'name' => 'link',
-						'title' => __('Link', lineconnect::PLUGIN_NAME),
 						'description' => __('Link', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'string',
 						'name' => 'displayText',
-						'title' => __('Display Text', lineconnect::PLUGIN_NAME),
 						'description' => __('Display Text', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'object',
 						'name' => 'atts',
-						'title' => __('Attributes', lineconnect::PLUGIN_NAME),
 						'description' => __('Attributes', lineconnect::PLUGIN_NAME),
 						'additionalProperties' => array(
 							'type' => 'string',
@@ -1142,8 +1128,7 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'json',
-						'title' => __('Raw Json', lineconnect::PLUGIN_NAME),
-						'description' => __('Raw Message JSON', lineconnect::PLUGIN_NAME),
+						'description' => __('Single raw Message JSON object', lineconnect::PLUGIN_NAME),
 					),
 				),
 				'namespace'   => 'lineconnectFunctions',
@@ -1156,21 +1141,18 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'message',
-						'title' => __('Message', lineconnect::PLUGIN_NAME),
-						'description' => __('LC message, message text or message object', lineconnect::PLUGIN_NAME),
+						'description' => __('LC message id, message text or message object', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('LINE user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('Channel', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
@@ -1184,21 +1166,18 @@ class lineconnectConst {
 				'parameters'  => array(
 					array(
 						'type' => 'slc_message',
-						'title' => __('LC Message', lineconnect::PLUGIN_NAME),
 						'name' => 'message',
-						'description' => __('LC message, text or message object', lineconnect::PLUGIN_NAME),
+						'description' => __('LC message id, text or message object', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_audience',
-						'title' => __('LC Audience', lineconnect::PLUGIN_NAME),
-						'name' => 'slc_audience_id',
-						'description' => __('LC Audience or object', lineconnect::PLUGIN_NAME),
+						'name' => 'audience',
+						'description' => __('LC Audience id or object', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'object',
-						'title' => __('Message\'s Replacement Arguments', lineconnect::PLUGIN_NAME),
 						'name' => 'message_args',
 						'description' => __('Arguments to insert into the message', lineconnect::PLUGIN_NAME),
 						'additionalProperties' => array(
@@ -1207,7 +1186,6 @@ class lineconnectConst {
 					),
 					array(
 						'type' => 'object',
-						'title' => __('Audience\'s Replacement Arguments', lineconnect::PLUGIN_NAME),
 						'name' => 'audience_args',
 						'description' => __('Arguments to insert into the audience', lineconnect::PLUGIN_NAME),
 						'additionalProperties' => array(
@@ -1216,7 +1194,6 @@ class lineconnectConst {
 					),
 					array(
 						'type' => 'boolean',
-						'title' => __('Notification disabled', lineconnect::PLUGIN_NAME),
 						'name' => 'notification_disabled',
 						'title' => __('Notification Disabled', lineconnect::PLUGIN_NAME),
 						'description' => __('Notification disabled', lineconnect::PLUGIN_NAME),
@@ -1232,14 +1209,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'subject',
-						'title' => __('Subject', lineconnect::PLUGIN_NAME),
 						'description' => __('Mail subject', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'body',
-						'title' => __('Body', lineconnect::PLUGIN_NAME),
 						'description' => __('Mail body', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
@@ -1254,20 +1229,17 @@ class lineconnectConst {
 					array(
 						'type' => 'slc_richmenu',
 						'name' => 'richmenu',
-						'title' => __('Richmenu', lineconnect::PLUGIN_NAME),
 						'description' => __('Rich menu ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line User Id', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user id. Default value is LINE user id of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1281,14 +1253,12 @@ class lineconnectConst {
 					array(
 						'type' => 'integer',
 						'name' => 'user_id',
-						'title' => __('User ID', lineconnect::PLUGIN_NAME),
 						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'key',
-						'title' => __('Key', lineconnect::PLUGIN_NAME),
 						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
@@ -1303,21 +1273,18 @@ class lineconnectConst {
 					array(
 						'type' => 'integer',
 						'name' => 'user_id',
-						'title' => __('User ID', lineconnect::PLUGIN_NAME),
 						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'key',
-						'title' => __('Key', lineconnect::PLUGIN_NAME),
 						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'value',
-						'title' => __('Value', lineconnect::PLUGIN_NAME),
 						'description' => __('Meta value. If empty, meta will be deleted.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
@@ -1332,20 +1299,17 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'key',
-						'title' => __('Key', lineconnect::PLUGIN_NAME),
 						'description' => __('Profile key to get', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1359,27 +1323,23 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'key',
-						'title' => __('Key', lineconnect::PLUGIN_NAME),
 						'description' => __('Profile key to update', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'value',
-						'title' => __('Value', lineconnect::PLUGIN_NAME),
 						'description' => __('Profile value. If empty, key will be deleted.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1393,14 +1353,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1414,7 +1372,6 @@ class lineconnectConst {
 					array(
 						'type' => 'array',
 						'name' => 'tags',
-						'title' => __('Tags', lineconnect::PLUGIN_NAME),
 						'description' => __('Array of tags to update. If empty, all tags will be deleted.', lineconnect::PLUGIN_NAME),
 						'items' => array(
 							'type' => 'string',
@@ -1424,14 +1381,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1445,7 +1400,6 @@ class lineconnectConst {
 					array(
 						'type' => 'array',
 						'name' => 'tags',
-						'title' => __('Tags', lineconnect::PLUGIN_NAME),
 						'description' => __('Array of tags to add. If empty, tags will not be added.', lineconnect::PLUGIN_NAME),
 						'items' => array(
 							'type' => 'string',
@@ -1455,14 +1409,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1476,7 +1428,6 @@ class lineconnectConst {
 					array(
 						'type' => 'array',
 						'name' => 'tags',
-						'title' => __('Tags', lineconnect::PLUGIN_NAME),
 						'description' => __('Array of tags to remove. If empty, tags will not be removed.', lineconnect::PLUGIN_NAME),
 						'items' => array(
 							'type' => 'string',
@@ -1486,14 +1437,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1506,16 +1455,14 @@ class lineconnectConst {
 				'parameters'  => array(
 					array(
 						'type' => 'slc_scenario',
-						'name' => 'scenario',
-						'title' => __('Scenario', lineconnect::PLUGIN_NAME),
+						'name' => 'slc_scenario_id',
 						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'flg',
-						'title' => __('Scenario restart flag', lineconnect::PLUGIN_NAME),
-						'description' => __('When restart a scenario.', lineconnect::PLUGIN_NAME),
+						'description' => __('Scenario restart flag', lineconnect::PLUGIN_NAME),
 						'oneOf'       => array(
 							array(
 								'const' => 'none',
@@ -1534,14 +1481,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('Line user ID', lineconnect::PLUGIN_NAME),
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+						'description' => __('Line user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1554,33 +1499,57 @@ class lineconnectConst {
 				'parameters'  => array(
 					array(
 						'type' => 'slc_scenario',
-						'name' => 'scenario',
-						'title' => __('Scenario', lineconnect::PLUGIN_NAME),
+						'name' => 'slc_scenario_id',
 						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'step_id',
-						'title' => __('Step ID', lineconnect::PLUGIN_NAME),
 						'description' => __('ID of the step to set.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'string',
 						'name' => 'next_date',
-						'title' => __('Next Date', lineconnect::PLUGIN_NAME),
 						'description' => __('Next date to execute the step. Absolute or relative.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('LINE User ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
+						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+					),
+				),
+				'namespace'   => 'lineconnectFunctions',
+				'role'        => 'administrator',
+			),
+			'execute_scenario_step' => array(
+				'title'       => __('Execute LC Scenario Step', lineconnect::PLUGIN_NAME),
+				'description' => __('Execute LINE Connect Scenario Step.', lineconnect::PLUGIN_NAME),
+				'parameters'  => array(
+					array(
+						'type' => 'slc_scenario',
+						'name' => 'slc_scenario_id',
+						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
+						'required' => true,
+					),
+					array(
+						'type' => 'string',
+						'name' => 'step_id',
+						'description' => __('ID of the step to execute.', lineconnect::PLUGIN_NAME),
+					),
+					array(
+						'type' => 'string',
+						'name' => 'line_user_id',
+						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+					),
+					array(
+						'type' => 'slc_channel',
+						'name' => 'channel',
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
@@ -1593,15 +1562,13 @@ class lineconnectConst {
 				'parameters'  => array(
 					array(
 						'type' => 'slc_scenario',
-						'name' => 'scenario',
-						'title' => __('Scenario', lineconnect::PLUGIN_NAME),
+						'name' => 'slc_scenario_id',
 						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
 						'required' => true,
 					),
 					array(
 						'type' => 'string',
 						'name' => 'status',
-						'title' => __('Status', lineconnect::PLUGIN_NAME),
 						'description' => __('The status to set.', lineconnect::PLUGIN_NAME),
 						'oneOf'	   => array(
 							array(
@@ -1625,13 +1592,11 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'title' => __('LINE User ID', lineconnect::PLUGIN_NAME),
 						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'title' => __('Channel', lineconnect::PLUGIN_NAME),
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),

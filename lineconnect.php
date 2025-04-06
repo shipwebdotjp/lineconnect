@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 4.1.4
+	Version: 4.1.5
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3

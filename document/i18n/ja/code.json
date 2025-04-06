@@ -295,31 +295,31 @@
     "description": "Title of the home page"
   },
   "homepage.tagline": {
-    "message": "WordPressとLINE Official Accountを連携させる便利なプラグイン",
+    "message": "WordPressとLINE公式アカウントを連携させる便利なプラグイン",
     "description": "Tagline of the home page"
   },
   "homepage.feature.title1": {
-    "message": "更新を素早く届ける",
+    "message": "カスタマイズ可能な更新通知",
     "description": "Title of the first feature"
   },
   "homepage.feature.description1": {
-    "message": "記事更新通知を、LINE公式アカウントの友だちに送ることができます。アイキャッチ付きで目に止まるメッセージを送信しましょう。",
+    "message": "記事更新通知を、LINE公式アカウントの友だちに連携状態やロールで絞り込んで、アイキャッチ付きの目を引くレイアウトで送れます。",
     "description": "Description of the first feature"
   },
   "homepage.feature.title2": {
-    "message": "忙しいあなたに",
+    "message": "トリガーによる自動応答",
     "description": "Title of the second feature"
   },
   "homepage.feature.description2": {
-    "message": "キーワード送信やリッチメニュータップをトリガーとしてお好きなメッセージで自動応答させることができます。",
+    "message": "キーワード送信やリッチメニュータップなどのユーザー操作や、特定の曜日や日付時刻をトリガーとしてメッセージを送るなどのアクションを実行できます。",
     "description": "Description of the second feature"
   },
   "homepage.feature.title3": {
-    "message": "AIに応答もおまかせ",
+    "message": "AIチャットボット",
     "description": "Title of the third feature"
   },
   "homepage.feature.description3": {
-    "message": "ChatGPTと連携して、問い合わせに自動回答したり、アクションを実行させることができます。",
+    "message": "ChatGPTと連携して、お問い合わせに自動回答させたり、アクションを実行させることができます。",
     "description": "Description of the third feature"
   }
 }

@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import Translate, {translate} from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl'; // useBaseUrlフックをインポート
 
 const FeatureList = [
   {
@@ -10,7 +11,8 @@ const FeatureList = [
       description: 'Title of the first feature',
       defaultMessage: 'Quickly deliver updates',
     }),
-    Svg: require('@site/static/img/article.svg').default,
+    // SvgからImgUrlに変更し、WEBP画像のパスを文字列で指定
+    ImgUrl: '/img/feature/updatenotification.webp',
     description: translate({
       id: 'homepage.feature.description1',
       description: 'Description of the first feature',
@@ -23,7 +25,8 @@ const FeatureList = [
       description: 'Title of the second feature',
       defaultMessage: 'For busy people like you',
     }),
-    Svg: require('@site/static/img/communication.svg').default,
+    // SvgからImgUrlに変更し、WEBP画像のパスを文字列で指定
+    ImgUrl: '/img/feature/trigger.webp', // trigger.webp が存在すると仮定
     description: translate({
       id: 'homepage.feature.description2',
       description: 'Description of the second feature',
@@ -36,7 +39,8 @@ const FeatureList = [
       description: 'Title of the third feature',
       defaultMessage: 'Let AI do the responding for you',
     }),
-    Svg: require('@site/static/img/synapse.svg').default,
+    // SvgからImgUrlに変更し、WEBP画像のパスを文字列で指定
+    ImgUrl: '/img/feature/aiassistant.webp',
     description: translate({
       id: 'homepage.feature.description3',
       description: 'Description of the third feature',
@@ -45,11 +49,17 @@ const FeatureList = [
   },
 ];
 
-function Feature({Svg, title, description}) {
+// Featureコンポーネントのprops名を Svg から ImgUrl に変更
+function Feature({ ImgUrl, title, description }) {
+  // useBaseUrlフックを使って、サイトのベースURLを考慮した画像パスを生成
+  const imgUrlAbsolute = useBaseUrl(ImgUrl);
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        {/* Svgコンポーネントの代わりに img タグを使用 */}
+        {/* srcには useBaseUrl で生成した絶対パスを指定 */}
+        {/* className は styles.featureImage など、別途CSSで定義したクラス名を指定 */}
+        <img className={styles.featureImage} src={imgUrlAbsolute} alt={title} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

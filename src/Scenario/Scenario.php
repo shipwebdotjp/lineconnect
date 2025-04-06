@@ -1749,7 +1749,7 @@ class Scenario {
 	}
 
 	/**
-	 * 指定されてステップを実行する
+	 * 指定されたステップを実行する
 	 * 
 	 * @param int $scenario_id シナリオID
 	 * @param string|null $step_id ステップID(nullの場合は最初のステップから)
@@ -1757,7 +1757,7 @@ class Scenario {
 	 * @param string $secret_prefix チャネルシークレットの先頭4文字
 	 * @return array 成功・失敗
 	 */
-	public static function execute_step(int $scenario_id, ?string $step_id, string $line_user_id, string $secret_prefix): array {
+	public static function execute_step(int $scenario_id, ?string $step_id, string $line_user_id, string $secret_prefix, ?string $last_executed_at = null): array {
 		$scenario = self::getScenario($scenario_id);
 		if (empty($scenario)) {
 			return array(
@@ -1864,7 +1864,7 @@ class Scenario {
 				// self::update_scenario_status($scenario_id, self::STATUS_COMPLETED, $line_user_id, $secret_prefix,  ['logs' => $logs]);
 			} else {
 				$status = self::STATUS_ACTIVE;
-				$last_executed_at = $line_user_scenario_status['next_date'] ?? wp_date('Y-m-d H:i:s');
+				$last_executed_at = $last_executed_at ?: $line_user_scenario_status['next_date'] ?? wp_date('Y-m-d H:i:s');
 				$next_date = Schedule::getNextSchedule($step_data['schedule'] ?? [], $last_executed_at);
 				$now = new \DateTime();
 				if (!$next_date || $now > new \DateTime($next_date)) { // if next date is in the past set current date
