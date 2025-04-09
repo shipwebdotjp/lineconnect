@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 // import { createRoot } from 'react-dom/client';
 import validator from '@rjsf/validator-ajv8';
 // import Form from '@rjsf/core';
@@ -25,12 +25,17 @@ const RJSFForm = () => {
     // const showErrorList = lc_initdata['showErrorList'] ?? 'bottom';
 
     const log = (type) => console.log.bind(console, type);
+    const formRefs = useRef([]);
 
+    useEffect(() => {
+        // 外部からバリデーションできるようにグローバルに保存
+        window.__rjsfFormRefs = formRefs.current;
+    }, []);
 
-    const onFormChange = ( formData, id) => {
+    const onFormChange = (formData, id) => {
         // console.log(formData);
         // console.log(id);
-        if(id == undefined){
+        if (id == undefined) {
             return;
         }
         //int : formIdx string to int
@@ -38,55 +43,31 @@ const RJSFForm = () => {
         //string : field
         const field = id.split('_')[2];
         let originalValue = formValueElement.value;
-        if(originalValue == ''){
+        if (originalValue == '') {
             originalValue = '{}';
         }
         const originalFormData = JSON.parse(originalValue);
         originalFormData[formIdx] = formData.formData;
         formValueElement.value = JSON.stringify(originalFormData);
-        if(lc_initdata['formName'] == 'slc_message-data' || 
-        lc_initdata['formName'] == 'slc_trigger-data'){
-            if(field == 'type'){
-                if(formData.formData.type && lc_initdata['subSchema'][formData.formData.type]){
+        if (lc_initdata['formName'] == 'slc_message-data' ||
+            lc_initdata['formName'] == 'slc_trigger-data') {
+            if (field == 'type') {
+                if (formData.formData.type && lc_initdata['subSchema'][formData.formData.type]) {
                     const newform = [...form];
-                    newform[formIdx+1]["schema"] = subSchema[formData.formData.type];
+                    newform[formIdx + 1]["schema"] = subSchema[formData.formData.type];
                     setForm(newform);
                 }
             }
         }
     }
 
-    const recursiveAttachUiOption = (formObj, uiSchema, orginalUiSchema) => {
-        //　再帰的なuiSchemaの適用
-        // check if formObj is Object
-        if(typeof formObj === 'object'){            
-            Object.keys(formObj).map((key) => {
-                if(uiSchema.hasOwnProperty(key) && uiSchema[key].hasOwnProperty('$ref')){
-                    if(orginalUiSchema.hasOwnProperty(uiSchema[key]['$ref'])){
-                        uiSchema[key] = orginalUiSchema[uiSchema[key]['$ref']]; //参照先のオブジェクトに置換
-                    }
-                }
-                formObj = recursiveAttachUiOption(formObj[key], uiSchema[key], orginalUiSchema);
-
-            });
-        }else if(typeof formObj === 'array'){
-            formObj.map((item) => {
-                result = recursiveAttachUiOption(item, uiSchema, orginalUiSchema);
-            });
-        }
-        else{
-            return formObj;
-        }
-
-    }
-
     const changeKeyLabel = (stringToTranslate, params) => {
         //check if the stringToTranslate in keys of translateString
         if (translateString[stringToTranslate]) {
             return replaceStringParameters(translateString[stringToTranslate], params);
-        }else{
+        } else {
             return englishStringTranslator(stringToTranslate, params);
-        } 
+        }
     }
 
     const AddButton = (props) => {
@@ -95,33 +76,45 @@ const RJSFForm = () => {
         const uiOptions = uiSchema['ui:options'] || {};
         return (
             <Button variant='outlined' color='primary' {...btnProps}>
-                {uiOptions['addText'] || 'Add' }
+                {uiOptions['addText'] || 'Add'}
             </Button>
         );
     }
 
+    const checkIfFormDataIsValid = () => {
+        // console.log(formRef.current);
+        if (formRef.current) {
+            return formRef.current.validateForm();
+        }
+        return false;
+    }
+
     return (
         <>
-        {form.map((form, id) => {
-            return (
-                <Form 
-                    key={id}
-                    schema={form.schema}
-                    uiSchema={form.uiSchema}
-                    formData={form.formData}
-                    validator={validator}
-                    translateString={changeKeyLabel}
-                    onChange={onFormChange}
-                    id={`rjsf_${id}`}
-                    idPrefix={`root_${id}`}
-                    liveOmit={form.props.liveOmit ?? false}
-                    omitExtraData={form.props.omitExtraData ?? false}
-                    liveValidate={form.props.liveValidate ?? false}
-                    showErrorList={form.props.showErrorList ?? 'bottom'}
-                    templates={{ ButtonTemplates: { AddButton } }}
-                />
-            );
-        })}
+            {form.map((formItem, id) => {
+                const ref = React.createRef();
+                formRefs.current[id] = ref;
+
+                return (
+                    <Form
+                        key={id}
+                        schema={formItem.schema}
+                        uiSchema={formItem.uiSchema}
+                        formData={formItem.formData}
+                        validator={validator}
+                        translateString={changeKeyLabel}
+                        onChange={onFormChange}
+                        id={`rjsf_${id}`}
+                        idPrefix={`root_${id}`}
+                        liveOmit={formItem.props.liveOmit ?? false}
+                        omitExtraData={formItem.props.omitExtraData ?? false}
+                        liveValidate={formItem.props.liveValidate ?? false}
+                        showErrorList={formItem.props.showErrorList ?? 'bottom'}
+                        templates={{ ButtonTemplates: { AddButton } }}
+                        ref={ref}
+                    />
+                );
+            })}
         </>
     );
 }

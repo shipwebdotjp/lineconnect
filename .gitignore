@@ -13,3 +13,5 @@ phpunit.xml
 phpunit.xml.dist
 .aider*
 .DS_Store
+export_docs.sh
+exported_all_docs.md

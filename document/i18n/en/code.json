@@ -1,7 +1,11 @@
 {
   "homepage.start": {
-    "message": "Start using the LINE Connect",
+    "message": "See the document",
     "description": "Start using the LINE Connect"
+  },
+  "homepage.download": {
+    "message": "Download",
+    "description": "Download button on homepage"
   },
   "theme.ErrorPageContent.title": {
     "message": "This page crashed.",
@@ -298,29 +302,52 @@
     "message": "A convenient plugin linking WordPress with LINE Official Account",
     "description": "Tagline of the home page"
   },
-  "homepage.feature.title1": {
+  "homepage.feature.updatenotify.title": {
     "message": "Deliver Updates Quickly",
     "description": "Title of the first feature"
   },
-  "homepage.feature.description1": {
+  "homepage.feature.updatenotify.description": {
     "message": "Send article update notifications to friends of your LINE Official Account. Deliver eye-catching messages with featured images.",
     "description": "Description of the first feature"
   },
-  "homepage.feature.title2": {
+  "homepage.feature.trigger.title": {
     "message": "For Your Busy Lifestyle",
     "description": "Title of the second feature"
   },
-  "homepage.feature.description2": {
+  "homepage.feature.trigger.description": {
     "message": "Trigger automated replies with customized messages by sending keywords or tapping on rich menus.",
     "description": "Description of the second feature"
   },
-  "homepage.feature.title3": {
+  "homepage.feature.aiassistant.title": {
     "message": "Leave Responses to AI",
     "description": "Title of the third feature"
   },
-  "homepage.feature.description3": {
+  "homepage.feature.aiassistant.description": {
     "message": "Integrate with ChatGPT to automatically respond to inquiries or execute actions.",
     "description": "Description of the third feature"
+  },
+  "homepage.feature.scenario.title": {
+    "message": "Create Scenarios with Ease",
+    "description": "Title of the fourth feature"
+  },
+  "homepage.feature.scenario.description": {
+    "message": "Sequential execution of actions such as sending messages at specified time intervals.",
+    "description": "Description of the scenario feature"
+  },
+  "homepage.feature.richmenu.title": {
+    "message": "Rich menu",
+    "description": "Title of the rich menu feature"
+  },
+  "homepage.feature.richmenu.description": {
+    "message": "You can create new rich menus based on existing rich menus and templates, and configure them according to collaboration status and roles.",
+    "description": "Description of the rich menu feature"
+  },
+  "homepage.feature.audience.title": {
+    "message": "Audience",
+    "description": "Title of the audience feature"
+  },
+  "homepage.feature.audience.description": {
+    "message": "You can create a targeted audience based on user attributes and call it when sending a message or executing an action.",
+    "description": "Description of the audience feature"
   }
-  
 }

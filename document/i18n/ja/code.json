@@ -1,7 +1,11 @@
 {
   "homepage.start": {
-    "message": "今すぐ使い方を見てみる",
+    "message": "使い方を見る",
     "description": "Start button on homepage"
+  },
+  "homepage.download": {
+    "message": "ダウンロード",
+    "description": "Download button on homepage"
   },
   "theme.ErrorPageContent.title": {
     "message": "エラーが発生しました",
@@ -295,31 +299,55 @@
     "description": "Title of the home page"
   },
   "homepage.tagline": {
-    "message": "WordPressとLINE公式アカウントを連携させる便利なプラグイン",
+    "message": "WordPressユーザーとLINEの友だちを連携させて、あなたのビジネスを加速させる",
     "description": "Tagline of the home page"
   },
-  "homepage.feature.title1": {
+  "homepage.feature.updatenotify.title": {
     "message": "カスタマイズ可能な更新通知",
     "description": "Title of the first feature"
   },
-  "homepage.feature.description1": {
+  "homepage.feature.updatenotify.description": {
     "message": "記事更新通知を、LINE公式アカウントの友だちに連携状態やロールで絞り込んで、アイキャッチ付きの目を引くレイアウトで送れます。",
     "description": "Description of the first feature"
   },
-  "homepage.feature.title2": {
+  "homepage.feature.trigger.title": {
     "message": "トリガーによる自動応答",
     "description": "Title of the second feature"
   },
-  "homepage.feature.description2": {
+  "homepage.feature.trigger.description": {
     "message": "キーワード送信やリッチメニュータップなどのユーザー操作や、特定の曜日や日付時刻をトリガーとしてメッセージを送るなどのアクションを実行できます。",
     "description": "Description of the second feature"
   },
-  "homepage.feature.title3": {
+  "homepage.feature.aiassistant.title": {
     "message": "AIチャットボット",
     "description": "Title of the third feature"
   },
-  "homepage.feature.description3": {
+  "homepage.feature.aiassistant.description": {
     "message": "ChatGPTと連携して、お問い合わせに自動回答させたり、アクションを実行させることができます。",
     "description": "Description of the third feature"
+  },
+  "homepage.feature.scenario.title": {
+    "message": "シナリオ配信",
+    "description": "Title of the fourth feature"
+  },
+  "homepage.feature.scenario.description": {
+    "message": "指定した時間間隔で、メッセージ送信などのアクションを設定した順番で順次実行できます。",
+    "description": "Description of the scenario feature"
+  },
+  "homepage.feature.richmenu.title": {
+    "message": "リッチメニュー",
+    "description": "Title of the rich menu feature"
+  },
+  "homepage.feature.richmenu.description": {
+    "message": "既存リッチメニューやテンプレートを元に新規リッチメニューを作成し、連携状態やロールに応じて設定可能です。",
+    "description": "Description of the rich menu feature"
+  },
+  "homepage.feature.audience.title": {
+    "message": "オーディエンス",
+    "description": "Title of the audience feature"
+  },
+  "homepage.feature.audience.description": {
+    "message": "ユーザーの属性を元に絞り込んだオーディエンスを作成しておき、メッセージ送信時やアクション実行時に呼び出して利用できます。",
+    "description": "Description of the audience feature"
   }
 }
