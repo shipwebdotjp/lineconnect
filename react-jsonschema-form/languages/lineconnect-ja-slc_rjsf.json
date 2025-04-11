@@ -1,0 +1,32 @@
+{
+  "translation-revision-date": "2025-04-11 19:10:03+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "Invalid JSON format: ": [
+        "JSONフォーマットが正しくありません: "
+      ],
+      "JSON Data": [
+        "JSONデータ"
+      ],
+      "Copy": [
+        "コピー"
+      ],
+      "Close": [
+        "閉じる"
+      ],
+      "Apply": [
+        "適用"
+      ],
+      "View as JSON": [
+        "JSON表示"
+      ]
+    }
+  }
+}

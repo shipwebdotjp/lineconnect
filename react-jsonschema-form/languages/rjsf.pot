@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
+
+#: src/component/RJSFForm.jsx:151
+msgid "Invalid JSON format: "
+msgstr ""
+
+#: src/component/RJSFForm.jsx:189
+msgid "JSON Data"
+msgstr ""
+
+#: src/component/RJSFForm.jsx:201
+msgid "Copy"
+msgstr ""
+
+#: src/component/RJSFForm.jsx:204
+msgid "Close"
+msgstr ""
+
+#: src/component/RJSFForm.jsx:207
+msgid "Apply"
+msgstr ""
+
+#: src/component/RJSFForm.jsx:215
+msgid "View as JSON"
+msgstr ""

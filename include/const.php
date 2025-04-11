@@ -2108,6 +2108,48 @@ class lineconnectConst {
 															),
 														),
 													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'image',
+															)
+														),
+													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'video',
+															),
+														),
+													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'audio',
+															),
+														),
+													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'file',
+															),
+														),
+													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'location',
+															),
+														),
+													),
+													array(
+														'properties' => array(
+															'type' => array(
+																'const' => 'sticker',
+															),
+														),
+													),
 												),
 											),
 										),
@@ -2127,6 +2169,13 @@ class lineconnectConst {
 												'$ref' => '#/definitions/keyword',
 											),
 										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'accountLink',
 									),
 								),
 							),
@@ -2161,6 +2210,56 @@ class lineconnectConst {
 									),
 								),
 							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'unfollow',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'videoPlayComplete',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'join',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'leave',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'memberJoined',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'memberLeft',
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'unsend',
+									),
+								),
+							),
+
 						),
 					),
 				),
@@ -2502,6 +2601,13 @@ class lineconnectConst {
 																									'title' => __('Monday', lineconnect::PLUGIN_NAME),
 																								),
 																							),
+																						),
+																					),
+																				),
+																				array(
+																					'properties' => array(
+																						'type' => array(
+																							'const' => 'nthday',
 																						),
 																					),
 																				),
@@ -3398,6 +3504,77 @@ class lineconnectConst {
 					'items' => array(
 						'type' => 'string',
 						'oneOf' => array(),
+					),
+				),
+				'compare' => array(
+					'type' => 'string',
+					'title' => __('Compare method', lineconnect::PLUGIN_NAME),
+					'default' => '=',
+					'anyOf' => array(
+						array(
+							'const' => '=',
+							'title' => __('Equals', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '!=',
+							'title' => __('Not equals', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '>',
+							'title' => __('Greater than', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '>=',
+							'title' => __('Greater than or equal', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '<',
+							'title' => __('Less than', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => '<=',
+							'title' => __('Less than or equal', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'LIKE',
+							'title' => __('Contains (String)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT LIKE',
+							'title' => __('Not contains (String)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'IN',
+							'title' => __('In (Array)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT IN',
+							'title' => __('Not in (Array)', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'BETWEEN',
+							'title' => __('Between 2 values', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT BETWEEN',
+							'title' => __('Not Between 2 values', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'EXISTS',
+							'title' => __('Exists', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT EXISTS',
+							'title' => __('Not exists', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'REGEXP',
+							'title' => __('Regular expression match', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'NOT REGEXP',
+							'title' => __('No regular expression match', lineconnect::PLUGIN_NAME),
+						),
 					),
 				),
 
@@ -4360,6 +4537,20 @@ class lineconnectConst {
 										array(
 											'properties' => array(
 												'inputOption' => array(
+													'const' => 'closeRichMenu',
+												),
+											),
+										),
+										array(
+											'properties' => array(
+												'inputOption' => array(
+													'const' => 'openRichMenu',
+												),
+											),
+										),
+										array(
+											'properties' => array(
+												'inputOption' => array(
 													'const' => 'openKeyboard',
 												),
 												'fillInText' => array(
@@ -4367,6 +4558,13 @@ class lineconnectConst {
 													'title' => __('Fill in text', lineconnect::PLUGIN_NAME),
 													'description' => __('String to be pre-filled in the input field when the keyboard is opened. Valid only when the inputOption property is set to openKeyboard.', lineconnect::PLUGIN_NAME),
 													'maxLength' => 300,
+												),
+											),
+										),
+										array(
+											'properties' => array(
+												'inputOption' => array(
+													'const' => 'openVoice',
 												),
 											),
 										),

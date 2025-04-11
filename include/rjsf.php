@@ -23,18 +23,18 @@ class lineconnectRJSF {
 		if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
 			if (in_array($post_type, $post_types)) {
 				$js_file = 'react-jsonschema-form/dist/main.js';
-				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . $target_post_type, plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
+				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
 				//バリデーション用JSファイル読み込み
 				$js_file = 'assets/js/rjsf_validation.js';
-				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . $target_post_type . '-validation', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
+				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-validation', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
 
 				// JavaScriptの言語ファイル読み込み
-				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . $target_post_type, lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'languages');
+				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'react-jsonschema-form/languages');
 
 				//$css_file = 'react-jsonschema-form/dist/bootstrap-4.css';
 				//wp_enqueue_style( lineconnect::PLUGIN_PREFIX . $target_post_type. '-css', plugins_url( $css_file, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $css_file ) );
 				$override_css_file = 'react-jsonschema-form/dist/rjsf-override.css';
-				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . $target_post_type . '-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
+				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
 			}
 		}
 	}
@@ -44,15 +44,17 @@ class lineconnectRJSF {
 	 */
 	static function show_json_edit_form($ary_init_data, $nonce_field) {
 		$inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+
 		$hidden_json_filed = '<input type="hidden" id="' . $ary_init_data['formName'] . '" name="' . $ary_init_data['formName'] . '">';
-		// error_log( json_encode( $ary_init_data['subSchema'], JSON_PRETTY_PRINT ) );
+
 
 		echo $nonce_field;
+		echo $hidden_json_filed;
 		echo <<< EOM
-		{$hidden_json_filed}
 		<div id="app"></div>
 		<script>
 		var lc_initdata = {$inidata};
+		/*
 		document.addEventListener("DOMContentLoaded", (event) => {
 			var origin_data = {};
 			lc_initdata.form.map((form, index) => {
@@ -62,6 +64,7 @@ class lineconnectRJSF {
 			});
 			document.getElementById(lc_initdata['formName']).value = JSON.stringify(origin_data);
 		});
+		*/
 		</script>
 EOM;
 	}
