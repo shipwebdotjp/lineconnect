@@ -12,7 +12,7 @@ module.exports = (env, args) => {
         entry: './src/index.js',
         output: {
             path: __dirname + '/dist',
-            filename: 'slc_bulkmessage.js'
+            filename: 'slc_richmenu.js'
         },
         module: {
             rules: [
@@ -20,8 +20,8 @@ module.exports = (env, args) => {
                     test: /\.js$|jsx/,
                     exclude: /node_modules/,
                     use: {
-                        loader: 'babel-loader',
-                        options: {
+                        loader: 'babel-loader',   //loader名
+                        options: {                //Babelの設定
                             presets: [
                                 '@babel/preset-env',
                                 ['@babel/preset-react', {
@@ -31,14 +31,15 @@ module.exports = (env, args) => {
                             plugins: [
                                 '@babel/plugin-syntax-jsx',
                                 ['@wordpress/babel-plugin-makepot', {
-                                    output: './languages/line-bulkmessage.pot',
+                                    output: './languages/richmenu.pot',
                                     domain: 'lineconnect',
                                     exclude: ['node_modules/**/*'],
                                     headers: {
                                         'Project-Id-Version': 'LINE Connect',
                                         'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
                                     }
-                                }]
+                                }],
+                                '@babel/plugin-transform-runtime'
                             ]
                         }
                     }
@@ -54,12 +55,13 @@ module.exports = (env, args) => {
                             }
                         },
                         'postcss-loader'
+
                     ]
                 }
             ]
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.json']
+            extensions: ['.js', '.jsx', '.json']  // .jsxも省略可能対象にする
         },
         plugins: [
             new MiniCssExtractPlugin({
@@ -70,4 +72,4 @@ module.exports = (env, args) => {
             concatenateModules: false,
         }
     }
-}
+};

@@ -12,7 +12,7 @@ module.exports = (env, args) => {
         entry: './src/index.js',
         output: {
             path: __dirname + '/dist',
-            filename: 'slc_dm.js'
+            filename: 'slc_bulkmessage.js'
         },
         module: {
             rules: [
@@ -20,8 +20,8 @@ module.exports = (env, args) => {
                     test: /\.js$|jsx/,
                     exclude: /node_modules/,
                     use: {
-                        loader: 'babel-loader',   //loader名
-                        options: {                //Babelの設定
+                        loader: 'babel-loader',
+                        options: {
                             presets: [
                                 '@babel/preset-env',
                                 ['@babel/preset-react', {
@@ -31,7 +31,7 @@ module.exports = (env, args) => {
                             plugins: [
                                 '@babel/plugin-syntax-jsx',
                                 ['@wordpress/babel-plugin-makepot', {
-                                    output: './languages/line-dm.pot',
+                                    output: './languages/bulkmessage.pot',
                                     domain: 'lineconnect',
                                     exclude: ['node_modules/**/*'],
                                     headers: {
@@ -39,7 +39,7 @@ module.exports = (env, args) => {
                                         'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
                                     }
                                 }]
-                            ] //JSXパース用
+                            ]
                         }
                     }
                 },
@@ -54,21 +54,20 @@ module.exports = (env, args) => {
                             }
                         },
                         'postcss-loader'
-
                     ]
                 }
             ]
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.json']  // .jsxも省略可能対象にする
+            extensions: ['.js', '.jsx', '.json']
         },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: 'style.css'
             })
         ],
-		optimization: {
-			concatenateModules: false,
-		}
+        optimization: {
+            concatenateModules: false,
+        }
     }
-};
+}

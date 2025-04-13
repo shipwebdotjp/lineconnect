@@ -22,18 +22,18 @@ class lineconnectRJSF {
 		$post_types = array($target_post_type);
 		if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
 			if (in_array($post_type, $post_types)) {
-				$js_file = 'react-jsonschema-form/dist/main.js';
+				$js_file = 'frontend/rjsf/dist/main.js';
 				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
 				//バリデーション用JSファイル読み込み
 				$js_file = 'assets/js/rjsf_validation.js';
 				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-validation', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
 
 				// JavaScriptの言語ファイル読み込み
-				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'react-jsonschema-form/languages');
+				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/rjsf/languages');
 
-				//$css_file = 'react-jsonschema-form/dist/bootstrap-4.css';
+				//$css_file = 'frontend/rjsf/dist/bootstrap-4.css';
 				//wp_enqueue_style( lineconnect::PLUGIN_PREFIX . $target_post_type. '-css', plugins_url( $css_file, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $css_file ) );
-				$override_css_file = 'react-jsonschema-form/dist/rjsf-override.css';
+				$override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
 				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
 			}
 		}

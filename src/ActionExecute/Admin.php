@@ -63,7 +63,7 @@ class Admin {
     static function wpdocs_plugin_admin_styles() {
         $css = 'frontend/' . ActionExecute::NAME . '/dist/style.css';
         wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($css, LineConnect::getRootDir() . lineconnect::PLUGIN_ENTRY_FILE_NAME), array(), filemtime(LineConnect::getRootDir() . $css));
-        $override_css_file = 'react-jsonschema-form/dist/rjsf-override.css';
+        $override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
         wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', plugins_url($override_css_file, LineConnect::getRootDir() . lineconnect::PLUGIN_ENTRY_FILE_NAME), array(), filemtime(LineConnect::getRootDir() . $override_css_file));
     }
 

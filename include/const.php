@@ -3736,6 +3736,23 @@ class lineconnectConst {
 								'display' => 'none',
 							),
 						),
+						'parameters' => array(
+							'ui:options' => array(
+								'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
+							),
+							'body' => array(
+								'ui:widget' => 'textarea',
+								'ui:options' => array(
+									'rows' => 5,
+								),
+							),
+							'json' => array(
+								'ui:widget' => 'textarea',
+								'ui:options' => array(
+									'rows' => 5,
+								),
+							),
+						),
 					),
 					'ui:options' => array(
 						'addText' =>  __('Add action', lineconnect::PLUGIN_NAME),

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const poFile = path.resolve(__dirname, 'languages/line-dm-ja.po');
-const jsonFile = path.resolve(__dirname, 'languages/lineconnect-ja-slc_dm.json');
+const poFile = path.resolve(__dirname, 'languages/richmenu-ja.po');
+const jsonFile = path.resolve(__dirname, 'languages/lineconnect-ja-slc_richmenu.json');
 
 function parsePOFile(content) {
     const messages = {};
@@ -12,10 +12,10 @@ function parsePOFile(content) {
     let isCollectingMsgstr = false;
 
     const lines = content.split('\n');
-    
+
     for (let line of lines) {
         line = line.trim();
-        
+
         if (line.startsWith('msgid "')) {
             // 新しいメッセージの開始
             if (currentMsgid && currentMsgstr) {
@@ -66,17 +66,17 @@ function parsePOFile(content) {
 // 引用符を取り除き、エスケープされた文字を処理する
 function stripQuotes(str) {
     if (!str) return '';
-    
+
     // 先頭と末尾の引用符を削除
     str = str.replace(/^"|"$/g, '');
-    
+
     // エスケープされた文字を処理
     str = str.replace(/\\"/g, '"')           // エスケープされた引用符
-             .replace(/\\n/g, '\n')          // 改行
-             .replace(/\\t/g, '\t')          // タブ
-             .replace(/\\r/g, '\r')          // キャリッジリターン
-             .replace(/\\(.)/g, '$1');       // その他のエスケープ文字
-    
+        .replace(/\\n/g, '\n')          // 改行
+        .replace(/\\t/g, '\t')          // タブ
+        .replace(/\\r/g, '\r')          // キャリッジリターン
+        .replace(/\\(.)/g, '$1');       // その他のエスケープ文字
+
     return str;
 }
 

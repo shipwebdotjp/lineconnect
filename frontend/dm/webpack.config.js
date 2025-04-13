@@ -12,7 +12,7 @@ module.exports = (env, args) => {
         entry: './src/index.js',
         output: {
             path: __dirname + '/dist',
-            filename: 'slc_richmenu.js'
+            filename: 'slc_dm.js'
         },
         module: {
             rules: [
@@ -31,16 +31,15 @@ module.exports = (env, args) => {
                             plugins: [
                                 '@babel/plugin-syntax-jsx',
                                 ['@wordpress/babel-plugin-makepot', {
-                                    output: './languages/line-richmenu.pot',
+                                    output: './languages/dm.pot',
                                     domain: 'lineconnect',
                                     exclude: ['node_modules/**/*'],
                                     headers: {
                                         'Project-Id-Version': 'LINE Connect',
                                         'Report-Msgid-Bugs-To': 'shipwebdotjp@gmail.com'
                                     }
-                                }],
-                                '@babel/plugin-transform-runtime'
-                            ]
+                                }]
+                            ] //JSXパース用
                         }
                     }
                 },
@@ -68,8 +67,8 @@ module.exports = (env, args) => {
                 filename: 'style.css'
             })
         ],
-		optimization: {
-			concatenateModules: false,
-		}
+        optimization: {
+            concatenateModules: false,
+        }
     }
 };

@@ -7,22 +7,22 @@ sed -i '' "s/const VERSION = '.*/const VERSION = '${LINE_CONNECT_VERSION}';/" sr
 # ワーキングディレクトリを保存して後で利用可能にする
 WORKING_DIR=`pwd`
 
-# line-richmenuに移動して、ビルドする
-cd line-richmenu
+# frontend/richmenuに移動して、ビルドする
+cd frontend/richmenu
 npm run build
 cd $WORKING_DIR
 
 # line-bulkmessageに移動して、ビルドする
-cd line-bulkmessage
+cd frontend/bulkmessage
 npm run build
 cd $WORKING_DIR
 
 # line-dmに移動して、ビルドする
-cd line-dm
+cd frontend/dm
 npm run build
 cd $WORKING_DIR
 
-cd react-jsonschema-form
+cd frontend/rjsf
 npm run build
 cd $WORKING_DIR
 

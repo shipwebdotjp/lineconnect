@@ -120,6 +120,13 @@ class lineconnectAction {
 					if (! isset($error)) {
 						$arguments_array = null;
 						if (isset($function_schema['parameters'])) {
+
+							error_log('parameters:' . print_r($function_schema['parameters'], true));
+							error_log('action:' . print_r($action, true));
+
+							if (!array_key_exists('parameters', $action) || empty($action['parameters'])) {
+								$action['parameters'] = [];
+							}
 							$action_parameters =  lineconnectUtil::inject_param($action_idx, $action['parameters'], $chains);
 							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters, $function_schema['parameters'], $injection_data);
 							$arguments_array = lineconnectUtil::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);

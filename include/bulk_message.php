@@ -211,17 +211,17 @@ EOM;
 
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
-		$chat_js = 'line-bulkmessage/dist/slc_bulkmessage.js';
+		$chat_js = 'frontend/bulkmessage/dist/slc_bulkmessage.js';
 		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'bulkmessage', plugins_url($chat_js, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $chat_js), true);
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'bulkmessage', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'line-bulkmessage/languages');
+		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'bulkmessage', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/bulkmessage/languages');
 	}
 
 	// 管理画面用にスタイル読み込み
 	static function wpdocs_plugin_admin_styles() {
-		$chat_css = 'line-bulkmessage/dist/style.css';
+		$chat_css = 'frontend/bulkmessage/dist/style.css';
 		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($chat_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $chat_css));
-		$override_css_file = 'react-jsonschema-form/dist/rjsf-override.css';
+		$override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
 		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
 	}
 }

@@ -123,7 +123,7 @@ class lineconnectUtil {
 				// 文字列の一部にプレースホルダーが含まれている場合、コールバック関数を用いて置換する
 				$object = preg_replace_callback('/{{(.*?)}}/', function ($matches) use (&$injection_data) {
 					$replaced = self::replace_injection_data($matches[1], $injection_data);
-					return is_string($replaced) ? $replaced : '';
+					return is_null($replaced) ? '' : (string)$replaced;
 				}, $object);
 			}
 		}

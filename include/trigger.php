@@ -169,6 +169,7 @@ EOM;
 	 */
 	static function get_trigger_schema() {
 		$trigger_schema = lineconnectConst::$lineconnect_trigger_schema;
+		/*
 		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
 		if (!empty($action_array)) {
 			foreach ($action_array as $name => $action) {
@@ -193,13 +194,6 @@ EOM;
 							$key                           = $parameter['name'] ?? 'param' . $idx;
 							$val                           = lineconnectUtil::get_parameter_schema($key, $parameter);
 							$parameters_properties[$key] = $val;
-							/*
-							$parameters_properties[ $key . '-injection' ] = array(
-								'type'    => 'string',
-								'title'   => sprintf( __( 'Injection data path of %s',  lineconnect::PLUGIN_NAME ) , $key),
-								'description' => __('The return value of the previous action can be used as a parameter. ex: $.return.0 to use return value of action 0', lineconnect::PLUGIN_NAME),
-							);
-							*/
 						}
 					}
 					if (! empty($parameters_properties)) {
@@ -228,6 +222,9 @@ EOM;
 				),
 			);
 		}
+		*/
+		lineconnectAction::build_action_schema_items($trigger_schema['properties']['action']['items']['oneOf']);
+
 		$all_roles = array();
 		foreach (wp_roles()->roles as $role_name => $role) {
 			$all_roles[] = array(
