@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.1.4\n"
+"Project-Id-Version: LINE Connect 4.1.6\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-04-06 22:10+0900\n"
+"POT-Creation-Date: 2025-04-20 21:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,18 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Check All"
-msgstr ""
-
-msgid "UnCheck All"
-msgstr ""
-
-msgid "Select options"
-msgstr ""
-
-msgid "# checked"
-msgstr ""
 
 msgid "Error: Invalid line user ID."
 msgstr ""
@@ -325,16 +313,22 @@ msgid ""
 "sent to official line account."
 msgstr ""
 
+msgid "OpenAI API Endpoint"
+msgstr ""
+
+msgid "Enter your OpenAI (or Compatible) API Endpoint."
+msgstr ""
+
 msgid "OpenAI API Key"
 msgstr ""
 
-msgid "Enter your OpenAI API Key."
+msgid "Enter your OpenAI (or Compatible) API Key."
 msgstr ""
 
 msgid "Model"
 msgstr ""
 
-msgid "This is a setting for which model to use."
+msgid "This is a setting for which model to use. Such as gpt-4o-mini"
 msgstr ""
 
 msgid "System prompt"
@@ -1332,6 +1326,54 @@ msgstr ""
 msgid "Target channel"
 msgstr ""
 
+msgid "Compare method"
+msgstr ""
+
+msgid "Not equals"
+msgstr ""
+
+msgid "Greater than"
+msgstr ""
+
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Less than"
+msgstr ""
+
+msgid "Less than or equal"
+msgstr ""
+
+msgid "Contains (String)"
+msgstr ""
+
+msgid "Not contains (String)"
+msgstr ""
+
+msgid "In (Array)"
+msgstr ""
+
+msgid "Not in (Array)"
+msgstr ""
+
+msgid "Between 2 values"
+msgstr ""
+
+msgid "Not Between 2 values"
+msgstr ""
+
+msgid "Exists"
+msgstr ""
+
+msgid "Not exists"
+msgstr ""
+
+msgid "Regular expression match"
+msgstr ""
+
+msgid "No regular expression match"
+msgstr ""
+
 msgid "Add source condition"
 msgstr ""
 
@@ -1354,6 +1396,9 @@ msgid "Add year"
 msgstr ""
 
 msgid "Add trigger"
+msgstr ""
+
+msgid "Add parameter"
 msgstr ""
 
 msgid "Add action"
@@ -2061,54 +2106,6 @@ msgstr ""
 msgid "WordPress User ID"
 msgstr ""
 
-msgid "Compare method"
-msgstr ""
-
-msgid "Not equals"
-msgstr ""
-
-msgid "Greater than"
-msgstr ""
-
-msgid "Greater than or equal"
-msgstr ""
-
-msgid "Less than"
-msgstr ""
-
-msgid "Less than or equal"
-msgstr ""
-
-msgid "Contains (String)"
-msgstr ""
-
-msgid "Not contains (String)"
-msgstr ""
-
-msgid "In (Array)"
-msgstr ""
-
-msgid "Not in (Array)"
-msgstr ""
-
-msgid "Between 2 values"
-msgstr ""
-
-msgid "Not Between 2 values"
-msgstr ""
-
-msgid "Exists"
-msgstr ""
-
-msgid "Not exists"
-msgstr ""
-
-msgid "Regular expression match"
-msgstr ""
-
-msgid "No regular expression match"
-msgstr ""
-
 msgid "Add condition"
 msgstr ""
 
@@ -2676,6 +2673,18 @@ msgid "Teacher"
 msgstr ""
 
 msgid "Student"
+msgstr ""
+
+msgid "Check All"
+msgstr ""
+
+msgid "UnCheck All"
+msgstr ""
+
+msgid "Select options"
+msgstr ""
+
+msgid "# checked"
 msgstr ""
 
 msgid "Copied!"
@@ -3296,9 +3305,6 @@ msgid "Add value"
 msgstr ""
 
 msgid "Add profile"
-msgstr ""
-
-msgid "Add parameter"
 msgstr ""
 
 msgid "Add step"

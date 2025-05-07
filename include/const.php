@@ -455,7 +455,18 @@ class lineconnectConst {
 		'multipart/x-zip'                      => 'zip',
 		'text/x-scriptzsh'                     => 'zsh',
 	);
-
+	const LINE_MESSAGE_TYPES = array(
+		'text',
+		'textV2',
+		'sticker',
+		'image',
+		'video',
+		'audio',
+		'location',
+		'imagemap',
+		'template',
+		'flex',
+	);
 
 	/**
 	 * LINE Connect Actions
@@ -762,18 +773,27 @@ class lineconnectConst {
 							'default'  => 'off',
 							'hint'     => __('This setting determines whether or not to use AI auto-response for messages sent to official line account.', lineconnect::PLUGIN_NAME),
 						),
+						'openai_endpoint' => array(
+							'type'     => 'text',
+							'label'    => __('OpenAI API Endpoint', lineconnect::PLUGIN_NAME),
+							'required' => false,
+							'default'  => 'https://api.openai.com/v1/chat/completions',
+							'size'     => 60,
+							'hint'     => __('Enter your OpenAI (or Compatible) API Endpoint.', lineconnect::PLUGIN_NAME),
+						),
 						'openai_secret'            => array(
 							'type'     => 'text',
 							'label'    => __('OpenAI API Key', lineconnect::PLUGIN_NAME),
 							'required' => false,
 							'default'  => '',
 							'size'     => 60,
-							'hint'     => __('Enter your OpenAI API Key.', lineconnect::PLUGIN_NAME),
+							'hint'     => __('Enter your OpenAI (or Compatible) API Key.', lineconnect::PLUGIN_NAME),
 						),
 						'openai_model'             => array(
-							'type'     => 'select',
+							'type'     => 'text',
 							'label'    => __('Model', lineconnect::PLUGIN_NAME),
 							'required' => false,
+							/*
 							'list'     => array(
 								'gpt-3.5-turbo'     => 'GPT-3.5 turbo',
 								'gpt-3.5-turbo-16k' => 'GPT-3.5 turbo 16k(Legacy)',
@@ -782,9 +802,16 @@ class lineconnectConst {
 								'gpt-4-turbo-preview'         => 'GPT-4 turbo',
 								'gpt-4o'             => 'GPT-4o',
 								'gpt-4o-mini'             => 'GPT-4o mini',
+								'gpt-4.1'			 => 'GPT-4.1',
+								'gpt-4.1-mini'			 => 'GPT-4.1 mini',
+								'gpt-4.1-nano'			 => 'GPT-4.1 nano',
+								'o3'			 => 'o3',
+								'o4-mini'			 => 'o4-mini',
 							),
-							'default'  => 'gpt-3.5-turbo',
-							'hint'     => __('This is a setting for which model to use.', lineconnect::PLUGIN_NAME),
+							*/
+							'default'  => 'gpt-4o-mini',
+							'size'     => 60,
+							'hint'     => __('This is a setting for which model to use. Such as gpt-4o-mini', lineconnect::PLUGIN_NAME),
 						),
 						'openai_system'            => array(
 							'type'     => 'textarea',
@@ -889,6 +916,27 @@ class lineconnectConst {
 				'namespace'   => 'lineconnectFunctions',
 				'role'        => 'any',
 			),
+			// 'render_template' => array(
+			// 	'title'       => __('Render Twig template', lineconnect::PLUGIN_NAME),
+			// 	'description' => 'Render Twig template with parameters.',
+			// 	'parameters'  => array(
+			// 		array(
+			// 			'type'       => 'string',
+			// 			'name'	   => 'body',
+			// 			'description' => 'Twig template string. Such as {{ name }}',
+			// 		),
+			// 		array(
+			// 			'type' => 'object',
+			// 			'name' => 'args',
+			// 			'description' => __('Arguments to insert into the template.', lineconnect::PLUGIN_NAME),
+			// 			'additionalProperties' => array(
+			// 				'type' => 'string',
+			// 			),
+			// 		),
+			// 	),
+			// 	'namespace' => 'lineconnectFunctions',
+			// 	'role'      => 'any',
+			// ),
 			'WP_Query'                 => array(
 				'title'       => __('Search posts', lineconnect::PLUGIN_NAME),
 				'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
@@ -1147,14 +1195,12 @@ class lineconnectConst {
 					array(
 						'type' => 'string',
 						'name' => 'line_user_id',
-						'description' => __('LINE user ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
+						'description' => __('LINE user ID. Default value is LINE user id of event source.', lineconnect::PLUGIN_NAME),
 					),
 					array(
 						'type' => 'slc_channel',
 						'name' => 'channel',
-						'description' => __('Channel', lineconnect::PLUGIN_NAME),
-						'required' => true,
+						'description' => __('Channel. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
 				'namespace'   => 'lineconnectFunctions',

@@ -3,7 +3,7 @@
 class UtilInjectParamTest extends WP_UnitTestCase {
     protected static $result;
     protected $injection_data;
-    public static function wpSetUpBeforeClass( $factory ) {
+    public static function wpSetUpBeforeClass($factory) {
         self::$result = lineconnectTest::init();
     }
 
@@ -34,8 +34,9 @@ class UtilInjectParamTest extends WP_UnitTestCase {
                 )
             )
         );
-    }    public function test_inject_param()
-    {
+    }
+
+    public function test_inject_param() {
         $action_idx = 0;
         $action_parameters = [
             'name' => 'John',
@@ -43,7 +44,7 @@ class UtilInjectParamTest extends WP_UnitTestCase {
                 'age' => 25
             ]
         ];
-        
+
         $chains = [
             [
                 'to' => '1.name',
@@ -56,10 +57,8 @@ class UtilInjectParamTest extends WP_UnitTestCase {
         ];
 
         $result = lineconnectUtil::inject_param($action_idx, $action_parameters, $chains);
-        
+
         $this->assertEquals('{{$.user.profile.displayName}}', $result['name']);
         $this->assertEquals(30, $result['details']['age']);
     }
-
-
 }

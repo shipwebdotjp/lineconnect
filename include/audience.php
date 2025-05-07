@@ -273,7 +273,7 @@ class lineconnectAudience {
         }
         $audience = $formData[0];
         if (!empty($args)) {
-            $audience = lineconnectUtil::replacePlaceHolder($audience, $args);
+            $audience = lineconnectUtil::replace_object_placeholder($audience, $args);
         }
         $result_line_user_ids = self::get_audience_by_condition($audience['condition']);
         return $result_line_user_ids;

@@ -185,6 +185,13 @@ class ActionFlow {
                         $ary_result_success[] = $line_user_id;
                     } else {
                         $ary_result_error[] = $line_user_id;
+                        if (isset($response) && isset($response['success']) && !$response['success']) {
+                            $action_result['results'][] = array(
+                                'success' => $response['success'],
+                                'response' => $response ?? null,
+                                'error' => $response['message'] ?? null,
+                            );
+                        }
                     }
                 }
                 if (empty($ary_result_error)) {

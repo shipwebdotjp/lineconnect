@@ -116,6 +116,7 @@ class lineconnectUtil {
 			}
 		} elseif (is_string($object)) {
 			//　対象が文字列の場合、プレースホルダーを置換する
+			/*
 			if (preg_match('/^{{(.*?)}}$/', $object, $matches)) {
 				// 全体がプレースホルダーの場合は、そのまま全置換
 				$object = self::replace_injection_data($matches[1], $injection_data);
@@ -125,10 +126,103 @@ class lineconnectUtil {
 					$replaced = self::replace_injection_data($matches[1], $injection_data);
 					return is_null($replaced) ? '' : (string)$replaced;
 				}, $object);
+			}*/
+			// $.から始まり、全体が1つのプレースホルダーのみの場合はLegacy(オブジェクト置換も含む)
+			if (preg_match('/^{{\s*(\$\.[^{}]+)\s*}}$/', $object, $matches)) {
+				$object = self::legacy_replace_injection_data($matches[1], $injection_data);
+			} elseif (strpos($object, '{{') !== false || strpos($object, '{%') !== false) {
+				$object = preg_replace('/\{\{\s*\$\.(.*?)\s*\}\}/', '{{ $1 }}', $object);
+				$object = self::replace_injection_data($object, $injection_data);
 			}
 		}
 		return $object;
 	}
+
+	public static function replace_injection_data($injection_path, $injection_data) {
+		// if php 8.1 or later then use twig
+		if (version_compare(PHP_VERSION, '8.1.0', '>=')) {
+			return self::twig_replace_injection_data($injection_path, $injection_data);
+		} else {
+			// if php 8.0 or earlier then use legacy_replace_injection_data
+			return self::legacy_replace_injection_data($injection_path, $injection_data);
+		}
+	}
+
+	public static function twig_replace_injection_data($injection_path, $injection_data) {
+		$loader = new \Twig\Loader\ArrayLoader(
+			[
+				'template' => $injection_path,
+			]
+		);
+		$twig = new \Twig\Environment($loader);
+		return $twig->render('template', $injection_data);
+	}
+
+	/**
+	 * プレースホルダーを実際のデータに置換する関数
+	 * @param $injection_path どのデータで置換するかを示す文字列。例) $.return.1 / $.webhook.message.text / $.user.display_name
+	 * @param array $injection_data 前のアクションの戻り値やイベントデータ、ユーザーデータなどの置き換え用データ
+	 * @return mixed $value 置換された値
+	 */
+	public static function legacy_replace_injection_data($injection_path, $injection_data) {
+		$injection_path = trim($injection_path);
+		// パスの先頭が '$' または '$.' で始まっている場合は削除
+		if (strpos($injection_path, '$') === 0) {
+			// 先頭の '$' を除去し、さらに先頭の '.' があれば除去
+			$path = ltrim(substr($injection_path, 1), '.');
+
+			// パスが空だった場合、nullを返す
+			if ($path === '') {
+				return null;
+			}
+		}
+
+		// パスをドット(.)、開きブラケット([)、閉じブラケット(])で分割し、
+		// 空の要素（例: `[1]` の後の `]` の分割結果など）を除去する。
+		// 例: "return[1][0].name" -> ["return", "1", "0", "name"]
+		// 例: "data.items[0]" -> ["data", "items", "0"]
+		$parts = preg_split('/[.\\[\\]]/', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+		// $parts が false や空配列になるケースも考慮 (preg_splitのエラーなど)
+		if (empty($parts)) {
+			// パスが '$[' のような不正な形式だった場合などもここに該当しうる
+			return null;
+		}
+
+		$value = $injection_data;
+
+		foreach ($parts as $part) {
+			if (is_array($value)) {
+				// 現在の値が配列の場合
+				// キーまたはインデックスが存在するか確認
+				// array_key_exists はキーが存在し値が null の場合と、キー自体が存在しない場合を区別できる
+				if (array_key_exists($part, $value)) {
+					$value = $value[$part];
+				} else {
+					// 配列にキー/インデックスが存在しない
+					return null;
+				}
+			} elseif (is_object($value)) {
+				// 現在の値がオブジェクトの場合
+				// プロパティが存在するか確認 (public プロパティのみアクセス可能)
+				if (property_exists($value, $part)) {
+					// PHP 8.0 以降では $value->{$part} より $value->$part が推奨されるが、
+					// $part が数値文字列の場合もあるため、$value->{$part} を使う方が安全
+					$value = $value->{$part};
+				} else {
+					// オブジェクトにプロパティが存在しない
+					return null;
+				}
+			} else {
+				// パスの途中で配列でもオブジェクトでもなくなった場合 (例: 文字列や数値にアクセスしようとした)
+				return null;
+			}
+		}
+
+		return $value;
+	}
+
+
 
 	/**                                                                                                                                                                                                                                     
 	 * オブジェクトの値にプレースホルダーが含まれるかチェックする関数                                                                                                                                                                       
@@ -153,32 +247,11 @@ class lineconnectUtil {
 			}
 		} elseif (is_string($object)) {
 			// 全体がプレースホルダー or 部分にプレースホルダーを含む場合                                                                                                                                                                   
-			return preg_match('/{{.*?}}/', $object) === 1;
+			return preg_match('/{{.*?}}|{%.*?%}/', $object) === 1;
 		}
 		return false;
 	}
 
-	/**
-	 * プレースホルダーを実際のデータに置換する関数
-	 * @param $injection_path どのデータで置換するかを示す文字列。例) $.return.1 / $.webhook.message.text / $.user.display_name
-	 * @param array $injection_data 前のアクションの戻り値やイベントデータ、ユーザーデータなどの置き換え用データ
-	 * @return mixed $value 置換された値
-	 */
-	public static function replace_injection_data($injection_path, $injection_data) {
-		$injection_path = trim($injection_path);
-		$value = $injection_data;
-		foreach (explode('.', $injection_path) as $path_part) {
-			if ($path_part === '$') {
-				continue;
-			} elseif (isset($value[$path_part])) {
-				$value = $value[$path_part];
-			} else {
-				$value = null;
-				break;
-			}
-		}
-		return $value;
-	}
 
 	/**
 	 * 連想配列を関数の引数の順番に合わせて配列に変換する関数
@@ -234,10 +307,60 @@ class lineconnectUtil {
 			}
 		}
 		if (is_string($source)) {
-			return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($source);
+			return self::get_line_message_builder_from_string($source);
 		} else {
 			return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(print_r($source, true));
 		}
+	}
+
+	/**
+	 * 文字列からLINEメッセージビルダーを作成する関数
+	 * @param string $source ソース: 文字列
+	 * @return \LINE\LINEBot\MessageBuilder メッセージビルダー
+	 */
+	public static function get_line_message_builder_from_string($source) {
+		// 文字列がJSON形式の場合は、JSONをデコードしてオブジェクトに変換し、RawMessageBuilderを作成
+		$json = self::extractAndDecodeJson($source);
+		if (is_array($json) && isset($json['type']) && in_array($json['type'], lineconnectConst::LINE_MESSAGE_TYPES)) {
+			$rawmessage = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder($json);
+			// validate message
+			$channels = lineconnect::get_all_channels();
+			$validate_response = lineconnectMessage::validateMessage('reply', $channels[0], $rawmessage);
+			if ($validate_response['success']) {
+				return $rawmessage;
+			}
+		}
+		// 文字列がJSON形式でない場合は、通常のテキストメッセージビルダーを作成
+		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($source);
+	}
+
+	public static function extractAndDecodeJson(string $input) {
+		// 最初の '{' の位置を探す
+		$startPos = strpos($input, '{');
+		if ($startPos === false) {
+			// '{' がなければJSONではない
+			return null;
+		}
+
+		// 最後の '}' の位置を探す
+		$endPos = strrpos($input, '}');
+		if ($endPos === false || $endPos < $startPos) {
+			// '}' がなければJSONではない、または順序がおかしい
+			return null;
+		}
+
+		// '{' から '}' までの文字列を抽出
+		$jsonString = substr($input, $startPos, $endPos - $startPos + 1);
+
+		// json_decodeして返す
+		$decoded = json_decode($jsonString, true);
+
+		// JSONとして正しくない場合はnullを返す
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			return null;
+		}
+
+		return $decoded;
 	}
 
 	/**
@@ -254,7 +377,7 @@ class lineconnectUtil {
 		}
 		if (is_object($source)) {
 			if (!empty($args)) {
-				return self::replacePlaceHolder($source, $args);
+				return self::replace_object_placeholder($source, $args);
 			} else {
 				return $source;
 			}
@@ -489,7 +612,7 @@ class lineconnectUtil {
 				);
 			}
 		} elseif ($parameter['type'] == 'slc_audience') {
-			$actual_type     = 'string';
+			$actual_type     = 'integer';
 			$schema['oneOf'] = array();
 			foreach (lineconnectAudience::get_lineconnect_audience_name_array() as $audience_id => $audience) {
 				$schema['oneOf'][] = array(

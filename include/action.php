@@ -121,12 +121,13 @@ class lineconnectAction {
 						$arguments_array = null;
 						if (isset($function_schema['parameters'])) {
 
-							error_log('parameters:' . print_r($function_schema['parameters'], true));
-							error_log('action:' . print_r($action, true));
+							// error_log('parameters:' . print_r($function_schema['parameters'], true));
+							// error_log('action:' . print_r($action, true));
 
 							if (!array_key_exists('parameters', $action) || empty($action['parameters'])) {
 								$action['parameters'] = [];
 							}
+							// error_log('action parameters:' . print_r($injection_data, true));
 							$action_parameters =  lineconnectUtil::inject_param($action_idx, $action['parameters'], $chains);
 							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters, $function_schema['parameters'], $injection_data);
 							$arguments_array = lineconnectUtil::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
@@ -161,6 +162,7 @@ class lineconnectAction {
 				'error' => $error ?? null,
 			);
 		}
+
 		return array(
 			//'resultsの配列の'success'が全てtrueの場合はtrue、一つでもfalseがある場合はfalse
 			'success' => (count(array_filter(array_column($results, 'success'))) === count($results)) ? true : false,

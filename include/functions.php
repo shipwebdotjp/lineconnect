@@ -121,6 +121,17 @@ class lineconnectFunctions {
 		return array('datetime' => date(DATE_RFC2822));
 	}
 
+	// Twigレンダリング結果取得
+	function render_template($body, $args) {
+		$loader = new \Twig\Loader\ArrayLoader(
+			array(
+				'template' => $body,
+			)
+		);
+		$twig = new \Twig\Environment($loader);
+		return $twig->render('template', $args);
+	}
+
 	// 記事検索
 	function WP_Query($args) {
 		// set not overwrite args

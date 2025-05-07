@@ -1,0 +1,39 @@
+# Japanese translations for LINE Connect package
+# LINE Connect パッケージに対する英訳.
+# Copyright (C) 2025 SHIP
+# This file is distributed under the same license as the LINE Connect package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect 4.1.6\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"POT-Creation-Date: 2025-04-20 21:52+0900\n"
+"PO-Revision-Date: 2025-04-20 21:52+0900\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: assets/js/slc_setting.js:17 assets/js/slc_multiselect.js:7
+msgid "Check All"
+msgstr "全て選択"
+
+#: assets/js/slc_setting.js:18 assets/js/slc_multiselect.js:8
+msgid "UnCheck All"
+msgstr "全て解除"
+
+#: assets/js/slc_setting.js:20 assets/js/slc_multiselect.js:10
+msgid "Select options"
+msgstr "未選択"
+
+#: assets/js/slc_setting.js:21 assets/js/slc_multiselect.js:11
+msgid "# checked"
+msgstr "# 個選択"
+
+#: assets/js/clipboard.js:9 assets/js/clipboard.js:40
+msgid "Copied!"
+msgstr "コピーしました！"

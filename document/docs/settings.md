@@ -3,7 +3,9 @@ You can configure various settings from the side menu under “LINE Connect” >
 
 ## Channel
 Multiple channels are supported. You can select which channel you would like to be notified from when posting in the LINE Notifications meta box.
-
+:::info
+The channel referred to here is the Messaging API channel of the LINE Official Account.
+:::
 |item name|description|
 |----:|----|
 |Channel name|Channel name|
@@ -17,6 +19,8 @@ Multiple channels are supported. You can select which channel you would like to 
 
 ## Link
 You can change the login page URL, keywords for starting or canceling the linking, and messages when starting or canceling the linking.
+### Login page URL
+The URL of the page to which you will be redirected when you tap the link to start linking. This is usually the login page URL.
 ### Automatically initiate linkage
 Automatically initiate linkage When user add an official account as a friend.
 ## Update Notification
@@ -24,6 +28,8 @@ Automatically initiate linkage When user add an official account as a friend.
 Select the post type for which you wish to display the Send Line meta box: in addition to the "Post" and "Page" that exist by default in Wordpress, you can also select a custom post type added by Custom Post Type UI or yourself.
 ### Default value of "Send update notification" checkbox
 This is the default value setting for the "Send update notifications checkbox on the article edit screen. The options are "Checked", "Unchecked", and "Unchecked if published". 
+### Default value of notification message template
+This is the default value setting for the select box that determines which template to use for sending post notifications.
 ### "More" link label
 The display string for the link that will appear at the bottom of the post notification. The label to be displayed in place of the URL, such as "Read more".
 ### Send notification to posters when comments are received
@@ -31,7 +37,7 @@ This setting determines whether or not notifications will be sent to the author 
 ### "Read comment" link label
 The display string for the link that appears at the bottom of the comment notification. 
 ## Style
-You can change the styles of the LINE message notifications.
+You can change the style of the default post notification template.
 ### Image fit mode
 - cover: The replaced content is sized to maintain its aspect ratio while filling the image area. If the image's aspect ratio does not match the aspect ratio of its area, then the image will be clipped to fit. 
 - contain: The replaced image is scaled to maintain its aspect ratio while fitting within the image area. The entire image is made to fill the box, while preserving its aspect ratio, so the image will be "letterboxed" if its aspect ratio does not match the aspect ratio of the area.
@@ -52,12 +58,15 @@ Even if the maximum number of lines is not exceeded, the part exceeding 500 char
 Using the Chat GPT API, you can set up AI to automatically respond to messages sent to LINE official accounts. 
 ### Auto response by AI
 Whether or not to use AI auto-response. Enable to use.
+### OpenAI API URL
+The URL of the OpenAI or OpenAI-compatible API. The default is the OpenAI API URL.
 ### OpenAI API Key
-Enter your OpenAI API key to use the Chat GPT API, which can be obtained [Open AI website](https://platform.openai.com/). 
+Enter your OpenAI or OpenAI-compatible API key to use the Chat GPT API, which can be obtained [Open AI website](https://platform.openai.com/). 
 ### Model
 Which model to use.
 ### System prompt
-The initial text or instruction provided to the language model before interacting with it in a conversational manner.
+The initial text or instruction provided to the language model before interacting with it in a conversational manner.  
+You can use Twig placeholder.
 ### Function Calling
 whether Function Calling is used or not. When enabled, predefined functions can be used to return site-specific information, etc. 
 ### Functions to use

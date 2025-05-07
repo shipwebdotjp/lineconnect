@@ -75,7 +75,6 @@ class Stats {
                     );
                     if ($results) {
                         $recognized_cnt = $results;
-                        error_log('recognized_cnt:' . $recognized_cnt);
                         if (!$existing || is_null($existing['recognized']) || $existing['recognized'] != $recognized_cnt) {
                             $stats['recognized'] = $recognized_cnt;
                             $is_merged = true;

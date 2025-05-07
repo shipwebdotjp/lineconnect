@@ -9,6 +9,13 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '89efb1254ef2d1c5d80096acd12c4098' => __DIR__ . '/..' . '/twig/twig/src/Resources/core.php',
+        'ffecb95d45175fd40f75be8a23b34f90' => __DIR__ . '/..' . '/twig/twig/src/Resources/debug.php',
+        'c7baa00073ee9c61edf148c51917cfb4' => __DIR__ . '/..' . '/twig/twig/src/Resources/escaper.php',
+        'f844ccf1d25df8663951193c3fc307c8' => __DIR__ . '/..' . '/twig/twig/src/Resources/string_loader.php',
         '7d3b315c4f303f2fc14aca642a738e50' => __DIR__ . '/..' . '/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php',
     );
 
@@ -17,8 +24,14 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         array (
             'cebe\\markdown\\' => 14,
         ),
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Shipweb\\LineConnect\\' => 20,
         ),
         'P' => 
@@ -40,6 +53,18 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Shipweb\\LineConnect\\' => 
         array (
@@ -64,6 +89,8 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
     );
 
     public static $classMap = array (
+        'ActionExecuteAjaxActionExecuteTest' => __DIR__ . '/../..' . '/tests/ActionExecute/ActionExecuteAjaxActionExecuteTest.php',
+        'ActionFlowAjaxChatSendTest' => __DIR__ . '/../..' . '/tests/ActionFlow/ActionFlowAjaxChatSendTest.php',
         'AudienceBasicTest' => __DIR__ . '/../..' . '/tests/audience/AudienceBasicTest.php',
         'AudienceChannelTest' => __DIR__ . '/../..' . '/tests/audience/AudienceChannelTest.php',
         'AudienceComplexConditionsTest' => __DIR__ . '/../..' . '/tests/audience/AudienceComplexConditionsTest.php',
@@ -78,6 +105,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'BulkmessageAjaxChatSendTest' => __DIR__ . '/../..' . '/tests/bulkmessage/BulkmessageAjaxChatSendTest.php',
         'ChannelTest' => __DIR__ . '/../..' . '/tests/core/ChannelTest.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'ExecuteScenarioStepTest' => __DIR__ . '/../..' . '/tests/scenario/ExecuteScenarioStepTest.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -500,6 +528,8 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
         'SampleTest' => __DIR__ . '/../..' . '/tests/SampleTest.php',
+        'ScenarioDataLoadSaveTest' => __DIR__ . '/../..' . '/tests/scenario/ScenarioDataLoadSaveTest.php',
+        'ScenarioScheduleTest' => __DIR__ . '/../..' . '/tests/scenario/ScenarioScheduleTest.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -700,6 +730,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SetScenarioStepTest' => __DIR__ . '/../..' . '/tests/scenario/SetScenarioStepTest.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
         'TheSeer\\Tokenizer\\NamespaceUri' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUri.php',
         'TheSeer\\Tokenizer\\NamespaceUriException' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUriException.php',
@@ -709,6 +740,14 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
         'UserTest' => __DIR__ . '/../..' . '/tests/core/UserTest.php',
+        'UtilConditionChannelTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionChannelTest.php',
+        'UtilConditionCompareTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionCompareTest.php',
+        'UtilConditionDestinationTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionDestinationTest.php',
+        'UtilConditionGroupTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionGroupTest.php',
+        'UtilConditionLinkTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionLinkTest.php',
+        'UtilConditionProfileTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionProfileTest.php',
+        'UtilConditionRoleTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionRoleTest.php',
+        'UtilConditionUserMetaTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionUserMetaTest.php',
         'UtilHasObjectPlaceholderTest' => __DIR__ . '/../..' . '/tests/util/UtilHasObjectPlaceholderTest.php',
         'UtilInjectParamTest' => __DIR__ . '/../..' . '/tests/util/UtilInjectParamTest.php',
         'UtilPrepareArgumentsTest' => __DIR__ . '/../..' . '/tests/util/UtilPrepareArgumentsTest.php',

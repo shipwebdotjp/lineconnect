@@ -561,8 +561,10 @@ EOM;
 							}
 						} elseif ($option_details['type'] == 'checkbox') {
 							$value = isset($_POST[lineconnect::PARAMETER_PREFIX . $option_key]) && $_POST[lineconnect::PARAMETER_PREFIX . $option_key] == 'on' ? true : false;
+						} elseif ($option_details['type'] == 'textarea') {
+							$value = sanitize_textarea_field(wp_unslash($_POST[lineconnect::PARAMETER_PREFIX . $option_key]));
 						} else {
-							$value = trim(sanitize_text_field($_POST[lineconnect::PARAMETER_PREFIX . $option_key]));
+							$value = trim(sanitize_text_field(wp_unslash($_POST[lineconnect::PARAMETER_PREFIX . $option_key])));
 						}
 						if (self::is_empty($value) && $option_details['required']) {
 							set_transient(lineconnect::INVALID_PREFIX . $option_key, sprintf(__('"%s" is required.', lineconnect::PLUGIN_NAME), $option_details['label']), lineconnect::TRANSIENT_TIME_LIMIT);
@@ -721,8 +723,8 @@ EOM;
 		wp_enqueue_script('jquery-ui-tabs', false, array('jquery-ui-core'));
 		wp_enqueue_script('jquery-ui-tooltip', false, array('jquery-ui-core'));
 		wp_enqueue_script('wp-color-picker');
-		wp_enqueue_script('jquery-ui-multiselect-widget', plugins_url('js/jquery.multiselect.min.js', __DIR__), array('jquery-ui-core'), '3.0.1', true);
-		$setting_js = 'js/slc_setting.js';
+		wp_enqueue_script('jquery-ui-multiselect-widget', plugins_url('assets/js/jquery.multiselect.min.js', __DIR__), array('jquery-ui-core'), '3.0.1', true);
+		$setting_js = 'assets/js/slc_setting.js';
 		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin', plugins_url($setting_js, __DIR__), array('jquery-ui-tabs', 'wp-color-picker', 'jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $setting_js), true);
 
 		// JavaScriptの言語ファイル読み込み

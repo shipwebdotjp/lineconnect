@@ -128,7 +128,7 @@ class lineconnectSchedule {
 
     static function check_repeat_schedule($schedule, $last_run, $current_time) {
         $next_run = 0;
-        $base_time = strtotime($schedule['repeat']['start']);
+        $base_time = isset($schedule['repeat']['start']) ? strtotime($schedule['repeat']['start']) : 0;
         $end_time = isset($schedule['repeat']['end']) ? strtotime($schedule['repeat']['end']) : null;
         $lag_second = isset($schedule['repeat']['lag']) ? $schedule['repeat']['lag'] * 60 : 0;
         $target_time = $current_time + $lag_second;

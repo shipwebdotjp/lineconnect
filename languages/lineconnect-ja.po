@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-04-06 22:10+0900\n"
+"POT-Creation-Date: 2025-04-20 21:31+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -17,18 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-msgid "Check All"
-msgstr "全て選択"
-
-msgid "UnCheck All"
-msgstr "全て選択解除"
-
-msgid "Select options"
-msgstr "未選択"
-
-msgid "# checked"
-msgstr "# 個選択"
 
 msgid "Error: Invalid line user ID."
 msgstr "エラー: 無効なLINEユーザーIDです。"
@@ -341,17 +329,23 @@ msgid ""
 msgstr ""
 "送られてきたメッセージに対してAIによる自動応答を利用するかどうかの設定です。"
 
+msgid "OpenAI API Endpoint"
+msgstr "OpenAI APIエンドポイント"
+
+msgid "Enter your OpenAI (or Compatible) API Endpoint."
+msgstr "OpenAI（または互換）APIエンドポイントを入力してください。"
+
 msgid "OpenAI API Key"
 msgstr "OpenAI APIキー"
 
-msgid "Enter your OpenAI API Key."
-msgstr "OpenAIのAPI Keyを入力してください。"
+msgid "Enter your OpenAI (or Compatible) API Key."
+msgstr "OpenAI（または互換）APIキーを入力してください。"
 
 msgid "Model"
 msgstr "使用モデル"
 
-msgid "This is a setting for which model to use."
-msgstr "どのモデルを使用するかの設定です。"
+msgid "This is a setting for which model to use. Such as gpt-4o-mini"
+msgstr ""
 
 msgid "System prompt"
 msgstr "システムプロンプト"
@@ -1365,6 +1359,54 @@ msgstr "キー"
 msgid "Target channel"
 msgstr "対象チャネル"
 
+msgid "Compare method"
+msgstr "比較方法"
+
+msgid "Not equals"
+msgstr "等しくない"
+
+msgid "Greater than"
+msgstr "より大きい"
+
+msgid "Greater than or equal"
+msgstr "以上"
+
+msgid "Less than"
+msgstr "より小さい"
+
+msgid "Less than or equal"
+msgstr "以下"
+
+msgid "Contains (String)"
+msgstr "含む（文字列）"
+
+msgid "Not contains (String)"
+msgstr "含まない（文字列）"
+
+msgid "In (Array)"
+msgstr "いずれかに一致（配列）"
+
+msgid "Not in (Array)"
+msgstr "いずれにも一致しない（配列）"
+
+msgid "Between 2 values"
+msgstr "2つの値の間"
+
+msgid "Not Between 2 values"
+msgstr "2つの値の間でない"
+
+msgid "Exists"
+msgstr "存在する"
+
+msgid "Not exists"
+msgstr "存在しない"
+
+msgid "Regular expression match"
+msgstr "正規表現に一致"
+
+msgid "No regular expression match"
+msgstr "正規表現に一致しない"
+
 msgid "Add source condition"
 msgstr "ソース条件追加"
 
@@ -1388,6 +1430,9 @@ msgstr "年追加"
 
 msgid "Add trigger"
 msgstr "トリガー追加"
+
+msgid "Add parameter"
+msgstr "パラメータ追加"
 
 msgid "Add action"
 msgstr "アクション追加"
@@ -2170,54 +2215,6 @@ msgstr "指定ロールを持たない（NOT）"
 msgid "WordPress User ID"
 msgstr "WordPressユーザーID"
 
-msgid "Compare method"
-msgstr "比較方法"
-
-msgid "Not equals"
-msgstr "等しくない"
-
-msgid "Greater than"
-msgstr "より大きい"
-
-msgid "Greater than or equal"
-msgstr "以上"
-
-msgid "Less than"
-msgstr "より小さい"
-
-msgid "Less than or equal"
-msgstr "以下"
-
-msgid "Contains (String)"
-msgstr "含む（文字列）"
-
-msgid "Not contains (String)"
-msgstr "含まない（文字列）"
-
-msgid "In (Array)"
-msgstr "いずれかに一致（配列）"
-
-msgid "Not in (Array)"
-msgstr "いずれにも一致しない（配列）"
-
-msgid "Between 2 values"
-msgstr "2つの値の間"
-
-msgid "Not Between 2 values"
-msgstr "2つの値の間でない"
-
-msgid "Exists"
-msgstr "存在する"
-
-msgid "Not exists"
-msgstr "存在しない"
-
-msgid "Regular expression match"
-msgstr "正規表現に一致"
-
-msgid "No regular expression match"
-msgstr "正規表現に一致しない"
-
 msgid "Add condition"
 msgstr "条件を追加"
 
@@ -2792,6 +2789,18 @@ msgstr "先生"
 
 msgid "Student"
 msgstr ""
+
+msgid "Check All"
+msgstr "全て選択"
+
+msgid "UnCheck All"
+msgstr "全て選択解除"
+
+msgid "Select options"
+msgstr "未選択"
+
+msgid "# checked"
+msgstr "# 個選択"
 
 msgid "Copied!"
 msgstr "コピーしました！"
@@ -3443,9 +3452,6 @@ msgstr "値を追加"
 msgid "Add profile"
 msgstr "プロフィール追加"
 
-msgid "Add parameter"
-msgstr "パラメータ追加"
-
 msgid "Add step"
 msgstr "ステップ追加"
 
@@ -3510,6 +3516,12 @@ msgstr "作成日"
 
 msgid "Updated"
 msgstr "更新日"
+
+#~ msgid "Enter your OpenAI API Key."
+#~ msgstr "OpenAIのAPI Keyを入力してください。"
+
+#~ msgid "This is a setting for which model to use."
+#~ msgstr "どのモデルを使用するかの設定です。"
 
 #~ msgid "Replacement Arguments"
 #~ msgstr "置換引数"
