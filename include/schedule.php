@@ -76,7 +76,7 @@ class lineconnectSchedule {
         foreach ($scenarios as $scenario) {
             $scenario_result = Scenario::execute_step($scenario['id'], $scenario['next'], $scenario['line_id'], $scenario['channel_prefix']);
             $response[] = $scenario_result;
-            error_log('Scenario Result: ' . print_r($scenario_result, true));
+            // error_log('Scenario Result: ' . print_r($scenario_result, true));
             if (!$scenario_result) {
                 $messages[] = array(
                     'scenario_id' => $scenario['id'],

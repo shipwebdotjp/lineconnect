@@ -3,7 +3,9 @@ evn.php
 deploy
 node_modules/
 log/
+testdata/
 bin/
+.vscode/
 Makefile
 .env
 *.bak
@@ -15,3 +17,4 @@ phpunit.xml.dist
 .DS_Store
 export_docs.sh
 exported_all_docs.md
+.clinerules

@@ -18,7 +18,7 @@ class lineconnectOpenAi {
 		$user_id = $event->{'source'}->{'userId'};
 		// OpenAI APIにリクエストを送信
 		$AiMessage = $this->getResponse($event, $user_id, $bot_id, $prompt, $addtional_messages);
-		// error_log( 'response Message:' . print_r( $AiMessage, true ) );
+		// error_log('response Message:' . print_r($AiMessage, true));
 		// レスポンスを処理
 		if (isset($AiMessage['error'])) {
 			$message      = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($AiMessage['error']['type'] . ': ' . $AiMessage['error']['message']);
@@ -175,7 +175,7 @@ class lineconnectOpenAi {
 			'user' =>  $event ? lineconnect::get_userdata_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) : [],
 		);
 		$system_content = lineconnectUtil::replace_object_placeholder(stripslashes(lineconnect::get_option('openai_system')), $injection_data);
-		error_log('system_content:' . $system_content);
+		// error_log('system_content:' . $system_content);
 		if (lineconnect::get_option('openai_system')) {
 			$system_message = array(
 				'role'    => 'system',
@@ -185,7 +185,7 @@ class lineconnectOpenAi {
 			$messages[] = $system_message;
 		}
 
-		// 過去の文脈を取得
+
 		if (isset($user_id)) {
 			$table_name  = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
 			$context_num = intval(lineconnect::get_option('openai_context') * 2);
@@ -225,7 +225,7 @@ class lineconnectOpenAi {
 					);
 				}
 			}
-
+			// 過去の文脈を取得
 			$convasations = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -233,7 +233,7 @@ class lineconnectOpenAi {
 				FROM {$table_name}
 				WHERE event_type = 1 AND user_id = %s AND bot_id = %s
 				ORDER BY id desc
-				LIMIT 0, {$context_num}
+				LIMIT 1, {$context_num}
 				",
 					array(
 						$user_id,
@@ -242,15 +242,45 @@ class lineconnectOpenAi {
 				)
 			);
 
+			$image_array = [];
 			foreach (array_reverse($convasations) as $convasation) {
+				error_log(print_r($convasation, true));
 				$role           = $convasation->source_type == 11 ? 'assistant' : 'user';
 				$message_object = json_decode($convasation->message, false);
 				if (json_last_error() == JSON_ERROR_NONE) {
 					if ($convasation->message_type == 1 && isset($message_object->text)) {
+						if (empty($image_array) || $role == 'assistant') {
+							$content =  $message_object->text;
+						} else {
+							$content = array(
+								array(
+									'type' => 'text',
+									'text' => $message_object->text
+								),
+							);
+							foreach ($image_array as $image) {
+								$content[] = $image;
+							}
+							//clear image array
+							$image_array = [];
+						}
 						$messages[] = array(
 							'role'    => $role,
-							'content' => $message_object->text,
+							'content' => $content,
 						);
+					} elseif ($convasation->message_type == 2 && isset($message_object->file_path)) {
+						$full_file_path = lineconnectUtil::get_lineconnect_file_path($message_object->file_path);
+						if ($full_file_path) {
+							// Base64エンコード
+							$base64_file = lineconnectUtil::get_base64_encoded_file($full_file_path);
+
+							$image_array[] = array(
+								'type' => 'image_url',
+								'image_url' => array(
+									'url' => $base64_file
+								)
+							);
+						}
 					}
 				}
 			}
@@ -263,11 +293,53 @@ class lineconnectOpenAi {
 
 		// 今回の質問
 		if (is_array($prompt)) {
-			$messages = array_merge($messages, $prompt);
+			foreach ($prompt as $p) {
+				if ($p['role'] == 'user' && !empty($image_array)) {
+					if (is_array($p['content'])) {
+						$content = array(
+							$p['content']
+						);
+					} else {
+						$content = array(
+							array(
+								'type' => 'text',
+								'text' => $p['content'],
+							),
+						);
+					}
+					foreach ($image_array as $image) {
+						$content[] = $image;
+					}
+					//clear image array
+					$image_array = [];
+					$messages[] = array(
+						'role'    => 'user',
+						'content' => $content,
+					);
+				} else {
+					$messages[] = $p;
+				}
+			}
+			// $messages = array_merge($messages, $prompt);
 		} else {
+			if (empty($image_array)) {
+				$content =  $prompt;
+			} else {
+				$content = array(
+					array(
+						'type' => 'text',
+						'text' => $prompt,
+					),
+				);
+				foreach ($image_array as $image) {
+					$content[] = $image;
+				}
+				//clear image array
+				//$image_array = [];
+			}
 			$messages[] = array(
 				'role'    => 'user',
-				'content' => $prompt,
+				'content' => $content,
 			);
 		}
 
@@ -289,6 +361,7 @@ class lineconnectOpenAi {
 				$data['tools'] = $callable_functions;
 			}
 		}
+		// error_log(print_r($data, true));
 		// init curl
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_POST, 1);
@@ -304,6 +377,7 @@ class lineconnectOpenAi {
 		}
 		curl_close($curl);
 
+		error_log(print_r($responce, true));
 		return $responce;
 	}
 

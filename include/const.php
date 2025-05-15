@@ -217,6 +217,7 @@ class lineconnectConst {
 		11 => 'beacon',
 		12 => 'accountLink',
 		13 => 'things',
+		14 => 'membership',
 	);
 
 	/**
@@ -2082,6 +2083,10 @@ class lineconnectConst {
 								'const' => 'unsend',
 								'title' => __('Unsend', lineconnect::PLUGIN_NAME),
 							),
+							array(
+								'const' => 'membership',
+								'title' => __('Membership', lineconnect::PLUGIN_NAME),
+							),
 						),
 					),
 					'condition' => array(
@@ -2214,6 +2219,9 @@ class lineconnectConst {
 											'data' => array(
 												'$ref' => '#/definitions/keyword',
 											),
+											'params' => array(
+												'$ref' => '#/definitions/postbackparams',
+											),
 										),
 									),
 								),
@@ -2305,7 +2313,37 @@ class lineconnectConst {
 									),
 								),
 							),
-
+							array(
+								'properties' => array(
+									'type' => array(
+										'const' => 'membership',
+									),
+									'membership' => array(
+										'title' => __('Membership', lineconnect::PLUGIN_NAME),
+										'type' => 'object',
+										'properties' => array(
+											'type' => array(
+												'type' => 'string',
+												'title' => __('Type', lineconnect::PLUGIN_NAME),
+												'oneOf' => array(
+													array(
+														'const' => 'joined',
+														'title' => __('Joined', lineconnect::PLUGIN_NAME),
+													),
+													array(
+														'const' => 'left',
+														'title' => __('Left', lineconnect::PLUGIN_NAME),
+													),
+													array(
+														'const' => 'renewed',
+														'title' => __('Renewed', lineconnect::PLUGIN_NAME),
+													),
+												),
+											),
+										),
+									),
+								),
+							),
 						),
 					),
 				),
@@ -3093,77 +3131,7 @@ class lineconnectConst {
 																					),
 																					'dependencies' => array(
 																						'compare' => array(
-																							'oneOf' => array(
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'IN',
-																												'NOT IN',
-																											),
-																										),
-																										'values' => array(
-																											'type' => 'array',
-																											'title' => __('Values', lineconnect::PLUGIN_NAME),
-																											'minItems' => 1,
-																											'items' => array(
-																												'type' => 'string',
-																											),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'BETWEEN',
-																												'NOT BETWEEN',
-																											),
-																										),
-																										'values' => array(
-																											'type' => 'array',
-																											'title' => __('Values', lineconnect::PLUGIN_NAME),
-																											'minItems' => 2,
-																											'maxItems' => 2,
-																											'items' => array(
-																												'type' => 'string',
-																											),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'=',
-																												'!=',
-																												'>',
-																												'>=',
-																												'<',
-																												'<=',
-																												'LIKE',
-																												'NOT LIKE',
-																												'REGEXP',
-																												'NOT REGEXP',
-																											),
-																										),
-																										'value' => array(
-																											'type' => 'string',
-																											'title' => __('Value', lineconnect::PLUGIN_NAME),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'EXISTS',
-																												'NOT EXISTS',
-																											),
-																										),
-																									),
-																								),
-																							),
+																							'$ref' => '#/definitions/compare_dependencies',
 																						),
 																					),
 																				),
@@ -3186,77 +3154,7 @@ class lineconnectConst {
 																					),
 																					'dependencies' => array(
 																						'compare' => array(
-																							'oneOf' => array(
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'IN',
-																												'NOT IN',
-																											),
-																										),
-																										'values' => array(
-																											'type' => 'array',
-																											'title' => __('Values', lineconnect::PLUGIN_NAME),
-																											'minItems' => 1,
-																											'items' => array(
-																												'type' => 'string',
-																											),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'BETWEEN',
-																												'NOT BETWEEN',
-																											),
-																										),
-																										'values' => array(
-																											'type' => 'array',
-																											'title' => __('Values', lineconnect::PLUGIN_NAME),
-																											'minItems' => 2,
-																											'maxItems' => 2,
-																											'items' => array(
-																												'type' => 'string',
-																											),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'=',
-																												'!=',
-																												'>',
-																												'>=',
-																												'<',
-																												'<=',
-																												'LIKE',
-																												'NOT LIKE',
-																												'REGEXP',
-																												'NOT REGEXP',
-																											),
-																										),
-																										'value' => array(
-																											'type' => 'string',
-																											'title' => __('Value', lineconnect::PLUGIN_NAME),
-																										),
-																									),
-																								),
-																								array(
-																									'properties' => array(
-																										'compare' => array(
-																											'enum' => array(
-																												'EXISTS',
-																												'NOT EXISTS',
-																											),
-																										),
-																									),
-																								),
-																							),
+																							'$ref' => '#/definitions/compare_dependencies',
 																						),
 																					),
 																				),
@@ -3623,7 +3521,403 @@ class lineconnectConst {
 						),
 					),
 				),
-
+				'compare_dependencies' => array(
+					'oneOf' => array(
+						array(
+							'properties' => array(
+								'compare' => array(
+									'enum' => array(
+										'IN',
+										'NOT IN',
+									),
+								),
+								'values' => array(
+									'type' => 'array',
+									'title' => __('Values', lineconnect::PLUGIN_NAME),
+									'minItems' => 1,
+									'items' => array(
+										'type' => 'string',
+									),
+								),
+							),
+						),
+						array(
+							'properties' => array(
+								'compare' => array(
+									'enum' => array(
+										'BETWEEN',
+										'NOT BETWEEN',
+									),
+								),
+								'values' => array(
+									'type' => 'array',
+									'title' => __('Values', lineconnect::PLUGIN_NAME),
+									'minItems' => 2,
+									'maxItems' => 2,
+									'items' => array(
+										'type' => 'string',
+									),
+								),
+							),
+						),
+						array(
+							'properties' => array(
+								'compare' => array(
+									'enum' => array(
+										'=',
+										'!=',
+										'>',
+										'>=',
+										'<',
+										'<=',
+										'LIKE',
+										'NOT LIKE',
+										'REGEXP',
+										'NOT REGEXP',
+									),
+								),
+								'value' => array(
+									'type' => 'string',
+									'title' => __('Value', lineconnect::PLUGIN_NAME),
+								),
+							),
+						),
+						array(
+							'properties' => array(
+								'compare' => array(
+									'enum' => array(
+										'EXISTS',
+										'NOT EXISTS',
+									),
+								),
+							),
+						),
+					),
+				),
+				'postbackparams' => array(
+					'type' => 'object',
+					'title' => __('Parameters', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'conditions' => array(
+							'type' => 'array',
+							'title' => __('Parameters condition group', lineconnect::PLUGIN_NAME),
+							'items' => array(
+								'type'  => 'object',
+								'title' => __('Parameter condition', lineconnect::PLUGIN_NAME),
+								'properties' => array(
+									'type' => array(
+										'type' => 'string',
+										'title' => __('Type', lineconnect::PLUGIN_NAME),
+										'anyOf' => array(
+											array(
+												'const' => 'source',
+												'title' => __('Source', lineconnect::PLUGIN_NAME),
+											),
+											array(
+												'const' => 'group',
+												'title' => __('Parameter condition group', lineconnect::PLUGIN_NAME),
+											),
+										),
+									),
+									'not' => array(
+										'type' => 'boolean',
+										'title' => __('Not', lineconnect::PLUGIN_NAME),
+										'description' => __('Logical negation', lineconnect::PLUGIN_NAME),
+									),
+								),
+								'dependencies' => array(
+									'type' => array(
+										'oneOf' => array(
+											array(
+												'properties' => array(
+													'type' => array(
+														'const' => 'source',
+													),
+													'source' => array(
+														'type' => 'object',
+														'title' => __('Source', lineconnect::PLUGIN_NAME),
+														'properties' => array(
+															'type' => array(
+																'type' => 'string',
+																'title' => __('Type', lineconnect::PLUGIN_NAME),
+																'anyOf' => array(
+																	array(
+																		'const' => 'newRichMenuAliasId',
+																		'title' => __('New richmenu alias ID', lineconnect::PLUGIN_NAME),
+																	),
+																	array(
+																		'const' => 'status',
+																		'title' => __('Status', lineconnect::PLUGIN_NAME),
+																	),
+																	array(
+																		'const' => 'date',
+																		'title' => __('Date', lineconnect::PLUGIN_NAME),
+																	),
+																	array(
+																		'const' => 'time',
+																		'title' => __('Time', lineconnect::PLUGIN_NAME),
+																	),
+																	array(
+																		'const' => 'datetime',
+																		'title' => __('Date and time', lineconnect::PLUGIN_NAME),
+																	),
+																),
+															),
+														),
+														'dependencies' => array(
+															'type' => array(
+																'oneOf' => array(
+																	array(
+																		'properties' => array(
+																			'type' => array(
+																				'const' => 'newRichMenuAliasId',
+																			),
+																			'newRichMenuAliasId' => array(
+																				'type' => 'object',
+																				'title' =>  __('New richmenu alias ID', lineconnect::PLUGIN_NAME),
+																				'properties' => array(
+																					'newRichMenuAliasId' => array(
+																						'type' => 'string',
+																						'title' => __('New richmenu alias ID', lineconnect::PLUGIN_NAME),
+																						'description' => __('New richmenu alias ID', lineconnect::PLUGIN_NAME),
+																					),
+																					'match' => array(
+																						'type' => 'string',
+																						'title' => __('Match type', lineconnect::PLUGIN_NAME),
+																						'anyOf' => array(
+																							array(
+																								'const' => 'contains',
+																								'title' => __('Contains', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'equals',
+																								'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'startsWith',
+																								'title' => __('Starts with', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'endsWith',
+																								'title' => __('Ends with', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'regexp',
+																								'title' => __('Regular expression', lineconnect::PLUGIN_NAME),
+																							),
+																						),
+																					),
+																				),
+																			),
+																		),
+																	),
+																	array(
+																		'properties' => array(
+																			'type' => array(
+																				'const' => 'status',
+																			),
+																			'status' => array(
+																				'type' => 'array',
+																				'title' => __('Status', lineconnect::PLUGIN_NAME),
+																				'uniqueItems' => true,
+																				'items' => array(
+																					'type' => 'string',
+																					'oneOf' => array(
+																						array(
+																							'const' => 'SUCCESS',
+																							'title' => __('Success', lineconnect::PLUGIN_NAME),
+																						),
+																						array(
+																							'const' => 'RICHMENU_ALIAS_ID_NOTFOUND',
+																							'title' => __('Richmenu alias ID not found', lineconnect::PLUGIN_NAME),
+																						),
+																						array(
+																							'const' => 'RICHMENU_NOTFOUND',
+																							'title' => __('Richmenu not found', lineconnect::PLUGIN_NAME),
+																						),
+																						array(
+																							'const' => 'FAILED',
+																							'title' => __('Failed', lineconnect::PLUGIN_NAME),
+																						),
+																					),
+																				),
+																			),
+																		),
+																	),
+																	array(
+																		'properties' => array(
+																			'type' => array(
+																				'const' => 'date',
+																			),
+																			'date' => array(
+																				'type' => 'object',
+																				'title' =>  __('Date', lineconnect::PLUGIN_NAME),
+																				'properties' => array(
+																					'date' => array(
+																						'type' => 'string',
+																						'title' => __('Date', lineconnect::PLUGIN_NAME),
+																						'description' => __('Date: YYYY-MM-DD', lineconnect::PLUGIN_NAME),
+																						"format" => "date",
+																					),
+																					'compare' => array(
+																						'type' => 'string',
+																						'title' => __('Compare type', lineconnect::PLUGIN_NAME),
+																						'anyOf' => array(
+																							array(
+																								'const' => 'equals',
+																								'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before',
+																								'title' => __('Before', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before_or_equal',
+																								'title' => __('Before or equal', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after',
+																								'title' => __('After', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after_or_equal',
+																								'title' => __('After or equal', lineconnect::PLUGIN_NAME),
+																							),
+																						),
+																					),
+																				),
+																			),
+																		),
+																	),
+																	array(
+																		'properties' => array(
+																			'type' => array(
+																				'const' => 'time',
+																			),
+																			'time' => array(
+																				'type' => 'object',
+																				'title' =>  __('Time', lineconnect::PLUGIN_NAME),
+																				'properties' => array(
+																					'time' => array(
+																						'type' => 'string',
+																						'title' => __('Time', lineconnect::PLUGIN_NAME),
+																						'description' => __('Time: hh:mm', lineconnect::PLUGIN_NAME),
+																						"format" => "time",
+																					),
+																					'compare' => array(
+																						'type' => 'string',
+																						'title' => __('Compare type', lineconnect::PLUGIN_NAME),
+																						'anyOf' => array(
+																							array(
+																								'const' => 'equals',
+																								'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before',
+																								'title' => __('Before', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before_or_equal',
+																								'title' => __('Before or equal', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after',
+																								'title' => __('After', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after_or_equal',
+																								'title' => __('After or equal', lineconnect::PLUGIN_NAME),
+																							),
+																						),
+																					),
+																				),
+																			),
+																		),
+																	),
+																	array(
+																		'properties' => array(
+																			'type' => array(
+																				'const' => 'datetime',
+																			),
+																			'datetime' => array(
+																				'type' => 'object',
+																				'title' =>  __('DateTime', lineconnect::PLUGIN_NAME),
+																				'properties' => array(
+																					'datetime' => array(
+																						'type' => 'string',
+																						'title' => __('DateTime', lineconnect::PLUGIN_NAME),
+																						'description' => __('DateTime: YYYY-MM-DDThh:mm', lineconnect::PLUGIN_NAME),
+																						"format" => "date-time",
+																					),
+																					'compare' => array(
+																						'type' => 'string',
+																						'title' => __('Compare type', lineconnect::PLUGIN_NAME),
+																						'anyOf' => array(
+																							array(
+																								'const' => 'equals',
+																								'title' => __('Equals', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before',
+																								'title' => __('Before', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'before_or_equal',
+																								'title' => __('Before or equal', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after',
+																								'title' => __('After', lineconnect::PLUGIN_NAME),
+																							),
+																							array(
+																								'const' => 'after_or_equal',
+																								'title' => __('After or equal', lineconnect::PLUGIN_NAME),
+																							),
+																						),
+																					),
+																				),
+																			),
+																		),
+																	),
+																),
+															),
+														),
+													),
+												),
+											),
+											array(
+												'properties' => array(
+													'type' => array(
+														'const' => 'group',
+													),
+													'condition' => array(
+														'$ref' => '#/definitions/postbackparams',
+													),
+												),
+											),
+										),
+									),
+								),
+							),
+						),
+						'operator' => array(
+							'type' => 'string',
+							'title' => __('Operator', lineconnect::PLUGIN_NAME),
+							'oneOf' => array(
+								array(
+									'const' => 'and',
+									'title' => __('And', lineconnect::PLUGIN_NAME),
+									'description' => __('All conditions must be true', lineconnect::PLUGIN_NAME),
+								),
+								array(
+									'const' => 'or',
+									'title' => __('Or', lineconnect::PLUGIN_NAME),
+									'description' => __('At least one condition must be true', lineconnect::PLUGIN_NAME),
+								),
+							),
+						),
+					),
+				),
 			),
 		);
 

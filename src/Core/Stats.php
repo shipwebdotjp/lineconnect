@@ -335,6 +335,38 @@ class Stats {
         }
     }
 
+    // デイリーフォロワー数を増加
+    public static function increase_daily_followers($channel_prefix) {
+        global $wpdb;
+        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $today                = wp_date('Y-m-d');
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table_name_line_daily} 
+        (channel_prefix, date, follow) 
+        VALUES (%s, %s, 1)
+        ON DUPLICATE KEY UPDATE 
+        follow = follow + 1",
+            $channel_prefix,
+            $today
+        ));
+    }
+
+    // デイリーアンフォロワー数を増加
+    public static function increase_daily_unfollowers($channel_prefix) {
+        global $wpdb;
+        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $today                = wp_date('Y-m-d');
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table_name_line_daily} 
+		(channel_prefix, date, unfollow) 
+		VALUES (%s, %s, 1)
+		ON DUPLICATE KEY UPDATE 
+		unfollow = unfollow + 1",
+            $channel_prefix,
+            $today
+        ));
+    }
+
     /*
     * 指定された年月のチャンネルごとの集計値を返す
     * @param string $year_month 'YYYY-MM'形式

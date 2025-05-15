@@ -5,6 +5,9 @@ LINE Bot
 */
 
 use Shipweb\LineConnect\Core\Stats;
+use Shipweb\LineConnect\Trigger\Webhook;
+use Shipweb\LineConnect\Bot\File;
+use Shipweb\LineConnect\Bot\Account;
 
 require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
@@ -106,7 +109,7 @@ foreach ($json_obj->{'events'} as $event) {
 					);
 				} else {
 					// 連携開始メッセージ作成
-					$message[] = getLinkStartMessage($userId);
+					$message[] = Account::getLinkStartMessage($secret_prefix, $userId);
 				}
 			}
 		}
@@ -178,7 +181,7 @@ foreach ($json_obj->{'events'} as $event) {
 		if ($postback === 'action=unlink') {
 			// 解除選択時
 			$userId = $event->{'source'}->{'userId'};
-			$mes    = unAccountLink($userId);
+			$mes    = Account::unAccountLink($secret_prefix, $userId);
 
 			Stats::increase_daily_unlink($secret_prefix);
 
@@ -187,31 +190,31 @@ foreach ($json_obj->{'events'} as $event) {
 		} elseif ($postback === 'action=link') {
 			// 連携選択時
 			$userId    = $event->{'source'}->{'userId'};
-			$message[] = getLinkStartMessage($userId);
+			$message[] = Account::getLinkStartMessage($secret_prefix, $userId);
 		}
 	} elseif ($type == 'follow') {
 		$userId = $event->{'source'}->{'userId'};
 		if (lineconnect::get_option('enable_link_autostart') === 'on') {
 			// 友達登録時　自動連携開始がONであれば、アカウントリンクイベントを作成
-			$message[] = getLinkStartMessage($userId);
+			$message[] = Account::getLinkStartMessage($secret_prefix, $userId);
 		}
-		update_line_id_follow($userId, true);
-		increase_daily_followers($secret_prefix);
+		Account::update_line_id_follow($secret_prefix, $userId, true);
+		Stats::increase_daily_followers($secret_prefix);
 	} elseif ($type == 'unfollow') {
 		// 友達登録解除（ブロック時）リストから消去
 		$userId = $event->{'source'}->{'userId'};
-		$mes    = unAccountLink($userId);
-		update_line_id_follow($userId, false);
-		increase_daily_unfollowers($secret_prefix);
+		$mes    = Account::unAccountLink($secret_prefix, $userId);
+		Account::update_line_id_follow($secret_prefix, $userId, false);
+		Stats::increase_daily_unfollowers($secret_prefix);
 	}
 
 	// if message type is image,video,audio,file and contentProvider.type is line
 	if ($type === 'message' && in_array($event->{'message'}->{'type'}, array('image', 'video', 'audio', 'file')) && $event->{'message'}->{'contentProvider'}->{'type'} === 'line') {
 		// save content
-		$saved_content_file_name = getMessageContent($event->{'message'}->{'id'}, isset($event->{'source'}->{'userId'}) ? $event->{'source'}->{'userId'} : '_none');
+		$saved_content_file_name = File::getMessageContent($secret_prefix, $event->{'message'}->{'id'}, isset($event->{'source'}->{'userId'}) ? $event->{'source'}->{'userId'} : '_none');
 
 		// update filepath to log table
-		$result = update_message_filepath($isEventDuplicationOrInsertedId, $saved_content_file_name);
+		$result = File::update_message_filepath($isEventDuplicationOrInsertedId, $saved_content_file_name);
 	}
 
 	// check if match trigger
@@ -235,15 +238,15 @@ foreach ($json_obj->{'events'} as $event) {
 		$matched_array = array();
 		// $trigger['triggers']の各条件のいずれかに一致するかどうかをチェック
 		foreach ($trigger['triggers'] as $trigger_item) {
-			$matched_array[] = check_trigger_condition($trigger_item, $event, $secret_prefix);
+			$matched_array[] = Webhook::check_trigger_condition($trigger_item, $event, $secret_prefix);
 		}
 
 		// $trigger['triggers']の各条件のいずれかに一致する場合
 		if (! in_array(true, $matched_array)) {
-			// error_log( 'trigger not match' . print_r( $matched_array, true ));
+			// error_log('trigger not match' . print_r($matched_array, true));
 			continue;
 		}
-		// error_log( 'trigger type match:' . print_r( $trigger, true ) );
+		// error_log('trigger type match:' . print_r($trigger, true));
 
 		if (isset($trigger['action'])) {
 			$action_return = lineconnectAction::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
@@ -294,228 +297,6 @@ foreach ($json_obj->{'events'} as $event) {
 }
 exit;
 
-// アカウントリンク用のメッセージ作成
-function getLinkStartMessage($userId) {
-	global $access_token, $channelSecret;
-
-	// Bot作成
-	$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
-	$bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channelSecret));
-
-	// ユーザーのLinkToken作成
-	$response = $bot->createLinkToken($userId);
-	// レスポンスをJSONデコード
-	$res_json = $response->getJSONDecodedBody();
-	// レスポンスからlinkToken取得
-	$linkToken = $res_json['linkToken'];
-
-	// WordPressのサイトURLを取得
-	$accountlink_url = plugins_url('accountlink.php', __FILE__);
-	$redirect_to     = urlencode($accountlink_url . '?linkToken=' . $linkToken);
-	// WordPressにログインさせたあと、Nonceを作成してLINEへ送信するページへのリダイレクトをするURLを作成
-	$gotologin_url = plugins_url('gotologin.php', __FILE__);
-	$url           = $gotologin_url . '?redirect_to=' . $redirect_to;
-
-	// 連携開始メッセージ作成
-	return lineconnectMessage::createFlexMessage(
-		array(
-			'title' => lineconnect::get_option('link_start_title'),
-			'body'  => lineconnect::get_option('link_start_body'),
-			'type'  => 'uri',
-			'label' => lineconnect::get_option('link_start_button'),
-			'link'  => $url,
-		)
-	);
-}
-
-// アカウント連携解除
-function unAccountLink($userId) {
-	global $secret_prefix;
-	// メタ情報からLINEユーザーIDでユーザー検索
-	$user = lineconnect::get_wpuser_from_line_id($secret_prefix, $userId);
-	// すでに連携されているユーザーが見つかれば
-	if ($user) { // ユーザーが見つかればすでに連携されているということ
-		$user_id = $user->ID; // IDを取得
-
-		// リッチメニューを解除
-		do_action('line_unlink_richmenu', $user_id, $secret_prefix);
-
-		$user_meta_line = $user->get(lineconnect::META_KEY__LINE);
-		if ($user_meta_line && $user_meta_line[$secret_prefix]) {
-			unset($user_meta_line[$secret_prefix]);
-			if (empty($user_meta_line)) {
-				// ほかに連携しているチャネルがなければメタデータ削除
-				if (delete_user_meta($user_id, lineconnect::META_KEY__LINE)) {
-					$mes = lineconnect::get_option('unlink_finish_body');
-				} else {
-					$mes = lineconnect::get_option('unlink_failed_body');
-				}
-			} else {
-				// ほかに連携しているチャネルがあれば残りのチャネルが入ったメタデータを更新
-				update_user_meta($user_id, lineconnect::META_KEY__LINE, $user_meta_line);
-				$mes = lineconnect::get_option('unlink_finish_body');
-			}
-			// WP Line Loginと連携解除
-			do_action('line_login_delete_user_meta', $user_id, $secret_prefix);
-		} else {
-			$mes = lineconnect::get_option('unlink_failed_body');
-		}
-	} else {
-		$mes = lineconnect::get_option('unlink_failed_body');
-	}
-	return $mes;
-}
-
-
-// メッセージコンテント取得
-function getMessageContent($messageId, $userId) {
-	global $access_token, $channelSecret;
-
-	// Bot作成
-	$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
-	$bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channelSecret));
-
-	// コンテンツ取得
-	$response = $bot->getMessageContent($messageId);
-	if ($response->getHTTPStatus() == 200) {
-		// レスポンスからバイナリデータを取得
-		$content = $response->getRawBody();
-		// レスポンスのContent-Typeヘッダーからバイナリデータのファイル形式を取得
-		$contentType = $response->getHeader('Content-Type');
-
-		// 取得したファイル形式から適切なファイル拡張子を選択
-		$file_extention = get_file_extention($contentType);
-
-		// make file name from message id and file extention
-		$file_name = $messageId . '.' . $file_extention;
-		// set user directory
-		$user_dir = substr($userId, 1, 4);
-		// make directory
-		$target_dir_path = lineconnectUtil::make_lineconnect_dir($user_dir);
-		if ($target_dir_path) {
-			// make file path
-			$file_path = $target_dir_path . '/' . $file_name;
-			// write file
-			file_put_contents($file_path, $content);
-			// return file path
-			return $user_dir . '/' . $file_name;
-		}
-	}
-	return false;
-}
-
-// MIME type to file Extension
-function get_file_extention($mime_type) {
-	return lineconnectConst::MIME_MAP[$mime_type] ?? 'bin';
-}
-
-// update message
-function update_message_filepath($logId, $file_path) {
-	global $wpdb;
-	$table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
-	// get row from log table
-	$row = $wpdb->get_row("SELECT * FROM {$table_name} WHERE id = {$logId}");
-	if ($row) {
-		// message column is JSON string, so decode to object
-		$message = json_decode($row->message);
-		// set file path
-		$message->file_path = $file_path;
-		// update message column
-		return $wpdb->update($table_name, array('message' => json_encode($message)), array('id' => $logId));
-	}
-	return false;
-}
-
-// update line id follow
-function update_line_id_follow($line_id, $is_follow) {
-	global $access_token, $channelSecret, $secret_prefix, $wpdb;
-	if (version_compare(lineconnect::get_current_db_version(), '1.2', '<')) {
-		return;
-	}
-	$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
-	$line_id_row = lineconnectUtil::line_id_row($line_id, $secret_prefix);
-	if ($line_id_row) {
-		$user_data = json_decode($line_id_row['profile'], true);
-	} else {
-		$user_data = array();
-	}
-
-	if ($is_follow) {
-		// get line profile via LINE Messaging API
-		// Bot作成
-		$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
-		$bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channelSecret));
-
-		// ユーザーのプロフィール取得
-		$response = $bot->getProfile($line_id);
-		// check if response is 200
-		if ($response->getHTTPStatus() === 200) {
-			// レスポンスをJSONデコード
-			$profile = $response->getJSONDecodedBody();
-			if (isset($profile['displayName'])) {
-				$user_data['displayName'] = $profile['displayName'];
-			}
-			if (isset($profile['pictureUrl'])) {
-				$user_data['pictureUrl'] = $profile['pictureUrl'];
-			} else {
-				unset($user_data['pictureUrl']);
-			}
-			if (isset($profile['language'])) {
-				$user_data['language'] = $profile['language'];
-			} else {
-				unset($user_data['language']);
-			}
-			if (isset($profile['statusMessage'])) {
-				$user_data['statusMessage'] = $profile['statusMessage'];
-			} else {
-				unset($user_data['statusMessage']);
-			}
-		} else {
-			$is_follow = false;
-		}
-	}
-	if ($line_id_row) {
-		// update
-		$result = $wpdb->update(
-			$table_name_line_id,
-			array(
-				'follow'  => $is_follow,
-				'profile' => ! empty($user_data) ? json_encode($user_data, JSON_UNESCAPED_UNICODE) : null,
-			),
-			array(
-				'line_id'        => $line_id,
-				'channel_prefix' => $secret_prefix,
-			),
-			array(
-				'%d',
-				'%s',
-			)
-		);
-		if ($result === false) {
-			error_log('update_line_id_follow error');
-		}
-	} else {
-		// insert
-		$result = $wpdb->insert(
-			$table_name_line_id,
-			array(
-				'channel_prefix' => $secret_prefix,
-				'line_id'        => $line_id,
-				'follow'         => $is_follow,
-				'profile'        => ! empty($user_data) ? json_encode($user_data, JSON_UNESCAPED_UNICODE) : null,
-			),
-			array(
-				'%s',
-				'%s',
-				'%d',
-				'%s',
-			)
-		);
-		if ($result === false) {
-			error_log('insert_line_id_follow error');
-		}
-	}
-}
 
 function LoggingAPIResponse($response, $message) {
 	$isSucced      = $response->isSucceeded();
@@ -534,221 +315,4 @@ function LoggingAPIResponse($response, $message) {
 	} else {
 		// error_log( print_r( ['response' => $response_body], true ) );
 	}
-}
-
-function check_trigger_condition($trigger, $event, $secret_prefix) {
-	if ($trigger['type'] !== $event->{'type'}) {
-		return false;
-	}
-
-	if ($trigger['type'] === 'message') {
-		if ($trigger['message']['type'] === $event->{'message'}->{'type'}) {
-			$result = check_webhook_message_text_condition($trigger['message']['text'], $event->{'message'}->{'text'});
-			if (! $result) {
-				// error_log("check_webhook_message_text_condition:".$result);
-				return false;
-			}
-		}
-	} elseif ($trigger['type'] === 'postback') {
-		if (! lineconnectUtil::is_empty($trigger['postback']['data'])) {
-			$result = check_webhook_message_text_condition($trigger['postback']['data'], $event->{'postback'}->{'data'});
-			if (! $result) {
-				return false;
-			}
-		}
-	} elseif ($trigger['type'] === 'follow') {
-		if ($trigger['follow']['isUnblocked'] === 'add' && $event->{'follow'}->{'isUnblocked'} === true) {
-			return false;
-		} elseif ($trigger['follow']['isUnblocked'] === 'unblocked' && $event->{'follow'}->{'isUnblocked'} === false) {
-			return false;
-		}
-	}
-	// error_log(print_r($trigger['condition'],true));
-	if (! empty($trigger['condition'])) {
-		$result = check_webhook_condition($trigger['condition'], $event, $secret_prefix);
-		if (! $result) {
-			// error_log("check_webhook_condition:".$result);
-
-			return false;
-		}
-	}
-	return true;
-}
-
-function check_webhook_message_text_condition($message, $data) {
-	$condition_results = array();
-	foreach ($message['conditions'] as $condition) {
-		if (isset($condition['type']) && $condition['type'] === 'source') {
-			$result_bool         = check_webhook_message_text_keyword_condition($condition['source'], $data);
-			$condition_results[] = isset($condition['not']) && $condition['not'] === true  ? ! $result_bool : $result_bool;
-		} elseif (isset($condition['type']) && $condition['type'] === 'group') {
-			$condition_results[] = check_webhook_message_text_condition($condition['condition'], $data);
-		}
-	}
-	// error_log(print_r($condition_results, true));
-	if (isset($message['operator'])  && $message['operator'] === 'or' && ! in_array(true, $condition_results, true)) {
-		return false;
-	} elseif ((! isset($message['operator']) || $message['operator'] === 'and') && in_array(false, $condition_results, true)) {
-		return false;
-	}
-	return true;
-}
-
-function check_webhook_message_text_keyword_condition($source, $data) {
-	if (isset($source['type']) && $source['type'] === 'keyword') {
-		if (! isset($source['keyword']['match']) || $source['keyword']['match'] === 'contains') {
-			if (isset($source['keyword']['keyword']) && strpos($data, $source['keyword']['keyword']) === false) {
-				return false;
-			}
-		} elseif (isset($source['keyword']['match']) && $source['keyword']['match'] === 'equals') {
-			if (isset($source['keyword']['keyword']) && $source['keyword']['keyword'] !== $data) {
-				return false;
-			}
-		} elseif (isset($source['keyword']['match']) && $source['keyword']['match'] === 'startWith') {
-			if (isset($source['keyword']['keyword']) && strpos($data, $source['keyword']['keyword']) !== 0) {
-				return false;
-			}
-		} elseif (isset($source['keyword']['match']) && $source['keyword']['match'] === 'endWith') {
-			if (isset($source['keyword']['keyword']) && substr($data, -strlen($source['keyword']['keyword'])) !== $source['keyword']['keyword']) {
-				return false;
-			}
-		} elseif (isset($source['keyword']['match']) && $source['keyword']['match'] === 'regexp') {
-			if (isset($source['keyword']['keyword']) && ! preg_match($source['keyword']['keyword'], $data)) {
-				return false;
-			}
-		}
-	} elseif (isset($source['type']) && $source['type'] === 'query') {
-		$query_array = array();
-		foreach ($source['query']['parameters'] as $param) {
-			if (isset($param['key']) && isset($param['value'])) {
-				$query_array[$param['key']] = $param['value'];
-			}
-		}
-		$data_array = array();
-		// query string $data to array
-		parse_str($data, $data_array);
-		// compare query array and data array
-
-		if (! isset($source['query']['match']) || $source['query']['match'] === 'contains') {
-			// error_log(print_r(array_intersect_assoc( $query_array, $data_array ), true));
-
-			if (count(array_intersect_assoc($query_array, $data_array)) !== count($query_array)) {
-				return false;
-			}
-		} elseif ($source['query']['match'] === 'equals') {
-			ksort($query_array);
-			ksort($data_array);
-			// error_log(print_r(array( $query_array, $data_array ), true));
-			// error_log(print_r(array_diff_assoc( $query_array, $data_array ), true));
-
-			if ($query_array !== $data_array) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-
-function check_webhook_condition($condition_object, $event, $secret_prefix) {
-	if (empty($condition_object['conditions'])) {
-		return true;
-	}
-	$condition_results = array();
-	foreach ($condition_object['conditions'] as $condition) {
-		// json compare with $event->{'source'}
-		if (isset($condition['type']) && $condition['type'] === 'source') {
-			$result_bool         = check_webhook_source_condition($condition['source'], $event, $secret_prefix);
-			$condition_results[] = isset($condition['not']) && $condition['not'] === true  ? ! $result_bool : $result_bool;
-		} elseif (isset($condition['type']) && $condition['type'] === 'channel') {
-			$result_bool         = check_webhook_secret_prefix_condition($condition['secret_prefix'], $event, $secret_prefix);
-			$condition_results[] = isset($condition['not']) && $condition['not'] === true  ? ! $result_bool : $result_bool;
-		} elseif (isset($condition['type']) && $condition['type'] === 'group') {
-			$condition_results[] = check_webhook_condition($condition['condition'], $event, $secret_prefix);
-		}
-	}
-	if (isset($condition_object['operator']) && $condition_object['operator'] === 'or' && ! in_array(true, $condition_results, true)) {
-		return false;
-	} elseif ((! isset($condition_object['operator']) || $condition_object['operator'] === 'and') && in_array(false, $condition_results, true)) {
-		return false;
-	}
-
-	return true;
-}
-
-function check_webhook_source_condition($condition, $event, $secret_prefix) {
-	if (isset($condition['type']) && isset($event->{'source'}->{'type'}) && $condition['type'] !== $event->{'source'}->{'type'}) {
-		return false;
-	}
-	if ($condition['type'] === 'group' && ! empty($condition['groupId']) && isset($event->{'source'}->{'groupId'}) && ! in_array($event->{'source'}->{'groupId'}, $condition['groupId'])) {
-		return false;
-	}
-	if ($condition['type'] === 'room' && ! empty($condition['roomId']) && isset($event->{'source'}->{'roomId'}) && ! in_array($event->{'source'}->{'roomId'}, $condition['roomId'])) {
-		return false;
-	}
-	if (! empty($condition['userId']) && isset($event->{'source'}->{'userId'}) && ! in_array($event->{'source'}->{'userId'}, $condition['userId'])) {
-		return false;
-	}
-	if ($condition['type'] === 'user') {
-		if (
-			! empty($condition['link']) &&
-			(
-				($condition['link'] === 'linked' && lineconnect::get_wpuser_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) === false)
-				|| ($condition['link'] === 'unlinked' && lineconnect::get_wpuser_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) !== false)
-			)
-		) {
-			return false;
-		}
-		if (! empty($condition['role'])) {
-			$user = lineconnect::get_wpuser_from_line_id($secret_prefix, $event->{'source'}->{'userId'});
-			if ($user === false) {
-				return false;
-			}
-			$user_roles        = (array) $user->roles;
-			$user_roles_result = array_intersect($condition['role'], $user_roles);
-			if (empty($user_roles_result)) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-function check_webhook_secret_prefix_condition($secret_prefixs, $event, $secret_prefix) {
-	if (!empty($secret_prefixs) && ! in_array($secret_prefix, $secret_prefixs)) {
-		return false;
-	}
-	return true;
-}
-
-// デイリーフォロワー数を増加
-function increase_daily_followers($channel_prefix) {
-	global $wpdb;
-	$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
-	$today                = wp_date('Y-m-d');
-	$wpdb->query($wpdb->prepare(
-		"INSERT INTO {$table_name_line_daily} 
-        (channel_prefix, date, follow) 
-        VALUES (%s, %s, 1)
-        ON DUPLICATE KEY UPDATE 
-        follow = follow + 1",
-		$channel_prefix,
-		$today
-	));
-}
-
-// デイリーアンフォロワー数を増加
-function increase_daily_unfollowers($channel_prefix) {
-	global $wpdb;
-	$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
-	$today                = wp_date('Y-m-d');
-	$wpdb->query($wpdb->prepare(
-		"INSERT INTO {$table_name_line_daily} 
-		(channel_prefix, date, unfollow) 
-		VALUES (%s, %s, 1)
-		ON DUPLICATE KEY UPDATE 
-		unfollow = unfollow + 1",
-		$channel_prefix,
-		$today
-	));
 }

@@ -494,6 +494,46 @@ class lineconnectUtil {
 	}
 
 	/**
+	 * lineconnect用の指定されたフォルダにアップロードされたファイルのフルパスを取得する
+	 * @param string $file_path ファイルパス
+	 * @return string $file_path ファイルパス
+	 */
+	public static function get_lineconnect_file_path($file_path) {
+		$root_dir_path = WP_CONTENT_DIR . '/uploads/lineconnect';
+		$full_path = $root_dir_path . '/' . $file_path;
+		if (file_exists($full_path)) {
+			return $full_path;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * ファイルをbase64エンコードして返す関数
+	 * @param string $file_path ファイルパス
+	 * @return string $base64 ファイルのbase64エンコード
+	 */
+	public static function get_base64_encoded_file($file_path) {
+		if (! file_exists($file_path) || ! is_readable($file_path)) {
+			return '';
+		}
+		// ファイルの内容を取得
+		$file_content = file_get_contents($file_path);
+
+		// MIME TYPEを検出
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+		$mime_type = $finfo->buffer($file_content);
+		// または別の方法
+		// $mime_type = mime_content_type($file_path);
+
+		// Base64エンコード
+		$base64_file = base64_encode($file_content);
+
+		return  'data:' . $mime_type . ';base64,' . $base64_file;
+	}
+
+
+	/**
 	 * オブジェクトを再帰的に捜査してプレースホルダーを置換する関数
 	 * @param array $obj 捜査対象のオブジェクト
 	 * @param array $args 置換用のデータ
