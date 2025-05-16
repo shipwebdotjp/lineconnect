@@ -8,6 +8,7 @@ use \Shipweb\LineConnect\ActionFlow\ActionFlow;
 use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
 use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
 use \Shipweb\LineConnect\Dashboard\Admin as DashboardAdmin;
+use \Shipweb\LineConnect\Action\Action;
 
 class LineConnect {
 
@@ -390,8 +391,8 @@ class LineConnect {
 		add_action('admin_enqueue_scripts', array('lineconnectPublish', 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Action関係
-		// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'lineconnectAction', 'save_post_action' ), 15, 6 );
-		// add_action( 'admin_enqueue_scripts', array( 'lineconnectAction', 'wpdocs_selectively_enqueue_admin_script' ) );
+		// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'Action', 'save_post_action' ), 15, 6 );
+		// add_action( 'admin_enqueue_scripts', array( 'Action', 'wpdocs_selectively_enqueue_admin_script' ) );
 
 		// Trigger関係
 		add_action('save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array('lineconnectTrigger', 'save_post_trigger'), 15, 6);
@@ -1052,7 +1053,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array( 'title' ),
-				'register_meta_box_cb' => array( 'lineconnectAction', 'register_meta_box' ),
+				'register_meta_box_cb' => array( 'Action', 'register_meta_box' ),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,

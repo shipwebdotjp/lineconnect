@@ -7,7 +7,7 @@
 namespace Shipweb\LineConnect\Scenario;
 
 use \LineConnect;
-use \lineconnectAction;
+use Shipweb\LineConnect\Action\Action;
 use \lineconnectUtil;
 use \lineconnectConst;
 use \lineconnectMessage;
@@ -1344,9 +1344,9 @@ class Scenario {
 				),
 			),
 		);
-		lineconnectAction::build_action_schema_items($step_schema['items']['properties']['actions']['items']['oneOf']);
+		Action::build_action_schema_items($step_schema['items']['properties']['actions']['items']['oneOf']);
 		/*
-		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
+		$action_array   = Action::get_lineconnect_action_data_array();
 		if (!empty($action_array)) {
 			foreach ($action_array as $name => $action) {
 				$properties = array(
@@ -1797,7 +1797,7 @@ class Scenario {
 		$event->source->userId = $line_user_id;
 		$condition_matched = Condition::evaluate_conditions($step_data['condition'], $secret_prefix, $line_user_id);
 		if ($condition_matched) {
-			$action_result = lineconnectAction::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
+			$action_result = Action::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
 			if (! empty($action_result['messages'])) {
 				$channel = lineconnect::get_channel($secret_prefix);
 				$multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);

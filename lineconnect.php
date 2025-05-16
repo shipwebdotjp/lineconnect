@@ -36,7 +36,7 @@ require_once plugin_dir_path(__FILE__) . 'include/openai.php';
 require_once plugin_dir_path(__FILE__) . 'include/functions.php';
 // require_once plugin_dir_path( __FILE__ ) . 'include/dashboard.php';
 require_once plugin_dir_path(__FILE__) . 'include/dm.php';
-require_once plugin_dir_path(__FILE__) . 'include/action.php';
+// require_once plugin_dir_path(__FILE__) . 'include/action.php';
 require_once plugin_dir_path(__FILE__) . 'include/trigger.php';
 require_once plugin_dir_path(__FILE__) . 'include/audience.php';
 require_once plugin_dir_path(__FILE__) . 'include/util.php';

@@ -14,6 +14,7 @@
 
 use \Shipweb\LineConnect\Scenario\Scenario;
 use \Shipweb\LineConnect\Core\Stats;
+use Shipweb\LineConnect\Action\Action;
 
 class lineconnectSchedule {
     static function schedule_event() {
@@ -65,8 +66,8 @@ class lineconnectSchedule {
             // error_log( 'trigger type match:' . print_r( $trigger, true ) );
 
             if (isset($trigger['action'])) {
-                $action_return = lineconnectAction::do_action($trigger['action'], $trigger['chain']);
-                error_log('trigger action result: ' . print_r($action_return, true));
+                $action_return = Action::do_action($trigger['action'], $trigger['chain']);
+                // error_log('trigger action result: ' . print_r($action_return, true));
             }
         }
         //シナリオ実行

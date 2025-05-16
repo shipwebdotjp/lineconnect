@@ -6,6 +6,7 @@ log/
 testdata/
 bin/
 .vscode/
+clinerules-bank/
 Makefile
 .env
 *.bak

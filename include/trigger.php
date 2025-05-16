@@ -12,6 +12,8 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use Shipweb\LineConnect\Action\Action;
+
 
 class lineconnectTrigger {
 
@@ -170,7 +172,7 @@ EOM;
 	static function get_trigger_schema() {
 		$trigger_schema = lineconnectConst::$lineconnect_trigger_schema;
 		/*
-		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
+		$action_array   = Action::get_lineconnect_action_data_array();
 		if (!empty($action_array)) {
 			foreach ($action_array as $name => $action) {
 				$properties = array(
@@ -223,7 +225,7 @@ EOM;
 			);
 		}
 		*/
-		lineconnectAction::build_action_schema_items($trigger_schema['properties']['action']['items']['oneOf']);
+		Action::build_action_schema_items($trigger_schema['properties']['action']['items']['oneOf']);
 
 		$all_roles = array();
 		foreach (wp_roles()->roles as $role_name => $role) {

@@ -244,7 +244,6 @@ class lineconnectOpenAi {
 
 			$image_array = [];
 			foreach (array_reverse($convasations) as $convasation) {
-				error_log(print_r($convasation, true));
 				$role           = $convasation->source_type == 11 ? 'assistant' : 'user';
 				$message_object = json_decode($convasation->message, false);
 				if (json_last_error() == JSON_ERROR_NONE) {
@@ -376,8 +375,7 @@ class lineconnectOpenAi {
 			$responce = json_decode($result, true);
 		}
 		curl_close($curl);
-
-		error_log(print_r($responce, true));
+		// error_log(print_r($responce, true));
 		return $responce;
 	}
 

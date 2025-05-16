@@ -12,8 +12,13 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+namespace Shipweb\LineConnect\Action;
 
-class lineconnectAction {
+use \lineconnect;
+use \lineconnectConst;
+use \lineconnectUtil;
+
+class Action {
 	/**
 	 * Return action array object post_id and title
 	 */
@@ -64,7 +69,7 @@ class lineconnectAction {
 	}
 
 	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null) {
-		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
+		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$results = array();
 		$message = array();
 		$injection_data = array(

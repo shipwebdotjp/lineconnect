@@ -8,6 +8,7 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Trigger\Webhook;
 use Shipweb\LineConnect\Bot\File;
 use Shipweb\LineConnect\Bot\Account;
+use Shipweb\LineConnect\Action\Action;
 
 require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
@@ -249,7 +250,7 @@ foreach ($json_obj->{'events'} as $event) {
 		// error_log('trigger type match:' . print_r($trigger, true));
 
 		if (isset($trigger['action'])) {
-			$action_return = lineconnectAction::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
+			$action_return = Action::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
 			if (!empty($action_return['messages'])) {
 				$message = array_merge($message, $action_return['messages']);
 			}

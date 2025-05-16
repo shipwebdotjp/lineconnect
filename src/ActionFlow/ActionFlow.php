@@ -2,8 +2,8 @@
 
 namespace Shipweb\LineConnect\ActionFlow;
 
+use Shipweb\LineConnect\Action\Action;
 use \LineConnect;
-use \lineconnectAction;
 use \lineconnectConst;
 use \lineconnectMessage;
 use stdClass;
@@ -86,7 +86,7 @@ class ActionFlow {
                 ),
             ),
         );
-        lineconnectAction::build_action_schema_items($schema['properties']['actions']['items']['oneOf']);
+        Action::build_action_schema_items($schema['properties']['actions']['items']['oneOf']);
         $schema = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_schema', $schema);
         return $schema;
     }
@@ -175,7 +175,7 @@ class ActionFlow {
                     $event = new stdClass();
                     $event->source = new stdClass();
                     $event->source->userId = $line_user_id;
-                    $action_result = lineconnectAction::do_action($actionFlow['actions'], $actionFlow['chains'] ?? null, $event, $secret_prefix);
+                    $action_result = Action::do_action($actionFlow['actions'], $actionFlow['chains'] ?? null, $event, $secret_prefix);
                     $response = null;
                     if (! empty($action_result['messages'])) {
                         $multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);
