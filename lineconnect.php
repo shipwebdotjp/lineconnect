@@ -29,7 +29,7 @@ require_once plugin_dir_path(__FILE__) . 'include/message.php';
 require_once plugin_dir_path(__FILE__) . 'include/bulk_message.php';
 require_once plugin_dir_path(__FILE__) . 'include/comment.php';
 require_once plugin_dir_path(__FILE__) . 'include/shortcodes.php';
-require_once plugin_dir_path(__FILE__) . 'include/admin.php';
+// require_once plugin_dir_path(__FILE__) . 'include/admin.php';
 require_once plugin_dir_path(__FILE__) . 'include/const.php';
 require_once plugin_dir_path(__FILE__) . 'include/botlog.php';
 require_once plugin_dir_path(__FILE__) . 'include/openai.php';

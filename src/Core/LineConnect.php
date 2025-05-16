@@ -8,6 +8,7 @@ use \Shipweb\LineConnect\ActionFlow\ActionFlow;
 use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
 use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
 use \Shipweb\LineConnect\Dashboard\Admin as DashboardAdmin;
+use Shipweb\LineConnect\Admin\Admin as AdminDashboard;
 use \Shipweb\LineConnect\Action\Action;
 
 class LineConnect {
@@ -452,13 +453,13 @@ class LineConnect {
 
 			//カラム追加
 			// ユーザー一覧一覧のコラム追加
-			add_filter('manage_users_columns', array('lineconnectAdmin', 'lc_manage_columns'));
+			add_filter('manage_users_columns', array(AdminDashboard::class, 'lc_manage_columns'));
 			// ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
-			add_filter('manage_users_custom_column', array('lineconnectAdmin', 'lc_manage_custom_columns'), 10, 3);
+			add_filter('manage_users_custom_column', array(AdminDashboard::class, 'lc_manage_custom_columns'), 10, 3);
 			// ユーザー一覧の一括操作にメッセージ送信を追加
-			add_filter('bulk_actions-users', array('lineconnectAdmin', 'add_bulk_users_sendmessage'), 10, 1);
+			add_filter('bulk_actions-users', array(AdminDashboard::class, 'add_bulk_users_sendmessage'), 10, 1);
 			// 一括操作を行うフィルター
-			add_filter('handle_bulk_actions-users', array('lineconnectAdmin', 'handle_bulk_users_sendmessage'), 10, 3);
+			add_filter('handle_bulk_actions-users', array(AdminDashboard::class, 'handle_bulk_users_sendmessage'), 10, 3);
 			//シナリオにカラム追加
 			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
 			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
