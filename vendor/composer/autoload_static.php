@@ -752,6 +752,12 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'UtilInjectParamTest' => __DIR__ . '/../..' . '/tests/util/UtilInjectParamTest.php',
         'UtilPrepareArgumentsTest' => __DIR__ . '/../..' . '/tests/util/UtilPrepareArgumentsTest.php',
         'UtilReplaceTest' => __DIR__ . '/../..' . '/tests/util/UtilReplaceTest.php',
+        'WebhookConditionTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookConditionTest.php',
+        'WebhookDateTimeTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookDateTimeTest.php',
+        'WebhookPostBackParamConditionTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookPostBackParamConditionTest.php',
+        'WebhookPostBackParamSourceDateTimeTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookPostBackParamSourceDateTimeTest.php',
+        'WebhookPostBackParamSourceRichMenuTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookPostBackParamSourceRichMenuTest.php',
+        'WebhookPostBackParamSourceStatusTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookPostBackParamSourceStatusTest.php',
         'lineconnectTest' => __DIR__ . '/../..' . '/tests/initdb.php',
     );
 

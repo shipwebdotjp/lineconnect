@@ -12,7 +12,12 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-class lineconnectComment {
+namespace Shipweb\LineConnect\Publish;
+
+use lineconnect;
+use lineconnectMessage;
+
+class Comment {
 	static function comment_post_callback($comment_ID, $comment_approved) {
 		if ($comment_approved === 1) {
 			$comment = get_comment($comment_ID);
@@ -58,7 +63,7 @@ class lineconnectComment {
 		}
 
 		//メッセージ関連を読み込み
-		require_once(plugin_dir_path(__FILE__) . 'message.php');
+		// require_once(plugin_dir_path(__FILE__) . 'message.php');
 		$link_label = lineconnect::get_option('comment_read_label');;
 		$flexMessage = lineconnectMessage::createFlexMessage(
 			["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link]

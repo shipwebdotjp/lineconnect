@@ -24,14 +24,14 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 require_once plugin_dir_path(__FILE__) . 'src/Core/LineConnect.php'; // namespace導入前の暫定処置
 require_once plugin_dir_path(__FILE__) . 'include/richmenu.php';
 require_once plugin_dir_path(__FILE__) . 'include/setting.php';
-require_once plugin_dir_path(__FILE__) . 'include/publish.php';
+// require_once plugin_dir_path(__FILE__) . 'include/publish.php';
 require_once plugin_dir_path(__FILE__) . 'include/message.php';
 require_once plugin_dir_path(__FILE__) . 'include/bulk_message.php';
-require_once plugin_dir_path(__FILE__) . 'include/comment.php';
-require_once plugin_dir_path(__FILE__) . 'include/shortcodes.php';
+// require_once plugin_dir_path(__FILE__) . 'include/comment.php';
+// require_once plugin_dir_path(__FILE__) . 'include/shortcodes.php';
 // require_once plugin_dir_path(__FILE__) . 'include/admin.php';
 require_once plugin_dir_path(__FILE__) . 'include/const.php';
-require_once plugin_dir_path(__FILE__) . 'include/botlog.php';
+// require_once plugin_dir_path(__FILE__) . 'include/botlog.php';
 require_once plugin_dir_path(__FILE__) . 'include/openai.php';
 require_once plugin_dir_path(__FILE__) . 'include/functions.php';
 // require_once plugin_dir_path( __FILE__ ) . 'include/dashboard.php';

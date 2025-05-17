@@ -12,7 +12,7 @@ use \lineconnectUtil;
 use Shipweb\LineConnect\Core\Stats;
 use \lineconnectConst;
 
-class Admin {
+class Screen {
 	static function initialize() {
 	}
 
@@ -38,12 +38,12 @@ class Admin {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__DASHBOARD,
 			// メニューに紐づく画面を描画するcallback関数：
-			array(\Shipweb\LineConnect\Dashboard\Admin::class, 'show_dashboard'),
+			array(\Shipweb\LineConnect\Dashboard\Screen::class, 'show_dashboard'),
 			'dashicons-email-alt',
 			NULL
 		);
-		add_action("admin_print_styles-{$page_hook_suffix}", [\Shipweb\LineConnect\Dashboard\Admin::class, 'wpdocs_plugin_admin_styles']);
-		add_action("admin_print_scripts-{$page_hook_suffix}", [\Shipweb\LineConnect\Dashboard\Admin::class, 'wpdocs_plugin_admin_scripts']);
+		add_action("admin_print_styles-{$page_hook_suffix}", [\Shipweb\LineConnect\Dashboard\Screen::class, 'wpdocs_plugin_admin_styles']);
+		add_action("admin_print_scripts-{$page_hook_suffix}", [\Shipweb\LineConnect\Dashboard\Screen::class, 'wpdocs_plugin_admin_scripts']);
 	}
 
 	/**

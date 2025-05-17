@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\Admin;
 
-class Admin {
+class UserColumnCustomizer {
     // 連携状態を表示するカラムを追加
     public static function lc_manage_columns($columns) {
         $add_columns = array(

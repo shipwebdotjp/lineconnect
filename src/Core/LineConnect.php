@@ -2,14 +2,19 @@
 
 // namespace Shipweb\LineConnect\Core;
 
-use \Shipweb\LineConnect\Scenario\Scenario;
-use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
-use \Shipweb\LineConnect\ActionFlow\ActionFlow;
-use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
-use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
-use \Shipweb\LineConnect\Dashboard\Admin as DashboardAdmin;
-use Shipweb\LineConnect\Admin\Admin as AdminDashboard;
-use \Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
+use Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
+use Shipweb\LineConnect\Dashboard\Screen as DashboardScreen;
+use Shipweb\LineConnect\Admin\UserColumnCustomizer as UserColumnCustomizer;
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Bot\Log\ListTable as BotLogListTable;
+use Shipweb\LineConnect\Publish\Comment as PublishComment;
+use Shipweb\LineConnect\Publish\Post as PublishPost;
+use Shipweb\LineConnect\Shortcodes\Shortcodes;
+use Shipweb\LineConnect\Utilities\StreamConnector;
 
 class LineConnect {
 
@@ -377,19 +382,19 @@ class LineConnect {
 
 		$post_types = self::get_option('send_post_types');
 		foreach ($post_types as $post_type) {
-			add_action('publish_' . $post_type, array('lineconnectPublish', 'publish_post'), 15, 6);
+			add_action('publish_' . $post_type, array(PublishPost::class, 'publish_post'), 15, 6);
 		}
-		add_action('save_post', array('lineconnectPublish', 'save_post'), 10, 2);
+		add_action('save_post', array(PublishPost::class, 'save_post'), 10, 2);
 		if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
 			// 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
-			add_action('admin_notices', array('lineconnectPublish', 'error_send_to_line'));
+			add_action('admin_notices', array(PublishPost::class, 'error_send_to_line'));
 			// 投稿(公開)した際にLINE送信に成功した時のメッセージ表示
-			add_action('admin_notices', array('lineconnectPublish', 'success_send_to_line'));
+			add_action('admin_notices', array(PublishPost::class, 'success_send_to_line'));
 		}
 		// 投稿画面にチェックボックスを表示
-		add_action('add_meta_boxes', array('lineconnectPublish', 'add_send_checkbox'), 10, 2);
+		add_action('add_meta_boxes', array(PublishPost::class, 'add_send_checkbox'), 10, 2);
 		// 投稿画面のとき、スクリプトを読み込む
-		add_action('admin_enqueue_scripts', array('lineconnectPublish', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('admin_enqueue_scripts', array(PublishPost::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Action関係
 		// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'Action', 'save_post_action' ), 15, 6 );
@@ -419,7 +424,7 @@ class LineConnect {
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
 			//メニュー追加
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
-			add_action('admin_menu', array(DashboardAdmin::class, 'set_plugin_menu'));
+			add_action('admin_menu', array(DashboardScreen::class, 'set_plugin_menu'));
 			// 一括配信のメニューページを追加
 			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
@@ -453,13 +458,13 @@ class LineConnect {
 
 			//カラム追加
 			// ユーザー一覧一覧のコラム追加
-			add_filter('manage_users_columns', array(AdminDashboard::class, 'lc_manage_columns'));
+			add_filter('manage_users_columns', array(UserColumnCustomizer::class, 'lc_manage_columns'));
 			// ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
-			add_filter('manage_users_custom_column', array(AdminDashboard::class, 'lc_manage_custom_columns'), 10, 3);
+			add_filter('manage_users_custom_column', array(UserColumnCustomizer::class, 'lc_manage_custom_columns'), 10, 3);
 			// ユーザー一覧の一括操作にメッセージ送信を追加
-			add_filter('bulk_actions-users', array(AdminDashboard::class, 'add_bulk_users_sendmessage'), 10, 1);
+			add_filter('bulk_actions-users', array(UserColumnCustomizer::class, 'add_bulk_users_sendmessage'), 10, 1);
 			// 一括操作を行うフィルター
-			add_filter('handle_bulk_actions-users', array(AdminDashboard::class, 'handle_bulk_users_sendmessage'), 10, 3);
+			add_filter('handle_bulk_actions-users', array(UserColumnCustomizer::class, 'handle_bulk_users_sendmessage'), 10, 3);
 			//シナリオにカラム追加
 			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
 			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
@@ -479,7 +484,7 @@ class LineConnect {
 			// アクション実行AJAXアクション
 			add_action('wp_ajax_lc_ajax_action_execute', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'ajax_action_execute'));
 			// ダッシュボードデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_dashboard', array(\Shipweb\LineConnect\Dashboard\Admin::class, 'ajax_get_dashboard'));
+			add_action('wp_ajax_lc_ajax_get_dashboard', array(DashboardScreen::class, 'ajax_get_dashboard'));
 			// DM送信アクション
 			add_action('wp_ajax_lc_ajax_dm_send', array('lineconnectDm', 'ajax_dm_send'));
 			// リッチメニュー一覧取得AJAXアクション
@@ -519,17 +524,17 @@ class LineConnect {
 
 		if (self::get_option('send_new_comment')) {
 			// コメントが投稿されたときのアクション
-			add_action('comment_post', array('lineconnectComment', 'comment_post_callback'), 10, 2);
+			add_action('comment_post', array(PublishComment::class, 'comment_post_callback'), 10, 2);
 
 			// コメントステータスが変化したときのアクション
-			add_action('transition_comment_status', array('lineconnectComment', 'approve_comment_callback'), 10, 3);
+			add_action('transition_comment_status', array(PublishComment::class, 'approve_comment_callback'), 10, 3);
 		}
 
 		// ChatGPTとの会話ログ表示ショートコード
-		add_shortcode('line_connect_chat_gpt_log', array('lineconnectShortcodes', 'show_chat_log'));
+		add_shortcode('line_connect_chat_gpt_log', array(Shortcodes::class, 'show_chat_log'));
 
 		// ショートコード用のCSSを読み込むため
-		add_action('wp_enqueue_scripts', array('lineconnectShortcodes', 'enqueue_script'));
+		add_action('wp_enqueue_scripts', array(Shortcodes::class, 'enqueue_script'));
 
 		// カスタム投稿タイプの登録
 		$this->register_custom_post_type();
@@ -561,8 +566,8 @@ class LineConnect {
 		add_filter(
 			'wp_stream_connectors',
 			function ($classes) {
-				require_once $this->root_dir . 'include/logging.php';
-				$class     = new lineconnectConnector();
+				// require_once $this->root_dir . 'include/logging.php';
+				$class     = new StreamConnector();
 				$classes[] = $class;
 				return $classes;
 			}
@@ -626,8 +631,7 @@ class LineConnect {
 	}
 
 	function load_settings_page_gptlog() {
-		require_once $this->root_dir . 'include/chatlist.php';
-		$this->wp_gptlog_list_table = new lineconnectGptLogListTable();
+		$this->wp_gptlog_list_table = new BotLogListTable();
 		$action                     = $this->wp_gptlog_list_table->current_action();
 		if (! empty($action)) {
 			if ($action == 'delete') {
@@ -884,39 +888,49 @@ class LineConnect {
 	static function get_current_db_version() {
 		return self::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial']);
 	}
-
-
 	/**
-	 * Checks if the current request is a WP REST API request.
+	 * WordPress REST APIリクエストかどうかを判断します。
 	 *
-	 * Case #1: After WP_REST_Request initialisation
-	 * Case #2: Support "plain" permalink settings
-	 * Case #3: It can happen that WP_Rewrite is not yet initialized,
-	 *          so do this (wp-settings.php)
-	 * Case #4: URL Path begins with wp-json/ (your REST prefix)
-	 *          Also supports WP installations in subfolders
+	 * 以下のケースを検証します：
+	 * ケース #1: WP_REST_Request 初期化後のリクエスト
+	 * ケース #2: "プレーン" パーマリンク設定のサポート
+	 * ケース #3: WP_Rewrite がまだ初期化されていない可能性への対応
+	 * ケース #4: URLパスが wp-json/ (REST プレフィックス) で始まる場合
+	 *           サブフォルダにインストールされた WordPress も対応
 	 *
-	 * @returns boolean
-	 * @author matzeeable
+	 * @return boolean REST APIリクエストの場合はtrue、それ以外はfalse
 	 */
-	static function is_rest() {
+	public static function is_rest() {
 		$prefix = rest_get_url_prefix();
+
+		// ケース #1: REST_REQUEST 定数が定義され、値がtrueの場合
+		if (defined('REST_REQUEST') && REST_REQUEST) {
+			return true;
+		}
+
+		// ケース #2: GET パラメータに rest_route が存在し、プレフィックスと一致する場合
 		if (
-			defined('REST_REQUEST') && REST_REQUEST // (#1)
-			|| isset($_GET['rest_route']) // (#2)
+			isset($_GET['rest_route'])
 			&& strpos(trim($_GET['rest_route'], '\\/'), $prefix, 0) === 0
 		) {
 			return true;
 		}
-		// (#3)
+
+		// ケース #3: WP_Rewrite の初期化チェックと対応
 		global $wp_rewrite;
 		if ($wp_rewrite === null) {
 			$wp_rewrite = new WP_Rewrite();
 		}
 
-		// (#4)
-		$rest_url    = wp_parse_url(trailingslashit(rest_url()));
+		// ケース #4: 現在のURLパスと REST URLパスの比較
+		$rest_url = wp_parse_url(trailingslashit(rest_url()));
 		$current_url = wp_parse_url(add_query_arg(array()));
+
+		// パスが存在しない場合のエラーハンドリング
+		if (! isset($rest_url['path']) || ! isset($current_url['path'])) {
+			return false;
+		}
+
 		return strpos($current_url['path'], $rest_url['path'], 0) === 0;
 	}
 
@@ -1339,10 +1353,20 @@ class LineConnect {
 	/**
 	 * プラグインのルートディレクトリを返す
 	 * 
-	 * @return string
+	 * @return string プラグインのルートディレクトリ
 	 */
 	public static function getRootDir() {
 		return trailingslashit(dirname(__FILE__, substr_count(plugin_basename(__FILE__), '/')));
+	}
+
+	/**
+	 * プラグインのルートディレクトリからの相対パスを受け取り、絶対パスURLを作成して返す
+	 * 
+	 * @param string $path URLパス
+	 * @return string
+	 */
+	public static function plugins_url($path) {
+		return plugins_url($path, self::getRootDir() . self::PLUGIN_ENTRY_FILE_NAME);
 	}
 }
 // LineConnect::get_instance();

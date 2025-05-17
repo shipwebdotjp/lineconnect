@@ -235,7 +235,7 @@ EOM;
 	}
 
 	static function formData_to_multimessage($formData, $args = null) {
-		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
+		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$multimessagebuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
 		$message_objects     = array();
 		$message_data = array();

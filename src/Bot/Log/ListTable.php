@@ -12,7 +12,12 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-class lineconnectGptLogListTable extends WP_List_Table {
+namespace Shipweb\LineConnect\Bot\Log;
+
+use lineconnect;
+use \lineconnectConst;
+
+class ListTable extends \WP_List_Table {
 	/**
 	 * 初期設定画面を表示
 	 */

@@ -9,10 +9,11 @@ use Shipweb\LineConnect\Trigger\Webhook;
 use Shipweb\LineConnect\Bot\File;
 use Shipweb\LineConnect\Bot\Account;
 use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
 
-require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
-require_once 'lineconnect.php'; // LINE Connectを読み込み
+// require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
+// require_once 'lineconnect.php'; // LINE Connectを読み込み
 // require_once('include/message.php'); // メッセージ関連を読み込み
 
 // JSONリクエストボディを取得
@@ -68,7 +69,7 @@ $json_obj = json_decode($json_string);
 foreach ($json_obj->{'events'} as $event) {
 	$message = array();
 	// ログ書き込み
-	$botlog                         = new lineconnectBotLog($event);
+	$botlog                         = new BotLogWriter($event, $secret_prefix);
 	$isEventDuplicationOrInsertedId = $botlog->writeChatLog();
 	if ($isEventDuplicationOrInsertedId === true) {
 		// イベントがすでに記録されていればスキップ

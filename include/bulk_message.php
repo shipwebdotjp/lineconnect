@@ -173,7 +173,7 @@ EOM;
 			);
 		}
 
-		$messages              = isset($_POST['messages']) ? array_map('stripslashes_deep', $_POST['messages']) : [];
+		$messages_formdata              = isset($_POST['messages']) ? array_map('stripslashes_deep', $_POST['messages']) : [];
 		$audience              = isset($_POST['audience']) ? array_map('stripslashes_deep', $_POST['audience']) : [];
 		$mode = isset($_POST['mode']) ? $_POST['mode'] : '';
 		$notificationDisabled = isset($_POST['notificationDisabled']) && $_POST['notificationDisabled'] == 1;
@@ -182,7 +182,7 @@ EOM;
 		}
 
 		if ($mode === 'send' || $mode === 'validate') {
-			$message = lineconnectSLCMessage::formData_to_multimessage($messages);
+			// $message = lineconnectSLCMessage::formData_to_multimessage($messages);
 			$recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []);
 			if (empty($recepient)) {
 				return array(
@@ -192,9 +192,9 @@ EOM;
 				);
 			} else {
 				if ($mode === 'validate') {
-					$response = lineconnectMessage::validateAudienceMessage($recepient, $message);
+					$response = lineconnectMessage::validateAudienceMessage($recepient, $messages_formdata);
 				} else {
-					$response = lineconnectMessage::sendAudienceMessage($recepient, $message, $notificationDisabled);
+					$response = lineconnectMessage::sendAudienceMessage($recepient, $messages_formdata, $notificationDisabled);
 				}
 			}
 		} elseif ($mode === 'count') {

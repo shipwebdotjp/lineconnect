@@ -12,8 +12,17 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+namespace Shipweb\LineConnect\Publish;
 
-class lineconnectPublish {
+use lineconnect;
+use lineconnectMessage;
+use lineconnectConst;
+use lineconnectSLCMessage;
+use lineconnectUtil;
+use WP_REST_Server;
+
+
+class Post {
 
 	static function add_send_checkbox() {
 		// 投稿ページと固定ページ両方でLINE送信チェックボックスを表示
@@ -25,7 +34,7 @@ class lineconnectPublish {
 				// チェックボックスのラベル名
 				'LINE Connect',
 				// チェックボックスを表示するコールバック関数
-				['lineconnectPublish', 'show_send_checkbox'],
+				[Post::class, 'show_send_checkbox'],
 				// 投稿画面に表示
 				$screen,
 				// 投稿画面の右サイドに表示
@@ -45,18 +54,18 @@ class lineconnectPublish {
 				//jQuery uiとmultiselectを読み込み
 				wp_enqueue_script('jquery');
 				wp_enqueue_script('jquery-ui-core', false, array('jquery'));
-				wp_enqueue_script('jquery-ui-multiselect-widget', plugins_url("js/jquery.multiselect.min.js", dirname(__FILE__)), array('jquery-ui-core'), "3.0.1", true);
+				wp_enqueue_script('jquery-ui-multiselect-widget', lineconnect::plugins_url("assets/js/jquery.multiselect.min.js"), array('jquery-ui-core'), "3.0.1", true);
 				$multiselect_js = "assets/js/slc_multiselect.js";
-				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin-multiselect', plugins_url($multiselect_js, dirname(__FILE__)), array('jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(plugin_dir_path(dirname(__FILE__)) . $multiselect_js), true);
+				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin-multiselect', lineconnect::plugins_url($multiselect_js), array('jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $multiselect_js), true);
 				//JavaScriptの言語ファイル読み込み
-				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'admin-multiselect', lineconnect::PLUGIN_NAME, plugin_dir_path(dirname(__FILE__)) . 'languages');
+				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'admin-multiselect', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'languages');
 
 				//スタイルを読み込み
 				$jquery_ui_css = "css/jquery-ui.css";
-				wp_enqueue_style(lineconnect::PLUGIN_ID . '-admin-ui-css', plugins_url($jquery_ui_css, dirname(__FILE__)), array(), filemtime(plugin_dir_path(dirname(__FILE__)) . $jquery_ui_css));
+				wp_enqueue_style(lineconnect::PLUGIN_ID . '-admin-ui-css', lineconnect::plugins_url($jquery_ui_css), array(), filemtime(lineconnect::getRootDir() . $jquery_ui_css));
 				wp_enqueue_style('wp-color-picker');
 				$multiselect_css = "css/jquery.multiselect.css";
-				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'multiselect-css', plugins_url($multiselect_css, dirname(__FILE__)), array(), filemtime(plugin_dir_path(dirname(__FILE__)) . $multiselect_css));
+				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'multiselect-css', lineconnect::plugins_url($multiselect_css), array(), filemtime(lineconnect::getRootDir() . $multiselect_css));
 			}
 		}
 	}
@@ -190,17 +199,19 @@ class lineconnectPublish {
 			//投稿メタからLINE送信チェックボックスと、ロールを取得
 			if ($isRestAPI) {
 				$req_json = json_decode(WP_REST_Server::get_raw_data());
-				$channels = $req_json->{'lc_channels'};
-				foreach ($channels as $rest_cid => $rest_channel_value) {
-					if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
-						$send_checkbox_value = 'ON';
-						// 後方互換性を保つため、文字列の場合はロールとみなす
-						if (is_string($rest_channel_value)) {
-							$rest_role = $rest_channel_value;
-							$roles = explode(',', $rest_role);
-						} else {
-							$roles = $rest_channel_value->{'roles'};
-							$template = $rest_channel_value->{'template'};
+				if (isset($req_json->lc_channels)) {
+					$channels = $req_json->{'lc_channels'};
+					foreach ($channels as $rest_cid => $rest_channel_value) {
+						if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
+							$send_checkbox_value = 'ON';
+							// 後方互換性を保つため、文字列の場合はロールとみなす
+							if (is_string($rest_channel_value)) {
+								$rest_role = $rest_channel_value;
+								$roles = explode(',', $rest_role);
+							} else {
+								$roles = $rest_channel_value->{'roles'};
+								$template = $rest_channel_value->{'template'};
+							}
 						}
 					}
 				}
@@ -268,7 +279,7 @@ class lineconnectPublish {
 				// require_once(plugin_dir_path(__FILE__).'../vendor/autoload.php');
 
 				//メッセージ関連を読み込み
-				require_once(plugin_dir_path(__FILE__) . 'message.php');
+				// require_once(plugin_dir_path(__FILE__) . 'message.php');
 
 				$link_label = lineconnect::get_option('more_label');
 				$args = [];
@@ -379,17 +390,19 @@ class lineconnectPublish {
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
 			if ($isRestAPI) {
 				$req_json = json_decode(WP_REST_Server::get_raw_data());
-				$channels = $req_json->{'lc_channels'};
-				foreach ($channels as $rest_cid => $rest_channel_value) {
-					if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
-						$future_checkbox = 'ON';
-						// 後方互換性を保つため、文字列の場合はロールとみなす
-						if (is_string($rest_channel_value)) {
-							$rest_role = $rest_channel_value;
-							$roles = explode(',', $rest_role);
-						} else {
-							$roles = $rest_channel_value->{'roles'};
-							$template = $rest_channel_value->{'template'};
+				if (isset($req_json->lc_channels)) {
+					$channels = $req_json->{'lc_channels'};
+					foreach ($channels as $rest_cid => $rest_channel_value) {
+						if ($rest_cid == $channel_id || $rest_cid == $channel['prefix']) {
+							$future_checkbox = 'ON';
+							// 後方互換性を保つため、文字列の場合はロールとみなす
+							if (is_string($rest_channel_value)) {
+								$rest_role = $rest_channel_value;
+								$roles = explode(',', $rest_role);
+							} else {
+								$roles = $rest_channel_value->{'roles'};
+								$template = $rest_channel_value->{'template'};
+							}
 						}
 					}
 				}
@@ -401,7 +414,7 @@ class lineconnectPublish {
 			}
 			$is_send_line[$channel['prefix']] = array();
 
-			if ($future_checkbox == 'ON') {
+			if (isset($future_checkbox) && $future_checkbox == 'ON') {
 				$is_send_line[$channel['prefix']]['isSend'] = 'ON';
 			}
 			if (isset($roles)) {

@@ -155,7 +155,7 @@ class lineconnectUtil {
 			]
 		);
 		$twig = new \Twig\Environment($loader);
-		return $twig->render('template', $injection_data);
+		return $twig->render('template', $injection_data ?? array());
 	}
 
 	/**
@@ -308,9 +308,43 @@ class lineconnectUtil {
 		}
 		if (is_string($source)) {
 			return self::get_line_message_builder_from_string($source);
-		} else {
-			return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(print_r($source, true));
 		}
+
+		if (is_array($source)) {
+			//message formdataの場合はformData_to_multimessageを呼び出す
+			$isFormdata = true;
+			if (count($source) > 10) {
+				$isFormdata = false;
+			}
+			for ($i = 0; $i < count($source); $i += 2) {
+				if (!empty($source[$i]) && !empty($source[$i + 1])) {
+					if (!isset($source[$i]['type']) ||  ! in_array(
+						$source[$i]['type'],
+						array(
+							'text',
+							'sticker',
+							'image',
+							'video',
+							'audio',
+							'location',
+							'imagemap',
+							'button_template',
+							'confirm_template',
+							'carousel_template',
+							'image_carousel_template',
+							'flex',
+							'raw',
+						)
+					)) {
+						$isFormdata = false;
+					}
+				}
+			}
+			if ($isFormdata) {
+				return lineconnectSLCMessage::formData_to_multimessage($source, $args);
+			}
+		}
+		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(print_r($source, true));
 	}
 
 	/**

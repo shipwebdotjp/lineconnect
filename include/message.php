@@ -13,6 +13,7 @@
  */
 
 use Shipweb\LineConnect\Core\Stats;
+use Shipweb\LineConnect\Utilities\StreamConnector;
 
 class lineconnectMessage {
 	// Text Component
@@ -530,6 +531,7 @@ class lineconnectMessage {
 			}
 
 			if ($type == 'broadcast') {
+				$message = lineconnectUtil::get_line_message_builder($message);
 				$response = self::sendBroadcastMessage($channel, $message, $notificationDisabled);
 				if ($response['success']) {
 					$success_message = __('Broadcast message sent successfully.', lineconnect::PLUGIN_NAME);
@@ -537,6 +539,7 @@ class lineconnectMessage {
 					$error_message = __('Broadcast message failed to send.', lineconnect::PLUGIN_NAME) . $response['message'];
 				}
 			} elseif ($type == 'multicast') {
+				$message = lineconnectUtil::get_line_message_builder($message);
 				$response = self::sendMulticastMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
 				if ($response['success']) {
 					// $success_message = __('Multicast message sent successfully.', lineconnect::PLUGIN_NAME);
@@ -548,6 +551,7 @@ class lineconnectMessage {
 				$ary_push_success = array();
 				$ary_push_error = array();
 				foreach ($recepient_item['line_user_ids'] as $line_user_id) {
+					$message = lineconnectUtil::get_line_message_builder($message, self::make_injection_data($channel, $line_user_id));
 					$response = self::sendPushMessage($channel, $line_user_id, $message, $notificationDisabled);
 					if ($response['success']) {
 						$ary_push_success[] = $line_user_id;
@@ -588,7 +592,7 @@ class lineconnectMessage {
 	 * @return array
 	 */
 	static function validateAudienceMessage($recepient, $message) {
-		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
+		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$ary_success_message = array();
 		$ary_error_message   = array();
 		foreach ($recepient as $secret_prefix => $recepient_item) {
@@ -609,8 +613,11 @@ class lineconnectMessage {
 			}
 
 			if ($type == 'push') {
-				$replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
+				// $replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
+				$replaced_message = lineconnectUtil::get_line_message_builder($message, self::make_injection_data($channel, $recepient_item['line_user_ids'][0]));
+				// $replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
 			} else {
+				$message = lineconnectUtil::get_line_message_builder($message);
 				$replaced_message = $message;
 			}
 			$success_message .= ' ';
@@ -649,10 +656,7 @@ class lineconnectMessage {
 	 */
 	static function replacePlaceHolder($channel, $line_user_id, $message) {
 		// メッセージに含まれるプレースホルダーへユーザーデータの埋め込み
-		$user_data = lineconnect::get_userdata_from_line_id($channel['prefix'], $line_user_id);
-		$injection_data = array(
-			'user' => $user_data,
-		);
+		$injection_data = self::make_injection_data($channel, $line_user_id);
 		$messages = lineconnectUtil::replace_object_placeholder($message->buildMessage(), $injection_data);
 		// メッセージオブジェクトの再構築
 		$multimessagebuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
@@ -661,6 +665,22 @@ class lineconnectMessage {
 		}
 		return $multimessagebuilder;
 	}
+
+	/**
+	 * ユーザー用のインジェクションデータを作成する
+	 * 
+	 * @param array $channnel チャネル情報
+	 * @param string $line_user_id LINEユーザーID
+	 * @return array
+	 */
+	static function make_injection_data($channel, $line_user_id) {
+		$user_data = lineconnect::get_userdata_from_line_id($channel['prefix'], $line_user_id);
+		$injection_data = array(
+			'user' => $user_data,
+		);
+		return $injection_data;
+	}
+
 
 	// プッシュ（一人のユーザーに送信）
 	static function sendPushMessage($channel, $line_user_id, $message, $notificationDisabled = false) {
@@ -679,8 +699,8 @@ class lineconnectMessage {
 
 		// 送信に成功した場合
 		if ($response->getHTTPStatus() === 200) {
-			if (class_exists('lineconnectConnector')) {
-				$class = new lineconnectConnector();
+			if (class_exists(StreamConnector::class)) {
+				$class = new StreamConnector();
 				$class->callback_lineconnect_push_message(
 					array(
 						'id'    => null,
@@ -723,8 +743,8 @@ class lineconnectMessage {
 				);
 			}
 		}
-		if (class_exists('lineconnectConnector')) {
-			$class = new lineconnectConnector();
+		if (class_exists(StreamConnector::class)) {
+			$class = new StreamConnector();
 			$class->callback_lineconnect_push_message(
 				array(
 					'id'    => null,
@@ -755,8 +775,8 @@ class lineconnectMessage {
 
 		$response = $bot->broadcast($message, $notificationDisabled);
 		if ($response->getHTTPStatus() === 200) {
-			if (class_exists('lineconnectConnector')) {
-				$class = new lineconnectConnector();
+			if (class_exists(StreamConnector::class)) {
+				$class = new StreamConnector();
 				$class->callback_lineconnect_push_message(
 					array(
 						'id'    => null,

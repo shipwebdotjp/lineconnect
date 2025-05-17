@@ -4,14 +4,20 @@
  * Lineconnect
  * ショートコード
  */
-class lineconnectShortcodes {
-	static function show_chat_log( $atts, $content = null, $tag = '' ) {
-		global $wpdb;
-		require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php'; // cebe/markdownを読み込み
-		$table_name     = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
-		$assets_svg_url = plugins_url( lineconnectConst::ASSETS_SVG_FILENAME, __DIR__ );
 
-		wp_enqueue_style( 'slc-chat' );
+namespace Shipweb\LineConnect\Shortcodes;
+
+use lineconnect;
+use lineconnectConst;
+
+
+class Shortcodes {
+	static function show_chat_log($atts, $content = null, $tag = '') {
+		global $wpdb;
+		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php'; // cebe/markdownを読み込み
+		$table_name     = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+
+		wp_enqueue_style('slc-chat');
 
 		$atts   = wp_parse_args(
 			$atts,
@@ -39,25 +45,25 @@ class lineconnectShortcodes {
         <section class='chatbox'>
         <section class='chat-window'>
 EOL;
-		$paged  = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
-		$start  = ( $paged - 1 ) * $atts['max_num'];
+		$paged  = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		$start  = ($paged - 1) * $atts['max_num'];
 
 		$keyvalues = array();
-		if ( isset( $atts['user_id'] ) ) {
+		if (isset($atts['user_id'])) {
 			$line_user_ids = array();
-			if ( 'current_user' === $atts['user_id'] ) {
-				if ( is_user_logged_in() ) {
+			if ('current_user' === $atts['user_id']) {
+				if (is_user_logged_in()) {
 					// get line user id from current user's meta
 					$user_id = get_current_user_id();
-					$user    = get_user_by( 'id', $user_id );
-					if ( $user ) {
-						if ( isset( $atts['bot_id'] ) ) {
-							$line_user_id = lineconnect::get_line_id_from_wpuser( $user, $atts['bot_id'] );
-							if ( ! empty( $line_user_id ) ) {
+					$user    = get_user_by('id', $user_id);
+					if ($user) {
+						if (isset($atts['bot_id'])) {
+							$line_user_id = lineconnect::get_line_id_from_wpuser($user, $atts['bot_id']);
+							if (! empty($line_user_id)) {
 								$line_user_ids[] = $line_user_id;
 							}
 						} else {
-							$line_user_ids = lineconnect::get_line_ids_from_wpuser( $user );
+							$line_user_ids = lineconnect::get_line_ids_from_wpuser($user);
 						}
 					} else {
 						exit;
@@ -65,55 +71,55 @@ EOL;
 				} else {
 					return $atts['not_logged_in_message'];
 				}
-				if ( empty( $line_user_ids ) ) {
+				if (empty($line_user_ids)) {
 					return $atts['not_linked_message'];
 				}
 			} else {
 				$line_user_ids[] = $atts['user_id'];
 			}
-			if ( ! empty( $line_user_ids ) ) {
+			if (! empty($line_user_ids)) {
 				$subkeyvalues = array();
-				foreach ( $line_user_ids as $line_user_id ) {
+				foreach ($line_user_ids as $line_user_id) {
 					$subkeyvalues[] = array(
 						'key'   => 'OR user_id = %s ',
-						'value' => array( $line_user_id ),
+						'value' => array($line_user_id),
 					);
 				}
 				$subkeys   = '';
 				$subvalues = array();
-				foreach ( $subkeyvalues as $subkeyvalue ) {
+				foreach ($subkeyvalues as $subkeyvalue) {
 					$subkeys     .= $subkeyvalue['key'];
-					$subkeyvalues = array_merge( $subvalues, $subkeyvalue['value'] );
+					$subkeyvalues = array_merge($subvalues, $subkeyvalue['value']);
 				}
 				$keyvalues[] = array(
-					'key'   => 'AND (' . substr( $subkeys, 2 ) . ')',
+					'key'   => 'AND (' . substr($subkeys, 2) . ')',
 					'value' => $subkeyvalues,
 				);
 			}
 		}
-		if ( isset( $atts['bot_id'] ) ) {
+		if (isset($atts['bot_id'])) {
 			$keyvalues[] = array(
 				'key'   => 'AND bot_id = %s ',
-				'value' => array( $atts['bot_id'] ),
+				'value' => array($atts['bot_id']),
 			);
 		}
-		if ( isset( $atts['date'] ) && ( $timestamp = strtotime( $atts['date'] ) ) !== false ) {
+		if (isset($atts['date']) && ($timestamp = strtotime($atts['date'])) !== false) {
 			$keyvalues[] = array(
 				'key'   => 'AND DATE(timestamp) = %s ',
-				'value' => array( date( 'Y-m-d', $timestamp ) ),
+				'value' => array(date('Y-m-d', $timestamp)),
 			);
 		}
 
 		$addtional_query = '';
 
-		if ( ! empty( $keyvalues ) ) {
+		if (! empty($keyvalues)) {
 			$keys   = '';
 			$values = array();
-			foreach ( $keyvalues as $keyval ) {
+			foreach ($keyvalues as $keyval) {
 				$keys  .= $keyval['key'];
-				$values = array_merge( $values, $keyval['value'] );
+				$values = array_merge($values, $keyval['value']);
 			}
-			$addtional_query = $wpdb->prepare( $keys, $values );
+			$addtional_query = $wpdb->prepare($keys, $values);
 		}
 
 		$query = "
@@ -122,7 +128,7 @@ EOL;
             WHERE event_type = 1 
             {$addtional_query}";
 
-		$convasation_count = $wpdb->get_var( $query );
+		$convasation_count = $wpdb->get_var($query);
 
 		$convasations = $wpdb->get_results(
 			$wpdb->prepare(
@@ -134,26 +140,26 @@ EOL;
             ORDER BY id desc
 			LIMIT %d, %d
 			",
-				array( $start, $atts['max_num'] )
+				array($start, $atts['max_num'])
 			)
 		);
 		// error_log("start:".$start);
 
 		$parser = new \cebe\markdown\GithubMarkdown();
 
-		foreach ( array_reverse( $convasations ) as $convasation ) {
+		foreach (array_reverse($convasations) as $convasation) {
 
 			$msg_type       = $convasation->source_type == 11 ? 'msg-remote' : 'msg-self';
-			$msg_name       = $convasation->source_type == 11 ? 'Chat GPT' : substr( $convasation->user_id, -4 );
-			$msg_time       = date( 'Y/m/d H:i:s', $convasation->timestamp );
+			$msg_name       = $convasation->source_type == 11 ? 'Chat GPT' : substr($convasation->user_id, -4);
+			$msg_time       = date('Y/m/d H:i:s', intval($convasation->timestamp));
 			$msg_text       = null;
-			$message_object = json_decode( $convasation->message, false );
-			if ( json_last_error() == JSON_ERROR_NONE ) {
-				if ( $convasation->message_type == 1 && isset( $message_object->text ) ) {
-					$msg_text = $parser->parse( $message_object->text );
+			$message_object = json_decode($convasation->message, false);
+			if (json_last_error() == JSON_ERROR_NONE) {
+				if ($convasation->message_type == 1 && isset($message_object->text)) {
+					$msg_text = $parser->parse($message_object->text);
 				}
 			}
-			if ( empty( $msg_text ) ) {
+			if (empty($msg_text)) {
 				continue;
 			}
 			$user_img = $convasation->source_type != 11 ? '<svg class="user-img"><use xlink:href="#icon-user"></use></svg>' : '';
@@ -180,10 +186,10 @@ EOL;
 		$output .= '</section></section>';
 
 		$output         .= '<div class="pnavi">';
-		$paginate_base   = get_pagenum_link( 1 );
-		$paginate_format = ( substr( $paginate_base, -1, 1 ) == '/' ? '' : '/' ) . user_trailingslashit( 'page/%#%/', 'paged' );
+		$paginate_base   = get_pagenum_link(1);
+		$paginate_format = (substr($paginate_base, -1, 1) == '/' ? '' : '/') . user_trailingslashit('page/%#%/', 'paged');
 		$paginate_base  .= '%_%';
-		$total_page_cnt  = ceil( $convasation_count / $atts['max_num'] );
+		$total_page_cnt  = ceil($convasation_count / $atts['max_num']);
 
 		$output .= paginate_links(
 			array(
@@ -191,7 +197,7 @@ EOL;
 				'format'    => $paginate_format,
 				'total'     => $total_page_cnt,
 				'mid_size'  => 1,
-				'current'   => ( $paged ? $paged : 1 ),
+				'current'   => ($paged ? $paged : 1),
 				'prev_text' => '&lt;',
 				'next_text' => '&gt;',
 			)
@@ -204,6 +210,6 @@ EOL;
 
 	// ショートコード用にスクリプト登録
 	static function enqueue_script() {
-		wp_register_style( 'slc-chat', plugins_url( 'css/slc_chat.css', __DIR__ ) );
+		wp_register_style('slc-chat', lineconnect::plugins_url('css/slc_chat.css'));
 	}
 }
