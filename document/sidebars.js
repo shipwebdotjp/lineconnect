@@ -53,7 +53,7 @@ const sidebars = {
         'store'
       ],
     },
-    'aichatbot.md',
+    'aichatbot',
     'wplogin',
     'faq',
   ],
