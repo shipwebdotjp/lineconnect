@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # .envファイルを読み込む
 source ./.env
 sed -i '' "s/Stable tag: .*/Stable tag: ${LINE_CONNECT_VERSION}/" readme.txt
