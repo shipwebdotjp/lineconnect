@@ -12,7 +12,7 @@ namespace Shipweb\LineConnect\ActionExecute;
 use \Shipweb\LineConnect\ActionExecute\ActionExecute;
 use \Shipweb\LineConnect\ActionFlow\ActionFlow;
 use \lineconnect;
-use \lineconnectAudience;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
 use \lineconnectConst;
 use \stdClass;
 
@@ -81,7 +81,7 @@ class Admin {
         $ary_init_data['ajaxurl']        = admin_url('admin-ajax.php');
         $ary_init_data['ajax_nonce']     = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
         $ary_init_data['audienceFormName'] = 'actionexecute-audience-data';
-        $audience_schema = lineconnectAudience::get_audience_schema();
+        $audience_schema = Audience::get_audience_schema();
         $audience_form_data = [];
         if (!empty($users)) {
             $audience_form_data = array(
@@ -101,7 +101,7 @@ class Admin {
         );
         $ary_init_data['audienceForm'] = array($audience_form);
         $slc_audiences = [];
-        foreach (lineconnectAudience::get_lineconnect_audience_name_array() as $post_id => $title) {
+        foreach (Audience::get_lineconnect_audience_name_array() as $post_id => $title) {
             $slc_audiences[] = array(
                 'post_id' => $post_id,
                 'title' => $title,
@@ -185,9 +185,9 @@ EOM;
         }
 
         if ($mode == 'count') {
-            $response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []));
+            $response = Audience::get_recepients_count(Audience::get_audience_by_condition($audience[0]['condition'] ?? []));
         } else if ($mode == 'execute') {
-            $recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []);
+            $recepient = Audience::get_audience_by_condition($audience[0]['condition'] ?? []);
             if (empty($recepient)) {
                 return array(
                     'result' => 'success',

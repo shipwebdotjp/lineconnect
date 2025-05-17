@@ -1,11 +1,7 @@
 <?php
-// Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
 
 /**
- * Lineconnect Audience Class
+ * Lineconnect Audience Screen Class
  *
  * LINE Connect Audience
  *
@@ -18,187 +14,14 @@ if (!defined('ABSPATH')) {
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-class lineconnectAudience {
+namespace Shipweb\LineConnect\PostType\Audience;
 
-    /**
-     * 管理画面メニューの追加
-     */
-    static function set_plugin_menu() {
-        add_submenu_page(
-            lineconnect::SLUG__DASHBOARD,
-            __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
-            __('Audiences', lineconnect::PLUGIN_NAME),
-            'manage_options',
-            'edit.php?post_type=' . lineconnectConst::POST_TYPE_AUDIENCE,
-            false,
-            NULL
-        );
-    }
+use lineconnect;
+use lineconnectConst;
+use lineconnectUtil;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
-    /**
-     * メタボックスの登録
-     */
-    static function register_meta_box() {
-        add_meta_box(
-            lineconnect::META_KEY__AUDIENCE_DATA,
-            __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
-            array('lineconnectAudience', 'show_audience_form'),
-            lineconnectConst::POST_TYPE_AUDIENCE,
-            'advanced',
-            'default'
-        );
-    }
-
-    /**
-     * 管理画面用スクリプトの読み込み
-     */
-    static function wpdocs_selectively_enqueue_admin_script() {
-        require_once plugin_dir_path(__FILE__) . 'rjsf.php';
-        lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_AUDIENCE);
-    }
-
-    /**
-     * オーディエンスフォームの表示
-     */
-    static function show_audience_form() {
-        $ary_init_data = array();
-        $formName = lineconnect::PARAMETER__AUDIENCE_DATA;
-        $ary_init_data['formName'] = $formName;
-
-        $schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
-        $formData = get_post_meta(get_the_ID(), lineconnect::META_KEY__AUDIENCE_DATA, true);
-
-        // 単一フォームのスキーマとUIスキーマ
-        $form = array(
-            'id' => 'audience',
-            'schema' => self::get_audience_schema(),
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
-            'formData' => !empty($formData[0]) ? self::get_form_audience_data($formData[0], $schema_version) : new StdClass(),
-            'props' => new StdClass(),
-        );
-        $ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
-        $ary_init_data['form'] = array($form);
-        $nonce_field = wp_nonce_field(
-            lineconnect::CREDENTIAL_ACTION__AUDIENCE,
-            lineconnect::CREDENTIAL_NAME__AUDIENCE,
-            true,
-            false
-        );
-
-        require_once plugin_dir_path(__FILE__) . 'rjsf.php';
-        lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
-    }
-
-    /**
-     * 投稿の保存
-     */
-    static function save_post_audience($post_ID, $post, $update) {
-        if (isset($_POST[lineconnect::CREDENTIAL_NAME__AUDIENCE]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__AUDIENCE, lineconnect::CREDENTIAL_NAME__AUDIENCE)) {
-            $audience_data = isset($_POST[lineconnect::PARAMETER__AUDIENCE_DATA]) ? stripslashes($_POST[lineconnect::PARAMETER__AUDIENCE_DATA]) : '';
-
-            if (!empty($audience_data)) {
-                $json_audience_data = json_decode($audience_data, true);
-                if (!empty($json_audience_data)) {
-                    update_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA, $json_audience_data);
-                    update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, lineconnectConst::AUDIENCE_SCHEMA_VERSION);
-                } else {
-                    delete_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA);
-                    delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
-                }
-            } else {
-                delete_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA);
-                delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
-            }
-        }
-    }
-
-    /**
-     * ダウンロードカラム追加
-     */
-    public static function add_download_column($columns) {
-        $new_columns = array();
-
-        // タイトルの後にステータスカラムを挿入
-        foreach ($columns as $key => $value) {
-            $new_columns[$key] = $value;
-            if ($key === 'title') {
-                $new_columns['download'] = __('Download', lineconnect::PLUGIN_NAME);
-            }
-        }
-
-        return $new_columns;
-    }
-
-    /**
-     * ダウンロードカラムの表示
-     */
-    public static function add_download_column_content($column_name, $post_id) {
-        if ($column_name == 'download') {
-            $audience = get_post_meta($post_id, lineconnect::META_KEY__AUDIENCE_DATA, true);
-            if (!empty($audience)) {
-                echo '<a href="' . esc_url(admin_url('admin.php?page=' . lineconnect::SLUG__AUDIENCE_DOWNLOAD . '&audience_id=' . $post_id)) . '" >' . __('CSV Download', lineconnect::PLUGIN_NAME) . '</a>';
-            }
-        }
-    }
-
-    /**
-     * ダウンロードメニュー追加
-     */
-    static function set_download_menu() {
-        add_options_page(
-            __('LINE Connect Audience Download', lineconnect::PLUGIN_NAME),
-            __('Download Audiences', lineconnect::PLUGIN_NAME),
-            'manage_options',
-            lineconnect::SLUG__AUDIENCE_DOWNLOAD,
-            array('lineconnectAudience', 'download_audience_page')
-        );
-        /*
-        remove_submenu_page(
-            'options-general.php',
-            lineconnect::SLUG__AUDIENCE_DOWNLOAD
-        );
-        */
-    }
-
-    /**
-     * CSVダウンロード
-     */
-    static function download_audience_page() {
-        nocache_headers();
-        $audience_id = isset($_GET['audience_id']) ? intval($_GET['audience_id']) : 0;
-        $line_user_ids = self::get_lineconnect_audience($audience_id);
-        $csv_data = array(); // secret_prefix, line_user_id 
-        $csv = '';
-        foreach ($line_user_ids as $secret_prefix => $recepient_item) {
-            if ($recepient_item['type'] == 'multicast' || $recepient_item['type'] == 'push') {
-                foreach ($recepient_item['line_user_ids'] as $line_user_id) {
-                    $csv_data[] = array($line_user_id);
-                }
-            }
-        }
-
-        if (!empty($csv_data)) {
-            foreach ($csv_data as $row) {
-                $csv .= implode(',', $row) . "\n";
-            }
-        }
-        $filename = 'lineconnect_audience_id_' . $audience_id . '_' . date('YmdHis') . '.csv';
-
-        // Clear any output buffers
-        if (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        header('Content-Description: File Transfer');
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . strlen($csv));
-        echo $csv;
-        exit;
-    }
+class Audience {
 
     /**
      * オーディエンスのJSONスキーマを返す
@@ -235,7 +58,7 @@ class lineconnectAudience {
      */
     static function get_form_audience_data($formData, $schema_version) {
         if (empty($schema_version) || $schema_version == lineconnectConst::AUDIENCE_SCHEMA_VERSION) {
-            return !empty($formData) ? $formData : new stdClass();
+            return !empty($formData) ? $formData : new \stdClass();
         }
         // if old schema veersion, migrate and return
     }
@@ -438,7 +261,7 @@ class lineconnectAudience {
             $args['meta_query'] = array($meta_query);
         }
 
-        $user_query    = new WP_User_Query($args); // 条件を指定してWordPressからユーザーを検索
+        $user_query    = new \WP_User_Query($args); // 条件を指定してWordPressからユーザーを検索
         $users         = $user_query->get_results(); // クエリ実行
         if (! empty($users)) {   // マッチするユーザーが見つかれば
             // ユーザーのメタデータを取得
@@ -873,7 +696,7 @@ class lineconnectAudience {
      */
     private static function is_date($value) {
         $format = 'Y-m-d';
-        $d = DateTime::createFromFormat($format, $value);
+        $d = \DateTime::createFromFormat($format, $value);
         return $d && $d->format($format) === $value;
     }
 
@@ -884,7 +707,7 @@ class lineconnectAudience {
      */
     private static function is_datetime($value) {
         $format = 'Y-m-d H:i:s';
-        $d = DateTime::createFromFormat($format, $value);
+        $d = \DateTime::createFromFormat($format, $value);
         return $d && $d->format($format) === $value;
     }
 
@@ -895,7 +718,7 @@ class lineconnectAudience {
      */
     private static function is_time($value) {
         $format = 'H:i:s';
-        $d = DateTime::createFromFormat($format, $value);
+        $d = \DateTime::createFromFormat($format, $value);
         return $d && $d->format($format) === $value;
     }
 

@@ -12,8 +12,13 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+namespace Shipweb\LineConnect\Components;
 
-class lineconnectRJSF {
+use lineconnect;
+use lineconnectConst;
+
+
+class ReactJsonSchemaForm {
 	/**
 	 * 管理画面（投稿ページ）用にスクリプト読み込み
 	 */
@@ -23,18 +28,16 @@ class lineconnectRJSF {
 		if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
 			if (in_array($post_type, $post_types)) {
 				$js_file = 'frontend/rjsf/dist/main.js';
-				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
+				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::plugins_url($js_file), array('wp-element', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $js_file), true);
 				//バリデーション用JSファイル読み込み
 				$js_file = 'assets/js/rjsf_validation.js';
-				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-validation', plugins_url($js_file, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $js_file), true);
+				wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-validation', lineconnect::plugins_url($js_file), array('wp-element', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $js_file), true);
 
 				// JavaScriptの言語ファイル読み込み
-				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/rjsf/languages');
+				wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'rjsf', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'frontend/rjsf/languages');
 
-				//$css_file = 'frontend/rjsf/dist/bootstrap-4.css';
-				//wp_enqueue_style( lineconnect::PLUGIN_PREFIX . $target_post_type. '-css', plugins_url( $css_file, __DIR__ ), array(), filemtime( plugin_dir_path( __DIR__ ) . $css_file ) );
 				$override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
-				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
+				wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf' . '-override-css', lineconnect::plugins_url($override_css_file), array(), filemtime(lineconnect::getRootDir() . $override_css_file));
 			}
 		}
 	}

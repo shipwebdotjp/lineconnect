@@ -1,8 +1,8 @@
 <?php
 
-use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Core\Cron;
 // use \lineconnectFunctions;
-// use \lineconnectSchedule;
 
 class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
     protected static $result;
@@ -197,9 +197,9 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $status = Scenario::get_scenario_status(self::$scenarios[0], "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
         $this->assertNotEmpty($status, "Failed to get scenario status.");
 
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() - 60, time());
+        $scheduled_scenarios = Cron::get_scenarios(time() - 60, time());
         $this->assertEmpty($scheduled_scenarios, "実行すべきシナリオは見つからないことを確認");
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() + 240, time() + 300);
+        $scheduled_scenarios = Cron::get_scenarios(time() + 240, time() + 300);
         $this->assertNotEmpty($scheduled_scenarios, "実行すべきシナリオが見つかることを確認");
         $this->assertEquals($scheduled_scenarios[0]['id'], self::$scenarios[0], "実行すべきシナリオが正しいことを確認");
         $this->assertEquals($scheduled_scenarios[0]['next'], 'second', "次のステップが正しいことを確認");
@@ -236,7 +236,7 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertArrayNotHasKey('next_date', $status, "レスポンスに次の日付キーがありません。");
         $this->assertArrayNotHasKey('next', $status, "レスポンスに次のキーがありません。");
 
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() - 300, time() + 300);
+        $scheduled_scenarios = Cron::get_scenarios(time() - 300, time() + 300);
         $this->assertEmpty($scheduled_scenarios, "実行すべきシナリオは見つからないことを確認");
 
         //シナリオ開始アクションのテスト
@@ -294,11 +294,11 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertEquals($status['status'], 'active', "Scenario status is not active after executing step.");
         $this->assertEquals($status['next'], 'fourth', "Next scenario is not fourth after executing step.");
 
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() - 60, time());
+        $scheduled_scenarios = Cron::get_scenarios(time() - 60, time());
         $this->assertEmpty($scheduled_scenarios, "実行すべきシナリオは見つからないことを確認");
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() + 1140, time() + 1200);
+        $scheduled_scenarios = Cron::get_scenarios(time() + 1140, time() + 1200);
         $this->assertNotEmpty($scheduled_scenarios, "実行すべきシナリオが見つかることを確認");
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() + 1200, time() + 1260);
+        $scheduled_scenarios = Cron::get_scenarios(time() + 1200, time() + 1260);
         $this->assertEmpty($scheduled_scenarios, "実行すべきシナリオは見つからないことを確認");
 
         //別ユーザーでのテスト
@@ -366,7 +366,7 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertEquals($status['status'], 'active', "Scenario status should remain active.");
         $this->assertEquals($status['next'], 'second', "Next scenario should still be first.");
 
-        $scheduled_scenarios = \lineconnectSchedule::get_scenarios(time() + 240, time() + 300);
+        $scheduled_scenarios = Cron::get_scenarios(time() + 240, time() + 300);
         $this->assertEquals(count($scheduled_scenarios), 2, "Scheduled scenarios should be 2.");
     }
 

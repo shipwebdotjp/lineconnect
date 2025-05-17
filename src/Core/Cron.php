@@ -12,11 +12,18 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-use \Shipweb\LineConnect\Scenario\Scenario;
-use \Shipweb\LineConnect\Core\Stats;
-use Shipweb\LineConnect\Action\Action;
+namespace Shipweb\LineConnect\Core;
 
-class lineconnectSchedule {
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Core\Stats;
+use Shipweb\LineConnect\Action\Action;
+use lineconnect;
+use lineconnectConst;
+
+
+
+
+class Cron {
     static function schedule_event() {
         $last_run = get_option(lineconnect::CRON_EVENT_LAST_TIMESTAMP);
         $current_time = time();
@@ -179,7 +186,7 @@ class lineconnectSchedule {
         } elseif ($schedule['repeat']['every'] === 'week') {
             foreach ($schedule['repeat']['week'] as $week) {
                 $day_of_week = date('N', $base_time);
-                $week_start_date = new DateTime();
+                $week_start_date = new \DateTime();
                 $week_start_date->setISODate(date('Y', $target_time), $week, $day_of_week);
                 $week_start_date->setTime(date('H', $base_time), date('i', $base_time), date('s', $base_time));
                 $calced_time = $week_start_date->getTimestamp();

@@ -4,6 +4,9 @@
  * Lineconnect
  * 管理画面での一括メッセージ画面
  */
+
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+
 class lineconnectBulkMessage {
 	static function initialize() {
 	}
@@ -87,7 +90,7 @@ class lineconnectBulkMessage {
 		// オーディエンスフォームのデータ
 		$audience_formName = lineconnect::PARAMETER__AUDIENCE_DATA;
 		$ary_init_data['audienceFormName'] = $audience_formName;
-		$audience_schema = lineconnectAudience::get_audience_schema();
+		$audience_schema = Audience::get_audience_schema();
 		$audience_form_data = [];
 		if (!empty($users)) {
 			$audience_form_data = array(
@@ -117,7 +120,7 @@ class lineconnectBulkMessage {
 		$ary_init_data['slc_messages'] = $slc_messages;
 
 		$slc_audiences = [];
-		foreach (lineconnectAudience::get_lineconnect_audience_name_array() as $post_id => $title) {
+		foreach (Audience::get_lineconnect_audience_name_array() as $post_id => $title) {
 			$slc_audiences[] = array(
 				'post_id' => $post_id,
 				'title' => $title,
@@ -183,7 +186,7 @@ EOM;
 
 		if ($mode === 'send' || $mode === 'validate') {
 			// $message = lineconnectSLCMessage::formData_to_multimessage($messages);
-			$recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []);
+			$recepient = Audience::get_audience_by_condition($audience[0]['condition'] ?? []);
 			if (empty($recepient)) {
 				return array(
 					'result' => 'success',
@@ -198,7 +201,7 @@ EOM;
 				}
 			}
 		} elseif ($mode === 'count') {
-			$response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []));
+			$response = Audience::get_recepients_count(Audience::get_audience_by_condition($audience[0]['condition'] ?? []));
 		}
 
 		return array(

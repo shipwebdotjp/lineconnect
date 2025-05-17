@@ -10,6 +10,7 @@ use Shipweb\LineConnect\Bot\File;
 use Shipweb\LineConnect\Bot\Account;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
+use Shipweb\LineConnect\Bot\Provider\OpenAi;
 
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
 // require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
@@ -260,7 +261,7 @@ foreach ($json_obj->{'events'} as $event) {
 
 	if (empty($message) && $type === 'message' && $event->{'message'}->{'type'} === 'text' && $event->{'message'}->{'text'} != null && lineconnect::get_option('enableChatbot') == 'on') {
 		// AIで応答する
-		$openAi       = new lineconnectOpenAi();
+		$openAi       = new OpenAi();
 		$gptResponse  = $openAi->getResponseByChatGPT(
 			$event,
 			$secret_prefix,

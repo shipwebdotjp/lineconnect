@@ -4,7 +4,16 @@
  * Lineconnect
  * 管理画面でのLINEメッセージ画面
  */
-class lineconnectDm {
+
+namespace Shipweb\LineConnect\DirectMessage;
+
+use lineconnect;
+use lineconnectConst;
+use lineconnectUtil;
+use lineconnectMessage;
+
+
+class Screen {
 	static function initialize() {
 	}
 
@@ -32,12 +41,12 @@ class lineconnectDm {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__DM_FORM,
 			// メニューに紐づく画面を描画するcallback関数：
-			array('lineconnectDm', 'show_dm'),
+			array(Screen::class, 'show_dm'),
 			// メニューの位置
 			NULL
 		);
-		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectDm', 'wpdocs_plugin_admin_styles'));
-		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectDm', 'wpdocs_plugin_admin_scripts'));
+		add_action("admin_print_styles-{$page_hook_suffix}", array(Screen::class, 'wpdocs_plugin_admin_styles'));
+		add_action("admin_print_scripts-{$page_hook_suffix}", array(Screen::class, 'wpdocs_plugin_admin_scripts'));
 		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}
 
@@ -120,7 +129,7 @@ EOM;
 				$send_count = 0;
 				if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0) {
 					if (is_array($messages)) {
-						require_once plugin_dir_path(__FILE__) . 'message.php';
+						// require_once plugin_dir_path(__FILE__) . 'message.php';
 						foreach ($messages as $index => $message) {
 							$type = $message['type'];
 							if ($type == 'message') {
@@ -172,14 +181,14 @@ EOM;
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
 		$dm_js = 'frontend/dm/dist/slc_dm.js';
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'dm', plugins_url($dm_js, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $dm_js), true);
+		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'dm', LineConnect::plugins_url($dm_js), array('wp-element', 'wp-i18n'), filemtime(LineConnect::getRootDir() . $dm_js), true);
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'dm', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/dm/languages');
+		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'dm', lineconnect::PLUGIN_NAME, LineConnect::getRootDir() . 'frontend/dm/languages');
 	}
 
 	// 管理画面用にスタイル読み込み
 	static function wpdocs_plugin_admin_styles() {
 		$dm_css = 'frontend/dm/dist/style.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($dm_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $dm_css));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', LineConnect::plugins_url($dm_css), array(), filemtime(LineConnect::getRootDir() . $dm_css));
 	}
 }

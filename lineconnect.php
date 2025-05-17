@@ -32,16 +32,16 @@ require_once plugin_dir_path(__FILE__) . 'include/bulk_message.php';
 // require_once plugin_dir_path(__FILE__) . 'include/admin.php';
 require_once plugin_dir_path(__FILE__) . 'include/const.php';
 // require_once plugin_dir_path(__FILE__) . 'include/botlog.php';
-require_once plugin_dir_path(__FILE__) . 'include/openai.php';
+// require_once plugin_dir_path(__FILE__) . 'include/openai.php';
 require_once plugin_dir_path(__FILE__) . 'include/functions.php';
 // require_once plugin_dir_path( __FILE__ ) . 'include/dashboard.php';
-require_once plugin_dir_path(__FILE__) . 'include/dm.php';
+// require_once plugin_dir_path(__FILE__) . 'include/dm.php';
 // require_once plugin_dir_path(__FILE__) . 'include/action.php';
-require_once plugin_dir_path(__FILE__) . 'include/trigger.php';
-require_once plugin_dir_path(__FILE__) . 'include/audience.php';
+// require_once plugin_dir_path(__FILE__) . 'include/trigger.php';
+// require_once plugin_dir_path(__FILE__) . 'include/audience.php';
 require_once plugin_dir_path(__FILE__) . 'include/util.php';
 require_once plugin_dir_path(__FILE__) . 'include/slc_message.php';
-require_once plugin_dir_path(__FILE__) . 'include/schedule.php';
+// require_once plugin_dir_path(__FILE__) . 'include/schedule.php';
 
 // プラグインのメインクラスを呼び出す
 function load_lineconnect_plugin() {

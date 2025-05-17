@@ -15,6 +15,13 @@ use Shipweb\LineConnect\Publish\Comment as PublishComment;
 use Shipweb\LineConnect\Publish\Post as PublishPost;
 use Shipweb\LineConnect\Shortcodes\Shortcodes;
 use Shipweb\LineConnect\Utilities\StreamConnector;
+use Shipweb\LineConnect\DirectMessage\Screen as DirectMessageScreen;
+use Shipweb\LineConnect\Core\Cron;
+use Shipweb\LineConnect\PostType\Trigger\Screen as TriggerScreen;
+use Shipweb\LineConnect\PostType\Audience\Screen as AudienceScreen;
+use Shipweb\LineConnect\PostType\Audience\Column as AudienceColumn;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+
 
 class LineConnect {
 
@@ -401,12 +408,12 @@ class LineConnect {
 		// add_action( 'admin_enqueue_scripts', array( 'Action', 'wpdocs_selectively_enqueue_admin_script' ) );
 
 		// Trigger関係
-		add_action('save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array('lineconnectTrigger', 'save_post_trigger'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectTrigger', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array(TriggerScreen::class, 'save_post_trigger'), 15, 6);
+		add_action('admin_enqueue_scripts', array(TriggerScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Audience関係
-		add_action('save_post_' . lineconnectConst::POST_TYPE_AUDIENCE, array('lineconnectAudience', 'save_post_audience'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectAudience', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . lineconnectConst::POST_TYPE_AUDIENCE, array(AudienceScreen::class, 'save_post_audience'), 15, 6);
+		add_action('admin_enqueue_scripts', array(AudienceScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// message
 		add_action('save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array('lineconnectSLCMessage', 'save_post_message'), 15, 6);
@@ -428,17 +435,17 @@ class LineConnect {
 			// 一括配信のメニューページを追加
 			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
-			add_action('admin_menu', array('lineconnectDm', 'set_plugin_menu'));
+			add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
 			// アクション実行のトップページメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
 			// LCメッセージのメニューを追加
 			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
 			// オーディエンスのメニューを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_plugin_menu'));
+			add_action('admin_menu', array(AudienceScreen::class, 'set_plugin_menu'));
 			// アクションフローのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionFlow\Admin::class, 'set_plugin_menu'));
 			// トリガーのメニューを追加
-			add_action('admin_menu', array('lineconnectTrigger', 'set_plugin_menu'));
+			add_action('admin_menu', array(TriggerScreen::class, 'set_plugin_menu'));
 			// シナリオのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
 			// リッチメニューのメニューを追加
@@ -450,7 +457,7 @@ class LineConnect {
 			// 設定画面のメニューを追加
 			add_action('admin_menu', array('lineconnectSetting', 'set_plugin_menu'));
 			// オーディエンスダウンロードメニューページを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_download_menu'));
+			add_action('admin_menu', array(AudienceColumn::class, 'set_download_menu'));
 
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック
@@ -469,8 +476,8 @@ class LineConnect {
 			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
 			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
 			//オーディエンスにダウンロードカラム追加
-			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array('lineconnectAudience', 'add_download_column'));
-			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array('lineconnectAudience', 'add_download_column_content'), 10, 2);
+			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array(AudienceColumn::class, 'add_download_column'));
+			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array(AudienceColumn::class, 'add_download_column_content'), 10, 2);
 
 			// AJAXアクション
 			// 一括配信AJAXアクション
@@ -478,7 +485,7 @@ class LineConnect {
 			// LCメッセージデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
 			// オーディエンスデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_slc_audience', array('lineconnectAudience', 'ajax_get_slc_audience'));
+			add_action('wp_ajax_lc_ajax_get_slc_audience', array(Audience::class, 'ajax_get_slc_audience'));
 			// アクションフローデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_actionflow', array(\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow'));
 			// アクション実行AJAXアクション
@@ -486,7 +493,7 @@ class LineConnect {
 			// ダッシュボードデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_dashboard', array(DashboardScreen::class, 'ajax_get_dashboard'));
 			// DM送信アクション
-			add_action('wp_ajax_lc_ajax_dm_send', array('lineconnectDm', 'ajax_dm_send'));
+			add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
 			// リッチメニュー一覧取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_richmenus', array('lineconnectRichmenu', 'ajax_get_richmenus'));
 			// リッチメニュー取得AJAXアクション
@@ -543,7 +550,7 @@ class LineConnect {
 		add_filter('cron_schedules', array($this, 'add_cron_interval'));
 
 		// add shedule action
-		add_action(self::CRON_EVENT_NAME, ['lineconnectSchedule', 'schedule_event']);
+		add_action(self::CRON_EVENT_NAME, [Cron::class, 'schedule_event']);
 
 		//set cron
 		self::cron_initialaize();
@@ -1119,7 +1126,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectTrigger', 'register_meta_box'),
+				'register_meta_box_cb' => array(TriggerScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,
@@ -1219,7 +1226,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectAudience', 'register_meta_box'),
+				'register_meta_box_cb' => array(AudienceScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,

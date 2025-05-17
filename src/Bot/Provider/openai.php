@@ -12,7 +12,15 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-class lineconnectOpenAi {
+namespace Shipweb\LineConnect\Bot\Provider;
+
+use lineconnect;
+use lineconnectConst;
+use lineconnectUtil;
+use lineconnectFunctions;
+
+
+class OpenAi {
 
 	function getResponseByChatGPT($event, $bot_id, $prompt, $addtional_messages = null) {
 		$user_id = $event->{'source'}->{'userId'};

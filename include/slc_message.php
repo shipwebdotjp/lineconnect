@@ -12,6 +12,7 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class lineconnectSLCMessage {
 
@@ -69,8 +70,8 @@ class lineconnectSLCMessage {
 
 	// 管理画面（投稿ページ）用にスクリプト読み込み
 	static function wpdocs_selectively_enqueue_admin_script() {
-		require_once plugin_dir_path(__FILE__) . 'rjsf.php';
-		lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_MESSAGE);
+		// require_once plugin_dir_path(__FILE__) . 'rjsf.php';
+		ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_MESSAGE);
 	}
 
 	/**
@@ -116,8 +117,8 @@ class lineconnectSLCMessage {
 			false
 		);
 
-		require_once plugin_dir_path(__FILE__) . 'rjsf.php';
-		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
+		// require_once plugin_dir_path(__FILE__) . 'rjsf.php';
+		ReactJsonSchemaForm::show_json_edit_form($ary_init_data, $nonce_field);
 
 		/*
 		$inidata = json_encode( $ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE );

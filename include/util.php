@@ -13,6 +13,7 @@
  */
 
 use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
 
 class lineconnectUtil {
 	public static function is_empty($var = null) {
@@ -404,7 +405,7 @@ class lineconnectUtil {
 	 */
 	public static function get_lineconnect_audience($source, $args = null) {
 		if (is_numeric($source)) {
-			$audience = lineconnectAudience::get_lineconnect_audience($source, $args);
+			$audience = Audience::get_lineconnect_audience($source, $args);
 			if ($audience) {
 				return $audience;
 			}
@@ -688,7 +689,7 @@ class lineconnectUtil {
 		} elseif ($parameter['type'] == 'slc_audience') {
 			$actual_type     = 'integer';
 			$schema['oneOf'] = array();
-			foreach (lineconnectAudience::get_lineconnect_audience_name_array() as $audience_id => $audience) {
+			foreach (Audience::get_lineconnect_audience_name_array() as $audience_id => $audience) {
 				$schema['oneOf'][] = array(
 					'const' => $audience_id,
 					'title' => $audience,

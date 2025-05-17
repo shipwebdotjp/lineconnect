@@ -7,12 +7,12 @@
 
 namespace Shipweb\LineConnect\Scenario;
 
-use \Shipweb\LineConnect\Scenario\Scenario;
-use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
-use \LineConnect;
-use \lineconnectRJSF;
-use \stdClass;
-use \lineconnectConst;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
+use LineConnect;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
+use stdClass;
+use lineconnectConst;
 
 /**
  * シナリオの管理画面
@@ -68,8 +68,8 @@ class Admin {
 
 	// 管理画面（投稿ページ）用にスクリプト読み込み
 	static function wpdocs_selectively_enqueue_admin_script() {
-		require_once LineConnect::getRootDir() . 'include/rjsf.php';
-		lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(Scenario::POST_TYPE);
+		// require_once LineConnect::getRootDir() . 'include/rjsf.php';
+		ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(Scenario::POST_TYPE);
 	}
 
 	/**
@@ -100,8 +100,8 @@ class Admin {
 			true,
 			false
 		);
-		require_once LineConnect::getRootDir() . 'include/rjsf.php';
-		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
+		// require_once LineConnect::getRootDir() . 'include/rjsf.php';
+		ReactJsonSchemaForm::show_json_edit_form($ary_init_data, $nonce_field);
 	}
 
 	/**
