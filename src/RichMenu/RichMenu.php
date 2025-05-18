@@ -55,17 +55,17 @@ class RichMenu {
 	// 管理画面用にスクリプト読み込み
 	public static function wpdocs_plugin_admin_scripts() {
 		$richmenu_js = 'frontend/richmenu/dist/slc_richmenu.js';
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'richmenu', plugins_url($richmenu_js, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $richmenu_js), true);
+		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'richmenu', lineconnect::plugins_url($richmenu_js), array('wp-element', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $richmenu_js), true);
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'richmenu', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/richmenu/languages');
+		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'richmenu', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'frontend/richmenu/languages');
 	}
 
 	// 管理画面用にスタイル読み込み
 	public static function wpdocs_plugin_admin_styles() {
 		$richmenu_css = 'frontend/richmenu/dist/style.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($richmenu_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $richmenu_css));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', lineconnect::plugins_url($richmenu_css), array(), filemtime(lineconnect::getRootDir() . $richmenu_css));
 		$override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', lineconnect::plugins_url($override_css_file), array(), filemtime(lineconnect::getRootDir() . $override_css_file));
 	}
 
 	public static function show_add_richmenu() {
