@@ -722,44 +722,6 @@ class Audience {
         return $d && $d->format($format) === $value;
     }
 
-
-    // Ajaxでオーディエンスデータを返す
-    static function ajax_get_slc_audience() {
-        $isSuccess = true;
-        $formData = [];
-        // ログインしていない場合は無視
-        if (! is_user_logged_in()) {
-            $isSuccess = false;
-        }
-        // 特権管理者、管理者、編集者、投稿者の何れでもない場合は無視
-        if (! is_super_admin() && ! current_user_can('administrator') && ! current_user_can('editor') && ! current_user_can('author')) {
-            $isSuccess = false;
-        }
-        // nonceで設定したcredentialをPOST受信していない場合は無視
-        if (! isset($_POST['nonce']) || ! $_POST['nonce']) {
-            $isSuccess = false;
-        }
-        // nonceで設定したcredentialのチェック結果に問題がある場合
-        if (! check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST, 'nonce')) {
-            $isSuccess = false;
-        }
-
-        if (! isset($_POST['post_id']) || ! $_POST['post_id']) {
-            $isSuccess = false;
-        }
-
-        if ($isSuccess) {
-            $post_id = $_POST['post_id'];
-            $formData  = get_post_meta($post_id, lineconnect::META_KEY__AUDIENCE_DATA, true);
-        }
-        $result['result']  = $isSuccess ? 'success' : 'failed';
-        $result['formData'] = $formData;
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($result);
-        wp_die();
-    }
-
-
     /**
      * オーディエンスから各チャネルの送信人数を返す
      * @param array $audience

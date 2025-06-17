@@ -12,7 +12,9 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
 
 class lineconnectFunctions {
 	// public $lineUserId;
@@ -205,7 +207,7 @@ class lineconnectFunctions {
 
 	// LINETEXT メッセージ取得
 	function get_text_message($body) {
-		return lineconnectMessage::createTextMessage($body);
+		return Builder::createTextMessage($body);
 	}
 
 	// LC 通知メッセージ取得
@@ -220,7 +222,7 @@ class lineconnectFunctions {
 			'displayText' => $displayText,
 			'atts'  => $atts,
 		), true));
-		$message = lineconnectMessage::createFlexMessage(
+		$message = Builder::createFlexMessage(
 			array(
 				'title' => $title,
 				'body'  => $body,
@@ -239,7 +241,7 @@ class lineconnectFunctions {
 	 * Return LINE Connect message
 	 */
 	function get_line_connect_message($slc_message_id, $args = null) {
-		return lineconnectSLCMessage::get_lineconnect_message($slc_message_id, $args);
+		return SLCMessage::get_lineconnect_message($slc_message_id, $args);
 	}
 
 	/**
@@ -253,7 +255,7 @@ class lineconnectFunctions {
 		if (is_string($raw)) {
 			$raw = json_decode($raw, true);
 		}
-		return 	lineconnectMessage::createRawMessage($raw);
+		return 	Builder::createRawMessage($raw);
 	}
 
 	function send_mail_to_admin($subject, $body) {
@@ -274,7 +276,7 @@ class lineconnectFunctions {
 			);
 		}
 		$channel = lineconnect::get_channel(isset($this->secret_prefix) ? $this->secret_prefix : $secret_prefix);
-		$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $message);
+		$response = Builder::sendPushMessage($channel, $line_user_id, $message);
 		return $response;
 	}
 
@@ -288,7 +290,7 @@ class lineconnectFunctions {
 		$message = lineconnectUtil::get_line_message_builder($message, $message_args);
 		$audience = lineconnectUtil::get_lineconnect_audience($slc_audience_id, $audience_args);
 		if (!empty($audience)) {
-			$response = lineconnectMessage::sendAudienceMessage($audience, $message, $notification_disabled);
+			$response = Builder::sendAudienceMessage($audience, $message, $notification_disabled);
 			return $response;
 		} else {
 			return array(

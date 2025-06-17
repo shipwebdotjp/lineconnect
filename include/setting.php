@@ -12,6 +12,9 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\RichMenu\RichMenu;
+
 class lineconnectSetting {
 	/**
 	 * 管理画面メニューの基本構造が配置された後に実行するアクションにフックする、
@@ -196,7 +199,7 @@ EOM;
 							} elseif (substr($option_key, -9) === '-richmenu') {
 								// リッチメニューのセレクトボックスを表示
 								$richmenu_select = '<select name=' . $ary_option[$option_key]['param'] . " class='slc-select' >";
-								$richmenu_options = array_merge(array('' => __('No selected', lineconnect::PLUGIN_NAME)), lineconnectRichmenu::get_richmenus($channel));
+								$richmenu_options = array_merge(array('' => __('No selected', lineconnect::PLUGIN_NAME)), RichMenu::get_richmenus($channel));
 								$richmenu_select .= lineconnect::makeHtmlSelectOptions($richmenu_options, $ary_option[$option_key]['value']);
 								$richmenu_select .= '</select>';
 								echo <<< EOM
@@ -362,7 +365,7 @@ EOM;
 								$option_details['list'][$post_type->name] = $post_type->label;
 							}
 						} elseif ($option_key == 'default_send_template') {
-							$slc_messages = lineconnectSLCMessage::get_lineconnect_message_name_array();
+							$slc_messages = SLCMessage::get_lineconnect_message_name_array();
 							foreach ($slc_messages as $message_id => $message_title) {
 								$option_details['list'][$message_id] = $message_title;
 							}
@@ -515,7 +518,7 @@ EOM;
 								$valid = false;
 							} elseif ($valid && array_key_exists($option_key, $richmenes) && ((isset($ary_channels[$channel_id][$option_key]) && $ary_channels[$channel_id][$option_key] != $ary_option[$option_key]['value']) || (! isset($ary_channels[$channel_id][$option_key]) && $ary_option[$option_key]['value']))) {
 								// リッチメニューが変更されている場合、リッチメニューの存在チェック
-								$rech_result = lineconnectRichmenu::checkRichMenuId(
+								$rech_result = RichMenu::checkRichMenuId(
 									array(
 										'channel-access-token' => $ary_option['channel-access-token']['value'],
 										'channel-secret' => $ary_option['channel-secret']['value'],
@@ -590,7 +593,7 @@ EOM;
 						switch ($command_key) {
 							case 'clear_richmenu_cache':
 								// リッチメニューキャッシュをクリア
-								$result = lineconnectRichmenu::clearRichMenuCache();
+								$result = RichMenu::clearRichMenuCache();
 								$command_result[] = $result ? __('Rich menu cache cleared.', lineconnect::PLUGIN_NAME) : __('Failed to clear rich menu cache.', lineconnect::PLUGIN_NAME);
 								break;
 						}
@@ -626,7 +629,7 @@ EOM;
 								if (((isset($ary_channels[$channel_id][$option_key]) && $ary_channels[$channel_id][$option_key] != $channel_value[$channel_id][$option_key]['value']) || (! isset($ary_channels[$channel_id][$option_key]) && $channel_value[$channel_id][$option_key]['value']))) {
 									// richmenu_idが変更されていたら
 									$is_changed_richmenus[] = $richmenes[$option_key];
-									// $changed_richmenus[] = lineconnectRichmenu::updateRichMenuId(
+									// $changed_richmenus[] = RichMenu::updateRichMenuId(
 									// 	array(
 									// 		'channel-access-token' => $channel_value[ $channel_id ]['channel-access-token']['value'],
 									// 		'channel-secret' => $channel_value[ $channel_id ]['channel-secret']['value'],
@@ -646,7 +649,7 @@ EOM;
 							delete_transient(lineconnect::TRANSIENT_PREFIX . $option_key . $channel['prefix']);
 						}
 						if (!empty($is_changed_richmenus)) {
-							$changed_richmenus = lineconnectRichmenu::updateRichMenuId(
+							$changed_richmenus = RichMenu::updateRichMenuId(
 								array(
 									'channel-access-token' => $channel_value[$channel_id]['channel-access-token']['value'],
 									'channel-secret' => $channel_value[$channel_id]['channel-secret']['value'],

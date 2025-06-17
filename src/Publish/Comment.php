@@ -15,7 +15,8 @@
 namespace Shipweb\LineConnect\Publish;
 
 use lineconnect;
-use lineconnectMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
+
 
 class Comment {
 	static function comment_post_callback($comment_ID, $comment_approved) {
@@ -65,7 +66,7 @@ class Comment {
 		//メッセージ関連を読み込み
 		// require_once(plugin_dir_path(__FILE__) . 'message.php');
 		$link_label = lineconnect::get_option('comment_read_label');;
-		$flexMessage = lineconnectMessage::createFlexMessage(
+		$flexMessage = Builder::createFlexMessage(
 			["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link]
 		);
 
@@ -73,8 +74,8 @@ class Comment {
 		//$comment_author_id = $comment->user_id;
 
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
-			lineconnectMessage::sendMessageWpUser($channel, $author_id, $flexMessage);
-			//lineconnectMessage::sendMessageWpUser($channel, $comment_author_id, $flexMessage);
+			Builder::sendMessageWpUser($channel, $author_id, $flexMessage);
+			//Builder::sendMessageWpUser($channel, $comment_author_id, $flexMessage);
 		}
 	}
 }

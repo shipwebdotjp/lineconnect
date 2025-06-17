@@ -1204,7 +1204,7 @@ class lineconnectConst {
 						'description' => __('Channel. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => lineconnectFunctions::class,
 				'role'        => 'any',
 			),
 			'send_line_message_by_audience' => array(

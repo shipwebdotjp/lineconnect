@@ -9,7 +9,8 @@ namespace Shipweb\LineConnect\Bot;
 use \lineconnect;
 use \lineconnectUtil;
 use \lineconnectConst;
-use \lineconnectMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
+
 
 class Account {
 
@@ -42,7 +43,7 @@ class Account {
         $url           = $gotologin_url . '?redirect_to=' . $redirect_to;
 
         // 連携開始メッセージ作成
-        return lineconnectMessage::createFlexMessage(
+        return Builder::createFlexMessage(
             array(
                 'title' => lineconnect::get_option('link_start_title'),
                 'body'  => lineconnect::get_option('link_start_body'),

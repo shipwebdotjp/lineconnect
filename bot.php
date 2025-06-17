@@ -11,6 +11,7 @@ use Shipweb\LineConnect\Bot\Account;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
 use Shipweb\LineConnect\Bot\Provider\OpenAi;
+use Shipweb\LineConnect\Message\LINE\Builder;
 
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
 // require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
@@ -101,7 +102,7 @@ foreach ($json_obj->{'events'} as $event) {
 					$user_id = $user->ID; // IDを取得
 
 					// 連携解除メッセージ作成
-					$message[] = lineconnectMessage::createFlexMessage(
+					$message[] = Builder::createFlexMessage(
 						array(
 							'title' => lineconnect::get_option('unlink_start_title'),
 							'body'  => lineconnect::get_option('unlink_start_body'),

@@ -21,6 +21,10 @@ use Shipweb\LineConnect\PostType\Trigger\Screen as TriggerScreen;
 use Shipweb\LineConnect\PostType\Audience\Screen as AudienceScreen;
 use Shipweb\LineConnect\PostType\Audience\Column as AudienceColumn;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\BulkMessage\Screen as BulkMessageScreen;
+use Shipweb\LineConnect\PostType\Message\Screen as MessageScreen;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\RichMenu\RichMenu;
 
 
 class LineConnect {
@@ -416,8 +420,8 @@ class LineConnect {
 		add_action('admin_enqueue_scripts', array(AudienceScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// message
-		add_action('save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array('lineconnectSLCMessage', 'save_post_message'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectSLCMessage', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array(MessageScreen::class, 'save_post_message'), 15, 6);
+		add_action('admin_enqueue_scripts', array(MessageScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Scenario
 		add_action('save_post_' . Scenario::POST_TYPE, array(ScenarioAdmin::class, 'save_post'), 15, 6);
@@ -433,13 +437,13 @@ class LineConnect {
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
 			add_action('admin_menu', array(DashboardScreen::class, 'set_plugin_menu'));
 			// 一括配信のメニューページを追加
-			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
+			add_action('admin_menu', array(BulkMessageScreen::class, 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
 			add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
 			// アクション実行のトップページメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
 			// LCメッセージのメニューを追加
-			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
+			add_action('admin_menu', array(MessageScreen::class, 'set_plugin_menu'));
 			// オーディエンスのメニューを追加
 			add_action('admin_menu', array(AudienceScreen::class, 'set_plugin_menu'));
 			// アクションフローのメニューを追加
@@ -449,7 +453,7 @@ class LineConnect {
 			// シナリオのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
 			// リッチメニューのメニューを追加
-			add_action('admin_menu', array('lineconnectRichmenu', 'set_plugin_menu'));
+			add_action('admin_menu', array(RichMenu::class, 'set_plugin_menu'));
 			// LINE IDリストのメニューを追加
 			add_action('admin_menu', array($this, 'set_page_lineid'));
 			// BOT LOGリストのメニューを追加
@@ -481,11 +485,11 @@ class LineConnect {
 
 			// AJAXアクション
 			// 一括配信AJAXアクション
-			add_action('wp_ajax_lc_ajax_chat_send', array('lineconnectBulkMessage', 'ajax_chat_send'));
+			add_action('wp_ajax_lc_ajax_chat_send', array(BulkMessageScreen::class, 'ajax_chat_send'));
 			// LCメッセージデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
+			add_action('wp_ajax_lc_ajax_get_slc_message', array(MessageScreen::class, 'ajax_get_slc_message'));
 			// オーディエンスデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_slc_audience', array(Audience::class, 'ajax_get_slc_audience'));
+			add_action('wp_ajax_lc_ajax_get_slc_audience', array(AudienceScreen::class, 'ajax_get_slc_audience'));
 			// アクションフローデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_actionflow', array(\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow'));
 			// アクション実行AJAXアクション
@@ -495,39 +499,39 @@ class LineConnect {
 			// DM送信アクション
 			add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
 			// リッチメニュー一覧取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenus', array('lineconnectRichmenu', 'ajax_get_richmenus'));
+			add_action('wp_ajax_lc_ajax_get_richmenus', array(RichMenu::class, 'ajax_get_richmenus'));
 			// リッチメニュー取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenu', array('lineconnectRichmenu', 'ajax_get_richmenu'));
+			add_action('wp_ajax_lc_ajax_get_richmenu', array(RichMenu::class, 'ajax_get_richmenu'));
 			// リッチメニュー削除AJAXアクション
-			add_action('wp_ajax_lc_ajax_delete_richmenu', array('lineconnectRichmenu', 'ajax_delete_richmenu'));
+			add_action('wp_ajax_lc_ajax_delete_richmenu', array(RichMenu::class, 'ajax_delete_richmenu'));
 			// リッチメニュー作成AJAXアクション
-			add_action('wp_ajax_lc_ajax_create_richmenu', array('lineconnectRichmenu', 'ajax_create_richmenu'));
+			add_action('wp_ajax_lc_ajax_create_richmenu', array(RichMenu::class, 'ajax_create_richmenu'));
 			// リッチメニューエイリアス一覧取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenus_alias', array('lineconnectRichmenu', 'ajax_get_richmenus_alias'));
+			add_action('wp_ajax_lc_ajax_get_richmenus_alias', array(RichMenu::class, 'ajax_get_richmenus_alias'));
 			// リッチメニューエイリアス削除AJAXアクション
-			add_action('wp_ajax_lc_ajax_delete_richmenu_alias', array('lineconnectRichmenu', 'ajax_delete_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_delete_richmenu_alias', array(RichMenu::class, 'ajax_delete_richmenu_alias'));
 			// リッチメニューエイリアス作成AJAXアクション
-			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array('lineconnectRichmenu', 'ajax_create_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array(RichMenu::class, 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
-			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array('lineconnectRichmenu', 'ajax_update_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array(RichMenu::class, 'ajax_update_richmenu_alias'));
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
 
 		// ユーザーのロール変更時にリッチメニューを変更する
-		add_action('set_user_role', array('lineconnectRichmenu', 'change_user_role'), 10, 3);
+		add_action('set_user_role', array(RichMenu::class, 'change_user_role'), 10, 3);
 
 		// ユーザーにリッチメニューを関連付ける
-		add_action('line_link_richmenu', array('lineconnectRichmenu', 'link_richmenu'), 10, 1);
+		add_action('line_link_richmenu', array(RichMenu::class, 'link_richmenu'), 10, 1);
 
 		// ユーザーからリッチメニューを削除する
-		add_action('line_unlink_richmenu', array('lineconnectRichmenu', 'line_unlink_richmenu'), 10, 2);
+		add_action('line_unlink_richmenu', array(RichMenu::class, 'line_unlink_richmenu'), 10, 2);
 
 		// 特定ロールの連携済みユーザーへメッセージを送信
-		add_action('send_message_to_role', array('lineconnectMessage', 'sendMessageRole'), 10, 3);
+		add_action('send_message_to_role', array(Builder::class, 'sendMessageRole'), 10, 3);
 
 		// 特定の連携済みユーザーへメッセージを送信
-		add_action('send_message_to_wpuser', array('lineconnectMessage', 'sendMessageWpUser'), 10, 3);
+		add_action('send_message_to_wpuser', array(Builder::class, 'sendMessageWpUser'), 10, 3);
 
 		if (self::get_option('send_new_comment')) {
 			// コメントが投稿されたときのアクション
@@ -1176,7 +1180,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectSLCMessage', 'register_meta_box'),
+				'register_meta_box_cb' => array(MessageScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,

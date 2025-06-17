@@ -5,9 +5,16 @@
  * 管理画面での一括メッセージ画面
  */
 
+namespace Shipweb\LineConnect\BulkMessage;
+
+use lineconnect;
+use lineconnectConst;
+use lineconnectUtil;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
 
-class lineconnectBulkMessage {
+class Screen {
 	static function initialize() {
 	}
 
@@ -35,12 +42,12 @@ class lineconnectBulkMessage {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__BULKMESSAGE_FORM,
 			// メニューに紐づく画面を描画するcallback関数：
-			array('lineconnectBulkMessage', 'show_bulkmessage'),
+			array(self::class, 'show_bulkmessage'),
 			// メニューの位置
 			NULL
 		);
-		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectBulkMessage', 'wpdocs_plugin_admin_styles'));
-		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectBulkMessage', 'wpdocs_plugin_admin_scripts'));
+		add_action("admin_print_styles-{$page_hook_suffix}", array(self::class, 'wpdocs_plugin_admin_styles'));
+		add_action("admin_print_scripts-{$page_hook_suffix}", array(self::class, 'wpdocs_plugin_admin_scripts'));
 	}
 
 	/**
@@ -61,7 +68,7 @@ class lineconnectBulkMessage {
 
 		$formName                         = 'chatform-data';
 		$ary_init_data['formName']        = $formName;
-		$messageSubSchema = lineconnectSLCMessage::get_message_schema();
+		$messageSubSchema = SLCMessage::get_message_schema();
 		$messageForm = array();
 		for ($i = 0; $i < 10; $i += 2) {
 
@@ -71,15 +78,15 @@ class lineconnectBulkMessage {
 				'id' => 'type',
 				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
 				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_uischema),
-				'formData' => lineconnectSLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
-				'props' => new stdClass(),
+				'formData' => SLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
+				'props' => new \stdClass(),
 			);
 			$messageForm[] = array(
 				'id' => 'message',
-				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new stdClass(),
+				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new \stdClass(),
 				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', lineconnectConst::$lineconnect_message_uischema),
-				'formData' => lineconnectSLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
-				'props' => new stdClass(),
+				'formData' => SLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
+				'props' => new \stdClass(),
 			);
 		}
 		$ary_init_data['messageSubSchema']          = $messageSubSchema;
@@ -106,12 +113,12 @@ class lineconnectBulkMessage {
 			'schema' => $audience_schema,
 			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
 			'formData' => $audience_form_data,
-			'props' => new stdClass(),
+			'props' => new \stdClass(),
 		);
 		$ary_init_data['audienceForm'] = array($audience_form);
 
 		$slc_messages = [];
-		foreach (lineconnectSLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
+		foreach (SLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
 			$slc_messages[] = array(
 				'post_id' => $post_id,
 				'title' => $title,
@@ -185,7 +192,7 @@ EOM;
 		}
 
 		if ($mode === 'send' || $mode === 'validate') {
-			// $message = lineconnectSLCMessage::formData_to_multimessage($messages);
+			// $message = SLCMessage::formData_to_multimessage($messages);
 			$recepient = Audience::get_audience_by_condition($audience[0]['condition'] ?? []);
 			if (empty($recepient)) {
 				return array(
@@ -195,9 +202,9 @@ EOM;
 				);
 			} else {
 				if ($mode === 'validate') {
-					$response = lineconnectMessage::validateAudienceMessage($recepient, $messages_formdata);
+					$response = Builder::validateAudienceMessage($recepient, $messages_formdata);
 				} else {
-					$response = lineconnectMessage::sendAudienceMessage($recepient, $messages_formdata, $notificationDisabled);
+					$response = Builder::sendAudienceMessage($recepient, $messages_formdata, $notificationDisabled);
 				}
 			}
 		} elseif ($mode === 'count') {
@@ -215,16 +222,16 @@ EOM;
 	// 管理画面用にスクリプト読み込み
 	static function wpdocs_plugin_admin_scripts() {
 		$chat_js = 'frontend/bulkmessage/dist/slc_bulkmessage.js';
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'bulkmessage', plugins_url($chat_js, __DIR__), array('wp-element', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $chat_js), true);
+		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'bulkmessage', lineconnect::plugins_url($chat_js), array('wp-element', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $chat_js), true);
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'bulkmessage', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'frontend/bulkmessage/languages');
+		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'bulkmessage', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'frontend/bulkmessage/languages');
 	}
 
 	// 管理画面用にスタイル読み込み
 	static function wpdocs_plugin_admin_styles() {
 		$chat_css = 'frontend/bulkmessage/dist/style.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($chat_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $chat_css));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', lineconnect::plugins_url($chat_css), array(), filemtime(lineconnect::getRootDir() . $chat_css));
 		$override_css_file = 'frontend/rjsf/dist/rjsf-override.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', plugins_url($override_css_file, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $override_css_file));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'rjsf-override-css', lineconnect::plugins_url($override_css_file), array(), filemtime(lineconnect::getRootDir() . $override_css_file));
 	}
 }

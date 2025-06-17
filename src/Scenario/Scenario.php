@@ -10,7 +10,7 @@ use \LineConnect;
 use Shipweb\LineConnect\Action\Action;
 use \lineconnectUtil;
 use \lineconnectConst;
-use \lineconnectMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
 use \Shipweb\LineConnect\Utilities\Condition;
 use stdClass;
 
@@ -1800,8 +1800,8 @@ class Scenario {
 			$action_result = Action::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
 			if (! empty($action_result['messages'])) {
 				$channel = lineconnect::get_channel($secret_prefix);
-				$multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);
-				$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $multimessage);
+				$multimessage = Builder::createMultiMessage($action_result['messages']);
+				$response = Builder::sendPushMessage($channel, $line_user_id, $multimessage);
 			}
 			if (!$action_result['success'] || (isset($response['success']) && !$response['success'])) {
 				$log = array(

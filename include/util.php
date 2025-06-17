@@ -14,6 +14,10 @@
 
 use \Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\RichMenu\RichMenu;
+
 
 class lineconnectUtil {
 	public static function is_empty($var = null) {
@@ -302,7 +306,7 @@ class lineconnectUtil {
 			return $source;
 		}
 		if (is_numeric($source)) {
-			$message = lineconnectSLCMessage::get_lineconnect_message($source, $args);
+			$message = SLCMessage::get_lineconnect_message($source, $args);
 			if ($message) {
 				return $message;
 			}
@@ -342,7 +346,7 @@ class lineconnectUtil {
 				}
 			}
 			if ($isFormdata) {
-				return lineconnectSLCMessage::formData_to_multimessage($source, $args);
+				return SLCMessage::formData_to_multimessage($source, $args);
 			}
 		}
 		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(print_r($source, true));
@@ -360,7 +364,7 @@ class lineconnectUtil {
 			$rawmessage = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder($json);
 			// validate message
 			$channels = lineconnect::get_all_channels();
-			$validate_response = lineconnectMessage::validateMessage('reply', $channels[0], $rawmessage);
+			$validate_response = Builder::validateMessage('reply', $channels[0], $rawmessage);
 			if ($validate_response['success']) {
 				return $rawmessage;
 			}
@@ -629,7 +633,7 @@ class lineconnectUtil {
 		} elseif ($parameter['type'] == 'slc_message') {
 			$actual_type     = 'integer';
 			$schema['oneOf'] = array();
-			foreach (lineconnectSLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
+			foreach (SLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
 				$schema['oneOf'][] = array(
 					'const' => $post_id,
 					'title' => $title,
@@ -660,7 +664,7 @@ class lineconnectUtil {
 		} elseif ($parameter['type'] == 'slc_richmenu') {
 			$actual_type     = 'string';
 			$schema['oneOf'] = array();
-			foreach (lineconnectRichMenu::get_richmenus() as $richmenu_id => $richmenu) {
+			foreach (RichMenu::get_richmenus() as $richmenu_id => $richmenu) {
 				$schema['oneOf'][] = array(
 					'const' => $richmenu_id,
 					'title' => $richmenu,
@@ -675,7 +679,7 @@ class lineconnectUtil {
 		} elseif ($parameter['type'] == 'slc_richmenualias') {
 			$actual_type     = 'string';
 			$schema['oneOf'] = array();
-			foreach (lineconnectRichMenu::get_richmenu_aliases() as $alias_id => $richmenu_id) {
+			foreach (RichMenu::get_richmenu_aliases() as $alias_id => $richmenu_id) {
 				$schema['oneOf'][] = array(
 					'const' => $alias_id,
 				);

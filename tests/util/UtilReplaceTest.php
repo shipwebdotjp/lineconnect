@@ -1,6 +1,7 @@
 <?php
 
 use Twig\Error\SyntaxError;
+use Shipweb\LineConnect\Message\LINE\Builder;
 
 class UtilReplaceTest extends WP_UnitTestCase {
     protected static $result;
@@ -205,13 +206,13 @@ class UtilReplaceTest extends WP_UnitTestCase {
     }
 
     public function test_text_message_replacement() {
-        $input = lineconnectMessage::createTextMessage('{{$.user.profile.displayName}}さんこんにちは!');
+        $input = Builder::createTextMessage('{{$.user.profile.displayName}}さんこんにちは!');
         $result = lineconnectUtil::replace_object_placeholder($input, $this->injection_data);
         $this->assertEquals('テストユーザーさんこんにちは!', $result[0]['text']);
     }
 
     public function test_location_message_replacement() {
-        $input = lineconnectMessage::createLocationMessage('テストタイトル', 'テストアドレス', '{{$.return.2.latitude}}', '{{$.return.2.longitude}}');
+        $input = Builder::createLocationMessage('テストタイトル', 'テストアドレス', '{{$.return.2.latitude}}', '{{$.return.2.longitude}}');
         $result = lineconnectUtil::replace_object_placeholder($input, $this->injection_data);
         $this->assertEquals('テストタイトル', $result[0]['title']);
         $this->assertEquals('テストアドレス', $result[0]['address']);

@@ -15,9 +15,9 @@
 namespace Shipweb\LineConnect\Publish;
 
 use lineconnect;
-use lineconnectMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
 use lineconnectConst;
-use lineconnectSLCMessage;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use lineconnectUtil;
 use WP_REST_Server;
 
@@ -130,7 +130,7 @@ class Post {
 					// Sendboxのパラメータ名
 					$param_template = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'];
 					$input_filed = '<label for="' . $param_template . '">' . $option_name . '</label>' . "<select name=" . $param_template . " class=''>";
-					$slc_messages = lineconnectSLCMessage::get_lineconnect_message_name_array();
+					$slc_messages = SLCMessage::get_lineconnect_message_name_array();
 					$all_templates = array(0 => __('Default template', lineconnect::PLUGIN_NAME));
 					foreach ($slc_messages as $template_id => $template_name) {
 						$all_templates[$template_id] = $template_name;
@@ -285,7 +285,7 @@ class Post {
 				$args = [];
 				if (!$template) {
 					$args = ["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link];
-					$buildMessage = lineconnectMessage::createFlexMessage($args);
+					$buildMessage = Builder::createFlexMessage($args);
 				} else {
 					$args = lineconnectUtil::flat($post->to_array());
 					// get and merge post_meta
@@ -304,13 +304,13 @@ class Post {
 					$args['link_label'] = $link_label;
 					$args['alttext'] = $alttext;
 					$args = apply_filters(lineconnect::FILTER_PREFIX . 'notification_message_args', $args, $template);
-					$buildMessage = lineconnectSLCMessage::get_lineconnect_message($template, $args);
+					$buildMessage = SLCMessage::get_lineconnect_message($template, $args);
 				}
 				$buildMessage = apply_filters(lineconnect::FILTER_PREFIX . 'notification_message', $buildMessage, $args, $template);
 
 				if (in_array("slc_all", $roles)) {
 					//送信するロールがすべてのユーザーならブロードキャスト
-					$response = lineconnectMessage::sendBroadcastMessage($channel, $buildMessage);
+					$response = Builder::sendBroadcastMessage($channel, $buildMessage);
 					if ($response['success']) {
 						$success_message = __('Sent a LINE message to all friends.', lineconnect::PLUGIN_NAME);
 					} else {
@@ -318,7 +318,7 @@ class Post {
 					}
 				} else {
 
-					$response = lineconnectMessage::sendMessageRole($channel, $roles, $buildMessage);
+					$response = Builder::sendMessageRole($channel, $roles, $buildMessage);
 					if ($response['success']) {
 						if ($response['num']) {
 							$success_message =  sprintf(_n('Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME), number_format($response['num']));

@@ -10,8 +10,7 @@ namespace Shipweb\LineConnect\DirectMessage;
 use lineconnect;
 use lineconnectConst;
 use lineconnectUtil;
-use lineconnectMessage;
-
+use Shipweb\LineConnect\Message\LINE\Builder;
 
 class Screen {
 	static function initialize() {
@@ -134,9 +133,9 @@ EOM;
 							$type = $message['type'];
 							if ($type == 'message') {
 								// $body = liceconnectSchedule::replace_placeholder($message,$reservation);
-								$line_message = lineconnectMessage::createTextMessage(stripslashes($message['text']));
+								$line_message = Builder::createTextMessage(stripslashes($message['text']));
 							}
-							$response = lineconnectMessage::sendPushMessage($channel, $to, $line_message); // メッセージ送信
+							$response = Builder::sendPushMessage($channel, $to, $line_message); // メッセージ送信
 							if ($response['success'] === false) {
 								$isSuccess = false;
 								// $ary_error_message[ $index ] = '送信に失敗しました。LINEメッセージに問題がありました。' . $response['message'];
