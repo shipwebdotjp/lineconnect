@@ -120,7 +120,7 @@ class OpenAi {
 						}
 
 						if (! isset($error)) {
-							$arguments_array = lineconnectUtil::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
+							$arguments_array = \Shipweb\LineConnect\Utilities\PrepareArguments::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
 							if (isset($function_schema['namespace'])) {
 								if (empty($function_schema['parameters'])) {
 									$response = call_user_func(array($class_name, $function_name));
@@ -153,7 +153,7 @@ class OpenAi {
 				return $this->getResponseByChatGPT($event, $bot_id, $prompts, $addtional_messages);
 			}
 		} elseif (isset($AiMessage['choices'][0]['message']['content'])) {
-			$message      = lineconnectUtil::get_line_message_builder_from_string($AiMessage['choices'][0]['message']['content']);
+			$message      = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder_from_string($AiMessage['choices'][0]['message']['content']);
 			$responseByAi = true;
 		}
 		return array(
@@ -182,7 +182,7 @@ class OpenAi {
 			'webhook' => self::merge_postback_data_to_params(json_decode(json_encode($event), true)),
 			'user' =>  $event ? lineconnect::get_userdata_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) : [],
 		);
-		$system_content = lineconnectUtil::replace_object_placeholder(stripslashes(lineconnect::get_option('openai_system')), $injection_data);
+		$system_content = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder(stripslashes(lineconnect::get_option('openai_system')), $injection_data);
 		// error_log('system_content:' . $system_content);
 		if (lineconnect::get_option('openai_system')) {
 			$system_message = array(
@@ -276,10 +276,10 @@ class OpenAi {
 							'content' => $content,
 						);
 					} elseif ($convasation->message_type == 2 && isset($message_object->file_path)) {
-						$full_file_path = lineconnectUtil::get_lineconnect_file_path($message_object->file_path);
+						$full_file_path = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_path($message_object->file_path);
 						if ($full_file_path) {
 							// Base64エンコード
-							$base64_file = lineconnectUtil::get_base64_encoded_file($full_file_path);
+							$base64_file = \Shipweb\LineConnect\Utilities\FileSystem::get_base64_encoded_file($full_file_path);
 
 							$image_array[] = array(
 								'type' => 'image_url',
@@ -417,7 +417,7 @@ class OpenAi {
 							$required[] = $parameter_schema['name'];
 						}
 
-						$parameter_value = lineconnectUtil::get_parameter_schema($parameter_schema['name'], $parameter_schema);
+						$parameter_value = \Shipweb\LineConnect\Utilities\Schema::get_parameter_schema($parameter_schema['name'], $parameter_schema);
 						unset($parameter_value['name']);
 						unset($parameter_value['required']);
 						$properties[$parameter_schema['name']] = $parameter_value;

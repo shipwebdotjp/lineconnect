@@ -29,13 +29,13 @@ class Webhook {
                 }
             }
         } elseif ($trigger['type'] === 'postback') {
-            if (! lineconnectUtil::is_empty($trigger['postback']['data'])) {
+            if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['data'])) {
                 $result = self::check_webhook_message_text_condition($trigger['postback']['data'], $event->{'postback'}->{'data'});
                 if (! $result) {
                     return false;
                 }
             }
-            if (! lineconnectUtil::is_empty($trigger['postback']['params'])) {
+            if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params'])) {
                 $result = self::check_webhook_message_postback_param_condition($trigger['postback']['params'], $event->{'postback'}->{'params'});
                 if (! $result) {
                     return false;
@@ -212,15 +212,15 @@ class Webhook {
     public static function check_datetime_match($standard, $value, $compare) {
         // error_log(print_r(array('standard' => $standard, 'value' => $value, 'compare' => $compare), true));
         // error_log(print_r(array('standard' => strtotime($standard), 'value' => strtotime($value)), true));
-        if ((empty($compare) || $compare === 'equals') && ! lineconnectUtil::is_empty($standard) && strtotime($standard) !== strtotime($value)) {
+        if ((empty($compare) || $compare === 'equals') && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($standard) && strtotime($standard) !== strtotime($value)) {
             return false;
-        } else if ($compare === 'before_or_equal' && ! lineconnectUtil::is_empty($standard) && strtotime($value) > strtotime($standard)) {
+        } else if ($compare === 'before_or_equal' && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($standard) && strtotime($value) > strtotime($standard)) {
             return false;
-        } else if ($compare === 'before' && ! lineconnectUtil::is_empty($standard) && strtotime($value) >= strtotime($standard)) {
+        } else if ($compare === 'before' && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($standard) && strtotime($value) >= strtotime($standard)) {
             return false;
-        } else if ($compare === 'after' && ! lineconnectUtil::is_empty($standard) && strtotime($value) <= strtotime($standard)) {
+        } else if ($compare === 'after' && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($standard) && strtotime($value) <= strtotime($standard)) {
             return false;
-        } else if ($compare === 'after_or_equal' && ! lineconnectUtil::is_empty($standard) && strtotime($value) < strtotime($standard)) {
+        } else if ($compare === 'after_or_equal' && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($standard) && strtotime($value) < strtotime($standard)) {
             return false;
         }
         return true;

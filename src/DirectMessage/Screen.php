@@ -63,7 +63,7 @@ class Screen {
 		$channel_prefix              = isset($_GET['channel_prefix']) ? $_GET['channel_prefix'] : array();
 
 		if (! empty($line_id) && ! empty($channel_prefix)) {
-			$results     = lineconnectUtil::line_id_row($line_id, $channel_prefix);
+			$results     = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $channel_prefix);
 			if ($results) {
 				$results['profile']       = json_decode($results['profile'] ?? '', true);
 				$results['tags']          = json_decode($results['tags'] ?? '', true);

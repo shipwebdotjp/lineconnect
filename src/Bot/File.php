@@ -230,7 +230,7 @@ class File {
             // set user directory
             $user_dir = substr($userId, 1, 4);
             // make directory
-            $target_dir_path = lineconnectUtil::make_lineconnect_dir($user_dir);
+            $target_dir_path = \Shipweb\LineConnect\Utilities\FileSystem::make_lineconnect_dir($user_dir);
             if ($target_dir_path) {
                 // make file path
                 $file_path = $target_dir_path . '/' . $file_name;

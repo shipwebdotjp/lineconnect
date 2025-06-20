@@ -1842,7 +1842,7 @@ class Scenario {
 
 		if ($next === null) {
 			$next = $step_data['next'] ?? null;
-			if (lineconnectUtil::is_empty($next)) {
+			if (\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($next)) {
 				// get step after this step
 				$next = null;
 				$found = false;
@@ -1859,7 +1859,7 @@ class Scenario {
 
 
 			// set next step
-			if ((isset($step_data['stop']) && $step_data['stop']) || lineconnectUtil::is_empty($next)) {
+			if ((isset($step_data['stop']) && $step_data['stop']) || \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($next)) {
 				$status = self::STATUS_COMPLETED;
 				// self::update_scenario_status($scenario_id, self::STATUS_COMPLETED, $line_user_id, $secret_prefix,  ['logs' => $logs]);
 			} else {

@@ -401,7 +401,7 @@ EOM;
 	 * @return string 保存したファイル名
 	 */
 	private static function save_richmenu_image($channel, $rich_menu_id, $save_dir = 'richmenu') {
-		$target_dir_path = lineconnectUtil::make_lineconnect_dir($save_dir . '/' . $channel['prefix'], false);
+		$target_dir_path = \Shipweb\LineConnect\Utilities\FileSystem::make_lineconnect_dir($save_dir . '/' . $channel['prefix'], false);
 		if ($target_dir_path) {
 			// if file exists, return file path
 			if (file_exists($target_dir_path . '/' . $rich_menu_id)) {
@@ -551,7 +551,7 @@ EOM;
 					$secret_prefix = substr($channel_secret, 0, 4);
 
 					// delete cache image
-					$target_dir_path = lineconnectUtil::make_lineconnect_dir('richmenu/' . $channel['prefix'], false);
+					$target_dir_path = \Shipweb\LineConnect\Utilities\FileSystem::make_lineconnect_dir('richmenu/' . $channel['prefix'], false);
 					if ($target_dir_path) {
 						$target_file_path = $target_dir_path . '/' . $richmenu_id;
 						if (file_exists($target_file_path)) {

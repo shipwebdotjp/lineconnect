@@ -80,7 +80,7 @@ class Admin {
 		$ary_init_data['formName'] = Scenario::PARAMETER_DATA;
 		$schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
 		$formData = get_post_meta(get_the_ID(), Scenario::META_KEY_DATA, true);
-		// error_log(print_r(\Shipweb\LineConnect\Utilities\ArrayPrinter::print($formData), true));
+		// error_log(print_r(\Shipweb\LineConnect\Utilities\ArrayUtil::print($formData), true));
 		$mainSchema = Scenario::getSchema();
 		$form = array(
 			array(

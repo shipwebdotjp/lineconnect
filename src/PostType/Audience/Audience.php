@@ -31,6 +31,27 @@ class Audience {
     const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
 
     /**
+     * 引数の型に応じてオーディエンスを取得する関数
+     * @param mixed $source ソース: 数値→オーディエンスの投稿ID、オブジェクト→オーディエンスオブジェクトとして扱う
+     * @return object オーディエンスオブジェクト
+     */
+    public static function get_lineconnect_audience_from_vary($source, $args = null) {
+        if (is_numeric($source)) {
+            $audience = self::get_lineconnect_audience($source, $args);
+            if ($audience) {
+                return $audience;
+            }
+        }
+        if (is_object($source)) {
+            if (!empty($args)) {
+                return \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder($source, $args);
+            } else {
+                return $source;
+            }
+        }
+        return null;
+    }
+    /**
      * オーディエンスのJSONスキーマを返す
      */
     static function get_audience_schema() {
@@ -103,7 +124,7 @@ class Audience {
         }
         $audience = $formData[0];
         if (!empty($args)) {
-            $audience = lineconnectUtil::replace_object_placeholder($audience, $args);
+            $audience = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder($audience, $args);
         }
         $result_line_user_ids = self::get_audience_by_condition($audience['condition']);
         return $result_line_user_ids;

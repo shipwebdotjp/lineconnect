@@ -14,9 +14,9 @@
 
 namespace Shipweb\LineConnect\Action;
 
-use \lineconnect;
-use \lineconnectConst;
-use \lineconnectUtil;
+use lineconnect;
+use lineconnectConst;
+use lineconnectUtil;
 
 class Action {
 	/**
@@ -133,9 +133,9 @@ class Action {
 								$action['parameters'] = [];
 							}
 							// error_log('action parameters:' . print_r($injection_data, true));
-							$action_parameters =  lineconnectUtil::inject_param($action_idx, $action['parameters'], $chains);
-							$arguments_parsed = lineconnectUtil::prepare_arguments($action_parameters, $function_schema['parameters'], $injection_data);
-							$arguments_array = lineconnectUtil::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
+							$action_parameters =  \Shipweb\LineConnect\Utilities\ActionParameterInjector::inject_param($action_idx, $action['parameters'], $chains);
+							$arguments_parsed = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($action_parameters, $function_schema['parameters'], $injection_data);
+							$arguments_array = \Shipweb\LineConnect\Utilities\PrepareArguments::arguments_object_to_array($arguments_parsed, $function_schema['parameters']);
 						}
 						// error_log('arguments:' . print_r($arguments_array, true));
 						if (isset($function_schema['namespace'])) {
@@ -154,7 +154,7 @@ class Action {
 						if (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
 							// error_log(print_r($response, true));
 							// error_log(print_r($action['response_return_value'], true));
-							$message[] = lineconnectUtil::get_line_message_builder($response);
+							$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
 						}
 					} else {
 						// $message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($error['error']);
@@ -233,7 +233,7 @@ class Action {
 					if (!empty($parameters)) {
 						foreach ($parameters as $idx => $parameter) {
 							$key = $parameter['name'] ?? 'param' . $idx;
-							$val = lineconnectUtil::get_parameter_schema($key, $parameter);
+							$val = \Shipweb\LineConnect\Utilities\Schema::get_parameter_schema($key, $parameter);
 							$parameters_properties[$key] = $val;
 						}
 					}

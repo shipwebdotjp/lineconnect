@@ -18,6 +18,8 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Utilities\StreamConnector;
 use lineconnect;
 use lineconnectUtil;
+use lineconnectConst;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 
 
 class Builder {
@@ -531,12 +533,12 @@ class Builder {
 			$channel = lineconnect::get_channel($secret_prefix);
 			$type = $recepient_item['type'];
 			// if multicast and has placeholder then push
-			if ($type == 'multicast' && lineconnectUtil::has_object_placeholder($message)) {
+			if ($type == 'multicast' && \Shipweb\LineConnect\Utilities\PlaceholderReplacer::has_object_placeholder($message)) {
 				$type = 'push';
 			}
 
 			if ($type == 'broadcast') {
-				$message = lineconnectUtil::get_line_message_builder($message);
+				$message = self::get_line_message_builder($message);
 				$response = self::sendBroadcastMessage($channel, $message, $notificationDisabled);
 				if ($response['success']) {
 					$success_message = __('Broadcast message sent successfully.', lineconnect::PLUGIN_NAME);
@@ -544,7 +546,7 @@ class Builder {
 					$error_message = __('Broadcast message failed to send.', lineconnect::PLUGIN_NAME) . $response['message'];
 				}
 			} elseif ($type == 'multicast') {
-				$message = lineconnectUtil::get_line_message_builder($message);
+				$message = self::get_line_message_builder($message);
 				$response = self::sendMulticastMessage($channel, $recepient_item['line_user_ids'], $message, $notificationDisabled);
 				if ($response['success']) {
 					// $success_message = __('Multicast message sent successfully.', lineconnect::PLUGIN_NAME);
@@ -556,8 +558,7 @@ class Builder {
 				$ary_push_success = array();
 				$ary_push_error = array();
 				foreach ($recepient_item['line_user_ids'] as $line_user_id) {
-					$message = lineconnectUtil::get_line_message_builder($message, self::make_injection_data($channel, $line_user_id));
-					$response = self::sendPushMessage($channel, $line_user_id, $message, $notificationDisabled);
+					$response = self::sendPushMessage($channel, $line_user_id, self::get_line_message_builder($message, self::make_injection_data($channel, $line_user_id)), $notificationDisabled);
 					if ($response['success']) {
 						$ary_push_success[] = $line_user_id;
 					} else {
@@ -605,7 +606,7 @@ class Builder {
 			$channel = lineconnect::get_channel($secret_prefix);
 			$type = $recepient_item['type'];
 			// if multicast and has placeholder then push
-			if ($type == 'multicast' && lineconnectUtil::has_object_placeholder($message)) {
+			if ($type == 'multicast' && \Shipweb\LineConnect\Utilities\PlaceholderReplacer::has_object_placeholder($message)) {
 				$type = 'push';
 			}
 
@@ -619,10 +620,10 @@ class Builder {
 
 			if ($type == 'push') {
 				// $replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
-				$replaced_message = lineconnectUtil::get_line_message_builder($message, self::make_injection_data($channel, $recepient_item['line_user_ids'][0]));
+				$replaced_message = self::get_line_message_builder($message, self::make_injection_data($channel, $recepient_item['line_user_ids'][0]));
 				// $replaced_message = self::replacePlaceHolder($channel, $recepient_item['line_user_ids'][0], $message);
 			} else {
-				$message = lineconnectUtil::get_line_message_builder($message);
+				$message = self::get_line_message_builder($message);
 				$replaced_message = $message;
 			}
 			$success_message .= ' ';
@@ -662,7 +663,7 @@ class Builder {
 	static function replacePlaceHolder($channel, $line_user_id, $message) {
 		// メッセージに含まれるプレースホルダーへユーザーデータの埋め込み
 		$injection_data = self::make_injection_data($channel, $line_user_id);
-		$messages = lineconnectUtil::replace_object_placeholder($message->buildMessage(), $injection_data);
+		$messages = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder($message->buildMessage(), $injection_data);
 		// メッセージオブジェクトの再構築
 		$multimessagebuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
 		foreach ($messages as $msg) {
@@ -803,15 +804,15 @@ class Builder {
 	// LINEメッセージ送信時のエラーを文字列に変換
 	static function prettyPrintLINEMessagingAPIError($error) {
 		// エラーのメインメッセージ
-		$output = "<h2>" . __('Error', lineconnect::PLUGIN_NAME) . ": " . htmlspecialchars(lineconnectUtil::dynamic_translate($error['message']), ENT_QUOTES, 'UTF-8') . "</h2>";
+		$output = "<h2>" . __('Error', lineconnect::PLUGIN_NAME) . ": " . htmlspecialchars(\Shipweb\LineConnect\Utilities\Translate::dynamic_translate($error['message']), ENT_QUOTES, 'UTF-8') . "</h2>";
 
 		// エラーの詳細がある場合
 		if (isset($error['details']) && is_array($error['details'])) {
 			$output .= "<ul>";
 			foreach ($error['details'] as $detail) {
 				$output .= "<li>";
-				$output .= "<strong>" . __('Property', lineconnect::PLUGIN_NAME) . ": </strong> " . htmlspecialchars(lineconnectUtil::dynamic_translate($detail['property']), ENT_QUOTES, 'UTF-8') . "<br>";
-				$output .= "<strong>" . __('Message', lineconnect::PLUGIN_NAME) . ": </strong> " . htmlspecialchars(lineconnectUtil::dynamic_translate($detail['message']), ENT_QUOTES, 'UTF-8');
+				$output .= "<strong>" . __('Property', lineconnect::PLUGIN_NAME) . ": </strong> " . htmlspecialchars(\Shipweb\LineConnect\Utilities\Translate::dynamic_translate($detail['property']), ENT_QUOTES, 'UTF-8') . "<br>";
+				$output .= "<strong>" . __('Message', lineconnect::PLUGIN_NAME) . ": </strong> " . htmlspecialchars(\Shipweb\LineConnect\Utilities\Translate::dynamic_translate($detail['message']), ENT_QUOTES, 'UTF-8');
 				$output .= "</li>";
 			}
 			$output .= "</ul>";
@@ -878,5 +879,79 @@ class Builder {
 			$multiMessageBuilder->add($message);
 		}
 		return $multiMessageBuilder;
+	}
+
+	public static function get_line_message_builder($source, $args = null) {
+		error_log(print_r($source, true));
+		error_log(print_r($args, true));
+		if ($source instanceof \LINE\LINEBot\MessageBuilder) {
+			return $source;
+		}
+		if (is_numeric($source)) {
+			$message = SLCMessage::get_lineconnect_message($source, $args);
+			if ($message) {
+				return $message;
+			}
+		}
+		if (is_string($source)) {
+			return self::get_line_message_builder_from_string($source);
+		}
+
+		if (is_array($source)) {
+			//message formdataの場合はformData_to_multimessageを呼び出す
+			$isFormdata = true;
+			if (count($source) > 10) {
+				$isFormdata = false;
+			}
+			for ($i = 0; $i < count($source); $i += 2) {
+				if (!empty($source[$i]) && !empty($source[$i + 1])) {
+					if (!isset($source[$i]['type']) ||  ! in_array(
+						$source[$i]['type'],
+						array(
+							'text',
+							'sticker',
+							'image',
+							'video',
+							'audio',
+							'location',
+							'imagemap',
+							'button_template',
+							'confirm_template',
+							'carousel_template',
+							'image_carousel_template',
+							'flex',
+							'raw',
+						)
+					)) {
+						$isFormdata = false;
+					}
+				}
+			}
+			if ($isFormdata) {
+				return SLCMessage::formData_to_multimessage($source, $args);
+			}
+		}
+		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(print_r($source, true));
+	}
+
+	/**
+	 * 文字列からLINEメッセージビルダーを作成する関数
+	 * @param string $source ソース: 文字列
+	 * @return \LINE\LINEBot\MessageBuilder メッセージビルダー
+	 */
+	public static function get_line_message_builder_from_string($source) {
+		// 文字列がJSON形式の場合は、JSONをデコードしてオブジェクトに変換し、RawMessageBuilderを作成
+		$json = \Shipweb\LineConnect\Utilities\StringUtil::extractAndDecodeJson($source);
+		if (is_array($json) && isset($json['type']) && in_array($json['type'], lineconnectConst::LINE_MESSAGE_TYPES)) {
+			$rawmessage = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder($json);
+			// validate message
+			$channels = lineconnect::get_all_channels();
+			$validate_response = Builder::validateMessage('reply', $channels[0], $rawmessage);
+			if ($validate_response['success']) {
+				return $rawmessage;
+			}
+		}
+		// 文字列がJSON形式でない場合は、通常のテキストメッセージビルダーを作成
+		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($source);
 	}
 }

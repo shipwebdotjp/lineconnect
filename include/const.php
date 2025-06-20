@@ -1340,7 +1340,7 @@ class lineconnectConst {
 				),
 			)
 		);
-		
+
 		// Trigger type schema
 		self::$lineconnect_trigger_type_schema = array(
 			'type'       => 'object',

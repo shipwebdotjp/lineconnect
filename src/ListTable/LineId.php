@@ -106,7 +106,7 @@ class LineId extends \WP_List_Table {
         $start_from   = ($current_page - 1) * $per_page;
 
         $keyvalues = array();
-        if (! lineconnectUtil::is_empty($_REQUEST['s'] ?? null)) {
+        if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($_REQUEST['s'] ?? null)) {
             $keyvalues[] = array(
                 'key' => 'AND (profile LIKE %s OR tags LIKE %s OR line_id LIKE %s)',
                 'value' => array(
@@ -117,7 +117,7 @@ class LineId extends \WP_List_Table {
             );
         }
 
-        if (! lineconnectUtil::is_empty($_REQUEST['channel'] ?? null)) {
+        if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($_REQUEST['channel'] ?? null)) {
             $keyvalues[] = array(
                 'key' => 'AND channel_prefix = %s',
                 'value' => array($_REQUEST['channel']),

@@ -816,7 +816,7 @@ class LineConnect {
 	 */
 	static function get_userdata_from_line_id($secret_prefix, $line_id) {
 		$user_data = array();
-		$line_id_row  = lineconnectUtil::line_id_row($line_id, $secret_prefix);
+		$line_id_row  = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
 		if ($line_id_row) {
 			$user_data['profile']       = json_decode($line_id_row['profile'] ?? '{}', true);
 			$user_data['tags']          = json_decode($line_id_row['tags'] ?? '{}', true);
@@ -1388,16 +1388,16 @@ class LineConnect {
 		}
 
 		/* else {
-			
+
 			$unixTime = wp_next_scheduled(self::CRON_EVENT_NAME);
 			if (intval(date('i', $unixTime)) > 0) {
-				
+
 				wp_clear_scheduled_hook(self::CRON_EVENT_NAME);
 				$timeStamp = mktime(date('H', $unixTime), 0, 0, date('m', $unixTime), date('d', $unixTime), date('Y', $unixTime));
 				wp_schedule_event($timeStamp, 'hourly', self::CRON_EVENT_NAME);
-				
+
 			}
-			
+
 		}*/
 	}
 

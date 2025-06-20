@@ -84,7 +84,7 @@ EOM;
 
 	public static function ajax_get_dashboard() {
 		header('Content-Type: application/json; charset=utf-8');
-		$result = lineconnectUtil::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
+		$result = \Shipweb\LineConnect\Utilities\Guard::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
 		if ($result['result'] === 'failed') {
 			echo json_encode($result);
 			wp_die();

@@ -39,7 +39,7 @@ require_once plugin_dir_path(__FILE__) . 'include/functions.php';
 // require_once plugin_dir_path(__FILE__) . 'include/action.php';
 // require_once plugin_dir_path(__FILE__) . 'include/trigger.php';
 // require_once plugin_dir_path(__FILE__) . 'include/audience.php';
-require_once plugin_dir_path(__FILE__) . 'include/util.php';
+// require_once plugin_dir_path(__FILE__) . 'include/util.php';
 // require_once plugin_dir_path(__FILE__) . 'include/slc_message.php';
 // require_once plugin_dir_path(__FILE__) . 'include/schedule.php';
 

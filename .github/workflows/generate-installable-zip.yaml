@@ -28,7 +28,7 @@ jobs:
           mkdir build
       - name: UnInstall dependencies
         run: |
-          composer remove --dev phpunit/phpunit yoast/phpunit-polyfills
+          composer remove --dev phpunit/phpunit yoast/phpunit-polyfills rector/rector
       - name: Create artifact
         uses: montudor/action-zip@v0.1.0
         with:

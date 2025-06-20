@@ -106,7 +106,7 @@ class Account {
             return;
         }
         $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
-        $line_id_row = lineconnectUtil::line_id_row($line_id, $secret_prefix);
+        $line_id_row = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
         if ($line_id_row) {
             $user_data = json_decode($line_id_row['profile'], true);
         } else {

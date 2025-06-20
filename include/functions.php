@@ -15,6 +15,7 @@
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Action\Action;
 
 class lineconnectFunctions {
 	// public $lineUserId;
@@ -71,8 +72,8 @@ class lineconnectFunctions {
 			}
 		}
 		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
-		foreach ($lineconnect_actions as $name => $action) {
+
+		foreach (Action::get_lineconnect_action_data_array() as $name => $action) {
 			if (! $only_enabled_gpt || in_array($name, $enabled_functions)) {
 				$functions[$name] = array(
 					'title'       => $action['title'],
@@ -103,7 +104,7 @@ class lineconnectFunctions {
 				'user_registered' => $user->user_registered,
 			);
 		} else {
-			$line_id_row  = lineconnectUtil::line_id_row($this->event->source->userId, $this->secret_prefix);
+			$line_id_row  = \Shipweb\LineConnect\Utilities\LineId::line_id_row($this->event->source->userId, $this->secret_prefix);
 			if ($line_id_row) {
 				$profile = json_decode($line_id_row['profile'], true);
 				return array(
@@ -267,7 +268,7 @@ class lineconnectFunctions {
 	}
 
 	function send_line_message($message, $line_user_id = null, $secret_prefix = null) {
-		$message = lineconnectUtil::get_line_message_builder($message);
+		$message = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($message);
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 		if (!preg_match('/^U[a-f0-9]{32}$/', $line_user_id)) {
 			return array(
@@ -287,8 +288,8 @@ class lineconnectFunctions {
 	 * @return array LINE APIのレスポンス
 	 */
 	function send_line_message_by_audience($message, $slc_audience_id, $message_args = null, $audience_args = null, $notification_disabled = false) {
-		$message = lineconnectUtil::get_line_message_builder($message, $message_args);
-		$audience = lineconnectUtil::get_lineconnect_audience($slc_audience_id, $audience_args);
+		$message = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($message, $message_args);
+		$audience = \Shipweb\LineConnect\PostType\Audience\Audience::get_lineconnect_audience_from_vary($slc_audience_id, $audience_args);
 		if (!empty($audience)) {
 			$response = Builder::sendAudienceMessage($audience, $message, $notification_disabled);
 			return $response;
@@ -340,7 +341,7 @@ class lineconnectFunctions {
 	 * @return bool 成功・失敗
 	 */
 	function update_user_meta($user_id, $key, $value) {
-		if (!lineconnectUtil::is_empty($value)) {
+		if (!\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
 			return update_user_meta($user_id, $key, $value);
 		} else {
 			return delete_user_meta($user_id, $key);
@@ -413,7 +414,7 @@ class lineconnectFunctions {
 
 		$profile_array = json_decode($current_profile, true) ?: [];
 
-		if (! lineconnectUtil::is_empty($value)) {
+		if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
 			$profile_array[$key] = $value;
 		} else {
 			unset($profile_array[$key]);

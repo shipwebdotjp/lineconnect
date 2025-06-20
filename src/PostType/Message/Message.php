@@ -109,7 +109,7 @@ class Message {
 		}
 		foreach ($message_data as $message_item) {
 			$message_type = $message_item['type'];
-			$message = lineconnectUtil::replace_object_placeholder($message_item['message'], $args);
+			$message = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder($message_item['message'], $args);
 			$message_object = $quickReply = $sender = null;
 			if (! empty($message['quickReply'])) {
 				$quickReplay_items = array();

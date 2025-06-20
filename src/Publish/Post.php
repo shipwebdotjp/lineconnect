@@ -295,12 +295,12 @@ class Post {
 					$args = ["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link];
 					$buildMessage = Builder::createFlexMessage($args);
 				} else {
-					$args = lineconnectUtil::flat($post->to_array());
+					$args = \Shipweb\LineConnect\Utilities\ArrayUtil::flat($post->to_array());
 					// get and merge post_meta
 					foreach (get_post_meta($post_ID, '', true) as $key => $value) {
 						$value = maybe_unserialize($value[0]);
 						if (is_array($value) || is_object($value)) {
-							$args = array_merge($args, lineconnectUtil::flat($value, 'post_meta.' . $key));
+							$args = array_merge($args, \Shipweb\LineConnect\Utilities\ArrayUtil::flat($value, 'post_meta.' . $key));
 						} elseif (is_string($value)) {
 							$args['post_meta.' . $key] = $value;
 						}

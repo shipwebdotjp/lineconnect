@@ -7,6 +7,7 @@ testdata/
 bin/
 .vscode/
 clinerules-bank/
+rector/Rules/
 Makefile
 .env
 *.bak
@@ -19,3 +20,4 @@ phpunit.xml.dist
 export_docs.sh
 exported_all_docs.md
 .clinerules
+rector.php
