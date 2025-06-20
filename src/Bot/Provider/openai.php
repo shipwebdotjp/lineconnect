@@ -195,7 +195,7 @@ class OpenAi {
 
 
 		if (isset($user_id)) {
-			$table_name  = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+			$table_name  = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 			$context_num = intval(lineconnect::get_option('openai_context') * 2);
 
 			$limit_normal = intval(lineconnect::get_option('openai_limit_normal'));

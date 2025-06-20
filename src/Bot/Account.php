@@ -6,9 +6,9 @@
 
 namespace Shipweb\LineConnect\Bot;
 
-use \lineconnect;
-use \lineconnectUtil;
-use \lineconnectConst;
+use lineconnect;
+use lineconnectUtil;
+use lineconnectConst;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 
@@ -105,7 +105,7 @@ class Account {
         if (version_compare(lineconnect::get_current_db_version(), '1.2', '<')) {
             return;
         }
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         $line_id_row = lineconnectUtil::line_id_row($line_id, $secret_prefix);
         if ($line_id_row) {
             $user_data = json_decode($line_id_row['profile'], true);

@@ -6,12 +6,12 @@
 
 namespace Shipweb\LineConnect\Scenario;
 
-use \LineConnect;
+use LineConnect;
 use Shipweb\LineConnect\Action\Action;
-use \lineconnectUtil;
-use \lineconnectConst;
+use lineconnectUtil;
+use lineconnectConst;
 use Shipweb\LineConnect\Message\LINE\Builder;
-use \Shipweb\LineConnect\Utilities\Condition;
+use Shipweb\LineConnect\Utilities\Condition;
 use stdClass;
 
 /**
@@ -1614,7 +1614,7 @@ class Scenario {
 		global $wpdb;
 		$channel_prefix = $secret_prefix;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$scenario = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT scenarios FROM $table_name WHERE line_id = %s AND channel_prefix = %s",
@@ -1654,7 +1654,7 @@ class Scenario {
 		}
 
 		$channel_prefix = $secret_prefix;
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$scenario = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT scenarios FROM $table_name WHERE line_id = %s AND channel_prefix = %s",

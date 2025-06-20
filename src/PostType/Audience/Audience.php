@@ -22,12 +22,19 @@ use lineconnectUtil;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Audience {
+    const NAME = 'audience';
+    const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
+    const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
+    const META_KEY_DATA = self::NAME . '-data';
+    const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
+    const SCHEMA_VERSION = 1;
+    const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
 
     /**
      * オーディエンスのJSONスキーマを返す
      */
     static function get_audience_schema() {
-        $audience_schema = lineconnectConst::$lineconnect_audience_schema;
+        $audience_schema = Schema::get_schema();
         $all_roles = array();
         foreach (wp_roles()->roles as $role_name => $role) {
             $all_roles[] = array(
@@ -57,7 +64,7 @@ class Audience {
      * Return audience data
      */
     static function get_form_audience_data($formData, $schema_version) {
-        if (empty($schema_version) || $schema_version == lineconnectConst::AUDIENCE_SCHEMA_VERSION) {
+        if (empty($schema_version) || $schema_version == self::SCHEMA_VERSION) {
             return !empty($formData) ? $formData : new \stdClass();
         }
         // if old schema veersion, migrate and return
@@ -69,7 +76,7 @@ class Audience {
      */
     static function get_lineconnect_audience_name_array() {
         $args          = array(
-            'post_type'      => lineconnectConst::POST_TYPE_AUDIENCE,
+            'post_type'      => self::POST_TYPE,
             'posts_per_page' => -1,
             'orderby'        => 'title',
             'order'          => 'ASC',
@@ -89,7 +96,7 @@ class Audience {
      * @return array 対応するLINEユーザーIDの配列
      */
     static function get_lineconnect_audience($post_id, $args = null) {
-        $formData = get_post_meta($post_id, lineconnect::META_KEY__AUDIENCE_DATA, true);
+        $formData = get_post_meta($post_id, self::META_KEY_DATA, true);
 
         if (empty($formData) || !isset($formData[0]['condition'])) {
             return array();
@@ -153,7 +160,7 @@ class Audience {
     static function get_line_ids_by_channel($secret_prefix) {
         global $wpdb;
         $line_user_ids_by_channel = array();
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         foreach ($secret_prefix as $prefix) {
             $line_ids = $wpdb->get_col(
                 $wpdb->prepare(
@@ -208,7 +215,7 @@ class Audience {
     static function get_all_line_ids() {
         global $wpdb;
         $line_user_ids_by_channel = array();
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
         $results = $wpdb->get_results(
             "SELECT channel_prefix, line_id FROM {$table_name_line_id}"
@@ -326,7 +333,7 @@ class Audience {
     static function get_line_ids_by_lineuserid($line_ids) {
         global $wpdb;
         $line_user_ids_by_channel = array();
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
         if (!empty($line_ids)) {
             $placeholders = array_fill(0, count($line_ids), '%s');
@@ -459,7 +466,7 @@ class Audience {
      */
     static function do_profile_query($clause) {
         global $wpdb;
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         $placeholders = array();
 
         $key = $clause['key'];

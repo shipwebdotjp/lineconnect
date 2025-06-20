@@ -15,7 +15,7 @@ class Shortcodes {
 	static function show_chat_log($atts, $content = null, $tag = '') {
 		global $wpdb;
 		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php'; // cebe/markdownを読み込み
-		$table_name     = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+		$table_name     = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 
 		wp_enqueue_style('slc-chat');
 

@@ -45,7 +45,7 @@ class Column {
      */
     public static function add_download_column_content($column_name, $post_id) {
         if ($column_name == 'download') {
-            $audience = get_post_meta($post_id, lineconnect::META_KEY__AUDIENCE_DATA, true);
+            $audience = get_post_meta($post_id, Audience::META_KEY_DATA, true);
             if (!empty($audience)) {
                 echo '<a href="' . esc_url(admin_url('admin.php?page=' . lineconnect::SLUG__AUDIENCE_DOWNLOAD . '&audience_id=' . $post_id)) . '" >' . __('CSV Download', lineconnect::PLUGIN_NAME) . '</a>';
             }

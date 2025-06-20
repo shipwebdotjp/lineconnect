@@ -426,7 +426,7 @@ class lineconnectUtil {
 
 	public static function line_id_row($line_id, $secret_prefix) {
 		global $wpdb;
-		$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$line_id_row        = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM {$table_name_line_id} WHERE line_id = %s and channel_prefix = %s",

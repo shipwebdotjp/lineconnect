@@ -32,7 +32,7 @@ class Screen {
             __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
             __('Audiences', lineconnect::PLUGIN_NAME),
             'manage_options',
-            'edit.php?post_type=' . lineconnectConst::POST_TYPE_AUDIENCE,
+            'edit.php?post_type=' . Audience::POST_TYPE,
             false,
             NULL
         );
@@ -43,10 +43,10 @@ class Screen {
      */
     static function register_meta_box() {
         add_meta_box(
-            lineconnect::META_KEY__AUDIENCE_DATA,
+            Audience::META_KEY_DATA,
             __('LINE Connect Audience', lineconnect::PLUGIN_NAME),
             array(self::class, 'show_audience_form'),
-            lineconnectConst::POST_TYPE_AUDIENCE,
+            Audience::POST_TYPE,
             'advanced',
             'default'
         );
@@ -57,7 +57,7 @@ class Screen {
      */
     static function wpdocs_selectively_enqueue_admin_script() {
         // require_once plugin_dir_path(__FILE__) . 'rjsf.php';
-        ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_AUDIENCE);
+        ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(Audience::POST_TYPE);
     }
 
     /**
@@ -65,25 +65,25 @@ class Screen {
      */
     static function show_audience_form() {
         $ary_init_data = array();
-        $formName = lineconnect::PARAMETER__AUDIENCE_DATA;
+        $formName = Audience::PARAMETER_DATA;
         $ary_init_data['formName'] = $formName;
 
         $schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
-        $formData = get_post_meta(get_the_ID(), lineconnect::META_KEY__AUDIENCE_DATA, true);
+        $formData = get_post_meta(get_the_ID(), Audience::META_KEY_DATA, true);
 
         // 単一フォームのスキーマとUIスキーマ
         $form = array(
             'id' => 'audience',
             'schema' => Audience::get_audience_schema(),
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', Schema::get_uischema()),
             'formData' => !empty($formData[0]) ? Audience::get_form_audience_data($formData[0], $schema_version) : new \stdClass(),
             'props' => new \stdClass(),
         );
-        $ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+        $ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
         $ary_init_data['form'] = array($form);
         $nonce_field = wp_nonce_field(
-            lineconnect::CREDENTIAL_ACTION__AUDIENCE,
-            lineconnect::CREDENTIAL_NAME__AUDIENCE,
+            Audience::CREDENTIAL_ACTION,
+            Audience::CREDENTIAL_NAME,
             true,
             false
         );
@@ -96,20 +96,20 @@ class Screen {
      * 投稿の保存
      */
     static function save_post_audience($post_ID, $post, $update) {
-        if (isset($_POST[lineconnect::CREDENTIAL_NAME__AUDIENCE]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__AUDIENCE, lineconnect::CREDENTIAL_NAME__AUDIENCE)) {
-            $audience_data = isset($_POST[lineconnect::PARAMETER__AUDIENCE_DATA]) ? stripslashes($_POST[lineconnect::PARAMETER__AUDIENCE_DATA]) : '';
+        if (isset($_POST[Audience::CREDENTIAL_NAME]) && check_admin_referer(Audience::CREDENTIAL_ACTION, Audience::CREDENTIAL_NAME)) {
+            $audience_data = isset($_POST[Audience::PARAMETER_DATA]) ? stripslashes($_POST[Audience::PARAMETER_DATA]) : '';
 
             if (!empty($audience_data)) {
                 $json_audience_data = json_decode($audience_data, true);
                 if (!empty($json_audience_data)) {
-                    update_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA, $json_audience_data);
-                    update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, lineconnectConst::AUDIENCE_SCHEMA_VERSION);
+                    update_post_meta($post_ID, Audience::META_KEY_DATA, $json_audience_data);
+                    update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, Audience::SCHEMA_VERSION);
                 } else {
-                    delete_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA);
+                    delete_post_meta($post_ID, Audience::META_KEY_DATA);
                     delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
                 }
             } else {
-                delete_post_meta($post_ID, lineconnect::META_KEY__AUDIENCE_DATA);
+                delete_post_meta($post_ID, Audience::META_KEY_DATA);
                 delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
             }
         }
@@ -142,7 +142,7 @@ class Screen {
 
         if ($isSuccess) {
             $post_id = $_POST['post_id'];
-            $formData  = get_post_meta($post_id, lineconnect::META_KEY__AUDIENCE_DATA, true);
+            $formData  = get_post_meta($post_id, Audience::META_KEY_DATA, true);
         }
         $result['result']  = $isSuccess ? 'success' : 'failed';
         $result['formData'] = $formData;

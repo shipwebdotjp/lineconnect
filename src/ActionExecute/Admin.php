@@ -9,11 +9,13 @@
 
 namespace Shipweb\LineConnect\ActionExecute;
 
-use \Shipweb\LineConnect\ActionExecute\ActionExecute;
-use \Shipweb\LineConnect\ActionFlow\ActionFlow;
-use \lineconnect;
+use Shipweb\LineConnect\ActionExecute\ActionExecute;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use lineconnect;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
-use \lineconnectConst;
+use Shipweb\LineConnect\PostType\Audience\Schema as AudienceSchema;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
+use lineconnectConst;
 use \stdClass;
 
 class Admin {
@@ -95,7 +97,7 @@ class Admin {
         $audience_form = array(
             'id' => 'audience',
             'schema' => $audience_schema,
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', AudienceSchema::get_uischema()),
             'formData' => $audience_form_data,
             'props' => new stdClass(),
         );
@@ -131,7 +133,7 @@ class Admin {
             );
         }
         $ary_init_data['slc_actionflows'] = $slc_actionflows;
-        $ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+        $ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 
         $inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
         echo <<< EOM

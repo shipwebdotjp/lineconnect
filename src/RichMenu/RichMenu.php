@@ -15,6 +15,7 @@
 namespace Shipweb\LineConnect\RichMenu;
 
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 use lineconnect;
 use lineconnectUtil;
 use lineconnectConst;
@@ -77,8 +78,8 @@ class RichMenu {
 		$formData = [];
 		$form = array(
 			'id' => 'richmenu',
-			'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_schema', lineconnectConst::$lineconnect_richmenu_schema),
-			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_uischema', lineconnectConst::$lineconnect_richmenu_uischema),
+			'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_schema', Schema::get_richmenu_schema()),
+			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_uischema',  Schema::get_richmenu_uischema()),
 			'formData' => $formData,
 			'props' => new \stdClass(),
 		);
@@ -92,7 +93,7 @@ class RichMenu {
 		$ary_init_data['aliases'] = $default_channel ? self::get_richmenu_aliases($default_channel) : array();
 		$ary_init_data['channel_prefix'] = $default_channel_prefix;
 		$ary_init_data['form']        = $form;
-		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 
 		$inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
 		echo <<< EOM
@@ -111,8 +112,8 @@ EOM;
 	 * @return array $result 更新結果
 	 */
 	public static function updateRichMenuId($channel, $is_changed_richmenus, $ary_richmeneus) {
-		error_log(print_r($is_changed_richmenus, true));
-		error_log(print_r($ary_richmeneus, true));
+		// error_log(print_r($is_changed_richmenus, true));
+		// error_log(print_r($ary_richmeneus, true));
 		$result = array();
 		$success_message = $error_message = "";
 		if (!isset($channel['channel-access-token']) || !isset($channel['channel-secret'])) {
@@ -721,12 +722,12 @@ EOM;
 	 */
 	private static function get_richmenu_templates() {
 		$richmenu_templates = array();
-		foreach (lineconnectConst::$lineconnect_richmenu_template_bounds as $bounds) {
+		foreach (Schema::get_template_bounds() as $bounds) {
 			$richmenu_template = array();
 			$richmenu_template['id'] = $bounds['id'];
 			$richmenu_template['title'] = $bounds['title'];
 			$richmenu_template['image'] = $bounds['image'];
-			$template_data = lineconnectConst::$lineconnect_richmenu_template_defalut_data;
+			$template_data = Schema::get_template_defalut_data();
 			$template_data['size'] = $bounds['size'];
 			$area = array();
 			foreach ($bounds['bounds'] as $area_bounds) {

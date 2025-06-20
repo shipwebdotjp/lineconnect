@@ -15,7 +15,7 @@
 namespace Shipweb\LineConnect\Bot\Log;
 
 use lineconnect;
-use \lineconnectConst;
+use lineconnectConst;
 
 class ListTable extends \WP_List_Table {
 	/**
@@ -101,7 +101,7 @@ class ListTable extends \WP_List_Table {
 
 		$keyvalues = array();
 		if (! self::is_empty($_REQUEST['s'] ?? null)) {
-			if (version_compare('1.1', lineconnect::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial'])) < 1) {
+			if (version_compare('1.1', lineconnect::get_variable(lineconnect::DB_VERSION_KEY, lineconnect::$variables_option[lineconnect::DB_VERSION_KEY]['initial'])) < 1) {
 				// for new version search from json type column
 				$keyvalues[] = array(
 					'key'   => 'AND JSON_EXTRACT(`message`, "$.text") LIKE %s',
@@ -160,7 +160,7 @@ class ListTable extends \WP_List_Table {
 			$addtional_query = $wpdb->prepare($keys, $values);
 		}
 		// error_log($addtional_query);
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 		$query      = "
             SELECT COUNT(id) 
             FROM {$table_name}
@@ -169,7 +169,7 @@ class ListTable extends \WP_List_Table {
 		$total_items = $wpdb->get_var($query);
 
 		if (version_compare(lineconnect::get_current_db_version(), '1.2', '>=')) {
-			$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+			$table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 			$history            = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -456,7 +456,7 @@ class ListTable extends \WP_List_Table {
 		if (! empty($ids)) {
 			// make sql query
 			global $wpdb;
-			$table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+			$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 			// sanitize $ids
 			$sanitized_ids = implode(',', array_map('intval', $ids));
 			$wpdb->query("DELETE FROM $table_name WHERE id IN ($sanitized_ids)");

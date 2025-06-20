@@ -23,7 +23,7 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
 require_once plugin_dir_path(__FILE__) . 'src/Core/LineConnect.php'; // namespace導入前の暫定処置
 // require_once plugin_dir_path(__FILE__) . 'include/richmenu.php';
-require_once plugin_dir_path(__FILE__) . 'include/setting.php';
+// require_once plugin_dir_path(__FILE__) . 'include/setting.php';
 // require_once plugin_dir_path(__FILE__) . 'include/publish.php';
 // require_once plugin_dir_path(__FILE__) . 'include/message.php';
 // require_once plugin_dir_path(__FILE__) . 'include/bulk_message.php';

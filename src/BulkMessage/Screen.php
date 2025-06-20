@@ -12,7 +12,11 @@ use lineconnectConst;
 use lineconnectUtil;
 use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\PostType\Message\Schema as SLCMessageSchema;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\PostType\Audience\Schema as AudienceSchema;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
+
 
 class Screen {
 	static function initialize() {
@@ -72,19 +76,19 @@ class Screen {
 		$messageForm = array();
 		for ($i = 0; $i < 10; $i += 2) {
 
-			$type_schema = lineconnectConst::$lineconnect_message_type_schema;
+			$type_schema = SLCMessageSchema::get_message_type_schema();
 			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
 			$messageForm[] = array(
 				'id' => 'type',
 				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_uischema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', SLCMessageSchema::get_message_type_uischema()),
 				'formData' => SLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
 				'props' => new \stdClass(),
 			);
 			$messageForm[] = array(
 				'id' => 'message',
 				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new \stdClass(),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', lineconnectConst::$lineconnect_message_uischema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', SLCMessageSchema::get_message_uischema()),
 				'formData' => SLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
 				'props' => new \stdClass(),
 			);
@@ -92,10 +96,10 @@ class Screen {
 		$ary_init_data['messageSubSchema']          = $messageSubSchema;
 
 		$ary_init_data['messageForm']        = $messageForm;
-		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 
 		// オーディエンスフォームのデータ
-		$audience_formName = lineconnect::PARAMETER__AUDIENCE_DATA;
+		$audience_formName = Audience::PARAMETER_DATA;
 		$ary_init_data['audienceFormName'] = $audience_formName;
 		$audience_schema = Audience::get_audience_schema();
 		$audience_form_data = [];
@@ -111,7 +115,7 @@ class Screen {
 		$audience_form = array(
 			'id' => 'audience',
 			'schema' => $audience_schema,
-			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
+			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', AudienceSchema::get_uischema()),
 			'formData' => $audience_form_data,
 			'props' => new \stdClass(),
 		);

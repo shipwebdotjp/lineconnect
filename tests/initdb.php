@@ -10,7 +10,7 @@
 class lineconnectTest {
     public static function init() {
         global $wpdb;
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
         \LineConnect::pluginActivation();
         $result = array(

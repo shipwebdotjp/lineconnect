@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\Bot\Log;
 use \DateTime;
 use \DateTimeZone;
 use \lineconnectConst;
+use lineconnect;
 
 class Writer {
     /** @var object */
@@ -30,7 +31,7 @@ class Writer {
         global $wpdb;
         $secret_prefix = $this->secret_prefix;
 
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 
         $event_id      = $this->event->webhookEventId;
         // 再送チェック
@@ -105,7 +106,7 @@ class Writer {
     public function writeAiResponse(string $responseMessage): void {
         global $wpdb, $secret_prefix;
 
-        $table_name    = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+        $table_name    = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
         $event_id      = $this->event->webhookEventId;
         $event_type    = array_search($this->event->type, lineconnectConst::WH_EVENT_TYPE) ?: 0;
         $source_type   = array_search('bot', lineconnectConst::WH_SOURCE_TYPE) ?: 0;

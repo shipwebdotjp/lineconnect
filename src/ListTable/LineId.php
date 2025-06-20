@@ -7,10 +7,10 @@
 
 namespace Shipweb\LineConnect\ListTable;
 
-use \LineConnect;
-use \lineconnectConst;
-use \lineconnectUtil;
-use \Shipweb\LineConnect\Scenario\Scenario;
+use LineConnect;
+use lineconnectConst;
+use lineconnectUtil;
+use Shipweb\LineConnect\Scenario\Scenario;
 
 class LineId extends \WP_List_Table {
     /**
@@ -137,7 +137,7 @@ class LineId extends \WP_List_Table {
             $addtional_query = $wpdb->prepare($keys, $values);
         }
         // error_log($addtional_query);
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         $query      = "
             SELECT COUNT(id) 
             FROM {$table_name}

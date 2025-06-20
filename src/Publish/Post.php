@@ -74,7 +74,15 @@ class Post {
 	 * LINEにメッセージを送信するチェックボックスを表示
 	 */
 	static function show_send_checkbox() {
-
+		$channnel_field = apply_filters(
+			lineconnect::FILTER_PREFIX . 'channnel_field',
+			array(
+				'send-checkbox'   => __('Send update notification', lineconnect::PLUGIN_NAME),
+				'role-selectbox'  => __('Send target:', lineconnect::PLUGIN_NAME),
+				'template-selectbox' => __('Message template:', lineconnect::PLUGIN_NAME),
+				'future-checkbox' => __('Send when a future post is published', lineconnect::PLUGIN_NAME),
+			)
+		);
 		// nonceフィールドを生成・取得
 		$nonce_field = wp_nonce_field(
 			lineconnect::CREDENTIAL_ACTION__POST,
@@ -88,12 +96,12 @@ class Post {
 		$is_send_line = apply_filters(lineconnect::FILTER_PREFIX . 'publish_postmeta_is_send_line', $is_send_line, get_the_ID());
 		$default_send_checkbox = lineconnect::get_option('default_send_checkbox');
 		$default_send_template = lineconnect::get_option('default_send_template');
-		//error_log($is_send_line);
+
 		//チャンネルリスト毎に出力
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
 
 			$htmls = array();
-			foreach (lineconnectConst::$channnel_field as $option_key => $option_name) {
+			foreach ($channnel_field as $option_key => $option_name) {
 				$input_filed = "";
 				if ($option_key == 'role-selectbox') {
 					if (isset($is_send_line[$channel['prefix']])) {

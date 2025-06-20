@@ -12,6 +12,7 @@ use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
 use Shipweb\LineConnect\Bot\Provider\OpenAi;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
 // require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
@@ -224,13 +225,13 @@ foreach ($json_obj->{'events'} as $event) {
 	// check if match trigger
 	$triggers = array();
 	$args     = array(
-		'post_type'      => lineconnectConst::POST_TYPE_TRIGGER,
+		'post_type'      => TriggerPostType::POST_TYPE,
 		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 	);
 	$posts    = get_posts($args);
 	foreach ($posts as $post) {
-		$form = get_post_meta($post->ID, lineconnect::META_KEY__TRIGGER_DATA, true);
+		$form = get_post_meta($post->ID, TriggerPostType::META_KEY_DATA, true);
 		if (isset($form[0]['type']) && $form[0]['type'] === 'webhook') {
 			$triggers[] = $form[1];
 		}

@@ -19,6 +19,7 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Action\Action;
 use lineconnect;
 use lineconnectConst;
+use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
 
 
@@ -109,13 +110,13 @@ class Cron {
     static function get_schedules() {
         $triggers = array();
         $args     = array(
-            'post_type'      => lineconnectConst::POST_TYPE_TRIGGER,
+            'post_type'      => TriggerPostType::POST_TYPE,
             'post_status'    => 'publish',
             'posts_per_page' => -1,
         );
         $posts    = get_posts($args);
         foreach ($posts as $post) {
-            $form = get_post_meta($post->ID, lineconnect::META_KEY__TRIGGER_DATA, true);
+            $form = get_post_meta($post->ID, TriggerPostType::META_KEY_DATA, true);
             if (isset($form[0]['type']) && $form[0]['type'] === 'schedule') {
                 $triggers[] = $form[1];
             }
@@ -333,7 +334,7 @@ class Cron {
      */
     static function get_scenarios($last_run, $current_time) {
         global $wpdb;
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
         $query = "SELECT 
             line_id.line_id,

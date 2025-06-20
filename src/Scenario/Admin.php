@@ -52,7 +52,7 @@ class Admin {
 		// 投稿ページでRJSFフォームを表示
 		add_meta_box(
 			// チェックボックスのID
-			lineconnect::META_KEY__TRIGGER_DATA,
+			Scenario::META_KEY_DATA,
 			// チェックボックスのラベル名
 			__('LINE Connect Scenario', lineconnect::PLUGIN_NAME),
 			// チェックボックスを表示するコールバック関数
@@ -93,7 +93,7 @@ class Admin {
 		);
 		$ary_init_data['subSchema'] = array();
 		$ary_init_data['form'] = $form;
-		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 		$nonce_field = wp_nonce_field(
 			Scenario::CREDENTIAL_ACTION,
 			Scenario::CREDENTIAL_NAME,
@@ -171,7 +171,7 @@ class Admin {
 			return;
 		}
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$status_map = [
 			'active_users' => Scenario::STATUS_ACTIVE,
 			'completed_users' => Scenario::STATUS_COMPLETED,

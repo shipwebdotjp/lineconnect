@@ -1,5 +1,7 @@
 <?php
 
+namespace Shipweb\LineConnect\Admin\Setting;
+
 /**
  * Lineconnect Setting Class
  *
@@ -12,10 +14,12 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
+use lineconnect;
+use lineconnectFunctions;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\RichMenu\RichMenu;
 
-class lineconnectSetting {
+class Setting {
 	/**
 	 * 管理画面メニューの基本構造が配置された後に実行するアクションにフックする、
 	 * 管理画面のトップメニューページを追加する関数
@@ -40,12 +44,12 @@ class lineconnectSetting {
 			// ページを開いたときのURL(slug)：
 			lineconnect::SLUG__SETTINGS_FORM,
 			// メニューに紐づく画面を描画するcallback関数：
-			array('lineconnectSetting', 'show_settings'),
+			array(\Shipweb\LineConnect\Admin\Setting\Setting::class, 'show_settings'),
 			// メニューの位置
 			NULL
 		);
-		add_action("admin_print_styles-{$page_hook_suffix}", array('lineconnectSetting', 'wpdocs_plugin_admin_styles'));
-		add_action("admin_print_scripts-{$page_hook_suffix}", array('lineconnectSetting', 'wpdocs_plugin_admin_scripts'));
+		add_action("admin_print_styles-{$page_hook_suffix}", array(\Shipweb\LineConnect\Admin\Setting\Setting::class, 'wpdocs_plugin_admin_styles'));
+		add_action("admin_print_scripts-{$page_hook_suffix}", array(\Shipweb\LineConnect\Admin\Setting\Setting::class, 'wpdocs_plugin_admin_scripts'));
 	}
 
 	/**
@@ -80,13 +84,13 @@ class lineconnectSetting {
         <div class="wrap ui-tabs ui-corner-all ui-widget ui-widget-content" id="stabs">
             <ul class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
 EOM;
-		foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+		foreach (Constants::get_settings_option() as $tab_name => $tab_details) {
 			echo "<li class='ui-tabs-tab ui-corner-top ui-state-default ui-tab'><a href='#stabs-{$tab_details['prefix']}'>{$tab_details['name']}</a></li>";
 		}
 		echo <<< EOM
                 </ul>
 EOM;
-		foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+		foreach (Constants::get_settings_option() as $tab_name => $tab_details) {
 			switch ($tab_name) {
 				case 'channel':
 					echo <<< EOM
@@ -99,7 +103,7 @@ EOM;
 					foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
 
 						$ary_option = array();
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 							$options = array();
 
 							// 不正メッセージ
@@ -129,7 +133,7 @@ EOM;
 						echo "<div class='main'>";
 
 						// オプションごとにHTML INPUTフィールド出力
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 							if ($option_key == 'role') {
 								// ロール選択セレクトボックスを出力
 								$role_select = '<select name=' . $ary_option[$option_key]['param'] . "[] multiple class='slc-multi-select' >";
@@ -164,7 +168,7 @@ EOM;
 										'fields'     => 'ID',
 									);
 									$line_user_ids = array();
-									$user_query    = new WP_User_Query($args);
+									$user_query    = new \WP_User_Query($args);
 									$users         = $user_query->get_results();
 									if (! empty($users)) {
 										foreach ($users as $user) {
@@ -233,7 +237,7 @@ EOM;
 					$new_channel_html = '';
 					$new_has_error    = false;
 					$channel          = array('prefix' => 'new');
-					foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+					foreach (Constants::get_channel_options() as $option_key => $option_name) {
 
 						$param = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'];
 						$value = get_transient(lineconnect::TRANSIENT_PREFIX . $option_key . $channel['prefix']);
@@ -306,7 +310,7 @@ EOM;
 						<h3>{$tab_details['name']}</h3>
 						<div class="metabox-holder">
 EOM;
-					foreach (lineconnectConst::$management_command as $command_key => $command_details) {
+					foreach (Constants::get_management_command() as $command_key => $command_details) {
 						$param = lineconnect::PARAMETER_PREFIX . $command_key;
 						$label = $command_details['label'];
 						$desc  = $command_details['description'];
@@ -480,7 +484,7 @@ EOM;
 					} else {
 						$ary_option = array();
 
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 							$options = array();
 
 							// POSTされた値
@@ -503,7 +507,7 @@ EOM;
 						$ary_option['prefix']         = array('value' => substr($ary_option['channel-secret']['value'], 0, 4));
 						$channel_value[$channel_id] = $ary_option;
 
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 							// 入力値チェック
 							if (($option_key == 'channel-access-token' && ! preg_match(lineconnect::REGEXP_CHANNEL_ACCESS_TOKEN, $ary_option[$option_key]['value'])) ||
 								($option_key == 'channel-secret' && ! preg_match(lineconnect::REGEXP_CHANNEL_SECRET, $ary_option[$option_key]['value']))
@@ -552,7 +556,7 @@ EOM;
 
 				// チャンネル以外のオプション値チェック
 				$plugin_options = array();
-				foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+				foreach (Constants::get_settings_option() as $tab_name => $tab_details) {
 					if ($tab_name == 'channel') {
 						continue;
 					}
@@ -588,7 +592,7 @@ EOM;
 
 				// コマンド実行
 				$command_result = array();
-				foreach (lineconnectConst::$management_command as $command_key => $command_details) {
+				foreach (Constants::get_management_command() as $command_key => $command_details) {
 					if (isset($_POST[lineconnect::PARAMETER_PREFIX . $command_key]) && $_POST[lineconnect::PARAMETER_PREFIX . $command_key] == 1) {
 						switch ($command_key) {
 							case 'clear_richmenu_cache':
@@ -621,7 +625,7 @@ EOM;
 						$changed_richmenus = array();  // チャンネルごとの更新したリッチメニューリスト
 						$is_changed_richmenus = array(); // 変更のあったリッチメニュー
 						$ary_richmeneus = array();
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 
 							// リッチメニューIDの更新処理（各ロールに応じてメニューIDを関連付け）
 							if (array_key_exists($option_key, $richmenes)) {
@@ -679,7 +683,7 @@ EOM;
 				} else {
 					// 有効フラグがFalseの場合
 					foreach ($ary_channels as $channel_id => $channel) {
-						foreach (lineconnectConst::get_channel_options() as $option_key => $option_name) {
+						foreach (Constants::get_channel_options() as $option_key => $option_name) {
 							// ユーザが入力した値を5秒間保持
 							if ($channel['prefix'] == $new_key) {
 								set_transient(lineconnect::TRANSIENT_PREFIX . $option_key . 'new', $channel_value[$channel_id][$option_key]['value'], lineconnect::TRANSIENT_TIME_LIMIT);
@@ -688,7 +692,7 @@ EOM;
 							}
 						}
 					}
-					foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+					foreach (Constants::get_settings_option() as $tab_name => $tab_details) {
 						if ($tab_name == 'channel') {
 							continue;
 						}
@@ -710,7 +714,7 @@ EOM;
 					// delete_transient( lineconnect::TRANSIENT_KEY__SAVE_SETTINGS );
 				}
 				// Database update
-				if (version_compare(lineconnect::DB_VERSION, lineconnect::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial']), '>')) {
+				if (version_compare(lineconnect::DB_VERSION, lineconnect::get_variable(lineconnect::DB_VERSION_KEY, lineconnect::$variables_option[lineconnect::DB_VERSION_KEY]['initial']), '>')) {
 					lineconnect::delta_database();
 				}
 				// 設定画面にリダイレクト
@@ -726,23 +730,23 @@ EOM;
 		wp_enqueue_script('jquery-ui-tabs', false, array('jquery-ui-core'));
 		wp_enqueue_script('jquery-ui-tooltip', false, array('jquery-ui-core'));
 		wp_enqueue_script('wp-color-picker');
-		wp_enqueue_script('jquery-ui-multiselect-widget', plugins_url('assets/js/jquery.multiselect.min.js', __DIR__), array('jquery-ui-core'), '3.0.1', true);
+		wp_enqueue_script('jquery-ui-multiselect-widget', lineconnect::plugins_url('assets/js/jquery.multiselect.min.js'), array('jquery-ui-core'), '3.0.1', true);
 		$setting_js = 'assets/js/slc_setting.js';
-		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin', plugins_url($setting_js, __DIR__), array('jquery-ui-tabs', 'wp-color-picker', 'jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(plugin_dir_path(__DIR__) . $setting_js), true);
+		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin', lineconnect::plugins_url($setting_js), array('jquery-ui-tabs', 'wp-color-picker', 'jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $setting_js), true);
 
 		// JavaScriptの言語ファイル読み込み
-		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'admin', lineconnect::PLUGIN_NAME, plugin_dir_path(__DIR__) . 'languages');
+		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'admin', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'languages');
 	}
 
 	// 管理画面用にスタイル読み込み
 	static function wpdocs_plugin_admin_styles() {
 		$jquery_ui_css = 'css/jquery-ui.css';
-		wp_enqueue_style(lineconnect::PLUGIN_ID . '-admin-ui-css', plugins_url($jquery_ui_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $jquery_ui_css));
+		wp_enqueue_style(lineconnect::PLUGIN_ID . '-admin-ui-css', lineconnect::plugins_url($jquery_ui_css), array(), filemtime(lineconnect::getRootDir() . $jquery_ui_css));
 		wp_enqueue_style('wp-color-picker');
 		$setting_css = 'css/slc_setting.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', plugins_url($setting_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $setting_css));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'admin-css', lineconnect::plugins_url($setting_css), array(), filemtime(lineconnect::getRootDir() . $setting_css));
 		$multiselect_css = 'css/jquery.multiselect.css';
-		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'multiselect-css', plugins_url($multiselect_css, __DIR__), array(), filemtime(plugin_dir_path(__DIR__) . $multiselect_css));
+		wp_enqueue_style(lineconnect::PLUGIN_PREFIX . 'multiselect-css', lineconnect::plugins_url($multiselect_css), array(), filemtime(lineconnect::getRootDir() . $multiselect_css));
 	}
 
 	static function is_empty($value) {

@@ -43,7 +43,7 @@ class Screen {
 			// ・設定 > パーマリンク設定
 			'manage_options',
 			// ページを開いたときのURL(slug)：
-			'edit.php?post_type=' . lineconnectConst::POST_TYPE_MESSAGE,
+			'edit.php?post_type=' . Message::POST_TYPE,
 			// メニューに紐づく画面を描画するcallback関数：
 			false,
 			// メニューの位置
@@ -58,13 +58,13 @@ class Screen {
 		// foreach ($screens as $screen) {
 		add_meta_box(
 			// チェックボックスのID
-			lineconnect::META_KEY__MESSAGE_DATA,
+			Message::META_KEY_DATA,
 			// チェックボックスのラベル名
 			'LINE Connect Message',
 			// チェックボックスを表示するコールバック関数
 			array(self::class, 'show_json_edit_form'),
 			// 投稿画面に表示
-			lineconnectConst::POST_TYPE_MESSAGE,
+			Message::POST_TYPE,
 			// 投稿画面の下に表示
 			'advanced',
 			// 優先度(default)
@@ -75,7 +75,7 @@ class Screen {
 
 	// 管理画面（投稿ページ）用にスクリプト読み込み
 	static function wpdocs_selectively_enqueue_admin_script() {
-		ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(lineconnectConst::POST_TYPE_MESSAGE);
+		ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(Message::POST_TYPE);
 	}
 
 	/**
@@ -83,27 +83,27 @@ class Screen {
 	 */
 	static function show_json_edit_form() {
 		$ary_init_data = array();
-		$formName                         = lineconnect::PARAMETER__MESSAGE_DATA;
+		$formName                         = Message::PARAMETER_DATA;
 		$ary_init_data['formName']        = $formName;
 		$schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
 
-		$formData                         = get_post_meta(get_the_ID(), lineconnect::META_KEY__MESSAGE_DATA, true);
+		$formData                         = get_post_meta(get_the_ID(), Message::META_KEY_DATA, true);
 		$subSchema = Message::get_message_schema();
 		$form = array();
 		for ($i = 0; $i < 10; $i += 2) {
-			$type_schema = lineconnectConst::$lineconnect_message_type_schema;
+			$type_schema = Schema::get_message_type_schema();
 			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
 			$form[] = array(
 				'id' => 'type',
 				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', lineconnectConst::$lineconnect_message_type_uischema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', Schema::get_message_type_uischema()),
 				'formData' => Message::get_form_type_data($formData[$i] ?? null, $schema_version),
 				'props' => new \stdClass(),
 			);
 			$form[] = array(
 				'id' => 'message',
 				'schema' => ! empty($formData[$i]["type"]) ? $subSchema[$formData[$i]["type"]] : new \stdClass(),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', lineconnectConst::$lineconnect_message_uischema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', Schema::get_message_uischema()),
 				'formData' => Message::get_form_message_data($formData[$i + 1] ?? null, $schema_version),
 				'props' => new \stdClass(),
 			);
@@ -111,11 +111,11 @@ class Screen {
 		$ary_init_data['subSchema']          = $subSchema;
 
 		$ary_init_data['form']        = $form;
-		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 		// nonceフィールドを生成・取得
 		$nonce_field = wp_nonce_field(
-			lineconnect::CREDENTIAL_ACTION__MESSAGE,
-			lineconnect::CREDENTIAL_NAME__MESSAGE,
+			Message::CREDENTIAL_ACTION,
+			Message::CREDENTIAL_NAME,
 			true,
 			false
 		);
@@ -127,19 +127,19 @@ class Screen {
 	 * 記事を保存
 	 */
 	static function save_post_message($post_ID, $post, $update) {
-		if (isset($_POST[lineconnect::CREDENTIAL_NAME__MESSAGE]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__MESSAGE, lineconnect::CREDENTIAL_NAME__MESSAGE)) {
-			$message_data = isset($_POST[lineconnect::PARAMETER__MESSAGE_DATA]) ?  stripslashes($_POST[lineconnect::PARAMETER__MESSAGE_DATA])  : '';
+		if (isset($_POST[Message::CREDENTIAL_NAME]) && check_admin_referer(Message::CREDENTIAL_ACTION, Message::CREDENTIAL_NAME)) {
+			$message_data = isset($_POST[Message::PARAMETER_DATA]) ?  stripslashes($_POST[Message::PARAMETER_DATA])  : '';
 			if (! empty($message_data)) {
 				$message_data_array = json_decode($message_data, true);
 				if (! empty($message_data_array)) {
-					update_post_meta($post_ID, lineconnect::META_KEY__MESSAGE_DATA, $message_data_array);
-					update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, lineconnectConst::MESSAGE_SCHEMA_VERSION);
+					update_post_meta($post_ID, Message::META_KEY_DATA, $message_data_array);
+					update_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION, Message::SCHEMA_VERSION);
 				} else {
-					delete_post_meta($post_ID, lineconnect::META_KEY__MESSAGE_DATA);
+					delete_post_meta($post_ID, Message::META_KEY_DATA);
 					delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
 				}
 			} else {
-				delete_post_meta($post_ID, lineconnect::META_KEY__MESSAGE_DATA);
+				delete_post_meta($post_ID, Message::META_KEY_DATA);
 				delete_post_meta($post_ID, lineconnect::META_KEY__SCHEMA_VERSION);
 			}
 		}
@@ -173,7 +173,7 @@ class Screen {
 
 		if ($isSuccess) {
 			$post_id = $_POST['post_id'];
-			$formData  = get_post_meta($post_id, lineconnect::META_KEY__MESSAGE_DATA, true);
+			$formData  = get_post_meta($post_id, Message::META_KEY_DATA, true);
 		}
 		$result['result']  = $isSuccess ? 'success' : 'failed';
 		$result['formData'] = $formData;

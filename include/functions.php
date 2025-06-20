@@ -360,7 +360,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// プロフィール情報を取得
 		$profile_json = $wpdb->get_var(
@@ -404,7 +404,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のプロフィールを取得
 		$current_profile = $wpdb->get_var(
@@ -439,7 +439,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// タグを取得
 		$tags = $wpdb->get_var(
@@ -466,7 +466,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のタグを取得
 		$current_tags = $wpdb->get_var(
@@ -503,7 +503,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のタグを取得
 		$current_tags = $wpdb->get_var(
@@ -538,7 +538,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// データベースを更新
 		return $wpdb->update(

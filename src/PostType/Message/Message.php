@@ -21,17 +21,23 @@ use lineconnectUtil;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 class Message {
-
+    const NAME = 'message';
+    const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
+    const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
+    const META_KEY_DATA = self::NAME . '-data';
+    const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
+    const SCHEMA_VERSION = 1;
+    const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
+	
 	/**
 	 * メッセージのJSONスキーマを返す
 	 */
 	public static function get_message_schema() {
 		$message_schema = array();
-		foreach (lineconnectConst::$lineconnect_message_types as $type => $schema) {
-			$message_schema[$type] = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_schema', lineconnectConst::$lineconnect_message_schema);
+		foreach (Schema::get_message_type_items() as $type => $schema) {
+			$message_schema[$type] = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_schema', Schema::get_message_schema());
 			$message_schema[$type]['properties']['message'] = $schema; //['properties']['messages']['items']
 		}
-		// $message_schema = apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_message_schema', lineconnectConst::$lineconnect_message_schema );
 		return $message_schema;
 	}
 
@@ -39,7 +45,7 @@ class Message {
 	 * Return type data
 	 */
 	public static function get_form_type_data($formData, $schema_version) {
-		if (empty($schema_version) || $schema_version == lineconnectConst::MESSAGE_SCHEMA_VERSION) {
+		if (empty($schema_version) || $schema_version == self::SCHEMA_VERSION) {
 			return !empty($formData) ? $formData : new \stdClass();
 		}
 		// if old schema veersion, migrate and return
@@ -49,7 +55,7 @@ class Message {
 	 * Return message data
 	 */
 	public static function get_form_message_data($formData, $schema_version) {
-		if (empty($schema_version) || $schema_version == lineconnectConst::MESSAGE_SCHEMA_VERSION) {
+		if (empty($schema_version) || $schema_version == self::SCHEMA_VERSION) {
 			return !empty($formData) ? $formData : new \stdClass();
 		}
 		// if old schema veersion, migrate and return
@@ -60,7 +66,7 @@ class Message {
 	 */
 	public static function get_lineconnect_message_name_array() {
 		$args          = array(
-			'post_type'      => lineconnectConst::POST_TYPE_MESSAGE,
+			'post_type'      => self::POST_TYPE,
 			'posts_per_page' => -1,
 			'orderby'        => 'title',
 			'order'          => 'ASC',
@@ -78,7 +84,7 @@ class Message {
 	 * Return LINE message object by post_id
 	 */
 	public static function get_lineconnect_message($post_id, $args = null) {
-		$formData        = get_post_meta($post_id, lineconnect::META_KEY__MESSAGE_DATA, true);
+		$formData        = get_post_meta($post_id, self::META_KEY_DATA, true);
 		if (empty($formData) || $formData === false) {
 			return null;
 		}
