@@ -60,8 +60,12 @@ class UpdateUserMeta extends AbstractActionDefinition {
 	 * @return bool 成功・失敗
 	 */
 	public function update_user_meta($user_id, $key, $value) {
+		$user = get_user_by('id', $user_id);
+		if (!$user) {
+			return false;
+		}
 		if (!\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
-			return update_user_meta($user_id, $key, $value);
+			return (bool) update_user_meta($user_id, $key, $value);
 		} else {
 			return delete_user_meta($user_id, $key);
 		}
