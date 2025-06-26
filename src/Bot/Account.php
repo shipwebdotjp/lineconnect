@@ -6,10 +6,9 @@
 
 namespace Shipweb\LineConnect\Bot;
 
-use \lineconnect;
-use \lineconnectUtil;
-use \lineconnectConst;
-use \lineconnectMessage;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Message\LINE\Builder;
+
 
 class Account {
 
@@ -42,7 +41,7 @@ class Account {
         $url           = $gotologin_url . '?redirect_to=' . $redirect_to;
 
         // 連携開始メッセージ作成
-        return lineconnectMessage::createFlexMessage(
+        return Builder::createFlexMessage(
             array(
                 'title' => lineconnect::get_option('link_start_title'),
                 'body'  => lineconnect::get_option('link_start_body'),
@@ -104,8 +103,8 @@ class Account {
         if (version_compare(lineconnect::get_current_db_version(), '1.2', '<')) {
             return;
         }
-        $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
-        $line_id_row = lineconnectUtil::line_id_row($line_id, $secret_prefix);
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
+        $line_id_row = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
         if ($line_id_row) {
             $user_data = json_decode($line_id_row['profile'], true);
         } else {

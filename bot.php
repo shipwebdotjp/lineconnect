@@ -8,10 +8,15 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Trigger\Webhook;
 use Shipweb\LineConnect\Bot\File;
 use Shipweb\LineConnect\Bot\Account;
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
+use Shipweb\LineConnect\Bot\Provider\OpenAi;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
-require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
-require_once 'lineconnect.php'; // LINE Connectを読み込み
+// require_once 'vendor/autoload.php'; // LINE BOT SDKを読み込み
+// require_once 'lineconnect.php'; // LINE Connectを読み込み
 // require_once('include/message.php'); // メッセージ関連を読み込み
 
 // JSONリクエストボディを取得
@@ -67,7 +72,7 @@ $json_obj = json_decode($json_string);
 foreach ($json_obj->{'events'} as $event) {
 	$message = array();
 	// ログ書き込み
-	$botlog                         = new lineconnectBotLog($event);
+	$botlog                         = new BotLogWriter($event, $secret_prefix);
 	$isEventDuplicationOrInsertedId = $botlog->writeChatLog();
 	if ($isEventDuplicationOrInsertedId === true) {
 		// イベントがすでに記録されていればスキップ
@@ -98,7 +103,7 @@ foreach ($json_obj->{'events'} as $event) {
 					$user_id = $user->ID; // IDを取得
 
 					// 連携解除メッセージ作成
-					$message[] = lineconnectMessage::createFlexMessage(
+					$message[] = Builder::createFlexMessage(
 						array(
 							'title' => lineconnect::get_option('unlink_start_title'),
 							'body'  => lineconnect::get_option('unlink_start_body'),
@@ -220,13 +225,13 @@ foreach ($json_obj->{'events'} as $event) {
 	// check if match trigger
 	$triggers = array();
 	$args     = array(
-		'post_type'      => lineconnectConst::POST_TYPE_TRIGGER,
+		'post_type'      => TriggerPostType::POST_TYPE,
 		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 	);
 	$posts    = get_posts($args);
 	foreach ($posts as $post) {
-		$form = get_post_meta($post->ID, lineconnect::META_KEY__TRIGGER_DATA, true);
+		$form = get_post_meta($post->ID, TriggerPostType::META_KEY_DATA, true);
 		if (isset($form[0]['type']) && $form[0]['type'] === 'webhook') {
 			$triggers[] = $form[1];
 		}
@@ -249,7 +254,7 @@ foreach ($json_obj->{'events'} as $event) {
 		// error_log('trigger type match:' . print_r($trigger, true));
 
 		if (isset($trigger['action'])) {
-			$action_return = lineconnectAction::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
+			$action_return = Action::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
 			if (!empty($action_return['messages'])) {
 				$message = array_merge($message, $action_return['messages']);
 			}
@@ -258,7 +263,7 @@ foreach ($json_obj->{'events'} as $event) {
 
 	if (empty($message) && $type === 'message' && $event->{'message'}->{'type'} === 'text' && $event->{'message'}->{'text'} != null && lineconnect::get_option('enableChatbot') == 'on') {
 		// AIで応答する
-		$openAi       = new lineconnectOpenAi();
+		$openAi       = new OpenAi();
 		$gptResponse  = $openAi->getResponseByChatGPT(
 			$event,
 			$secret_prefix,

@@ -669,5 +669,11 @@ return array(
     'UtilInjectParamTest' => $baseDir . '/tests/util/UtilInjectParamTest.php',
     'UtilPrepareArgumentsTest' => $baseDir . '/tests/util/UtilPrepareArgumentsTest.php',
     'UtilReplaceTest' => $baseDir . '/tests/util/UtilReplaceTest.php',
+    'WebhookConditionTest' => $baseDir . '/tests/trigger/WebhookConditionTest.php',
+    'WebhookDateTimeTest' => $baseDir . '/tests/trigger/WebhookDateTimeTest.php',
+    'WebhookPostBackParamConditionTest' => $baseDir . '/tests/trigger/WebhookPostBackParamConditionTest.php',
+    'WebhookPostBackParamSourceDateTimeTest' => $baseDir . '/tests/trigger/WebhookPostBackParamSourceDateTimeTest.php',
+    'WebhookPostBackParamSourceRichMenuTest' => $baseDir . '/tests/trigger/WebhookPostBackParamSourceRichMenuTest.php',
+    'WebhookPostBackParamSourceStatusTest' => $baseDir . '/tests/trigger/WebhookPostBackParamSourceStatusTest.php',
     'lineconnectTest' => $baseDir . '/tests/initdb.php',
 );

@@ -6,12 +6,10 @@
 
 namespace Shipweb\LineConnect\Scenario;
 
-use \LineConnect;
-use \lineconnectAction;
-use \lineconnectUtil;
-use \lineconnectConst;
-use \lineconnectMessage;
-use \Shipweb\LineConnect\Utilities\Condition;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Utilities\Condition;
 use stdClass;
 
 /**
@@ -1344,9 +1342,9 @@ class Scenario {
 				),
 			),
 		);
-		lineconnectAction::build_action_schema_items($step_schema['items']['properties']['actions']['items']['oneOf']);
+		Action::build_action_schema_items($step_schema['items']['properties']['actions']['items']['oneOf']);
 		/*
-		$action_array   = lineconnectAction::get_lineconnect_action_data_array();
+		$action_array   = Action::get_lineconnect_action_data_array();
 		if (!empty($action_array)) {
 			foreach ($action_array as $name => $action) {
 				$properties = array(
@@ -1614,7 +1612,7 @@ class Scenario {
 		global $wpdb;
 		$channel_prefix = $secret_prefix;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$scenario = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT scenarios FROM $table_name WHERE line_id = %s AND channel_prefix = %s",
@@ -1654,7 +1652,7 @@ class Scenario {
 		}
 
 		$channel_prefix = $secret_prefix;
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$scenario = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT scenarios FROM $table_name WHERE line_id = %s AND channel_prefix = %s",
@@ -1797,11 +1795,11 @@ class Scenario {
 		$event->source->userId = $line_user_id;
 		$condition_matched = Condition::evaluate_conditions($step_data['condition'], $secret_prefix, $line_user_id);
 		if ($condition_matched) {
-			$action_result = lineconnectAction::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
+			$action_result = Action::do_action($step_data['actions'], $step_data['chains'] ?? null, $event, $secret_prefix, $scenario_id);
 			if (! empty($action_result['messages'])) {
 				$channel = lineconnect::get_channel($secret_prefix);
-				$multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);
-				$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $multimessage);
+				$multimessage = Builder::createMultiMessage($action_result['messages']);
+				$response = Builder::sendPushMessage($channel, $line_user_id, $multimessage);
 			}
 			if (!$action_result['success'] || (isset($response['success']) && !$response['success'])) {
 				$log = array(
@@ -1842,7 +1840,7 @@ class Scenario {
 
 		if ($next === null) {
 			$next = $step_data['next'] ?? null;
-			if (lineconnectUtil::is_empty($next)) {
+			if (\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($next)) {
 				// get step after this step
 				$next = null;
 				$found = false;
@@ -1859,7 +1857,7 @@ class Scenario {
 
 
 			// set next step
-			if ((isset($step_data['stop']) && $step_data['stop']) || lineconnectUtil::is_empty($next)) {
+			if ((isset($step_data['stop']) && $step_data['stop']) || \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($next)) {
 				$status = self::STATUS_COMPLETED;
 				// self::update_scenario_status($scenario_id, self::STATUS_COMPLETED, $line_user_id, $secret_prefix,  ['logs' => $logs]);
 			} else {

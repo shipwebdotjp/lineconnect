@@ -1,6 +1,7 @@
 <?php
 
 use \Shipweb\LineConnect\Trigger\Webhook;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class WebhookDateTimeTest extends WP_UnitTestCase {
     protected static $result;

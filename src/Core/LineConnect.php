@@ -1,13 +1,34 @@
 <?php
 
-// namespace Shipweb\LineConnect\Core;
+namespace Shipweb\LineConnect\Core;
 
-use \Shipweb\LineConnect\Scenario\Scenario;
-use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
-use \Shipweb\LineConnect\ActionFlow\ActionFlow;
-use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
-use \Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
-use \Shipweb\LineConnect\Dashboard\Admin as DashboardAdmin;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
+use Shipweb\LineConnect\ActionExecute\Admin as ActionExecuteAdmin;
+use Shipweb\LineConnect\Dashboard\Screen as DashboardScreen;
+use Shipweb\LineConnect\Admin\UserColumnCustomizer as UserColumnCustomizer;
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Bot\Log\ListTable as BotLogListTable;
+use Shipweb\LineConnect\Publish\Comment as PublishComment;
+use Shipweb\LineConnect\Publish\Post as PublishPost;
+use Shipweb\LineConnect\Shortcodes\Shortcodes;
+use Shipweb\LineConnect\Utilities\StreamConnector;
+use Shipweb\LineConnect\DirectMessage\Screen as DirectMessageScreen;
+use Shipweb\LineConnect\Core\Cron;
+use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
+use Shipweb\LineConnect\PostType\Trigger\Screen as TriggerScreen;
+use Shipweb\LineConnect\PostType\Audience\Screen as AudienceScreen;
+use Shipweb\LineConnect\PostType\Audience\Column as AudienceColumn;
+use Shipweb\LineConnect\PostType\Audience\Audience as AudiencePostType;
+use Shipweb\LineConnect\BulkMessage\Screen as BulkMessageScreen;
+use Shipweb\LineConnect\PostType\Message\Screen as MessageScreen;
+use Shipweb\LineConnect\PostType\Message\Message as MessagePostType;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\RichMenu\RichMenu;
+use \Shipweb\LineConnect\Admin\Setting\Setting as SettingScreen;
+use Shipweb\LineConnect\Admin\Setting\Constants as SettingConstants;
 
 class LineConnect {
 
@@ -23,6 +44,11 @@ class LineConnect {
 	 */
 	const DB_VERSION = '1.4';
 	// 1.3: line_user_idテーブルにinteractions, scenario, statsカラムの追加
+
+	/**
+	 * DBバージョンのキー
+	 */
+	const DB_VERSION_KEY = 'db_version';
 
 	/**
 	 * このプラグインのID：Ship Line Connect
@@ -57,17 +83,17 @@ class LineConnect {
 	/**
 	 * CredentialAction：Trigger
 	 */
-	const CREDENTIAL_ACTION__TRIGGER = self::PLUGIN_ID . '-nonce-action_trigger';
+	// const CREDENTIAL_ACTION__TRIGGER = self::PLUGIN_ID . '-nonce-action_trigger';
 
 	/**
 	 * CredentialAction：Audience
 	 */
-	const CREDENTIAL_ACTION__AUDIENCE = self::PLUGIN_ID . '-nonce-action_audience';
+	// const CREDENTIAL_ACTION__AUDIENCE = self::PLUGIN_ID . '-nonce-action_audience';
 
 	/**
 	 * CredentialAction：Message
 	 */
-	const CREDENTIAL_ACTION__MESSAGE = self::PLUGIN_ID . '-nonce-action_message';
+	// const CREDENTIAL_ACTION__MESSAGE = self::PLUGIN_ID . '-nonce-action_message';
 
 	/**
 	 * CredentialName：設定
@@ -87,17 +113,17 @@ class LineConnect {
 	/**
 	 * CredentialName：Trigger
 	 */
-	const CREDENTIAL_NAME__TRIGGER = self::PLUGIN_ID . '-nonce-name_trigger';
+	// const CREDENTIAL_NAME__TRIGGER = self::PLUGIN_ID . '-nonce-name_trigger';
 
 	/**
 	 * CredentialName：Audience
 	 */
-	const CREDENTIAL_NAME__AUDIENCE = self::PLUGIN_ID . '-nonce-name_audience';
+	// const CREDENTIAL_NAME__AUDIENCE = self::PLUGIN_ID . '-nonce-name_audience';
 
 	/**
 	 * CredentialName：Message
 	 */
-	const CREDENTIAL_NAME__MESSAGE = self::PLUGIN_ID . '-nonce-name_message';
+	// const CREDENTIAL_NAME__MESSAGE = self::PLUGIN_ID . '-nonce-name_message';
 
 	/**
 	 * (23文字)
@@ -152,22 +178,22 @@ class LineConnect {
 	/**
 	 * パラメータ名：LINE ACTION データ
 	 */
-	const PARAMETER__ACTION_DATA = self::PLUGIN_PREFIX . 'action-data';
+	// const PARAMETER__ACTION_DATA = self::PLUGIN_PREFIX . 'action-data';
 
 	/**
 	 * パラメータ名：LINE TRIGGER データ
 	 */
-	const PARAMETER__TRIGGER_DATA = self::PLUGIN_PREFIX . 'trigger-data';
+	// const PARAMETER__TRIGGER_DATA = self::PLUGIN_PREFIX . 'trigger-data';
 
 	/**
 	 * パラメータ名：LINE AUDIENCE データ
 	 */
-	const PARAMETER__AUDIENCE_DATA = self::PLUGIN_PREFIX . 'audience-data';
+	// const PARAMETER__AUDIENCE_DATA = self::PLUGIN_PREFIX . 'audience-data';
 
 	/**
 	 * パラメータ名：LINE MESSAGE データ
 	 */
-	const PARAMETER__MESSAGE_DATA = self::PLUGIN_PREFIX . 'message-data';
+	// const PARAMETER__MESSAGE_DATA = self::PLUGIN_PREFIX . 'message-data';
 
 	/**
 	 * TRANSIENTキー(エラー)：LINEメッセージ送信失敗
@@ -282,17 +308,17 @@ class LineConnect {
 	/**
 	 * 投稿メタキー：trigger-data
 	 */
-	const META_KEY__TRIGGER_DATA = 'trigger-data';
+	// const META_KEY__TRIGGER_DATA = 'trigger-data';
 
 	/**
 	 * 投稿メタキー：audience-data
 	 */
-	const META_KEY__AUDIENCE_DATA = 'audience-data';
+	// const META_KEY__AUDIENCE_DATA = 'audience-data';
 
 	/**
 	 * 投稿メタキー：message-data
 	 */
-	const META_KEY__MESSAGE_DATA = 'message-data';
+	// const META_KEY__MESSAGE_DATA = 'message-data';
 
 	/**
 	 * 投稿メタキー：schema-version
@@ -314,6 +340,25 @@ class LineConnect {
 	 */
 	const CRON_EVENT_LAST_TIMESTAMP = self::PLUGIN_NAME . '_cron_last_timestamp';
 
+	/**
+	 * ボットとのチャットログ MySQLテーブル名
+	 */
+	const TABLE_BOT_LOGS = 'lineconnect_bot_logs';
+
+	/**
+	 * LINEユーザー情報 MySQLテーブル名
+	 */
+	const TABLE_LINE_ID = 'lineconnect_line_id';
+
+	/**
+	 * LINE公式アカウント統計ログ MySQLテーブル名
+	 */
+	const TABLE_LINE_STATS = 'lineconnect_line_stats';
+
+	/**
+	 * LINE公式アカウント日々の増減数ログ MySQLテーブル名
+	 */
+	const TABLE_LINE_DAILY = 'lineconnect_line_daily';
 	/**
 	 * チャットログリスト表示用クラス
 	 */
@@ -338,6 +383,11 @@ class LineConnect {
 	 * プラグインのメインファイル名
 	 */
 	const PLUGIN_ENTRY_FILE_NAME = 'lineconnect.php';
+
+	/**
+	 * 変数項目
+	 */
+	public static array $variables_option;
 
 	public static function get_instance() {
 		if (is_null(self::$instance)) {
@@ -371,39 +421,47 @@ class LineConnect {
 		global $post_type, $pagenow;
 
 		// lineconnectConst class initialize
-		lineconnectConst::initialize();
+		// lineconnectConst::initialize();
+
+		self::$variables_option = array(
+			'plugin_version' => lineconnect::VERSION,
+			'db_version'     => array(
+				'initial' => '1.0',
+				'default' => lineconnect::DB_VERSION,
+			),
+		);
 
 		$post_types = self::get_option('send_post_types');
 		foreach ($post_types as $post_type) {
-			add_action('publish_' . $post_type, array('lineconnectPublish', 'publish_post'), 15, 6);
+			add_action('publish_' . $post_type, array(PublishPost::class, 'publish_post'), 15, 6);
 		}
-		add_action('save_post', array('lineconnectPublish', 'save_post'), 10, 2);
+		add_action('save_post', array(PublishPost::class, 'save_post'), 10, 2);
 		if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
 			// 投稿(公開)した際にLINE送信に失敗した時のメッセージ表示
-			add_action('admin_notices', array('lineconnectPublish', 'error_send_to_line'));
+			add_action('admin_notices', array(PublishPost::class, 'error_send_to_line'));
 			// 投稿(公開)した際にLINE送信に成功した時のメッセージ表示
-			add_action('admin_notices', array('lineconnectPublish', 'success_send_to_line'));
+			add_action('admin_notices', array(PublishPost::class, 'success_send_to_line'));
 		}
 		// 投稿画面にチェックボックスを表示
-		add_action('add_meta_boxes', array('lineconnectPublish', 'add_send_checkbox'), 10, 2);
+		add_action('add_meta_boxes', array(PublishPost::class, 'add_send_checkbox'), 10, 2);
 		// 投稿画面のとき、スクリプトを読み込む
-		add_action('admin_enqueue_scripts', array('lineconnectPublish', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('admin_enqueue_scripts', array(PublishPost::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Action関係
-		// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'lineconnectAction', 'save_post_action' ), 15, 6 );
-		// add_action( 'admin_enqueue_scripts', array( 'lineconnectAction', 'wpdocs_selectively_enqueue_admin_script' ) );
+		// add_action( 'save_post_' . lineconnectConst::POST_TYPE_ACTION, array( 'Action', 'save_post_action' ), 15, 6 );
+		// add_action( 'admin_enqueue_scripts', array( 'Action', 'wpdocs_selectively_enqueue_admin_script' ) );
 
 		// Trigger関係
-		add_action('save_post_' . lineconnectConst::POST_TYPE_TRIGGER, array('lineconnectTrigger', 'save_post_trigger'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectTrigger', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . TriggerPostType::POST_TYPE, array(TriggerScreen::class, 'save_post_trigger'), 15, 6);
+		add_action('admin_enqueue_scripts', array(TriggerScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Audience関係
-		add_action('save_post_' . lineconnectConst::POST_TYPE_AUDIENCE, array('lineconnectAudience', 'save_post_audience'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectAudience', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . AudiencePostType::POST_TYPE, array(AudienceScreen::class, 'save_post_audience'), 15, 6);
+		add_action('admin_enqueue_scripts', array(AudienceScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// message
-		add_action('save_post_' . lineconnectConst::POST_TYPE_MESSAGE, array('lineconnectSLCMessage', 'save_post_message'), 15, 6);
-		add_action('admin_enqueue_scripts', array('lineconnectSLCMessage', 'wpdocs_selectively_enqueue_admin_script'));
+		add_action('save_post_' . MessagePostType::POST_TYPE, array(MessageScreen::class, 'save_post_message'), 15, 6);
+		add_action('admin_enqueue_scripts', array(MessageScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
 
 		// Scenario
 		add_action('save_post_' . Scenario::POST_TYPE, array(ScenarioAdmin::class, 'save_post'), 15, 6);
@@ -417,117 +475,117 @@ class LineConnect {
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
 			//メニュー追加
 			// LINE Connect ダッシュボードページ(親となるページ)を追加
-			add_action('admin_menu', array(DashboardAdmin::class, 'set_plugin_menu'));
+			add_action('admin_menu', array(DashboardScreen::class, 'set_plugin_menu'));
 			// 一括配信のメニューページを追加
-			add_action('admin_menu', array('lineconnectBulkMessage', 'set_plugin_menu'));
+			add_action('admin_menu', array(BulkMessageScreen::class, 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
-			add_action('admin_menu', array('lineconnectDm', 'set_plugin_menu'));
+			add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
 			// アクション実行のトップページメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
 			// LCメッセージのメニューを追加
-			add_action('admin_menu', array('lineconnectSLCMessage', 'set_plugin_menu'));
+			add_action('admin_menu', array(MessageScreen::class, 'set_plugin_menu'));
 			// オーディエンスのメニューを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_plugin_menu'));
+			add_action('admin_menu', array(AudienceScreen::class, 'set_plugin_menu'));
 			// アクションフローのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionFlow\Admin::class, 'set_plugin_menu'));
 			// トリガーのメニューを追加
-			add_action('admin_menu', array('lineconnectTrigger', 'set_plugin_menu'));
+			add_action('admin_menu', array(TriggerScreen::class, 'set_plugin_menu'));
 			// シナリオのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
 			// リッチメニューのメニューを追加
-			add_action('admin_menu', array('lineconnectRichmenu', 'set_plugin_menu'));
+			add_action('admin_menu', array(RichMenu::class, 'set_plugin_menu'));
 			// LINE IDリストのメニューを追加
 			add_action('admin_menu', array($this, 'set_page_lineid'));
 			// BOT LOGリストのメニューを追加
 			add_action('admin_menu', array($this, 'set_page_gptlog'));
 			// 設定画面のメニューを追加
-			add_action('admin_menu', array('lineconnectSetting', 'set_plugin_menu'));
+			add_action('admin_menu', array(SettingScreen::class, 'set_plugin_menu'));
 			// オーディエンスダウンロードメニューページを追加
-			add_action('admin_menu', array('lineconnectAudience', 'set_download_menu'));
+			add_action('admin_menu', array(AudienceColumn::class, 'set_download_menu'));
 
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック
-			add_action('admin_init', array('lineconnectSetting', 'save_settings'));
+			add_action('admin_init', array(SettingScreen::class, 'save_settings'));
 
 			//カラム追加
 			// ユーザー一覧一覧のコラム追加
-			add_filter('manage_users_columns', array('lineconnectAdmin', 'lc_manage_columns'));
+			add_filter('manage_users_columns', array(UserColumnCustomizer::class, 'lc_manage_columns'));
 			// ユーザー一覧に追加したカスタムコラムの表示を行うフィルター
-			add_filter('manage_users_custom_column', array('lineconnectAdmin', 'lc_manage_custom_columns'), 10, 3);
+			add_filter('manage_users_custom_column', array(UserColumnCustomizer::class, 'lc_manage_custom_columns'), 10, 3);
 			// ユーザー一覧の一括操作にメッセージ送信を追加
-			add_filter('bulk_actions-users', array('lineconnectAdmin', 'add_bulk_users_sendmessage'), 10, 1);
+			add_filter('bulk_actions-users', array(UserColumnCustomizer::class, 'add_bulk_users_sendmessage'), 10, 1);
 			// 一括操作を行うフィルター
-			add_filter('handle_bulk_actions-users', array('lineconnectAdmin', 'handle_bulk_users_sendmessage'), 10, 3);
+			add_filter('handle_bulk_actions-users', array(UserColumnCustomizer::class, 'handle_bulk_users_sendmessage'), 10, 3);
 			//シナリオにカラム追加
 			add_filter('manage_' . Scenario::POST_TYPE . '_posts_columns', array(ScenarioAdmin::class, 'add_columns'));
 			add_action('manage_' . Scenario::POST_TYPE . '_posts_custom_column', array(ScenarioAdmin::class, 'add_columns_content'), 10, 2);
 			//オーディエンスにダウンロードカラム追加
-			add_filter('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_columns', array('lineconnectAudience', 'add_download_column'));
-			add_action('manage_' . lineconnectConst::POST_TYPE_AUDIENCE . '_posts_custom_column', array('lineconnectAudience', 'add_download_column_content'), 10, 2);
+			add_filter('manage_' . AudiencePostType::POST_TYPE . '_posts_columns', array(AudienceColumn::class, 'add_download_column'));
+			add_action('manage_' . AudiencePostType::POST_TYPE . '_posts_custom_column', array(AudienceColumn::class, 'add_download_column_content'), 10, 2);
 
 			// AJAXアクション
 			// 一括配信AJAXアクション
-			add_action('wp_ajax_lc_ajax_chat_send', array('lineconnectBulkMessage', 'ajax_chat_send'));
+			add_action('wp_ajax_lc_ajax_chat_send', array(BulkMessageScreen::class, 'ajax_chat_send'));
 			// LCメッセージデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_slc_message', array('lineconnectSLCMessage', 'ajax_get_slc_message'));
+			add_action('wp_ajax_lc_ajax_get_slc_message', array(MessageScreen::class, 'ajax_get_slc_message'));
 			// オーディエンスデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_slc_audience', array('lineconnectAudience', 'ajax_get_slc_audience'));
+			add_action('wp_ajax_lc_ajax_get_slc_audience', array(AudienceScreen::class, 'ajax_get_slc_audience'));
 			// アクションフローデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_actionflow', array(\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow'));
 			// アクション実行AJAXアクション
 			add_action('wp_ajax_lc_ajax_action_execute', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'ajax_action_execute'));
 			// ダッシュボードデータ取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_dashboard', array(\Shipweb\LineConnect\Dashboard\Admin::class, 'ajax_get_dashboard'));
+			add_action('wp_ajax_lc_ajax_get_dashboard', array(DashboardScreen::class, 'ajax_get_dashboard'));
 			// DM送信アクション
-			add_action('wp_ajax_lc_ajax_dm_send', array('lineconnectDm', 'ajax_dm_send'));
+			add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
 			// リッチメニュー一覧取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenus', array('lineconnectRichmenu', 'ajax_get_richmenus'));
+			add_action('wp_ajax_lc_ajax_get_richmenus', array(RichMenu::class, 'ajax_get_richmenus'));
 			// リッチメニュー取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenu', array('lineconnectRichmenu', 'ajax_get_richmenu'));
+			add_action('wp_ajax_lc_ajax_get_richmenu', array(RichMenu::class, 'ajax_get_richmenu'));
 			// リッチメニュー削除AJAXアクション
-			add_action('wp_ajax_lc_ajax_delete_richmenu', array('lineconnectRichmenu', 'ajax_delete_richmenu'));
+			add_action('wp_ajax_lc_ajax_delete_richmenu', array(RichMenu::class, 'ajax_delete_richmenu'));
 			// リッチメニュー作成AJAXアクション
-			add_action('wp_ajax_lc_ajax_create_richmenu', array('lineconnectRichmenu', 'ajax_create_richmenu'));
+			add_action('wp_ajax_lc_ajax_create_richmenu', array(RichMenu::class, 'ajax_create_richmenu'));
 			// リッチメニューエイリアス一覧取得AJAXアクション
-			add_action('wp_ajax_lc_ajax_get_richmenus_alias', array('lineconnectRichmenu', 'ajax_get_richmenus_alias'));
+			add_action('wp_ajax_lc_ajax_get_richmenus_alias', array(RichMenu::class, 'ajax_get_richmenus_alias'));
 			// リッチメニューエイリアス削除AJAXアクション
-			add_action('wp_ajax_lc_ajax_delete_richmenu_alias', array('lineconnectRichmenu', 'ajax_delete_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_delete_richmenu_alias', array(RichMenu::class, 'ajax_delete_richmenu_alias'));
 			// リッチメニューエイリアス作成AJAXアクション
-			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array('lineconnectRichmenu', 'ajax_create_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array(RichMenu::class, 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
-			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array('lineconnectRichmenu', 'ajax_update_richmenu_alias'));
+			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array(RichMenu::class, 'ajax_update_richmenu_alias'));
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
 
 		// ユーザーのロール変更時にリッチメニューを変更する
-		add_action('set_user_role', array('lineconnectRichmenu', 'change_user_role'), 10, 3);
+		add_action('set_user_role', array(RichMenu::class, 'change_user_role'), 10, 3);
 
 		// ユーザーにリッチメニューを関連付ける
-		add_action('line_link_richmenu', array('lineconnectRichmenu', 'link_richmenu'), 10, 1);
+		add_action('line_link_richmenu', array(RichMenu::class, 'link_richmenu'), 10, 1);
 
 		// ユーザーからリッチメニューを削除する
-		add_action('line_unlink_richmenu', array('lineconnectRichmenu', 'line_unlink_richmenu'), 10, 2);
+		add_action('line_unlink_richmenu', array(RichMenu::class, 'line_unlink_richmenu'), 10, 2);
 
 		// 特定ロールの連携済みユーザーへメッセージを送信
-		add_action('send_message_to_role', array('lineconnectMessage', 'sendMessageRole'), 10, 3);
+		add_action('send_message_to_role', array(Builder::class, 'sendMessageRole'), 10, 3);
 
 		// 特定の連携済みユーザーへメッセージを送信
-		add_action('send_message_to_wpuser', array('lineconnectMessage', 'sendMessageWpUser'), 10, 3);
+		add_action('send_message_to_wpuser', array(Builder::class, 'sendMessageWpUser'), 10, 3);
 
 		if (self::get_option('send_new_comment')) {
 			// コメントが投稿されたときのアクション
-			add_action('comment_post', array('lineconnectComment', 'comment_post_callback'), 10, 2);
+			add_action('comment_post', array(PublishComment::class, 'comment_post_callback'), 10, 2);
 
 			// コメントステータスが変化したときのアクション
-			add_action('transition_comment_status', array('lineconnectComment', 'approve_comment_callback'), 10, 3);
+			add_action('transition_comment_status', array(PublishComment::class, 'approve_comment_callback'), 10, 3);
 		}
 
 		// ChatGPTとの会話ログ表示ショートコード
-		add_shortcode('line_connect_chat_gpt_log', array('lineconnectShortcodes', 'show_chat_log'));
+		add_shortcode('line_connect_chat_gpt_log', array(Shortcodes::class, 'show_chat_log'));
 
 		// ショートコード用のCSSを読み込むため
-		add_action('wp_enqueue_scripts', array('lineconnectShortcodes', 'enqueue_script'));
+		add_action('wp_enqueue_scripts', array(Shortcodes::class, 'enqueue_script'));
 
 		// カスタム投稿タイプの登録
 		$this->register_custom_post_type();
@@ -536,7 +594,7 @@ class LineConnect {
 		add_filter('cron_schedules', array($this, 'add_cron_interval'));
 
 		// add shedule action
-		add_action(self::CRON_EVENT_NAME, ['lineconnectSchedule', 'schedule_event']);
+		add_action(self::CRON_EVENT_NAME, [Cron::class, 'schedule_event']);
 
 		//set cron
 		self::cron_initialaize();
@@ -559,8 +617,8 @@ class LineConnect {
 		add_filter(
 			'wp_stream_connectors',
 			function ($classes) {
-				require_once $this->root_dir . 'include/logging.php';
-				$class     = new lineconnectConnector();
+				// require_once $this->root_dir . 'include/logging.php';
+				$class     = new StreamConnector();
 				$classes[] = $class;
 				return $classes;
 			}
@@ -624,8 +682,7 @@ class LineConnect {
 	}
 
 	function load_settings_page_gptlog() {
-		require_once $this->root_dir . 'include/chatlist.php';
-		$this->wp_gptlog_list_table = new lineconnectGptLogListTable();
+		$this->wp_gptlog_list_table = new BotLogListTable();
 		$action                     = $this->wp_gptlog_list_table->current_action();
 		if (! empty($action)) {
 			if ($action == 'delete') {
@@ -734,7 +791,7 @@ class LineConnect {
 			),
 			'fields'     => 'all_with_meta',
 		);
-		$user_query = new WP_User_Query($args);
+		$user_query = new \WP_User_Query($args);
 		$users      = $user_query->get_results(); // クエリ実行
 		if (! empty($users)) {   // マッチするユーザーが見つかれば
 			// ユーザーのメタデータを取得
@@ -759,7 +816,7 @@ class LineConnect {
 	 */
 	static function get_userdata_from_line_id($secret_prefix, $line_id) {
 		$user_data = array();
-		$line_id_row  = lineconnectUtil::line_id_row($line_id, $secret_prefix);
+		$line_id_row  = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
 		if ($line_id_row) {
 			$user_data['profile']       = json_decode($line_id_row['profile'] ?? '{}', true);
 			$user_data['tags']          = json_decode($line_id_row['tags'] ?? '{}', true);
@@ -816,7 +873,7 @@ class LineConnect {
 	 */
 	static function get_all_options() {
 		$options = get_option(self::OPTION_KEY__SETTINGS); // オプションを取得
-		foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+		foreach (SettingConstants::get_settings_option() as $tab_name => $tab_details) {
 			// flatten
 			foreach ($tab_details['fields'] as $option_key => $option_details) {
 				if (! isset($options[$option_key])) {
@@ -835,7 +892,7 @@ class LineConnect {
 		if (isset($options[$option_name])) {
 			return $options[$option_name];
 		}
-		foreach (lineconnectConst::$settings_option as $tab_name => $tab_details) {
+		foreach (SettingConstants::get_settings_option() as $tab_name => $tab_details) {
 			// flatten
 			foreach ($tab_details['fields'] as $option_key => $option_details) {
 				if ($option_name == $option_key) {
@@ -880,41 +937,51 @@ class LineConnect {
 	 * 現在のデータベースバージョンを返す
 	 */
 	static function get_current_db_version() {
-		return self::get_variable(lineconnectConst::DB_VERSION_KEY, lineconnectConst::$variables_option[lineconnectConst::DB_VERSION_KEY]['initial']);
+		return self::get_variable(self::DB_VERSION_KEY, self::$variables_option[self::DB_VERSION_KEY]['initial']);
 	}
-
-
 	/**
-	 * Checks if the current request is a WP REST API request.
+	 * WordPress REST APIリクエストかどうかを判断します。
 	 *
-	 * Case #1: After WP_REST_Request initialisation
-	 * Case #2: Support "plain" permalink settings
-	 * Case #3: It can happen that WP_Rewrite is not yet initialized,
-	 *          so do this (wp-settings.php)
-	 * Case #4: URL Path begins with wp-json/ (your REST prefix)
-	 *          Also supports WP installations in subfolders
+	 * 以下のケースを検証します：
+	 * ケース #1: WP_REST_Request 初期化後のリクエスト
+	 * ケース #2: "プレーン" パーマリンク設定のサポート
+	 * ケース #3: WP_Rewrite がまだ初期化されていない可能性への対応
+	 * ケース #4: URLパスが wp-json/ (REST プレフィックス) で始まる場合
+	 *           サブフォルダにインストールされた WordPress も対応
 	 *
-	 * @returns boolean
-	 * @author matzeeable
+	 * @return boolean REST APIリクエストの場合はtrue、それ以外はfalse
 	 */
-	static function is_rest() {
+	public static function is_rest() {
 		$prefix = rest_get_url_prefix();
+
+		// ケース #1: REST_REQUEST 定数が定義され、値がtrueの場合
+		if (defined('REST_REQUEST') && REST_REQUEST) {
+			return true;
+		}
+
+		// ケース #2: GET パラメータに rest_route が存在し、プレフィックスと一致する場合
 		if (
-			defined('REST_REQUEST') && REST_REQUEST // (#1)
-			|| isset($_GET['rest_route']) // (#2)
+			isset($_GET['rest_route'])
 			&& strpos(trim($_GET['rest_route'], '\\/'), $prefix, 0) === 0
 		) {
 			return true;
 		}
-		// (#3)
+
+		// ケース #3: WP_Rewrite の初期化チェックと対応
 		global $wp_rewrite;
 		if ($wp_rewrite === null) {
-			$wp_rewrite = new WP_Rewrite();
+			$wp_rewrite = new \WP_Rewrite();
 		}
 
-		// (#4)
-		$rest_url    = wp_parse_url(trailingslashit(rest_url()));
+		// ケース #4: 現在のURLパスと REST URLパスの比較
+		$rest_url = wp_parse_url(trailingslashit(rest_url()));
 		$current_url = wp_parse_url(add_query_arg(array()));
+
+		// パスが存在しない場合のエラーハンドリング
+		if (! isset($rest_url['path']) || ! isset($current_url['path'])) {
+			return false;
+		}
+
 		return strpos($current_url['path'], $rest_url['path'], 0) === 0;
 	}
 
@@ -922,7 +989,7 @@ class LineConnect {
 		// テーブル作成
 		global $wpdb;
 
-		$table_name      = $wpdb->prefix . lineconnectConst::TABLE_BOT_LOGS;
+		$table_name      = $wpdb->prefix . self::TABLE_BOT_LOGS;
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE $table_name (
@@ -942,7 +1009,7 @@ class LineConnect {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta($sql);
 
-		$table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$sql_line_id        = "CREATE TABLE $table_name_line_id (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			channel_prefix char(4) NOT NULL,
@@ -960,7 +1027,7 @@ class LineConnect {
         ) $charset_collate;";
 		dbDelta($sql_line_id);
 
-		$table_name_line_stats = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
+		$table_name_line_stats = $wpdb->prefix . self::TABLE_LINE_STATS;
 
 		$sql_line_stats = "CREATE TABLE $table_name_line_stats (
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -989,7 +1056,7 @@ class LineConnect {
 		) $charset_collate;";
 		dbDelta($sql_line_stats);
 
-		$table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+		$table_name_line_daily = $wpdb->prefix . self::TABLE_LINE_DAILY;
 		$sql_line_daily = "CREATE TABLE $table_name_line_daily (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			channel_prefix char(4) NOT NULL,
@@ -1005,7 +1072,7 @@ class LineConnect {
 		) $charset_collate;";
 		dbDelta($sql_line_daily);
 
-		self::set_variable(lineconnectConst::DB_VERSION_KEY, self::DB_VERSION);
+		self::set_variable(self::DB_VERSION_KEY, self::DB_VERSION);
 	}
 
 	private function register_custom_post_type() {
@@ -1052,7 +1119,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array( 'title' ),
-				'register_meta_box_cb' => array( 'lineconnectAction', 'register_meta_box' ),
+				'register_meta_box_cb' => array( 'Action', 'register_meta_box' ),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,
@@ -1063,7 +1130,7 @@ class LineConnect {
 
 		// register custom post type: trigger
 		register_post_type(
-			lineconnectConst::POST_TYPE_TRIGGER,
+			TriggerPostType::POST_TYPE,
 			array(
 				'labels'               => array(
 					'name'                     => __('LC Triggers', self::PLUGIN_NAME),
@@ -1103,7 +1170,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectTrigger', 'register_meta_box'),
+				'register_meta_box_cb' => array(TriggerScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,
@@ -1113,7 +1180,7 @@ class LineConnect {
 
 		// register custom post type: Message
 		register_post_type(
-			lineconnectConst::POST_TYPE_MESSAGE,
+			MessagePostType::POST_TYPE,
 			array(
 				'labels'               => array(
 					'name'                     => __('LC Messages', self::PLUGIN_NAME),
@@ -1153,7 +1220,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectSLCMessage', 'register_meta_box'),
+				'register_meta_box_cb' => array(MessageScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,
@@ -1163,7 +1230,7 @@ class LineConnect {
 
 		// register custom post type: Audience
 		register_post_type(
-			lineconnectConst::POST_TYPE_AUDIENCE,
+			AudiencePostType::POST_TYPE,
 			array(
 				'labels'               => array(
 					'name'                     => __('LC Audiences', self::PLUGIN_NAME),
@@ -1203,7 +1270,7 @@ class LineConnect {
 				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
-				'register_meta_box_cb' => array('lineconnectAudience', 'register_meta_box'),
+				'register_meta_box_cb' => array(AudienceScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,
@@ -1321,26 +1388,36 @@ class LineConnect {
 		}
 
 		/* else {
-			
+
 			$unixTime = wp_next_scheduled(self::CRON_EVENT_NAME);
 			if (intval(date('i', $unixTime)) > 0) {
-				
+
 				wp_clear_scheduled_hook(self::CRON_EVENT_NAME);
 				$timeStamp = mktime(date('H', $unixTime), 0, 0, date('m', $unixTime), date('d', $unixTime), date('Y', $unixTime));
 				wp_schedule_event($timeStamp, 'hourly', self::CRON_EVENT_NAME);
-				
+
 			}
-			
+
 		}*/
 	}
 
 	/**
 	 * プラグインのルートディレクトリを返す
 	 * 
-	 * @return string
+	 * @return string プラグインのルートディレクトリ
 	 */
 	public static function getRootDir() {
 		return trailingslashit(dirname(__FILE__, substr_count(plugin_basename(__FILE__), '/')));
+	}
+
+	/**
+	 * プラグインのルートディレクトリからの相対パスを受け取り、絶対パスURLを作成して返す
+	 * 
+	 * @param string $path URLパス
+	 * @return string
+	 */
+	public static function plugins_url($path) {
+		return plugins_url($path, self::getRootDir() . self::PLUGIN_ENTRY_FILE_NAME);
 	}
 }
 // LineConnect::get_instance();

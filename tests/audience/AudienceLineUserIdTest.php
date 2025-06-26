@@ -1,18 +1,20 @@
 <?php
 
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+
 class AudienceLineUserIdTest extends WP_UnitTestCase {
     protected static $result;
-    public static function wpSetUpBeforeClass( $factory ) {
+    public static function wpSetUpBeforeClass($factory) {
         self::$result = lineconnectTest::init();
     }
 
-    public function setUp() :void{
+    public function setUp(): void {
         parent::setUp();
     }
 
-    public function test_LINEユーザーIDによるオーディエンスの取得(){
+    public function test_LINEユーザーIDによるオーディエンスの取得() {
         // テストケース1: 空の配列
-        $empty_result = lineconnectAudience::get_audience_by_condition([
+        $empty_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => []]
             ]
@@ -21,10 +23,10 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
 
         // テストケース2: 有効な1つのID
         $single_id = ['U1ccd59c9cace6053f6614fb6997f978d'];
-        $single_result = lineconnectAudience::get_audience_by_condition([            
+        $single_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => $single_id]
-            ]            
+            ]
         ]);
         $expected_single = [
             '2f38' => [
@@ -38,7 +40,7 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
 
         // テストケース3: 有効な2つのID
         $two_ids = ['U1ccd59c9cace6053f6614fb6997f978d', 'U131aa592ec09610ca4d5e36f4b60ccdb'];
-        $two_result = lineconnectAudience::get_audience_by_condition([
+        $two_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => $two_ids]
             ]
@@ -49,7 +51,7 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
                 'line_user_ids' => ['U1ccd59c9cace6053f6614fb6997f978d']
             ],
             '04f7' => [
-                'type' => 'multicast', 
+                'type' => 'multicast',
                 'line_user_ids' => ['U131aa592ec09610ca4d5e36f4b60ccdb']
             ]
         ];
@@ -59,7 +61,7 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
 
         // テストケース4: 存在しないID
         $invalid_id = ['Uinvalid1234567890'];
-        $invalid_result = lineconnectAudience::get_audience_by_condition([
+        $invalid_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => $invalid_id]
             ]

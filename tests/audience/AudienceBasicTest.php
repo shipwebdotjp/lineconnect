@@ -1,25 +1,27 @@
 <?php
 
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+
 class AudienceBasicTest extends WP_UnitTestCase {
     protected static $result;
-    public static function wpSetUpBeforeClass( $factory ) {
+    public static function wpSetUpBeforeClass($factory) {
         self::$result = lineconnectTest::init();
     }
 
-    public function setUp() :void{
+    public function setUp(): void {
         parent::setUp();
     }
 
     public function testGetAndArrays() {
         // テストケース1: 空の配列
-        $this->assertEquals([], lineconnectAudience::get_and_arrays([]), '空の配列の論理積は空の配列であること');
+        $this->assertEquals([], Audience::get_and_arrays([]), '空の配列の論理積は空の配列であること');
 
         // テストケース2: 単一配列
         $input = [
             'aaaa' => ['type' => 'multicast', 'line_user_ids' => [1, 2, 3]],
             'bbbb' => ['type' => 'broadcast']
         ];
-        $this->assertEquals($input, lineconnectAudience::get_and_arrays([$input]), '単一配列の論理積は元の配列であること');
+        $this->assertEquals($input, Audience::get_and_arrays([$input]), '単一配列の論理積は元の配列であること');
 
         // テストケース3: 複数配列の論理積
         $arrays = [
@@ -36,7 +38,7 @@ class AudienceBasicTest extends WP_UnitTestCase {
             'aaaa' => ['type' => 'multicast', 'line_user_ids' => [2, 3]],
             'bbbb' => ['type' => 'broadcast']
         ];
-        $this->assertEquals($expected, lineconnectAudience::get_and_arrays($arrays), '複数配列の論理積が正しく計算されること');
+        $this->assertEquals($expected, Audience::get_and_arrays($arrays), '複数配列の論理積が正しく計算されること');
 
         // テストケース4: broadcastの優先
         $arrays = [
@@ -53,19 +55,19 @@ class AudienceBasicTest extends WP_UnitTestCase {
             'aaaa' => ['type' => 'broadcast'],
             'bbbb' => ['type' => 'multicast', 'line_user_ids' => [3]]
         ];
-        $this->assertEquals($expected, lineconnectAudience::get_and_arrays($arrays), '論理積でbroadcastの優先が正しく計算されること');
+        $this->assertEquals($expected, Audience::get_and_arrays($arrays), '論理積でbroadcastの優先が正しく計算されること');
     }
 
     public function testGetOrArrays() {
         // テストケース1: 空の配列
-        $this->assertEquals([], lineconnectAudience::get_or_arrays([]), '空の配列の論理和は空の配列であること');
+        $this->assertEquals([], Audience::get_or_arrays([]), '空の配列の論理和は空の配列であること');
 
         // テストケース2: 単一配列
         $input = [
             'aaaa' => ['type' => 'multicast', 'line_user_ids' => [1, 2, 3]],
             'bbbb' => ['type' => 'broadcast']
         ];
-        $this->assertEqualSets($input, lineconnectAudience::get_or_arrays([$input]), '単一配列の論理和は元の配列であること');
+        $this->assertEqualSets($input, Audience::get_or_arrays([$input]), '単一配列の論理和は元の配列であること');
 
         // テストケース3: 複数配列の論理和
         $arrays = [
@@ -82,7 +84,7 @@ class AudienceBasicTest extends WP_UnitTestCase {
             'aaaa' => ['type' => 'multicast', 'line_user_ids' => [1, 2, 3, 4]],
             'bbbb' => ['type' => 'broadcast']
         ];
-        $result = lineconnectAudience::get_or_arrays($arrays);
+        $result = Audience::get_or_arrays($arrays);
         $this->sortLineUserIds($expected);
         $this->sortLineUserIds($result);
         $this->assertEqualSets($expected, $result, '複数配列の論理和が正しく計算されること');
@@ -102,7 +104,7 @@ class AudienceBasicTest extends WP_UnitTestCase {
             'aaaa' => ['type' => 'broadcast'],
             'bbbb' => ['type' => 'multicast', 'line_user_ids' => [1, 2, 3, 4, 5]]
         ];
-        $result = lineconnectAudience::get_or_arrays($arrays);
+        $result = Audience::get_or_arrays($arrays);
         $this->sortLineUserIds($expected);
         $this->sortLineUserIds($result);
         $this->assertEqualSets($expected, $result, '論理和でbroadcastの優先が正しく計算されること');

@@ -5,6 +5,8 @@
  *
  * @package LineConnect
  */
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\BulkMessage\Screen as BulkMessageScreen;
 
 class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
@@ -12,7 +14,7 @@ class BulkmessageAjaxChatSendTest extends WP_Ajax_UnitTestCase {
         parent::setUp();
 
         // 必要なフックを登録
-        add_action('wp_ajax_lc_ajax_chat_send', ['lineconnectBulkMessage', 'ajax_chat_send']);
+        add_action('wp_ajax_lc_ajax_chat_send', [BulkMessageScreen::class, 'ajax_chat_send']);
         lineconnectTest::init();
 
     }

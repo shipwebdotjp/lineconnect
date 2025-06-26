@@ -2,14 +2,14 @@
 
 namespace Shipweb\LineConnect\Core;
 
+// use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Core\LineConnect;
-use \lineconnectConst;
 
 class Stats {
     static function fetch_line_message_stats() {
         global $wpdb;
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
-        foreach (\LineConnect::get_all_channels() as $channel_id => $channel) {
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_STATS;
+        foreach (LineConnect::get_all_channels() as $channel_id => $channel) {
             $channel_prefix =  $channel['prefix'];
             $channel_access_token = $channel['channel-access-token'];
             $today = wp_date('Ymd'); // 今日
@@ -42,7 +42,7 @@ class Stats {
                     $args          = array(
                         'meta_query' => array(
                             array(
-                                'key'     => \LineConnect::META_KEY__LINE,
+                                'key'     => LineConnect::META_KEY__LINE,
                                 'compare' => 'EXISTS',
                             ),
                         ),
@@ -53,7 +53,7 @@ class Stats {
                     $users         = $user_query->get_results();
                     if (! empty($users)) {
                         foreach ($users as $user) {
-                            $user_meta_line = get_user_meta($user, \LineConnect::META_KEY__LINE, true);
+                            $user_meta_line = get_user_meta($user, LineConnect::META_KEY__LINE, true);
                             if (isset($user_meta_line[$channel_prefix])) {
                                 $line_user_ids[] = $user_meta_line[$channel_prefix]['id'];
                             }
@@ -65,7 +65,7 @@ class Stats {
                         }
                     }
                     //認識済みユーザー数を取得
-                    $table_name_line_id = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+                    $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
                     $results = $wpdb->get_var(
                         $wpdb->prepare(
@@ -245,7 +245,7 @@ class Stats {
     */
     public static function increase_daily_link($channel_prefix) {
         global $wpdb;
-        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $table_name_line_daily = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
         $today                = wp_date('Y-m-d');
         $wpdb->query($wpdb->prepare(
             "INSERT INTO {$table_name_line_daily} 
@@ -265,7 +265,7 @@ class Stats {
     */
     public static function increase_daily_unlink($channel_prefix) {
         global $wpdb;
-        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $table_name_line_daily = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
         $today                = wp_date('Y-m-d');
         $wpdb->query($wpdb->prepare(
             "INSERT INTO {$table_name_line_daily} 
@@ -287,7 +287,7 @@ class Stats {
     */
     public static function increase_stats_message($channel_prefix, $type, $count) {
         global $wpdb;
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_STATS;
         $today      = wp_date('Y-m-d');
         if ($type === 'apiBroadcast') {
             $targetedReaches = self::get_targeted_reaches($channel_prefix);
@@ -338,7 +338,7 @@ class Stats {
     // デイリーフォロワー数を増加
     public static function increase_daily_followers($channel_prefix) {
         global $wpdb;
-        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $table_name_line_daily = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
         $today                = wp_date('Y-m-d');
         $wpdb->query($wpdb->prepare(
             "INSERT INTO {$table_name_line_daily} 
@@ -354,7 +354,7 @@ class Stats {
     // デイリーアンフォロワー数を増加
     public static function increase_daily_unfollowers($channel_prefix) {
         global $wpdb;
-        $table_name_line_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $table_name_line_daily = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
         $today                = wp_date('Y-m-d');
         $wpdb->query($wpdb->prepare(
             "INSERT INTO {$table_name_line_daily} 
@@ -381,7 +381,7 @@ class Stats {
         $start_date = $year_month . '-01';
         $end_date = wp_date('Y-m-01', strtotime($year_month . ' +1 month'));
         error_log('start_date:' . $start_date . ' end_date:' . $end_date);
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_STATS;
 
         $sql = "SELECT t1.channel_prefix, t1.followers, t1.targetedReaches, t1.blocks, t1.date, t1.linked, t1.recognized
             FROM {$table_name} t1
@@ -400,7 +400,7 @@ class Stats {
 
         // $start_dateが今月の場合、今日のデータを取得
         if ($start_date == wp_date('Ym') . '01') {
-            $daily_table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+            $daily_table_name = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
             $daily_results = $wpdb->get_results(
                 $wpdb->prepare(
                     "SELECT channel_prefix, follow, unfollow, link, unlink FROM {$daily_table_name} WHERE date = %s",
@@ -445,7 +445,7 @@ class Stats {
         // チャンネルプレフィックスをキーとする連想配列に変換
         $summary = [];
 
-        foreach (\LineConnect::get_all_channels() as $channel_id => $channel) {
+        foreach (LineConnect::get_all_channels() as $channel_id => $channel) {
             $channel_info = self::get_channel_info($channel);
             $summary[$channel['prefix']] = [
                 'channel_prefix' => $channel['prefix'],
@@ -499,8 +499,8 @@ class Stats {
         $start_date = $year_month . '-01';
         $end_date = wp_date('Y-m-d', strtotime($start_date . ' +1 month'));
 
-        $table_name_stats = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
-        $table_name_daily = $wpdb->prefix . lineconnectConst::TABLE_LINE_DAILY;
+        $table_name_stats = $wpdb->prefix . lineconnect::TABLE_LINE_STATS;
+        $table_name_daily = $wpdb->prefix . lineconnect::TABLE_LINE_DAILY;
 
         // Get all dates in the month
         $dates = [];
@@ -637,7 +637,7 @@ class Stats {
      */
     public static function get_targeted_reaches($channel_prefix) {
         global $wpdb;
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_STATS;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_STATS;
         $result = $wpdb->get_row(
             $wpdb->prepare(
                 "SELECT targetedReaches FROM {$table_name} WHERE channel_prefix = %s AND targetedReaches IS NOT NULL ORDER BY date DESC LIMIT 1",

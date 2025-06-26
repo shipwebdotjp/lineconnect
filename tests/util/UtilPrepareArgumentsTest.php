@@ -1,4 +1,5 @@
 <?php
+use Shipweb\LineConnect\Core\LineConnect;
 
 class UtilPrepareArgumentsTest extends WP_UnitTestCase {
     protected static $result;
@@ -45,14 +46,14 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
     }
     public function testIsEmpty()
     {
-        $this->assertTrue(lineconnectUtil::is_empty(null));
-        $this->assertTrue(lineconnectUtil::is_empty(''));
-        $this->assertTrue(lineconnectUtil::is_empty([]));
+        $this->assertTrue(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty(null));
+        $this->assertTrue(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty(''));
+        $this->assertTrue(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty([]));
         
-        $this->assertFalse(lineconnectUtil::is_empty('0'));
-        $this->assertFalse(lineconnectUtil::is_empty(0));
-        $this->assertFalse(lineconnectUtil::is_empty('test'));
-        $this->assertFalse(lineconnectUtil::is_empty(['item']));
+        $this->assertFalse(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty('0'));
+        $this->assertFalse(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty(0));
+        $this->assertFalse(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty('test'));
+        $this->assertFalse(\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty(['item']));
     }
 
 
@@ -82,7 +83,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ),
         );
 
-        $result = lineconnectUtil::prepare_arguments(
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments(
             $parameters,
             $parameters_schemas,
             $this->injection_data
@@ -111,7 +112,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::prepare_arguments($parameters, $schema, $this->injection_data);
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($parameters, $schema, $this->injection_data);
         
         $this->assertEquals('John Doe', $result['username']);
         $this->assertEquals('Tokyo', $result['city']);
@@ -130,7 +131,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::prepare_arguments($parameters, $schema, $this->injection_data);
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($parameters, $schema, $this->injection_data);
         $this->assertEquals('Hello John Doe from Tokyo', $result['message']);
     }
 
@@ -147,7 +148,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::prepare_arguments($parameters, $schema, $this->injection_data);
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($parameters, $schema, $this->injection_data);
         $this->assertEquals('', $result['value']);
     }
 
@@ -164,7 +165,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::prepare_arguments($parameters, $schema, $this->injection_data);
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($parameters, $schema, $this->injection_data);
         $this->assertEquals('Test-Name', $result['value']);
     }
 
@@ -180,7 +181,7 @@ class UtilPrepareArgumentsTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::prepare_arguments($parameters, $schema, $this->injection_data);
+        $result = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::prepare_arguments($parameters, $schema, $this->injection_data);
         $this->assertEquals('John Doe', $result['param0']);
     }
 

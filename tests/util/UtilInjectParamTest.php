@@ -56,7 +56,7 @@ class UtilInjectParamTest extends WP_UnitTestCase {
             ]
         ];
 
-        $result = lineconnectUtil::inject_param($action_idx, $action_parameters, $chains);
+        $result = \Shipweb\LineConnect\Utilities\ActionParameterInjector::inject_param($action_idx, $action_parameters, $chains);
 
         $this->assertEquals('{{$.user.profile.displayName}}', $result['name']);
         $this->assertEquals(30, $result['details']['age']);

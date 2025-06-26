@@ -1,6 +1,8 @@
 <?php
 
 use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Core\LineConnect;
+
 
 class ExecuteScenarioStepTest extends WP_UnitTestCase {
     protected static $result;
@@ -100,7 +102,7 @@ class ExecuteScenarioStepTest extends WP_UnitTestCase {
         $secret_prefix = "04f7";
 
         // Initial setup: Start the scenario
-        $func = new lineconnectFunctions();
+        $func = new \Shipweb\LineConnect\Action\Definitions\StartScenario();
         $func->set_secret_prefix($secret_prefix);
         $func->set_event((object) array("source" => (object) array("userId" => $line_user_id)));
         $result = $func->start_scenario($scenario_id);

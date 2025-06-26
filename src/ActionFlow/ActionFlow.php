@@ -2,11 +2,9 @@
 
 namespace Shipweb\LineConnect\ActionFlow;
 
-use \LineConnect;
-use \lineconnectAction;
-use \lineconnectConst;
-use \lineconnectMessage;
-use stdClass;
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Message\LINE\Builder;
 
 /**
  * アクションフロークラス
@@ -86,7 +84,7 @@ class ActionFlow {
                 ),
             ),
         );
-        lineconnectAction::build_action_schema_items($schema['properties']['actions']['items']['oneOf']);
+        Action::build_action_schema_items($schema['properties']['actions']['items']['oneOf']);
         $schema = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_schema', $schema);
         return $schema;
     }
@@ -172,14 +170,14 @@ class ActionFlow {
                 $ary_result_success = array();
                 $ary_result_error = array();
                 foreach ($recepient_item['line_user_ids'] as $line_user_id) {
-                    $event = new stdClass();
-                    $event->source = new stdClass();
+                    $event = new \stdClass();
+                    $event->source = new \stdClass();
                     $event->source->userId = $line_user_id;
-                    $action_result = lineconnectAction::do_action($actionFlow['actions'], $actionFlow['chains'] ?? null, $event, $secret_prefix);
+                    $action_result = Action::do_action($actionFlow['actions'], $actionFlow['chains'] ?? null, $event, $secret_prefix);
                     $response = null;
                     if (! empty($action_result['messages'])) {
-                        $multimessage = lineconnectMessage::createMultiMessage($action_result['messages']);
-                        $response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $multimessage);
+                        $multimessage = Builder::createMultiMessage($action_result['messages']);
+                        $response = Builder::sendPushMessage($channel, $line_user_id, $multimessage);
                     }
                     if ($action_result['success'] && (is_null($response) || (isset($response['success']) && $response['success']))) {
                         $ary_result_success[] = $line_user_id;

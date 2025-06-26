@@ -12,7 +12,10 @@
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Action\Action;
 
 class lineconnectFunctions {
 	// public $lineUserId;
@@ -40,81 +43,9 @@ class lineconnectFunctions {
 		$this->scenario_id = $scenario_id;
 	}
 
-	public static function get_callable_functions($only_enabled_gpt = false) {
-		// get post form custom post type by WP_Query
-		$functions = array();
-		/*
-		$args      = array(
-			'post_type'      => lineconnectConst::POST_TYPE_ACTION,
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-		);
-		*/
-		if ($only_enabled_gpt) {
-			$enabled_functions = lineconnect::get_option(('openai_enabled_functions'));
-		}
-		/*
-		$posts = get_posts( $args );
-
-		foreach ( $posts as $post ) {
-			$action = get_post_meta( $post->ID, lineconnect::META_KEY__ACTION_DATA, true );
-			if ( ! $only_enabled_gpt || in_array( $action['function'], $enabled_functions ) ) {
-				$functions[ $action['function'] ] = array(
-					'title'       => get_the_title(),
-					'description' => $action['description'],
-					'parameters'  => $action['parameters'],
-					'namespace'   => $action['namespace'],
-					'role'        => $action['role'],
-				);
-			}
-		}
-		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
-		foreach ($lineconnect_actions as $name => $action) {
-			if (! $only_enabled_gpt || in_array($name, $enabled_functions)) {
-				$functions[$name] = array(
-					'title'       => $action['title'],
-					'description' => $action['description'],
-					'parameters'  => $action['parameters'] ?? [],
-					'namespace'   => $action['namespace'],
-					'role'        => $action['role'],
-				);
-			}
-		}
 
 
-		return $functions;
-	}
 
-	// 自分のユーザー情報取得
-	function get_my_user_info() {
-		// メタ情報からLINEユーザーIDでユーザー検索
-		$user = lineconnect::get_wpuser_from_line_id($this->secret_prefix, $this->event->source->userId);
-		if ($user) { // ユーザーが見つかればすでに連携されているということ
-			return array(
-				'linkstatus'      => 'linked',
-				'user_id'         => $user->ID,
-				'user_login'      => $user->user_login,
-				'user_email'      => $user->user_email,
-				'user_nicename'   => $user->user_nicename,
-				'display_name'    => $user->display_name,
-				'user_registered' => $user->user_registered,
-			);
-		} else {
-			$line_id_row  = lineconnectUtil::line_id_row($this->event->source->userId, $this->secret_prefix);
-			if ($line_id_row) {
-				$profile = json_decode($line_id_row['profile'], true);
-				return array(
-					'linkstatus'      => 'not_linked',
-					'display_name'    => $profile['displayName'],
-				);
-			}
-			return array(
-				'error'   => 'not_linked',
-				'message' => 'You are not linked to WordPress',
-			);
-		}
-	}
 
 	// 現在日時取得
 	function get_the_current_datetime() {
@@ -205,7 +136,7 @@ class lineconnectFunctions {
 
 	// LINETEXT メッセージ取得
 	function get_text_message($body) {
-		return lineconnectMessage::createTextMessage($body);
+		return Builder::createTextMessage($body);
 	}
 
 	// LC 通知メッセージ取得
@@ -220,7 +151,7 @@ class lineconnectFunctions {
 			'displayText' => $displayText,
 			'atts'  => $atts,
 		), true));
-		$message = lineconnectMessage::createFlexMessage(
+		$message = Builder::createFlexMessage(
 			array(
 				'title' => $title,
 				'body'  => $body,
@@ -239,7 +170,7 @@ class lineconnectFunctions {
 	 * Return LINE Connect message
 	 */
 	function get_line_connect_message($slc_message_id, $args = null) {
-		return lineconnectSLCMessage::get_lineconnect_message($slc_message_id, $args);
+		return SLCMessage::get_lineconnect_message($slc_message_id, $args);
 	}
 
 	/**
@@ -253,7 +184,7 @@ class lineconnectFunctions {
 		if (is_string($raw)) {
 			$raw = json_decode($raw, true);
 		}
-		return 	lineconnectMessage::createRawMessage($raw);
+		return 	Builder::createRawMessage($raw);
 	}
 
 	function send_mail_to_admin($subject, $body) {
@@ -265,7 +196,7 @@ class lineconnectFunctions {
 	}
 
 	function send_line_message($message, $line_user_id = null, $secret_prefix = null) {
-		$message = lineconnectUtil::get_line_message_builder($message);
+		$message = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($message);
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 		if (!preg_match('/^U[a-f0-9]{32}$/', $line_user_id)) {
 			return array(
@@ -274,7 +205,7 @@ class lineconnectFunctions {
 			);
 		}
 		$channel = lineconnect::get_channel(isset($this->secret_prefix) ? $this->secret_prefix : $secret_prefix);
-		$response = lineconnectMessage::sendPushMessage($channel, $line_user_id, $message);
+		$response = Builder::sendPushMessage($channel, $line_user_id, $message);
 		return $response;
 	}
 
@@ -285,10 +216,10 @@ class lineconnectFunctions {
 	 * @return array LINE APIのレスポンス
 	 */
 	function send_line_message_by_audience($message, $slc_audience_id, $message_args = null, $audience_args = null, $notification_disabled = false) {
-		$message = lineconnectUtil::get_line_message_builder($message, $message_args);
-		$audience = lineconnectUtil::get_lineconnect_audience($slc_audience_id, $audience_args);
+		$message = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($message, $message_args);
+		$audience = \Shipweb\LineConnect\PostType\Audience\Audience::get_lineconnect_audience_from_vary($slc_audience_id, $audience_args);
 		if (!empty($audience)) {
-			$response = lineconnectMessage::sendAudienceMessage($audience, $message, $notification_disabled);
+			$response = Builder::sendAudienceMessage($audience, $message, $notification_disabled);
 			return $response;
 		} else {
 			return array(
@@ -338,7 +269,7 @@ class lineconnectFunctions {
 	 * @return bool 成功・失敗
 	 */
 	function update_user_meta($user_id, $key, $value) {
-		if (!lineconnectUtil::is_empty($value)) {
+		if (!\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
 			return update_user_meta($user_id, $key, $value);
 		} else {
 			return delete_user_meta($user_id, $key);
@@ -358,7 +289,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// プロフィール情報を取得
 		$profile_json = $wpdb->get_var(
@@ -402,7 +333,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ? $secret_prefix : $this->secret_prefix;
 		$line_user_id = $line_user_id ? $line_user_id : $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のプロフィールを取得
 		$current_profile = $wpdb->get_var(
@@ -411,7 +342,7 @@ class lineconnectFunctions {
 
 		$profile_array = json_decode($current_profile, true) ?: [];
 
-		if (! lineconnectUtil::is_empty($value)) {
+		if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
 			$profile_array[$key] = $value;
 		} else {
 			unset($profile_array[$key]);
@@ -437,7 +368,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// タグを取得
 		$tags = $wpdb->get_var(
@@ -464,7 +395,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のタグを取得
 		$current_tags = $wpdb->get_var(
@@ -501,7 +432,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// 現在のタグを取得
 		$current_tags = $wpdb->get_var(
@@ -536,7 +467,7 @@ class lineconnectFunctions {
 		$channel_prefix = $secret_prefix ?? $this->secret_prefix;
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
 		// データベースを更新
 		return $wpdb->update(

@@ -9,12 +9,12 @@
 
 namespace Shipweb\LineConnect\ActionExecute;
 
-use \Shipweb\LineConnect\ActionExecute\ActionExecute;
-use \Shipweb\LineConnect\ActionFlow\ActionFlow;
-use \lineconnect;
-use \lineconnectAudience;
-use \lineconnectConst;
-use \stdClass;
+use Shipweb\LineConnect\ActionExecute\ActionExecute;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\PostType\Audience\Schema as AudienceSchema;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Admin {
 
@@ -81,7 +81,7 @@ class Admin {
         $ary_init_data['ajaxurl']        = admin_url('admin-ajax.php');
         $ary_init_data['ajax_nonce']     = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
         $ary_init_data['audienceFormName'] = 'actionexecute-audience-data';
-        $audience_schema = lineconnectAudience::get_audience_schema();
+        $audience_schema = Audience::get_audience_schema();
         $audience_form_data = [];
         if (!empty($users)) {
             $audience_form_data = array(
@@ -95,13 +95,13 @@ class Admin {
         $audience_form = array(
             'id' => 'audience',
             'schema' => $audience_schema,
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', lineconnectConst::$lineconnect_audience_uischema),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', AudienceSchema::get_uischema()),
             'formData' => $audience_form_data,
-            'props' => new stdClass(),
+            'props' => new \stdClass(),
         );
         $ary_init_data['audienceForm'] = array($audience_form);
         $slc_audiences = [];
-        foreach (lineconnectAudience::get_lineconnect_audience_name_array() as $post_id => $title) {
+        foreach (Audience::get_lineconnect_audience_name_array() as $post_id => $title) {
             $slc_audiences[] = array(
                 'post_id' => $post_id,
                 'title' => $title,
@@ -118,7 +118,7 @@ class Admin {
                     'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_schema', ActionFlow::getSchema()),
                     'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_uischema', ActionFlow::getUiSchema()),
                     'formData' => [],
-                    'props' => new stdClass(),
+                    'props' => new \stdClass(),
                 )
             );
 
@@ -131,7 +131,7 @@ class Admin {
             );
         }
         $ary_init_data['slc_actionflows'] = $slc_actionflows;
-        $ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+        $ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 
         $inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
         echo <<< EOM
@@ -185,9 +185,9 @@ EOM;
         }
 
         if ($mode == 'count') {
-            $response = lineconnectAudience::get_recepients_count(lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []));
+            $response = Audience::get_recepients_count(Audience::get_audience_by_condition($audience[0]['condition'] ?? []));
         } else if ($mode == 'execute') {
-            $recepient = lineconnectAudience::get_audience_by_condition($audience[0]['condition'] ?? []);
+            $recepient = Audience::get_audience_by_condition($audience[0]['condition'] ?? []);
             if (empty($recepient)) {
                 return array(
                     'result' => 'success',

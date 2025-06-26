@@ -9,12 +9,10 @@
 
 namespace Shipweb\LineConnect\ActionFlow;
 
-use \Shipweb\LineConnect\ActionFlow\ActionFlow;
-use \Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
-use \LineConnect;
-use \lineconnectRJSF;
-use \stdClass;
-use \lineconnectConst;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 /**
  * アクションフローの管理画面
@@ -54,7 +52,7 @@ class Admin {
         // 投稿ページでRJSFフォームを表示
         add_meta_box(
             // チェックボックスのID
-            lineconnect::META_KEY__TRIGGER_DATA,
+            ActionFlow::META_KEY_DATA,
             // チェックボックスのラベル名
             __('LINE Connect ActionFlow', lineconnect::PLUGIN_NAME),
             // チェックボックスを表示するコールバック関数
@@ -70,8 +68,8 @@ class Admin {
 
     // 管理画面（投稿ページ）用にスクリプト読み込み
     static function wpdocs_selectively_enqueue_admin_script() {
-        require_once LineConnect::getRootDir() . 'include/rjsf.php';
-        lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(ActionFlow::POST_TYPE);
+        // require_once LineConnect::getRootDir() . 'include/rjsf.php';
+        ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(ActionFlow::POST_TYPE);
     }
 
     /**
@@ -90,20 +88,20 @@ class Admin {
                 'schema' => $mainSchema,
                 'uiSchema' => ActionFlow::getUiSchema(),
                 'formData' => self::get_form_data($formData[0] ?? null, $schema_version),
-                'props' => new stdClass(),
+                'props' => new \stdClass(),
             ),
         );
         $ary_init_data['subSchema'] = array();
         $ary_init_data['form'] = $form;
-        $ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+        $ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
         $nonce_field = wp_nonce_field(
             ActionFlow::CREDENTIAL_ACTION,
             ActionFlow::CREDENTIAL_NAME,
             true,
             false
         );
-        require_once LineConnect::getRootDir() . 'include/rjsf.php';
-        lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
+        // require_once LineConnect::getRootDir() . 'include/rjsf.php';
+        ReactJsonSchemaForm::show_json_edit_form($ary_init_data, $nonce_field);
     }
 
     /**
@@ -134,7 +132,7 @@ class Admin {
      */
     static function get_form_data($formData, $schema_version) {
         if (empty($schema_version) || $schema_version == ActionFlow::SCHEMA_VERSION) {
-            return !empty($formData) ? $formData : new stdClass();
+            return !empty($formData) ? $formData : new \stdClass();
         }
         // if old schema version, migrate and return
     }

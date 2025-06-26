@@ -7,12 +7,10 @@
 
 namespace Shipweb\LineConnect\Scenario;
 
-use \Shipweb\LineConnect\Scenario\Scenario;
-use \Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
-use \LineConnect;
-use \lineconnectRJSF;
-use \stdClass;
-use \lineconnectConst;
+use Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 /**
  * シナリオの管理画面
@@ -52,7 +50,7 @@ class Admin {
 		// 投稿ページでRJSFフォームを表示
 		add_meta_box(
 			// チェックボックスのID
-			lineconnect::META_KEY__TRIGGER_DATA,
+			Scenario::META_KEY_DATA,
 			// チェックボックスのラベル名
 			__('LINE Connect Scenario', lineconnect::PLUGIN_NAME),
 			// チェックボックスを表示するコールバック関数
@@ -68,8 +66,8 @@ class Admin {
 
 	// 管理画面（投稿ページ）用にスクリプト読み込み
 	static function wpdocs_selectively_enqueue_admin_script() {
-		require_once LineConnect::getRootDir() . 'include/rjsf.php';
-		lineconnectRJSF::wpdocs_selectively_enqueue_admin_script(Scenario::POST_TYPE);
+		// require_once LineConnect::getRootDir() . 'include/rjsf.php';
+		ReactJsonSchemaForm::wpdocs_selectively_enqueue_admin_script(Scenario::POST_TYPE);
 	}
 
 	/**
@@ -80,7 +78,7 @@ class Admin {
 		$ary_init_data['formName'] = Scenario::PARAMETER_DATA;
 		$schema_version = get_post_meta(get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true);
 		$formData = get_post_meta(get_the_ID(), Scenario::META_KEY_DATA, true);
-		// error_log(print_r(\Shipweb\LineConnect\Utilities\ArrayPrinter::print($formData), true));
+		// error_log(print_r(\Shipweb\LineConnect\Utilities\ArrayUtil::print($formData), true));
 		$mainSchema = Scenario::getSchema();
 		$form = array(
 			array(
@@ -88,20 +86,20 @@ class Admin {
 				'schema' => $mainSchema,
 				'uiSchema' => Scenario::getUiSchema(),
 				'formData' => self::get_form_data($formData[0] ?? null, $schema_version),
-				'props' => new stdClass(),
+				'props' => new \stdClass(),
 			),
 		);
 		$ary_init_data['subSchema'] = array();
 		$ary_init_data['form'] = $form;
-		$ary_init_data['translateString'] = lineconnectConst::$lineconnect_rjsf_translate_string;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
 		$nonce_field = wp_nonce_field(
 			Scenario::CREDENTIAL_ACTION,
 			Scenario::CREDENTIAL_NAME,
 			true,
 			false
 		);
-		require_once LineConnect::getRootDir() . 'include/rjsf.php';
-		lineconnectRJSF::show_json_edit_form($ary_init_data, $nonce_field);
+		// require_once LineConnect::getRootDir() . 'include/rjsf.php';
+		ReactJsonSchemaForm::show_json_edit_form($ary_init_data, $nonce_field);
 	}
 
 	/**
@@ -135,7 +133,7 @@ class Admin {
 	 */
 	static function get_form_data($formData, $schema_version) {
 		if (empty($schema_version) || $schema_version == Scenario::SCHEMA_VERSION) {
-			return !empty($formData) ? $formData : new stdClass();
+			return !empty($formData) ? $formData : new \stdClass();
 		}
 		// if old schema veersion, migrate and return
 	}
@@ -171,7 +169,7 @@ class Admin {
 			return;
 		}
 
-		$table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 		$status_map = [
 			'active_users' => Scenario::STATUS_ACTIVE,
 			'completed_users' => Scenario::STATUS_COMPLETED,

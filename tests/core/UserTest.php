@@ -3,6 +3,7 @@
  * ユーザーのテストクラス
  * @package LineConnect
  */
+use Shipweb\LineConnect\Core\LineConnect;
 
 class UserTest extends WP_UnitTestCase {
     protected static $result;

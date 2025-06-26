@@ -7,6 +7,8 @@
  */
 
 use \Shipweb\LineConnect\ActionFlow\ActionFlow;
+use Shipweb\LineConnect\Core\LineConnect;
+
 
 class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
     protected static $result;
@@ -17,7 +19,7 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
     public static function wpSetUpBeforeClass($factory) {
         self::$result = lineconnectTest::init();
         // 必要なフックを登録
-        add_action('wp_ajax_lc_ajax_get_actionflow', [\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow']);
+        add_action('wp_ajax_lc_ajax_get_slc_actionflow', [\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow']);
 
         self::$inserted_actionflows = array();
         self::$actionflows_data = array(
@@ -70,7 +72,7 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
         // Ajax 呼び出しの実行
         try {
-            $this->_handleAjax('lc_ajax_get_actionflow');
+            $this->_handleAjax('lc_ajax_get_slc_actionflow');
         } catch (WPAjaxDieStopException $e) {
             // エラーではなく正常終了を確認
             $this->assertEquals('', $e->getMessage());
@@ -99,7 +101,7 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
         // Ajax 呼び出しの実行
         try {
-            $this->_handleAjax('lc_ajax_get_actionflow');
+            $this->_handleAjax('lc_ajax_get_slc_actionflow');
         } catch (WPAjaxDieStopException $e) {
             $this->assertEquals('', $e->getMessage());
         } catch (WPAjaxDieContinueException $e) {
@@ -121,7 +123,7 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
         // Ajax 呼び出しの実行
         try {
-            $this->_handleAjax('lc_ajax_get_actionflow');
+            $this->_handleAjax('lc_ajax_get_slc_actionflow');
         } catch (WPAjaxDieStopException $e) {
             $this->assertEquals('', $e->getMessage());
         } catch (WPAjaxDieContinueException $e) {
@@ -144,7 +146,7 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
         // Ajax 呼び出しの実行
         try {
-            $this->_handleAjax('lc_ajax_get_actionflow');
+            $this->_handleAjax('lc_ajax_get_slc_actionflow');
         } catch (WPAjaxDieStopException $e) {
             $this->assertEquals('', $e->getMessage());
         } catch (WPAjaxDieContinueException $e) {

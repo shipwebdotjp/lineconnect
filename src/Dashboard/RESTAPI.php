@@ -7,7 +7,7 @@
 
 namespace Shipweb\LineConnect\Dashboard;
 
-use \LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Core\Stats;
 
 class RESTAPI {

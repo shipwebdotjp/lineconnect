@@ -7,10 +7,8 @@
 
 namespace Shipweb\LineConnect\ListTable;
 
-use \LineConnect;
-use \lineconnectConst;
-use \lineconnectUtil;
-use \Shipweb\LineConnect\Scenario\Scenario;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Scenario\Scenario;
 
 class LineId extends \WP_List_Table {
     /**
@@ -106,7 +104,7 @@ class LineId extends \WP_List_Table {
         $start_from   = ($current_page - 1) * $per_page;
 
         $keyvalues = array();
-        if (! lineconnectUtil::is_empty($_REQUEST['s'] ?? null)) {
+        if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($_REQUEST['s'] ?? null)) {
             $keyvalues[] = array(
                 'key' => 'AND (profile LIKE %s OR tags LIKE %s OR line_id LIKE %s)',
                 'value' => array(
@@ -117,7 +115,7 @@ class LineId extends \WP_List_Table {
             );
         }
 
-        if (! lineconnectUtil::is_empty($_REQUEST['channel'] ?? null)) {
+        if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($_REQUEST['channel'] ?? null)) {
             $keyvalues[] = array(
                 'key' => 'AND channel_prefix = %s',
                 'value' => array($_REQUEST['channel']),
@@ -137,7 +135,7 @@ class LineId extends \WP_List_Table {
             $addtional_query = $wpdb->prepare($keys, $values);
         }
         // error_log($addtional_query);
-        $table_name = $wpdb->prefix . lineconnectConst::TABLE_LINE_ID;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         $query      = "
             SELECT COUNT(id) 
             FROM {$table_name}
