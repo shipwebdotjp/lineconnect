@@ -5,7 +5,7 @@ namespace Shipweb\LineConnect\Bot\Log;
 use \DateTime;
 use \DateTimeZone;
 use \lineconnectConst;
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Writer {
     /** @var object */
@@ -50,11 +50,11 @@ class Writer {
             }
         }
 
-        $event_type   = array_search($this->event->type, lineconnectConst::WH_EVENT_TYPE) ?: 0;
+        $event_type   = array_search($this->event->type, \Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE) ?: 0;
         $source_type  = 0;
         $user_id      = '';
         if (isset($this->event->source)) {
-            $source_type = array_search($this->event->source->type, lineconnectConst::WH_SOURCE_TYPE) ?: 0;
+            $source_type = array_search($this->event->source->type, \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE) ?: 0;
             if (isset($this->event->source->userId)) {
                 $user_id = $this->event->source->userId;
             }
@@ -63,7 +63,7 @@ class Writer {
         $message      = null;
         $message_type = 0;
         if ($event_type === 1) { // message
-            $message_type = array_search($this->event->message->type, lineconnectConst::WH_MESSAGE_TYPE) ?: 0;
+            $message_type = array_search($this->event->message->type, \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE) ?: 0;
             $message      = json_encode($this->event->message);
         } elseif ($event_type === 9) {
             $message = json_encode($this->event->postback);
@@ -108,8 +108,8 @@ class Writer {
 
         $table_name    = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
         $event_id      = $this->event->webhookEventId;
-        $event_type    = array_search($this->event->type, lineconnectConst::WH_EVENT_TYPE) ?: 0;
-        $source_type   = array_search('bot', lineconnectConst::WH_SOURCE_TYPE) ?: 0;
+        $event_type    = array_search($this->event->type, \Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE) ?: 0;
+        $source_type   = array_search('bot', \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE) ?: 0;
         $user_id       = isset($this->event->source->userId) ? $this->event->source->userId : '';
 
         $message = json_encode([

@@ -14,11 +14,9 @@
 
 namespace Shipweb\LineConnect\Publish;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
-use lineconnectConst;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
-use lineconnectUtil;
 use WP_REST_Server;
 
 

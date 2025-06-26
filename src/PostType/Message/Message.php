@@ -15,9 +15,7 @@
 namespace Shipweb\LineConnect\PostType\Message;
 
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 class Message {

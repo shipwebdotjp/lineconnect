@@ -14,7 +14,7 @@
 
 namespace Shipweb\LineConnect\Publish;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 

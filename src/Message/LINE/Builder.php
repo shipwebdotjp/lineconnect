@@ -16,9 +16,7 @@ namespace Shipweb\LineConnect\Message\LINE;
 
 use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Utilities\StreamConnector;
-use lineconnect;
-use lineconnectUtil;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 
 
@@ -942,7 +940,7 @@ class Builder {
 	public static function get_line_message_builder_from_string($source) {
 		// 文字列がJSON形式の場合は、JSONをデコードしてオブジェクトに変換し、RawMessageBuilderを作成
 		$json = \Shipweb\LineConnect\Utilities\StringUtil::extractAndDecodeJson($source);
-		if (is_array($json) && isset($json['type']) && in_array($json['type'], lineconnectConst::LINE_MESSAGE_TYPES)) {
+		if (is_array($json) && isset($json['type']) && in_array($json['type'], Constants::LINE_MESSAGE_TYPES)) {
 			$rawmessage = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder($json);
 			// validate message
 			$channels = lineconnect::get_all_channels();

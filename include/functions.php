@@ -43,81 +43,9 @@ class lineconnectFunctions {
 		$this->scenario_id = $scenario_id;
 	}
 
-	public static function get_callable_functions($only_enabled_gpt = false) {
-		// get post form custom post type by WP_Query
-		$functions = array();
-		/*
-		$args      = array(
-			'post_type'      => lineconnectConst::POST_TYPE_ACTION,
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-		);
-		*/
-		if ($only_enabled_gpt) {
-			$enabled_functions = lineconnect::get_option(('openai_enabled_functions'));
-		}
-		/*
-		$posts = get_posts( $args );
-
-		foreach ( $posts as $post ) {
-			$action = get_post_meta( $post->ID, lineconnect::META_KEY__ACTION_DATA, true );
-			if ( ! $only_enabled_gpt || in_array( $action['function'], $enabled_functions ) ) {
-				$functions[ $action['function'] ] = array(
-					'title'       => get_the_title(),
-					'description' => $action['description'],
-					'parameters'  => $action['parameters'],
-					'namespace'   => $action['namespace'],
-					'role'        => $action['role'],
-				);
-			}
-		}
-		*/
-
-		foreach (Action::get_lineconnect_action_data_array() as $name => $action) {
-			if (! $only_enabled_gpt || in_array($name, $enabled_functions)) {
-				$functions[$name] = array(
-					'title'       => $action['title'],
-					'description' => $action['description'],
-					'parameters'  => $action['parameters'] ?? [],
-					'namespace'   => $action['namespace'],
-					'role'        => $action['role'],
-				);
-			}
-		}
 
 
-		return $functions;
-	}
 
-	// 自分のユーザー情報取得
-	function get_my_user_info() {
-		// メタ情報からLINEユーザーIDでユーザー検索
-		$user = lineconnect::get_wpuser_from_line_id($this->secret_prefix, $this->event->source->userId);
-		if ($user) { // ユーザーが見つかればすでに連携されているということ
-			return array(
-				'linkstatus'      => 'linked',
-				'user_id'         => $user->ID,
-				'user_login'      => $user->user_login,
-				'user_email'      => $user->user_email,
-				'user_nicename'   => $user->user_nicename,
-				'display_name'    => $user->display_name,
-				'user_registered' => $user->user_registered,
-			);
-		} else {
-			$line_id_row  = \Shipweb\LineConnect\Utilities\LineId::line_id_row($this->event->source->userId, $this->secret_prefix);
-			if ($line_id_row) {
-				$profile = json_decode($line_id_row['profile'], true);
-				return array(
-					'linkstatus'      => 'not_linked',
-					'display_name'    => $profile['displayName'],
-				);
-			}
-			return array(
-				'error'   => 'not_linked',
-				'message' => 'You are not linked to WordPress',
-			);
-		}
-	}
 
 	// 現在日時取得
 	function get_the_current_datetime() {

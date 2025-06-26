@@ -14,8 +14,8 @@ namespace Shipweb\LineConnect\Admin\Setting;
  * @link https://blog.shipweb.jp/lineconnect/
  */
 
-use lineconnect;
-use lineconnectFunctions;
+use Shipweb\LineConnect\Core\LineConnect;
+// use lineconnectFunctions;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\RichMenu\RichMenu;
 
@@ -374,7 +374,7 @@ EOM;
 								$option_details['list'][$message_id] = $message_title;
 							}
 						} elseif ($option_key == 'openai_enabled_functions') {
-							foreach (lineconnectFunctions::get_callable_functions(false) as $function_name => $function_schema) {
+							foreach (\Shipweb\LineConnect\Action\Action::get_callable_functions(false) as $function_name => $function_schema) {
 								$option_details['list'][$function_name] = $function_schema['title'];
 							}
 						}

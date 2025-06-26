@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\Utilities;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\RichMenu\RichMenu;
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\PostType\Audience\Audience;

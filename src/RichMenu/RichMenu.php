@@ -16,9 +16,7 @@ namespace Shipweb\LineConnect\RichMenu;
 
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
-use lineconnect;
-use lineconnectUtil;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class RichMenu {
 	/**

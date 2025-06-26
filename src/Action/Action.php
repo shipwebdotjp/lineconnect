@@ -1,72 +1,94 @@
 <?php
 
-/**
- * Lineconnect Action Class
- *
- * LINE Connect Action
- *
- * @category Components
- * @package  Action
- * @author ship
- * @license GPLv3
- * @link https://blog.shipweb.jp/lineconnect/
- */
-
 namespace Shipweb\LineConnect\Action;
 
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Action\ActionDefinitionInterface;
+use Shipweb\LineConnect\Message\LINE\Builder as LineBuilder;
+use Shipweb\LineConnect\Utilities\ActionParameterInjector;
+use Shipweb\LineConnect\Utilities\PlaceholderReplacer;
+use Shipweb\LineConnect\Utilities\PrepareArguments;
 
+/**
+ * Central dispatcher for LINE Connect actions.
+ */
 class Action {
-	/**
-	 * Return action array object post_id and title
-	 */
-	static function get_lineconnect_action_name_array() {
-		/*
-		$args              = array(
-			'post_type'      => lineconnectConst::POST_TYPE_ACTION,
-			'posts_per_page' => -1,
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-		);
-		$action_name_array = array();
-		$posts             = get_posts( $args );
-		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
-		foreach ($lineconnect_actions as $name => $action) {
-			$action_name_array[$name] = $action['title'];
+	public static function get_callable_functions($only_enabled_gpt = false) {
+		// get post form custom post type by WP_Query
+		$functions = array();
+		if ($only_enabled_gpt) {
+			$enabled_functions = lineconnect::get_option(('openai_enabled_functions'));
 		}
-		return $action_name_array;
+
+		foreach (self::get_lineconnect_action_data_array() as $name => $action) {
+			if (! $only_enabled_gpt || in_array($name, $enabled_functions)) {
+				$functions[$name] = array(
+					'title'       => $action['title'],
+					'description' => $action['description'],
+					'parameters'  => $action['parameters'] ?? [],
+					'namespace'   => $action['namespace'],
+					'role'        => $action['role'],
+				);
+			}
+		}
+		return $functions;
 	}
 
 	/**
-	 * Return action array object post_id and action data
+	 * Scan Definitions directory and load all action definitions.
+	 *
+	 * @return array<string,array> key => config
 	 */
-	static function get_lineconnect_action_data_array() {
-		/*
-		$args              = array(
-			'post_type'      => lineconnectConst::POST_TYPE_ACTION,
-			'posts_per_page' => -1,
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-			'post_status'    => 'publish',
-		);
-		$posts             = get_posts( $args );
-		*/
-		$lineconnect_actions = apply_filters(lineconnect::FILTER_PREFIX . 'actions', lineconnectConst::$lineconnect_actions);
-		return $lineconnect_actions;
-		/*
-		$action_data_array = array();
-		foreach ( $lineconnect_actions as $name => $action ) {
-			$action_data_array[ $name ] = array(
-				'title'       => $post->post_title,
-				'action_data' => get_post_meta( $post->ID, lineconnect::META_KEY__ACTION_DATA, true ),
-			);
+	private static function getAll(): array {
+		$actions = [];
+		$dir     = __DIR__ . '/Definitions';
+		if (is_dir($dir)) {
+			foreach (glob("$dir/*.php") as $file) {
+				require_once $file;
+				$class = 'Shipweb\\LineConnect\\Action\\Definitions\\' . basename($file, '.php');
+				if (class_exists($class) && in_array(ActionDefinitionInterface::class, class_implements($class), true)) {
+					$actions[$class::name()] = $class::config();
+				}
+			}
 		}
-		return $action_data_array;
-		*/
+		return $actions;
 	}
+
+	/**
+	 * Get mapping of action name => title.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function get_lineconnect_action_name_array(): array {
+		$actions = self::getAll();
+		$list    = apply_filters(lineconnect::FILTER_PREFIX . 'actions', $actions);
+		$out     = [];
+		foreach ($list as $name => $cfg) {
+			$out[$name] = $cfg['title'] ?? $name;
+		}
+		return $out;
+	}
+
+	/**
+	 * Get full action configuration array.
+	 *
+	 * @return array<string,array>
+	 */
+	public static function get_lineconnect_action_data_array(): array {
+		$actions = self::getAll();
+		return apply_filters(lineconnect::FILTER_PREFIX . 'actions', $actions);
+	}
+
+	/**
+	 * Execute a series of actions.
+	 *
+	 * @param array  $actions       List of action calls (with action_name, parameters, response_return_value).
+	 * @param array  $chains        Chain definitions.
+	 * @param object $event         LINE webhook event object.
+	 * @param string $secret_prefix Channel secret prefix.
+	 * @param string $scenario_id   Scenario ID.
+	 * @return array{success:bool,messages:array,results:array}
+	 */
 
 	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null) {
 		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';

@@ -3,8 +3,7 @@
 namespace Shipweb\LineConnect\ActionFlow;
 
 use Shipweb\LineConnect\Action\Action;
-use LineConnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 /**

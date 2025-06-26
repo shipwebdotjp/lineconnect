@@ -6,9 +6,7 @@
 
 namespace Shipweb\LineConnect\Bot;
 
-use lineconnect;
-use lineconnectUtil;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class File {
     const MIME_MAP = array(

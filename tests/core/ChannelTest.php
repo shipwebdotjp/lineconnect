@@ -3,6 +3,7 @@
  * チャネル取得のテストクラス
  * @package LineConnect
  */
+use Shipweb\LineConnect\Core\LineConnect;
 
 class ChannelTest extends WP_UnitTestCase {
     public static function wpSetUpBeforeClass( $factory ) {

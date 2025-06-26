@@ -6,13 +6,14 @@
  * @since 1.0.0
  */
 
+use Shipweb\LineConnect\Core\LineConnect;
 
 class lineconnectTest {
     public static function init() {
         global $wpdb;
         $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
-        \LineConnect::pluginActivation();
+        LineConnect::pluginActivation();
         $result = array(
             'user' => array(),
             'audience' => array(),

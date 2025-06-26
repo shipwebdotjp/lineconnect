@@ -4,7 +4,7 @@ namespace Shipweb\LineConnect\Utilities;
 
 use WP_Stream\Connector;
 use WP_Stream\Record;
-use LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 /**
  * STREAM logging connector for LINE Connect.

@@ -14,9 +14,7 @@
 
 namespace Shipweb\LineConnect\PostType\Trigger;
 
-use lineconnect;
-use lineconnectConst;
-
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 

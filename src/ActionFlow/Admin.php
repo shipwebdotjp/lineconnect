@@ -11,10 +11,8 @@ namespace Shipweb\LineConnect\ActionFlow;
 
 use Shipweb\LineConnect\ActionFlow\ActionFlow;
 use Shipweb\LineConnect\ActionFlow\Admin as ActionFlowAdmin;
-use LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
-use stdClass;
-use lineconnectConst;
 
 /**
  * アクションフローの管理画面
@@ -90,7 +88,7 @@ class Admin {
                 'schema' => $mainSchema,
                 'uiSchema' => ActionFlow::getUiSchema(),
                 'formData' => self::get_form_data($formData[0] ?? null, $schema_version),
-                'props' => new stdClass(),
+                'props' => new \stdClass(),
             ),
         );
         $ary_init_data['subSchema'] = array();
@@ -134,7 +132,7 @@ class Admin {
      */
     static function get_form_data($formData, $schema_version) {
         if (empty($schema_version) || $schema_version == ActionFlow::SCHEMA_VERSION) {
-            return !empty($formData) ? $formData : new stdClass();
+            return !empty($formData) ? $formData : new \stdClass();
         }
         // if old schema version, migrate and return
     }

@@ -14,8 +14,7 @@
 
 namespace Shipweb\LineConnect\Components;
 
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 
 class ReactJsonSchemaForm {

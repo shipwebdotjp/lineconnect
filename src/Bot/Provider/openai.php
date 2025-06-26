@@ -14,10 +14,7 @@
 
 namespace Shipweb\LineConnect\Bot\Provider;
 
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
-use lineconnectFunctions;
+use Shipweb\LineConnect\Core\LineConnect;
 
 
 class OpenAi {
@@ -47,7 +44,7 @@ class OpenAi {
 			}
 			if (is_array($AiMessage['choices'][0]['message']['tool_calls'])) {
 				$prompts            = array();
-				$callable_functions = lineconnectFunctions::get_callable_functions(true);
+				$callable_functions = \Shipweb\LineConnect\Action\Action::get_callable_functions(true);
 				foreach ($AiMessage['choices'][0]['message']['tool_calls'] as $tool_call) {
 					if ($tool_call['type'] == 'function' && isset($tool_call['function'])) {
 						$function_name = $tool_call['function']['name'];
@@ -390,7 +387,7 @@ class OpenAi {
 	function get_callable_functions($user) {
 		$callable_functions = array();
 		// $enabled_functions  = lineconnect::get_option( ( 'openai_enabled_functions' ) );
-		foreach (lineconnectFunctions::get_callable_functions(true) as $function_name => $function_schema) {
+		foreach (\Shipweb\LineConnect\Action\Action::get_callable_functions(true) as $function_name => $function_schema) {
 			// if ( isset( lineconnectConst::$callable_functions[ $function_name ] ) ) {
 			if (
 				! isset($function_schema['role']) ||

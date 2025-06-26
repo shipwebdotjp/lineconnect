@@ -5,7 +5,7 @@
 
 namespace Shipweb\LineConnect\Utilities;
 
-use \lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use \lineconnectFunctions;
 
 /**
@@ -253,7 +253,7 @@ class Condition
      */
     public static function evaluate_profile(array $profile_conditions, string $secret_prefix, string $lineUserId): bool
     {
-        $functions = new lineconnectFunctions();
+        $functions = new \Shipweb\LineConnect\Action\Definitions\GetUserProfileValue();
         $functions->set_secret_prefix($secret_prefix);
 
         // 各プロフィールデータの条件をチェック

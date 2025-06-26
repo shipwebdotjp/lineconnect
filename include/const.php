@@ -197,110 +197,36 @@ class lineconnectConst {
 	// const POST_TYPE_INTERACTIVE_FORM = lineconnect::PLUGIN_PREFIX . 'interactive_form';
 
 
-	/**
-	 * イベントタイプ
-	 */
-	const WH_EVENT_TYPE = array(
-		1  => 'message',
-		2  => 'unsend',
-		3  => 'follow',
-		4  => 'unfollow',
-		5  => 'join',
-		6  => 'leave',
-		7  => 'memberJoined',
-		8  => 'memberLeft',
-		9  => 'postback',
-		10 => 'videoPlayComplete',
-		11 => 'beacon',
-		12 => 'accountLink',
-		13 => 'things',
-		14 => 'membership',
-	);
-
-	/**
-	 * ソースタイプ
-	 */
-	const WH_SOURCE_TYPE = array(
-		1  => 'user',
-		2  => 'group',
-		3  => 'room',
-		11 => 'bot',
-	);
-
-	/**
-	 * メッセージタイプ
-	 */
-	const WH_MESSAGE_TYPE = array(
-		1 => 'text',
-		2 => 'image',
-		3 => 'video',
-		4 => 'audio',
-		5 => 'file',
-		6 => 'location',
-		7 => 'sticker',
-	);
 
 
 
 	// const ASSETS_SVG_FILENAME = 'assets/symbol-defs.svg';
 
 
-	const LINE_MESSAGE_TYPES = array(
-		'text',
-		'textV2',
-		'sticker',
-		'image',
-		'video',
-		'audio',
-		'location',
-		'imagemap',
-		'template',
-		'flex',
-	);
+
 
 	/**
 	 * LINE Connect Actions
 	 */
-	public static array $lineconnect_actions;
+	//public static array $lineconnect_actions;
 
 
-	public static function initialize() {
+	//public static function initialize() {
 
-
+/*
 		self::$lineconnect_actions = array(
 			'get_my_user_info'         => array(
 				'title'       => __('Get my user information', lineconnect::PLUGIN_NAME),
 				'description' => 'Get my information. ID, name, email, link status, etc.',
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'get_the_current_datetime' => array(
 				'title'       => __('Get the current date and time', lineconnect::PLUGIN_NAME),
 				'description' => 'Get the current date and time.',
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
-			// 'render_template' => array(
-			// 	'title'       => __('Render Twig template', lineconnect::PLUGIN_NAME),
-			// 	'description' => 'Render Twig template with parameters.',
-			// 	'parameters'  => array(
-			// 		array(
-			// 			'type'       => 'string',
-			// 			'name'	   => 'body',
-			// 			'description' => 'Twig template string. Such as {{ name }}',
-			// 		),
-			// 		array(
-			// 			'type' => 'object',
-			// 			'name' => 'args',
-			// 			'description' => __('Arguments to insert into the template.', lineconnect::PLUGIN_NAME),
-			// 			'additionalProperties' => array(
-			// 				'type' => 'string',
-			// 			),
-			// 		),
-			// 	),
-			// 	'namespace' => 'lineconnectFunctions',
-			// 	'role'      => 'any',
-			// ),
 			'WP_Query'                 => array(
 				'title'       => __('Search posts', lineconnect::PLUGIN_NAME),
 				'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
@@ -363,7 +289,7 @@ class lineconnectConst {
 						),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'WP_User_Query'            => array(
@@ -427,7 +353,7 @@ class lineconnectConst {
 						),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'get_line_connect_message' => array(
@@ -449,7 +375,7 @@ class lineconnectConst {
 						),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'get_text_message' => array(
@@ -463,7 +389,7 @@ class lineconnectConst {
 						'required' => true,
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'get_button_message' => array(
@@ -530,7 +456,7 @@ class lineconnectConst {
 						),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'get_raw_message' => array(
@@ -543,7 +469,7 @@ class lineconnectConst {
 						'description' => __('Single raw Message JSON object', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'send_line_message' => array(
@@ -609,7 +535,7 @@ class lineconnectConst {
 						'description' => __('Notification disabled', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'send_mail_to_admin' => array(
@@ -629,7 +555,7 @@ class lineconnectConst {
 						'required' => true,
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'any',
 			),
 			'link_richmenu' => array(
@@ -653,7 +579,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'get_user_meta' => array(
@@ -673,7 +599,7 @@ class lineconnectConst {
 						'required' => true,
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'update_user_meta' => array(
@@ -699,7 +625,7 @@ class lineconnectConst {
 						'required' => true,
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'get_user_profile_value' => array(
@@ -723,7 +649,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'update_user_profile' => array(
@@ -753,7 +679,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'get_user_tags' => array(
@@ -772,7 +698,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'update_user_tags' => array(
@@ -800,7 +726,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'add_user_tags' => array(
@@ -828,7 +754,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'remove_user_tags' => array(
@@ -856,7 +782,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'start_scenario' => array(
@@ -900,7 +826,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'set_scenario_step' => array(
@@ -934,7 +860,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'execute_scenario_step' => array(
@@ -963,7 +889,7 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 			'change_scenario_status' => array(
@@ -1010,10 +936,11 @@ class lineconnectConst {
 						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
 					),
 				),
-				'namespace'   => 'lineconnectFunctions',
+				'namespace'   => self::class,
 				'role'        => 'administrator',
 			),
 		);
+		*/
 
 
 
@@ -1415,5 +1342,5 @@ class lineconnectConst {
 		// Audience type UI schema
 
 
-	}
+	//}
 }

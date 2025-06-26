@@ -6,8 +6,7 @@
 
 namespace Shipweb\LineConnect\Trigger;
 
-use \lineconnect;
-use \lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Utilities\Condition;
 
 class Webhook {

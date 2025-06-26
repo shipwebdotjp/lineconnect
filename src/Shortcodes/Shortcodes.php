@@ -7,9 +7,7 @@
 
 namespace Shipweb\LineConnect\Shortcodes;
 
-use lineconnect;
-use lineconnectConst;
-
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Shortcodes {
 	static function show_chat_log($atts, $content = null, $tag = '') {

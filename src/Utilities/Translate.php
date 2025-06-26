@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\Utilities;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Translate {
     /**

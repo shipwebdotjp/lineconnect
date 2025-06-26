@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\Utilities;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class LineId {
     public static function line_id_row($line_id, $secret_prefix) {

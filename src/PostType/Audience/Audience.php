@@ -16,9 +16,7 @@
 
 namespace Shipweb\LineConnect\PostType\Audience;
 
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Audience {

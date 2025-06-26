@@ -14,8 +14,7 @@
 
 namespace Shipweb\LineConnect\Bot\Log;
 
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class ListTable extends \WP_List_Table {
 	/**
@@ -270,16 +269,16 @@ class ListTable extends \WP_List_Table {
 	}
 
 	public function column_event_type($item) {
-		return isset($item['event_type']) ? lineconnectConst::WH_EVENT_TYPE[$item['event_type']] : '';
+		return isset($item['event_type']) ? \Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE[$item['event_type']] : '';
 	}
 
 	public function column_source_type($item) {
-		return isset($item['source_type']) ? lineconnectConst::WH_SOURCE_TYPE[$item['source_type']] : '';
+		return isset($item['source_type']) ? \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE[$item['source_type']] : '';
 	}
 
 	public function column_message_type($item) {
 		if ((int) $item['event_type'] === 1) { // message
-			return isset($item['message_type']) ? lineconnectConst::WH_MESSAGE_TYPE[$item['message_type']] : '';
+			return isset($item['message_type']) ? \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE[$item['message_type']] : '';
 		}
 		return '';
 	}
@@ -380,11 +379,11 @@ class ListTable extends \WP_List_Table {
 			<div class="alignleft actions bulkactions">
 				<select name="event_type" id="event_type">
 					<option value=""><?php echo __('All Event Types', lineconnect::PLUGIN_NAME); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions(lineconnectConst::WH_EVENT_TYPE, $_REQUEST['event_type'] ?? null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions(\Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE, $_REQUEST['event_type'] ?? null); ?>
 				</select>
 				<select name="source_type" id="source_type">
 					<option value=""><?php echo __('All Source Types', lineconnect::PLUGIN_NAME); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions(lineconnectConst::WH_SOURCE_TYPE, $_REQUEST['source_type'] ?? null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions(\Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE, $_REQUEST['source_type'] ?? null); ?>
 				</select>
 				<select name="bot_id" id="bot_id">
 					<option value=""><?php echo __('All Channels', lineconnect::PLUGIN_NAME); ?></option>
@@ -396,7 +395,7 @@ class ListTable extends \WP_List_Table {
 				</select>
 				<select name="message_type" id="message_type">
 					<option value=""><?php echo __('All Message Types', lineconnect::PLUGIN_NAME); ?></option>
-					<?php echo lineconnect::makeHtmlSelectOptions(lineconnectConst::WH_MESSAGE_TYPE, $_REQUEST['message_type'] ?? null); ?>
+					<?php echo lineconnect::makeHtmlSelectOptions(\Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE, $_REQUEST['message_type'] ?? null); ?>
 				</select>
 				<?php submit_button(__('Filter'), '', 'filter_action', false, array('id' => 'post-query-submit')); ?>
 			</div>

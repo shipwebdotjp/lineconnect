@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\PostType\Trigger;
 
-use LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Action\Action;
 
 class Trigger {

@@ -7,9 +7,7 @@
 
 namespace Shipweb\LineConnect\BulkMessage;
 
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\PostType\Message\Schema as SLCMessageSchema;

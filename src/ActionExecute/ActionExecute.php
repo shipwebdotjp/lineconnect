@@ -9,7 +9,7 @@
 
 namespace Shipweb\LineConnect\ActionExecute;
 
-use \lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class ActionExecute {
     /**

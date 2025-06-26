@@ -1,4 +1,5 @@
 <?php
+use Shipweb\LineConnect\Core\LineConnect;
 
 class UtilPrepareArgumentsTest extends WP_UnitTestCase {
     protected static $result;

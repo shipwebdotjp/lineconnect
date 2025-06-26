@@ -2,6 +2,7 @@
 
 use Twig\Error\SyntaxError;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class UtilReplaceTest extends WP_UnitTestCase {
     protected static $result;

@@ -9,10 +9,8 @@ namespace Shipweb\LineConnect\Scenario;
 
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
-use LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
-use stdClass;
-use lineconnectConst;
 
 /**
  * シナリオの管理画面
@@ -88,7 +86,7 @@ class Admin {
 				'schema' => $mainSchema,
 				'uiSchema' => Scenario::getUiSchema(),
 				'formData' => self::get_form_data($formData[0] ?? null, $schema_version),
-				'props' => new stdClass(),
+				'props' => new \stdClass(),
 			),
 		);
 		$ary_init_data['subSchema'] = array();
@@ -135,7 +133,7 @@ class Admin {
 	 */
 	static function get_form_data($formData, $schema_version) {
 		if (empty($schema_version) || $schema_version == Scenario::SCHEMA_VERSION) {
-			return !empty($formData) ? $formData : new stdClass();
+			return !empty($formData) ? $formData : new \stdClass();
 		}
 		// if old schema veersion, migrate and return
 	}

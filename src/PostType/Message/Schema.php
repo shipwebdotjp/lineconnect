@@ -2,8 +2,7 @@
 
 namespace Shipweb\LineConnect\PostType\Message;
 
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Schema {
 	static function get_message_schema() {

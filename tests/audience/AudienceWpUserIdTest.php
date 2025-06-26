@@ -1,6 +1,7 @@
 <?php
 
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class AudienceWpUserIdTest extends WP_UnitTestCase {
     protected static $result;

@@ -7,9 +7,7 @@
 
 namespace Shipweb\LineConnect\DirectMessage;
 
-use lineconnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 class Screen {

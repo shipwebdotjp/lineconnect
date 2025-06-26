@@ -7,9 +7,7 @@
 
 namespace Shipweb\LineConnect\ListTable;
 
-use LineConnect;
-use lineconnectConst;
-use lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Scenario\Scenario;
 
 class LineId extends \WP_List_Table {

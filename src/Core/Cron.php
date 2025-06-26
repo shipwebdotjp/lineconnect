@@ -17,8 +17,7 @@ namespace Shipweb\LineConnect\Core;
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Action\Action;
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
 

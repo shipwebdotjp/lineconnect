@@ -3,8 +3,7 @@
 namespace Shipweb\LineConnect\RichMenu;
 
 use Shipweb\LineConnect\PostType\Message\Schema as MessageSchema;
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Schema {
     static function get_template_bounds() {

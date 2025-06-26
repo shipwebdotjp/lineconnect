@@ -1,6 +1,8 @@
 <?php
 
 use \Shipweb\LineConnect\Scenario\Schedule;
+use Shipweb\LineConnect\Core\LineConnect;
+
 
 class ScenarioScheduleTest extends WP_UnitTestCase {
     protected static $result;

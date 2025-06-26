@@ -1,7 +1,7 @@
 <?php
 namespace Shipweb\LineConnect\PostType\Audience;
 
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Schema {
     static function get_schema() {

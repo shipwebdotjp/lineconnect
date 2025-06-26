@@ -6,10 +6,8 @@
 
 namespace Shipweb\LineConnect\Scenario;
 
-use LineConnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Action\Action;
-use lineconnectUtil;
-use lineconnectConst;
 use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\Utilities\Condition;
 use stdClass;

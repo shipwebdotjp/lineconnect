@@ -2,7 +2,7 @@
 
 namespace Shipweb\LineConnect\Action;
 
-use \lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Schema {
 }

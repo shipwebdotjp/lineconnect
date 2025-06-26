@@ -1,6 +1,6 @@
 <?php
 
-// namespace Shipweb\LineConnect\Core;
+namespace Shipweb\LineConnect\Core;
 
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\Scenario\Admin as ScenarioAdmin;
@@ -421,7 +421,7 @@ class LineConnect {
 		global $post_type, $pagenow;
 
 		// lineconnectConst class initialize
-		lineconnectConst::initialize();
+		// lineconnectConst::initialize();
 
 		self::$variables_option = array(
 			'plugin_version' => lineconnect::VERSION,
@@ -791,7 +791,7 @@ class LineConnect {
 			),
 			'fields'     => 'all_with_meta',
 		);
-		$user_query = new WP_User_Query($args);
+		$user_query = new \WP_User_Query($args);
 		$users      = $user_query->get_results(); // クエリ実行
 		if (! empty($users)) {   // マッチするユーザーが見つかれば
 			// ユーザーのメタデータを取得
@@ -970,7 +970,7 @@ class LineConnect {
 		// ケース #3: WP_Rewrite の初期化チェックと対応
 		global $wp_rewrite;
 		if ($wp_rewrite === null) {
-			$wp_rewrite = new WP_Rewrite();
+			$wp_rewrite = new \WP_Rewrite();
 		}
 
 		// ケース #4: 現在のURLパスと REST URLパスの比較

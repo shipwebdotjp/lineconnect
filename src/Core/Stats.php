@@ -3,8 +3,7 @@
 namespace Shipweb\LineConnect\Core;
 
 // use Shipweb\LineConnect\Core\LineConnect;
-use lineconnect;
-use lineconnectConst;
+use Shipweb\LineConnect\Core\LineConnect;
 
 class Stats {
     static function fetch_line_message_stats() {

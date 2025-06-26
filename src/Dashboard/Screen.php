@@ -7,8 +7,8 @@
 
 namespace Shipweb\LineConnect\Dashboard;
 
-use \LineConnect;
-use \lineconnectUtil;
+use Shipweb\LineConnect\Core\LineConnect;
+
 use Shipweb\LineConnect\Core\Stats;
 use \lineconnectConst;
 

@@ -1,6 +1,7 @@
 <?php
 
 use \Shipweb\LineConnect\Trigger\Webhook;
+use Shipweb\LineConnect\Core\LineConnect;
 
 /**
  * Class WebhookConditionTest

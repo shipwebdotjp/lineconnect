@@ -11,12 +11,10 @@ namespace Shipweb\LineConnect\ActionExecute;
 
 use Shipweb\LineConnect\ActionExecute\ActionExecute;
 use Shipweb\LineConnect\ActionFlow\ActionFlow;
-use lineconnect;
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
 use Shipweb\LineConnect\PostType\Audience\Schema as AudienceSchema;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
-use lineconnectConst;
-use \stdClass;
 
 class Admin {
 
@@ -99,7 +97,7 @@ class Admin {
             'schema' => $audience_schema,
             'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', AudienceSchema::get_uischema()),
             'formData' => $audience_form_data,
-            'props' => new stdClass(),
+            'props' => new \stdClass(),
         );
         $ary_init_data['audienceForm'] = array($audience_form);
         $slc_audiences = [];
@@ -120,7 +118,7 @@ class Admin {
                     'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_schema', ActionFlow::getSchema()),
                     'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_uischema', ActionFlow::getUiSchema()),
                     'formData' => [],
-                    'props' => new stdClass(),
+                    'props' => new \stdClass(),
                 )
             );
 

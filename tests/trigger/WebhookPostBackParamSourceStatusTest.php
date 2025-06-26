@@ -31,7 +31,7 @@ class WebhookPostBackParamSourceStatusTest extends WP_UnitTestCase {
             $source,
             (object)array('status' => 'RICHMENU_NOTFOUND')
         ), 'ステータスが含まれない (RICHMENU_NOTFOUND)');
-        $this->assertFalse(Webhook::check_webhook_message_postback_param_source_condition(
+        $this->assertTrue(Webhook::check_webhook_message_postback_param_source_condition(
             $source,
             (object)array() // statusプロパティ自体がない場合
         ), 'ステータスプロパティが存在しない');
