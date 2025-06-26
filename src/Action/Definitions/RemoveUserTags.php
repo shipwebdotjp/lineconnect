@@ -69,24 +69,35 @@ class RemoveUserTags extends AbstractActionDefinition {
 
 		$table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
+		$user_exists = $wpdb->get_var(
+			$wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE line_id = %s AND channel_prefix = %s", $line_user_id, $channel_prefix)
+		);
+
+		if (!$user_exists) {
+			return false;
+		}
+
 		// 現在のタグを取得
 		$current_tags = $wpdb->get_var(
 			$wpdb->prepare("SELECT tags FROM $table_name WHERE line_id = %s AND channel_prefix = %s", $line_user_id,  $channel_prefix)
 		);
 
-		$tags_array = json_decode($current_tags, true) ?: [];
+		$tags_array = json_decode($current_tags ?? '[]', true) ?: [];
 
 		// タグを削除
+		$initial_count = count($tags_array);
 		foreach ($tags as $tag) {
 			$tags_array = array_diff($tags_array, [$tag]);
 		}
 
 		// データベースを更新
-		return $wpdb->update(
+		$result = $wpdb->update(
 			$table_name,
-			['tags' => json_encode($tags_array, JSON_UNESCAPED_UNICODE)],
+			['tags' => json_encode(array_values($tags_array), JSON_UNESCAPED_UNICODE)],
 			['line_id' => $line_user_id, 'channel_prefix' => $channel_prefix]
 		);
+
+		return $result !== false;
 	}
 
 }
