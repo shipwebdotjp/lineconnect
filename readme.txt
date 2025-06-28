@@ -3,7 +3,7 @@ Contributors: shipweb
 Tags: line, userid, connect, 連携
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 4.1.7
+Stable tag: 4.2.0
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
