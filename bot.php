@@ -4,6 +4,7 @@ LINE Bot
 	Copyright 2020 shipweb
 */
 
+use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Trigger\Webhook;
 use Shipweb\LineConnect\Bot\File;

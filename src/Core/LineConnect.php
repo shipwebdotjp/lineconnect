@@ -617,9 +617,10 @@ class LineConnect {
 		add_filter(
 			'wp_stream_connectors',
 			function ($classes) {
-				// require_once $this->root_dir . 'include/logging.php';
-				$class     = new StreamConnector();
-				$classes[] = $class;
+				if (class_exists('WP_Stream\Connector')) {
+					$class     = new StreamConnector();
+					$classes[] = $class;
+				}
 				return $classes;
 			}
 		);

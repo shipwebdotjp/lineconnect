@@ -14,7 +14,7 @@ class UpdateUserMetaTest extends WP_UnitTestCase {
     }
 
     public function test_update_existing_user_meta() {
-        $user_id = 2; // testadmin
+        $user_id = self::$result['user'][0]->ID;
         $meta_key = 'first_name';
         $new_value = 'Jiro';
 
@@ -26,7 +26,7 @@ class UpdateUserMetaTest extends WP_UnitTestCase {
     }
 
     public function test_add_new_user_meta() {
-        $user_id = 2;
+        $user_id = self::$result['user'][0]->ID;
         $meta_key = 'new_custom_meta_key';
         $meta_value = 'custom_value';
 
@@ -38,7 +38,7 @@ class UpdateUserMetaTest extends WP_UnitTestCase {
     }
 
     public function test_delete_user_meta() {
-        $user_id = 2;
+        $user_id = self::$result['user'][0]->ID;
         $meta_key = 'description';
         // Add a value first to ensure it exists before deletion
         update_user_meta($user_id, $meta_key, 'Some description');

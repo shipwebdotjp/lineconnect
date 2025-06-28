@@ -703,7 +703,7 @@ class Builder {
 
 		// 送信に成功した場合
 		if ($response->getHTTPStatus() === 200) {
-			if (class_exists(StreamConnector::class)) {
+			if (class_exists('WP_Stream\Connector')) {
 				$class = new StreamConnector();
 				$class->callback_lineconnect_push_message(
 					array(
@@ -747,7 +747,7 @@ class Builder {
 				);
 			}
 		}
-		if (class_exists(StreamConnector::class)) {
+		if (class_exists('WP_Stream\Connector')) {
 			$class = new StreamConnector();
 			$class->callback_lineconnect_push_message(
 				array(
@@ -779,7 +779,7 @@ class Builder {
 
 		$response = $bot->broadcast($message, $notificationDisabled);
 		if ($response->getHTTPStatus() === 200) {
-			if (class_exists(StreamConnector::class)) {
+			if (class_exists('WP_Stream\Connector')) {
 				$class = new StreamConnector();
 				$class->callback_lineconnect_push_message(
 					array(
