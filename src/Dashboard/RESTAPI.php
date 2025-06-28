@@ -34,23 +34,19 @@ class RESTAPI {
     }
 
     public static function get_dashboard_permissions_check($request) {
-        error_log(print_r('id:' . get_current_user_id()));
-
-        // Check if user is logged in and has manage_options capability
-        if (!current_user_can('manage_options')) {
-            return false;
-        }
-
-        // The nonce check was commented out before - properly verify the nonce now
-        $nonce = $request->get_header('X-WP-Nonce');
-        error_log(print_r('nonce:' . $nonce));
-        $result = wp_verify_nonce($nonce, LineConnect::CREDENTIAL_ACTION__POST);
-
-
-        error_log(print_r('result:' . $result));
-
-        return $result;
-    }
+ 
+         // Check if user is logged in and has manage_options capability
+         if (!current_user_can('manage_options')) {
+             return new \WP_Error('rest_forbidden', 'Sorry, you are not allowed to do that.', array('status' => 403));
+         }
+ 
+         // The nonce check was commented out before - properly verify the nonce now
+         $nonce = $request->get_header('X-WP-Nonce');
+         $result = wp_verify_nonce($nonce, LineConnect::CREDENTIAL_ACTION__POST);
+ 
+ 
+         return $result;
+     }
 
     public static function get_dashboard($request) {
         $ym = $request->get_param('ym');

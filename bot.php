@@ -277,7 +277,7 @@ foreach ($json_obj->{'events'} as $event) {
 		);
 		$message[]    = $gptResponse['message'];
 		$responseByAi = $gptResponse['responseByAi'];
-		error_log('gpt response:' . print_r($gptResponse, true));
+		// error_log('gpt response:' . print_r($gptResponse, true));
 	}
 
 	// 応答メッセージがあれば送信する

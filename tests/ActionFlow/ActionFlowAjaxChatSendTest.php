@@ -18,8 +18,6 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
 
     public static function wpSetUpBeforeClass($factory) {
         self::$result = lineconnectTest::init();
-        // 必要なフックを登録
-        add_action('wp_ajax_lc_ajax_get_slc_actionflow', [\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow']);
 
         self::$inserted_actionflows = array();
         self::$actionflows_data = array(
@@ -58,8 +56,21 @@ class ActionFlowAjaxChatSendTest extends WP_Ajax_UnitTestCase {
         }
     }
 
+    public static function wpTearDownAfterClass() {
+        foreach (self::$inserted_actionflows as $post_id) {
+            wp_delete_post($post_id, true);
+        }
+    }
+
     public function setUp(): void {
         parent::setUp();
+        $_POST = [];
+        add_action('wp_ajax_lc_ajax_get_slc_actionflow', [\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow']);
+    }
+
+    public function tearDown(): void {
+        parent::tearDown();
+        remove_action('wp_ajax_lc_ajax_get_slc_actionflow', [\Shipweb\LineConnect\ActionFlow\ActionFlow::class, 'ajax_get_actionflow']);
     }
 
     public function test_ajax_ajax_get_actionflow_success() {

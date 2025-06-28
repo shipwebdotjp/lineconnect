@@ -72,7 +72,6 @@ class ActionExecuteAjaxActionExecuteTest extends WP_Ajax_UnitTestCase {
 
         // Validate response
         $response = json_decode($this->_last_response, true);
-        var_dump($response);
         $this->assertIsArray($response, 'Response should be an array');
         $this->assertArrayHasKey('result', $response, 'Response should contain result key');
         $this->assertEquals('success', $response['result'], 'Result flag should be success');

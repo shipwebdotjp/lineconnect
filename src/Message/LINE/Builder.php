@@ -879,9 +879,7 @@ class Builder {
 		return $multiMessageBuilder;
 	}
 
-	public static function get_line_message_builder($source, $args = null) {
-		error_log(print_r($source, true));
-		error_log(print_r($args, true));
+		public static function get_line_message_builder($source, $args = null) {
 		if ($source instanceof \LINE\LINEBot\MessageBuilder) {
 			return $source;
 		}
