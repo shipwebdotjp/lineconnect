@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-04-20 21:31+0900\n"
+"POT-Creation-Date: 2025-07-01 21:08+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -24,41 +24,449 @@ msgstr "エラー: 無効なLINEユーザーIDです。"
 msgid "Error: Invalid audience ID."
 msgstr "エラー: 無効なオーディエンスIDです。"
 
-msgid "Send update notification"
-msgstr "更新通知を送信する"
+msgid "Teacher"
+msgstr "先生"
 
-msgid "Send target:"
-msgstr "送信対象："
+msgid "Student"
+msgstr ""
 
-msgid "Message template:"
-msgstr "メッセージテンプレート"
+msgid "User ID"
+msgstr "ユーザーID"
 
-msgid "Send when a future post is published"
-msgstr "予約投稿時に送信する"
+msgid "WordPress user ID"
+msgstr "WordPressユーザーID"
 
-msgid "Channel name"
-msgstr "チャネル名"
+msgid "Key"
+msgstr "キー"
 
-msgid "Channel access token"
-msgstr "チャネルアクセストークン"
+msgid "Meta key"
+msgstr "メタキー"
 
-msgid "Channel secret"
-msgstr "チャネルシークレット"
+msgid "LINE Connect Direct Message"
+msgstr "LINE Connect DM"
 
-msgid "Default target role"
-msgstr "デフォルトの送信対象"
+msgid "Direct Message"
+msgstr "ダイレクトメッセージ"
 
-msgid "Rich menu ID for linked users"
-msgstr "連携済みユーザー用リッチメニューID"
+msgid "Sent a LINE message."
+msgstr "LINEメッセージを送信しました"
 
-msgid "Rich menu ID for unlinked users"
-msgstr "未連携ユーザー用リッチメニューID"
+msgid "Faild to sent a LINE message"
+msgstr "LINEメッセージの送信に失敗しました"
 
-msgid "Clear the rich menu cache"
-msgstr "リッチメニューリストを更新"
+msgid "Messages is not Array."
+msgstr "メッセージが配列ではありません"
 
-msgid "Clear the cache of the rich menu list."
-msgstr "リッチメニューのリストを更新します"
+msgid "Channel not found."
+msgstr "チャネルが見つかりません"
+
+msgid "Channel or User is not set."
+msgstr "チャネルかユーザーがセットされていません"
+
+msgid "Failed to execute scenario"
+msgstr ""
+
+msgid "LINE ID List"
+msgstr "LINE ID リスト"
+
+msgid "LINE Event Log"
+msgstr "LINEイベントログ"
+
+msgid "Event Log"
+msgstr "イベントログ"
+
+msgid "LC Triggers"
+msgstr "LCトリガー"
+
+msgid "LC Trigger"
+msgstr "LCトリガー"
+
+msgid "Add New"
+msgstr "新しく追加"
+
+msgid "Add New Trigger"
+msgstr "新しいトリガーを追加"
+
+msgid "Edit Trigger"
+msgstr "トリガーを編集"
+
+msgid "New Trigger"
+msgstr "新しいトリガー"
+
+msgid "View Trigger"
+msgstr "トリガーを表示"
+
+msgid "Search Triggers"
+msgstr "トリガーを検索"
+
+msgid "No Triggers found"
+msgstr "トリガーが見つかりません"
+
+msgid "No Triggers found in Trash"
+msgstr "ゴミ箱にトリガーはありません"
+
+msgid "All Triggers"
+msgstr "すべてのトリガー"
+
+msgid "Trigger Archives"
+msgstr "トリガーアーカイブ"
+
+msgid "Trigger Attributes"
+msgstr "トリガー属性"
+
+msgid "Insert into Trigger"
+msgstr "トリガーに挿入"
+
+msgid "Uploaded to this Trigger"
+msgstr "このトリガーにアップロードしました"
+
+msgid "Featured Image"
+msgstr "アイキャッチ画像"
+
+msgid "Set featured image"
+msgstr "アイキャッチ画像の設定"
+
+msgid "Remove featured image"
+msgstr "アイキャッチ画像の削除"
+
+msgid "Use as featured image"
+msgstr "アイキャッチ画像として使用"
+
+msgid "Filter Triggers list"
+msgstr "トリガー一覧をフィルター"
+
+msgid "Triggers list navigation"
+msgstr "トリガー一覧のナビゲーション"
+
+msgid "Triggers list"
+msgstr "トリガー一覧"
+
+msgid "Trigger published."
+msgstr "トリガーを公開しました"
+
+msgid "Trigger published privately."
+msgstr "トリガーをプライベートで公開しました"
+
+msgid "Trigger reverted to draft."
+msgstr "トリガーを下書きに戻しました"
+
+msgid "Trigger scheduled."
+msgstr "トリガーが予約公開されました"
+
+msgid "Trigger updated."
+msgstr "トリガーが更新されました"
+
+msgid "LINE Connect Triggers"
+msgstr "LINE Connect トリガー"
+
+msgid "LC Messages"
+msgstr "LCメッセージ"
+
+msgid "LC Message"
+msgstr "LCメッセージ"
+
+msgid "Add New Message"
+msgstr "新しいメッセージを追加"
+
+msgid "Edit Message"
+msgstr "メッセージを編集"
+
+msgid "New Message"
+msgstr "新しいメッセージ"
+
+msgid "View Message"
+msgstr "メッセージを表示"
+
+msgid "Search Messages"
+msgstr "メッセージを検索"
+
+msgid "No Messages found"
+msgstr "メッセージが見つかりません"
+
+msgid "No Messages found in Trash"
+msgstr "ゴミ箱にメッセージが見つかりません"
+
+msgid "All Messages"
+msgstr "すべてのメッセージ"
+
+msgid "Message Archives"
+msgstr "メッセージのアーカイブ"
+
+msgid "Message Attributes"
+msgstr "メッセージの属性"
+
+msgid "Insert into Message"
+msgstr "メッセージに挿入"
+
+msgid "Uploaded to this Message"
+msgstr "このメッセージにアップロードされました"
+
+msgid "Filter Messages list"
+msgstr "メッセージをフィルター"
+
+msgid "Messages list navigation"
+msgstr "メッセージのナビゲーション"
+
+msgid "Messages list"
+msgstr "メッセージ一覧"
+
+msgid "Message published."
+msgstr "メッセージが公開されました。"
+
+msgid "Message published privately."
+msgstr "メッセージが非公開にされました。"
+
+msgid "Message reverted to draft."
+msgstr "メッセージが下書きに戻されました。"
+
+msgid "Message scheduled."
+msgstr "メッセージがスケジュールされました。"
+
+msgid "Message updated."
+msgstr "メッセージが更新されました。"
+
+msgid "LINE Connect Messages"
+msgstr "LINE Connect メッセージ"
+
+msgid "LC Audiences"
+msgstr "LCオーディエンス"
+
+msgid "LC Audience"
+msgstr "LCオーディエンス"
+
+msgid "Add New Audience"
+msgstr "新規オーディエンスを追加"
+
+msgid "Edit Audience"
+msgstr "オーディエンスを編集"
+
+msgid "New Audience"
+msgstr "新規オーディエンス"
+
+msgid "View Audience"
+msgstr "オーディエンスを表示"
+
+msgid "Search Audiences"
+msgstr "オーディエンスを検索"
+
+msgid "No Audiences found"
+msgstr "オーディエンスが見つかりませんでした"
+
+msgid "No Audiences found in Trash"
+msgstr "ゴミ箱内にオーディエンスはありません"
+
+msgid "All Audiences"
+msgstr "すべてのオーディエンス"
+
+msgid "Audience Archives"
+msgstr "オーディエンスアーカイブ"
+
+msgid "Audience Attributes"
+msgstr "オーディエンスの属性"
+
+msgid "Insert into Audience"
+msgstr "オーディエンスに挿入"
+
+msgid "Uploaded to this Audience"
+msgstr "このオーディエンスにアップロード済み"
+
+msgid "Filter Audiences list"
+msgstr "オーディエンスリストをフィルタリング"
+
+msgid "Audiences list navigation"
+msgstr "オーディエンスリストのナビゲーション"
+
+msgid "Audiences list"
+msgstr "オーディエンスリスト"
+
+msgid "Audience published."
+msgstr "オーディエンスが公開されました。"
+
+msgid "Audience published privately."
+msgstr "オーディエンスが非公開で公開されました。"
+
+msgid "Audience reverted to draft."
+msgstr "オーディエンスが下書きに戻されました。"
+
+msgid "Audience scheduled."
+msgstr "オーディエンスが予約されました。"
+
+msgid "Audience updated."
+msgstr "オーディエンスが更新されました。"
+
+msgid "LINE Connect Audiences"
+msgstr "LINE Connect オーディエンス"
+
+msgid "Scenarios"
+msgstr "シナリオ"
+
+msgid "Scenario"
+msgstr "シナリオ"
+
+msgid "Add New Scenario"
+msgstr "新規シナリオを追加"
+
+msgid "Edit Scenario"
+msgstr "シナリオを編集"
+
+msgid "New Scenario"
+msgstr "新規シナリオ"
+
+msgid "View Scenario"
+msgstr "シナリオを表示"
+
+msgid "Search Scenarios"
+msgstr "シナリオを検索"
+
+msgid "No Scenarios found"
+msgstr "シナリオが見つかりません"
+
+msgid "No Scenarios found in Trash"
+msgstr "ゴミ箱にシナリオが見つかりません"
+
+msgid "All Scenarios"
+msgstr "すべてのシナリオ"
+
+msgid "Scenario Archives"
+msgstr "シナリオアーカイブ"
+
+msgid "Scenario Attributes"
+msgstr "シナリオ属性"
+
+msgid "Insert into Scenario"
+msgstr "シナリオに挿入"
+
+msgid "Uploaded to this Scenario"
+msgstr "このシナリオにアップロード済み"
+
+msgid "Filter Scenarios list"
+msgstr "シナリオリストを絞り込む"
+
+msgid "Scenarios list navigation"
+msgstr "シナリオリストのナビゲーション"
+
+msgid "Scenarios list"
+msgstr "シナリオリスト"
+
+msgid "Scenario published."
+msgstr "シナリオを公開しました。"
+
+msgid "Scenario published privately."
+msgstr "シナリオを非公開で公開しました。"
+
+msgid "Scenario reverted to draft."
+msgstr "シナリオを下書きに戻しました。"
+
+msgid "Scenario scheduled."
+msgstr "シナリオを予約しました。"
+
+msgid "Scenario updated."
+msgstr "シナリオを更新しました。"
+
+msgid "LINE Connect Scenarios"
+msgstr "LINE Connectシナリオ"
+
+msgid "Action Flows"
+msgstr "アクションフロー"
+
+msgid "Action Flow"
+msgstr "アクションフロー"
+
+msgid "Add New Action Flow"
+msgstr "新しいアクションフローを追加"
+
+msgid "Edit Action Flow"
+msgstr "アクションフローを編集"
+
+msgid "New Action Flow"
+msgstr "新規アクションフロー"
+
+msgid "View Action Flow"
+msgstr "アクションフローを表示"
+
+msgid "Search Action Flows"
+msgstr "アクションフローを検索"
+
+msgid "No Action Flows found"
+msgstr "アクションフローが見つかりません"
+
+msgid "No Action Flows found in Trash"
+msgstr "ゴミ箱にアクションフローが見つかりません"
+
+msgid "All Action Flows"
+msgstr "すべてのアクションフロー"
+
+msgid "Action Flow Archives"
+msgstr "アクションフローアーカイブ"
+
+msgid "Action Flow Attributes"
+msgstr "アクションフロー属性"
+
+msgid "Insert into Action Flow"
+msgstr "アクションフローに挿入"
+
+msgid "Uploaded to this Action Flow"
+msgstr "このアクションフローにアップロード済み"
+
+msgid "Filter Action Flows list"
+msgstr "アクションフローリストを絞り込む"
+
+msgid "Action Flows list navigation"
+msgstr "アクションフローリストのナビゲーション"
+
+msgid "Action Flows list"
+msgstr "アクションフローリスト"
+
+msgid "Action Flow published."
+msgstr "アクションフローを公開しました。"
+
+msgid "Action Flow published privately."
+msgstr "アクションフローを非公開で公開しました。"
+
+msgid "Action Flow reverted to draft."
+msgstr "アクションフローを下書きに戻しました。"
+
+msgid "Action Flow scheduled."
+msgstr "アクションフローを予約しました。"
+
+msgid "Action Flow updated."
+msgstr "アクションフローを更新しました。"
+
+msgid "LINE Connect Action Flows"
+msgstr "LINE Connect アクションフロー"
+
+msgid "LINE Connect Bulk message"
+msgstr "LINE Connect 一括配信"
+
+msgid "Bulk message"
+msgstr "一括配信"
+
+msgid "Message"
+msgstr "メッセージ"
+
+msgid "You are not logged in."
+msgstr "ログインしていません。"
+
+msgid "You do not have permission to send messages."
+msgstr "メッセージを送信する権限がありません。"
+
+msgid "Nonce is not set or invalid."
+msgstr "Nonceが設定されていないか、無効です。"
+
+msgid "There was no target to be sent that matched the condition."
+msgstr "条件に一致する送信対象がありませんでした。"
+
+msgid "LINE"
+msgstr "LINE"
+
+msgid "&#9745;"
+msgstr "&#9745;"
+
+msgid "&#9744;"
+msgstr "&#9744;"
+
+msgid "Send LINE Message"
+msgstr "LINE送信する"
 
 msgid "Channel"
 msgstr "チャネル"
@@ -431,1810 +839,304 @@ msgstr ""
 msgid "Data"
 msgstr "データ"
 
-msgid "Get my user information"
-msgstr "自分のユーザー情報取得"
+msgid "Channel name"
+msgstr "チャネル名"
 
-msgid "Get the current date and time"
-msgstr "現在日時取得"
+msgid "Channel access token"
+msgstr "チャネルアクセストークン"
 
-msgid "Search posts"
-msgstr "記事検索"
+msgid "Channel secret"
+msgstr "チャネルシークレット"
 
-msgid "Author Name"
-msgstr "投稿者名"
+msgid "Default target role"
+msgstr "デフォルトの送信対象"
 
-msgid "S"
-msgstr ""
+msgid "Rich menu ID for linked users"
+msgstr "連携済みユーザー用リッチメニューID"
 
-msgid "P"
-msgstr ""
+msgid "Rich menu ID for unlinked users"
+msgstr "未連携ユーザー用リッチメニューID"
 
-msgid "Name"
-msgstr "名前"
+#, php-format
+msgid "Rich menu ID for %s."
+msgstr "%sロール用リッチメニューID"
 
-msgid "Order"
-msgstr ""
+msgid "Clear the rich menu cache"
+msgstr "リッチメニューリストを更新"
 
-msgid "Orderby"
-msgstr ""
+msgid "Clear the cache of the rich menu list."
+msgstr "リッチメニューのリストを更新します"
 
-msgid "Offset"
-msgstr ""
+msgid "Are you sure you want to clear the rich menu cache?"
+msgstr "リッチメニューキャッシュを本当に削除してよろしいですか？"
 
-msgid "Year"
-msgstr "年"
+msgid "Delete all plugin data"
+msgstr "プラグインデータの削除"
 
-msgid "Monthnum"
-msgstr ""
+msgid "Delete all plugin data."
+msgstr "このプラグインが使用しているデータをすべて(データベース、アップロードファイルなど)削除します"
 
-msgid "Day"
-msgstr "曜日"
+msgid "Are you sure you want to delete all plugin data?"
+msgstr "プラグインデータを本当に削除してよろしいですか？この操作は取り消せません。"
 
-msgid "Search users"
-msgstr "ユーザー検索"
+msgid "LINE Connect settings"
+msgstr "LINE Connect 設定"
 
-msgid "Role"
-msgstr "ロール"
-
-msgid "Search"
-msgstr "検索"
-
-msgid "Include"
-msgstr "含む"
-
-msgid "Item"
-msgstr "項目"
-
-msgid "Meta Key"
-msgstr "メタキー"
-
-msgid "Meta Value"
-msgstr "メタ値"
-
-msgid "Meta Compare"
-msgstr "メタ比較"
-
-msgid "Get LINE Connect message"
-msgstr "LINE Connectメッセージ取得"
-
-msgid "Get LINE Connect message."
-msgstr "LINE Connectメッセージを取得します。"
-
-msgid "LC Message id"
-msgstr "LINE ConnectメッセージID"
-
-msgid "Arguments to insert into the message"
-msgstr "メッセージ中の置換引数"
-
-msgid "Get LINE text message"
-msgstr "LINEテキストメッセージ取得"
-
-msgid "Get LINE text message."
-msgstr "LINEテキストメッセージを取得します。"
-
-msgid "Message body"
-msgstr "メッセージ本文"
-
-msgid "Get LC notify message"
-msgstr "記事投稿通知メッセージ"
-
-msgid "Get LC notify message."
-msgstr "LINE Connect記事投稿通知メッセージを取得します。"
-
-msgid "Message title"
-msgstr "メッセージタイトル"
-
-msgid "Thumbnail url"
-msgstr "サムネイルURL"
-
-msgid "Button action type"
-msgstr "ボタンアクションタイプ"
-
-msgid "Message"
-msgstr "メッセージ"
-
-msgid "Postback"
-msgstr "ポストバック"
-
-msgid "URI"
-msgstr "URI"
-
-msgid "Label"
-msgstr "ラベル"
-
-msgid "Display Text"
-msgstr "表示テキスト"
-
-msgid "Attributes"
-msgstr "属性"
-
-msgid "Get LINE message from Raw JSON"
-msgstr "生LINEメッセージJSON取得"
-
-msgid "Get LINE message from Raw JSON."
-msgstr "LINEメッセージをJSON形式で指定します。"
-
-msgid "Single raw Message JSON object"
-msgstr "単一のメッセージJSONオブジェクト"
-
-msgid "Send LINE message"
-msgstr "LINEメッセージ送信"
-
-msgid "Send LINE message with Audience and Channel."
-msgstr "オーディエンスとチャネルを指定してLINEメッセージを送信"
-
-msgid "LC message id, message text or message object"
-msgstr "LCメッセージID、メッセージテキスト、またはメッセージオブジェクト"
-
-msgid "LINE user ID"
-msgstr "LINEユーザーID"
-
-msgid "Send LINE message with audience"
-msgstr "オーディエンスを指定してLINEメッセージを送信"
-
-msgid "Send LINE message with audience."
-msgstr "オーディエンスを指定してLINEメッセージを送信"
-
-msgid "LC message id, text or message object"
-msgstr "LCメッセージID、テキスト、またはメッセージオブジェクト"
-
-msgid "LC Audience id or object"
-msgstr "LCオーディエンスIDまたはオーディエンスオブジェクト"
-
-msgid "Arguments to insert into the audience"
-msgstr "オーディエンスに埋め込む引数"
-
-msgid "Notification Disabled"
-msgstr "通知を無効化"
-
-msgid "Notification disabled"
-msgstr "通知を無効化"
-
-msgid "Send mail to admin"
-msgstr "管理者へメール送信"
-
-msgid "Send mail to admin."
-msgstr "管理者へメールを送信します。"
-
-msgid "Mail subject"
-msgstr "メール件名"
-
-msgid "Mail body"
-msgstr "メール本文"
-
-msgid "Link rich menu"
-msgstr "リッチメニューリンク"
-
-msgid "Link rich menu with line user ID and Channel."
-msgstr "ユーザーのリッチメニューを設定します。"
-
-msgid "Rich menu ID"
-msgstr "リッチメニューID"
-
-msgid "LINE user id. Default value is LINE user id of event source."
-msgstr "LINEユーザーID。デフォルトは送信元ユーザーID。"
+msgid "Settings"
+msgstr "設定"
 
 msgid ""
-"First 4 characters of channel secret. Default value is channel of event "
-"source."
-msgstr "チャネルシークレットの先頭4文字。デフォルトは送信元チャネル。"
+"Database is not up to date. Click the Setting Save button to update the "
+"database. It is recommended that you make a backup of the database before "
+"updating."
+msgstr ""
+"LINE Connectのデータベースが最新ではありません。保存ボタンをクリックすると、"
+"データベースのアップデートが行われます。アップデートの前にデータベースのバッ"
+"クアップを取得することをお勧めします。"
 
-msgid "Get user meta"
-msgstr "ユーザーメタ取得"
+msgid "Channel settings"
+msgstr "チャネル設定"
 
-msgid "Get WordPress user meta value"
-msgstr "WordPressユーザーのメタ値を取得"
+msgid "All Friends"
+msgstr "すべての友達"
 
-msgid "WordPress user ID"
-msgstr "WordPressユーザーID"
+msgid "Linked Friends"
+msgstr "連携済みの友達"
 
-msgid "Meta key"
-msgstr "メタキー"
+#, php-format
+msgid "The number of person to be notified is %s."
+msgstr "通知の対象となる人数は%s人です。"
 
-msgid "Update user meta"
-msgstr "ユーザーメタ更新"
+msgid "No role selected"
+msgstr "ロールが選択されていません。"
 
-msgid "Update or delete WordPress user meta value"
-msgstr "WordPressユーザーのメタ値を更新または削除"
+msgid "No matching user"
+msgstr "条件にマッチするユーザーがいません。"
 
-msgid "Meta value. If empty, meta will be deleted."
-msgstr "メタ値。空の場合はメタが削除されます。"
+msgid "Unknown"
+msgstr "不明"
 
-msgid "Get LINE user profile value"
-msgstr "LINEユーザープロフィール取得"
+msgid "Notify to all freinds."
+msgstr "友達登録されているすべてのユーザーへ通知されます。"
 
-msgid "Get value from LINE user profile"
-msgstr "LINEユーザープロフィールから値を取得"
+msgid "No selected"
+msgstr "選択なし"
 
-msgid "Profile key to get"
-msgstr "取得するプロフィールキー"
+msgid "Delete this channel"
+msgstr "このチャネルを削除"
 
-msgid "LINE user ID. Default value is LINE user ID of event source."
-msgstr "LINEユーザーID。デフォルト値はイベントソースのLINEユーザーID。"
+msgid "New channel"
+msgstr "新規チャネル"
 
-msgid "Update LINE user profile"
-msgstr "LINEユーザープロフィール更新"
+msgid "Add new channel"
+msgstr "新規チャネル追加"
 
-msgid "Update or delete value in LINE user profile"
-msgstr "LINEユーザープロフィールの値を更新または削除"
+msgid "Save"
+msgstr "保存"
 
-msgid "Profile key to update"
-msgstr "更新するプロフィールキー"
+#, php-format
+msgid "\"%s\" is invalid in new channel."
+msgstr "新規チャネル: %sが正しくありません。"
 
-msgid "Profile value. If empty, key will be deleted."
-msgstr "プロフィール値。空の場合、キーが削除されます。"
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel."
+msgstr "%1$s: %2$sが正しくありません。"
 
-msgid "Get LINE user tags"
-msgstr "LINEユーザータグ取得"
+#, php-format
+msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
+msgstr "新規チャネル: %1$sが正しくありません。エラーメッセージ: %2$s"
 
-msgid "Get LINE user tags."
-msgstr "LINEユーザーのタグを取得します。"
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
+msgstr "%1$s: %2$sが正しくありません。エラーメッセージ: %3$s"
 
-msgid "Update LINE user tags"
-msgstr "LINEユーザータグ更新"
+msgid "The same channel secret is already registered of the new channel."
+msgstr "新規チャネル: 同じチャネルシークレットが既に登録されています。"
 
-msgid "Update or delete LINE user tags."
-msgstr "LINEユーザーのタグを更新または削除します。"
+#, php-format
+msgid "The same channel secret is already registered of the \"%s\"."
+msgstr "%s: 同じチャネルシークレットが既に登録されています。"
 
-msgid "Array of tags to update. If empty, all tags will be deleted."
-msgstr "更新するタグの配列。空の場合、すべてのタグが削除されます。"
+#, php-format
+msgid "\"%s\" is required."
+msgstr "%sは必須項目です。"
 
-msgid "Add LINE user tags"
-msgstr "LINEユーザータグ追加"
+#, php-format
+msgid "\"%s\" is invalid."
+msgstr "%sが正しくありません。"
 
-msgid "Add LINE user tags."
-msgstr "LINEユーザーのタグを追加します。"
+#, php-format
+msgid ""
+"\"%s\" is invalid. The height cannot be greater than three times the width."
+msgstr "%sが正しくありません。高さには幅の3倍を超える値は指定できません。"
 
-msgid "Array of tags to add. If empty, tags will not be added."
-msgstr "追加するタグの配列。空の場合、タグは追加されません。"
+msgid "Rich menu cache cleared."
+msgstr "リッチメニューリストのキャッシュを削除しました。"
 
-msgid "Remove LINE user tags"
-msgstr "LINEユーザータグ削除    "
+msgid "Failed to clear rich menu cache."
+msgstr "リッチメニューリストのキャッシュの削除に失敗しました。"
 
-msgid "Remove LINE user tags."
-msgstr "LINEユーザーのタグを削除します。"
+msgid "All data deleted. Please remove plugin."
+msgstr ""
 
-msgid "Array of tags to remove. If empty, tags will not be removed."
-msgstr "削除するタグの配列。空の場合、タグは削除されません。"
+msgid "Failed to delete all data."
+msgstr ""
 
-msgid "Start LC Scenario"
-msgstr "シナリオを開始"
+msgid "Settings saved."
+msgstr "設定を保存しました。"
 
-msgid "Start LINE Connect Scenario."
-msgstr "シナリオを開始します。"
+#, php-format
+msgid "Updated the following rich menus: %s"
+msgstr "次のリッチメニューIDを更新しました: %s"
 
-msgid "Scenario ID"
-msgstr "シナリオID"
+msgid "Broadcast message sent successfully."
+msgstr "ブロードキャストメッセージが送信されました。"
 
-msgid "Scenario restart flag"
-msgstr "シナリオがすでに開始されている場合の動作"
+msgid "Broadcast message failed to send."
+msgstr "ブロードキャストメッセージの送信に失敗しました。"
 
-msgid "Never restart"
-msgstr "開始しない"
+#, php-format
+msgid "Multicast message sent to %s person."
+msgstr "マルチキャストメッセージが%s名に送信されました。"
 
-msgid "Restart only completed"
-msgstr "完了している場合のみ開始"
+msgid "Multicast message failed to send."
+msgstr "マルチキャストメッセージの送信に失敗しました。"
 
-msgid "Always restart"
-msgstr "常に開始"
+#, php-format
+msgid "Push message sent to %s person."
+msgstr "%s 人にプッシュメッセージを送信しました。"
 
-msgid "Line user ID. Default value is LINE user ID of event source."
-msgstr "LINEユーザーID。デフォルト値はイベントソースのLINEユーザーID。"
+#, php-format
+msgid "Push message failed to sent to %s person."
+msgstr "%s 人へのプッシュメッセージの送信に失敗しました。"
 
-msgid "Set LC Scenario Step"
-msgstr "シナリオステップ設定"
+msgid "Message will be sent to all users who have subscribed to this channel."
+msgstr "メッセージはチャネルの友だち全員に送られます"
 
-msgid "Set LINE Connect Scenario Step."
-msgstr "シナリオの特定のステップへ移動します。"
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr "メッセージはマルチキャストで %s 人に送信されます。"
 
-msgid "ID of the step to set."
-msgstr "設定するステップのID。"
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr "メッセージはプッシュで %s 人に送信されます。"
 
-msgid "Next date to execute the step. Absolute or relative."
-msgstr "ステップを実行する日時。絶対日時または相対的な時間設定が行えます。"
+msgid "Valid message."
+msgstr "有効なメッセージです。"
 
-msgid "Execute LC Scenario Step"
-msgstr "シナリオステップを実行"
+msgid "Invalid message."
+msgstr "無効なメッセージです。"
 
-msgid "Execute LINE Connect Scenario Step."
-msgstr "シナリオステップを実行"
+#, php-format
+msgid "Push to %s"
+msgstr "%sへのプッシュ"
 
-msgid "ID of the step to execute."
-msgstr "実行するステップのID。"
+#, php-format
+msgid "%s multicast"
+msgstr "%s通のマルチキャスト"
 
-msgid "Change LC scenario status"
-msgstr "シナリオステータス変更"
-
-msgid "Change LINE Connect scenario status."
-msgstr "シナリオのステータスを変更します。"
-
-msgid "The status to set."
-msgstr "設定するステータス。"
-
-msgid "Active"
-msgstr "アクティブ"
+msgid "Broadcast"
+msgstr "ブロードキャスト"
 
 msgid "Error"
 msgstr "エラー"
 
-msgid "Paused"
-msgstr "一時停止"
-
-msgid "Completed"
-msgstr "完了"
-
-msgid "Function name"
-msgstr "関数名"
-
-msgid "Function name to be called"
-msgstr "呼び出される関数名"
-
-msgid "Namespace"
-msgstr "名前空間"
-
-msgid "Namespace of the function"
-msgstr "関数が属する名前空間"
-
-msgid "Description"
-msgstr "説明"
-
-msgid "Description of the action"
-msgstr "アクションの説明"
-
-msgid "User role to execute this function by AI Chat"
-msgstr "AI応答時にこの関数を実行可能なユーザー権限"
-
-msgid "Anyone"
-msgstr "誰でも"
-
-msgid "Parameters"
-msgstr "パラメーター"
-
-msgid "Parameters of the function"
-msgstr "関数のパラメーター"
-
-msgid "Description of the parameter"
-msgstr "パラメーターの説明"
-
-msgid "Required"
-msgstr "必須項目"
-
-msgid "Whether the parameter is required"
-msgstr "パラメーターが必須かどうか"
-
-msgid "Object"
-msgstr "オブジェクト型(Object)"
-
-msgid "Object property"
-msgstr "オブジェクトプロパティ"
-
-msgid "Array"
-msgstr "配列(Array)"
-
-msgid "Array element"
-msgstr "配列の要素"
-
 msgid "Property"
 msgstr "プロパティ"
 
-msgid "Object properties when data type is object"
-msgstr "データ型がオブジェクトの場合のプロパティ"
+msgid "LINE Connect Action Execute"
+msgstr "LINE Connect アクション実行"
 
-msgid "String"
-msgstr "文字列(String)"
+msgid "Action Execute"
+msgstr "アクション実行"
 
-msgid "Enum list"
-msgstr "Enumリスト"
-
-msgid "List of enum value"
-msgstr "Enum値のリスト"
-
-msgid "Addtional Property"
-msgstr "追加プロパティ"
-
-msgid "Data Type"
-msgstr "データ型"
-
-msgid "Number"
-msgstr "数値(Number)"
-
-msgid "Integer"
-msgstr "整数(Integer)"
-
-msgid "Boolean"
-msgstr "論理型(Boolean)"
-
-msgid "Null"
-msgstr "NULL"
-
-msgid "LINE Connect Message"
-msgstr "LINE Connectメッセージ"
-
-msgid "LINE Messaging API Channel"
-msgstr "LINEメッセージングAPIチャネル"
-
-msgid "Richmenu"
-msgstr "リッチメニュー"
-
-msgid "Richmenu Alias"
-msgstr "エイリアス"
-
-msgid "Data type of each array element"
-msgstr "配列の各要素のデータ型"
-
-msgid "Trigger type"
-msgstr "トリガータイプ"
-
-msgid "Webhook"
-msgstr "Webhook"
-
-msgid "Schedule"
-msgstr "スケジュール"
-
-msgid "Choose trigger type."
-msgstr "何をトリガーとするかの選択"
-
-msgid "Event type"
-msgstr "イベントタイプ"
-
-msgid "Post back"
-msgstr "ポストバック"
-
-msgid "Account Link"
-msgstr "アカウント連携"
-
-msgid "Follow"
-msgstr "フォロー"
-
-msgid "Unfollow"
-msgstr "フォロー解除"
-
-msgid "Video play complete"
-msgstr "動画視聴完了"
-
-msgid "Join"
-msgstr "参加"
-
-msgid "Leave"
-msgstr "退出"
-
-msgid "Member joined"
-msgstr "メンバー参加"
-
-msgid "Member left"
-msgstr "メンバー退出"
-
-msgid "Unsend"
-msgstr "送信取り消し"
-
-msgid "Message type"
-msgstr "メッセージタイプ"
-
-msgid "Text"
-msgstr "テキスト"
-
-msgid "Image"
-msgstr "画像"
-
-msgid "Video"
-msgstr "動画"
-
-msgid "Audio"
-msgstr "音声"
-
-msgid "File"
-msgstr "ファイル"
-
-msgid "Location"
-msgstr "位置情報"
-
-msgid "Sticker"
-msgstr "スタンプ"
-
-msgid "Unblocked"
-msgstr "ブロック解除"
-
-msgid "Any"
-msgstr "いずれでも"
-
-msgid "Add Freind"
-msgstr "友だち追加"
-
-msgid "Schedule type"
-msgstr "スケジュールタイプ"
-
-msgid "Once"
-msgstr "一度"
-
-msgid "Repeat"
-msgstr "繰り返し"
-
-msgid "Date and time"
-msgstr "日付時刻"
-
-msgid "Every"
-msgstr "毎"
-
-msgid "Hour"
-msgstr "時"
-
-msgid "Date"
-msgstr "日"
-
-msgid "Week"
-msgstr "週"
-
-msgid "Month"
-msgstr "月"
-
-msgid "Start date"
-msgstr "開始日"
-
-msgid "End date"
-msgstr "終了日"
-
-msgid "Beforehand notice (min)"
-msgstr "事前通知(分)"
-
-msgid "How many minutes in advance notice"
-msgstr ""
-"入力すると、対象となる時刻よりも指定した分だけ事前にトリガーが発動します。"
-
-msgid "0 am"
-msgstr "0時"
-
-msgid "1 am"
-msgstr "1時"
-
-msgid "2 am"
-msgstr "2時"
-
-msgid "3 am"
-msgstr "3時"
-
-msgid "4 am"
-msgstr "4時"
-
-msgid "5 am"
-msgstr "5時"
-
-msgid "6 am"
-msgstr "6時"
-
-msgid "7 am"
-msgstr "7時"
-
-msgid "8 am"
-msgstr "8時"
-
-msgid "9 am"
-msgstr "9時"
-
-msgid "10 am"
-msgstr "10時"
-
-msgid "11 am"
-msgstr "11時"
-
-msgid "12 pm"
-msgstr "12時"
-
-msgid "1 pm"
-msgstr "13時"
-
-msgid "2 pm"
-msgstr "14時"
-
-msgid "3 pm"
-msgstr "15時"
-
-msgid "4 pm"
-msgstr "16時"
-
-msgid "5 pm"
-msgstr "17時"
-
-msgid "6 pm"
-msgstr "18時"
-
-msgid "7 pm"
-msgstr "19時"
-
-msgid "8 pm"
-msgstr "20時"
-
-msgid "9 pm"
-msgstr "21時"
-
-msgid "10 pm"
-msgstr "22時"
-
-msgid "11 pm"
-msgstr "23時"
-
-msgid "Way of Calc"
-msgstr "計算方法"
-
-msgid "nth day"
-msgstr "第何曜日"
-
-msgid "nth Week in a month"
-msgstr "月の第何周目"
-
-msgid "Day of the week in the month"
-msgstr "第何曜日/第何周目"
-
-msgid "1st"
-msgstr "1"
-
-msgid "2nd"
-msgstr "2"
-
-msgid "3rd"
-msgstr "3"
-
-msgid "4th"
-msgstr "4"
-
-msgid "5th"
-msgstr "5"
-
-msgid "6th"
-msgstr "6"
-
-msgid "Sunday"
-msgstr "日曜日"
-
-msgid "Monday"
-msgstr "月曜日"
-
-msgid "Tuesday"
-msgstr "火曜日"
-
-msgid "Wednesday"
-msgstr "水曜日"
-
-msgid "Thursday"
-msgstr "木曜日"
-
-msgid "Friday"
-msgstr "金曜日"
-
-msgid "Saturday"
-msgstr "土曜日"
-
-msgid "First day of the week"
-msgstr "週の最初の曜日"
-
-msgid "7th"
-msgstr "7"
-
-msgid "8th"
-msgstr "8"
-
-msgid "9th"
-msgstr "9"
-
-msgid "10th"
-msgstr "10"
-
-msgid "11th"
-msgstr "11"
-
-msgid "12th"
-msgstr "12"
-
-msgid "13th"
-msgstr "13"
-
-msgid "14th"
-msgstr "14"
-
-msgid "15th"
-msgstr "15"
-
-msgid "16th"
-msgstr "16"
-
-msgid "17th"
-msgstr "17"
-
-msgid "18th"
-msgstr "18"
-
-msgid "19th"
-msgstr "19"
-
-msgid "20th"
-msgstr "20"
-
-msgid "21st"
-msgstr "21"
-
-msgid "22nd"
-msgstr "22"
-
-msgid "23rd"
-msgstr "23"
-
-msgid "24th"
-msgstr "24"
-
-msgid "25th"
-msgstr "25"
-
-msgid "26th"
-msgstr "26"
-
-msgid "27th"
-msgstr "27"
-
-msgid "28th"
-msgstr "28"
-
-msgid "29th"
-msgstr "29"
-
-msgid "30th"
-msgstr "30"
-
-msgid "31st"
-msgstr "31"
-
-msgid "Last day of the month"
-msgstr "月の最終日"
-
-msgid "Week number"
-msgstr "週番号"
-
-msgid "January"
-msgstr "1月"
-
-msgid "February"
-msgstr "2月"
-
-msgid "March"
-msgstr "3月"
-
-msgid "April"
-msgstr "4月"
-
-msgid "May"
-msgstr "5月"
-
-msgid "June"
-msgstr "6月"
-
-msgid "July"
-msgstr "7月"
-
-msgid "August"
-msgstr "8月"
-
-msgid "September"
-msgstr "9月"
-
-msgid "October"
-msgstr "10月"
-
-msgid "November"
-msgstr "11月"
-
-msgid "December"
-msgstr "12月"
-
-msgid "Triggers"
-msgstr "トリガー"
-
-msgid "Action"
-msgstr "アクション"
-
-msgid "Action chain"
-msgstr "アクションチェイン"
-
-msgid "Destination argument to"
-msgstr "注入先引数"
-
-msgid "Injection Destination Argument Path. e.g. 2.message"
-msgstr "注入先引数パス。例としてアクション-2のmessageを指定する場合: 2.message"
-
+#, php-format
 msgid ""
-"Injection Data. You can use return value of previous action. e.g. "
-"{{$.return.1}}"
+"A new version %1$s is available. <a href=\"%2$s\" target=\"_blank\">Download "
+"from GitHub</a>"
 msgstr ""
-"注入するデータ。前のアクションの返り値を利用可能。例としてアクション-1の戻り"
-"値を使用する場合: {{$.return.1}}"
+"LINE Connectの新しいバージョン(%1$s)が利用可能です。<a href=\"%2$s\" "
+"target=\"_blank\">GitHubからダウンロード</a>"
 
-msgid "Source condition"
-msgstr "ソース条件"
+msgid "LINE Connect Dashboard"
+msgstr "LINE Connect ダッシュボード"
 
-msgid "Source condition group"
-msgstr "ソース条件グループ"
+msgid "LINE Connect"
+msgstr "LINE Connect"
 
-msgid "Type"
-msgstr "タイプ"
+msgid "Published"
+msgstr "送信済み"
 
-msgid "Source"
-msgstr "ソース"
+msgid "Failed"
+msgstr "失敗"
 
-msgid "Not"
-msgstr "否定"
+#, php-format
+msgid "\"%1$s\" message %2$s"
+msgstr "%1$sメッセージを%2$s"
 
-msgid "Logical negation"
-msgstr "論理否定"
+#, php-format
+msgid "The request body has %s error."
+msgstr "リクエストボディに%s個のエラーがあります。"
 
-msgid "User"
-msgstr "ユーザー"
+msgid "Invalid reply token."
+msgstr "無効な返信トークンです。"
 
-msgid "Group"
-msgstr "グループ"
+#, php-format
+msgid "The property, %s, in the request body is invalid."
+msgstr "リクエストボディのプロパティ「%s」が無効です。"
 
-msgid "Room"
-msgstr "ルーム"
+msgid "The request body could not be parsed as JSON."
+msgstr "リクエストボディをJSONとして解析できませんでした。"
 
-msgid "Link status"
-msgstr "連携状態"
+#, php-format
+msgid "The content type, %s, is not supported."
+msgstr "コンテンツタイプ「%s」はサポートされていません。"
 
-msgid "Linked"
-msgstr "連携済み"
+msgid "Authentication failed."
+msgstr "認証に失敗しました。"
 
-msgid "Unlinked"
-msgstr "未連携"
+msgid "Access to this API is not available for your account."
+msgstr "このAPIへのアクセスは、お使いのアカウントでは利用できません。"
 
-msgid "User Meta"
-msgstr "ユーザーメタ"
+msgid "Failed to send messages."
+msgstr "メッセージの送信に失敗しました。"
 
-msgid "Values"
-msgstr "値"
+msgid "You have reached your monthly limit."
+msgstr "月間の制限に達しました。"
 
-msgid "Value"
-msgstr "値"
+msgid "Not found."
+msgstr "見つかりませんでした。"
 
-msgid "Profile data"
-msgstr "プロフィールデータ"
+msgid "May not be empty."
+msgstr "空は許可されていません。"
 
-msgid "Profile field"
-msgstr "プロフィールフィールド"
+#, php-format
+msgid "Size must be between %s and %s."
+msgstr "サイズは%sから%sの間である必要があります。"
 
-msgid "LINE group ID"
-msgstr "LINEグループID"
+msgid "Nonce verified successfully."
+msgstr "Nonceの確認に成功しました。"
 
-msgid "LINE Room ID"
-msgstr "LINEトークルームID"
+msgid "Please add message first"
+msgstr "メッセージを追加してください"
 
-msgid "Operator"
-msgstr "演算子"
+msgid "Please add channel first"
+msgstr "チャネルを追加してください"
 
-msgid "And"
-msgstr "And"
+msgid "Please add richmenu first"
+msgstr "リッチメニューを追加してください"
 
-msgid "All conditions must be true"
-msgstr "すべての条件が成立"
+msgid "Please add richmenu alias first"
+msgstr "リッチメニューエイリアスを追加してください"
 
-msgid "Or"
-msgstr "Or"
+msgid "Please add audience first"
+msgstr "オーディエンスを追加してください"
 
-msgid "At least one condition must be true"
-msgstr "少なくとも1つの条件が成立"
-
-msgid "Keyword"
-msgstr "キーワード"
-
-msgid "Keyword condition group"
-msgstr "キーワード条件グループ"
-
-msgid "Keyword condition"
-msgstr "キーワード条件"
-
-msgid "Query string"
-msgstr "クエリストリング"
-
-msgid "Keyword to match"
-msgstr "マッチするキーワード"
-
-msgid "Match type"
-msgstr "マッチタイプ"
-
-msgid "Contains"
-msgstr "含む"
-
-msgid "Equals"
-msgstr "等しい"
-
-msgid "Starts with"
-msgstr "で始まる"
-
-msgid "Ends with"
-msgstr "で終わる"
-
-msgid "Regular expression"
-msgstr "正規表現"
-
-msgid "Parameter"
-msgstr "パラメーター"
-
-msgid "Key"
-msgstr "キー"
-
-msgid "Target channel"
-msgstr "対象チャネル"
-
-msgid "Compare method"
-msgstr "比較方法"
-
-msgid "Not equals"
-msgstr "等しくない"
-
-msgid "Greater than"
-msgstr "より大きい"
-
-msgid "Greater than or equal"
-msgstr "以上"
-
-msgid "Less than"
-msgstr "より小さい"
-
-msgid "Less than or equal"
-msgstr "以下"
-
-msgid "Contains (String)"
-msgstr "含む（文字列）"
-
-msgid "Not contains (String)"
-msgstr "含まない（文字列）"
-
-msgid "In (Array)"
-msgstr "いずれかに一致（配列）"
-
-msgid "Not in (Array)"
-msgstr "いずれにも一致しない（配列）"
-
-msgid "Between 2 values"
-msgstr "2つの値の間"
-
-msgid "Not Between 2 values"
-msgstr "2つの値の間でない"
-
-msgid "Exists"
-msgstr "存在する"
-
-msgid "Not exists"
-msgstr "存在しない"
-
-msgid "Regular expression match"
-msgstr "正規表現に一致"
-
-msgid "No regular expression match"
-msgstr "正規表現に一致しない"
-
-msgid "Add source condition"
-msgstr "ソース条件追加"
-
-msgid "Add query parameter"
-msgstr "クエリパラメーター追加"
-
-msgid "Add message condition"
-msgstr "メッセージ条件追加"
-
-msgid "Add postback condition"
-msgstr "ポストバック条件追加"
-
-msgid "Add day"
-msgstr "曜日追加"
-
-msgid "Add week"
-msgstr "週追加"
-
-msgid "Add year"
-msgstr "年追加"
-
-msgid "Add trigger"
-msgstr "トリガー追加"
-
-msgid "Add parameter"
-msgstr "パラメータ追加"
-
-msgid "Add action"
-msgstr "アクション追加"
-
-msgid "Add chain"
-msgstr "チェイン追加"
-
-msgid "Image map"
-msgstr "イメージマップ"
-
-msgid "Button template"
-msgstr "ボタンテンプレート"
-
-msgid "Confirm template"
-msgstr "確認テンプレート"
-
-msgid "Carousel template"
-msgstr "カルーセルテンプレート"
-
-msgid "Image carousel template"
-msgstr "画像カルーセルテンプレート"
-
-msgid "Flex"
-msgstr "Flex"
-
-msgid "Raw"
-msgstr "生"
-
-msgid "Choose message type."
-msgstr "どの種類のメッセージを送るかの選択"
-
-msgid "Text message"
-msgstr "テキストメッセージ"
-
-msgid "Message text. Max character limit: 5000"
-msgstr "メッセージのテキスト。最大文字数：5000"
-
-msgid "Sticker message"
-msgstr "スタンプメッセージ"
-
-msgid "Package ID"
-msgstr "パッケージID"
-
-msgid "Package ID for a set of stickers."
-msgstr "スタンプセットのパッケージID"
-
-msgid "Sticker ID"
-msgstr "スタンプID"
-
-msgid "Image message"
-msgstr "画像メッセージ"
-
-msgid "Original content URL"
-msgstr "オリジナルファイルURL"
-
-msgid ""
-"Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
-"10 MB"
+msgid "Please add scenario first"
 msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサ"
-"イズ：10MB"
 
-msgid "Preview Image Url"
-msgstr "プレビュー画像URL"
-
-msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
-msgstr ""
-"プレビュー画像のURL。画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
-
-msgid "Video message"
-msgstr "動画メッセージ"
-
-msgid ""
-"If the video isn't playing properly, make sure the video is a supported file "
-"type and the HTTP server hosting the video supports HTTP range requests."
-msgstr ""
-"動画が正しく再生できない場合、動画が再生可能なファイル形式であることと、動画"
-"をホストしているHTTPサーバーが、HTTPの範囲リクエスト（Range request）に対応し"
-"ていることを確認してください。"
-
-msgid ""
-"Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
-msgstr ""
-"動画ファイルのURL。プロトコル：HTTPS、動画フォーマット：mp4、最大ファイルサイ"
-"ズ：200MB"
-
-msgid "Preview image URL"
-msgstr "プレビュー画像URL"
-
-msgid ""
-"Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
-"size: 1 MB"
-msgstr ""
-"プレビュー画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大"
-"ファイルサイズ：1MB"
-
-msgid "Tracking ID"
-msgstr "トラッキングID"
-
-msgid ""
-"ID used to identify the video when Video viewing complete event occurs. You "
-"can use the same ID in multiple messages."
-msgstr ""
-"動画視聴完了イベントが発生したときに、動画を識別するためのID。複数のメッセー"
-"ジで同じIDを使用することができます。"
-
-msgid "Audio message"
-msgstr "音声メッセージ"
-
-msgid ""
-"Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
-"200 MB"
-msgstr ""
-"音声ファイルのURL。プロトコル：HTTPS、音声フォーマット：mp3またはm4a、最大"
-"ファイルサイズ：200MB"
-
-msgid "Duration"
-msgstr "継続時間"
-
-msgid "Length of audio file (milliseconds)."
-msgstr "音声ファイルの長さ（ミリ秒）"
-
-msgid "Location message"
-msgstr "位置情報メッセージ"
-
-msgid "Title"
-msgstr "タイトル"
-
-msgid "Address"
-msgstr "住所"
-
-msgid "Latitude"
-msgstr "緯度"
-
-msgid "Longitude"
-msgstr "経度"
-
-msgid "Image map message"
-msgstr "イメージマップメッセージ"
-
-msgid ""
-"Imagemap messages are messages configured with an image that has multiple "
-"tappable areas. You can assign one tappable area for the entire image or "
-"different tappable areas on divided areas of the image."
-msgstr ""
-"イメージマップメッセージは、複数のタップ領域を設定した画像を送信できるメッ"
-"セージです。画像全体に1つのタップ領域を割り当てることも、画像を区切って複数の"
-"タップ領域を設定することもできます。"
-
-msgid "Base Url"
-msgstr "ベースURL"
-
-msgid "Image base URL. Protocol: HTTPS"
-msgstr "画像のベースURL。プロトコル：HTTPS"
-
-msgid "Alt Text"
-msgstr "代替テキスト"
-
-msgid ""
-"Alternative text. When a user receives a message, it will appear as an "
-"alternative to the image in the notification or chat list of their device."
-msgstr ""
-"代替テキスト。ユーザーがメッセージを受信した際に、端末の通知やトークリストで"
-"画像の代替として表示されます。"
-
-msgid "Base Size"
-msgstr "ベースサイズ"
-
-msgid "Width"
-msgstr "幅"
-
-msgid "Height"
-msgstr "高さ"
-
-msgid ""
-"Height of base image. Set to the height that corresponds to a width of 1040 "
-"pixels."
-msgstr "基本画像の幅を1040pxとした場合の高さ"
-
-msgid ""
-"You can also play a video on the image and display a label with a hyperlink "
-"after the video is finished."
-msgstr ""
-"画像の上で動画を再生したり、動画再生後にリンク先を設定したラベルを表示したり"
-"できます。"
-
-msgid "Image map area"
-msgstr "イメージマップ領域"
-
-msgid "X"
-msgstr "X"
-
-msgid ""
-"Horizontal position of the video area relative to the left edge of the "
-"imagemap area. Value must be 0 or higher."
-msgstr ""
-"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
-"てください。"
-
-msgid "Y"
-msgstr "Y"
-
-msgid ""
-"Vertical position of the video area relative to the top edge of the imagemap "
-"area. Value must be 0 or higher."
-msgstr ""
-"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
-"てください。"
-
-msgid "External link"
-msgstr "外部リンク"
-
-msgid "Link URI"
-msgstr "リンクURI"
-
-msgid ""
-"Webpage URL. Called when the label displayed after the video is tapped. The "
-"available schemes are http, https, line, and tel"
-msgstr ""
-"ウェブページのURL。動画再生後に表示されるラベルをタップしたときに呼び出されま"
-"す。使用できるスキームは、http、https、line、およびtelです。"
-
-msgid "Displayed after the video is finished."
-msgstr "動画の再生が終了した後に表示されます。"
-
-msgid "Image map action objects"
-msgstr "イメージマップアクションオブジェクト"
-
-msgid "Object which specifies the actions and tappable areas of an imagemap."
-msgstr "イメージマップに設定するアクションとタップ領域を表すオブジェクトです。"
-
-msgid "Image map action"
-msgstr "イメージマップアクション"
-
-msgid "URL"
-msgstr "URL"
-
-msgid ""
-"Label for the action. Spoken when the accessibility feature is enabled on "
-"the client device."
-msgstr ""
-"アクションのラベル。ユーザーデバイスのアクセシビリティ機能が有効な場合に読み"
-"上げられます。"
-
-msgid ""
-"Defines the size of a tappable area. The top left is used as the origin of "
-"the area. Set these properties based on the baseSize.width property and the "
-"baseSize.height property."
-msgstr ""
-"タップ領域のサイズを表すオブジェクトです。画像の左上が座標の原点です。"
-"baseSize.widthプロパティとbaseSize.heightプロパティに基づいて指定します。"
-
-msgid ""
-"Horizontal position relative to the left edge of the area. Value must be 0 "
-"or higher."
-msgstr ""
-"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
-"てください。"
-
-msgid ""
-"Vertical position relative to the top edge of the area. Value must be 0 or "
-"higher."
-msgstr ""
-"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
-"てください。"
-
-msgid "Webpage URL. The available schemes are http, https, line, and tel"
-msgstr ""
-"ウェブページのURL。使用できるスキームは、http、https、line、およびtelです。"
-
-msgid "Button Template message"
-msgstr "ボタンテンプレートメッセージ"
-
-msgid "Alt text"
-msgstr "代替テキスト"
-
-msgid "Thumbnail image url"
-msgstr "サムネイル画像URL"
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
-"Max file size: 10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大横幅サイ"
-"ズ：1024px、最大ファイルサイズ：10MB"
-
-msgid "Image aspect ratio"
-msgstr "画像アスペクト比"
-
-msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
-msgstr "画像のアスペクト比。長方形：1.51:1、正方形：1:1のいずれか。"
-
-msgid "Rectangle"
-msgstr "長方形"
-
-msgid "Square"
-msgstr "正方形"
-
-msgid "Image size"
-msgstr "画像サイズ"
-
-msgid "Size of the image. One of: cover, contain"
-msgstr "画像の表示形式。領域全体に表示または画像全体を表示から選択します。"
-
-msgid "Cover"
-msgstr "領域全体に表示"
-
-msgid ""
-"The image fills the entire image area. Parts of the image that do not fit in "
-"the area are not displayed."
-msgstr ""
-"画像領域全体に画像を表示します。画像領域に収まらない部分は切り詰められます。"
-
-msgid "Contain"
-msgstr "画像全体を表示"
-
-msgid ""
-"The entire image is displayed in the image area. A background is displayed "
-"in the unused areas to the left and right of vertical images and in the "
-"areas above and below horizontal images."
-msgstr ""
-"画像領域に画像全体を表示します。縦長の画像では左右に、横長の画像では上下に余"
-"白が表示されます。"
-
-msgid "Image background color"
-msgstr "画像背景色"
-
-msgid "Message text"
-msgstr "メッセージテキスト"
-
-msgid ""
-"Max character limit: 160 (no image or title) 60 (message with an image or "
-"title)"
-msgstr ""
-"画像もタイトルも指定しない場合の最大文字数：160,画像またはタイトルを指定する"
-"場合の最大文字数：60"
-
-msgid "Actions"
-msgstr "アクション"
-
-msgid "Confirm template message"
-msgstr "確認テンプレート"
-
-msgid "Template with two action buttons."
-msgstr "2つのアクションボタンを表示するテンプレートです。"
-
-msgid "Set 2 actions for the 2 buttons"
-msgstr "2つのボタンに1つずつアクションを設定します。"
-
-msgid "Carousel template message"
-msgstr "カルーセルテンプレート"
-
-msgid ""
-"Template with multiple columns which can be cycled like a carousel. The "
-"columns are shown in order when scrolling horizontally."
-msgstr ""
-"複数のカラムを表示するテンプレートです。カラムは横にスクロールして順番に表示"
-"できます。"
-
-msgid "Size of the image. One of: cover, contain. Applies to all columns."
-msgstr ""
-"画像の表示形式。領域全体に表示または画像全体を表示から選択します。すべてのカ"
-"ラムに適用されます。"
-
-msgid "Columns"
-msgstr "カラム"
-
-msgid ""
-"Keep the number of actions consistent for all columns. If you use an image "
-"or title for a column, make sure to do the same for all other columns."
-msgstr ""
-"各カラムのアクションの数は同じにします。画像またはタイトルの有無も、各カラム"
-"で統一してください。"
-
-msgid "Image carousel template message"
-msgstr "画像カルーセルテンプレートメッセージ"
-
-msgid ""
-"Template with multiple images which can be cycled like a carousel. The "
-"images are shown in order when scrolling horizontally."
-msgstr ""
-"複数の画像を表示するテンプレートです。画像は横にスクロールして順番に表示でき"
-"ます。"
-
-msgid "Flex message"
-msgstr "Flex message"
-
-msgid "Flex message object"
-msgstr "Flex Messageオブジェクト"
-
-msgid ""
-"Flex Messages are messages with a customizable layout. You can customize the "
-"layout freely based on the specification for CSS Flexible Box."
-msgstr ""
-"Flex Messageは、CSS Flexible Box（CSS Flexbox）の基礎知識を使って、レイアウト"
-"を自由にカスタマイズできるメッセージです。"
-
-msgid "Flex message JSON object"
-msgstr "Flex message JSON"
-
-msgid "Flex message JSON object such as generated by Flex Message Simulator"
-msgstr "Flex Messageシミュレーターなどで作成したFlex message JSON "
-
-msgid "Alt text of Flex message"
-msgstr "Flex message 代替テキスト"
-
-msgid "Raw message"
-msgstr "生メッセージ"
-
-msgid "Raw message object"
-msgstr "生メッセージオブジェクト"
-
-msgid "Message JSON object"
-msgstr "メッセージJSON"
-
-msgid "Postback action"
-msgstr "ポストバックアクション"
-
-msgid ""
-"String returned via webhook in the postback.data property of the postback "
-"event"
-msgstr ""
-"Webhookを介して、ポストバックイベントのpostback.dataプロパティで返される文字"
-"列"
-
-msgid "Display text"
-msgstr "表示テキスト"
-
-msgid ""
-"Text displayed in the chat as a message sent by the user when the action is "
-"performed. Required for quick reply buttons. Optional for the other message "
-"types."
-msgstr ""
-"アクションの実行時に、ユーザーのメッセージとしてLINEのトーク画面に表示される"
-"テキスト。クイックリプライボタンでは必須です。それ以外のメッセージタイプでは"
-"省略可能です。"
-
-msgid "Input option"
-msgstr "入力オプション"
-
-msgid "The display method of such as rich menu based on user action."
-msgstr "アクションに応じた、リッチメニューなどの表示方法"
-
-msgid "Close richmenu"
-msgstr "リッチメニューを閉じる"
-
-msgid "Open richmenu"
-msgstr "リッチメニューを開く"
-
-msgid "Open keyboard"
-msgstr "キーボードを開く"
-
-msgid "Open voice"
-msgstr "ボイスメッセージ入力モードを開く"
-
-msgid "Fill in text"
-msgstr "事前入力テキスト"
-
-msgid ""
-"String to be pre-filled in the input field when the keyboard is opened. "
-"Valid only when the inputOption property is set to openKeyboard."
-msgstr ""
-"キーボードを開いたときに、入力欄にあらかじめ入力しておく文字列。入力オプショ"
-"ンがキーボードを開くの場合にのみ有効です。"
-
-msgid "Message action"
-msgstr "メッセージアクション"
-
-msgid "URI action"
-msgstr "URIアクション"
-
-msgid ""
-"URI opened when the action is performed. The available schemes are http, "
-"https, line, and tel"
-msgstr ""
-"アクションの実行時に開かれるURI。使用できるスキームは、http、https、line、お"
-"よびtelです。"
-
-msgid "Datetime picker action"
-msgstr "日時選択アクション"
-
-msgid "Datetime picker"
-msgstr "日時選択ダイアログ"
-
-msgid "Action mode"
-msgstr "アクションモード"
-
-msgid "Select date"
-msgstr "日付を選択します。"
-
-msgid "Select time"
-msgstr "時刻を選択します。"
-
-msgid "Select date and time"
-msgstr "日付と日時を選択します。"
-
-msgid "Initial date or time"
-msgstr "日付または時刻の初期値"
-
-msgid "Max date or time"
-msgstr "選択可能な日付または時刻の最大値"
-
-msgid "Min date or time"
-msgstr "選択可能な日付または時刻の最小値"
-
-msgid "Camera action"
-msgstr "カメラアクション"
-
-msgid "This action can be configured only with quick reply buttons."
-msgstr "クイックリプライボタンにのみ設定できるアクションです。"
-
-msgid "Camera"
-msgstr "カメラ"
-
-msgid "Camera Roll action"
-msgstr "カメラロールアクション"
-
-msgid "Camera Roll"
-msgstr "カメラロール"
-
-msgid "Location action"
-msgstr "位置情報アクション"
-
-msgid "Clipboard action"
-msgstr "クリップボードアクション"
-
-msgid ""
-"When a user taps a control associated with this action, the text specified "
-"in the clipboardText property is copied to the device clipboard."
-msgstr ""
-"クリップボードテキストに指定されたテキストが、端末のクリップボードにコピーさ"
-"れます。"
-
-msgid "Clipboard"
-msgstr "クリップボード"
-
-msgid "Clipboard text"
-msgstr "クリップボードテキスト"
-
-msgid "Rich menu switch action"
-msgstr "リッチメニュー切り替えアクション"
-
-msgid "This action can be configured only with richmenus."
-msgstr "このアクションはリッチメニューにのみ設定可能です。"
-
-msgid "Rich menu switch"
-msgstr "リッチメニュー切替"
-
-msgid "Rich menu alias ID"
-msgstr "リッチメニューエイリアスID"
-
-msgid "Quick reply"
-msgstr "クイックリプライ"
-
-msgid "Quick reply container"
-msgstr "クイックリプライコンテナ"
-
-msgid "Quick reply button object"
-msgstr "クイックリプライボタン"
-
-msgid "Image URL"
-msgstr "アイコンURL"
-
-msgid "Sender"
-msgstr "送信者"
-
-msgid "Customize icon and display name"
-msgstr "表示名とアイコンのカスタマイズ"
-
-msgid "Sender name"
-msgstr "送信者名"
-
-msgid "Display name. Certain words such as LINE may not be used."
-msgstr ""
-"表示名。LINEなど弊社のサービスと誤認される可能性があるワードは使用できませ"
-"ん。"
-
-msgid "Sender icon URL"
-msgstr "アイコン画像URL"
-
-msgid ""
-"URL of the image to display as an icon when sending a message.HTTPS, PNG, "
-"1:1, 1MB"
-msgstr ""
-"メッセージ送信時にアイコンとして表示する画像のURL。画像フォーマット：PNG、ア"
-"スペクト比：1:1、最大ファイルサイズ：1MB"
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1.51:1 ,Max width: 1024px, Max file size: 10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
-"1.51:1、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
-
-msgid ""
-"Max character limit: 120 (no image or title) 60 (message with an image or "
-"title)"
-msgstr ""
-"画像もタイトルも指定しない場合の最大文字数：120、画像またはタイトルを指定する"
-"場合の最大文字数：60"
-
-msgid "Image url"
-msgstr "画像URL"
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1:1 ,Max width: 1024px, Max file size: 10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
-"1:1、最大横幅サイズ：1024px、"
-
-msgid "Add image map action"
-msgstr "イメージマップアクション追加"
-
-msgid "Add column"
-msgstr "カラム追加"
-
-msgid "Add quick reply"
-msgstr "クイックリプライ追加"
-
-msgid "3:2 3x2 row1: 3 col, row2: 3 col"
-msgstr "3:2 3列×2行 行1: 3カラム, 行2: 3カラム"
-
-msgid "3:2 2x2 row1: 2 col, row2: 2 col"
-msgstr "3:2 2列×2行 行1: 2カラム, 行2: 2カラム"
-
-msgid "3:2 1x1 row1: 1"
-msgstr "3:2 1列×1行 行1: 1カラム"
-
-msgid "3:2 1x2 row1: 1 col, row2: 1col"
-msgstr "3:2 1列×2行 行1: 1カラム, 行2: 1カラム"
-
-msgid "3:2 2x1 row1: 2 col"
-msgstr "3:2 2列×1行 行1: 2カラム"
-
-msgid "3:2 3x1 row1: 2 col, 2:1"
-msgstr "3:2 3列×1行 行1: 2カラム, 比率: 2:1"
-
-msgid "3:2 3x1 row1: 2 col, 1:2"
-msgstr "3:2 3列×1行 行1: 2カラム, 比率: 1:2"
-
-msgid "3:2 3x2 row1: 2 col (2:1), row2: 2col (2:1)"
-msgstr "3:2 3列×2行 行1: 2カラム (2:1), 行2: 2カラム (2:1)"
-
-msgid "3:2 3x2 row1: 1 col , row2: 3 col"
-msgstr "3:2 3列×2行 行1: 1カラム, 行2: 3カラム"
-
-msgid "3:2 3x2 row1: 3 col, row2: 1 col"
-msgstr "3:2 3列×2行 行1: 3カラム, 行2: 1カラム"
-
-msgid "3:2 2x2 row1: 1 col, row2: 2 col"
-msgstr "3:2 2列×2行 行1: 1カラム, 行2: 2カラム"
-
-msgid "3:2 2x2 row1: 2 col, row2: 1 col"
-msgstr "3:2 2列×2行 行1: 2カラム, 行2: 1カラム"
-
-msgid "3:1 3x1 row1: 3 col"
-msgstr "3:1 3列×1行 3カラム"
-
-msgid "3:1 3x1 row1: 2 col (1:2)"
-msgstr "3:1 3列×1行 2カラム 比率: 1:2"
-
-msgid "3:1 3x1 row1: 2 col (2:1)"
-msgstr "3:1 3列×1行 2カラム 比率: 2:1"
-
-msgid "3:1 2x1 row1: 2 col"
-msgstr "3:1 2列×1行 2カラム"
-
-msgid "3:1 1x1 row1: 1 col"
-msgstr "3:1 1列×1行 1カラム"
-
-msgid "New richmenu"
-msgstr "新規リッチメニュー"
-
-msgid "MENU"
-msgstr "メニュー"
-
-msgid "Unique identifier for the rich menu. Max character limit: 100"
-msgstr "リッチメニューを区別するための識別子。最大文字数:100文字。"
-
-msgid ""
-"This value can be used to help manage your rich menus and is not displayed "
-"to users."
-msgstr "リッチメニューの管理に役立ちます。ユーザーには表示されません。"
-
-msgid "Size"
-msgstr "サイズ"
-
-msgid ""
-"The width and height of the rich menu displayed in the chat. The aspect "
-"ratio (width / height) must be at least 1.45."
-msgstr ""
-"チャットに表示されるリッチメニューの幅と高さ。アスペクト比（幅/高さ）は1.45以"
-"上である必要があります。"
-
-msgid "Width of the rich menu. Must be between 800px and 2500px."
-msgstr "リッチメニューの幅。800px以上2500px以下。"
-
-msgid "Height of the rich menu. Must be at least 250px."
-msgstr "リッチメニューの高さ。250px以上。"
-
-msgid "Tap Areas"
-msgstr "タップ領域"
-
-msgid "Area"
-msgstr "領域"
-
-msgid "Bounds"
-msgstr "範囲"
-
-msgid "Horizontal position of the tappable area’s top-left corner (min: 0)."
-msgstr "左上隅からの水平位置（最小値: 0）。"
-
-msgid "Vertical position of the tappable area’s top-left corner (min: 0)."
-msgstr "左上隅からの垂直位置（最小値: 0）。"
-
-msgid "Tappable area width (max: 2500)."
-msgstr "幅（最大: 2500）。"
-
-msgid "Tappable area height (max: 1686)."
-msgstr "高さ（最大: 1686）。"
-
-msgid "Display the rich menu by default"
-msgstr "リッチメニューをデフォルトで表示する"
-
-msgid "Chat bar text"
-msgstr "チャットバーのテキスト"
-
-msgid "Text displayed in the chat bar. Max character limit: 14"
-msgstr "チャットバーに表示されるテキスト。最大文字数:14文字。"
-
-msgid "Add tap areas"
-msgstr "タップ領域を追加する"
-
-msgid "Audience"
-msgstr "オーディエンス"
-
-msgid "Audience condition"
-msgstr "オーディエンス条件"
-
-msgid "Audience condition group"
-msgstr "オーディエンス条件グループ"
-
-msgid "Line user ID"
-msgstr "LINEユーザーID"
-
-msgid "Email"
-msgstr "メールアドレス"
-
-msgid "User login name"
-msgstr "ユーザー名"
-
-msgid "User display name"
-msgstr "表示名"
-
-msgid "User meta"
-msgstr "ユーザーメタ"
-
-msgid "Profile"
-msgstr "プロフィール"
-
-msgid "All friends(Broadcast)"
-msgstr "すべての友だち(ブロードキャスト)"
-
-msgid "All recognized friends(Multicast)"
-msgstr "すべての認識済みの友だち"
-
-msgid "Select how to match user roles"
-msgstr "ユーザーロールの一致方法を選択"
-
-msgid "Must have all roles (AND)"
-msgstr "すべてのロールを持つ（AND）"
-
-msgid "Must have at least one role (OR)"
-msgstr "いずれかのロールを持つ（OR）"
-
-msgid "Must not have these roles (NOT)"
-msgstr "指定ロールを持たない（NOT）"
-
-msgid "WordPress User ID"
-msgstr "WordPressユーザーID"
-
-msgid "Add condition"
-msgstr "条件を追加"
-
-msgid "Add LINE user ID"
-msgstr "LINEユーザーIDを追加"
-
-msgid "Add WordPress user ID"
-msgstr "WordPressユーザーIDを追加"
-
-msgid "Add email"
-msgstr "メールアドレスを追加"
-
-msgid "Add username"
-msgstr "ユーザー名を追加"
-
-msgid "Add user meta"
-msgstr "ユーザーメタを追加"
-
-msgid "Add profile data"
-msgstr "プロフィールデータを追加"
+msgid "Item"
+msgstr "項目"
 
 msgid "Missing items definition"
 msgstr "欠落項目の定義"
@@ -2321,101 +1223,6 @@ msgstr ""
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr "<strong>%1</strong> (%2, %3 バイト)"
 
-#, php-format
-msgid "Rich menu ID for %s."
-msgstr "%sロール用リッチメニューID"
-
-msgid "LINE Connect Richmenu"
-msgstr "LINE Connect リッチメニュー"
-
-msgid "Channel access token or channel secret is not set."
-msgstr "チャネルアクセストークンとチャネルシークレットがセットされていません。"
-
-msgid "Failed"
-msgstr "失敗"
-
-msgid "Deleted"
-msgstr "削除済"
-
-msgid "Richmenu was successfully deleted"
-msgstr "リッチメニューが正常に削除されました"
-
-msgid "Failed to delete richmenu"
-msgstr "リッチメニューの削除に失敗しました"
-
-msgid "Richmenu ID is not set"
-msgstr "リッチメニューIDが設定されていません"
-
-msgid "Richmenu was successfully created"
-msgstr "リッチメニューが正常に作成されました"
-
-msgid "Failed to upload richmenu image"
-msgstr "リッチメニュー画像のアップロードに失敗しました"
-
-msgid "Failed to create richmenu"
-msgstr "リッチメニューの作成に失敗しました"
-
-msgid "Richmenu is not set"
-msgstr "リッチメニューが設定されていません"
-
-msgid "Richmenu alias was successfully deleted"
-msgstr "リッチメニューエイリアスが正常に削除されました"
-
-msgid "Failed to delete richmenu alias"
-msgstr "リッチメニューエイリアスの削除に失敗しました"
-
-msgid "Richmenu alias ID is not set"
-msgstr "リッチメニューエイリアスIDが設定されていません"
-
-msgid "Richmenu alias was successfully created"
-msgstr "リッチメニューエイリアスが正常に作成されました"
-
-msgid "Failed to create richmenu alias"
-msgstr "リッチメニューエイリアスの作成に失敗しました"
-
-msgid "Richmenu alias is not set"
-msgstr "リッチメニューエイリアスが設定されていません"
-
-msgid "Richmenu alias was successfully updated"
-msgstr "リッチメニューエイリアスが正常に更新されました"
-
-msgid "Failed to update richmenu alias"
-msgstr "リッチメニューエイリアスの更新に失敗しました"
-
-msgid "Richmenu alias or richmenu ID is not set"
-msgstr "リッチメニューエイリアスまたはリッチメニューIDが設定されていません"
-
-msgid "LINE Connect Audience"
-msgstr "LINE Connect オーディエンス"
-
-msgid "Audiences"
-msgstr "オーディエンス"
-
-msgid "Download"
-msgstr "ダウンロード"
-
-msgid "CSV Download"
-msgstr "CSVダウンロード"
-
-msgid "LINE Connect Audience Download"
-msgstr "LINE Connect オーディエンスダウンロード"
-
-msgid "Download Audiences"
-msgstr "ダウンロードオーディエンス"
-
-msgid "Please add channel first"
-msgstr "チャネルを追加してください"
-
-msgid "The message will not be sent to anyone."
-msgstr "メッセージは誰にも送信されません"
-
-msgid "Message will be sent to all users who have subscribed to this channel."
-msgstr "メッセージはチャネルの友だち全員に送られます"
-
-#, php-format
-msgid "Message will be sent to %s person."
-msgstr "メッセージは%s名に送信されます。"
-
 msgid "Send the return value as a response"
 msgstr "戻り値をLINEメッセージで送信"
 
@@ -2423,770 +1230,334 @@ msgid ""
 "Send the return value of this action as a response message by LINE message"
 msgstr "LINEメッセージの応答メッセージとしてこのアクションの戻り値を送信"
 
+msgid "Parameters"
+msgstr "パラメーター"
+
 msgid "Please add action first"
 msgstr "アクションを追加してください"
 
-msgid "LINE Connect Trigger"
-msgstr "LINE Connect トリガー"
+msgid "Get the current date and time"
+msgstr "現在日時取得"
 
-msgid "LINE Connect Direct Message"
-msgstr "LINE Connect DM"
+msgid "Search users"
+msgstr "ユーザー検索"
 
-msgid "Direct Message"
-msgstr "ダイレクトメッセージ"
+msgid "Role"
+msgstr "ロール"
 
-msgid "Sent a LINE message."
-msgstr "LINEメッセージを送信しました"
+msgid "Search"
+msgstr "検索"
 
-msgid "Faild to sent a LINE message"
-msgstr "LINEメッセージの送信に失敗しました"
+msgid "Include"
+msgstr "含む"
 
-msgid "Messages is not Array."
-msgstr "メッセージが配列ではありません"
-
-msgid "Channel not found."
-msgstr "チャネルが見つかりません"
-
-msgid "Channel or User is not set."
-msgstr "チャネルかユーザーがセットされていません"
-
-msgid "Event Log"
-msgstr "イベントログ"
-
-msgid "ID"
-msgstr "ID"
-
-msgid "Event ID"
-msgstr "イベントID"
-
-msgid "Event Type"
-msgstr "イベントタイプ"
-
-msgid "Source Type"
-msgstr "ソースタイプ"
-
-msgid "User ID"
-msgstr "ユーザーID"
-
-msgid "BOT ID"
-msgstr "チャネル"
-
-msgid "Message Type"
-msgstr "メッセージタイプ"
-
-msgid "DATE TIME"
-msgstr "受信日時"
-
-#, php-format
-msgid ""
-"You are about to delete this item '%s'\n"
-"  'Cancel' to stop, 'OK' to delete."
-msgstr "次の項目を削除してもよろしいですか？ログID: %s"
-
-msgid "All Event Types"
-msgstr "全てのイベントタイプ"
-
-msgid "All Source Types"
-msgstr "全てのソースタイプ"
-
-msgid "All Channels"
-msgstr "全てのチャネル"
-
-msgid "All Message Types"
-msgstr "全てのメッセージタイプ"
-
-msgid "Filter"
-msgstr "絞り込み"
-
-msgid "Delete"
-msgstr "削除"
-
-msgid "Error: Failed to delete items."
-msgstr "削除に失敗しました。"
-
-msgid "Messages"
-msgstr "メッセージ"
-
-msgid "Failed to execute scenario"
+msgid "Order"
 msgstr ""
 
-# php-format
-#, php-format
-msgid "New comment on %s"
-msgstr "投稿「%s」に新しいコメントがありました"
-
-#, php-format
-msgid "Comment by %s"
-msgstr "%sさんから: "
-
-#, php-format
-msgid "The request body has %s error."
-msgstr "リクエストボディに%s個のエラーがあります。"
-
-msgid "Invalid reply token."
-msgstr "無効な返信トークンです。"
-
-#, php-format
-msgid "The property, %s, in the request body is invalid."
-msgstr "リクエストボディのプロパティ「%s」が無効です。"
-
-msgid "The request body could not be parsed as JSON."
-msgstr "リクエストボディをJSONとして解析できませんでした。"
-
-#, php-format
-msgid "The content type, %s, is not supported."
-msgstr "コンテンツタイプ「%s」はサポートされていません。"
-
-msgid "Authentication failed."
-msgstr "認証に失敗しました。"
-
-msgid "Access to this API is not available for your account."
-msgstr "このAPIへのアクセスは、お使いのアカウントでは利用できません。"
-
-msgid "Failed to send messages."
-msgstr "メッセージの送信に失敗しました。"
-
-msgid "You have reached your monthly limit."
-msgstr "月間の制限に達しました。"
-
-msgid "Not found."
-msgstr "見つかりませんでした。"
-
-msgid "May not be empty."
-msgstr "空は許可されていません。"
-
-#, php-format
-msgid "Size must be between %s and %s."
-msgstr "サイズは%sから%sの間である必要があります。"
-
-msgid "Please add message first"
-msgstr "メッセージを追加してください"
-
-msgid "Please add richmenu first"
-msgstr "リッチメニューを追加してください"
-
-msgid "Please add richmenu alias first"
-msgstr "リッチメニューエイリアスを追加してください"
-
-msgid "Please add audience first"
-msgstr "オーディエンスを追加してください"
-
-msgid "Please add scenario first"
+msgid "Orderby"
 msgstr ""
 
-msgid "You are not logged in."
-msgstr "ログインしていません。"
+msgid "Offset"
+msgstr ""
 
-msgid "You do not have permission to send messages."
-msgstr "メッセージを送信する権限がありません。"
+msgid "Meta Key"
+msgstr "メタキー"
 
-msgid "Nonce is not set or invalid."
-msgstr "Nonceが設定されていないか、無効です。"
+msgid "Meta Value"
+msgstr "メタ値"
 
-msgid "Nonce verified successfully."
-msgstr "Nonceの確認に成功しました。"
+msgid "Meta Compare"
+msgstr "メタ比較"
 
-msgid "LINE Connect Bulk message"
-msgstr "LINE Connect 一括配信"
+msgid "Set LC Scenario Step"
+msgstr "シナリオステップ設定"
 
-msgid "Bulk message"
-msgstr "一括配信"
+msgid "Set LINE Connect Scenario Step."
+msgstr "シナリオの特定のステップへ移動します。"
 
-msgid "There was no target to be sent that matched the condition."
-msgstr "条件に一致する送信対象がありませんでした。"
+msgid "Scenario ID"
+msgstr "シナリオID"
 
-msgid "LINE"
-msgstr "LINE"
+msgid "ID of the step to set."
+msgstr "設定するステップのID。"
 
-msgid "&#9745;"
-msgstr "&#9745;"
+msgid "Next date to execute the step. Absolute or relative."
+msgstr "ステップを実行する日時。絶対日時または相対的な時間設定が行えます。"
 
-msgid "&#9744;"
-msgstr "&#9744;"
-
-msgid "Send LINE Message"
-msgstr "LINE送信する"
-
-msgid "All Friends"
-msgstr "すべての友達"
-
-msgid "Linked Friends"
-msgstr "連携済みの友達"
-
-msgid "Sent a LINE message to all friends."
-msgstr "全ての友達にLINEを送信しました"
-
-msgid "Failed to send a LINE message to all friends."
-msgstr "全ての友達へのLINE送信に失敗しました"
-
-# php-format
-#, php-format
-msgid "Sent a LINE message to %s person."
-msgstr "%s人にLINEを送信しました"
-
-msgid "No users matched"
-msgstr "条件にマッチするユーザーがいませんでした"
-
-msgid "Failed to send a LINE message to selected roles."
-msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
-
-msgid "LINE Connect settings"
-msgstr "LINE Connect 設定"
-
-msgid "Settings"
-msgstr "設定"
+msgid "LINE user ID. Default value is LINE user ID of event source."
+msgstr "LINEユーザーID。デフォルト値はイベントソースのLINEユーザーID。"
 
 msgid ""
-"Database is not up to date. Click the Setting Save button to update the "
-"database. It is recommended that you make a backup of the database before "
-"updating."
-msgstr ""
-"LINE Connectのデータベースが最新ではありません。保存ボタンをクリックすると、"
-"データベースのアップデートが行われます。アップデートの前にデータベースのバッ"
-"クアップを取得することをお勧めします。"
+"First 4 characters of channel secret. Default value is channel of event "
+"source."
+msgstr "チャネルシークレットの先頭4文字。デフォルトは送信元チャネル。"
 
-msgid "Channel settings"
-msgstr "チャネル設定"
+msgid "Add LINE user tags"
+msgstr "LINEユーザータグ追加"
 
-#, php-format
-msgid "The number of person to be notified is %s."
-msgstr "通知の対象となる人数は%s人です。"
+msgid "Add LINE user tags."
+msgstr "LINEユーザーのタグを追加します。"
 
-msgid "No role selected"
-msgstr "ロールが選択されていません。"
+msgid "Array of tags to add. If empty, tags will not be added."
+msgstr "追加するタグの配列。空の場合、タグは追加されません。"
 
-msgid "No matching user"
-msgstr "条件にマッチするユーザーがいません。"
+msgid "Update LINE user tags"
+msgstr "LINEユーザータグ更新"
 
-msgid "Unknown"
-msgstr "不明"
+msgid "Update or delete LINE user tags."
+msgstr "LINEユーザーのタグを更新または削除します。"
 
-msgid "Notify to all freinds."
-msgstr "友達登録されているすべてのユーザーへ通知されます。"
+msgid "Array of tags to update. If empty, all tags will be deleted."
+msgstr "更新するタグの配列。空の場合、すべてのタグが削除されます。"
 
-msgid "No selected"
-msgstr "選択なし"
+msgid "Get LINE text message"
+msgstr "LINEテキストメッセージ取得"
 
-msgid "Delete this channel"
-msgstr "このチャネルを削除"
+msgid "Get LINE text message."
+msgstr "LINEテキストメッセージを取得します。"
 
-msgid "New channel"
-msgstr "新規チャネル"
+msgid "Message body"
+msgstr "メッセージ本文"
 
-msgid "Add new channel"
-msgstr "新規チャネル追加"
+msgid "Start LC Scenario"
+msgstr "シナリオを開始"
 
-msgid "Save"
-msgstr "保存"
+msgid "Start LINE Connect Scenario."
+msgstr "シナリオを開始します。"
 
-#, php-format
-msgid "\"%s\" is invalid in new channel."
-msgstr "新規チャネル: %sが正しくありません。"
+msgid "Scenario restart flag"
+msgstr "シナリオがすでに開始されている場合の動作"
 
-#, php-format
-msgid "\"%2$s\" is invalid in %1$s channel."
-msgstr "%1$s: %2$sが正しくありません。"
+msgid "Never restart"
+msgstr "開始しない"
 
-#, php-format
-msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
-msgstr "新規チャネル: %1$sが正しくありません。エラーメッセージ: %2$s"
+msgid "Restart only completed"
+msgstr "完了している場合のみ開始"
 
-#, php-format
-msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
-msgstr "%1$s: %2$sが正しくありません。エラーメッセージ: %3$s"
+msgid "Always restart"
+msgstr "常に開始"
 
-msgid "The same channel secret is already registered of the new channel."
-msgstr "新規チャネル: 同じチャネルシークレットが既に登録されています。"
+msgid "Line user ID. Default value is LINE user ID of event source."
+msgstr "LINEユーザーID。デフォルト値はイベントソースのLINEユーザーID。"
 
-#, php-format
-msgid "The same channel secret is already registered of the \"%s\"."
-msgstr "%s: 同じチャネルシークレットが既に登録されています。"
+msgid "Send mail to admin"
+msgstr "管理者へメール送信"
 
-#, php-format
-msgid "\"%s\" is required."
-msgstr "%sは必須項目です。"
+msgid "Send mail to admin."
+msgstr "管理者へメールを送信します。"
 
-#, php-format
-msgid "\"%s\" is invalid."
-msgstr "%sが正しくありません。"
+msgid "Mail subject"
+msgstr "メール件名"
 
-#, php-format
-msgid ""
-"\"%s\" is invalid. The height cannot be greater than three times the width."
-msgstr "%sが正しくありません。高さには幅の3倍を超える値は指定できません。"
+msgid "Mail body"
+msgstr "メール本文"
 
-msgid "Rich menu cache cleared."
-msgstr "リッチメニューリストのキャッシュを削除しました。"
+msgid "Get user meta"
+msgstr "ユーザーメタ取得"
 
-msgid "Failed to clear rich menu cache."
-msgstr "リッチメニューリストのキャッシュの削除に失敗しました。"
+msgid "Get WordPress user meta value"
+msgstr "WordPressユーザーのメタ値を取得"
 
-msgid "Settings saved."
-msgstr "設定を保存しました。"
+msgid "Get LINE message from Raw JSON"
+msgstr "生LINEメッセージJSON取得"
 
-#, php-format
-msgid "Updated the following rich menus: %s"
-msgstr "次のリッチメニューIDを更新しました: %s"
+msgid "Get LINE message from Raw JSON."
+msgstr "LINEメッセージをJSON形式で指定します。"
 
-msgid "LINE Connect"
-msgstr "LINE Connect"
+msgid "Single raw Message JSON object"
+msgstr "単一のメッセージJSONオブジェクト"
 
-msgid "Published"
-msgstr "送信済み"
+msgid "Remove LINE user tags"
+msgstr "LINEユーザータグ削除    "
 
-#, php-format
-msgid "\"%1$s\" message %2$s"
-msgstr "%1$sメッセージを%2$s"
+msgid "Remove LINE user tags."
+msgstr "LINEユーザーのタグを削除します。"
 
-msgid "Broadcast message sent successfully."
-msgstr "ブロードキャストメッセージが送信されました。"
+msgid "Array of tags to remove. If empty, tags will not be removed."
+msgstr "削除するタグの配列。空の場合、タグは削除されません。"
 
-msgid "Broadcast message failed to send."
-msgstr "ブロードキャストメッセージの送信に失敗しました。"
+msgid "Get LC notify message"
+msgstr "記事投稿通知メッセージ"
 
-#, php-format
-msgid "Multicast message sent to %s person."
-msgstr "マルチキャストメッセージが%s名に送信されました。"
+msgid "Get LC notify message."
+msgstr "LINE Connect記事投稿通知メッセージを取得します。"
 
-msgid "Multicast message failed to send."
-msgstr "マルチキャストメッセージの送信に失敗しました。"
+msgid "Message title"
+msgstr "メッセージタイトル"
 
-#, php-format
-msgid "Push message sent to %s person."
-msgstr "%s 人にプッシュメッセージを送信しました。"
+msgid "Thumbnail url"
+msgstr "サムネイルURL"
 
-#, php-format
-msgid "Push message failed to sent to %s person."
-msgstr "%s 人へのプッシュメッセージの送信に失敗しました。"
+msgid "Button action type"
+msgstr "ボタンアクションタイプ"
 
-#, php-format
-msgid "Message will be sent to %s person by multicast."
-msgstr "メッセージはマルチキャストで %s 人に送信されます。"
+msgid "Postback"
+msgstr "ポストバック"
 
-#, php-format
-msgid "Message will be sent to %s person by push."
-msgstr "メッセージはプッシュで %s 人に送信されます。"
+msgid "URI"
+msgstr "URI"
 
-msgid "Valid message."
-msgstr "有効なメッセージです。"
+msgid "Label"
+msgstr "ラベル"
 
-msgid "Invalid message."
-msgstr "無効なメッセージです。"
+msgid "Display Text"
+msgstr "表示テキスト"
 
-#, php-format
-msgid "Push to %s"
-msgstr "%sへのプッシュ"
+msgid "Attributes"
+msgstr "属性"
 
-#, php-format
-msgid "%s multicast"
-msgstr "%s通のマルチキャスト"
+msgid "Search posts"
+msgstr "記事検索"
 
-msgid "Broadcast"
-msgstr "ブロードキャスト"
+msgid "Author Name"
+msgstr "投稿者名"
 
-msgid "Teacher"
-msgstr "先生"
-
-msgid "Student"
+msgid "S"
 msgstr ""
 
-msgid "Check All"
-msgstr "全て選択"
-
-msgid "UnCheck All"
-msgstr "全て選択解除"
-
-msgid "Select options"
-msgstr "未選択"
-
-msgid "# checked"
-msgstr "# 個選択"
-
-msgid "Copied!"
-msgstr "コピーしました！"
-
-msgid "LINE ID List"
-msgstr "LINE ID リスト"
-
-msgid "LINE Event Log"
-msgstr "LINEイベントログ"
-
-msgid "LC Triggers"
-msgstr "LCトリガー"
-
-msgid "LC Trigger"
-msgstr "LCトリガー"
-
-msgid "Add New"
-msgstr "新しく追加"
-
-msgid "Add New Trigger"
-msgstr "新しいトリガーを追加"
-
-msgid "Edit Trigger"
-msgstr "トリガーを編集"
-
-msgid "New Trigger"
-msgstr "新しいトリガー"
-
-msgid "View Trigger"
-msgstr "トリガーを表示"
-
-msgid "Search Triggers"
-msgstr "トリガーを検索"
-
-msgid "No Triggers found"
-msgstr "トリガーが見つかりません"
-
-msgid "No Triggers found in Trash"
-msgstr "ゴミ箱にトリガーはありません"
-
-msgid "All Triggers"
-msgstr "すべてのトリガー"
-
-msgid "Trigger Archives"
-msgstr "トリガーアーカイブ"
-
-msgid "Trigger Attributes"
-msgstr "トリガー属性"
-
-msgid "Insert into Trigger"
-msgstr "トリガーに挿入"
-
-msgid "Uploaded to this Trigger"
-msgstr "このトリガーにアップロードしました"
-
-msgid "Featured Image"
-msgstr "アイキャッチ画像"
-
-msgid "Set featured image"
-msgstr "アイキャッチ画像の設定"
-
-msgid "Remove featured image"
-msgstr "アイキャッチ画像の削除"
-
-msgid "Use as featured image"
-msgstr "アイキャッチ画像として使用"
-
-msgid "Filter Triggers list"
-msgstr "トリガー一覧をフィルター"
-
-msgid "Triggers list navigation"
-msgstr "トリガー一覧のナビゲーション"
-
-msgid "Triggers list"
-msgstr "トリガー一覧"
-
-msgid "Trigger published."
-msgstr "トリガーを公開しました"
-
-msgid "Trigger published privately."
-msgstr "トリガーをプライベートで公開しました"
-
-msgid "Trigger reverted to draft."
-msgstr "トリガーを下書きに戻しました"
-
-msgid "Trigger scheduled."
-msgstr "トリガーが予約公開されました"
-
-msgid "Trigger updated."
-msgstr "トリガーが更新されました"
-
-msgid "LINE Connect Triggers"
-msgstr "LINE Connect トリガー"
-
-msgid "LC Messages"
-msgstr "LCメッセージ"
-
-msgid "LC Message"
-msgstr "LCメッセージ"
-
-msgid "Add New Message"
-msgstr "新しいメッセージを追加"
-
-msgid "Edit Message"
-msgstr "メッセージを編集"
-
-msgid "New Message"
-msgstr "新しいメッセージ"
-
-msgid "View Message"
-msgstr "メッセージを表示"
-
-msgid "Search Messages"
-msgstr "メッセージを検索"
-
-msgid "No Messages found"
-msgstr "メッセージが見つかりません"
-
-msgid "No Messages found in Trash"
-msgstr "ゴミ箱にメッセージが見つかりません"
-
-msgid "All Messages"
-msgstr "すべてのメッセージ"
-
-msgid "Message Archives"
-msgstr "メッセージのアーカイブ"
-
-msgid "Message Attributes"
-msgstr "メッセージの属性"
-
-msgid "Insert into Message"
-msgstr "メッセージに挿入"
-
-msgid "Uploaded to this Message"
-msgstr "このメッセージにアップロードされました"
-
-msgid "Filter Messages list"
-msgstr "メッセージをフィルター"
-
-msgid "Messages list navigation"
-msgstr "メッセージのナビゲーション"
-
-msgid "Messages list"
-msgstr "メッセージ一覧"
-
-msgid "Message published."
-msgstr "メッセージが公開されました。"
-
-msgid "Message published privately."
-msgstr "メッセージが非公開にされました。"
-
-msgid "Message reverted to draft."
-msgstr "メッセージが下書きに戻されました。"
-
-msgid "Message scheduled."
-msgstr "メッセージがスケジュールされました。"
-
-msgid "Message updated."
-msgstr "メッセージが更新されました。"
-
-msgid "LINE Connect Messages"
-msgstr "LINE Connect メッセージ"
-
-msgid "LC Audiences"
-msgstr "LCオーディエンス"
-
-msgid "LC Audience"
-msgstr "LCオーディエンス"
-
-msgid "Add New Audience"
-msgstr "新規オーディエンスを追加"
-
-msgid "Edit Audience"
-msgstr "オーディエンスを編集"
-
-msgid "New Audience"
-msgstr "新規オーディエンス"
-
-msgid "View Audience"
-msgstr "オーディエンスを表示"
-
-msgid "Search Audiences"
-msgstr "オーディエンスを検索"
-
-msgid "No Audiences found"
-msgstr "オーディエンスが見つかりませんでした"
-
-msgid "No Audiences found in Trash"
-msgstr "ゴミ箱内にオーディエンスはありません"
-
-msgid "All Audiences"
-msgstr "すべてのオーディエンス"
-
-msgid "Audience Archives"
-msgstr "オーディエンスアーカイブ"
-
-msgid "Audience Attributes"
-msgstr "オーディエンスの属性"
-
-msgid "Insert into Audience"
-msgstr "オーディエンスに挿入"
-
-msgid "Uploaded to this Audience"
-msgstr "このオーディエンスにアップロード済み"
-
-msgid "Filter Audiences list"
-msgstr "オーディエンスリストをフィルタリング"
-
-msgid "Audiences list navigation"
-msgstr "オーディエンスリストのナビゲーション"
-
-msgid "Audiences list"
-msgstr "オーディエンスリスト"
-
-msgid "Audience published."
-msgstr "オーディエンスが公開されました。"
-
-msgid "Audience published privately."
-msgstr "オーディエンスが非公開で公開されました。"
-
-msgid "Audience reverted to draft."
-msgstr "オーディエンスが下書きに戻されました。"
-
-msgid "Audience scheduled."
-msgstr "オーディエンスが予約されました。"
-
-msgid "Audience updated."
-msgstr "オーディエンスが更新されました。"
-
-msgid "LINE Connect Audiences"
-msgstr "LINE Connect オーディエンス"
-
-msgid "Scenarios"
-msgstr "シナリオ"
-
-msgid "Scenario"
-msgstr "シナリオ"
-
-msgid "Add New Scenario"
-msgstr "新規シナリオを追加"
-
-msgid "Edit Scenario"
-msgstr "シナリオを編集"
-
-msgid "New Scenario"
-msgstr "新規シナリオ"
-
-msgid "View Scenario"
-msgstr "シナリオを表示"
-
-msgid "Search Scenarios"
-msgstr "シナリオを検索"
-
-msgid "No Scenarios found"
-msgstr "シナリオが見つかりません"
-
-msgid "No Scenarios found in Trash"
-msgstr "ゴミ箱にシナリオが見つかりません"
-
-msgid "All Scenarios"
-msgstr "すべてのシナリオ"
-
-msgid "Scenario Archives"
-msgstr "シナリオアーカイブ"
-
-msgid "Scenario Attributes"
-msgstr "シナリオ属性"
-
-msgid "Insert into Scenario"
-msgstr "シナリオに挿入"
-
-msgid "Uploaded to this Scenario"
-msgstr "このシナリオにアップロード済み"
-
-msgid "Filter Scenarios list"
-msgstr "シナリオリストを絞り込む"
-
-msgid "Scenarios list navigation"
-msgstr "シナリオリストのナビゲーション"
-
-msgid "Scenarios list"
-msgstr "シナリオリスト"
-
-msgid "Scenario published."
-msgstr "シナリオを公開しました。"
-
-msgid "Scenario published privately."
-msgstr "シナリオを非公開で公開しました。"
-
-msgid "Scenario reverted to draft."
-msgstr "シナリオを下書きに戻しました。"
-
-msgid "Scenario scheduled."
-msgstr "シナリオを予約しました。"
-
-msgid "Scenario updated."
-msgstr "シナリオを更新しました。"
-
-msgid "LINE Connect Scenarios"
-msgstr "LINE Connectシナリオ"
-
-msgid "Action Flows"
-msgstr "アクションフロー"
-
-msgid "Action Flow"
-msgstr "アクションフロー"
-
-msgid "Add New Action Flow"
-msgstr "新しいアクションフローを追加"
-
-msgid "Edit Action Flow"
-msgstr "アクションフローを編集"
-
-msgid "New Action Flow"
-msgstr "新規アクションフロー"
-
-msgid "View Action Flow"
-msgstr "アクションフローを表示"
-
-msgid "Search Action Flows"
-msgstr "アクションフローを検索"
-
-msgid "No Action Flows found"
-msgstr "アクションフローが見つかりません"
-
-msgid "No Action Flows found in Trash"
-msgstr "ゴミ箱にアクションフローが見つかりません"
-
-msgid "All Action Flows"
-msgstr "すべてのアクションフロー"
-
-msgid "Action Flow Archives"
-msgstr "アクションフローアーカイブ"
-
-msgid "Action Flow Attributes"
-msgstr "アクションフロー属性"
-
-msgid "Insert into Action Flow"
-msgstr "アクションフローに挿入"
-
-msgid "Uploaded to this Action Flow"
-msgstr "このアクションフローにアップロード済み"
-
-msgid "Filter Action Flows list"
-msgstr "アクションフローリストを絞り込む"
-
-msgid "Action Flows list navigation"
-msgstr "アクションフローリストのナビゲーション"
-
-msgid "Action Flows list"
-msgstr "アクションフローリスト"
-
-msgid "Action Flow published."
-msgstr "アクションフローを公開しました。"
-
-msgid "Action Flow published privately."
-msgstr "アクションフローを非公開で公開しました。"
-
-msgid "Action Flow reverted to draft."
-msgstr "アクションフローを下書きに戻しました。"
-
-msgid "Action Flow scheduled."
-msgstr "アクションフローを予約しました。"
-
-msgid "Action Flow updated."
-msgstr "アクションフローを更新しました。"
-
-msgid "LINE Connect Action Flows"
-msgstr "LINE Connect アクションフロー"
-
-msgid "LINE Connect Action Execute"
-msgstr "LINE Connect アクション実行"
-
-msgid "Action Execute"
-msgstr "アクション実行"
-
-#, php-format
-msgid ""
-"A new version %1$s is available. <a href=\"%2$s\" target=\"_blank\">Download "
-"from GitHub</a>"
+msgid "P"
 msgstr ""
-"LINE Connectの新しいバージョン(%1$s)が利用可能です。<a href=\"%2$s\" "
-"target=\"_blank\">GitHubからダウンロード</a>"
 
-msgid "LINE Connect Dashboard"
-msgstr "LINE Connect ダッシュボード"
+msgid "Name"
+msgstr "名前"
+
+msgid "Year"
+msgstr "年"
+
+msgid "Monthnum"
+msgstr ""
+
+msgid "Day"
+msgstr "曜日"
+
+msgid "Get my user information"
+msgstr "自分のユーザー情報取得"
+
+msgid "Get LINE user tags"
+msgstr "LINEユーザータグ取得"
+
+msgid "Get LINE user tags."
+msgstr "LINEユーザーのタグを取得します。"
+
+msgid "Send LINE message with audience"
+msgstr "オーディエンスを指定してLINEメッセージを送信"
+
+msgid "Send LINE message with audience."
+msgstr "オーディエンスを指定してLINEメッセージを送信"
+
+msgid "LC message id, text or message object"
+msgstr "LCメッセージID、テキスト、またはメッセージオブジェクト"
+
+msgid "LC Audience id or object"
+msgstr "LCオーディエンスIDまたはオーディエンスオブジェクト"
+
+msgid "Arguments to insert into the message"
+msgstr "メッセージ中の置換引数"
+
+msgid "Arguments to insert into the audience"
+msgstr "オーディエンスに埋め込む引数"
+
+msgid "Notification Disabled"
+msgstr "通知を無効化"
+
+msgid "Notification disabled"
+msgstr "通知を無効化"
+
+msgid "Link rich menu"
+msgstr "リッチメニューリンク"
+
+msgid "Link rich menu with line user ID and Channel."
+msgstr "ユーザーのリッチメニューを設定します。"
+
+msgid "Rich menu ID"
+msgstr "リッチメニューID"
+
+msgid "LINE user id. Default value is LINE user id of event source."
+msgstr "LINEユーザーID。デフォルトは送信元ユーザーID。"
+
+msgid "Error: Secret prefix is not set."
+msgstr ""
+
+msgid "Get LINE Connect message"
+msgstr "LINE Connectメッセージ取得"
+
+msgid "Get LINE Connect message."
+msgstr "LINE Connectメッセージを取得します。"
+
+msgid "LC Message id"
+msgstr "LINE ConnectメッセージID"
+
+msgid "Update LINE user profile"
+msgstr "LINEユーザープロフィール更新"
+
+msgid "Update or delete value in LINE user profile"
+msgstr "LINEユーザープロフィールの値を更新または削除"
+
+msgid "Profile key to update"
+msgstr "更新するプロフィールキー"
+
+msgid "Profile value. If empty, key will be deleted."
+msgstr "プロフィール値。空の場合、キーが削除されます。"
+
+msgid "Get LINE user profile value"
+msgstr "LINEユーザープロフィール取得"
+
+msgid "Get value from LINE user profile"
+msgstr "LINEユーザープロフィールから値を取得"
+
+msgid "Profile key to get"
+msgstr "取得するプロフィールキー"
+
+msgid "Send LINE message"
+msgstr "LINEメッセージ送信"
+
+msgid "Send LINE message with Audience and Channel."
+msgstr "オーディエンスとチャネルを指定してLINEメッセージを送信"
+
+msgid "LC message id, message text or message object"
+msgstr "LCメッセージID、メッセージテキスト、またはメッセージオブジェクト"
+
+msgid "LINE user ID. Default value is LINE user id of event source."
+msgstr ""
+
+msgid "Channel. Default value is channel of event source."
+msgstr ""
+
+msgid "Execute LC Scenario Step"
+msgstr "シナリオステップを実行"
+
+msgid "Execute LINE Connect Scenario Step."
+msgstr "シナリオステップを実行"
+
+msgid "ID of the step to execute."
+msgstr "実行するステップのID。"
+
+msgid "Change LC scenario status"
+msgstr "シナリオステータス変更"
+
+msgid "Change LINE Connect scenario status."
+msgstr "シナリオのステータスを変更します。"
+
+msgid "The status to set."
+msgstr "設定するステータス。"
+
+msgid "Active"
+msgstr "アクティブ"
+
+msgid "Paused"
+msgstr "一時停止"
+
+msgid "Completed"
+msgstr "完了"
+
+msgid "Update user meta"
+msgstr "ユーザーメタ更新"
+
+msgid "Update or delete WordPress user meta value"
+msgstr "WordPressユーザーのメタ値を更新または削除"
+
+msgid "Meta value. If empty, meta will be deleted."
+msgstr "メタ値。空の場合はメタが削除されます。"
 
 msgid "Steps"
 msgstr "ステップ"
@@ -3194,8 +1565,30 @@ msgstr "ステップ"
 msgid "Step"
 msgstr "ステップ"
 
+msgid "ID"
+msgstr "ID"
+
 msgid "Step ID"
 msgstr "ステップID"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Action chain"
+msgstr "アクションチェイン"
+
+msgid "Destination argument to"
+msgstr "注入先引数"
+
+msgid "Injection Destination Argument Path. e.g. 2.message"
+msgstr "注入先引数パス。例としてアクション-2のmessageを指定する場合: 2.message"
+
+msgid ""
+"Injection Data. You can use return value of previous action. e.g. "
+"{{$.return.1}}"
+msgstr ""
+"注入するデータ。前のアクションの返り値を利用可能。例としてアクション-1の戻り"
+"値を使用する場合: {{$.return.1}}"
 
 msgid "Finish scenario execution"
 msgstr "このステップでシナリオを終了する"
@@ -3343,6 +1736,27 @@ msgid ""
 "at 12:10)."
 msgstr "指定された曜日の指定時刻に実行されます（例：土曜日の12:10）。"
 
+msgid "Sunday"
+msgstr "日曜日"
+
+msgid "Monday"
+msgstr "月曜日"
+
+msgid "Tuesday"
+msgstr "火曜日"
+
+msgid "Wednesday"
+msgstr "水曜日"
+
+msgid "Thursday"
+msgstr "木曜日"
+
+msgid "Friday"
+msgstr "金曜日"
+
+msgid "Saturday"
+msgstr "土曜日"
+
 msgid "Day of the week"
 msgstr "曜日"
 
@@ -3373,6 +1787,102 @@ msgstr ""
 "指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の"
 "12:10）。"
 
+msgid "1st"
+msgstr "1"
+
+msgid "2nd"
+msgstr "2"
+
+msgid "3rd"
+msgstr "3"
+
+msgid "4th"
+msgstr "4"
+
+msgid "5th"
+msgstr "5"
+
+msgid "6th"
+msgstr "6"
+
+msgid "7th"
+msgstr "7"
+
+msgid "8th"
+msgstr "8"
+
+msgid "9th"
+msgstr "9"
+
+msgid "10th"
+msgstr "10"
+
+msgid "11th"
+msgstr "11"
+
+msgid "12th"
+msgstr "12"
+
+msgid "13th"
+msgstr "13"
+
+msgid "14th"
+msgstr "14"
+
+msgid "15th"
+msgstr "15"
+
+msgid "16th"
+msgstr "16"
+
+msgid "17th"
+msgstr "17"
+
+msgid "18th"
+msgstr "18"
+
+msgid "19th"
+msgstr "19"
+
+msgid "20th"
+msgstr "20"
+
+msgid "21st"
+msgstr "21"
+
+msgid "22nd"
+msgstr "22"
+
+msgid "23rd"
+msgstr "23"
+
+msgid "24th"
+msgstr "24"
+
+msgid "25th"
+msgstr "25"
+
+msgid "26th"
+msgstr "26"
+
+msgid "27th"
+msgstr "27"
+
+msgid "28th"
+msgstr "28"
+
+msgid "29th"
+msgstr "29"
+
+msgid "30th"
+msgstr "30"
+
+msgid "31st"
+msgstr "31"
+
+msgid "Last day of the month"
+msgstr "月の最終日"
+
 msgid "Day of the month"
 msgstr "日付"
 
@@ -3401,6 +1911,42 @@ msgid ""
 "June 15th at 12:10)."
 msgstr "指定した月と日の指定した時刻に実行されます（例：6月15日の12:10）。"
 
+msgid "January"
+msgstr "1月"
+
+msgid "February"
+msgstr "2月"
+
+msgid "March"
+msgstr "3月"
+
+msgid "April"
+msgstr "4月"
+
+msgid "May"
+msgstr "5月"
+
+msgid "June"
+msgstr "6月"
+
+msgid "July"
+msgstr "7月"
+
+msgid "August"
+msgstr "8月"
+
+msgid "September"
+msgstr "9月"
+
+msgid "October"
+msgstr "10月"
+
+msgid "November"
+msgstr "11月"
+
+msgid "December"
+msgstr "12月"
+
 msgid "Month of the year"
 msgstr "月"
 
@@ -3413,11 +1959,140 @@ msgstr "宛先条件"
 msgid "Destination condition group"
 msgstr "宛先条件グループ"
 
+msgid "Type"
+msgstr "タイプ"
+
 msgid "Destination type"
 msgstr "宛先タイプ"
 
+msgid "Link status"
+msgstr "連携状態"
+
+msgid "User meta"
+msgstr "ユーザーメタ"
+
+msgid "Profile"
+msgstr "プロフィール"
+
+msgid "Not"
+msgstr "否定"
+
+msgid "Logical negation"
+msgstr "論理否定"
+
 msgid "Destination"
 msgstr "宛先"
+
+msgid "User"
+msgstr "ユーザー"
+
+msgid "Group"
+msgstr "グループ"
+
+msgid "Room"
+msgstr "ルーム"
+
+msgid "LINE user ID"
+msgstr "LINEユーザーID"
+
+msgid "LINE group ID"
+msgstr "LINEグループID"
+
+msgid "LINE Room ID"
+msgstr "LINEトークルームID"
+
+msgid "Any"
+msgstr "いずれでも"
+
+msgid "Linked"
+msgstr "連携済み"
+
+msgid "Unlinked"
+msgstr "未連携"
+
+msgid "User Meta"
+msgstr "ユーザーメタ"
+
+msgid "Values"
+msgstr "値"
+
+msgid "Value"
+msgstr "値"
+
+msgid "Profile data"
+msgstr "プロフィールデータ"
+
+msgid "Profile field"
+msgstr "プロフィールフィールド"
+
+msgid "Operator"
+msgstr "演算子"
+
+msgid "And"
+msgstr "And"
+
+msgid "All conditions must be true"
+msgstr "すべての条件が成立"
+
+msgid "Or"
+msgstr "Or"
+
+msgid "At least one condition must be true"
+msgstr "少なくとも1つの条件が成立"
+
+msgid "Target channel"
+msgstr "対象チャネル"
+
+msgid "Compare method"
+msgstr "比較方法"
+
+msgid "Equals"
+msgstr "等しい"
+
+msgid "Not equals"
+msgstr "等しくない"
+
+msgid "Greater than"
+msgstr "より大きい"
+
+msgid "Greater than or equal"
+msgstr "以上"
+
+msgid "Less than"
+msgstr "より小さい"
+
+msgid "Less than or equal"
+msgstr "以下"
+
+msgid "Contains (String)"
+msgstr "含む（文字列）"
+
+msgid "Not contains (String)"
+msgstr "含まない（文字列）"
+
+msgid "In (Array)"
+msgstr "いずれかに一致（配列）"
+
+msgid "Not in (Array)"
+msgstr "いずれにも一致しない（配列）"
+
+msgid "Between 2 values"
+msgstr "2つの値の間"
+
+msgid "Not Between 2 values"
+msgstr "2つの値の間でない"
+
+msgid "Exists"
+msgstr "存在する"
+
+msgid "Not exists"
+msgstr "存在しない"
+
+msgid "Regular expression match"
+msgstr "正規表現に一致"
+
+msgid "No regular expression match"
+msgstr "正規表現に一致しない"
 
 msgid ""
 "Determines whether the step is executed exactly after the interval or at the "
@@ -3440,6 +2115,9 @@ msgid ""
 "etc.)."
 msgstr "次の基準となるタイミング（次の時間、日など）にステップを実行します。"
 
+msgid "Add LINE user ID"
+msgstr "LINEユーザーIDを追加"
+
 msgid "Add LINE group ID"
 msgstr "LINEグループIDを追加"
 
@@ -3449,8 +2127,23 @@ msgstr "LINEルームIDを追加"
 msgid "Add value"
 msgstr "値を追加"
 
+msgid "Add user meta"
+msgstr "ユーザーメタを追加"
+
 msgid "Add profile"
 msgstr "プロフィール追加"
+
+msgid "Add condition"
+msgstr "条件を追加"
+
+msgid "Add parameter"
+msgstr "パラメータ追加"
+
+msgid "Add action"
+msgstr "アクション追加"
+
+msgid "Add chain"
+msgstr "チェイン追加"
 
 msgid "Add step"
 msgstr "ステップ追加"
@@ -3482,6 +2175,47 @@ msgstr "ステップが見つかりません"
 msgid "LINE Connect Scenario"
 msgstr "LINE Connectシナリオ"
 
+msgid "Send update notification"
+msgstr "更新通知を送信する"
+
+msgid "Send target:"
+msgstr "送信対象："
+
+msgid "Message template:"
+msgstr "メッセージテンプレート"
+
+msgid "Send when a future post is published"
+msgstr "予約投稿時に送信する"
+
+msgid "Sent a LINE message to all friends."
+msgstr "全ての友達にLINEを送信しました"
+
+msgid "Failed to send a LINE message to all friends."
+msgstr "全ての友達へのLINE送信に失敗しました"
+
+# php-format
+#, php-format
+msgid "Sent a LINE message to %s person."
+msgstr "%s人にLINEを送信しました"
+
+msgid "No users matched"
+msgstr "条件にマッチするユーザーがいませんでした"
+
+msgid "Failed to send a LINE message to selected roles."
+msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
+
+# php-format
+#, php-format
+msgid "New comment on %s"
+msgstr "投稿「%s」に新しいコメントがありました"
+
+#, php-format
+msgid "Comment by %s"
+msgstr "%sさんから: "
+
+msgid "Action"
+msgstr "アクション"
+
 msgid "Broadcast is not supported."
 msgstr "ブロードキャストはサポートされていません。"
 
@@ -3499,8 +2233,242 @@ msgstr "LINE Connectアクションフロー"
 msgid "ActionFlows"
 msgstr "アクションフロー"
 
+msgid "LINE Connect Richmenu"
+msgstr "LINE Connect リッチメニュー"
+
+msgid "Richmenu"
+msgstr "リッチメニュー"
+
+msgid "Channel access token or channel secret is not set."
+msgstr "チャネルアクセストークンとチャネルシークレットがセットされていません。"
+
+msgid "Deleted"
+msgstr "削除済"
+
+msgid "Richmenu was successfully deleted"
+msgstr "リッチメニューが正常に削除されました"
+
+msgid "Failed to delete richmenu"
+msgstr "リッチメニューの削除に失敗しました"
+
+msgid "Richmenu ID is not set"
+msgstr "リッチメニューIDが設定されていません"
+
+msgid "Richmenu was successfully created"
+msgstr "リッチメニューが正常に作成されました"
+
+msgid "Failed to upload richmenu image"
+msgstr "リッチメニュー画像のアップロードに失敗しました"
+
+msgid "Failed to create richmenu"
+msgstr "リッチメニューの作成に失敗しました"
+
+msgid "Richmenu is not set"
+msgstr "リッチメニューが設定されていません"
+
+msgid "Richmenu alias was successfully deleted"
+msgstr "リッチメニューエイリアスが正常に削除されました"
+
+msgid "Failed to delete richmenu alias"
+msgstr "リッチメニューエイリアスの削除に失敗しました"
+
+msgid "Richmenu alias ID is not set"
+msgstr "リッチメニューエイリアスIDが設定されていません"
+
+msgid "Richmenu alias was successfully created"
+msgstr "リッチメニューエイリアスが正常に作成されました"
+
+msgid "Failed to create richmenu alias"
+msgstr "リッチメニューエイリアスの作成に失敗しました"
+
+msgid "Richmenu alias is not set"
+msgstr "リッチメニューエイリアスが設定されていません"
+
+msgid "Richmenu alias was successfully updated"
+msgstr "リッチメニューエイリアスが正常に更新されました"
+
+msgid "Failed to update richmenu alias"
+msgstr "リッチメニューエイリアスの更新に失敗しました"
+
+msgid "Richmenu alias or richmenu ID is not set"
+msgstr "リッチメニューエイリアスまたはリッチメニューIDが設定されていません"
+
+msgid "3:2 3x2 row1: 3 col, row2: 3 col"
+msgstr "3:2 3列×2行 行1: 3カラム, 行2: 3カラム"
+
+msgid "3:2 2x2 row1: 2 col, row2: 2 col"
+msgstr "3:2 2列×2行 行1: 2カラム, 行2: 2カラム"
+
+msgid "3:2 1x1 row1: 1"
+msgstr "3:2 1列×1行 行1: 1カラム"
+
+msgid "3:2 1x2 row1: 1 col, row2: 1col"
+msgstr "3:2 1列×2行 行1: 1カラム, 行2: 1カラム"
+
+msgid "3:2 2x1 row1: 2 col"
+msgstr "3:2 2列×1行 行1: 2カラム"
+
+msgid "3:2 3x1 row1: 2 col, 2:1"
+msgstr "3:2 3列×1行 行1: 2カラム, 比率: 2:1"
+
+msgid "3:2 3x1 row1: 2 col, 1:2"
+msgstr "3:2 3列×1行 行1: 2カラム, 比率: 1:2"
+
+msgid "3:2 3x2 row1: 2 col (2:1), row2: 2col (2:1)"
+msgstr "3:2 3列×2行 行1: 2カラム (2:1), 行2: 2カラム (2:1)"
+
+msgid "3:2 3x2 row1: 1 col , row2: 3 col"
+msgstr "3:2 3列×2行 行1: 1カラム, 行2: 3カラム"
+
+msgid "3:2 3x2 row1: 3 col, row2: 1 col"
+msgstr "3:2 3列×2行 行1: 3カラム, 行2: 1カラム"
+
+msgid "3:2 2x2 row1: 1 col, row2: 2 col"
+msgstr "3:2 2列×2行 行1: 1カラム, 行2: 2カラム"
+
+msgid "3:2 2x2 row1: 2 col, row2: 1 col"
+msgstr "3:2 2列×2行 行1: 2カラム, 行2: 1カラム"
+
+msgid "3:1 3x1 row1: 3 col"
+msgstr "3:1 3列×1行 3カラム"
+
+msgid "3:1 3x1 row1: 2 col (1:2)"
+msgstr "3:1 3列×1行 2カラム 比率: 1:2"
+
+msgid "3:1 3x1 row1: 2 col (2:1)"
+msgstr "3:1 3列×1行 2カラム 比率: 2:1"
+
+msgid "3:1 2x1 row1: 2 col"
+msgstr "3:1 2列×1行 2カラム"
+
+msgid "3:1 1x1 row1: 1 col"
+msgstr "3:1 1列×1行 1カラム"
+
+msgid "New richmenu"
+msgstr "新規リッチメニュー"
+
+msgid "MENU"
+msgstr "メニュー"
+
+msgid "Unique identifier for the rich menu. Max character limit: 100"
+msgstr "リッチメニューを区別するための識別子。最大文字数:100文字。"
+
+msgid ""
+"This value can be used to help manage your rich menus and is not displayed "
+"to users."
+msgstr "リッチメニューの管理に役立ちます。ユーザーには表示されません。"
+
+msgid "Size"
+msgstr "サイズ"
+
+msgid ""
+"The width and height of the rich menu displayed in the chat. The aspect "
+"ratio (width / height) must be at least 1.45."
+msgstr ""
+"チャットに表示されるリッチメニューの幅と高さ。アスペクト比（幅/高さ）は1.45以"
+"上である必要があります。"
+
+msgid "Width"
+msgstr "幅"
+
+msgid "Width of the rich menu. Must be between 800px and 2500px."
+msgstr "リッチメニューの幅。800px以上2500px以下。"
+
+msgid "Height"
+msgstr "高さ"
+
+msgid "Height of the rich menu. Must be at least 250px."
+msgstr "リッチメニューの高さ。250px以上。"
+
+msgid "Tap Areas"
+msgstr "タップ領域"
+
+msgid "Area"
+msgstr "領域"
+
+msgid "Bounds"
+msgstr "範囲"
+
+msgid "X"
+msgstr "X"
+
+msgid "Horizontal position of the tappable area’s top-left corner (min: 0)."
+msgstr "左上隅からの水平位置（最小値: 0）。"
+
+msgid "Y"
+msgstr "Y"
+
+msgid "Vertical position of the tappable area’s top-left corner (min: 0)."
+msgstr "左上隅からの垂直位置（最小値: 0）。"
+
+msgid "Tappable area width (max: 2500)."
+msgstr "幅（最大: 2500）。"
+
+msgid "Tappable area height (max: 1686)."
+msgstr "高さ（最大: 1686）。"
+
+msgid "Display the rich menu by default"
+msgstr "リッチメニューをデフォルトで表示する"
+
+msgid "Chat bar text"
+msgstr "チャットバーのテキスト"
+
+msgid "Text displayed in the chat bar. Max character limit: 14"
+msgstr "チャットバーに表示されるテキスト。最大文字数:14文字。"
+
+msgid "Add tap areas"
+msgstr "タップ領域を追加する"
+
+msgid "Event ID"
+msgstr "イベントID"
+
+msgid "Event Type"
+msgstr "イベントタイプ"
+
+msgid "Source Type"
+msgstr "ソースタイプ"
+
+msgid "BOT ID"
+msgstr "チャネル"
+
+msgid "Message Type"
+msgstr "メッセージタイプ"
+
+msgid "DATE TIME"
+msgstr "受信日時"
+
+#, php-format
+msgid ""
+"You are about to delete this item '%s'\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr "次の項目を削除してもよろしいですか？ログID: %s"
+
+msgid "All Event Types"
+msgstr "全てのイベントタイプ"
+
+msgid "All Source Types"
+msgstr "全てのソースタイプ"
+
+msgid "All Channels"
+msgstr "全てのチャネル"
+
+msgid "All Message Types"
+msgstr "全てのメッセージタイプ"
+
+msgid "Filter"
+msgstr "絞り込み"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Error: Failed to delete items."
+msgstr "削除に失敗しました。"
+
 msgid "LINE ID"
 msgstr "LINE ID"
+
+msgid "Follow"
+msgstr "フォロー"
 
 msgid "Tags"
 msgstr "タグ"
@@ -3516,6 +2484,1131 @@ msgstr "作成日"
 
 msgid "Updated"
 msgstr "更新日"
+
+msgid "Triggers"
+msgstr "トリガー"
+
+msgid "Source condition"
+msgstr "ソース条件"
+
+msgid "Source condition group"
+msgstr "ソース条件グループ"
+
+msgid "Source"
+msgstr "ソース"
+
+msgid "Keyword"
+msgstr "キーワード"
+
+msgid "Keyword condition group"
+msgstr "キーワード条件グループ"
+
+msgid "Keyword condition"
+msgstr "キーワード条件"
+
+msgid "Query string"
+msgstr "クエリストリング"
+
+msgid "Keyword to match"
+msgstr "マッチするキーワード"
+
+msgid "Match type"
+msgstr "マッチタイプ"
+
+msgid "Contains"
+msgstr "含む"
+
+msgid "Starts with"
+msgstr "で始まる"
+
+msgid "Ends with"
+msgstr "で終わる"
+
+msgid "Regular expression"
+msgstr "正規表現"
+
+msgid "Parameter"
+msgstr "パラメーター"
+
+msgid "Parameters condition group"
+msgstr ""
+
+msgid "Parameter condition"
+msgstr ""
+
+msgid "Parameter condition group"
+msgstr ""
+
+msgid "New richmenu alias ID"
+msgstr ""
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Date"
+msgstr "日"
+
+msgid "Time"
+msgstr ""
+
+msgid "Date and time"
+msgstr "日付時刻"
+
+msgid "Success"
+msgstr ""
+
+msgid "Richmenu alias ID not found"
+msgstr ""
+
+msgid "Richmenu not found"
+msgstr ""
+
+msgid "Date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Compare type"
+msgstr ""
+
+msgid "Before"
+msgstr ""
+
+msgid "Before or equal"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "After or equal"
+msgstr ""
+
+msgid "Time: hh:mm"
+msgstr ""
+
+msgid "DateTime"
+msgstr ""
+
+msgid "DateTime: YYYY-MM-DDThh:mm"
+msgstr ""
+
+msgid "Webhook"
+msgstr "Webhook"
+
+msgid "Event type"
+msgstr "イベントタイプ"
+
+msgid "Post back"
+msgstr "ポストバック"
+
+msgid "Account Link"
+msgstr "アカウント連携"
+
+msgid "Unfollow"
+msgstr "フォロー解除"
+
+msgid "Video play complete"
+msgstr "動画視聴完了"
+
+msgid "Join"
+msgstr "参加"
+
+msgid "Leave"
+msgstr "退出"
+
+msgid "Member joined"
+msgstr "メンバー参加"
+
+msgid "Member left"
+msgstr "メンバー退出"
+
+msgid "Unsend"
+msgstr "送信取り消し"
+
+msgid "Membership"
+msgstr ""
+
+msgid "Message type"
+msgstr "メッセージタイプ"
+
+msgid "Text"
+msgstr "テキスト"
+
+msgid "Image"
+msgstr "画像"
+
+msgid "Video"
+msgstr "動画"
+
+msgid "Audio"
+msgstr "音声"
+
+msgid "File"
+msgstr "ファイル"
+
+msgid "Location"
+msgstr "位置情報"
+
+msgid "Sticker"
+msgstr "スタンプ"
+
+msgid "Unblocked"
+msgstr "ブロック解除"
+
+msgid "Add Freind"
+msgstr "友だち追加"
+
+msgid "Joined"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Renewed"
+msgstr ""
+
+msgid "Schedule"
+msgstr "スケジュール"
+
+msgid "Schedule type"
+msgstr "スケジュールタイプ"
+
+msgid "Once"
+msgstr "一度"
+
+msgid "Repeat"
+msgstr "繰り返し"
+
+msgid "Every"
+msgstr "毎"
+
+msgid "Hour"
+msgstr "時"
+
+msgid "Week"
+msgstr "週"
+
+msgid "Month"
+msgstr "月"
+
+msgid "Start date"
+msgstr "開始日"
+
+msgid "End date"
+msgstr "終了日"
+
+msgid "Beforehand notice (min)"
+msgstr "事前通知(分)"
+
+msgid "How many minutes in advance notice"
+msgstr ""
+"入力すると、対象となる時刻よりも指定した分だけ事前にトリガーが発動します。"
+
+msgid "0 am"
+msgstr "0時"
+
+msgid "1 am"
+msgstr "1時"
+
+msgid "2 am"
+msgstr "2時"
+
+msgid "3 am"
+msgstr "3時"
+
+msgid "4 am"
+msgstr "4時"
+
+msgid "5 am"
+msgstr "5時"
+
+msgid "6 am"
+msgstr "6時"
+
+msgid "7 am"
+msgstr "7時"
+
+msgid "8 am"
+msgstr "8時"
+
+msgid "9 am"
+msgstr "9時"
+
+msgid "10 am"
+msgstr "10時"
+
+msgid "11 am"
+msgstr "11時"
+
+msgid "12 pm"
+msgstr "12時"
+
+msgid "1 pm"
+msgstr "13時"
+
+msgid "2 pm"
+msgstr "14時"
+
+msgid "3 pm"
+msgstr "15時"
+
+msgid "4 pm"
+msgstr "16時"
+
+msgid "5 pm"
+msgstr "17時"
+
+msgid "6 pm"
+msgstr "18時"
+
+msgid "7 pm"
+msgstr "19時"
+
+msgid "8 pm"
+msgstr "20時"
+
+msgid "9 pm"
+msgstr "21時"
+
+msgid "10 pm"
+msgstr "22時"
+
+msgid "11 pm"
+msgstr "23時"
+
+msgid "Way of Calc"
+msgstr "計算方法"
+
+msgid "nth day"
+msgstr "第何曜日"
+
+msgid "nth Week in a month"
+msgstr "月の第何周目"
+
+msgid "Day of the week in the month"
+msgstr "第何曜日/第何周目"
+
+msgid "First day of the week"
+msgstr "週の最初の曜日"
+
+msgid "Week number"
+msgstr "週番号"
+
+msgid "Add source condition"
+msgstr "ソース条件追加"
+
+msgid "Add query parameter"
+msgstr "クエリパラメーター追加"
+
+msgid "Add message condition"
+msgstr "メッセージ条件追加"
+
+msgid "Add postback condition"
+msgstr "ポストバック条件追加"
+
+msgid "Add day"
+msgstr "曜日追加"
+
+msgid "Add week"
+msgstr "週追加"
+
+msgid "Add year"
+msgstr "年追加"
+
+msgid "Add trigger"
+msgstr "トリガー追加"
+
+msgid "Trigger type"
+msgstr "トリガータイプ"
+
+msgid "Choose trigger type."
+msgstr "何をトリガーとするかの選択"
+
+msgid "LINE Connect Trigger"
+msgstr "LINE Connect トリガー"
+
+msgid "LINE Connect Message"
+msgstr "LINE Connectメッセージ"
+
+msgid "Messages"
+msgstr "メッセージ"
+
+msgid "Quick reply"
+msgstr "クイックリプライ"
+
+msgid "Quick reply container"
+msgstr "クイックリプライコンテナ"
+
+msgid "Quick reply button object"
+msgstr "クイックリプライボタン"
+
+msgid "Image URL"
+msgstr "アイコンURL"
+
+msgid "Sender"
+msgstr "送信者"
+
+msgid "Customize icon and display name"
+msgstr "表示名とアイコンのカスタマイズ"
+
+msgid "Sender name"
+msgstr "送信者名"
+
+msgid "Display name. Certain words such as LINE may not be used."
+msgstr ""
+"表示名。LINEなど弊社のサービスと誤認される可能性があるワードは使用できませ"
+"ん。"
+
+msgid "Sender icon URL"
+msgstr "アイコン画像URL"
+
+msgid ""
+"URL of the image to display as an icon when sending a message.HTTPS, PNG, "
+"1:1, 1MB"
+msgstr ""
+"メッセージ送信時にアイコンとして表示する画像のURL。画像フォーマット：PNG、ア"
+"スペクト比：1:1、最大ファイルサイズ：1MB"
+
+msgid "Thumbnail image url"
+msgstr "サムネイル画像URL"
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
+"1.51:1 ,Max width: 1024px, Max file size: 10 MB"
+msgstr ""
+"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
+"1.51:1、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
+
+msgid "Image background color"
+msgstr "画像背景色"
+
+msgid "Title"
+msgstr "タイトル"
+
+msgid "Message text"
+msgstr "メッセージテキスト"
+
+msgid ""
+"Max character limit: 120 (no image or title) 60 (message with an image or "
+"title)"
+msgstr ""
+"画像もタイトルも指定しない場合の最大文字数：120、画像またはタイトルを指定する"
+"場合の最大文字数：60"
+
+msgid "Image url"
+msgstr "画像URL"
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
+"1:1 ,Max width: 1024px, Max file size: 10 MB"
+msgstr ""
+"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
+"1:1、最大横幅サイズ：1024px、"
+
+msgid "Image map"
+msgstr "イメージマップ"
+
+msgid "Button template"
+msgstr "ボタンテンプレート"
+
+msgid "Confirm template"
+msgstr "確認テンプレート"
+
+msgid "Carousel template"
+msgstr "カルーセルテンプレート"
+
+msgid "Image carousel template"
+msgstr "画像カルーセルテンプレート"
+
+msgid "Flex"
+msgstr "Flex"
+
+msgid "Raw"
+msgstr "生"
+
+msgid "Choose message type."
+msgstr "どの種類のメッセージを送るかの選択"
+
+msgid "Text message"
+msgstr "テキストメッセージ"
+
+msgid "Message text. Max character limit: 5000"
+msgstr "メッセージのテキスト。最大文字数：5000"
+
+msgid "Sticker message"
+msgstr "スタンプメッセージ"
+
+msgid "Package ID"
+msgstr "パッケージID"
+
+msgid "Package ID for a set of stickers."
+msgstr "スタンプセットのパッケージID"
+
+msgid "Sticker ID"
+msgstr "スタンプID"
+
+msgid "Image message"
+msgstr "画像メッセージ"
+
+msgid "Original content URL"
+msgstr "オリジナルファイルURL"
+
+msgid ""
+"Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
+"10 MB"
+msgstr ""
+"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサ"
+"イズ：10MB"
+
+msgid "Preview Image Url"
+msgstr "プレビュー画像URL"
+
+msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
+msgstr ""
+"プレビュー画像のURL。画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
+
+msgid "Video message"
+msgstr "動画メッセージ"
+
+msgid ""
+"If the video isn't playing properly, make sure the video is a supported file "
+"type and the HTTP server hosting the video supports HTTP range requests."
+msgstr ""
+"動画が正しく再生できない場合、動画が再生可能なファイル形式であることと、動画"
+"をホストしているHTTPサーバーが、HTTPの範囲リクエスト（Range request）に対応し"
+"ていることを確認してください。"
+
+msgid ""
+"Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
+msgstr ""
+"動画ファイルのURL。プロトコル：HTTPS、動画フォーマット：mp4、最大ファイルサイ"
+"ズ：200MB"
+
+msgid "Preview image URL"
+msgstr "プレビュー画像URL"
+
+msgid ""
+"Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
+"size: 1 MB"
+msgstr ""
+"プレビュー画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大"
+"ファイルサイズ：1MB"
+
+msgid "Tracking ID"
+msgstr "トラッキングID"
+
+msgid ""
+"ID used to identify the video when Video viewing complete event occurs. You "
+"can use the same ID in multiple messages."
+msgstr ""
+"動画視聴完了イベントが発生したときに、動画を識別するためのID。複数のメッセー"
+"ジで同じIDを使用することができます。"
+
+msgid "Audio message"
+msgstr "音声メッセージ"
+
+msgid ""
+"Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
+"200 MB"
+msgstr ""
+"音声ファイルのURL。プロトコル：HTTPS、音声フォーマット：mp3またはm4a、最大"
+"ファイルサイズ：200MB"
+
+msgid "Duration"
+msgstr "継続時間"
+
+msgid "Length of audio file (milliseconds)."
+msgstr "音声ファイルの長さ（ミリ秒）"
+
+msgid "Location message"
+msgstr "位置情報メッセージ"
+
+msgid "Address"
+msgstr "住所"
+
+msgid "Latitude"
+msgstr "緯度"
+
+msgid "Longitude"
+msgstr "経度"
+
+msgid "Image map message"
+msgstr "イメージマップメッセージ"
+
+msgid ""
+"Imagemap messages are messages configured with an image that has multiple "
+"tappable areas. You can assign one tappable area for the entire image or "
+"different tappable areas on divided areas of the image."
+msgstr ""
+"イメージマップメッセージは、複数のタップ領域を設定した画像を送信できるメッ"
+"セージです。画像全体に1つのタップ領域を割り当てることも、画像を区切って複数の"
+"タップ領域を設定することもできます。"
+
+msgid "Base Url"
+msgstr "ベースURL"
+
+msgid "Image base URL. Protocol: HTTPS"
+msgstr "画像のベースURL。プロトコル：HTTPS"
+
+msgid "Alt Text"
+msgstr "代替テキスト"
+
+msgid ""
+"Alternative text. When a user receives a message, it will appear as an "
+"alternative to the image in the notification or chat list of their device."
+msgstr ""
+"代替テキスト。ユーザーがメッセージを受信した際に、端末の通知やトークリストで"
+"画像の代替として表示されます。"
+
+msgid "Base Size"
+msgstr "ベースサイズ"
+
+msgid ""
+"Height of base image. Set to the height that corresponds to a width of 1040 "
+"pixels."
+msgstr "基本画像の幅を1040pxとした場合の高さ"
+
+msgid ""
+"You can also play a video on the image and display a label with a hyperlink "
+"after the video is finished."
+msgstr ""
+"画像の上で動画を再生したり、動画再生後にリンク先を設定したラベルを表示したり"
+"できます。"
+
+msgid "Image map area"
+msgstr "イメージマップ領域"
+
+msgid ""
+"Horizontal position of the video area relative to the left edge of the "
+"imagemap area. Value must be 0 or higher."
+msgstr ""
+"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
+"てください。"
+
+msgid ""
+"Vertical position of the video area relative to the top edge of the imagemap "
+"area. Value must be 0 or higher."
+msgstr ""
+"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
+"てください。"
+
+msgid "External link"
+msgstr "外部リンク"
+
+msgid "Link URI"
+msgstr "リンクURI"
+
+msgid ""
+"Webpage URL. Called when the label displayed after the video is tapped. The "
+"available schemes are http, https, line, and tel"
+msgstr ""
+"ウェブページのURL。動画再生後に表示されるラベルをタップしたときに呼び出されま"
+"す。使用できるスキームは、http、https、line、およびtelです。"
+
+msgid "Displayed after the video is finished."
+msgstr "動画の再生が終了した後に表示されます。"
+
+msgid "Image map action objects"
+msgstr "イメージマップアクションオブジェクト"
+
+msgid "Object which specifies the actions and tappable areas of an imagemap."
+msgstr "イメージマップに設定するアクションとタップ領域を表すオブジェクトです。"
+
+msgid "Image map action"
+msgstr "イメージマップアクション"
+
+msgid "URL"
+msgstr "URL"
+
+msgid ""
+"Label for the action. Spoken when the accessibility feature is enabled on "
+"the client device."
+msgstr ""
+"アクションのラベル。ユーザーデバイスのアクセシビリティ機能が有効な場合に読み"
+"上げられます。"
+
+msgid ""
+"Defines the size of a tappable area. The top left is used as the origin of "
+"the area. Set these properties based on the baseSize.width property and the "
+"baseSize.height property."
+msgstr ""
+"タップ領域のサイズを表すオブジェクトです。画像の左上が座標の原点です。"
+"baseSize.widthプロパティとbaseSize.heightプロパティに基づいて指定します。"
+
+msgid ""
+"Horizontal position relative to the left edge of the area. Value must be 0 "
+"or higher."
+msgstr ""
+"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
+"てください。"
+
+msgid ""
+"Vertical position relative to the top edge of the area. Value must be 0 or "
+"higher."
+msgstr ""
+"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
+"てください。"
+
+msgid "Webpage URL. The available schemes are http, https, line, and tel"
+msgstr ""
+"ウェブページのURL。使用できるスキームは、http、https、line、およびtelです。"
+
+msgid "Button Template message"
+msgstr "ボタンテンプレートメッセージ"
+
+msgid "Alt text"
+msgstr "代替テキスト"
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
+"Max file size: 10 MB"
+msgstr ""
+"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大横幅サイ"
+"ズ：1024px、最大ファイルサイズ：10MB"
+
+msgid "Image aspect ratio"
+msgstr "画像アスペクト比"
+
+msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
+msgstr "画像のアスペクト比。長方形：1.51:1、正方形：1:1のいずれか。"
+
+msgid "Rectangle"
+msgstr "長方形"
+
+msgid "Square"
+msgstr "正方形"
+
+msgid "Image size"
+msgstr "画像サイズ"
+
+msgid "Size of the image. One of: cover, contain"
+msgstr "画像の表示形式。領域全体に表示または画像全体を表示から選択します。"
+
+msgid "Cover"
+msgstr "領域全体に表示"
+
+msgid ""
+"The image fills the entire image area. Parts of the image that do not fit in "
+"the area are not displayed."
+msgstr ""
+"画像領域全体に画像を表示します。画像領域に収まらない部分は切り詰められます。"
+
+msgid "Contain"
+msgstr "画像全体を表示"
+
+msgid ""
+"The entire image is displayed in the image area. A background is displayed "
+"in the unused areas to the left and right of vertical images and in the "
+"areas above and below horizontal images."
+msgstr ""
+"画像領域に画像全体を表示します。縦長の画像では左右に、横長の画像では上下に余"
+"白が表示されます。"
+
+msgid ""
+"Max character limit: 160 (no image or title) 60 (message with an image or "
+"title)"
+msgstr ""
+"画像もタイトルも指定しない場合の最大文字数：160,画像またはタイトルを指定する"
+"場合の最大文字数：60"
+
+msgid "Confirm template message"
+msgstr "確認テンプレート"
+
+msgid "Template with two action buttons."
+msgstr "2つのアクションボタンを表示するテンプレートです。"
+
+msgid "Set 2 actions for the 2 buttons"
+msgstr "2つのボタンに1つずつアクションを設定します。"
+
+msgid "Carousel template message"
+msgstr "カルーセルテンプレート"
+
+msgid ""
+"Template with multiple columns which can be cycled like a carousel. The "
+"columns are shown in order when scrolling horizontally."
+msgstr ""
+"複数のカラムを表示するテンプレートです。カラムは横にスクロールして順番に表示"
+"できます。"
+
+msgid "Size of the image. One of: cover, contain. Applies to all columns."
+msgstr ""
+"画像の表示形式。領域全体に表示または画像全体を表示から選択します。すべてのカ"
+"ラムに適用されます。"
+
+msgid "Columns"
+msgstr "カラム"
+
+msgid ""
+"Keep the number of actions consistent for all columns. If you use an image "
+"or title for a column, make sure to do the same for all other columns."
+msgstr ""
+"各カラムのアクションの数は同じにします。画像またはタイトルの有無も、各カラム"
+"で統一してください。"
+
+msgid "Image carousel template message"
+msgstr "画像カルーセルテンプレートメッセージ"
+
+msgid ""
+"Template with multiple images which can be cycled like a carousel. The "
+"images are shown in order when scrolling horizontally."
+msgstr ""
+"複数の画像を表示するテンプレートです。画像は横にスクロールして順番に表示でき"
+"ます。"
+
+msgid "Flex message"
+msgstr "Flex message"
+
+msgid "Flex message object"
+msgstr "Flex Messageオブジェクト"
+
+msgid ""
+"Flex Messages are messages with a customizable layout. You can customize the "
+"layout freely based on the specification for CSS Flexible Box."
+msgstr ""
+"Flex Messageは、CSS Flexible Box（CSS Flexbox）の基礎知識を使って、レイアウト"
+"を自由にカスタマイズできるメッセージです。"
+
+msgid "Flex message JSON object"
+msgstr "Flex message JSON"
+
+msgid "Flex message JSON object such as generated by Flex Message Simulator"
+msgstr "Flex Messageシミュレーターなどで作成したFlex message JSON "
+
+msgid "Alt text of Flex message"
+msgstr "Flex message 代替テキスト"
+
+msgid "Raw message"
+msgstr "生メッセージ"
+
+msgid "Raw message object"
+msgstr "生メッセージオブジェクト"
+
+msgid "Message JSON object"
+msgstr "メッセージJSON"
+
+msgid "Add image map action"
+msgstr "イメージマップアクション追加"
+
+msgid "Add column"
+msgstr "カラム追加"
+
+msgid "Add quick reply"
+msgstr "クイックリプライ追加"
+
+msgid "Postback action"
+msgstr "ポストバックアクション"
+
+msgid ""
+"String returned via webhook in the postback.data property of the postback "
+"event"
+msgstr ""
+"Webhookを介して、ポストバックイベントのpostback.dataプロパティで返される文字"
+"列"
+
+msgid "Display text"
+msgstr "表示テキスト"
+
+msgid ""
+"Text displayed in the chat as a message sent by the user when the action is "
+"performed. Required for quick reply buttons. Optional for the other message "
+"types."
+msgstr ""
+"アクションの実行時に、ユーザーのメッセージとしてLINEのトーク画面に表示される"
+"テキスト。クイックリプライボタンでは必須です。それ以外のメッセージタイプでは"
+"省略可能です。"
+
+msgid "Input option"
+msgstr "入力オプション"
+
+msgid "The display method of such as rich menu based on user action."
+msgstr "アクションに応じた、リッチメニューなどの表示方法"
+
+msgid "Close richmenu"
+msgstr "リッチメニューを閉じる"
+
+msgid "Open richmenu"
+msgstr "リッチメニューを開く"
+
+msgid "Open keyboard"
+msgstr "キーボードを開く"
+
+msgid "Open voice"
+msgstr "ボイスメッセージ入力モードを開く"
+
+msgid "Fill in text"
+msgstr "事前入力テキスト"
+
+msgid ""
+"String to be pre-filled in the input field when the keyboard is opened. "
+"Valid only when the inputOption property is set to openKeyboard."
+msgstr ""
+"キーボードを開いたときに、入力欄にあらかじめ入力しておく文字列。入力オプショ"
+"ンがキーボードを開くの場合にのみ有効です。"
+
+msgid "Message action"
+msgstr "メッセージアクション"
+
+msgid "URI action"
+msgstr "URIアクション"
+
+msgid ""
+"URI opened when the action is performed. The available schemes are http, "
+"https, line, and tel"
+msgstr ""
+"アクションの実行時に開かれるURI。使用できるスキームは、http、https、line、お"
+"よびtelです。"
+
+msgid "Datetime picker action"
+msgstr "日時選択アクション"
+
+msgid "Datetime picker"
+msgstr "日時選択ダイアログ"
+
+msgid "Action mode"
+msgstr "アクションモード"
+
+msgid "Select date"
+msgstr "日付を選択します。"
+
+msgid "Select time"
+msgstr "時刻を選択します。"
+
+msgid "Select date and time"
+msgstr "日付と日時を選択します。"
+
+msgid "Initial date or time"
+msgstr "日付または時刻の初期値"
+
+msgid "Max date or time"
+msgstr "選択可能な日付または時刻の最大値"
+
+msgid "Min date or time"
+msgstr "選択可能な日付または時刻の最小値"
+
+msgid "Camera action"
+msgstr "カメラアクション"
+
+msgid "This action can be configured only with quick reply buttons."
+msgstr "クイックリプライボタンにのみ設定できるアクションです。"
+
+msgid "Camera"
+msgstr "カメラ"
+
+msgid "Camera Roll action"
+msgstr "カメラロールアクション"
+
+msgid "Camera Roll"
+msgstr "カメラロール"
+
+msgid "Location action"
+msgstr "位置情報アクション"
+
+msgid "Clipboard action"
+msgstr "クリップボードアクション"
+
+msgid ""
+"When a user taps a control associated with this action, the text specified "
+"in the clipboardText property is copied to the device clipboard."
+msgstr ""
+"クリップボードテキストに指定されたテキストが、端末のクリップボードにコピーさ"
+"れます。"
+
+msgid "Clipboard"
+msgstr "クリップボード"
+
+msgid "Clipboard text"
+msgstr "クリップボードテキスト"
+
+msgid "Rich menu switch action"
+msgstr "リッチメニュー切り替えアクション"
+
+msgid "This action can be configured only with richmenus."
+msgstr "このアクションはリッチメニューにのみ設定可能です。"
+
+msgid "Rich menu switch"
+msgstr "リッチメニュー切替"
+
+msgid "Rich menu alias ID"
+msgstr "リッチメニューエイリアスID"
+
+msgid "The message will not be sent to anyone."
+msgstr "メッセージは誰にも送信されません"
+
+#, php-format
+msgid "Message will be sent to %s person."
+msgstr "メッセージは%s名に送信されます。"
+
+msgid "LINE Connect Audience"
+msgstr "LINE Connect オーディエンス"
+
+msgid "Audiences"
+msgstr "オーディエンス"
+
+msgid "Audience"
+msgstr "オーディエンス"
+
+msgid "Audience condition"
+msgstr "オーディエンス条件"
+
+msgid "Audience condition group"
+msgstr "オーディエンス条件グループ"
+
+msgid "Line user ID"
+msgstr "LINEユーザーID"
+
+msgid "Email"
+msgstr "メールアドレス"
+
+msgid "User login name"
+msgstr "ユーザー名"
+
+msgid "User display name"
+msgstr "表示名"
+
+msgid "All friends(Broadcast)"
+msgstr "すべての友だち(ブロードキャスト)"
+
+msgid "All recognized friends(Multicast)"
+msgstr "すべての認識済みの友だち"
+
+msgid "Select how to match user roles"
+msgstr "ユーザーロールの一致方法を選択"
+
+msgid "Must have all roles (AND)"
+msgstr "すべてのロールを持つ（AND）"
+
+msgid "Must have at least one role (OR)"
+msgstr "いずれかのロールを持つ（OR）"
+
+msgid "Must not have these roles (NOT)"
+msgstr "指定ロールを持たない（NOT）"
+
+msgid "WordPress User ID"
+msgstr "WordPressユーザーID"
+
+msgid "Add WordPress user ID"
+msgstr "WordPressユーザーIDを追加"
+
+msgid "Add email"
+msgstr "メールアドレスを追加"
+
+msgid "Add username"
+msgstr "ユーザー名を追加"
+
+msgid "Add profile data"
+msgstr "プロフィールデータを追加"
+
+msgid "Download"
+msgstr "ダウンロード"
+
+msgid "CSV Download"
+msgstr "CSVダウンロード"
+
+msgid "LINE Connect Audience Download"
+msgstr "LINE Connect オーディエンスダウンロード"
+
+msgid "Download Audiences"
+msgstr "ダウンロードオーディエンス"
+
+#~ msgid "Function name"
+#~ msgstr "関数名"
+
+#~ msgid "Function name to be called"
+#~ msgstr "呼び出される関数名"
+
+#~ msgid "Namespace"
+#~ msgstr "名前空間"
+
+#~ msgid "Namespace of the function"
+#~ msgstr "関数が属する名前空間"
+
+#~ msgid "Description"
+#~ msgstr "説明"
+
+#~ msgid "Description of the action"
+#~ msgstr "アクションの説明"
+
+#~ msgid "User role to execute this function by AI Chat"
+#~ msgstr "AI応答時にこの関数を実行可能なユーザー権限"
+
+#~ msgid "Anyone"
+#~ msgstr "誰でも"
+
+#~ msgid "Parameters of the function"
+#~ msgstr "関数のパラメーター"
+
+#~ msgid "Description of the parameter"
+#~ msgstr "パラメーターの説明"
+
+#~ msgid "Required"
+#~ msgstr "必須項目"
+
+#~ msgid "Whether the parameter is required"
+#~ msgstr "パラメーターが必須かどうか"
+
+#~ msgid "Object"
+#~ msgstr "オブジェクト型(Object)"
+
+#~ msgid "Object property"
+#~ msgstr "オブジェクトプロパティ"
+
+#~ msgid "Array"
+#~ msgstr "配列(Array)"
+
+#~ msgid "Array element"
+#~ msgstr "配列の要素"
+
+#~ msgid "Object properties when data type is object"
+#~ msgstr "データ型がオブジェクトの場合のプロパティ"
+
+#~ msgid "String"
+#~ msgstr "文字列(String)"
+
+#~ msgid "Enum list"
+#~ msgstr "Enumリスト"
+
+#~ msgid "List of enum value"
+#~ msgstr "Enum値のリスト"
+
+#~ msgid "Addtional Property"
+#~ msgstr "追加プロパティ"
+
+#~ msgid "Data Type"
+#~ msgstr "データ型"
+
+#~ msgid "Number"
+#~ msgstr "数値(Number)"
+
+#~ msgid "Integer"
+#~ msgstr "整数(Integer)"
+
+#~ msgid "Boolean"
+#~ msgstr "論理型(Boolean)"
+
+#~ msgid "Null"
+#~ msgstr "NULL"
+
+#~ msgid "LINE Messaging API Channel"
+#~ msgstr "LINEメッセージングAPIチャネル"
+
+#~ msgid "Richmenu Alias"
+#~ msgstr "エイリアス"
+
+#~ msgid "Data type of each array element"
+#~ msgstr "配列の各要素のデータ型"
+
+#~ msgid "Check All"
+#~ msgstr "全て選択"
+
+#~ msgid "UnCheck All"
+#~ msgstr "全て選択解除"
+
+#~ msgid "Select options"
+#~ msgstr "未選択"
+
+#~ msgid "# checked"
+#~ msgstr "# 個選択"
+
+#~ msgid "Copied!"
+#~ msgstr "コピーしました！"
 
 #~ msgid "Enter your OpenAI API Key."
 #~ msgstr "OpenAIのAPI Keyを入力してください。"
@@ -3567,9 +3660,6 @@ msgstr "更新日"
 
 #~ msgid "LINE User ID"
 #~ msgstr "LINEユーザーID"
-
-#~ msgid "Status"
-#~ msgstr "ステータス"
 
 #~ msgid "Template"
 #~ msgstr "テンプレート"

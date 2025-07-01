@@ -115,7 +115,11 @@ class ExecuteScenarioStepTest extends WP_UnitTestCase {
         $this->assertEquals($status['next_date'],  wp_date('Y-m-d H:i:s', strtotime("+5 minutes")), "Next date should be 5 minutes from now.");
 
         // Test 1: Execute second step
-        $result = Scenario::execute_step($scenario_id, 'second', $line_user_id, $secret_prefix, wp_date('Y-m-d H:i:s'));
+        // $result = Scenario::execute_step($scenario_id, 'second', $line_user_id, $secret_prefix, wp_date('Y-m-d H:i:s'));
+        $func_execute_scenario_step = new \Shipweb\LineConnect\Action\Definitions\ExecuteScenarioStep();
+        $func_execute_scenario_step->set_secret_prefix($secret_prefix);
+        $func_execute_scenario_step->set_event((object) array("source" => (object) array("userId" => $line_user_id)));
+        $result = $func_execute_scenario_step->execute_scenario_step($scenario_id, 'second');
         $this->assertEquals('success', $result['result'], "Executing scenario step should be successful.");
         $this->assertEquals('second', $result['step'], "executed step should be 'second'.");
 

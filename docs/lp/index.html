@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Connect - WordPress LINE連携プラグイン</title>
+    <meta name="description" content="WordPressとLINE公式アカウントを連携し、ECサイトや店舗の集客を強化。LINE Connectプラグインで、顧客との新しいコミュニケーションを始めましょう。">
+    <meta name="keywords" content="WordPress LINE 連携, LINE Connect プラグイン, ECサイト 集客">
+    <style>
+        body { font-family: 'Helvetica Neue', 'Helvetica', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Arial', 'Yu Gothic', 'Meiryo', sans-serif; margin: 0; color: #333; background-color: #f9f9f9; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+        .btn { display: inline-block; padding: 15px 40px; background-color: #00B900; color: #fff; text-decoration: none; font-weight: bold; border-radius: 50px; transition: background-color 0.3s; }
+        .btn:hover { background-color: #009900; }
+
+        /* Header */
+        .header { background-color: #fff; padding: 20px 0; border-bottom: 1px solid #eee; }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .header .logo { font-size: 24px; font-weight: bold; color: #333; }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(to right, #00c6ff, #0072ff); color: #fff; padding: 100px 0; text-align: center; }
+        .hero h1 { font-size: 42px; margin-bottom: 20px; font-weight: 900; }
+        .hero p { font-size: 18px; margin-bottom: 40px; }
+
+        /* Section */
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 32px; margin-bottom: 60px; font-weight: 700; color: #333; }
+        .section-bg { background-color: #fff; }
+
+        /* Overview */
+        .overview p { font-size: 18px; line-height: 1.8; max-width: 800px; margin: 0 auto; }
+
+        /* Features */
+        .features-list { list-style: none; padding: 0; margin: 0; display: flex; justify-content: space-around; gap: 30px; }
+        .feature-item { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex-basis: 30%; }
+        .feature-item h3 { font-size: 22px; color: #0072ff; margin-bottom: 15px; }
+        .feature-item p { font-size: 16px; line-height: 1.7; }
+
+        /* Merits */
+        .merits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .merit-card { background: #fff; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .merit-card .icon { font-size: 48px; color: #00c6ff; margin-bottom: 20px; }
+        .merit-card h3 { font-size: 20px; margin-bottom: 15px; }
+        .merit-card p { font-size: 16px; line-height: 1.6; }
+
+        /* Steps */
+        .steps-list { list-style: none; padding: 0; counter-reset: step-counter; max-width: 700px; margin: 0 auto; }
+        .step-item { position: relative; padding: 20px 20px 20px 60px; margin-bottom: 20px; background: #fff; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .step-item::before { counter-increment: step-counter; content: counter(step-counter); position: absolute; left: -10px; top: 50%; transform: translateY(-50%); background-color: #0072ff; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 20px; }
+        .step-item h3 { font-size: 18px; margin: 0; }
+
+        /* Pricing */
+        .pricing-box { background: #fff; border: 3px solid #00B900; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,185,0,0.1); }
+        .pricing-box h2 { font-size: 36px; color: #00B900; margin: 0 0 10px; }
+        .pricing-box p { font-size: 18px; margin: 0; }
+
+        /* Testimonials */
+        .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .testimonial { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .testimonial-author { font-weight: bold; margin-top: 20px; }
+        .testimonial-author span { font-weight: normal; color: #777; }
+
+        /* FAQ */
+        .faq-item { background: #fff; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .faq-question { padding: 20px; font-weight: bold; cursor: pointer; position: relative; }
+        .faq-question::after { content: '+'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 24px; color: #0072ff; }
+        .faq-answer { padding: 0 20px 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; }
+        .faq-item.active .faq-answer { max-height: 200px; }
+        .faq-item.active .faq-question::after { content: '−'; }
+
+        /* CTA */
+        .cta-section { background-color: #0072ff; color: #fff; padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 32px; margin-bottom: 30px; }
+
+        /* Footer */
+        .footer { background-color: #333; color: #fff; padding: 20px 0; text-align: center; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">LINE Connect</div>
+            <a href="#cta" class="btn">無料で試す</a>
+        </div>
+    </header>
+
+    <!-- 1. ヒーローセクション -->
+    <section class="hero">
+        <div class="container">
+            <h1>WordPressとLINEを繋ぐ、最強の連携プラグイン</h1>
+            <p>顧客との繋がりを深化させ、ビジネスを加速させる。LINE Connectで新しいマーケティング体験を。</p>
+            <a href="#demo" class="btn">今すぐデモ体験</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- 2. プラグイン概要 -->
+        <section class="section">
+            <h2 class="section-title">LINE Connectとは？</h2>
+            <div class="overview text-center">
+                <p>LINE Connectは、お使いのWordPressサイトとLINE公式アカウントをシームレスに連携させるための高機能プラグインです。記事の更新通知、ユーザー属性に応じたリッチメニューの出し分け、ステップ配信など、LINEを活用した顧客エンゲージメント向上に必要な機能を網羅。ECサイト運営者様や店舗オーナー様が、専門知識なしで効果的なLINEマーケティングを始めるお手伝いをします。</p>
+            </div>
+        </section>
+
+        <!-- 3. 主な機能 -->
+        <section class="section section-bg">
+            <h2 class="section-title">主な機能</h2>
+            <ul class="features-list">
+                <li class="feature-item">
+                    <h3>自動メッセージ配信</h3>
+                    <p>記事の更新や予約投稿を自動でLINEに通知。ユーザーの行動をトリガーにしたシナリオ配信で、最適なタイミングで情報をお届けします。</p>
+                </li>
+                <li class="feature-item">
+                    <h3>セグメント別リッチメニュー</h3>
+                    <p>「連携済み」「未連携」やWordPressの「ロール」に応じてリッチメニューを動的に変更。ユーザーに合わせた最適な導線を提供します。</p>
+                </li>
+                <li class="feature-item">
+                    <h3>AIチャットボット連携</h3>
+                    <p>OpenAIのAPIと連携し、AIによる自動応答を実現。Function Callingでサイト内情報も活用し、顧客対応を24時間自動化します。</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 4. 導入メリット -->
+        <section class="section">
+            <h2 class="section-title">導入メリット</h2>
+            <div class="merits-grid">
+                <div class="merit-card">
+                    <div class="icon">📈</div>
+                    <h3>顧客エンゲージメント向上</h3>
+                    <p>LINEのプッシュ通知で情報を確実に届け、双方向コミュニケーションを活性化。顧客との関係性を深め、ファン化を促進します。</p>
+                </div>
+                <div class="merit-card">
+                    <div class="icon">⚙️</div>
+                    <h3>マーケティング業務の自動化</h3>
+                    <p>手動で行っていたメッセージ配信や顧客対応を自動化。作業工数を大幅に削減し、より戦略的な業務に集中できます。</p>
+                </div>
+                <div class="merit-card">
+                    <div class="icon">💰</div>
+                    <h3>低コストで集客力アップ</h3>
+                    <p>高価なMAツールなしで、LINEを活用した高度なマーケティングを実現。費用対効果の高い集客と販促活動を可能にします。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 導入ステップ -->
+        <section class="section section-bg">
+            <h2 class="section-title">かんたん導入 4ステップ</h2>
+            <ol class="steps-list">
+                <li class="step-item"><h3>プラグインをインストール</h3></li>
+                <li class="step-item"><h3>LINE Developersでチャネルを作成</h3></li>
+                <li class="step-item"><h3>プラグイン設定画面でトークン等を設定</h3></li>
+                <li class="step-item"><h3>Webhook URLを検証して連携完了</h3></li>
+            </ol>
+        </section>
+
+        <!-- 6. 料金プラン -->
+        <section class="section">
+            <h2 class="section-title">料金プラン</h2>
+            <div class="pricing-box">
+                <h2>完全無料</h2>
+                <p>全ての機能を、追加費用なしでご利用いただけます。</p>
+            </div>
+        </section>
+
+        <!-- 7. ユーザー事例 -->
+        <section class="section section-bg">
+            <h2 class="section-title">ユーザー事例</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p>「LINE Connect導入後、ブログ更新通知からのアクセスが倍増しました。特に予約投稿機能が便利で、決まった時間に情報発信できるのが助かります。設定も簡単で、すぐに使い始められました。」</p>
+                    <div class="testimonial-author">Aオンラインショップ様 <span>（ECサイト運営）</span></div>
+                </div>
+                <div class="testimonial">
+                    <p>「お客様との予約調整やお問い合わせ対応にLINEを活用しています。AIチャットボットのおかげで、営業時間外でも一次対応が可能になり、顧客満足度が向上しました。リピート率も上がっています。」</p>
+                    <div class="testimonial-author">B美容室様 <span>（店舗ビジネス）</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. FAQ -->
+        <section class="section">
+            <h2 class="section-title">よくあるご質問</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">プログラミングの知識は必要ですか？</div>
+                    <div class="faq-answer">
+                        <p>いいえ、必要ありません。WordPressの管理画面から直感的に操作でき、専門知識がなくても簡単にLINE連携の設定やメッセージ配信が可能です。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">どのLINE公式アカウントのプランでも利用できますか？</div>
+                    <div class="faq-answer">
+                        <p>はい、フリープランを含む全てのLINE公式アカウントでご利用いただけます。ただし、メッセージ配信数に応じてLINE社への料金が発生する場合があります。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">複数のLINE公式アカウントを連携できますか？</div>
+                    <div class="faq-answer">
+                        <p>はい、複数のチャネル（LINE公式アカウント）を登録し、WordPressサイトごとに切り替えて管理・運用することが可能です。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">セキュリティは安全ですか？</div>
+                    <div class="faq-answer">
+                        <p>はい。LINEの公式APIを利用しており、通信は暗号化されています。ユーザーデータはWordPress内のお客様のサーバーで安全に管理されます。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">サポートはありますか？</div>
+                    <div class="faq-answer">
+                        <p>基本的な使い方については、GitHub上のドキュメントをご参照ください。個別での技術的なサポートは現在提供しておりません。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. 最終CTAセクション -->
+        <section id="cta" class="cta-section">
+            <div class="container">
+                <h2>さあ、LINE連携をはじめよう</h2>
+                <p>今すぐLINE Connectを導入して、顧客との新しい関係を築きませんか？</p>
+                <a href="#download" class="btn">無料でダウンロード</a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 LINE Connect. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -10,7 +10,8 @@ class FileSystem {
      * @return string $dir_path 作成されたディレクトリのパス
      */
     public static function make_lineconnect_dir($dir_name, $deny_from_all = true) {
-        $root_dir_path = WP_CONTENT_DIR . '/uploads/lineconnect';
+        $upload_dir = wp_upload_dir();
+        $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
         // check if root dir exists
         if (! file_exists($root_dir_path)) {
             // make root dir
@@ -47,7 +48,8 @@ class FileSystem {
      * @return string $file_path ファイルパス
      */
     public static function get_lineconnect_file_path($file_path) {
-        $root_dir_path = WP_CONTENT_DIR . '/uploads/lineconnect';
+        $upload_dir = wp_upload_dir();
+        $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
         $full_path = $root_dir_path . '/' . $file_path;
         if (file_exists($full_path)) {
             return $full_path;

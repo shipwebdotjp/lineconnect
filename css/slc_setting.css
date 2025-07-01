@@ -4,3 +4,9 @@ div.error{
 .ui-tabs-nav a:focus{
     box-shadow:none;
 }
+
+button.button.button-danger{
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: #fff;
+}

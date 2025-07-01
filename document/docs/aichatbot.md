@@ -42,6 +42,6 @@ User name: {{ user.data.display_name }}
 Email address: {{ user.data.user_email }} 
 ```
 
-## Current limitations
-
-- Does not support multimodal input/output such as images.
+## Multimodal Input
+- Supports image input. After sending an image, you can ask questions about the image by sending text.
+- Does not support image output (generation).

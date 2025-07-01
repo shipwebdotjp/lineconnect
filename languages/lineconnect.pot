@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.1.6\n"
+"Project-Id-Version: LINE Connect 4.2.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-04-20 21:31+0900\n"
+"POT-Creation-Date: 2025-07-01 21:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,2300 +23,22 @@ msgstr ""
 msgid "Error: Invalid audience ID."
 msgstr ""
 
-msgid "Send update notification"
+msgid "Teacher"
 msgstr ""
 
-msgid "Send target:"
+msgid "Student"
 msgstr ""
 
-msgid "Message template:"
-msgstr ""
-
-msgid "Send when a future post is published"
-msgstr ""
-
-msgid "Channel name"
-msgstr ""
-
-msgid "Channel access token"
-msgstr ""
-
-msgid "Channel secret"
-msgstr ""
-
-msgid "Default target role"
-msgstr ""
-
-msgid "Rich menu ID for linked users"
-msgstr ""
-
-msgid "Rich menu ID for unlinked users"
-msgstr ""
-
-msgid "Clear the rich menu cache"
-msgstr ""
-
-msgid "Clear the cache of the rich menu list."
-msgstr ""
-
-msgid "Channel"
-msgstr ""
-
-msgid "Link"
-msgstr ""
-
-msgid "Login page URL"
-msgstr ""
-
-msgid "Enter the URL of the login page as a path relative to the site URL."
-msgstr ""
-
-msgid "Automatically initiate linkage"
-msgstr ""
-
-msgid "Disabled"
-msgstr ""
-
-msgid "Enabled"
-msgstr ""
-
-msgid ""
-"This setting determines whether or not to automatically initiate linkage "
-"When user add an official account as a friend."
-msgstr ""
-
-msgid "Account link/unlink start keywords"
-msgstr ""
-
-msgid "Account link"
-msgstr ""
-
-msgid "Message title for account linkage initiation"
-msgstr ""
-
-msgid "Start account linkage"
-msgstr ""
-
-msgid "Message body for account linkage initiation"
-msgstr ""
-
-msgid "Start the linkage. Please login at the link."
-msgstr ""
-
-msgid "Message button label to start account linkage"
-msgstr ""
-
-msgid "Start linkage"
-msgstr ""
-
-msgid "Account Linkage Completion Message"
-msgstr ""
-
-msgid "Account linkage completed."
-msgstr ""
-
-msgid "Account Linkage Failure Messages"
-msgstr ""
-
-msgid "Account linkage failed."
-msgstr ""
-
-msgid "Message title for account unlinking initiation"
-msgstr ""
-
-msgid "Unlink account"
-msgstr ""
-
-msgid "Message body for account unlinking initiation"
-msgstr ""
-
-msgid "Would you like to unlink your account?"
-msgstr ""
-
-msgid "Message button label to start account unlinking"
-msgstr ""
-
-msgid "Account Unlinking Completion Message"
-msgstr ""
-
-msgid "Account linkage has been successfully unlinked."
-msgstr ""
-
-msgid "Account Unlinking Failure Message"
-msgstr ""
-
-msgid "Failed to unlink the account."
-msgstr ""
-
-msgid "Update Notification"
-msgstr ""
-
-msgid "Post types"
-msgstr ""
-
-msgid "Post"
-msgstr ""
-
-msgid "Page"
-msgstr ""
-
-msgid ""
-"The post type to be notified. The Send LINE checkbox will appear on the edit "
-"screen of the selected post type."
-msgstr ""
-
-msgid "Default value of \"Send update notification\" checkbox"
-msgstr ""
-
-msgid "Checked"
-msgstr ""
-
-msgid "Unchecked"
-msgstr ""
-
-msgid "Unchecked if published"
-msgstr ""
-
-msgid ""
-"Default value setting for the \"Send update notification\" check box when "
-"editing an article."
-msgstr ""
-
-msgid "Default template of notification message."
-msgstr ""
-
-msgid "Default template"
-msgstr ""
-
-msgid ""
-"Default value setting for the \"Message template\" select box when editing "
-"an article."
-msgstr ""
-
-msgid "\"More\" link label"
-msgstr ""
-
-msgid "Read more"
-msgstr ""
-
-msgid "Send notification to posters when comments are received"
-msgstr ""
-
-msgid ""
-"This setting determines whether or not to notify the poster of an article "
-"when there is a comment on the article."
-msgstr ""
-
-msgid "\"Read comment\" link label"
-msgstr ""
-
-msgid "Read comment"
-msgstr ""
-
-msgid "Style"
-msgstr ""
-
-msgid "Image fit mode"
-msgstr ""
-
-msgid "cover"
-msgstr ""
-
-msgid "contain"
-msgstr ""
-
-msgid ""
-"cover: The replaced content is sized to maintain its aspect ratio while "
-"filling the image area. If the image's aspect ratio does not match the "
-"aspect ratio of its area, then the image will be clipped to fit. \\n "
-"contain: The replaced image is scaled to maintain its aspect ratio while "
-"fitting within the image area. The entire image is made to fill the box, "
-"while preserving its aspect ratio, so the image will be \"letterboxed\" if "
-"its aspect ratio does not match the aspect ratio of the area."
-msgstr ""
-
-msgid "Image area aspect ratio"
-msgstr ""
-
-msgid ""
-"The aspect ratio of the image area. The height cannot be greater than three "
-"times the width."
-msgstr ""
-
-msgid "Background color of the message"
-msgstr ""
-
-msgid "The background color of the notification message."
-msgstr ""
-
-msgid "Title text color"
-msgstr ""
-
-msgid "The title text color of the notification message."
-msgstr ""
-
-msgid "Body text color"
-msgstr ""
-
-msgid "The body text color of the notification message."
-msgstr ""
-
-msgid "Link style"
-msgstr ""
-
-msgid "Button"
-msgstr ""
-
-msgid "HTML Link"
-msgstr ""
-
-msgid "Button: button style. Link: HTML link style"
-msgstr ""
-
-msgid "Link text color"
-msgstr ""
-
-msgid "The link text color of the notification message."
-msgstr ""
-
-msgid "Link button background color"
-msgstr ""
-
-msgid "The link button background color of the notification message."
-msgstr ""
-
-msgid "Max title lines"
-msgstr ""
-
-msgid ""
-"This is the setting for the maximum number of lines of title to be displayed "
-"in the notification message."
-msgstr ""
-
-msgid "Max body lines"
-msgstr ""
-
-msgid ""
-"This is the setting for the maximum number of lines of text to be displayed "
-"in the notification message. Apart from this, it can be truncated to a "
-"maximum of 500 characters."
-msgstr ""
-
-msgid "AI Chat"
-msgstr ""
-
-msgid "Auto response by AI"
-msgstr ""
-
-msgid ""
-"This setting determines whether or not to use AI auto-response for messages "
-"sent to official line account."
-msgstr ""
-
-msgid "OpenAI API Endpoint"
-msgstr ""
-
-msgid "Enter your OpenAI (or Compatible) API Endpoint."
-msgstr ""
-
-msgid "OpenAI API Key"
-msgstr ""
-
-msgid "Enter your OpenAI (or Compatible) API Key."
-msgstr ""
-
-msgid "Model"
-msgstr ""
-
-msgid "This is a setting for which model to use. Such as gpt-4o-mini"
-msgstr ""
-
-msgid "System prompt"
-msgstr ""
-
-msgid ""
-"The initial text or instruction provided to the language model before "
-"interacting with it in a conversational manner."
-msgstr ""
-
-msgid "Function Calling"
-msgstr ""
-
-msgid "This setting determines whether Function Calling is used or not."
-msgstr ""
-
-msgid "Functions to use"
-msgstr ""
-
-msgid "Function to be enabled by Function Calling."
-msgstr ""
-
-msgid "Number of context"
-msgstr ""
-
-msgid ""
-"This is a setting for how many conversation histories to use in order to "
-"have the AI understand the context and respond."
-msgstr ""
-
-msgid "Max tokens"
-msgstr ""
-
-msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
-msgstr ""
-
-msgid "Temperature"
-msgstr ""
-
-msgid ""
-"This is the temperature parameter. The higher the value, the more diverse "
-"words are likely to be selected. Between 0 and 1."
-msgstr ""
-
-msgid "Limit for unlinked users"
-msgstr ""
-
-msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
-msgstr ""
-
-msgid "Limit for linked users"
-msgstr ""
-
-msgid "Number of times an linked user can use it per day. -1 is unlimited."
-msgstr ""
-
-msgid "Limit message"
-msgstr ""
-
-msgid ""
-"The number of times you can use it in a day (%limit% times) has been "
-"exceeded. Please try again after the date changes."
-msgstr ""
-
-msgid ""
-"This message is displayed when the number of times the limit can be used in "
-"a day is exceeded. The %limit% is replaced by the limit number of times."
-msgstr ""
-
-msgid "Data"
-msgstr ""
-
-msgid "Get my user information"
-msgstr ""
-
-msgid "Get the current date and time"
-msgstr ""
-
-msgid "Search posts"
-msgstr ""
-
-msgid "Author Name"
-msgstr ""
-
-msgid "S"
-msgstr ""
-
-msgid "P"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Order"
-msgstr ""
-
-msgid "Orderby"
-msgstr ""
-
-msgid "Offset"
-msgstr ""
-
-msgid "Year"
-msgstr ""
-
-msgid "Monthnum"
-msgstr ""
-
-msgid "Day"
-msgstr ""
-
-msgid "Search users"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Search"
-msgstr ""
-
-msgid "Include"
-msgstr ""
-
-msgid "Item"
-msgstr ""
-
-msgid "Meta Key"
-msgstr ""
-
-msgid "Meta Value"
-msgstr ""
-
-msgid "Meta Compare"
-msgstr ""
-
-msgid "Get LINE Connect message"
-msgstr ""
-
-msgid "Get LINE Connect message."
-msgstr ""
-
-msgid "LC Message id"
-msgstr ""
-
-msgid "Arguments to insert into the message"
-msgstr ""
-
-msgid "Get LINE text message"
-msgstr ""
-
-msgid "Get LINE text message."
-msgstr ""
-
-msgid "Message body"
-msgstr ""
-
-msgid "Get LC notify message"
-msgstr ""
-
-msgid "Get LC notify message."
-msgstr ""
-
-msgid "Message title"
-msgstr ""
-
-msgid "Thumbnail url"
-msgstr ""
-
-msgid "Button action type"
-msgstr ""
-
-msgid "Message"
-msgstr ""
-
-msgid "Postback"
-msgstr ""
-
-msgid "URI"
-msgstr ""
-
-msgid "Label"
-msgstr ""
-
-msgid "Display Text"
-msgstr ""
-
-msgid "Attributes"
-msgstr ""
-
-msgid "Get LINE message from Raw JSON"
-msgstr ""
-
-msgid "Get LINE message from Raw JSON."
-msgstr ""
-
-msgid "Single raw Message JSON object"
-msgstr ""
-
-msgid "Send LINE message"
-msgstr ""
-
-msgid "Send LINE message with Audience and Channel."
-msgstr ""
-
-msgid "LC message id, message text or message object"
-msgstr ""
-
-msgid "LINE user ID"
-msgstr ""
-
-msgid "Send LINE message with audience"
-msgstr ""
-
-msgid "Send LINE message with audience."
-msgstr ""
-
-msgid "LC message id, text or message object"
-msgstr ""
-
-msgid "LC Audience id or object"
-msgstr ""
-
-msgid "Arguments to insert into the audience"
-msgstr ""
-
-msgid "Notification Disabled"
-msgstr ""
-
-msgid "Notification disabled"
-msgstr ""
-
-msgid "Send mail to admin"
-msgstr ""
-
-msgid "Send mail to admin."
-msgstr ""
-
-msgid "Mail subject"
-msgstr ""
-
-msgid "Mail body"
-msgstr ""
-
-msgid "Link rich menu"
-msgstr ""
-
-msgid "Link rich menu with line user ID and Channel."
-msgstr ""
-
-msgid "Rich menu ID"
-msgstr ""
-
-msgid "LINE user id. Default value is LINE user id of event source."
-msgstr ""
-
-msgid ""
-"First 4 characters of channel secret. Default value is channel of event "
-"source."
-msgstr ""
-
-msgid "Get user meta"
-msgstr ""
-
-msgid "Get WordPress user meta value"
+msgid "User ID"
 msgstr ""
 
 msgid "WordPress user ID"
 msgstr ""
 
-msgid "Meta key"
-msgstr ""
-
-msgid "Update user meta"
-msgstr ""
-
-msgid "Update or delete WordPress user meta value"
-msgstr ""
-
-msgid "Meta value. If empty, meta will be deleted."
-msgstr ""
-
-msgid "Get LINE user profile value"
-msgstr ""
-
-msgid "Get value from LINE user profile"
-msgstr ""
-
-msgid "Profile key to get"
-msgstr ""
-
-msgid "LINE user ID. Default value is LINE user ID of event source."
-msgstr ""
-
-msgid "Update LINE user profile"
-msgstr ""
-
-msgid "Update or delete value in LINE user profile"
-msgstr ""
-
-msgid "Profile key to update"
-msgstr ""
-
-msgid "Profile value. If empty, key will be deleted."
-msgstr ""
-
-msgid "Get LINE user tags"
-msgstr ""
-
-msgid "Get LINE user tags."
-msgstr ""
-
-msgid "Update LINE user tags"
-msgstr ""
-
-msgid "Update or delete LINE user tags."
-msgstr ""
-
-msgid "Array of tags to update. If empty, all tags will be deleted."
-msgstr ""
-
-msgid "Add LINE user tags"
-msgstr ""
-
-msgid "Add LINE user tags."
-msgstr ""
-
-msgid "Array of tags to add. If empty, tags will not be added."
-msgstr ""
-
-msgid "Remove LINE user tags"
-msgstr ""
-
-msgid "Remove LINE user tags."
-msgstr ""
-
-msgid "Array of tags to remove. If empty, tags will not be removed."
-msgstr ""
-
-msgid "Start LC Scenario"
-msgstr ""
-
-msgid "Start LINE Connect Scenario."
-msgstr ""
-
-msgid "Scenario ID"
-msgstr ""
-
-msgid "Scenario restart flag"
-msgstr ""
-
-msgid "Never restart"
-msgstr ""
-
-msgid "Restart only completed"
-msgstr ""
-
-msgid "Always restart"
-msgstr ""
-
-msgid "Line user ID. Default value is LINE user ID of event source."
-msgstr ""
-
-msgid "Set LC Scenario Step"
-msgstr ""
-
-msgid "Set LINE Connect Scenario Step."
-msgstr ""
-
-msgid "ID of the step to set."
-msgstr ""
-
-msgid "Next date to execute the step. Absolute or relative."
-msgstr ""
-
-msgid "Execute LC Scenario Step"
-msgstr ""
-
-msgid "Execute LINE Connect Scenario Step."
-msgstr ""
-
-msgid "ID of the step to execute."
-msgstr ""
-
-msgid "Change LC scenario status"
-msgstr ""
-
-msgid "Change LINE Connect scenario status."
-msgstr ""
-
-msgid "The status to set."
-msgstr ""
-
-msgid "Active"
-msgstr ""
-
-msgid "Error"
-msgstr ""
-
-msgid "Paused"
-msgstr ""
-
-msgid "Completed"
-msgstr ""
-
-msgid "Function name"
-msgstr ""
-
-msgid "Function name to be called"
-msgstr ""
-
-msgid "Namespace"
-msgstr ""
-
-msgid "Namespace of the function"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Description of the action"
-msgstr ""
-
-msgid "User role to execute this function by AI Chat"
-msgstr ""
-
-msgid "Anyone"
-msgstr ""
-
-msgid "Parameters"
-msgstr ""
-
-msgid "Parameters of the function"
-msgstr ""
-
-msgid "Description of the parameter"
-msgstr ""
-
-msgid "Required"
-msgstr ""
-
-msgid "Whether the parameter is required"
-msgstr ""
-
-msgid "Object"
-msgstr ""
-
-msgid "Object property"
-msgstr ""
-
-msgid "Array"
-msgstr ""
-
-msgid "Array element"
-msgstr ""
-
-msgid "Property"
-msgstr ""
-
-msgid "Object properties when data type is object"
-msgstr ""
-
-msgid "String"
-msgstr ""
-
-msgid "Enum list"
-msgstr ""
-
-msgid "List of enum value"
-msgstr ""
-
-msgid "Addtional Property"
-msgstr ""
-
-msgid "Data Type"
-msgstr ""
-
-msgid "Number"
-msgstr ""
-
-msgid "Integer"
-msgstr ""
-
-msgid "Boolean"
-msgstr ""
-
-msgid "Null"
-msgstr ""
-
-msgid "LINE Connect Message"
-msgstr ""
-
-msgid "LINE Messaging API Channel"
-msgstr ""
-
-msgid "Richmenu"
-msgstr ""
-
-msgid "Richmenu Alias"
-msgstr ""
-
-msgid "Data type of each array element"
-msgstr ""
-
-msgid "Trigger type"
-msgstr ""
-
-msgid "Webhook"
-msgstr ""
-
-msgid "Schedule"
-msgstr ""
-
-msgid "Choose trigger type."
-msgstr ""
-
-msgid "Event type"
-msgstr ""
-
-msgid "Post back"
-msgstr ""
-
-msgid "Account Link"
-msgstr ""
-
-msgid "Follow"
-msgstr ""
-
-msgid "Unfollow"
-msgstr ""
-
-msgid "Video play complete"
-msgstr ""
-
-msgid "Join"
-msgstr ""
-
-msgid "Leave"
-msgstr ""
-
-msgid "Member joined"
-msgstr ""
-
-msgid "Member left"
-msgstr ""
-
-msgid "Unsend"
-msgstr ""
-
-msgid "Message type"
-msgstr ""
-
-msgid "Text"
-msgstr ""
-
-msgid "Image"
-msgstr ""
-
-msgid "Video"
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-msgid "File"
-msgstr ""
-
-msgid "Location"
-msgstr ""
-
-msgid "Sticker"
-msgstr ""
-
-msgid "Unblocked"
-msgstr ""
-
-msgid "Any"
-msgstr ""
-
-msgid "Add Freind"
-msgstr ""
-
-msgid "Schedule type"
-msgstr ""
-
-msgid "Once"
-msgstr ""
-
-msgid "Repeat"
-msgstr ""
-
-msgid "Date and time"
-msgstr ""
-
-msgid "Every"
-msgstr ""
-
-msgid "Hour"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Week"
-msgstr ""
-
-msgid "Month"
-msgstr ""
-
-msgid "Start date"
-msgstr ""
-
-msgid "End date"
-msgstr ""
-
-msgid "Beforehand notice (min)"
-msgstr ""
-
-msgid "How many minutes in advance notice"
-msgstr ""
-
-msgid "0 am"
-msgstr ""
-
-msgid "1 am"
-msgstr ""
-
-msgid "2 am"
-msgstr ""
-
-msgid "3 am"
-msgstr ""
-
-msgid "4 am"
-msgstr ""
-
-msgid "5 am"
-msgstr ""
-
-msgid "6 am"
-msgstr ""
-
-msgid "7 am"
-msgstr ""
-
-msgid "8 am"
-msgstr ""
-
-msgid "9 am"
-msgstr ""
-
-msgid "10 am"
-msgstr ""
-
-msgid "11 am"
-msgstr ""
-
-msgid "12 pm"
-msgstr ""
-
-msgid "1 pm"
-msgstr ""
-
-msgid "2 pm"
-msgstr ""
-
-msgid "3 pm"
-msgstr ""
-
-msgid "4 pm"
-msgstr ""
-
-msgid "5 pm"
-msgstr ""
-
-msgid "6 pm"
-msgstr ""
-
-msgid "7 pm"
-msgstr ""
-
-msgid "8 pm"
-msgstr ""
-
-msgid "9 pm"
-msgstr ""
-
-msgid "10 pm"
-msgstr ""
-
-msgid "11 pm"
-msgstr ""
-
-msgid "Way of Calc"
-msgstr ""
-
-msgid "nth day"
-msgstr ""
-
-msgid "nth Week in a month"
-msgstr ""
-
-msgid "Day of the week in the month"
-msgstr ""
-
-msgid "1st"
-msgstr ""
-
-msgid "2nd"
-msgstr ""
-
-msgid "3rd"
-msgstr ""
-
-msgid "4th"
-msgstr ""
-
-msgid "5th"
-msgstr ""
-
-msgid "6th"
-msgstr ""
-
-msgid "Sunday"
-msgstr ""
-
-msgid "Monday"
-msgstr ""
-
-msgid "Tuesday"
-msgstr ""
-
-msgid "Wednesday"
-msgstr ""
-
-msgid "Thursday"
-msgstr ""
-
-msgid "Friday"
-msgstr ""
-
-msgid "Saturday"
-msgstr ""
-
-msgid "First day of the week"
-msgstr ""
-
-msgid "7th"
-msgstr ""
-
-msgid "8th"
-msgstr ""
-
-msgid "9th"
-msgstr ""
-
-msgid "10th"
-msgstr ""
-
-msgid "11th"
-msgstr ""
-
-msgid "12th"
-msgstr ""
-
-msgid "13th"
-msgstr ""
-
-msgid "14th"
-msgstr ""
-
-msgid "15th"
-msgstr ""
-
-msgid "16th"
-msgstr ""
-
-msgid "17th"
-msgstr ""
-
-msgid "18th"
-msgstr ""
-
-msgid "19th"
-msgstr ""
-
-msgid "20th"
-msgstr ""
-
-msgid "21st"
-msgstr ""
-
-msgid "22nd"
-msgstr ""
-
-msgid "23rd"
-msgstr ""
-
-msgid "24th"
-msgstr ""
-
-msgid "25th"
-msgstr ""
-
-msgid "26th"
-msgstr ""
-
-msgid "27th"
-msgstr ""
-
-msgid "28th"
-msgstr ""
-
-msgid "29th"
-msgstr ""
-
-msgid "30th"
-msgstr ""
-
-msgid "31st"
-msgstr ""
-
-msgid "Last day of the month"
-msgstr ""
-
-msgid "Week number"
-msgstr ""
-
-msgid "January"
-msgstr ""
-
-msgid "February"
-msgstr ""
-
-msgid "March"
-msgstr ""
-
-msgid "April"
-msgstr ""
-
-msgid "May"
-msgstr ""
-
-msgid "June"
-msgstr ""
-
-msgid "July"
-msgstr ""
-
-msgid "August"
-msgstr ""
-
-msgid "September"
-msgstr ""
-
-msgid "October"
-msgstr ""
-
-msgid "November"
-msgstr ""
-
-msgid "December"
-msgstr ""
-
-msgid "Triggers"
-msgstr ""
-
-msgid "Action"
-msgstr ""
-
-msgid "Action chain"
-msgstr ""
-
-msgid "Destination argument to"
-msgstr ""
-
-msgid "Injection Destination Argument Path. e.g. 2.message"
-msgstr ""
-
-msgid ""
-"Injection Data. You can use return value of previous action. e.g. "
-"{{$.return.1}}"
-msgstr ""
-
-msgid "Source condition"
-msgstr ""
-
-msgid "Source condition group"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "Source"
-msgstr ""
-
-msgid "Not"
-msgstr ""
-
-msgid "Logical negation"
-msgstr ""
-
-msgid "User"
-msgstr ""
-
-msgid "Group"
-msgstr ""
-
-msgid "Room"
-msgstr ""
-
-msgid "Link status"
-msgstr ""
-
-msgid "Linked"
-msgstr ""
-
-msgid "Unlinked"
-msgstr ""
-
-msgid "User Meta"
-msgstr ""
-
-msgid "Values"
-msgstr ""
-
-msgid "Value"
-msgstr ""
-
-msgid "Profile data"
-msgstr ""
-
-msgid "Profile field"
-msgstr ""
-
-msgid "LINE group ID"
-msgstr ""
-
-msgid "LINE Room ID"
-msgstr ""
-
-msgid "Operator"
-msgstr ""
-
-msgid "And"
-msgstr ""
-
-msgid "All conditions must be true"
-msgstr ""
-
-msgid "Or"
-msgstr ""
-
-msgid "At least one condition must be true"
-msgstr ""
-
-msgid "Keyword"
-msgstr ""
-
-msgid "Keyword condition group"
-msgstr ""
-
-msgid "Keyword condition"
-msgstr ""
-
-msgid "Query string"
-msgstr ""
-
-msgid "Keyword to match"
-msgstr ""
-
-msgid "Match type"
-msgstr ""
-
-msgid "Contains"
-msgstr ""
-
-msgid "Equals"
-msgstr ""
-
-msgid "Starts with"
-msgstr ""
-
-msgid "Ends with"
-msgstr ""
-
-msgid "Regular expression"
-msgstr ""
-
-msgid "Parameter"
-msgstr ""
-
 msgid "Key"
 msgstr ""
 
-msgid "Target channel"
-msgstr ""
-
-msgid "Compare method"
-msgstr ""
-
-msgid "Not equals"
-msgstr ""
-
-msgid "Greater than"
-msgstr ""
-
-msgid "Greater than or equal"
-msgstr ""
-
-msgid "Less than"
-msgstr ""
-
-msgid "Less than or equal"
-msgstr ""
-
-msgid "Contains (String)"
-msgstr ""
-
-msgid "Not contains (String)"
-msgstr ""
-
-msgid "In (Array)"
-msgstr ""
-
-msgid "Not in (Array)"
-msgstr ""
-
-msgid "Between 2 values"
-msgstr ""
-
-msgid "Not Between 2 values"
-msgstr ""
-
-msgid "Exists"
-msgstr ""
-
-msgid "Not exists"
-msgstr ""
-
-msgid "Regular expression match"
-msgstr ""
-
-msgid "No regular expression match"
-msgstr ""
-
-msgid "Add source condition"
-msgstr ""
-
-msgid "Add query parameter"
-msgstr ""
-
-msgid "Add message condition"
-msgstr ""
-
-msgid "Add postback condition"
-msgstr ""
-
-msgid "Add day"
-msgstr ""
-
-msgid "Add week"
-msgstr ""
-
-msgid "Add year"
-msgstr ""
-
-msgid "Add trigger"
-msgstr ""
-
-msgid "Add parameter"
-msgstr ""
-
-msgid "Add action"
-msgstr ""
-
-msgid "Add chain"
-msgstr ""
-
-msgid "Image map"
-msgstr ""
-
-msgid "Button template"
-msgstr ""
-
-msgid "Confirm template"
-msgstr ""
-
-msgid "Carousel template"
-msgstr ""
-
-msgid "Image carousel template"
-msgstr ""
-
-msgid "Flex"
-msgstr ""
-
-msgid "Raw"
-msgstr ""
-
-msgid "Choose message type."
-msgstr ""
-
-msgid "Text message"
-msgstr ""
-
-msgid "Message text. Max character limit: 5000"
-msgstr ""
-
-msgid "Sticker message"
-msgstr ""
-
-msgid "Package ID"
-msgstr ""
-
-msgid "Package ID for a set of stickers."
-msgstr ""
-
-msgid "Sticker ID"
-msgstr ""
-
-msgid "Image message"
-msgstr ""
-
-msgid "Original content URL"
-msgstr ""
-
-msgid ""
-"Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
-"10 MB"
-msgstr ""
-
-msgid "Preview Image Url"
-msgstr ""
-
-msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
-msgstr ""
-
-msgid "Video message"
-msgstr ""
-
-msgid ""
-"If the video isn't playing properly, make sure the video is a supported file "
-"type and the HTTP server hosting the video supports HTTP range requests."
-msgstr ""
-
-msgid ""
-"Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
-msgstr ""
-
-msgid "Preview image URL"
-msgstr ""
-
-msgid ""
-"Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
-"size: 1 MB"
-msgstr ""
-
-msgid "Tracking ID"
-msgstr ""
-
-msgid ""
-"ID used to identify the video when Video viewing complete event occurs. You "
-"can use the same ID in multiple messages."
-msgstr ""
-
-msgid "Audio message"
-msgstr ""
-
-msgid ""
-"Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
-"200 MB"
-msgstr ""
-
-msgid "Duration"
-msgstr ""
-
-msgid "Length of audio file (milliseconds)."
-msgstr ""
-
-msgid "Location message"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Address"
-msgstr ""
-
-msgid "Latitude"
-msgstr ""
-
-msgid "Longitude"
-msgstr ""
-
-msgid "Image map message"
-msgstr ""
-
-msgid ""
-"Imagemap messages are messages configured with an image that has multiple "
-"tappable areas. You can assign one tappable area for the entire image or "
-"different tappable areas on divided areas of the image."
-msgstr ""
-
-msgid "Base Url"
-msgstr ""
-
-msgid "Image base URL. Protocol: HTTPS"
-msgstr ""
-
-msgid "Alt Text"
-msgstr ""
-
-msgid ""
-"Alternative text. When a user receives a message, it will appear as an "
-"alternative to the image in the notification or chat list of their device."
-msgstr ""
-
-msgid "Base Size"
-msgstr ""
-
-msgid "Width"
-msgstr ""
-
-msgid "Height"
-msgstr ""
-
-msgid ""
-"Height of base image. Set to the height that corresponds to a width of 1040 "
-"pixels."
-msgstr ""
-
-msgid ""
-"You can also play a video on the image and display a label with a hyperlink "
-"after the video is finished."
-msgstr ""
-
-msgid "Image map area"
-msgstr ""
-
-msgid "X"
-msgstr ""
-
-msgid ""
-"Horizontal position of the video area relative to the left edge of the "
-"imagemap area. Value must be 0 or higher."
-msgstr ""
-
-msgid "Y"
-msgstr ""
-
-msgid ""
-"Vertical position of the video area relative to the top edge of the imagemap "
-"area. Value must be 0 or higher."
-msgstr ""
-
-msgid "External link"
-msgstr ""
-
-msgid "Link URI"
-msgstr ""
-
-msgid ""
-"Webpage URL. Called when the label displayed after the video is tapped. The "
-"available schemes are http, https, line, and tel"
-msgstr ""
-
-msgid "Displayed after the video is finished."
-msgstr ""
-
-msgid "Image map action objects"
-msgstr ""
-
-msgid "Object which specifies the actions and tappable areas of an imagemap."
-msgstr ""
-
-msgid "Image map action"
-msgstr ""
-
-msgid "URL"
-msgstr ""
-
-msgid ""
-"Label for the action. Spoken when the accessibility feature is enabled on "
-"the client device."
-msgstr ""
-
-msgid ""
-"Defines the size of a tappable area. The top left is used as the origin of "
-"the area. Set these properties based on the baseSize.width property and the "
-"baseSize.height property."
-msgstr ""
-
-msgid ""
-"Horizontal position relative to the left edge of the area. Value must be 0 "
-"or higher."
-msgstr ""
-
-msgid ""
-"Vertical position relative to the top edge of the area. Value must be 0 or "
-"higher."
-msgstr ""
-
-msgid "Webpage URL. The available schemes are http, https, line, and tel"
-msgstr ""
-
-msgid "Button Template message"
-msgstr ""
-
-msgid "Alt text"
-msgstr ""
-
-msgid "Thumbnail image url"
-msgstr ""
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
-"Max file size: 10 MB"
-msgstr ""
-
-msgid "Image aspect ratio"
-msgstr ""
-
-msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
-msgstr ""
-
-msgid "Rectangle"
-msgstr ""
-
-msgid "Square"
-msgstr ""
-
-msgid "Image size"
-msgstr ""
-
-msgid "Size of the image. One of: cover, contain"
-msgstr ""
-
-msgid "Cover"
-msgstr ""
-
-msgid ""
-"The image fills the entire image area. Parts of the image that do not fit in "
-"the area are not displayed."
-msgstr ""
-
-msgid "Contain"
-msgstr ""
-
-msgid ""
-"The entire image is displayed in the image area. A background is displayed "
-"in the unused areas to the left and right of vertical images and in the "
-"areas above and below horizontal images."
-msgstr ""
-
-msgid "Image background color"
-msgstr ""
-
-msgid "Message text"
-msgstr ""
-
-msgid ""
-"Max character limit: 160 (no image or title) 60 (message with an image or "
-"title)"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Confirm template message"
-msgstr ""
-
-msgid "Template with two action buttons."
-msgstr ""
-
-msgid "Set 2 actions for the 2 buttons"
-msgstr ""
-
-msgid "Carousel template message"
-msgstr ""
-
-msgid ""
-"Template with multiple columns which can be cycled like a carousel. The "
-"columns are shown in order when scrolling horizontally."
-msgstr ""
-
-msgid "Size of the image. One of: cover, contain. Applies to all columns."
-msgstr ""
-
-msgid "Columns"
-msgstr ""
-
-msgid ""
-"Keep the number of actions consistent for all columns. If you use an image "
-"or title for a column, make sure to do the same for all other columns."
-msgstr ""
-
-msgid "Image carousel template message"
-msgstr ""
-
-msgid ""
-"Template with multiple images which can be cycled like a carousel. The "
-"images are shown in order when scrolling horizontally."
-msgstr ""
-
-msgid "Flex message"
-msgstr ""
-
-msgid "Flex message object"
-msgstr ""
-
-msgid ""
-"Flex Messages are messages with a customizable layout. You can customize the "
-"layout freely based on the specification for CSS Flexible Box."
-msgstr ""
-
-msgid "Flex message JSON object"
-msgstr ""
-
-msgid "Flex message JSON object such as generated by Flex Message Simulator"
-msgstr ""
-
-msgid "Alt text of Flex message"
-msgstr ""
-
-msgid "Raw message"
-msgstr ""
-
-msgid "Raw message object"
-msgstr ""
-
-msgid "Message JSON object"
-msgstr ""
-
-msgid "Postback action"
-msgstr ""
-
-msgid ""
-"String returned via webhook in the postback.data property of the postback "
-"event"
-msgstr ""
-
-msgid "Display text"
-msgstr ""
-
-msgid ""
-"Text displayed in the chat as a message sent by the user when the action is "
-"performed. Required for quick reply buttons. Optional for the other message "
-"types."
-msgstr ""
-
-msgid "Input option"
-msgstr ""
-
-msgid "The display method of such as rich menu based on user action."
-msgstr ""
-
-msgid "Close richmenu"
-msgstr ""
-
-msgid "Open richmenu"
-msgstr ""
-
-msgid "Open keyboard"
-msgstr ""
-
-msgid "Open voice"
-msgstr ""
-
-msgid "Fill in text"
-msgstr ""
-
-msgid ""
-"String to be pre-filled in the input field when the keyboard is opened. "
-"Valid only when the inputOption property is set to openKeyboard."
-msgstr ""
-
-msgid "Message action"
-msgstr ""
-
-msgid "URI action"
-msgstr ""
-
-msgid ""
-"URI opened when the action is performed. The available schemes are http, "
-"https, line, and tel"
-msgstr ""
-
-msgid "Datetime picker action"
-msgstr ""
-
-msgid "Datetime picker"
-msgstr ""
-
-msgid "Action mode"
-msgstr ""
-
-msgid "Select date"
-msgstr ""
-
-msgid "Select time"
-msgstr ""
-
-msgid "Select date and time"
-msgstr ""
-
-msgid "Initial date or time"
-msgstr ""
-
-msgid "Max date or time"
-msgstr ""
-
-msgid "Min date or time"
-msgstr ""
-
-msgid "Camera action"
-msgstr ""
-
-msgid "This action can be configured only with quick reply buttons."
-msgstr ""
-
-msgid "Camera"
-msgstr ""
-
-msgid "Camera Roll action"
-msgstr ""
-
-msgid "Camera Roll"
-msgstr ""
-
-msgid "Location action"
-msgstr ""
-
-msgid "Clipboard action"
-msgstr ""
-
-msgid ""
-"When a user taps a control associated with this action, the text specified "
-"in the clipboardText property is copied to the device clipboard."
-msgstr ""
-
-msgid "Clipboard"
-msgstr ""
-
-msgid "Clipboard text"
-msgstr ""
-
-msgid "Rich menu switch action"
-msgstr ""
-
-msgid "This action can be configured only with richmenus."
-msgstr ""
-
-msgid "Rich menu switch"
-msgstr ""
-
-msgid "Rich menu alias ID"
-msgstr ""
-
-msgid "Quick reply"
-msgstr ""
-
-msgid "Quick reply container"
-msgstr ""
-
-msgid "Quick reply button object"
-msgstr ""
-
-msgid "Image URL"
-msgstr ""
-
-msgid "Sender"
-msgstr ""
-
-msgid "Customize icon and display name"
-msgstr ""
-
-msgid "Sender name"
-msgstr ""
-
-msgid "Display name. Certain words such as LINE may not be used."
-msgstr ""
-
-msgid "Sender icon URL"
-msgstr ""
-
-msgid ""
-"URL of the image to display as an icon when sending a message.HTTPS, PNG, "
-"1:1, 1MB"
-msgstr ""
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1.51:1 ,Max width: 1024px, Max file size: 10 MB"
-msgstr ""
-
-msgid ""
-"Max character limit: 120 (no image or title) 60 (message with an image or "
-"title)"
-msgstr ""
-
-msgid "Image url"
-msgstr ""
-
-msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1:1 ,Max width: 1024px, Max file size: 10 MB"
-msgstr ""
-
-msgid "Add image map action"
-msgstr ""
-
-msgid "Add column"
-msgstr ""
-
-msgid "Add quick reply"
-msgstr ""
-
-msgid "3:2 3x2 row1: 3 col, row2: 3 col"
-msgstr ""
-
-msgid "3:2 2x2 row1: 2 col, row2: 2 col"
-msgstr ""
-
-msgid "3:2 1x1 row1: 1"
-msgstr ""
-
-msgid "3:2 1x2 row1: 1 col, row2: 1col"
-msgstr ""
-
-msgid "3:2 2x1 row1: 2 col"
-msgstr ""
-
-msgid "3:2 3x1 row1: 2 col, 2:1"
-msgstr ""
-
-msgid "3:2 3x1 row1: 2 col, 1:2"
-msgstr ""
-
-msgid "3:2 3x2 row1: 2 col (2:1), row2: 2col (2:1)"
-msgstr ""
-
-msgid "3:2 3x2 row1: 1 col , row2: 3 col"
-msgstr ""
-
-msgid "3:2 3x2 row1: 3 col, row2: 1 col"
-msgstr ""
-
-msgid "3:2 2x2 row1: 1 col, row2: 2 col"
-msgstr ""
-
-msgid "3:2 2x2 row1: 2 col, row2: 1 col"
-msgstr ""
-
-msgid "3:1 3x1 row1: 3 col"
-msgstr ""
-
-msgid "3:1 3x1 row1: 2 col (1:2)"
-msgstr ""
-
-msgid "3:1 3x1 row1: 2 col (2:1)"
-msgstr ""
-
-msgid "3:1 2x1 row1: 2 col"
-msgstr ""
-
-msgid "3:1 1x1 row1: 1 col"
-msgstr ""
-
-msgid "New richmenu"
-msgstr ""
-
-msgid "MENU"
-msgstr ""
-
-msgid "Unique identifier for the rich menu. Max character limit: 100"
-msgstr ""
-
-msgid ""
-"This value can be used to help manage your rich menus and is not displayed "
-"to users."
-msgstr ""
-
-msgid "Size"
-msgstr ""
-
-msgid ""
-"The width and height of the rich menu displayed in the chat. The aspect "
-"ratio (width / height) must be at least 1.45."
-msgstr ""
-
-msgid "Width of the rich menu. Must be between 800px and 2500px."
-msgstr ""
-
-msgid "Height of the rich menu. Must be at least 250px."
-msgstr ""
-
-msgid "Tap Areas"
-msgstr ""
-
-msgid "Area"
-msgstr ""
-
-msgid "Bounds"
-msgstr ""
-
-msgid "Horizontal position of the tappable area’s top-left corner (min: 0)."
-msgstr ""
-
-msgid "Vertical position of the tappable area’s top-left corner (min: 0)."
-msgstr ""
-
-msgid "Tappable area width (max: 2500)."
-msgstr ""
-
-msgid "Tappable area height (max: 1686)."
-msgstr ""
-
-msgid "Display the rich menu by default"
-msgstr ""
-
-msgid "Chat bar text"
-msgstr ""
-
-msgid "Text displayed in the chat bar. Max character limit: 14"
-msgstr ""
-
-msgid "Add tap areas"
-msgstr ""
-
-msgid "Audience"
-msgstr ""
-
-msgid "Audience condition"
-msgstr ""
-
-msgid "Audience condition group"
-msgstr ""
-
-msgid "Line user ID"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "User login name"
-msgstr ""
-
-msgid "User display name"
-msgstr ""
-
-msgid "User meta"
-msgstr ""
-
-msgid "Profile"
-msgstr ""
-
-msgid "All friends(Broadcast)"
-msgstr ""
-
-msgid "All recognized friends(Multicast)"
-msgstr ""
-
-msgid "Select how to match user roles"
-msgstr ""
-
-msgid "Must have all roles (AND)"
-msgstr ""
-
-msgid "Must have at least one role (OR)"
-msgstr ""
-
-msgid "Must not have these roles (NOT)"
-msgstr ""
-
-msgid "WordPress User ID"
-msgstr ""
-
-msgid "Add condition"
-msgstr ""
-
-msgid "Add LINE user ID"
-msgstr ""
-
-msgid "Add WordPress user ID"
-msgstr ""
-
-msgid "Add email"
-msgstr ""
-
-msgid "Add username"
-msgstr ""
-
-msgid "Add user meta"
-msgstr ""
-
-msgid "Add profile data"
-msgstr ""
-
-msgid "Missing items definition"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "Errors"
-msgstr ""
-
-msgid "New Value"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Add Item"
-msgstr ""
-
-msgid "Copy"
-msgstr ""
-
-msgid "Move down"
-msgstr ""
-
-msgid "Move up"
-msgstr ""
-
-msgid "Remove"
-msgstr ""
-
-msgid "Now"
-msgstr ""
-
-msgid "Clear"
-msgstr ""
-
-msgid "Select a date"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Decrease value by 1"
-msgstr ""
-
-msgid "Increase value by 1"
-msgstr ""
-
-msgid "Unknown field type %1"
-msgstr ""
-
-msgid "Option %1"
-msgstr ""
-
-msgid "%1 option %2"
-msgstr ""
-
-msgid "%1 Key"
-msgstr ""
-
-msgid "Invalid %1 object field configuration: <em>%2</em>."
-msgstr ""
-
-msgid "Unsupported field schema."
-msgstr ""
-
-msgid "Unsupported field schema for field <code>%1</code>."
-msgstr ""
-
-msgid "Unsupported field schema: <em>%1</em>."
-msgstr ""
-
-msgid "Unsupported field schema for field <code>%1</code>: <em>%2</em>."
-msgstr ""
-
-msgid "<strong>%1</strong> (%2, %3 bytes)"
-msgstr ""
-
-#, php-format
-msgid "Rich menu ID for %s."
-msgstr ""
-
-msgid "LINE Connect Richmenu"
-msgstr ""
-
-msgid "Channel access token or channel secret is not set."
-msgstr ""
-
-msgid "Failed"
-msgstr ""
-
-msgid "Deleted"
-msgstr ""
-
-msgid "Richmenu was successfully deleted"
-msgstr ""
-
-msgid "Failed to delete richmenu"
-msgstr ""
-
-msgid "Richmenu ID is not set"
-msgstr ""
-
-msgid "Richmenu was successfully created"
-msgstr ""
-
-msgid "Failed to upload richmenu image"
-msgstr ""
-
-msgid "Failed to create richmenu"
-msgstr ""
-
-msgid "Richmenu is not set"
-msgstr ""
-
-msgid "Richmenu alias was successfully deleted"
-msgstr ""
-
-msgid "Failed to delete richmenu alias"
-msgstr ""
-
-msgid "Richmenu alias ID is not set"
-msgstr ""
-
-msgid "Richmenu alias was successfully created"
-msgstr ""
-
-msgid "Failed to create richmenu alias"
-msgstr ""
-
-msgid "Richmenu alias is not set"
-msgstr ""
-
-msgid "Richmenu alias was successfully updated"
-msgstr ""
-
-msgid "Failed to update richmenu alias"
-msgstr ""
-
-msgid "Richmenu alias or richmenu ID is not set"
-msgstr ""
-
-msgid "LINE Connect Audience"
-msgstr ""
-
-msgid "Audiences"
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "CSV Download"
-msgstr ""
-
-msgid "LINE Connect Audience Download"
-msgstr ""
-
-msgid "Download Audiences"
-msgstr ""
-
-msgid "Please add channel first"
-msgstr ""
-
-msgid "The message will not be sent to anyone."
-msgstr ""
-
-msgid "Message will be sent to all users who have subscribed to this channel."
-msgstr ""
-
-#, php-format
-msgid "Message will be sent to %s person."
-msgstr ""
-
-msgid "Send the return value as a response"
-msgstr ""
-
-msgid ""
-"Send the return value of this action as a response message by LINE message"
-msgstr ""
-
-msgid "Please add action first"
-msgstr ""
-
-msgid "LINE Connect Trigger"
+msgid "Meta key"
 msgstr ""
 
 msgid "LINE Connect Direct Message"
@@ -2340,360 +62,16 @@ msgstr ""
 msgid "Channel or User is not set."
 msgstr ""
 
-msgid "Event Log"
-msgstr ""
-
-msgid "ID"
-msgstr ""
-
-msgid "Event ID"
-msgstr ""
-
-msgid "Event Type"
-msgstr ""
-
-msgid "Source Type"
-msgstr ""
-
-msgid "User ID"
-msgstr ""
-
-msgid "BOT ID"
-msgstr ""
-
-msgid "Message Type"
-msgstr ""
-
-msgid "DATE TIME"
-msgstr ""
-
-#, php-format
-msgid ""
-"You are about to delete this item '%s'\n"
-"  'Cancel' to stop, 'OK' to delete."
-msgstr ""
-
-msgid "All Event Types"
-msgstr ""
-
-msgid "All Source Types"
-msgstr ""
-
-msgid "All Channels"
-msgstr ""
-
-msgid "All Message Types"
-msgstr ""
-
-msgid "Filter"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Error: Failed to delete items."
-msgstr ""
-
-msgid "Messages"
-msgstr ""
-
 msgid "Failed to execute scenario"
-msgstr ""
-
-#, php-format
-msgid "New comment on %s"
-msgstr ""
-
-#, php-format
-msgid "Comment by %s"
-msgstr ""
-
-#, php-format
-msgid "The request body has %s error."
-msgstr ""
-
-msgid "Invalid reply token."
-msgstr ""
-
-#, php-format
-msgid "The property, %s, in the request body is invalid."
-msgstr ""
-
-msgid "The request body could not be parsed as JSON."
-msgstr ""
-
-#, php-format
-msgid "The content type, %s, is not supported."
-msgstr ""
-
-msgid "Authentication failed."
-msgstr ""
-
-msgid "Access to this API is not available for your account."
-msgstr ""
-
-msgid "Failed to send messages."
-msgstr ""
-
-msgid "You have reached your monthly limit."
-msgstr ""
-
-msgid "Not found."
-msgstr ""
-
-msgid "May not be empty."
-msgstr ""
-
-#, php-format
-msgid "Size must be between %s and %s."
-msgstr ""
-
-msgid "Please add message first"
-msgstr ""
-
-msgid "Please add richmenu first"
-msgstr ""
-
-msgid "Please add richmenu alias first"
-msgstr ""
-
-msgid "Please add audience first"
-msgstr ""
-
-msgid "Please add scenario first"
-msgstr ""
-
-msgid "You are not logged in."
-msgstr ""
-
-msgid "You do not have permission to send messages."
-msgstr ""
-
-msgid "Nonce is not set or invalid."
-msgstr ""
-
-msgid "Nonce verified successfully."
-msgstr ""
-
-msgid "LINE Connect Bulk message"
-msgstr ""
-
-msgid "Bulk message"
-msgstr ""
-
-msgid "There was no target to be sent that matched the condition."
-msgstr ""
-
-msgid "LINE"
-msgstr ""
-
-msgid "&#9745;"
-msgstr ""
-
-msgid "&#9744;"
-msgstr ""
-
-msgid "Send LINE Message"
-msgstr ""
-
-msgid "All Friends"
-msgstr ""
-
-msgid "Linked Friends"
-msgstr ""
-
-msgid "Sent a LINE message to all friends."
-msgstr ""
-
-msgid "Failed to send a LINE message to all friends."
-msgstr ""
-
-#, php-format
-msgid "Sent a LINE message to %s person."
-msgstr ""
-
-msgid "No users matched"
-msgstr ""
-
-msgid "Failed to send a LINE message to selected roles."
-msgstr ""
-
-msgid "LINE Connect settings"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid ""
-"Database is not up to date. Click the Setting Save button to update the "
-"database. It is recommended that you make a backup of the database before "
-"updating."
-msgstr ""
-
-msgid "Channel settings"
-msgstr ""
-
-#, php-format
-msgid "The number of person to be notified is %s."
-msgstr ""
-
-msgid "No role selected"
-msgstr ""
-
-msgid "No matching user"
-msgstr ""
-
-msgid "Unknown"
-msgstr ""
-
-msgid "Notify to all freinds."
-msgstr ""
-
-msgid "No selected"
-msgstr ""
-
-msgid "Delete this channel"
-msgstr ""
-
-msgid "New channel"
-msgstr ""
-
-msgid "Add new channel"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-#, php-format
-msgid "\"%s\" is invalid in new channel."
-msgstr ""
-
-#, php-format
-msgid "\"%2$s\" is invalid in %1$s channel."
-msgstr ""
-
-#, php-format
-msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
-msgstr ""
-
-#, php-format
-msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
-msgstr ""
-
-msgid "The same channel secret is already registered of the new channel."
-msgstr ""
-
-#, php-format
-msgid "The same channel secret is already registered of the \"%s\"."
-msgstr ""
-
-#, php-format
-msgid "\"%s\" is required."
-msgstr ""
-
-#, php-format
-msgid "\"%s\" is invalid."
-msgstr ""
-
-#, php-format
-msgid ""
-"\"%s\" is invalid. The height cannot be greater than three times the width."
-msgstr ""
-
-msgid "Rich menu cache cleared."
-msgstr ""
-
-msgid "Failed to clear rich menu cache."
-msgstr ""
-
-msgid "Settings saved."
-msgstr ""
-
-#, php-format
-msgid "Updated the following rich menus: %s"
-msgstr ""
-
-msgid "LINE Connect"
-msgstr ""
-
-msgid "Published"
-msgstr ""
-
-#, php-format
-msgid "\"%1$s\" message %2$s"
-msgstr ""
-
-msgid "Broadcast message sent successfully."
-msgstr ""
-
-msgid "Broadcast message failed to send."
-msgstr ""
-
-#, php-format
-msgid "Multicast message sent to %s person."
-msgstr ""
-
-msgid "Multicast message failed to send."
-msgstr ""
-
-#, php-format
-msgid "Push message sent to %s person."
-msgstr ""
-
-#, php-format
-msgid "Push message failed to sent to %s person."
-msgstr ""
-
-#, php-format
-msgid "Message will be sent to %s person by multicast."
-msgstr ""
-
-#, php-format
-msgid "Message will be sent to %s person by push."
-msgstr ""
-
-msgid "Valid message."
-msgstr ""
-
-msgid "Invalid message."
-msgstr ""
-
-#, php-format
-msgid "Push to %s"
-msgstr ""
-
-#, php-format
-msgid "%s multicast"
-msgstr ""
-
-msgid "Broadcast"
-msgstr ""
-
-msgid "Teacher"
-msgstr ""
-
-msgid "Student"
-msgstr ""
-
-msgid "Check All"
-msgstr ""
-
-msgid "UnCheck All"
-msgstr ""
-
-msgid "Select options"
-msgstr ""
-
-msgid "# checked"
-msgstr ""
-
-msgid "Copied!"
 msgstr ""
 
 msgid "LINE ID List"
 msgstr ""
 
 msgid "LINE Event Log"
+msgstr ""
+
+msgid "Event Log"
 msgstr ""
 
 msgid "LC Triggers"
@@ -3056,6 +434,583 @@ msgstr ""
 msgid "LINE Connect Action Flows"
 msgstr ""
 
+msgid "LINE Connect Bulk message"
+msgstr ""
+
+msgid "Bulk message"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "You are not logged in."
+msgstr ""
+
+msgid "You do not have permission to send messages."
+msgstr ""
+
+msgid "Nonce is not set or invalid."
+msgstr ""
+
+msgid "There was no target to be sent that matched the condition."
+msgstr ""
+
+msgid "LINE"
+msgstr ""
+
+msgid "&#9745;"
+msgstr ""
+
+msgid "&#9744;"
+msgstr ""
+
+msgid "Send LINE Message"
+msgstr ""
+
+msgid "Channel"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Login page URL"
+msgstr ""
+
+msgid "Enter the URL of the login page as a path relative to the site URL."
+msgstr ""
+
+msgid "Automatically initiate linkage"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid ""
+"This setting determines whether or not to automatically initiate linkage "
+"When user add an official account as a friend."
+msgstr ""
+
+msgid "Account link/unlink start keywords"
+msgstr ""
+
+msgid "Account link"
+msgstr ""
+
+msgid "Message title for account linkage initiation"
+msgstr ""
+
+msgid "Start account linkage"
+msgstr ""
+
+msgid "Message body for account linkage initiation"
+msgstr ""
+
+msgid "Start the linkage. Please login at the link."
+msgstr ""
+
+msgid "Message button label to start account linkage"
+msgstr ""
+
+msgid "Start linkage"
+msgstr ""
+
+msgid "Account Linkage Completion Message"
+msgstr ""
+
+msgid "Account linkage completed."
+msgstr ""
+
+msgid "Account Linkage Failure Messages"
+msgstr ""
+
+msgid "Account linkage failed."
+msgstr ""
+
+msgid "Message title for account unlinking initiation"
+msgstr ""
+
+msgid "Unlink account"
+msgstr ""
+
+msgid "Message body for account unlinking initiation"
+msgstr ""
+
+msgid "Would you like to unlink your account?"
+msgstr ""
+
+msgid "Message button label to start account unlinking"
+msgstr ""
+
+msgid "Account Unlinking Completion Message"
+msgstr ""
+
+msgid "Account linkage has been successfully unlinked."
+msgstr ""
+
+msgid "Account Unlinking Failure Message"
+msgstr ""
+
+msgid "Failed to unlink the account."
+msgstr ""
+
+msgid "Update Notification"
+msgstr ""
+
+msgid "Post types"
+msgstr ""
+
+msgid "Post"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid ""
+"The post type to be notified. The Send LINE checkbox will appear on the edit "
+"screen of the selected post type."
+msgstr ""
+
+msgid "Default value of \"Send update notification\" checkbox"
+msgstr ""
+
+msgid "Checked"
+msgstr ""
+
+msgid "Unchecked"
+msgstr ""
+
+msgid "Unchecked if published"
+msgstr ""
+
+msgid ""
+"Default value setting for the \"Send update notification\" check box when "
+"editing an article."
+msgstr ""
+
+msgid "Default template of notification message."
+msgstr ""
+
+msgid "Default template"
+msgstr ""
+
+msgid ""
+"Default value setting for the \"Message template\" select box when editing "
+"an article."
+msgstr ""
+
+msgid "\"More\" link label"
+msgstr ""
+
+msgid "Read more"
+msgstr ""
+
+msgid "Send notification to posters when comments are received"
+msgstr ""
+
+msgid ""
+"This setting determines whether or not to notify the poster of an article "
+"when there is a comment on the article."
+msgstr ""
+
+msgid "\"Read comment\" link label"
+msgstr ""
+
+msgid "Read comment"
+msgstr ""
+
+msgid "Style"
+msgstr ""
+
+msgid "Image fit mode"
+msgstr ""
+
+msgid "cover"
+msgstr ""
+
+msgid "contain"
+msgstr ""
+
+msgid ""
+"cover: The replaced content is sized to maintain its aspect ratio while "
+"filling the image area. If the image's aspect ratio does not match the "
+"aspect ratio of its area, then the image will be clipped to fit. \\n "
+"contain: The replaced image is scaled to maintain its aspect ratio while "
+"fitting within the image area. The entire image is made to fill the box, "
+"while preserving its aspect ratio, so the image will be \"letterboxed\" if "
+"its aspect ratio does not match the aspect ratio of the area."
+msgstr ""
+
+msgid "Image area aspect ratio"
+msgstr ""
+
+msgid ""
+"The aspect ratio of the image area. The height cannot be greater than three "
+"times the width."
+msgstr ""
+
+msgid "Background color of the message"
+msgstr ""
+
+msgid "The background color of the notification message."
+msgstr ""
+
+msgid "Title text color"
+msgstr ""
+
+msgid "The title text color of the notification message."
+msgstr ""
+
+msgid "Body text color"
+msgstr ""
+
+msgid "The body text color of the notification message."
+msgstr ""
+
+msgid "Link style"
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "HTML Link"
+msgstr ""
+
+msgid "Button: button style. Link: HTML link style"
+msgstr ""
+
+msgid "Link text color"
+msgstr ""
+
+msgid "The link text color of the notification message."
+msgstr ""
+
+msgid "Link button background color"
+msgstr ""
+
+msgid "The link button background color of the notification message."
+msgstr ""
+
+msgid "Max title lines"
+msgstr ""
+
+msgid ""
+"This is the setting for the maximum number of lines of title to be displayed "
+"in the notification message."
+msgstr ""
+
+msgid "Max body lines"
+msgstr ""
+
+msgid ""
+"This is the setting for the maximum number of lines of text to be displayed "
+"in the notification message. Apart from this, it can be truncated to a "
+"maximum of 500 characters."
+msgstr ""
+
+msgid "AI Chat"
+msgstr ""
+
+msgid "Auto response by AI"
+msgstr ""
+
+msgid ""
+"This setting determines whether or not to use AI auto-response for messages "
+"sent to official line account."
+msgstr ""
+
+msgid "OpenAI API Endpoint"
+msgstr ""
+
+msgid "Enter your OpenAI (or Compatible) API Endpoint."
+msgstr ""
+
+msgid "OpenAI API Key"
+msgstr ""
+
+msgid "Enter your OpenAI (or Compatible) API Key."
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "This is a setting for which model to use. Such as gpt-4o-mini"
+msgstr ""
+
+msgid "System prompt"
+msgstr ""
+
+msgid ""
+"The initial text or instruction provided to the language model before "
+"interacting with it in a conversational manner."
+msgstr ""
+
+msgid "Function Calling"
+msgstr ""
+
+msgid "This setting determines whether Function Calling is used or not."
+msgstr ""
+
+msgid "Functions to use"
+msgstr ""
+
+msgid "Function to be enabled by Function Calling."
+msgstr ""
+
+msgid "Number of context"
+msgstr ""
+
+msgid ""
+"This is a setting for how many conversation histories to use in order to "
+"have the AI understand the context and respond."
+msgstr ""
+
+msgid "Max tokens"
+msgstr ""
+
+msgid "Maximum number of tokens to use. -1 is the upper limit of the model."
+msgstr ""
+
+msgid "Temperature"
+msgstr ""
+
+msgid ""
+"This is the temperature parameter. The higher the value, the more diverse "
+"words are likely to be selected. Between 0 and 1."
+msgstr ""
+
+msgid "Limit for unlinked users"
+msgstr ""
+
+msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
+msgstr ""
+
+msgid "Limit for linked users"
+msgstr ""
+
+msgid "Number of times an linked user can use it per day. -1 is unlimited."
+msgstr ""
+
+msgid "Limit message"
+msgstr ""
+
+msgid ""
+"The number of times you can use it in a day (%limit% times) has been "
+"exceeded. Please try again after the date changes."
+msgstr ""
+
+msgid ""
+"This message is displayed when the number of times the limit can be used in "
+"a day is exceeded. The %limit% is replaced by the limit number of times."
+msgstr ""
+
+msgid "Data"
+msgstr ""
+
+msgid "Channel name"
+msgstr ""
+
+msgid "Channel access token"
+msgstr ""
+
+msgid "Channel secret"
+msgstr ""
+
+msgid "Default target role"
+msgstr ""
+
+msgid "Rich menu ID for linked users"
+msgstr ""
+
+msgid "Rich menu ID for unlinked users"
+msgstr ""
+
+#, php-format
+msgid "Rich menu ID for %s."
+msgstr ""
+
+msgid "Clear the rich menu cache"
+msgstr ""
+
+msgid "Clear the cache of the rich menu list."
+msgstr ""
+
+msgid "Are you sure you want to clear the rich menu cache?"
+msgstr ""
+
+msgid "Delete all plugin data"
+msgstr ""
+
+msgid "Delete all plugin data."
+msgstr ""
+
+msgid "Are you sure you want to delete all plugin data?"
+msgstr ""
+
+msgid "LINE Connect settings"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid ""
+"Database is not up to date. Click the Setting Save button to update the "
+"database. It is recommended that you make a backup of the database before "
+"updating."
+msgstr ""
+
+msgid "Channel settings"
+msgstr ""
+
+msgid "All Friends"
+msgstr ""
+
+msgid "Linked Friends"
+msgstr ""
+
+#, php-format
+msgid "The number of person to be notified is %s."
+msgstr ""
+
+msgid "No role selected"
+msgstr ""
+
+msgid "No matching user"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Notify to all freinds."
+msgstr ""
+
+msgid "No selected"
+msgstr ""
+
+msgid "Delete this channel"
+msgstr ""
+
+msgid "New channel"
+msgstr ""
+
+msgid "Add new channel"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+#, php-format
+msgid "\"%s\" is invalid in new channel."
+msgstr ""
+
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel."
+msgstr ""
+
+#, php-format
+msgid "\"%1$s\" is invalid in new channel. Error message: \"%2$s\""
+msgstr ""
+
+#, php-format
+msgid "\"%2$s\" is invalid in %1$s channel. Error message: \"%3$s\""
+msgstr ""
+
+msgid "The same channel secret is already registered of the new channel."
+msgstr ""
+
+#, php-format
+msgid "The same channel secret is already registered of the \"%s\"."
+msgstr ""
+
+#, php-format
+msgid "\"%s\" is required."
+msgstr ""
+
+#, php-format
+msgid "\"%s\" is invalid."
+msgstr ""
+
+#, php-format
+msgid ""
+"\"%s\" is invalid. The height cannot be greater than three times the width."
+msgstr ""
+
+msgid "Rich menu cache cleared."
+msgstr ""
+
+msgid "Failed to clear rich menu cache."
+msgstr ""
+
+msgid "All data deleted. Please remove plugin."
+msgstr ""
+
+msgid "Failed to delete all data."
+msgstr ""
+
+msgid "Settings saved."
+msgstr ""
+
+#, php-format
+msgid "Updated the following rich menus: %s"
+msgstr ""
+
+msgid "Broadcast message sent successfully."
+msgstr ""
+
+msgid "Broadcast message failed to send."
+msgstr ""
+
+#, php-format
+msgid "Multicast message sent to %s person."
+msgstr ""
+
+msgid "Multicast message failed to send."
+msgstr ""
+
+#, php-format
+msgid "Push message sent to %s person."
+msgstr ""
+
+#, php-format
+msgid "Push message failed to sent to %s person."
+msgstr ""
+
+msgid "Message will be sent to all users who have subscribed to this channel."
+msgstr ""
+
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr ""
+
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr ""
+
+msgid "Valid message."
+msgstr ""
+
+msgid "Invalid message."
+msgstr ""
+
+#, php-format
+msgid "Push to %s"
+msgstr ""
+
+#, php-format
+msgid "%s multicast"
+msgstr ""
+
+msgid "Broadcast"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
 msgid "LINE Connect Action Execute"
 msgstr ""
 
@@ -3071,13 +1026,530 @@ msgstr ""
 msgid "LINE Connect Dashboard"
 msgstr ""
 
+msgid "LINE Connect"
+msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+#, php-format
+msgid "\"%1$s\" message %2$s"
+msgstr ""
+
+#, php-format
+msgid "The request body has %s error."
+msgstr ""
+
+msgid "Invalid reply token."
+msgstr ""
+
+#, php-format
+msgid "The property, %s, in the request body is invalid."
+msgstr ""
+
+msgid "The request body could not be parsed as JSON."
+msgstr ""
+
+#, php-format
+msgid "The content type, %s, is not supported."
+msgstr ""
+
+msgid "Authentication failed."
+msgstr ""
+
+msgid "Access to this API is not available for your account."
+msgstr ""
+
+msgid "Failed to send messages."
+msgstr ""
+
+msgid "You have reached your monthly limit."
+msgstr ""
+
+msgid "Not found."
+msgstr ""
+
+msgid "May not be empty."
+msgstr ""
+
+#, php-format
+msgid "Size must be between %s and %s."
+msgstr ""
+
+msgid "Nonce verified successfully."
+msgstr ""
+
+msgid "Please add message first"
+msgstr ""
+
+msgid "Please add channel first"
+msgstr ""
+
+msgid "Please add richmenu first"
+msgstr ""
+
+msgid "Please add richmenu alias first"
+msgstr ""
+
+msgid "Please add audience first"
+msgstr ""
+
+msgid "Please add scenario first"
+msgstr ""
+
+msgid "Item"
+msgstr ""
+
+msgid "Missing items definition"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Errors"
+msgstr ""
+
+msgid "New Value"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add Item"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Now"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Select a date"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Decrease value by 1"
+msgstr ""
+
+msgid "Increase value by 1"
+msgstr ""
+
+msgid "Unknown field type %1"
+msgstr ""
+
+msgid "Option %1"
+msgstr ""
+
+msgid "%1 option %2"
+msgstr ""
+
+msgid "%1 Key"
+msgstr ""
+
+msgid "Invalid %1 object field configuration: <em>%2</em>."
+msgstr ""
+
+msgid "Unsupported field schema."
+msgstr ""
+
+msgid "Unsupported field schema for field <code>%1</code>."
+msgstr ""
+
+msgid "Unsupported field schema: <em>%1</em>."
+msgstr ""
+
+msgid "Unsupported field schema for field <code>%1</code>: <em>%2</em>."
+msgstr ""
+
+msgid "<strong>%1</strong> (%2, %3 bytes)"
+msgstr ""
+
+msgid "Send the return value as a response"
+msgstr ""
+
+msgid ""
+"Send the return value of this action as a response message by LINE message"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Please add action first"
+msgstr ""
+
+msgid "Get the current date and time"
+msgstr ""
+
+msgid "Search users"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Include"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Orderby"
+msgstr ""
+
+msgid "Offset"
+msgstr ""
+
+msgid "Meta Key"
+msgstr ""
+
+msgid "Meta Value"
+msgstr ""
+
+msgid "Meta Compare"
+msgstr ""
+
+msgid "Set LC Scenario Step"
+msgstr ""
+
+msgid "Set LINE Connect Scenario Step."
+msgstr ""
+
+msgid "Scenario ID"
+msgstr ""
+
+msgid "ID of the step to set."
+msgstr ""
+
+msgid "Next date to execute the step. Absolute or relative."
+msgstr ""
+
+msgid "LINE user ID. Default value is LINE user ID of event source."
+msgstr ""
+
+msgid ""
+"First 4 characters of channel secret. Default value is channel of event "
+"source."
+msgstr ""
+
+msgid "Add LINE user tags"
+msgstr ""
+
+msgid "Add LINE user tags."
+msgstr ""
+
+msgid "Array of tags to add. If empty, tags will not be added."
+msgstr ""
+
+msgid "Update LINE user tags"
+msgstr ""
+
+msgid "Update or delete LINE user tags."
+msgstr ""
+
+msgid "Array of tags to update. If empty, all tags will be deleted."
+msgstr ""
+
+msgid "Get LINE text message"
+msgstr ""
+
+msgid "Get LINE text message."
+msgstr ""
+
+msgid "Message body"
+msgstr ""
+
+msgid "Start LC Scenario"
+msgstr ""
+
+msgid "Start LINE Connect Scenario."
+msgstr ""
+
+msgid "Scenario restart flag"
+msgstr ""
+
+msgid "Never restart"
+msgstr ""
+
+msgid "Restart only completed"
+msgstr ""
+
+msgid "Always restart"
+msgstr ""
+
+msgid "Line user ID. Default value is LINE user ID of event source."
+msgstr ""
+
+msgid "Send mail to admin"
+msgstr ""
+
+msgid "Send mail to admin."
+msgstr ""
+
+msgid "Mail subject"
+msgstr ""
+
+msgid "Mail body"
+msgstr ""
+
+msgid "Get user meta"
+msgstr ""
+
+msgid "Get WordPress user meta value"
+msgstr ""
+
+msgid "Get LINE message from Raw JSON"
+msgstr ""
+
+msgid "Get LINE message from Raw JSON."
+msgstr ""
+
+msgid "Single raw Message JSON object"
+msgstr ""
+
+msgid "Remove LINE user tags"
+msgstr ""
+
+msgid "Remove LINE user tags."
+msgstr ""
+
+msgid "Array of tags to remove. If empty, tags will not be removed."
+msgstr ""
+
+msgid "Get LC notify message"
+msgstr ""
+
+msgid "Get LC notify message."
+msgstr ""
+
+msgid "Message title"
+msgstr ""
+
+msgid "Thumbnail url"
+msgstr ""
+
+msgid "Button action type"
+msgstr ""
+
+msgid "Postback"
+msgstr ""
+
+msgid "URI"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Display Text"
+msgstr ""
+
+msgid "Attributes"
+msgstr ""
+
+msgid "Search posts"
+msgstr ""
+
+msgid "Author Name"
+msgstr ""
+
+msgid "S"
+msgstr ""
+
+msgid "P"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Monthnum"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Get my user information"
+msgstr ""
+
+msgid "Get LINE user tags"
+msgstr ""
+
+msgid "Get LINE user tags."
+msgstr ""
+
+msgid "Send LINE message with audience"
+msgstr ""
+
+msgid "Send LINE message with audience."
+msgstr ""
+
+msgid "LC message id, text or message object"
+msgstr ""
+
+msgid "LC Audience id or object"
+msgstr ""
+
+msgid "Arguments to insert into the message"
+msgstr ""
+
+msgid "Arguments to insert into the audience"
+msgstr ""
+
+msgid "Notification Disabled"
+msgstr ""
+
+msgid "Notification disabled"
+msgstr ""
+
+msgid "Link rich menu"
+msgstr ""
+
+msgid "Link rich menu with line user ID and Channel."
+msgstr ""
+
+msgid "Rich menu ID"
+msgstr ""
+
+msgid "LINE user id. Default value is LINE user id of event source."
+msgstr ""
+
+msgid "Error: Secret prefix is not set."
+msgstr ""
+
+msgid "Get LINE Connect message"
+msgstr ""
+
+msgid "Get LINE Connect message."
+msgstr ""
+
+msgid "LC Message id"
+msgstr ""
+
+msgid "Update LINE user profile"
+msgstr ""
+
+msgid "Update or delete value in LINE user profile"
+msgstr ""
+
+msgid "Profile key to update"
+msgstr ""
+
+msgid "Profile value. If empty, key will be deleted."
+msgstr ""
+
+msgid "Get LINE user profile value"
+msgstr ""
+
+msgid "Get value from LINE user profile"
+msgstr ""
+
+msgid "Profile key to get"
+msgstr ""
+
+msgid "Send LINE message"
+msgstr ""
+
+msgid "Send LINE message with Audience and Channel."
+msgstr ""
+
+msgid "LC message id, message text or message object"
+msgstr ""
+
+msgid "LINE user ID. Default value is LINE user id of event source."
+msgstr ""
+
+msgid "Channel. Default value is channel of event source."
+msgstr ""
+
+msgid "Execute LC Scenario Step"
+msgstr ""
+
+msgid "Execute LINE Connect Scenario Step."
+msgstr ""
+
+msgid "ID of the step to execute."
+msgstr ""
+
+msgid "Change LC scenario status"
+msgstr ""
+
+msgid "Change LINE Connect scenario status."
+msgstr ""
+
+msgid "The status to set."
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Update user meta"
+msgstr ""
+
+msgid "Update or delete WordPress user meta value"
+msgstr ""
+
+msgid "Meta value. If empty, meta will be deleted."
+msgstr ""
+
 msgid "Steps"
 msgstr ""
 
 msgid "Step"
 msgstr ""
 
+msgid "ID"
+msgstr ""
+
 msgid "Step ID"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Action chain"
+msgstr ""
+
+msgid "Destination argument to"
+msgstr ""
+
+msgid "Injection Destination Argument Path. e.g. 2.message"
+msgstr ""
+
+msgid ""
+"Injection Data. You can use return value of previous action. e.g. "
+"{{$.return.1}}"
 msgstr ""
 
 msgid "Finish scenario execution"
@@ -3210,6 +1682,27 @@ msgid ""
 "at 12:10)."
 msgstr ""
 
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
 msgid "Day of the week"
 msgstr ""
 
@@ -3232,6 +1725,102 @@ msgstr ""
 msgid ""
 "The step executes on a specified day of the month at a specified time (e.g., "
 "the 15th at 12:10)."
+msgstr ""
+
+msgid "1st"
+msgstr ""
+
+msgid "2nd"
+msgstr ""
+
+msgid "3rd"
+msgstr ""
+
+msgid "4th"
+msgstr ""
+
+msgid "5th"
+msgstr ""
+
+msgid "6th"
+msgstr ""
+
+msgid "7th"
+msgstr ""
+
+msgid "8th"
+msgstr ""
+
+msgid "9th"
+msgstr ""
+
+msgid "10th"
+msgstr ""
+
+msgid "11th"
+msgstr ""
+
+msgid "12th"
+msgstr ""
+
+msgid "13th"
+msgstr ""
+
+msgid "14th"
+msgstr ""
+
+msgid "15th"
+msgstr ""
+
+msgid "16th"
+msgstr ""
+
+msgid "17th"
+msgstr ""
+
+msgid "18th"
+msgstr ""
+
+msgid "19th"
+msgstr ""
+
+msgid "20th"
+msgstr ""
+
+msgid "21st"
+msgstr ""
+
+msgid "22nd"
+msgstr ""
+
+msgid "23rd"
+msgstr ""
+
+msgid "24th"
+msgstr ""
+
+msgid "25th"
+msgstr ""
+
+msgid "26th"
+msgstr ""
+
+msgid "27th"
+msgstr ""
+
+msgid "28th"
+msgstr ""
+
+msgid "29th"
+msgstr ""
+
+msgid "30th"
+msgstr ""
+
+msgid "31st"
+msgstr ""
+
+msgid "Last day of the month"
 msgstr ""
 
 msgid "Day of the month"
@@ -3258,6 +1847,42 @@ msgid ""
 "June 15th at 12:10)."
 msgstr ""
 
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
 msgid "Month of the year"
 msgstr ""
 
@@ -3270,10 +1895,139 @@ msgstr ""
 msgid "Destination condition group"
 msgstr ""
 
+msgid "Type"
+msgstr ""
+
 msgid "Destination type"
 msgstr ""
 
+msgid "Link status"
+msgstr ""
+
+msgid "User meta"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Not"
+msgstr ""
+
+msgid "Logical negation"
+msgstr ""
+
 msgid "Destination"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Room"
+msgstr ""
+
+msgid "LINE user ID"
+msgstr ""
+
+msgid "LINE group ID"
+msgstr ""
+
+msgid "LINE Room ID"
+msgstr ""
+
+msgid "Any"
+msgstr ""
+
+msgid "Linked"
+msgstr ""
+
+msgid "Unlinked"
+msgstr ""
+
+msgid "User Meta"
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Profile data"
+msgstr ""
+
+msgid "Profile field"
+msgstr ""
+
+msgid "Operator"
+msgstr ""
+
+msgid "And"
+msgstr ""
+
+msgid "All conditions must be true"
+msgstr ""
+
+msgid "Or"
+msgstr ""
+
+msgid "At least one condition must be true"
+msgstr ""
+
+msgid "Target channel"
+msgstr ""
+
+msgid "Compare method"
+msgstr ""
+
+msgid "Equals"
+msgstr ""
+
+msgid "Not equals"
+msgstr ""
+
+msgid "Greater than"
+msgstr ""
+
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Less than"
+msgstr ""
+
+msgid "Less than or equal"
+msgstr ""
+
+msgid "Contains (String)"
+msgstr ""
+
+msgid "Not contains (String)"
+msgstr ""
+
+msgid "In (Array)"
+msgstr ""
+
+msgid "Not in (Array)"
+msgstr ""
+
+msgid "Between 2 values"
+msgstr ""
+
+msgid "Not Between 2 values"
+msgstr ""
+
+msgid "Exists"
+msgstr ""
+
+msgid "Not exists"
+msgstr ""
+
+msgid "Regular expression match"
+msgstr ""
+
+msgid "No regular expression match"
 msgstr ""
 
 msgid ""
@@ -3295,6 +2049,9 @@ msgid ""
 "etc.)."
 msgstr ""
 
+msgid "Add LINE user ID"
+msgstr ""
+
 msgid "Add LINE group ID"
 msgstr ""
 
@@ -3304,7 +2061,22 @@ msgstr ""
 msgid "Add value"
 msgstr ""
 
+msgid "Add user meta"
+msgstr ""
+
 msgid "Add profile"
+msgstr ""
+
+msgid "Add condition"
+msgstr ""
+
+msgid "Add parameter"
+msgstr ""
+
+msgid "Add action"
+msgstr ""
+
+msgid "Add chain"
 msgstr ""
 
 msgid "Add step"
@@ -3337,6 +2109,45 @@ msgstr ""
 msgid "LINE Connect Scenario"
 msgstr ""
 
+msgid "Send update notification"
+msgstr ""
+
+msgid "Send target:"
+msgstr ""
+
+msgid "Message template:"
+msgstr ""
+
+msgid "Send when a future post is published"
+msgstr ""
+
+msgid "Sent a LINE message to all friends."
+msgstr ""
+
+msgid "Failed to send a LINE message to all friends."
+msgstr ""
+
+#, php-format
+msgid "Sent a LINE message to %s person."
+msgstr ""
+
+msgid "No users matched"
+msgstr ""
+
+msgid "Failed to send a LINE message to selected roles."
+msgstr ""
+
+#, php-format
+msgid "New comment on %s"
+msgstr ""
+
+#, php-format
+msgid "Comment by %s"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
 msgid "Broadcast is not supported."
 msgstr ""
 
@@ -3354,7 +2165,239 @@ msgstr ""
 msgid "ActionFlows"
 msgstr ""
 
+msgid "LINE Connect Richmenu"
+msgstr ""
+
+msgid "Richmenu"
+msgstr ""
+
+msgid "Channel access token or channel secret is not set."
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Richmenu was successfully deleted"
+msgstr ""
+
+msgid "Failed to delete richmenu"
+msgstr ""
+
+msgid "Richmenu ID is not set"
+msgstr ""
+
+msgid "Richmenu was successfully created"
+msgstr ""
+
+msgid "Failed to upload richmenu image"
+msgstr ""
+
+msgid "Failed to create richmenu"
+msgstr ""
+
+msgid "Richmenu is not set"
+msgstr ""
+
+msgid "Richmenu alias was successfully deleted"
+msgstr ""
+
+msgid "Failed to delete richmenu alias"
+msgstr ""
+
+msgid "Richmenu alias ID is not set"
+msgstr ""
+
+msgid "Richmenu alias was successfully created"
+msgstr ""
+
+msgid "Failed to create richmenu alias"
+msgstr ""
+
+msgid "Richmenu alias is not set"
+msgstr ""
+
+msgid "Richmenu alias was successfully updated"
+msgstr ""
+
+msgid "Failed to update richmenu alias"
+msgstr ""
+
+msgid "Richmenu alias or richmenu ID is not set"
+msgstr ""
+
+msgid "3:2 3x2 row1: 3 col, row2: 3 col"
+msgstr ""
+
+msgid "3:2 2x2 row1: 2 col, row2: 2 col"
+msgstr ""
+
+msgid "3:2 1x1 row1: 1"
+msgstr ""
+
+msgid "3:2 1x2 row1: 1 col, row2: 1col"
+msgstr ""
+
+msgid "3:2 2x1 row1: 2 col"
+msgstr ""
+
+msgid "3:2 3x1 row1: 2 col, 2:1"
+msgstr ""
+
+msgid "3:2 3x1 row1: 2 col, 1:2"
+msgstr ""
+
+msgid "3:2 3x2 row1: 2 col (2:1), row2: 2col (2:1)"
+msgstr ""
+
+msgid "3:2 3x2 row1: 1 col , row2: 3 col"
+msgstr ""
+
+msgid "3:2 3x2 row1: 3 col, row2: 1 col"
+msgstr ""
+
+msgid "3:2 2x2 row1: 1 col, row2: 2 col"
+msgstr ""
+
+msgid "3:2 2x2 row1: 2 col, row2: 1 col"
+msgstr ""
+
+msgid "3:1 3x1 row1: 3 col"
+msgstr ""
+
+msgid "3:1 3x1 row1: 2 col (1:2)"
+msgstr ""
+
+msgid "3:1 3x1 row1: 2 col (2:1)"
+msgstr ""
+
+msgid "3:1 2x1 row1: 2 col"
+msgstr ""
+
+msgid "3:1 1x1 row1: 1 col"
+msgstr ""
+
+msgid "New richmenu"
+msgstr ""
+
+msgid "MENU"
+msgstr ""
+
+msgid "Unique identifier for the rich menu. Max character limit: 100"
+msgstr ""
+
+msgid ""
+"This value can be used to help manage your rich menus and is not displayed "
+"to users."
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid ""
+"The width and height of the rich menu displayed in the chat. The aspect "
+"ratio (width / height) must be at least 1.45."
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Width of the rich menu. Must be between 800px and 2500px."
+msgstr ""
+
+msgid "Height"
+msgstr ""
+
+msgid "Height of the rich menu. Must be at least 250px."
+msgstr ""
+
+msgid "Tap Areas"
+msgstr ""
+
+msgid "Area"
+msgstr ""
+
+msgid "Bounds"
+msgstr ""
+
+msgid "X"
+msgstr ""
+
+msgid "Horizontal position of the tappable area’s top-left corner (min: 0)."
+msgstr ""
+
+msgid "Y"
+msgstr ""
+
+msgid "Vertical position of the tappable area’s top-left corner (min: 0)."
+msgstr ""
+
+msgid "Tappable area width (max: 2500)."
+msgstr ""
+
+msgid "Tappable area height (max: 1686)."
+msgstr ""
+
+msgid "Display the rich menu by default"
+msgstr ""
+
+msgid "Chat bar text"
+msgstr ""
+
+msgid "Text displayed in the chat bar. Max character limit: 14"
+msgstr ""
+
+msgid "Add tap areas"
+msgstr ""
+
+msgid "Event ID"
+msgstr ""
+
+msgid "Event Type"
+msgstr ""
+
+msgid "Source Type"
+msgstr ""
+
+msgid "BOT ID"
+msgstr ""
+
+msgid "Message Type"
+msgstr ""
+
+msgid "DATE TIME"
+msgstr ""
+
+#, php-format
+msgid ""
+"You are about to delete this item '%s'\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+
+msgid "All Event Types"
+msgstr ""
+
+msgid "All Source Types"
+msgstr ""
+
+msgid "All Channels"
+msgstr ""
+
+msgid "All Message Types"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Error: Failed to delete items."
+msgstr ""
+
 msgid "LINE ID"
+msgstr ""
+
+msgid "Follow"
 msgstr ""
 
 msgid "Tags"
@@ -3370,4 +2413,952 @@ msgid "Created"
 msgstr ""
 
 msgid "Updated"
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid "Source condition"
+msgstr ""
+
+msgid "Source condition group"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Keyword"
+msgstr ""
+
+msgid "Keyword condition group"
+msgstr ""
+
+msgid "Keyword condition"
+msgstr ""
+
+msgid "Query string"
+msgstr ""
+
+msgid "Keyword to match"
+msgstr ""
+
+msgid "Match type"
+msgstr ""
+
+msgid "Contains"
+msgstr ""
+
+msgid "Starts with"
+msgstr ""
+
+msgid "Ends with"
+msgstr ""
+
+msgid "Regular expression"
+msgstr ""
+
+msgid "Parameter"
+msgstr ""
+
+msgid "Parameters condition group"
+msgstr ""
+
+msgid "Parameter condition"
+msgstr ""
+
+msgid "Parameter condition group"
+msgstr ""
+
+msgid "New richmenu alias ID"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Date and time"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Richmenu alias ID not found"
+msgstr ""
+
+msgid "Richmenu not found"
+msgstr ""
+
+msgid "Date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Compare type"
+msgstr ""
+
+msgid "Before"
+msgstr ""
+
+msgid "Before or equal"
+msgstr ""
+
+msgid "After"
+msgstr ""
+
+msgid "After or equal"
+msgstr ""
+
+msgid "Time: hh:mm"
+msgstr ""
+
+msgid "DateTime"
+msgstr ""
+
+msgid "DateTime: YYYY-MM-DDThh:mm"
+msgstr ""
+
+msgid "Webhook"
+msgstr ""
+
+msgid "Event type"
+msgstr ""
+
+msgid "Post back"
+msgstr ""
+
+msgid "Account Link"
+msgstr ""
+
+msgid "Unfollow"
+msgstr ""
+
+msgid "Video play complete"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Leave"
+msgstr ""
+
+msgid "Member joined"
+msgstr ""
+
+msgid "Member left"
+msgstr ""
+
+msgid "Unsend"
+msgstr ""
+
+msgid "Membership"
+msgstr ""
+
+msgid "Message type"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Sticker"
+msgstr ""
+
+msgid "Unblocked"
+msgstr ""
+
+msgid "Add Freind"
+msgstr ""
+
+msgid "Joined"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Renewed"
+msgstr ""
+
+msgid "Schedule"
+msgstr ""
+
+msgid "Schedule type"
+msgstr ""
+
+msgid "Once"
+msgstr ""
+
+msgid "Repeat"
+msgstr ""
+
+msgid "Every"
+msgstr ""
+
+msgid "Hour"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Start date"
+msgstr ""
+
+msgid "End date"
+msgstr ""
+
+msgid "Beforehand notice (min)"
+msgstr ""
+
+msgid "How many minutes in advance notice"
+msgstr ""
+
+msgid "0 am"
+msgstr ""
+
+msgid "1 am"
+msgstr ""
+
+msgid "2 am"
+msgstr ""
+
+msgid "3 am"
+msgstr ""
+
+msgid "4 am"
+msgstr ""
+
+msgid "5 am"
+msgstr ""
+
+msgid "6 am"
+msgstr ""
+
+msgid "7 am"
+msgstr ""
+
+msgid "8 am"
+msgstr ""
+
+msgid "9 am"
+msgstr ""
+
+msgid "10 am"
+msgstr ""
+
+msgid "11 am"
+msgstr ""
+
+msgid "12 pm"
+msgstr ""
+
+msgid "1 pm"
+msgstr ""
+
+msgid "2 pm"
+msgstr ""
+
+msgid "3 pm"
+msgstr ""
+
+msgid "4 pm"
+msgstr ""
+
+msgid "5 pm"
+msgstr ""
+
+msgid "6 pm"
+msgstr ""
+
+msgid "7 pm"
+msgstr ""
+
+msgid "8 pm"
+msgstr ""
+
+msgid "9 pm"
+msgstr ""
+
+msgid "10 pm"
+msgstr ""
+
+msgid "11 pm"
+msgstr ""
+
+msgid "Way of Calc"
+msgstr ""
+
+msgid "nth day"
+msgstr ""
+
+msgid "nth Week in a month"
+msgstr ""
+
+msgid "Day of the week in the month"
+msgstr ""
+
+msgid "First day of the week"
+msgstr ""
+
+msgid "Week number"
+msgstr ""
+
+msgid "Add source condition"
+msgstr ""
+
+msgid "Add query parameter"
+msgstr ""
+
+msgid "Add message condition"
+msgstr ""
+
+msgid "Add postback condition"
+msgstr ""
+
+msgid "Add day"
+msgstr ""
+
+msgid "Add week"
+msgstr ""
+
+msgid "Add year"
+msgstr ""
+
+msgid "Add trigger"
+msgstr ""
+
+msgid "Trigger type"
+msgstr ""
+
+msgid "Choose trigger type."
+msgstr ""
+
+msgid "LINE Connect Trigger"
+msgstr ""
+
+msgid "LINE Connect Message"
+msgstr ""
+
+msgid "Messages"
+msgstr ""
+
+msgid "Quick reply"
+msgstr ""
+
+msgid "Quick reply container"
+msgstr ""
+
+msgid "Quick reply button object"
+msgstr ""
+
+msgid "Image URL"
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Customize icon and display name"
+msgstr ""
+
+msgid "Sender name"
+msgstr ""
+
+msgid "Display name. Certain words such as LINE may not be used."
+msgstr ""
+
+msgid "Sender icon URL"
+msgstr ""
+
+msgid ""
+"URL of the image to display as an icon when sending a message.HTTPS, PNG, "
+"1:1, 1MB"
+msgstr ""
+
+msgid "Thumbnail image url"
+msgstr ""
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
+"1.51:1 ,Max width: 1024px, Max file size: 10 MB"
+msgstr ""
+
+msgid "Image background color"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Message text"
+msgstr ""
+
+msgid ""
+"Max character limit: 120 (no image or title) 60 (message with an image or "
+"title)"
+msgstr ""
+
+msgid "Image url"
+msgstr ""
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
+"1:1 ,Max width: 1024px, Max file size: 10 MB"
+msgstr ""
+
+msgid "Image map"
+msgstr ""
+
+msgid "Button template"
+msgstr ""
+
+msgid "Confirm template"
+msgstr ""
+
+msgid "Carousel template"
+msgstr ""
+
+msgid "Image carousel template"
+msgstr ""
+
+msgid "Flex"
+msgstr ""
+
+msgid "Raw"
+msgstr ""
+
+msgid "Choose message type."
+msgstr ""
+
+msgid "Text message"
+msgstr ""
+
+msgid "Message text. Max character limit: 5000"
+msgstr ""
+
+msgid "Sticker message"
+msgstr ""
+
+msgid "Package ID"
+msgstr ""
+
+msgid "Package ID for a set of stickers."
+msgstr ""
+
+msgid "Sticker ID"
+msgstr ""
+
+msgid "Image message"
+msgstr ""
+
+msgid "Original content URL"
+msgstr ""
+
+msgid ""
+"Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
+"10 MB"
+msgstr ""
+
+msgid "Preview Image Url"
+msgstr ""
+
+msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
+msgstr ""
+
+msgid "Video message"
+msgstr ""
+
+msgid ""
+"If the video isn't playing properly, make sure the video is a supported file "
+"type and the HTTP server hosting the video supports HTTP range requests."
+msgstr ""
+
+msgid ""
+"Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
+msgstr ""
+
+msgid "Preview image URL"
+msgstr ""
+
+msgid ""
+"Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
+"size: 1 MB"
+msgstr ""
+
+msgid "Tracking ID"
+msgstr ""
+
+msgid ""
+"ID used to identify the video when Video viewing complete event occurs. You "
+"can use the same ID in multiple messages."
+msgstr ""
+
+msgid "Audio message"
+msgstr ""
+
+msgid ""
+"Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
+"200 MB"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Length of audio file (milliseconds)."
+msgstr ""
+
+msgid "Location message"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Latitude"
+msgstr ""
+
+msgid "Longitude"
+msgstr ""
+
+msgid "Image map message"
+msgstr ""
+
+msgid ""
+"Imagemap messages are messages configured with an image that has multiple "
+"tappable areas. You can assign one tappable area for the entire image or "
+"different tappable areas on divided areas of the image."
+msgstr ""
+
+msgid "Base Url"
+msgstr ""
+
+msgid "Image base URL. Protocol: HTTPS"
+msgstr ""
+
+msgid "Alt Text"
+msgstr ""
+
+msgid ""
+"Alternative text. When a user receives a message, it will appear as an "
+"alternative to the image in the notification or chat list of their device."
+msgstr ""
+
+msgid "Base Size"
+msgstr ""
+
+msgid ""
+"Height of base image. Set to the height that corresponds to a width of 1040 "
+"pixels."
+msgstr ""
+
+msgid ""
+"You can also play a video on the image and display a label with a hyperlink "
+"after the video is finished."
+msgstr ""
+
+msgid "Image map area"
+msgstr ""
+
+msgid ""
+"Horizontal position of the video area relative to the left edge of the "
+"imagemap area. Value must be 0 or higher."
+msgstr ""
+
+msgid ""
+"Vertical position of the video area relative to the top edge of the imagemap "
+"area. Value must be 0 or higher."
+msgstr ""
+
+msgid "External link"
+msgstr ""
+
+msgid "Link URI"
+msgstr ""
+
+msgid ""
+"Webpage URL. Called when the label displayed after the video is tapped. The "
+"available schemes are http, https, line, and tel"
+msgstr ""
+
+msgid "Displayed after the video is finished."
+msgstr ""
+
+msgid "Image map action objects"
+msgstr ""
+
+msgid "Object which specifies the actions and tappable areas of an imagemap."
+msgstr ""
+
+msgid "Image map action"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid ""
+"Label for the action. Spoken when the accessibility feature is enabled on "
+"the client device."
+msgstr ""
+
+msgid ""
+"Defines the size of a tappable area. The top left is used as the origin of "
+"the area. Set these properties based on the baseSize.width property and the "
+"baseSize.height property."
+msgstr ""
+
+msgid ""
+"Horizontal position relative to the left edge of the area. Value must be 0 "
+"or higher."
+msgstr ""
+
+msgid ""
+"Vertical position relative to the top edge of the area. Value must be 0 or "
+"higher."
+msgstr ""
+
+msgid "Webpage URL. The available schemes are http, https, line, and tel"
+msgstr ""
+
+msgid "Button Template message"
+msgstr ""
+
+msgid "Alt text"
+msgstr ""
+
+msgid ""
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
+"Max file size: 10 MB"
+msgstr ""
+
+msgid "Image aspect ratio"
+msgstr ""
+
+msgid "Aspect ratio of the image. One of: rectangle: 1.51:1, square: 1:1"
+msgstr ""
+
+msgid "Rectangle"
+msgstr ""
+
+msgid "Square"
+msgstr ""
+
+msgid "Image size"
+msgstr ""
+
+msgid "Size of the image. One of: cover, contain"
+msgstr ""
+
+msgid "Cover"
+msgstr ""
+
+msgid ""
+"The image fills the entire image area. Parts of the image that do not fit in "
+"the area are not displayed."
+msgstr ""
+
+msgid "Contain"
+msgstr ""
+
+msgid ""
+"The entire image is displayed in the image area. A background is displayed "
+"in the unused areas to the left and right of vertical images and in the "
+"areas above and below horizontal images."
+msgstr ""
+
+msgid ""
+"Max character limit: 160 (no image or title) 60 (message with an image or "
+"title)"
+msgstr ""
+
+msgid "Confirm template message"
+msgstr ""
+
+msgid "Template with two action buttons."
+msgstr ""
+
+msgid "Set 2 actions for the 2 buttons"
+msgstr ""
+
+msgid "Carousel template message"
+msgstr ""
+
+msgid ""
+"Template with multiple columns which can be cycled like a carousel. The "
+"columns are shown in order when scrolling horizontally."
+msgstr ""
+
+msgid "Size of the image. One of: cover, contain. Applies to all columns."
+msgstr ""
+
+msgid "Columns"
+msgstr ""
+
+msgid ""
+"Keep the number of actions consistent for all columns. If you use an image "
+"or title for a column, make sure to do the same for all other columns."
+msgstr ""
+
+msgid "Image carousel template message"
+msgstr ""
+
+msgid ""
+"Template with multiple images which can be cycled like a carousel. The "
+"images are shown in order when scrolling horizontally."
+msgstr ""
+
+msgid "Flex message"
+msgstr ""
+
+msgid "Flex message object"
+msgstr ""
+
+msgid ""
+"Flex Messages are messages with a customizable layout. You can customize the "
+"layout freely based on the specification for CSS Flexible Box."
+msgstr ""
+
+msgid "Flex message JSON object"
+msgstr ""
+
+msgid "Flex message JSON object such as generated by Flex Message Simulator"
+msgstr ""
+
+msgid "Alt text of Flex message"
+msgstr ""
+
+msgid "Raw message"
+msgstr ""
+
+msgid "Raw message object"
+msgstr ""
+
+msgid "Message JSON object"
+msgstr ""
+
+msgid "Add image map action"
+msgstr ""
+
+msgid "Add column"
+msgstr ""
+
+msgid "Add quick reply"
+msgstr ""
+
+msgid "Postback action"
+msgstr ""
+
+msgid ""
+"String returned via webhook in the postback.data property of the postback "
+"event"
+msgstr ""
+
+msgid "Display text"
+msgstr ""
+
+msgid ""
+"Text displayed in the chat as a message sent by the user when the action is "
+"performed. Required for quick reply buttons. Optional for the other message "
+"types."
+msgstr ""
+
+msgid "Input option"
+msgstr ""
+
+msgid "The display method of such as rich menu based on user action."
+msgstr ""
+
+msgid "Close richmenu"
+msgstr ""
+
+msgid "Open richmenu"
+msgstr ""
+
+msgid "Open keyboard"
+msgstr ""
+
+msgid "Open voice"
+msgstr ""
+
+msgid "Fill in text"
+msgstr ""
+
+msgid ""
+"String to be pre-filled in the input field when the keyboard is opened. "
+"Valid only when the inputOption property is set to openKeyboard."
+msgstr ""
+
+msgid "Message action"
+msgstr ""
+
+msgid "URI action"
+msgstr ""
+
+msgid ""
+"URI opened when the action is performed. The available schemes are http, "
+"https, line, and tel"
+msgstr ""
+
+msgid "Datetime picker action"
+msgstr ""
+
+msgid "Datetime picker"
+msgstr ""
+
+msgid "Action mode"
+msgstr ""
+
+msgid "Select date"
+msgstr ""
+
+msgid "Select time"
+msgstr ""
+
+msgid "Select date and time"
+msgstr ""
+
+msgid "Initial date or time"
+msgstr ""
+
+msgid "Max date or time"
+msgstr ""
+
+msgid "Min date or time"
+msgstr ""
+
+msgid "Camera action"
+msgstr ""
+
+msgid "This action can be configured only with quick reply buttons."
+msgstr ""
+
+msgid "Camera"
+msgstr ""
+
+msgid "Camera Roll action"
+msgstr ""
+
+msgid "Camera Roll"
+msgstr ""
+
+msgid "Location action"
+msgstr ""
+
+msgid "Clipboard action"
+msgstr ""
+
+msgid ""
+"When a user taps a control associated with this action, the text specified "
+"in the clipboardText property is copied to the device clipboard."
+msgstr ""
+
+msgid "Clipboard"
+msgstr ""
+
+msgid "Clipboard text"
+msgstr ""
+
+msgid "Rich menu switch action"
+msgstr ""
+
+msgid "This action can be configured only with richmenus."
+msgstr ""
+
+msgid "Rich menu switch"
+msgstr ""
+
+msgid "Rich menu alias ID"
+msgstr ""
+
+msgid "The message will not be sent to anyone."
+msgstr ""
+
+#, php-format
+msgid "Message will be sent to %s person."
+msgstr ""
+
+msgid "LINE Connect Audience"
+msgstr ""
+
+msgid "Audiences"
+msgstr ""
+
+msgid "Audience"
+msgstr ""
+
+msgid "Audience condition"
+msgstr ""
+
+msgid "Audience condition group"
+msgstr ""
+
+msgid "Line user ID"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "User login name"
+msgstr ""
+
+msgid "User display name"
+msgstr ""
+
+msgid "All friends(Broadcast)"
+msgstr ""
+
+msgid "All recognized friends(Multicast)"
+msgstr ""
+
+msgid "Select how to match user roles"
+msgstr ""
+
+msgid "Must have all roles (AND)"
+msgstr ""
+
+msgid "Must have at least one role (OR)"
+msgstr ""
+
+msgid "Must not have these roles (NOT)"
+msgstr ""
+
+msgid "WordPress User ID"
+msgstr ""
+
+msgid "Add WordPress user ID"
+msgstr ""
+
+msgid "Add email"
+msgstr ""
+
+msgid "Add username"
+msgstr ""
+
+msgid "Add profile data"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "CSV Download"
+msgstr ""
+
+msgid "LINE Connect Audience Download"
+msgstr ""
+
+msgid "Download Audiences"
 msgstr ""

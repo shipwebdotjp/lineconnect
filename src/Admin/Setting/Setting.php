@@ -314,12 +314,15 @@ EOM;
 						$param = lineconnect::PARAMETER_PREFIX . $command_key;
 						$label = $command_details['label'];
 						$desc  = $command_details['description'];
+						$class = $command_details['class'];
+						$confirm = $command_details['confirm']; // null or string
+						$onclick_attr = !is_null($confirm) ? " onclick=\"return confirm('" . esc_js($confirm) . "');\"" : '';
 						echo <<< EOM
 							<div class="postbox">
 								<h3 class="hndle"><span>{$label}</span></h3>
 								<div class="inside">
 									<p>{$desc}</p>
-									<button type="submit" name="{$param}" value="1" class="button button-secondary button-large">{$label}</button>
+									<button type="submit" name="{$param}" value="1" class="button {$class} button-large"{$onclick_attr}>{$label}</button>
 								</div>
 							</div>
 EOM;
@@ -599,6 +602,11 @@ EOM;
 								// リッチメニューキャッシュをクリア
 								$result = RichMenu::clearRichMenuCache();
 								$command_result[] = $result ? __('Rich menu cache cleared.', lineconnect::PLUGIN_NAME) : __('Failed to clear rich menu cache.', lineconnect::PLUGIN_NAME);
+								break;
+							case 'delete_all_data';
+								// データを削除
+								$result = DataDelete::delete_all_data();
+								$command_result[] = $result ? __('All data deleted. Please remove plugin.', lineconnect::PLUGIN_NAME) : __('Failed to delete all data.', lineconnect::PLUGIN_NAME);
 								break;
 						}
 					}

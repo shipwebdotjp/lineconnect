@@ -874,6 +874,9 @@ class LineConnect {
 	 */
 	static function get_all_options() {
 		$options = get_option(self::OPTION_KEY__SETTINGS); // オプションを取得
+		if (! is_array($options)) {
+			$options = [];
+		}
 		foreach (SettingConstants::get_settings_option() as $tab_name => $tab_details) {
 			// flatten
 			foreach ($tab_details['fields'] as $option_key => $option_details) {
@@ -890,6 +893,9 @@ class LineConnect {
 	 */
 	static function get_option($option_name) {
 		$options = get_option(self::OPTION_KEY__SETTINGS); // オプションを取得
+		if (! is_array($options)) {
+			$options = [];
+		}
 		if (isset($options[$option_name])) {
 			return $options[$option_name];
 		}
@@ -909,6 +915,9 @@ class LineConnect {
 	 */
 	static function get_variable($variable_name, $default_value) {
 		$variables = get_option(self::OPTION_KEY__VARIABLES); // オプションを取得
+		if ($variables === false) {
+			$variables = array();
+		}
 		if (isset($variables[$variable_name])) {
 			return $variables[$variable_name];
 		}

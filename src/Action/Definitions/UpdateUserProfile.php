@@ -75,7 +75,7 @@ class UpdateUserProfile extends AbstractActionDefinition {
 			$wpdb->prepare("SELECT profile FROM $table_name WHERE line_id = %s AND channel_prefix = %s", $line_user_id,  $channel_prefix)
 		);
 
-		$profile_array = json_decode($current_profile, true) ?: [];
+		$profile_array = json_decode($current_profile ?? '{}', true);
 
 		if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {
 			$profile_array[$key] = $value;
