@@ -29,6 +29,10 @@ use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\RichMenu\RichMenu;
 use \Shipweb\LineConnect\Admin\Setting\Setting as SettingScreen;
 use Shipweb\LineConnect\Admin\Setting\Constants as SettingConstants;
+use Shipweb\LineConnect\Chat\API\FetchUsers;
+use Shipweb\LineConnect\Chat\API\FetchMessages;
+use Shipweb\LineConnect\Chat\Screen as ChatScreen;
+use Shipweb\LineConnect\Admin\ContentDownload;
 
 class LineConnect {
 
@@ -286,6 +290,11 @@ class LineConnect {
 	const SLUG__AUDIENCE_DOWNLOAD = self::PLUGIN_ID . '-audience-download';
 
 	/**
+	 * 画面のslug：コンテンツダウンロード
+	 */
+	const SLUG__CONTENT_DOWNLOAD = self::PLUGIN_ID . '-content-download';
+
+	/**
 	 * 画面のslug：LINE Dashboard
 	 */
 	const SLUG__DASHBOARD = self::PLUGIN_ID . '-dashboard';
@@ -294,6 +303,11 @@ class LineConnect {
 	 * 画面のslug：DM(LINE)
 	 */
 	const SLUG__DM_FORM = self::PLUGIN_ID . '-linedm-form';
+
+	/**
+	 * 画面のslug：Chat(LINE)
+	 */
+	const SLUG__CHAT_SCREEN = self::PLUGIN_ID . '-chat';
 
 	/**
 	 * 投稿メタキー：is-send-line
@@ -480,6 +494,8 @@ class LineConnect {
 			add_action('admin_menu', array(BulkMessageScreen::class, 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
 			add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
+			// チャットのメニューを追加
+			add_action('admin_menu', array(ChatScreen::class, 'set_plugin_menu'));
 			// アクション実行のトップページメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'set_plugin_menu'));
 			// LCメッセージのメニューを追加
@@ -502,6 +518,8 @@ class LineConnect {
 			add_action('admin_menu', array(SettingScreen::class, 'set_plugin_menu'));
 			// オーディエンスダウンロードメニューページを追加
 			add_action('admin_menu', array(AudienceColumn::class, 'set_download_menu'));
+			// コンテンツダウンロードメニューページを追加
+			add_action('admin_menu', array(ContentDownload::class, 'set_download_menu'));
 
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック
@@ -554,6 +572,11 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array(RichMenu::class, 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array(RichMenu::class, 'ajax_update_richmenu_alias'));
+
+			// ユーザー一覧取得AJAXアクション
+			add_action('wp_ajax_slc_fetch_users', array(FetchUsers::class, 'ajax_fetch_users'));
+			// メッセージ一覧取得AJAXアクション
+			add_action('wp_ajax_slc_fetch_messages', array(FetchMessages::class, 'execute'));
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);

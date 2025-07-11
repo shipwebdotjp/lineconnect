@@ -1,0 +1,6 @@
+./src/error-page.jsx
+./src/components/ui/avatar.jsx
+./src/index.jsx
+./src/routes/root.jsx
+./src/routes/dashboard.jsx
+./src/routes/daily.jsx

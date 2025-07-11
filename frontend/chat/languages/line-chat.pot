@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
+
+#: src/components/atoms/MessageBubbleSticker.js:7
+msgid "(This is a sticker message.)"
+msgstr ""
+
+#: src/components/molecules/MessageBubble.js:41
+msgid "(This is a message of an unsupported type.)"
+msgstr ""
+
+#: src/components/molecules/MessageInput.js:23
+msgid "Type a message..."
+msgstr ""
+
+#: src/components/molecules/MessageInput.js:27
+msgid "Send"
+msgstr ""
+
+#: src/components/organisms/MessageArea.js:21
+msgid "Loading..."
+msgstr ""

@@ -16,6 +16,10 @@ class FileSystem {
         if (! file_exists($root_dir_path)) {
             // make root dir
             if (mkdir($root_dir_path, 0777, true)) {
+                // put index.php file to root dir
+                $index_file_path    = $root_dir_path . '/index.php';
+                $index_file_content = '<?php http_response_code(404);';
+                file_put_contents($index_file_path, $index_file_content);
                 // put .htaccess file to root dir
                 $htaccess_file_path    = $root_dir_path . '/.htaccess';
                 $htaccess_file_content = 'deny from all';
@@ -27,6 +31,11 @@ class FileSystem {
         if (! file_exists($target_dir_path)) {
             // make target dir
             if (mkdir($target_dir_path, 0777, true)) {
+                // put index.php file to root dir
+                $index_file_path    = $root_dir_path . '/index.php';
+                $index_file_content = '<?php http_response_code(404);';
+                file_put_contents($index_file_path, $index_file_content);
+                // put .htaccess file to target dir
                 $htaccess_file_path    = $target_dir_path . '/.htaccess';
                 if ($deny_from_all) {
                     $htaccess_file_content = 'deny from all';

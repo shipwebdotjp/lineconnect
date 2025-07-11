@@ -1,0 +1,64 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "NODE_ENV=production npx webpack --mode production",
+    "start": "NODE_ENV=development npx webpack -w --mode development",
+    "publish": "node po2json.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@automattic/babel-plugin-preserve-i18n": "^1.0.0",
+    "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@tailwindcss/postcss": "^4.0.14",
+    "@wordpress/i18n": "^4.38.0",
+    "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "json5": "^2.2.3",
+    "lucide-react": "^0.482.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7",
+    "tw-animate-css": "^1.3.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@wordpress/babel-plugin-makepot": "^6.10.0",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss": "^8.3.11",
+    "postcss-loader": "^6.2.0",
+    "react-gettext-parser": "^1.16.0",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^4.0.14",
+    "typescript": "^5.8.2",
+    "webpack": "^5.64.2",
+    "webpack-cli": "^4.9.1"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-react"
+      ]
+    ]
+  }
+}
