@@ -441,10 +441,6 @@ class Builder {
 
 	// 連携済みユーザーへロールを指定して送信($role に slc_linked が含まれるなら全ての連携済みユーザーへ送信)
 	static function sendMessageRole($channel, $role, $message) {
-
-		// Lineconnectの読み込み
-		require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
-
 		if (! $channel) {
 			$channel = lineconnect::get_channel(0);
 		}
@@ -499,10 +495,6 @@ class Builder {
 
 	// 連携済みユーザーへWPユーザーを指定して送信
 	static function sendMessageWpUser($channel, $wp_user_id, $message) {
-
-		// Lineconnectの読み込み
-		require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
-
 		if (! $channel) {
 			$channel = lineconnect::get_channel(0);
 		}
@@ -879,7 +871,7 @@ class Builder {
 		return $multiMessageBuilder;
 	}
 
-		public static function get_line_message_builder($source, $args = null) {
+	public static function get_line_message_builder($source, $args = null) {
 		if ($source instanceof \LINE\LINEBot\MessageBuilder) {
 			return $source;
 		}
