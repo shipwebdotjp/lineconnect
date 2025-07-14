@@ -1,4 +1,5 @@
 <?php
+
 namespace Shipweb\LineConnect\Bot;
 
 class Constants {
@@ -21,6 +22,11 @@ class Constants {
 		12 => 'accountLink',
 		13 => 'things',
 		14 => 'membership',
+		91 => 'broadcast',
+		92 => 'push',
+		93 => 'multicast',
+		94 => 'reply',
+		95 => 'narrowcast',
 	);
 
 	/**
@@ -31,6 +37,9 @@ class Constants {
 		2  => 'group',
 		3  => 'room',
 		11 => 'bot',
+		12 => 'system',
+		13 => 'admin',
+		14 => 'user',
 	);
 
 	/**
@@ -44,5 +53,14 @@ class Constants {
 		5 => 'file',
 		6 => 'location',
 		7 => 'sticker',
+	);
+
+	/**
+	 * ステータス
+	 */
+	const WH_STATUS = array(
+		0  => 'pending',
+		1  => 'sent',
+		9  => 'failed',
 	);
 }

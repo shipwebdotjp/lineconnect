@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\Bot\Log;
 use \DateTime;
 use \DateTimeZone;
 use \lineconnectConst;
+use ParagonIE\Sodium\Core\Poly1305\State;
 use Shipweb\LineConnect\Core\LineConnect;
 
 class Writer {
@@ -65,6 +66,16 @@ class Writer {
         if ($event_type === 1) { // message
             $message_type = array_search($this->event->message->type, \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE) ?: 0;
             $message      = json_encode($this->event->message);
+        } elseif ($event_type === 2) { // unsend
+            $message = json_encode($this->event->unsend);
+        } elseif ($event_type === 3) { // follow
+            $message = json_encode($this->event->follow);
+        } elseif ($event_type === 4) { // unfollow
+            $message = json_encode($this->event->unfollow);
+        } elseif ($event_type === 7) { // memberJoined
+            $message = json_encode($this->event->joined);
+        } elseif ($event_type === 8) { // memberLeft
+            $message = json_encode($this->event->left);
         } elseif ($event_type === 9) {
             $message = json_encode($this->event->postback);
         } elseif ($event_type === 10) {
@@ -75,6 +86,8 @@ class Writer {
             $message = json_encode($this->event->link);
         } elseif ($event_type === 13) {
             $message = json_encode($this->event->things);
+        } elseif ($event_type === 14) {
+            $message = json_encode($this->event->membership);
         }
 
         $floatSec = $this->event->timestamp / 1000.0;

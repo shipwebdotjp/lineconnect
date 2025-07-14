@@ -46,7 +46,8 @@ class LineConnect {
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.4';
+	const DB_VERSION = '1.5';
+	// 1.5: lineconnect_bot_logsテーブルのstatus,errorカラムの追加、インデックスの変更
 	// 1.3: line_user_idテーブルにinteractions, scenario, statsカラムの追加
 
 	/**
@@ -373,6 +374,12 @@ class LineConnect {
 	 * LINE公式アカウント日々の増減数ログ MySQLテーブル名
 	 */
 	const TABLE_LINE_DAILY = 'lineconnect_line_daily';
+
+	/**
+	 * メッセージ MySQLテーブル名
+	 */
+	// const TABLE_MESSAGES = 'lineconnect_messages';
+
 	/**
 	 * チャットログリスト表示用クラス
 	 */
@@ -1024,10 +1031,22 @@ class LineConnect {
 
 		$table_name      = $wpdb->prefix . self::TABLE_BOT_LOGS;
 		$charset_collate = $wpdb->get_charset_collate();
-
+		/*
+		id: UUID v5を使ってRetry Keyとしても使用
+		event_id: LINEのWebhookイベントID(INBOUND時) sentMessages.id(OUTBOUND時)
+		event_type: LINEのWebhookイベントタイプ(INBOUND時) 送信方法(OUTBOUND時) ブロードキャストなど
+		source_type: LINEのWebhookイベントソースタイプ(INBOUND時)(1:user, 2:group, 3:room) 送信元(OUTBOUND時) bot, system, user
+		user_id: 送信元LINEユーザーID(INBOUND時) 送信先LINEユーザーID(OUTBOUND時)
+		bot_id: 送信元LINE Channel Prefix(INBOUND時) 送信先LINE Channel Prefix(OUTBOUND時)
+		message_type: LINEのWebhookイベントメッセージタイプ(INBOUND時) 送信メッセージタイプ(OUTBOUND時) 
+		message: LINEのWebhookイベントメッセージ本体(INBOUND時) 送信メッセージ本体(OUTBOUND時)
+		timestamp: LINEのWebhookイベントタイムスタンプ(INBOUND時) 送信日時(OUTBOUND時)
+		status: ステータス(0:pending, 1:sent, 9:failed)
+		error: 送信失敗時のエラーメッセージJSON(OUTBOUND時)
+		*/
 		$sql = "CREATE TABLE $table_name (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			event_id varchar(32) NOT NULL,
+			event_id varchar(32) NOT NULL, 
 			event_type tinyint NOT NULL,
 			source_type tinyint NOT NULL,
 			user_id varchar(255) NOT NULL,
@@ -1035,8 +1054,10 @@ class LineConnect {
 			message_type tinyint NOT NULL,
 			message json,
 			timestamp datetime(3) NOT NULL,
+			status tinyint DEFAULT NULL,
+			error json DEFAULT NULL,
 			PRIMARY KEY  (id),
-			KEY user_id (user_id),
+			KEY idx_bot_user_ts_id_desc (bot_id, user_id, timestamp, id),
 			KEY event_id (event_id)
 		) $charset_collate;";
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -1104,7 +1125,34 @@ class LineConnect {
 			UNIQUE KEY unique_channel_date (channel_prefix, date)
 		) $charset_collate;";
 		dbDelta($sql_line_daily);
-
+		/*
+		$table_name_messages = $wpdb->prefix . self::TABLE_MESSAGES;
+		$sql_messages = "CREATE TABLE $table_name_messages (
+			`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+			`request_id` VARCHAR(50) NULL COMMENT 'LINE APIリクエストID (X-Line-Request-Idヘッダーなど)',
+			`api_message_id` VARCHAR(50) NULL COMMENT 'LINE APIから返却された個別のメッセージID',
+			`direction` TINYINT NOT NULL COMMENT '1: Inbound (User->System), 2: Outbound (System->User)',
+			`line_user_id` VARCHAR(33) NOT NULL COMMENT 'LINEユーザーID',
+			`channel_prefix` CHAR(4) NOT NULL COMMENT 'チャンネル識別子',
+			`source_type` TINYINT NOT NULL COMMENT 'メッセージのソース元 (1:user, 2:group, 3:room, 11:broadcast, 12:multicast, 13:push, 14:reply, 15:narrowcast)',
+			`sender_id` VARCHAR(255) NULL COMMENT '送信者ID (Inbound: LINE User ID, Outbound: WP User ID or system)',
+			`event_id` VARCHAR(32) NULL COMMENT 'WebhookイベントID (Inbound時)',
+			`event_type` TINYINT NULL COMMENT 'Webhookイベントタイプ (Inbound時)',
+			`message_type` TINYINT NOT NULL COMMENT 'メッセージタイプ (text, image, etc.)',
+			`payload` JSON NOT NULL COMMENT 'メッセージ本体',
+			`quote_token` VARCHAR(32) NULL COMMENT '引用返信元のトークン (Inbound時)',
+			`status` TINYINT NOT NULL DEFAULT 0 COMMENT 'ステータス (0:pending, 1:sent, 2:delivered, 3:read, 10:scheduled, 99:failed)',
+			`error_message` TEXT NULL COMMENT '送信失敗時のエラーメッセージ',
+			`created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '作成日時(ミリ秒含む)',
+			`scheduled_at` DATETIME NULL COMMENT '送信予約日時',
+			PRIMARY KEY (`id`),
+			INDEX `idx_user_time` (`line_user_id`, `created_at`),
+			INDEX `idx_request_id` (`request_id`),
+			INDEX `idx_api_message_id` (`api_message_id`),
+			INDEX `idx_status_scheduled_at` (`status`, `scheduled_at`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
+		dbDelta($sql_messages);
+*/
 		self::set_variable(self::DB_VERSION_KEY, self::DB_VERSION);
 	}
 

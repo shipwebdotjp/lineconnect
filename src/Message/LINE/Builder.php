@@ -18,6 +18,7 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Utilities\StreamConnector;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\Message\LINE\Logger as MessageLogger;
 
 
 class Builder {
@@ -443,7 +444,7 @@ class Builder {
 	static function sendMessageRole($channel, $role, $message) {
 
 		// Lineconnectの読み込み
-		require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
+		// require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
 
 		if (! $channel) {
 			$channel = lineconnect::get_channel(0);
@@ -501,7 +502,7 @@ class Builder {
 	static function sendMessageWpUser($channel, $wp_user_id, $message) {
 
 		// Lineconnectの読み込み
-		require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
+		// require_once plugin_dir_path(__FILE__) . '../lineconnect.php';
 
 		if (! $channel) {
 			$channel = lineconnect::get_channel(0);
@@ -685,6 +686,26 @@ class Builder {
 		return $injection_data;
 	}
 
+	//応答メッセージをロギング
+	static function writeOutboundMessageLog($message, $type, $line_user_id, $secret_prefix, $response) {
+		$source_type = 'system';
+		if (current_user_can('manage_options')) {
+			$source_type = 'admin';
+		} elseif (current_user_can('read')) {
+			$source_type = 'user';
+		}
+		// 応答メッセージをロギング
+		MessageLogger::writeOutboundMessageLog(
+			$message,
+			$type,
+			$source_type,
+			$line_user_id,
+			$secret_prefix,
+			$response->isSucceeded() ? 'sent' : 'failed',
+			$response->getJSONDecodedBody()
+		);
+	}
+
 
 	// プッシュ（一人のユーザーに送信）
 	static function sendPushMessage($channel, $line_user_id, $message, $notificationDisabled = false) {
@@ -700,6 +721,8 @@ class Builder {
 		$message = self::replacePlaceHolder($channel, $line_user_id, $message);
 		// プッシュで送信
 		$response = $bot->pushMessage($line_user_id, $message, $notificationDisabled);
+		// 応答メッセージをロギング
+		self::writeOutboundMessageLog($message, 'push', $line_user_id, $channel['prefix'], $response);
 
 		// 送信に成功した場合
 		if ($response->getHTTPStatus() === 200) {
@@ -739,6 +762,9 @@ class Builder {
 		foreach (array_chunk($line_user_ids, 500) as $line_user_id_chunk) {
 			// マルチキャストで送信
 			$response = $bot->multicast($line_user_id_chunk, $message, $notificationDisabled);
+			// 応答メッセージをロギング
+			self::writeOutboundMessageLog($message, 'multicast', $line_user_id_chunk, $channel['prefix'], $response);
+
 			if ($response->getHTTPStatus() !== 200) {
 				// error_log(print_r($response->getJSONDecodedBody(),true));
 				return array(
@@ -778,6 +804,8 @@ class Builder {
 		$bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channel_secret));
 
 		$response = $bot->broadcast($message, $notificationDisabled);
+		// 応答メッセージをロギング
+		self::writeOutboundMessageLog($message, 'broadcast', [], $channel['prefix'], $response);
 		if ($response->getHTTPStatus() === 200) {
 			if (class_exists('WP_Stream\Connector')) {
 				$class = new StreamConnector();
@@ -879,7 +907,7 @@ class Builder {
 		return $multiMessageBuilder;
 	}
 
-		public static function get_line_message_builder($source, $args = null) {
+	public static function get_line_message_builder($source, $args = null) {
 		if ($source instanceof \LINE\LINEBot\MessageBuilder) {
 			return $source;
 		}

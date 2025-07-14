@@ -13,6 +13,7 @@ use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Bot\Log\Writer as BotLogWriter;
 use Shipweb\LineConnect\Bot\Provider\OpenAi;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Logger as MessageLogger;
 use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
 require_once '../../../wp-load.php'; // WordPressの基本機能を読み込み
@@ -292,12 +293,22 @@ foreach ($json_obj->{'events'} as $event) {
 		}
 		// 応答メッセージ送信
 		$resp = $bot->replyMessage($reply_token, $multimessage);
+		// 応答メッセージをロギング
+		MessageLogger::writeOutboundMessageLog(
+			$multimessage,
+			'reply',
+			'bot',
+			isset($event->{'source'}->{'userId'}) ? $event->{'source'}->{'userId'} : '',
+			$secret_prefix,
+			$resp->isSucceeded() ? 'sent' : 'failed',
+			$resp->getJSONDecodedBody(),
+			$event->{'webhookEventId'} ?? null
+		);
 		LoggingAPIResponse($resp, $message);
 	}
 
-	// 応答メッセージをロギング
 	if (isset($responseByAi) && $responseByAi === true) {
-		$botlog->writeAiResponse($gptResponse['rowResponse']['choices'][0]['message']['content']);
+		// $botlog->writeAiResponse($gptResponse['rowResponse']['choices'][0]['message']['content']);
 		$responseByAi = null;
 	}
 }

@@ -46,45 +46,78 @@ class FetchMessages {
             ]);
         }
 
+        $timestamp = isset($_POST['timestamp']) ? $_POST['timestamp'] : wp_date('Y-m-d H:i:s.u');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}$/', $timestamp)) {
+            wp_send_json_error([
+                'result' => 'failed',
+                'message' => __('Invalid timestamp format.', lineconnect::PLUGIN_NAME)
+            ]);
+        }
+
         $user_id = sanitize_text_field(wp_unslash($_POST['user_id']));
         $channel_prefix = sanitize_text_field(wp_unslash($_POST['channel_prefix']));
 
         global $wpdb;
         $table_name = $wpdb->prefix . LineConnect::TABLE_BOT_LOGS;
-
-        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-        $messages = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp 
-                FROM {$table_name} 
-                WHERE event_type = 1 and bot_id = %s and user_id = %s
-                ORDER BY id desc
-                LIMIT 100
-                ",
-                [
-                    $channel_prefix,
-                    $user_id
-                ]
-            ),
-            ARRAY_A
-        );
-        // phpcs:enable
-
+        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $messages = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp,status,error 
+                    FROM {$table_name} 
+                    WHERE bot_id = %s and user_id = %s and timestamp < %s
+                    ORDER BY timestamp desc, id desc
+                    LIMIT 100
+                    ",
+                    [
+                        $channel_prefix,
+                        $user_id,
+                        $timestamp
+                    ]
+                ),
+                ARRAY_A
+            );
+            // phpcs:enable
+        } else {
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $messages = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp 
+                    FROM {$table_name} 
+                    WHERE bot_id = %s and user_id = %s and timestamp < %s
+                    ORDER BY timestamp desc, id desc
+                    LIMIT 100
+                    ",
+                    [
+                        $channel_prefix,
+                        $user_id,
+                        $timestamp
+                    ]
+                ),
+                ARRAY_A
+            );
+            // phpcs:enable
+        }
         if (is_null($messages)) {
             wp_send_json_error(['result' => 'failed', 'message' => __('Failed to retrieve messages.', lineconnect::PLUGIN_NAME)]);
         }
         $ary_response = array();
         $ary_messages = array();
         foreach (array_reverse($messages) as $convasation) {
-            $isMe       = $convasation['source_type'] == 11 ? true : false;
-            $msg_time   = date('Y/m/d H:i:s', intval($convasation['timestamp']));
-            $message_object = json_decode($convasation['message'], false);
+            $isMe       = $convasation['source_type'] >= 11 ? true : false;
+            $msg_time   = wp_date('Y/m/d H:i:s', intval($convasation['timestamp']));
+            $message_object = isset($convasation['message']) ? json_decode($convasation['message'], false) : null;
+            $error_object = isset($convasation['error']) ? json_decode($convasation['error'], false) : null;
 
             $ary_messages[] = array(
                 'id' => intval($convasation['id']),
                 'isMe' => $isMe,
+                'event_type' => intval($convasation['event_type']),
+                'source_type' => intval($convasation['source_type']),
                 'type' => intval($convasation['message_type']),
                 'message' => $message_object,
+                'status' => isset($convasation['status']) ? intval($convasation['status']) : 0,
+                'error' => $error_object,
                 'date' => $msg_time,
             );
         }

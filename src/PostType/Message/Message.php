@@ -19,14 +19,14 @@ use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 class Message {
-    const NAME = 'message';
-    const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
-    const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
-    const META_KEY_DATA = self::NAME . '-data';
-    const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
-    const SCHEMA_VERSION = 1;
-    const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
-	
+	const NAME = 'message';
+	const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
+	const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
+	const META_KEY_DATA = self::NAME . '-data';
+	const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
+	const SCHEMA_VERSION = 1;
+	const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
+
 	/**
 	 * メッセージのJSONスキーマを返す
 	 */
@@ -166,7 +166,7 @@ class Message {
 	}
 
 	private static function buildImagemapMessage($message, $quickReply, $sender) {
-		require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
+		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$video = null;
 		$actions = [];
 		if (!empty($message['message']['imagemap']['video']['originalContentUrl'])) {

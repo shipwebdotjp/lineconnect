@@ -7,34 +7,58 @@ import MessageBubbleAudio from '../atoms/MessageBubbleAudio';
 import MessageBubbleFile from '../atoms/MessageBubbleFile';
 import MessageBubbleLocation from '../atoms/MessageBubbleLocation';
 import MessageBubbleSticker from '../atoms/MessageBubbleSticker';
+import MessageBubbleFlex from '../atoms/MessageBubbleFlex'
 
 const __ = wp.i18n.__;
 
-const MessageBubble = ({ message }) => {
-    const { type, message: messageContent, date, isMe } = message;
+const MessageBubble = ({ type, message, date, isMe }) => {
+    // const { type, message: message, date, isMe } = message;
 
     const renderMessageContent = () => {
         switch (type) {
             case 1:
-                return <MessageBubbleText text={messageContent.text} />;
+            case 'text':
+            case 'textV2':
+                return <MessageBubbleText text={message.text} />;
             case 2:
-                return <MessageBubbleImage file={messageContent.file_path} />;
+                return <MessageBubbleImage file={message.file_path} />;
+            case 'image':
+                return <MessageBubbleImage url={message.originalContentUrl} />;
+            case 'imagemap':
+                return <MessageBubbleImage url={message.baseUrl} />;
             case 3:
-                return <MessageBubbleVideo file={messageContent.file_path} />;
+                return <MessageBubbleVideo file={message.file_path} />;
+            case 'video':
+                return <MessageBubbleVideo url={message.originalContentUrl} />;
             case 4:
-                return <MessageBubbleAudio file={messageContent.file_path} />;
+                return <MessageBubbleAudio file={message.file_path} />;
+            case 'audio':
+                return <MessageBubbleAudio url={message.originalContentUrl} />;
             case 5:
-                return <MessageBubbleFile file={messageContent.file_path} fileName={messageContent.fileName} fileSize={messageContent.fileSize} />;
+                return <MessageBubbleFile file={message.file_path} fileName={message.fileName} fileSize={message.fileSize} />;
             case 6:
+            case 'location':
                 return (
                     <MessageBubbleLocation
-                        address={messageContent.address}
-                        latitude={messageContent.latitude}
-                        longitude={messageContent.longitude}
+                        address={message.address}
+                        latitude={message.latitude}
+                        longitude={message.longitude}
+                        title={message.title || __('(No title provided)', 'lineconnect')}
                     />
                 );
             case 7:
+            case 'sticker':
                 return <MessageBubbleSticker />;
+            case 'template':
+                return (
+                    <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
+                        {'(' + (message.altText || __('(This is a template message.)', 'lineconnect')) + ')'}
+                    </div>
+                );
+            case 'flex':
+                return (
+                    <MessageBubbleFlex flexJSON={message.contents} />
+                );
             default:
                 return (
                     <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
@@ -73,13 +97,10 @@ const MessageBubble = ({ message }) => {
 };
 
 MessageBubble.propTypes = {
-    message: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        type: PropTypes.number.isRequired,
-        message: PropTypes.object.isRequired,
-        date: PropTypes.string.isRequired,
-        isMe: PropTypes.bool.isRequired,
-    }).isRequired,
+    type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    message: PropTypes.object.isRequired,
+    date: PropTypes.string.isRequired,
+    isMe: PropTypes.bool.isRequired,
 };
 
 export default MessageBubble;

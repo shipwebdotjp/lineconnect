@@ -1,0 +1,3 @@
+[submodule "frontend/chat/flex-render"]
+	path = frontend/chat/flex-render
+	url = https://github.com/iamprompt/flex-render.git
