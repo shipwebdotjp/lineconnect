@@ -221,7 +221,7 @@ class Post {
 						}
 					}
 				}
-			} elseif (isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) && check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) {
+			} elseif (isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) && wp_verify_nonce($_POST[lineconnect::CREDENTIAL_NAME__POST], lineconnect::CREDENTIAL_ACTION__POST)) {
 				$send_checkbox_value = isset($_POST[lineconnect::PARAMETER_PREFIX . 'send-checkbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'send-checkbox' . $channel['prefix']] : '';
 				$roles =  isset($_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']]) ? $_POST[lineconnect::PARAMETER_PREFIX . 'role-selectbox' . $channel['prefix']] : [];
 				$template = $_POST[lineconnect::PARAMETER_PREFIX . 'template-selectbox' . $channel['prefix']] ?? 0;
@@ -388,8 +388,9 @@ class Post {
 			if (!is_super_admin() && !current_user_can('administrator') && !current_user_can('editor') && !current_user_can('author')) return;
 			// nonceで設定したcredentialをPOST受信していない場合は無視
 			if (!isset($_POST[lineconnect::CREDENTIAL_NAME__POST]) || !$_POST[lineconnect::CREDENTIAL_NAME__POST]) return;
+			$nonce = $_POST[lineconnect::CREDENTIAL_NAME__POST] ?? '';
 			// nonceで設定したcredentialのチェック結果に問題がある場合
-			if (!check_admin_referer(lineconnect::CREDENTIAL_ACTION__POST, lineconnect::CREDENTIAL_NAME__POST)) return;
+			if (!wp_verify_nonce($nonce, lineconnect::CREDENTIAL_ACTION__POST)) return;
 		}
 
 		$is_send_line = array();
