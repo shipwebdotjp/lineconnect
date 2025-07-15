@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 4.2.1
+	Version: 4.2.2
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3
@@ -15,6 +15,7 @@
 	https://www.gnu.org/licenses/gpl-3.0.txt
 
 */
+
 use Shipweb\LineConnect\Core\LineConnect;
 
 if (!defined('ABSPATH')) {
@@ -57,4 +58,4 @@ function load_lineconnect_plugin() {
 add_action('plugins_loaded', 'load_lineconnect_plugin');
 
 // プラグイン有効化時に呼び出し
-register_activation_hook(__FILE__, array('LineConnect', 'pluginActivation'));
+register_activation_hook(__FILE__, array(LineConnect::class, 'pluginActivation'));
