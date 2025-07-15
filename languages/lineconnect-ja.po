@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-07-01 21:08+0900\n"
+"POT-Creation-Date: 2025-07-15 16:24+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -874,10 +874,13 @@ msgid "Delete all plugin data"
 msgstr "プラグインデータの削除"
 
 msgid "Delete all plugin data."
-msgstr "このプラグインが使用しているデータをすべて(データベース、アップロードファイルなど)削除します"
+msgstr ""
+"このプラグインが使用しているデータをすべて(データベース、アップロードファイル"
+"など)削除します"
 
 msgid "Are you sure you want to delete all plugin data?"
-msgstr "プラグインデータを本当に削除してよろしいですか？この操作は取り消せません。"
+msgstr ""
+"プラグインデータを本当に削除してよろしいですか？この操作は取り消せません。"
 
 msgid "LINE Connect settings"
 msgstr "LINE Connect 設定"
@@ -931,6 +934,24 @@ msgstr "新規チャネル"
 msgid "Add new channel"
 msgstr "新規チャネル追加"
 
+msgid "Webhook settings"
+msgstr "Webhook設定"
+
+msgid "Copy"
+msgstr "コピー"
+
+msgid ""
+"Please create a Messaging API channel for your official account on LINE "
+"Developers beforehand.\n"
+"Channel secrets can be obtained from the Channel Basic Settings page, and "
+"channel access tokens can be obtained from the Messaging API Settings page.\n"
+"If you wish to use Webhook, please set the Webhook URL to the following "
+"value."
+msgstr ""
+"あらかじめ<a href=\"https://developers.line.biz/ja/\" target=\"_blank\">LINE Developers</a>にて、公式アカウントのMessaging APIチャネルを作成しておいてください。\n"
+"チャネルシークレットはチャネル基本設定ページから、チャネルアクセストークンはMessaging API設定ページから取得できます。\n"
+"Webhookを利用する場合は、Webhook URLを下記の値に設定してください。"
+
 msgid "Save"
 msgstr "保存"
 
@@ -977,10 +998,10 @@ msgid "Failed to clear rich menu cache."
 msgstr "リッチメニューリストのキャッシュの削除に失敗しました。"
 
 msgid "All data deleted. Please remove plugin."
-msgstr ""
+msgstr "すべてのデータは削除されました。プラグインを削除してください。"
 
 msgid "Failed to delete all data."
-msgstr ""
+msgstr "すべてのデータの削除に失敗しました。"
 
 msgid "Settings saved."
 msgstr "設定を保存しました。"
@@ -1161,9 +1182,6 @@ msgstr "追加"
 
 msgid "Add Item"
 msgstr "項目追加"
-
-msgid "Copy"
-msgstr "コピー"
 
 msgid "Move down"
 msgstr "下へ移動"

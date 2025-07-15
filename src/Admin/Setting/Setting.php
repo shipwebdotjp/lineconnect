@@ -293,9 +293,38 @@ EOM;
                             </div>
                         </div>
                     </div>
-                    <button type="button" id="newChannelBtn" onclick="showNewChannel()" class="button button-secondary button-large">{$new_channel_label}</button>
+					<div class='postbox hide' id="newChannelBtn">
+                        <h3 class='hndle'><span>{$new_channel_title}</span></h3>
+                        <div class='inside'>
+							<button type="button" onclick="showNewChannel()" class="button button-secondary button-large">{$new_channel_label}</button>
+						</div>
+					</div>
 EOM;
-
+					$webhook_title = __('Webhook settings', lineconnect::PLUGIN_NAME);
+					// LINE Developersからチャネルアクセストークンとチャネルシークレットを取得できることと、設定すべきWebhook URLを表示
+					$webhook_url = LineConnect::plugins_url('bot.php');
+					// if http, the webhook URL should be https
+					if (strpos($webhook_url, 'http://') === 0) {
+						$webhook_url = str_replace('http://', 'https://', $webhook_url);
+					}
+					// copy line_id to clipboard
+					$copyable_webhook_url = sprintf(
+						'<a class="copy-webhook-url" onclick="copyToClipboard(\'%s\', this)" style="cursor: pointer;">%s</a>',
+						esc_attr($webhook_url),
+						__('Copy', lineconnect::PLUGIN_NAME)
+					);
+					$webhook_description = nl2br(__("Please create a Messaging API channel for your official account on LINE Developers beforehand.\nChannel secrets can be obtained from the Channel Basic Settings page, and channel access tokens can be obtained from the Messaging API Settings page.\nIf you wish to use Webhook, please set the Webhook URL to the following value.", lineconnect::PLUGIN_NAME));
+					echo <<< EOM
+						<div class='metabox-holder'>
+							<div class="postbox">
+								<h3 class="hndle"><span>{$webhook_title}</span></h3>
+								<div class="inside">
+									<p>{$webhook_description}</p>
+									<p>Webhook URL: <input type="text" value="{$webhook_url}" readonly size="60" /> {$copyable_webhook_url}</p>
+								</div>
+							</div>
+						</div>
+EOM;
 					// 送信ボタンを生成・取得
 					$submit_button = get_submit_button(__('Save', lineconnect::PLUGIN_NAME));
 					echo <<< EOM
@@ -741,7 +770,8 @@ EOM;
 		wp_enqueue_script('jquery-ui-multiselect-widget', lineconnect::plugins_url('assets/js/jquery.multiselect.min.js'), array('jquery-ui-core'), '3.0.1', true);
 		$setting_js = 'assets/js/slc_setting.js';
 		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'admin', lineconnect::plugins_url($setting_js), array('jquery-ui-tabs', 'wp-color-picker', 'jquery-ui-multiselect-widget', 'wp-i18n'), filemtime(lineconnect::getRootDir() . $setting_js), true);
-
+		$clipboard_js = 'assets/js/clipboard.js';
+		wp_enqueue_script(lineconnect::PLUGIN_PREFIX . 'clipboard-js', lineconnect::plugins_url($clipboard_js), array(), filemtime(lineconnect::getRootDir() . $clipboard_js), true);
 		// JavaScriptの言語ファイル読み込み
 		wp_set_script_translations(lineconnect::PLUGIN_PREFIX . 'admin', lineconnect::PLUGIN_NAME, lineconnect::getRootDir() . 'languages');
 	}
