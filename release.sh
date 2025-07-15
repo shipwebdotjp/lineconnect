@@ -43,6 +43,9 @@ cd document
 npm run build
 cd $WORKING_DIR
 
+# テストを実行
+composer test
+
 # 全てステージにのせる
 git add -A;
 

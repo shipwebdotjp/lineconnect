@@ -5,24 +5,16 @@ namespace Shipweb\LineConnect\Admin;
 use Shipweb\LineConnect\Core\LineConnect;
 
 class ContentDownload {
-    /**
-     * ダウンロードメニュー追加
-     */
-    static function set_download_menu() {
-        add_options_page(
-            __('LINE Connect Content Download', lineconnect::PLUGIN_NAME),
-            __('Download Content', lineconnect::PLUGIN_NAME),
-            'manage_options',
-            lineconnect::SLUG__CONTENT_DOWNLOAD,
-            array(self::class, 'download_content_page')
-        );
-    }
 
     /**
      * コンテンツダウンロード
      */
     static function download_content_page() {
         nocache_headers();
+
+        if (! current_user_can('manage_options')) {
+            wp_die(__('You do not have permission to access this page.', lineconnect::PLUGIN_NAME));
+        }
 
         if (empty($_GET['file'])) {
             wp_die(__('No file specified!', lineconnect::PLUGIN_NAME));

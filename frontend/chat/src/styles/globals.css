@@ -122,3 +122,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities { 
+  #wpfooter { @apply hidden; } 
+  body #wpbody-content { @apply !pb-0; }
+}

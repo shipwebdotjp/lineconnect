@@ -44,7 +44,6 @@ class Screen {
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array(self::class, 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array(self::class, 'wpdocs_plugin_admin_scripts'));
-		// remove_menu_page( lineconnect::SLUG__CHAT_FORM );
 	}
 
 	/**
@@ -57,7 +56,7 @@ class Screen {
 		$ary_init_data['channels']   = lineconnect::get_all_channels();
 		$ary_init_data['ajaxurl']    = admin_url('admin-ajax.php');
 		$ary_init_data['ajax_nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
-		$ary_init_data['downloadurl'] = admin_url('admin.php?page=' . lineconnect::SLUG__CONTENT_DOWNLOAD);
+		$ary_init_data['downloadurl'] = admin_url('admin-post.php?action=' . lineconnect::SLUG__CONTENT_DOWNLOAD);
 		$line_id                     = isset($_GET['line_id']) ? $_GET['line_id'] : array();
 		$channel_prefix              = isset($_GET['channel_prefix']) ? $_GET['channel_prefix'] : array();
 

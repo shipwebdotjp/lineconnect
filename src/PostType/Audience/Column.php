@@ -45,7 +45,7 @@ class Column {
         if ($column_name == 'download') {
             $audience = get_post_meta($post_id, Audience::META_KEY_DATA, true);
             if (!empty($audience)) {
-                echo '<a href="' . esc_url(admin_url('admin.php?page=' . lineconnect::SLUG__AUDIENCE_DOWNLOAD . '&audience_id=' . $post_id)) . '" >' . __('CSV Download', lineconnect::PLUGIN_NAME) . '</a>';
+                echo '<a href="' . esc_url(admin_url('admin-post.php?action=' . lineconnect::SLUG__AUDIENCE_DOWNLOAD . '&audience_id=' . $post_id)) . '" >' . __('CSV Download', lineconnect::PLUGIN_NAME) . '</a>';
             }
         }
     }
@@ -53,6 +53,7 @@ class Column {
     /**
      * ダウンロードメニュー追加
      */
+    /*
     static function set_download_menu() {
         add_options_page(
             __('LINE Connect Audience Download', lineconnect::PLUGIN_NAME),
@@ -61,19 +62,23 @@ class Column {
             lineconnect::SLUG__AUDIENCE_DOWNLOAD,
             array(self::class, 'download_audience_page')
         );
-        /*
+
         remove_submenu_page(
             'options-general.php',
             lineconnect::SLUG__AUDIENCE_DOWNLOAD
         );
-        */
     }
-
+*/
     /**
      * CSVダウンロード
      */
     static function download_audience_page() {
         nocache_headers();
+
+        if (! current_user_can('manage_options')) {
+            wp_die(__('You do not have permission to access this page.', lineconnect::PLUGIN_NAME));
+        }
+
         $audience_id = isset($_GET['audience_id']) ? intval($_GET['audience_id']) : 0;
         $line_user_ids = Audience::get_lineconnect_audience($audience_id);
         $csv_data = array(); // secret_prefix, line_user_id 

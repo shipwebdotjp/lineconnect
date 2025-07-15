@@ -17,26 +17,28 @@ const MessageArea = ({ messages = [], isLoading = false, onSendMessage }) => {
     }, [messages]);
 
     return (
-        <div className="chat-window">
-            {isLoading ? (
-                <div>{__('Loading...', 'lineconnect')}</div>
-            ) : (
-                messages.map((msg) => {
-                    if (msg.event_type === 1 || msg.event_type >= 91) {
-                        if (Array.isArray(msg.message)) {
-                            return msg.message.map((message, idx) => (
-                                <MessageBubble key={msg.id + '-' + idx} type={message.type} message={message} date={msg.date} isMe={msg.isMe} />
-                            ));
-                        } else if (msg.message && typeof msg.message === 'object') {
-                            return <MessageBubble key={msg.id} type={msg.type} message={msg.message} date={msg.date} isMe={msg.isMe} />;
-                        }
+        <div className="h-full flex flex-col">
+            <div className="flex-1 overflow-y-auto">
+                {isLoading ? (
+                    <div>{__('Loading...', 'lineconnect')}</div>
+                ) : (
+                    messages.map((msg) => {
+                        if (msg.event_type === 1 || msg.event_type >= 91) {
+                            if (Array.isArray(msg.message)) {
+                                return msg.message.map((message, idx) => (
+                                    <MessageBubble key={msg.id + '-' + idx} type={message.type} message={message} date={msg.date} isMe={msg.isMe} />
+                                ));
+                            } else if (msg.message && typeof msg.message === 'object') {
+                                return <MessageBubble key={msg.id} type={msg.type} message={msg.message} date={msg.date} isMe={msg.isMe} />;
+                            }
 
-                    } else if (msg.event_type >= 2 && msg.event_type < 91) {
-                        return <SystemBubble key={msg.id} event={msg} />;
-                    }
-                })
-            )}
-            <div ref={messagesEndRef} />
+                        } else if (msg.event_type >= 2 && msg.event_type < 91) {
+                            return <SystemBubble key={msg.id} event={msg} />;
+                        }
+                    })
+                )}
+                <div ref={messagesEndRef} />
+            </div>
             <MessageInput onSendMessage={onSendMessage} disabled={isLoading} />
         </div>
     );

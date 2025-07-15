@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ChannelSelector from '../components/molecules/ChannelSelector';
 import UserList from '../components/organisms/UserList';
@@ -72,10 +72,37 @@ const ChatLayout = () => {
         // メッセージ送信のロジックを実装
     };
 
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
+        const setHeight = () => {
+            const offset = el.getBoundingClientRect().top;
+            // wpfooterの高さを引く
+            const wpFooterHeight = document.querySelector('#wpfooter') ? document.querySelector('#wpfooter').offsetHeight : 0;
+            const totalOffset = offset + wpFooterHeight;
+            console.log(`Setting height: ${el.style.height} offset: ${offset} wpFooterOffset: ${wpFooterHeight} total offset: ${totalOffset}`);
+            el.style.height = `calc(100dvh - ${totalOffset}px)`;
+        };
+
+        setHeight();
+        window.addEventListener('resize', setHeight);
+
+        const ro = new ResizeObserver(setHeight);
+        ro.observe(document.body);
+
+        return () => {
+            window.removeEventListener('resize', setHeight);
+            ro.disconnect();
+        };
+    }, []);
+
     return (
-        <div className="flex h-screen">
+        <div ref={containerRef} className="flex overflow-hidden">
             {/* Left Sidebar */}
-            <div className="w-1/4 bg-gray-100 p-4">
+            <div className="w-1/4 bg-gray-100 p-4 h-full overflow-y-auto">
                 <div className="mb-4">
                     {/* Channel Selector */}
                     <ChannelSelector channels={channels} selectedChannelId={channelId} onSelect={handleChannelSelect} />
@@ -91,7 +118,7 @@ const ChatLayout = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col h-full overflow-y-auto">
                 {userId ? (
                     <>
                         {/* Message Area */}
@@ -110,7 +137,7 @@ const ChatLayout = () => {
 
             {/* Right Sidebar */}
             {userId && (
-                <div className="w-1/4 bg-gray-100 p-4">
+                <div className="w-1/4 bg-gray-100 p-4 h-full overflow-y-auto">
                     {/* User Profile */}
                     <p>User Profile for {userId}</p>
                 </div>

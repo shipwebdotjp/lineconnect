@@ -41,7 +41,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.2.0';
+	const VERSION = '4.2.1';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -524,9 +524,9 @@ class LineConnect {
 			// 設定画面のメニューを追加
 			add_action('admin_menu', array(SettingScreen::class, 'set_plugin_menu'));
 			// オーディエンスダウンロードメニューページを追加
-			add_action('admin_menu', array(AudienceColumn::class, 'set_download_menu'));
-			// コンテンツダウンロードメニューページを追加
-			add_action('admin_menu', array(ContentDownload::class, 'set_download_menu'));
+			add_action('admin_post_' . LineConnect::SLUG__AUDIENCE_DOWNLOAD, array(AudienceColumn::class, 'download_audience_page'));
+			// コンテンツダウンロードアクション
+			add_action('admin_post_' . LineConnect::SLUG__CONTENT_DOWNLOAD, array(ContentDownload::class, 'download_content_page'));
 
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック

@@ -9,15 +9,15 @@ msgid "(This is a sticker message.)"
 msgstr ""
 
 #: src/components/molecules/MessageBubble.js:46
-msgid "(No title provided)"
+msgid "Location"
 msgstr ""
 
 #: src/components/molecules/MessageBubble.js:55
-msgid "(This is a template message.)"
+msgid "(Template message.)"
 msgstr ""
 
 #: src/components/molecules/MessageBubble.js:65
-msgid "(This is a message of an unsupported type.)"
+msgid "(Unsupported message.)"
 msgstr ""
 
 #: src/components/molecules/MessageInput.js:23
@@ -80,6 +80,6 @@ msgstr ""
 msgid "Membership event"
 msgstr ""
 
-#: src/components/organisms/MessageArea.js:22
+#: src/components/organisms/MessageArea.js:23
 msgid "Loading..."
 msgstr ""

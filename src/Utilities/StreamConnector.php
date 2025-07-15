@@ -48,7 +48,7 @@ class StreamConnector extends Connector {
      */
     public function is_dependency_satisfied() {
         $version_compare = version_compare(lineconnect::VERSION, self::PLUGIN_MIN_VERSION, '>=');
-        if (class_exists('lineconnect') && $version_compare) {
+        if (class_exists('Shipweb\LineConnect\Core\LineConnect') && $version_compare) {
             return true;
         }
 

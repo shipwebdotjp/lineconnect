@@ -43,7 +43,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                         address={message.address}
                         latitude={message.latitude}
                         longitude={message.longitude}
-                        title={message.title || __('(No title provided)', 'lineconnect')}
+                        title={message.title || __('Location', 'lineconnect')}
                     />
                 );
             case 7:
@@ -52,7 +52,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             case 'template':
                 return (
                     <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
-                        {'(' + (message.altText || __('(This is a template message.)', 'lineconnect')) + ')'}
+                        {'(' + (message.altText || __('(Template message.)', 'lineconnect')) + ')'}
                     </div>
                 );
             case 'flex':
@@ -62,7 +62,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             default:
                 return (
                     <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
-                        {__('(This is a message of an unsupported type.)', 'lineconnect')}
+                        {__('(Unsupported message.)', 'lineconnect')}
                     </div>
                 );
         }
@@ -78,7 +78,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                     <span className="text-black/40 text-xs mr-2">{date}</span>
                     <div className="flex px-3 py-2 max-w-[80%] w-auto shadow-md bg-green-500 rounded-lg">
                         <div className="flex flex-col flex-1">
-                            <div className="flex-1 max-w-full text-base leading-[180%] text-black/90">{renderMessageContent()}</div>
+                            <div className="flex-1 max-w-full text-base leading-[180%] text-black/90 whitespace-pre-wrap wrap-break-word break-all">{renderMessageContent()}</div>
                         </div>
                     </div>
                 </>
@@ -86,7 +86,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                 <>
                     <div className="flex px-3 py-2 max-w-[80%] w-auto shadow-md bg-gray-800 rounded-lg">
                         <div className="flex flex-col flex-1">
-                            <div className="flex-1 max-w-full text-base leading-[180%] text-white/90">{renderMessageContent()}</div>
+                            <div className="flex-1 max-w-full text-base leading-[180%] text-white/90 whitespace-pre-wrap wrap-break-word break-all">{renderMessageContent()}</div>
                         </div>
                     </div>
                     <span className="text-black/40 text-xs ml-2">{date}</span>
