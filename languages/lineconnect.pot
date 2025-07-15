@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.2.0\n"
+"Project-Id-Version: LINE Connect 4.2.2\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-07-01 21:08+0900\n"
+"POT-Creation-Date: 2025-07-15 16:24+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -898,6 +898,21 @@ msgstr ""
 msgid "Add new channel"
 msgstr ""
 
+msgid "Webhook settings"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid ""
+"Please create a Messaging API channel for your official account on LINE "
+"Developers beforehand.\n"
+"Channel secrets can be obtained from the Channel Basic Settings page, and "
+"channel access tokens can be obtained from the Messaging API Settings page.\n"
+"If you wish to use Webhook, please set the Webhook URL to the following "
+"value."
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
@@ -1125,9 +1140,6 @@ msgid "Add"
 msgstr ""
 
 msgid "Add Item"
-msgstr ""
-
-msgid "Copy"
 msgstr ""
 
 msgid "Move down"

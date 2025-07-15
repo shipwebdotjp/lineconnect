@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+// const { __ } = wp.i18n;
 
 function copyToClipboard(text, element) {
     if (navigator.clipboard) {
@@ -6,7 +6,7 @@ function copyToClipboard(text, element) {
             .then(() => {
                 // Show feedback
                 const originalText = element.textContent;
-                element.textContent = '✓ ' + __('Copied!', 'lineconnect');
+                element.textContent = '✓ ' + wp.i18n.__('Copied!', 'lineconnect');
 
                 // Reset after 2 seconds
                 setTimeout(() => {
@@ -37,7 +37,7 @@ function fallbackCopyTextToClipboard(text, element) {
         if (successful) {
             // Show feedback
             const originalText = element.textContent;
-            element.textContent = '✓ ' + __('Copied!', 'lineconnect');
+            element.textContent = '✓ ' + wp.i18n.__('Copied!', 'lineconnect');
 
             // Reset after 2 seconds
             setTimeout(() => {
