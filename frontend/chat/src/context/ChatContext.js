@@ -13,6 +13,7 @@ const initialState = {
   isMessageFormOpen: false,
   buildMessages: [],
   isSending: false,
+  notificationDisabled: false,
 };
 
 // 2. アクションの種類を定義
@@ -28,6 +29,7 @@ export const actionTypes = {
   FETCH_MESSAGES_FAILURE: 'FETCH_MESSAGES_FAILURE',
   TOGGLE_SIDEBAR: 'TOGGLE_SIDEBAR',
   TOGGLE_MESSAGE_FORM: 'TOGGLE_MESSAGE_FORM',
+  TOGGLE_NOTIFICATION_DISABLED: 'TOGGLE_NOTIFICATION_DISABLED',
   SET_BUILD_MESSAGES: 'SET_BUILD_MESSAGES',
   SEND_MESSAGE_START: 'SEND_MESSAGE_START',
   SEND_MESSAGE_SUCCESS: 'SEND_MESSAGE_SUCCESS',
@@ -74,6 +76,9 @@ const reducer = (state, action) => {
 
     case actionTypes.TOGGLE_MESSAGE_FORM:
       return { ...state, isMessageFormOpen: !state.isMessageFormOpen };
+
+    case actionTypes.TOGGLE_NOTIFICATION_DISABLED:
+      return { ...state, notificationDisabled: !state.notificationDisabled };
 
     case actionTypes.SET_BUILD_MESSAGES:
       return { ...state, buildMessages: action.payload };

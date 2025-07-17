@@ -39,11 +39,14 @@ class ContentDownload {
 
         // ルートディレクトリ外を拒否
         if ($real_path === false || strpos($real_path, $root_dir_path) !== 0) {
+            http_response_code(404);
             wp_die(__('Invalid file path!', lineconnect::PLUGIN_NAME));
         }
 
         if (!file_exists($real_path)) {
-            wp_die(__('File does not exist!' . $real_path, lineconnect::PLUGIN_NAME));
+            // return 404
+            http_response_code(404);
+            wp_die(__('File not found!', lineconnect::PLUGIN_NAME));
         }
 
         $type = wp_check_filetype($real_path);

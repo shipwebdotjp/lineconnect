@@ -11,7 +11,7 @@ const ChatLayout = () => {
     const { channelId, userId } = useParams();
     const navigate = useNavigate();
     const { state, dispatch } = useContext(ChatContext);
-    const { users, messages, isLoading, error, isMessageFormOpen, buildMessages, isSending } = state;
+    const { users, messages, isLoading, error, isMessageFormOpen, buildMessages, isSending, notificationDisabled } = state;
     const channels = lc_initdata['channels'];
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const ChatLayout = () => {
                 'messages': buildMessages,
                 'channel': channelId,
                 'to': userId,
-                // 'notificationDisabled': notificationDisabled ? 1 : 0,
+                'notificationDisabled': notificationDisabled ? 1 : 0,
             },
             dataType: 'json'
         }).done((data) => {

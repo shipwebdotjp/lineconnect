@@ -7,15 +7,26 @@ import MessageFormResult from '../molecules/MessageFormResult';
 const __ = wp.i18n.__;
 const MessageForm = ({ onSendMessage }) => {
     const { state, dispatch } = useContext(ChatContext);
-    const { buildMessages, isSending } = state;
+    const { buildMessages, isSending, notificationDisabled } = state;
 
     return (
         <div className="relative z-10" aria-labelledby="dialog-title" role="dialog" aria-modal="true">
             <div className="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
             <div className="fixed inset-0 z-10 flex items-center justify-center p-4">
                 <div className="ChatForm w-4/5 max-h-full overflow-y-auto bg-white rounded-lg shadow-xl">
-                    <header className="ChatHeader text-lg mx-2 my-4 w-auto">
-                        {__('Send LINE bulk message', 'lineconnect')}
+                    <header className="ChatHeader text-lg mx-2 my-4 w-auto flex items-center">
+                        <h2 id="dialog-title" className="font-semibold">
+                            {__('Send LINE chat message', 'lineconnect')}
+                        </h2>
+                        <button
+                            type="button"
+                            className="ml-auto text-gray-500 hover:text-gray-700 focus:outline-none"
+                            onClick={() => dispatch({ type: actionTypes.TOGGLE_MESSAGE_FORM })}
+                        >
+                            <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </header>
                     <div>
                         <div className="ChatBody w-full">
@@ -24,18 +35,18 @@ const MessageForm = ({ onSendMessage }) => {
                                 <MessageFormBuilder />
                             </div>
                             <div className="ChatRow px-4 py-2 my-2">
-                                {/*<div className="flex items-center">
-                                <input 
-                                    type="checkbox"
-                                    id="notificationDisabled"
-                                    name="notificationDisabled"
-                                    checked={notificationDisabled}
-                                    onChange={(e) => setNotificationDisabled(e.target.checked)}
-                                />
-                                <label htmlFor="notificationDisabled" className="ml-2">
-                                    {__('Disable notification', 'lineconnect')}
-                                </label>
-                            </div>*/}
+                                <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id="notificationDisabled"
+                                        name="notificationDisabled"
+                                        checked={notificationDisabled}
+                                        onChange={() => dispatch({ type: actionTypes.TOGGLE_NOTIFICATION_DISABLED })}
+                                    />
+                                    <label htmlFor="notificationDisabled" className="ml-2">
+                                        {__('Disable notification', 'lineconnect')}
+                                    </label>
+                                </div>
                             </div>
                             <div className="ChatRow px-4 py-2 mt-2">
                                 <div className="space-x-2">

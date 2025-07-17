@@ -154,6 +154,8 @@ EOM;
 			$channel_prefix = isset($_POST['channel']) ? $_POST['channel'] : null;
 			$to             = isset($_POST['to']) ? $_POST['to'] : null;
 			$messages_formdata              = isset($_POST['messages']) ? array_map('stripslashes_deep', $_POST['messages']) : [];
+			$notificationDisabled = isset($_POST['notificationDisabled']) && $_POST['notificationDisabled'] == 1;
+
 
 			if (! empty($channel_prefix) && ! empty($to) && ! empty($messages_formdata)) {
 
@@ -168,7 +170,7 @@ EOM;
 				if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0) {
 					if (is_array($messages_formdata)) {
 						$message = Builder::get_line_message_builder($messages_formdata, Builder::make_injection_data($channel, $to));
-						$response = Builder::sendPushMessage($channel, $to, $message);
+						$response = Builder::sendPushMessage($channel, $to, $message, $notificationDisabled);
 						/*
 						foreach ($messages as $index => $message) {
 							$type = $message['type'];

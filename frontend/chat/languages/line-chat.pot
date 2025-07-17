@@ -96,18 +96,22 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:18
-msgid "Send LINE bulk message"
+#: src/components/organisms/MessageForm.js:19
+msgid "Send LINE chat message"
 msgstr ""
 
 #: src/components/organisms/MessageForm.js:47
+msgid "Disable notification"
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:58
 msgid "Close"
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:61
+#: src/components/organisms/MessageForm.js:72
 msgid "Sending..."
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:64
+#: src/components/organisms/MessageForm.js:75
 msgid "Send"
 msgstr ""
