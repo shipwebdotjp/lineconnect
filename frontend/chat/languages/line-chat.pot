@@ -20,12 +20,24 @@ msgstr ""
 msgid "(Unsupported message.)"
 msgstr ""
 
-#: src/components/molecules/MessageInput.js:23
-msgid "Type a message..."
+#: src/components/molecules/MessageFormBuilder.js:149
+msgid "Message"
 msgstr ""
 
-#: src/components/molecules/MessageInput.js:27
-msgid "Send"
+#: src/components/molecules/MessageFormBuilder.js:151
+msgid "Template"
+msgstr ""
+
+#: src/components/molecules/MessageFormBuilder.js:153
+msgid "New message"
+msgstr ""
+
+#: src/components/molecules/MessageInput.js:19
+msgid "Cancel"
+msgstr ""
+
+#: src/components/molecules/MessageInput.js:19
+msgid "Open Message Input Form"
 msgstr ""
 
 #: src/components/molecules/SystemBubble.js:11
@@ -82,4 +94,20 @@ msgstr ""
 
 #: src/components/organisms/MessageArea.js:23
 msgid "Loading..."
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:18
+msgid "Send LINE bulk message"
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:47
+msgid "Close"
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:61
+msgid "Sending..."
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:64
+msgid "Send"
 msgstr ""

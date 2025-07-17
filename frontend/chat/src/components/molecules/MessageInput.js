@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { ChatContext, actionTypes } from '../../context/ChatContext';
+
 
 const __ = wp.i18n.__;
 
-const MessageInput = ({ onSendMessage, disabled }) => {
-    const [message, setMessage] = useState('');
+const MessageInput = () => {
+    const { state, dispatch } = useContext(ChatContext);
+    const { isMessageFormOpen } = state;
 
-    const handleSubmit = (e) => {
+    const handleMessageFormOpen = (e) => {
         e.preventDefault();
-        if (message.trim() && !disabled) {
-            onSendMessage(message);
-            setMessage('');
-        }
-    };
+        dispatch({ type: actionTypes.TOGGLE_MESSAGE_FORM, payload: !isMessageFormOpen });
+    }
 
     return (
-        <form onSubmit={handleSubmit} className="chat-input">
-            <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={__('Type a message...', 'lineconnect')}
-                disabled={disabled}
-            />
-            <button type="submit" disabled={disabled || !message.trim()}>
-                {__('Send', 'lineconnect')}
+        <div className="p-4">
+            <button onClick={handleMessageFormOpen} className="bg-blue-500 text-white p-4 rounded w-full">
+                {isMessageFormOpen ? __('Cancel', 'lineconnect') : __('Open Message Input Form', 'lineconnect')}
             </button>
-        </form>
+        </div>
     );
 };
 
-MessageInput.propTypes = {
-    onSendMessage: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
-};
 
 export default MessageInput;

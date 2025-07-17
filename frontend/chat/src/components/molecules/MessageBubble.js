@@ -97,7 +97,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
 };
 
 MessageBubble.propTypes = {
-    type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     message: PropTypes.object.isRequired,
     date: PropTypes.string.isRequired,
     isMe: PropTypes.bool.isRequired,

@@ -137,6 +137,10 @@ class Schema {
 					'title' => __('Message type', lineconnect::PLUGIN_NAME),
 					'anyOf' => array(
 						array(
+							'const' => null,
+							'title' => __('Select message type', lineconnect::PLUGIN_NAME),
+						),
+						array(
 							'const' => 'text',
 							'title' => __('Text', lineconnect::PLUGIN_NAME),
 						),
@@ -189,7 +193,9 @@ class Schema {
 							'title' => __('Raw', lineconnect::PLUGIN_NAME),
 						),
 					),
+					'default' => null,
 				),
+
 			),
 		);
 	}

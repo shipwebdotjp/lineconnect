@@ -38,8 +38,9 @@ const MessageArea = ({ messages = [], isLoading = false, onSendMessage }) => {
                     })
                 )}
                 <div ref={messagesEndRef} />
+                <MessageInput />
             </div>
-            <MessageInput onSendMessage={onSendMessage} disabled={isLoading} />
+
         </div>
     );
 };

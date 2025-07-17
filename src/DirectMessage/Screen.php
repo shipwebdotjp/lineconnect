@@ -9,6 +9,9 @@ namespace Shipweb\LineConnect\DirectMessage;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\PostType\Message\Schema as SLCMessageSchema;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Screen {
 	static function initialize() {
@@ -57,7 +60,8 @@ class Screen {
 		$ary_init_data['channels']   = lineconnect::get_all_channels();
 		$ary_init_data['ajaxurl']    = admin_url('admin-ajax.php');
 		$ary_init_data['ajax_nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
-		$line_id                     = isset($_GET['line_id']) ? $_GET['line_id'] : array();
+
+		/*		$line_id                     = isset($_GET['line_id']) ? $_GET['line_id'] : array();
 		$channel_prefix              = isset($_GET['channel_prefix']) ? $_GET['channel_prefix'] : array();
 
 		if (! empty($line_id) && ! empty($channel_prefix)) {
@@ -72,8 +76,44 @@ class Screen {
 		} else {
 			$ary_init_data['line_id'] = array();
 		}
-
 		$ary_init_data['channel_prefix'] = $channel_prefix;
+*/
+		$messageFormData = [];
+		$formName                         = 'chatform-data';
+		$ary_init_data['formName']        = $formName;
+		$messageSubSchema = SLCMessage::get_message_schema();
+		$messageForm = array();
+		for ($i = 0; $i < 10; $i += 2) {
+
+			$type_schema = SLCMessageSchema::get_message_type_schema();
+			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
+			$messageForm[] = array(
+				'id' => 'type',
+				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', SLCMessageSchema::get_message_type_uischema()),
+				'formData' => SLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
+				'props' => new \stdClass(),
+			);
+			$messageForm[] = array(
+				'id' => 'message',
+				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new \stdClass(),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', SLCMessageSchema::get_message_uischema()),
+				'formData' => SLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
+				'props' => new \stdClass(),
+			);
+		}
+		$ary_init_data['messageSubSchema']          = $messageSubSchema;
+		$ary_init_data['messageForm']        = $messageForm;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
+
+		$slc_messages = [];
+		foreach (SLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
+			$slc_messages[] = array(
+				'post_id' => $post_id,
+				'title' => $title,
+			);
+		}
+		$ary_init_data['slc_messages'] = $slc_messages;
 
 		$inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
 		// error_log( print_r( $ary_init_data['line_id'], true ) );

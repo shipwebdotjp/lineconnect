@@ -9,6 +9,9 @@ namespace Shipweb\LineConnect\Chat;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\PostType\Message\Schema as SLCMessageSchema;
+use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Screen {
 	static function initialize() {
@@ -57,6 +60,8 @@ class Screen {
 		$ary_init_data['ajaxurl']    = admin_url('admin-ajax.php');
 		$ary_init_data['ajax_nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
 		$ary_init_data['downloadurl'] = admin_url('admin-post.php?action=' . lineconnect::SLUG__CONTENT_DOWNLOAD);
+
+		/*
 		$line_id                     = isset($_GET['line_id']) ? $_GET['line_id'] : array();
 		$channel_prefix              = isset($_GET['channel_prefix']) ? $_GET['channel_prefix'] : array();
 
@@ -74,7 +79,43 @@ class Screen {
 		}
 
 		$ary_init_data['channel_prefix'] = $channel_prefix;
+		*/
+		$messageFormData = [];
+		$formName                         = 'chatform-data';
+		$ary_init_data['formName']        = $formName;
+		$messageSubSchema = SLCMessage::get_message_schema();
+		$messageForm = array();
+		for ($i = 0; $i < 10; $i += 2) {
 
+			$type_schema = SLCMessageSchema::get_message_type_schema();
+			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
+			$messageForm[] = array(
+				'id' => 'type',
+				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', SLCMessageSchema::get_message_type_uischema()),
+				'formData' => SLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
+				'props' => new \stdClass(),
+			);
+			$messageForm[] = array(
+				'id' => 'message',
+				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new \stdClass(),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', SLCMessageSchema::get_message_uischema()),
+				'formData' => SLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
+				'props' => new \stdClass(),
+			);
+		}
+		$ary_init_data['messageSubSchema']          = $messageSubSchema;
+		$ary_init_data['messageForm']        = $messageForm;
+		$ary_init_data['translateString'] = ReactJsonSchemaForm::get_translate_string();
+
+		$slc_messages = [];
+		foreach (SLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {
+			$slc_messages[] = array(
+				'post_id' => $post_id,
+				'title' => $title,
+			);
+		}
+		$ary_init_data['slc_messages'] = $slc_messages;
 		$inidata = json_encode($ary_init_data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
 		// error_log( print_r( $ary_init_data['line_id'], true ) );
 		echo <<< EOM
@@ -112,9 +153,9 @@ EOM;
 
 			$channel_prefix = isset($_POST['channel']) ? $_POST['channel'] : null;
 			$to             = isset($_POST['to']) ? $_POST['to'] : null;
-			$messages       = isset($_POST['messages']) ? $_POST['messages'] : null;
+			$messages_formdata              = isset($_POST['messages']) ? array_map('stripslashes_deep', $_POST['messages']) : [];
 
-			if (! empty($channel_prefix) && ! empty($to) && ! empty($messages)) {
+			if (! empty($channel_prefix) && ! empty($to) && ! empty($messages_formdata)) {
 
 				$error_message = $success_message = '';
 
@@ -125,8 +166,10 @@ EOM;
 
 				$send_count = 0;
 				if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0) {
-					if (is_array($messages)) {
-						// require_once plugin_dir_path(__FILE__) . 'message.php';
+					if (is_array($messages_formdata)) {
+						$message = Builder::get_line_message_builder($messages_formdata, Builder::make_injection_data($channel, $to));
+						$response = Builder::sendPushMessage($channel, $to, $message);
+						/*
 						foreach ($messages as $index => $message) {
 							$type = $message['type'];
 							if ($type == 'message') {
@@ -141,7 +184,8 @@ EOM;
 								++$send_count;
 							}
 						}
-						if ($send_count > 0) {
+							*/
+						if ($response['success']) {
 							$success_message = __('Sent a LINE message.', lineconnect::PLUGIN_NAME);
 						} else {
 							$error_message = __('Faild to sent a LINE message', lineconnect::PLUGIN_NAME);

@@ -24,7 +24,7 @@ const BulkMessageForm = () => {
             type: "POST",
             url: lc_initdata['ajaxurl'],
             data: {
-                'action': 'lc_ajax_chat_send',
+                'action': 'lc_ajax_bulk_send',
                 'nonce': lc_initdata['ajax_nonce'],
                 'messages': messages,
                 'audience': audience,
@@ -44,7 +44,7 @@ const BulkMessageForm = () => {
     return (
         <div className="ChatForm">
             <header className="ChatHeader text-lg mx-2 my-4 w-auto">
-                {__('Send LINE bulk message', 'lineconnect')}			
+                {__('Send LINE bulk message', 'lineconnect')}
             </header>
             <form onSubmit={handleSubmit}>
                 <div className="ChatBody w-full bg-white">
@@ -59,16 +59,16 @@ const BulkMessageForm = () => {
                             onClick={() => sendAjaxRequest('count')}
                         >
                             {loadingStates['count'] ? (
-                            <span className="flex items-center">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                {__('Counting Recipients...', 'lineconnect')}
-                            </span>
-                        ) : (
-                            __('Count Recipients', 'lineconnect')
-                        )}
+                                <span className="flex items-center">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    {__('Counting Recipients...', 'lineconnect')}
+                                </span>
+                            ) : (
+                                __('Count Recipients', 'lineconnect')
+                            )}
                         </button>
                         <BulkMessageResult result={results['count']} />
                     </div>
@@ -77,7 +77,7 @@ const BulkMessageForm = () => {
                     </div>
                     <div className="ChatRow px-4 py-2 my-2">
                         <div className="flex items-center">
-                            <input 
+                            <input
                                 type="checkbox"
                                 id="notificationDisabled"
                                 name="notificationDisabled"
@@ -91,41 +91,41 @@ const BulkMessageForm = () => {
                     </div>
                     <div className="ChatRow px-4 py-2 mt-2">
                         <div className="space-x-2">
-                        <button
-                            type="button"
-                            className="button button-secondary button-large mr-2"
-                            disabled={loadingStates['validate']}
-                            onClick={() => sendAjaxRequest('validate')}
-                        >
-                            {loadingStates['validate'] ? (
-                            <span className="flex items-center">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                {__('Validating...', 'lineconnect')}
-                            </span>
-                            ) : (
-                                __('Validate', 'lineconnect')
-                            )}
-                        </button>
-                        <button
-                            type="submit"
-                            className="button button-primary button-large"
-                            disabled={loadingStates['send']}
-                        >
-                            {loadingStates['send'] ? (
-                            <span className="flex items-center">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                {__('Sending...', 'lineconnect')}
-                            </span>
-                            ) : (
-                                __('Send', 'lineconnect')
-                            )}
-                        </button>
+                            <button
+                                type="button"
+                                className="button button-secondary button-large mr-2"
+                                disabled={loadingStates['validate']}
+                                onClick={() => sendAjaxRequest('validate')}
+                            >
+                                {loadingStates['validate'] ? (
+                                    <span className="flex items-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        {__('Validating...', 'lineconnect')}
+                                    </span>
+                                ) : (
+                                    __('Validate', 'lineconnect')
+                                )}
+                            </button>
+                            <button
+                                type="submit"
+                                className="button button-primary button-large"
+                                disabled={loadingStates['send']}
+                            >
+                                {loadingStates['send'] ? (
+                                    <span className="flex items-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="black" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="black" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        {__('Sending...', 'lineconnect')}
+                                    </span>
+                                ) : (
+                                    __('Send', 'lineconnect')
+                                )}
+                            </button>
                         </div>
                         <div>
                             <BulkMessageResult result={results['validate']} />

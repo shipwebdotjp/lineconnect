@@ -1,3 +1,4 @@
+import { errorId } from '@rjsf/utils';
 import React, { createContext, useReducer } from 'react';
 
 // 1. 初期状態を定義
@@ -9,6 +10,9 @@ const initialState = {
   messages: [],
   isLoading: false,
   isSidebarOpen: false,
+  isMessageFormOpen: false,
+  buildMessages: [],
+  isSending: false,
 };
 
 // 2. アクションの種類を定義
@@ -22,7 +26,12 @@ export const actionTypes = {
   FETCH_MESSAGES_START: 'FETCH_MESSAGES_START',
   FETCH_MESSAGES_SUCCESS: 'FETCH_MESSAGES_SUCCESS',
   FETCH_MESSAGES_FAILURE: 'FETCH_MESSAGES_FAILURE',
-  // ... 他のアクション
+  TOGGLE_SIDEBAR: 'TOGGLE_SIDEBAR',
+  TOGGLE_MESSAGE_FORM: 'TOGGLE_MESSAGE_FORM',
+  SET_BUILD_MESSAGES: 'SET_BUILD_MESSAGES',
+  SEND_MESSAGE_START: 'SEND_MESSAGE_START',
+  SEND_MESSAGE_SUCCESS: 'SEND_MESSAGE_SUCCESS',
+  SEND_MESSAGE_FAILURE: 'SEND_MESSAGE_FAILURE',
 };
 
 // 3. Reducerを定義
@@ -59,6 +68,24 @@ const reducer = (state, action) => {
 
     case actionTypes.FETCH_MESSAGES_FAILURE:
       return { ...state, isLoading: false, error: action.payload };
+
+    case actionTypes.TOGGLE_SIDEBAR:
+      return { ...state, isSidebarOpen: !state.isSidebarOpen };
+
+    case actionTypes.TOGGLE_MESSAGE_FORM:
+      return { ...state, isMessageFormOpen: !state.isMessageFormOpen };
+
+    case actionTypes.SET_BUILD_MESSAGES:
+      return { ...state, buildMessages: action.payload };
+
+    case actionTypes.SEND_MESSAGE_START:
+      return { ...state, isSending: true, error: null };
+
+    case actionTypes.SEND_MESSAGE_SUCCESS:
+      return { ...state, isSending: false, error: action.payload };
+
+    case actionTypes.SEND_MESSAGE_FAILURE:
+      return { ...state, isSending: false, error: action.payload };
 
     default:
       return state;

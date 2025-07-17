@@ -550,7 +550,7 @@ class LineConnect {
 
 			// AJAXアクション
 			// 一括配信AJAXアクション
-			add_action('wp_ajax_lc_ajax_chat_send', array(BulkMessageScreen::class, 'ajax_chat_send'));
+			add_action('wp_ajax_lc_ajax_bulk_send', array(BulkMessageScreen::class, 'ajax_chat_send'));
 			// LCメッセージデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_slc_message', array(MessageScreen::class, 'ajax_get_slc_message'));
 			// オーディエンスデータ取得AJAXアクション
@@ -563,6 +563,8 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_get_dashboard', array(DashboardScreen::class, 'ajax_get_dashboard'));
 			// DM送信アクション
 			add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
+			// チャット送信アクション
+			add_action('wp_ajax_lc_ajax_chat_send', array(ChatScreen::class, 'ajax_chat_send'));
 			// リッチメニュー一覧取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_richmenus', array(RichMenu::class, 'ajax_get_richmenus'));
 			// リッチメニュー取得AJAXアクション
