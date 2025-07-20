@@ -3,32 +3,46 @@ import PropTypes from 'prop-types';
 import Avatar from '../atoms/Avatar';
 
 const UserListItem = ({ user, isSelected, onSelectUser }) => {
-    const { line_id, profile } = user;
-    const displayName = profile?.displayName || 'Unknown User';
-    const avatarUrl = profile?.pictureUrl;
+    const { lineId, displayName, pictureUrl = '', last_message = '', last_sent_at = '' } = user;
 
-    // Add a class if the item is selected to highlight it.
-    const itemClassName = `user-list-item ${isSelected ? 'selected' : ''}`;
+    const itemClassName = `flex items-center p-2 cursor-pointer ${isSelected ? 'bg-gray-200' : ''}`;
 
     const handleSelect = () => {
-        onSelectUser(line_id);
+        onSelectUser(lineId);
+    };
+
+    const formatTimestamp = (timestamp) => {
+        if (!timestamp) return '';
+        const date = new Date(timestamp);
+        const today = new Date();
+        if (date.toDateString() === today.toDateString()) {
+            return date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+        } else {
+            return date.toLocaleDateString('ja-JP');
+        }
     };
 
     return (
-        <div className={itemClassName} onClick={handleSelect} style={{ display: 'flex', alignItems: 'center', padding: '8px', cursor: 'pointer' }}>
-            <Avatar src={avatarUrl} alt={displayName} style={{ marginRight: '12px' }} />
-            <div className="user-name">{displayName}</div>
+        <div className={itemClassName} onClick={handleSelect}>
+            <Avatar src={pictureUrl} alt={displayName} />
+            <div className="flex-grow ml-2 overflow-hidden">
+                <div className="font-semibold truncate">{displayName}</div>
+                <div className="text-sm text-gray-600 truncate">{last_message}</div>
+            </div>
+            <div className="text-xs text-gray-500 whitespace-nowrap ml-2">
+                {formatTimestamp(last_sent_at)}
+            </div>
         </div>
     );
 };
 
 UserListItem.propTypes = {
     user: PropTypes.shape({
-        line_id: PropTypes.string.isRequired,
-        profile: PropTypes.shape({
-            displayName: PropTypes.string,
-            pictureUrl: PropTypes.string,
-        }),
+        lineId: PropTypes.string.isRequired,
+        displayName: PropTypes.string,
+        pictureUrl: PropTypes.string,
+        last_message: PropTypes.string,
+        last_sent_at: PropTypes.string,
     }).isRequired,
     isSelected: PropTypes.bool.isRequired,
     onSelectUser: PropTypes.func.isRequired,

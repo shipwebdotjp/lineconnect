@@ -18,18 +18,18 @@ class FetchUsers {
         $channel_prefix = isset($_POST['channel_prefix']) ? stripslashes($_POST['channel_prefix']) : "";
         $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
         $query = "
-                SELECT channel_prefix, line_id, follow, profile
+                SELECT channel_prefix, line_id as lineId, follow, profile->>'$.displayName' AS displayName, profile->>'$.pictureUrl' AS pictureUrl, last_message, last_sent_at
                 FROM {$table_name}
                 WHERE channel_prefix = %s
-                ORDER BY updated_at DESC
+                ORDER BY last_sent_at DESC
                 LIMIT 25
         ";
         $query = $wpdb->prepare($query, array($channel_prefix));
         $results = $wpdb->get_results($query, ARRAY_A);
-        $results = array_map(function ($result) {
-            $result['profile'] = json_decode($result['profile'], true);
-            return $result;
-        }, $results);
+        // $results = array_map(function ($result) {
+        //     $result['profile'] = json_decode($result['profile'], true);
+        //     return $result;
+        // }, $results);
         echo json_encode($results);
         wp_die();
     }

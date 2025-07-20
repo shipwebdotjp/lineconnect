@@ -1,11 +1,11 @@
 import React from 'react';
 
-const MessageBubbleFile = ({ file, fileName, fileSize }) => {
+const MessageBubbleFile = ({ file, fileName, fileSize, className }) => {
     const fileUrl = lc_initdata['downloadurl'] + '&file=' + encodeURIComponent(file);
     const filename = fileName || file.split('/').pop();
     const filesize = fileSize ? `${fileSize} bytes` : '';
     return (
-        <div className="block mb-1 max-w-full">
+        <div className={`block p-2 mb-1 max-w-full ${className}`}>
             <a className="" href={fileUrl} download>
                 {filename}
             </a>

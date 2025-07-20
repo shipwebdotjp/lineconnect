@@ -71,7 +71,7 @@ class Writer {
         } elseif ($event_type === 3) { // follow
             $message = json_encode($this->event->follow);
         } elseif ($event_type === 4) { // unfollow
-            $message = json_encode($this->event->unfollow);
+            $message = null;
         } elseif ($event_type === 7) { // memberJoined
             $message = json_encode($this->event->joined);
         } elseif ($event_type === 8) { // memberLeft
@@ -108,7 +108,34 @@ class Writer {
         $format = ['%s', '%d', '%d', '%s', '%s', '%d', '%s', '%s'];
 
         $wpdb->insert($table_name, $data, $format);
-        return $wpdb->insert_id;
+        $last_inserted_id = $wpdb->insert_id;
+
+        // 各ユーザーの最終メッセージと最終受信時刻を更新
+        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+            $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
+            $message_text = self::getEventText($event_type, $message_type, $message);
+
+            $result = $wpdb->update(
+                $table_name_line_id,
+                array(
+                    'last_message' => $message_text,
+                    'last_sent_at' => $timestamp,
+                ),
+                array(
+                    'channel_prefix' => $secret_prefix,
+                    'line_id'        => $user_id,
+                ),
+                array(
+                    '%s',
+                    '%s',
+                ),
+                array(
+                    '%s',
+                    '%s',
+                )
+            );
+        }
+        return $last_inserted_id;
     }
 
     /**
@@ -150,5 +177,57 @@ class Writer {
         $format = ['%s', '%d', '%d', '%s', '%s', '%d', '%s', '%s'];
 
         $wpdb->insert($table_name, $data, $format);
+    }
+
+    private static function getEventText($event_type, $message_type, $message): string {
+        $message = json_decode($message, true);
+        switch ($event_type) {
+            case 1: // message
+                return self::getMessageTextByType($message_type, $message);
+            case 2: // unsend
+                return __('Receive Unsend message event', lineconnect::PLUGIN_NAME);
+            case 3: // follow
+                return __('Receive Followed event', lineconnect::PLUGIN_NAME);
+            case 4: // unfollow
+                return __('Receive Unfollowed event', lineconnect::PLUGIN_NAME);
+            case 7: // memberJoined
+                return __('Receive Member Joined event', lineconnect::PLUGIN_NAME);
+            case 8: // memberLeft
+                return __('Receive Member Left event', lineconnect::PLUGIN_NAME);
+            case 9: // postback
+                return __('Receive Postback event', lineconnect::PLUGIN_NAME);
+            case 10: // videoPlayComplete
+                return __('Receive Video Play Complete event', lineconnect::PLUGIN_NAME);
+            case 11: // beacon
+                return __('Receive Beacon event', lineconnect::PLUGIN_NAME);
+            case 12: // link
+                return __('Receive Account Link event', lineconnect::PLUGIN_NAME);
+            case 13: // things
+                return __('Receive Things event', lineconnect::PLUGIN_NAME);
+            case 14: // membership
+                return __('Receive Membership event', lineconnect::PLUGIN_NAME);
+            default:
+                return __('Receive Unknown event', lineconnect::PLUGIN_NAME);
+        }
+    }
+
+    private static function getMessageTextByType($message_type, $message): string {
+        switch ($message_type) {
+            case 1: // text
+                return $message['text'] ?? '';
+            case 2: // image
+                return __('Receive Image message', lineconnect::PLUGIN_NAME);
+            case 3: // video
+                return __('Receive Video message', lineconnect::PLUGIN_NAME);
+            case 4: // audio
+                return __('Receive Audio message', lineconnect::PLUGIN_NAME);
+            case 5: // file
+                return __('Receive File message', lineconnect::PLUGIN_NAME);
+            case 6: // location
+                return __('Receive Location message', lineconnect::PLUGIN_NAME);
+            case 7: // sticker
+                return __('Receive Sticker message', lineconnect::PLUGIN_NAME);
+        }
+        return __('Receive Unknown message type', lineconnect::PLUGIN_NAME);
     }
 }

@@ -7,9 +7,9 @@ const UserList = ({ users, selectedUserId = null, onSelectUser }) => {
         <div className="user-list">
             {users.map((user) => (
                 <UserListItem
-                    key={user.line_id}
+                    key={user.lineId}
                     user={user}
-                    isSelected={user.line_id === selectedUserId}
+                    isSelected={user.lineId === selectedUserId}
                     onSelectUser={onSelectUser}
                 />
             ))}
@@ -20,7 +20,7 @@ const UserList = ({ users, selectedUserId = null, onSelectUser }) => {
 UserList.propTypes = {
     users: PropTypes.arrayOf(
         PropTypes.shape({
-            line_id: PropTypes.string.isRequired,
+            lineId: PropTypes.string.isRequired,
         })
     ).isRequired,
     selectedUserId: PropTypes.string,

@@ -30,6 +30,7 @@ use Shipweb\LineConnect\RichMenu\RichMenu;
 use \Shipweb\LineConnect\Admin\Setting\Setting as SettingScreen;
 use Shipweb\LineConnect\Admin\Setting\Constants as SettingConstants;
 use Shipweb\LineConnect\Chat\API\FetchUsers;
+use Shipweb\LineConnect\Chat\API\FetchUserData;
 use Shipweb\LineConnect\Chat\API\FetchMessages;
 use Shipweb\LineConnect\Chat\Screen as ChatScreen;
 use Shipweb\LineConnect\Admin\ContentDownload;
@@ -584,6 +585,8 @@ class LineConnect {
 
 			// ユーザー一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_users', array(FetchUsers::class, 'ajax_fetch_users'));
+			// ユーザー情報取得AJAXアクション
+			add_action('wp_ajax_slc_fetch_user_data', array(FetchUserData::class, 'ajax_fetch_user_data'));
 			// メッセージ一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_messages', array(FetchMessages::class, 'execute'));
 		}
@@ -1076,10 +1079,15 @@ class LineConnect {
 			interactions json,
 			scenarios json,
 			stats json,
+			last_message VARCHAR(255) NULL,
+			last_sent_at datetime DEFAULT NULL,
 			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id),
             KEY line_id (line_id)
+			KEY channel_prefix (channel_prefix),
+			KEY chanel_prefix_line_id (channel_prefix, line_id),
+			KEY channel_prefix_last_sent_at (channel_prefix, last_sent_at DESC),
         ) $charset_collate;";
 		dbDelta($sql_line_id);
 

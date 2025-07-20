@@ -89,7 +89,81 @@ class Account {
         }
         return $mes;
     }
+    // update line id profile
+    public static function update_line_id_profile_for_new_user($secret_prefix, $line_id) {
+        global $wpdb;
+        $channel = lineconnect::get_channel($secret_prefix);
+        if (!$channel) {
+            return false;
+        }
+        $access_token = $channel['channel-access-token'];
+        $channelSecret = $channel['channel-secret'];
+        if (version_compare(lineconnect::get_current_db_version(), '1.2', '<')) {
+            return;
+        }
+        $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
+        $line_id_row = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
+        if ($line_id_row) {
+            return; // すでに登録されている場合は何もしない
+        }
+        $user_data = array();
+        $is_follow = true;
 
+        // get line profile via LINE Messaging API
+        // Bot作成
+        $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
+        $bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channelSecret));
+
+        // ユーザーのプロフィール取得
+        $response = $bot->getProfile($line_id);
+        // check if response is 200
+        if ($response->getHTTPStatus() === 200) {
+            // レスポンスをJSONデコード
+            $profile = $response->getJSONDecodedBody();
+            if (isset($profile['displayName'])) {
+                $user_data['displayName'] = $profile['displayName'];
+            }
+            if (isset($profile['pictureUrl'])) {
+                $user_data['pictureUrl'] = $profile['pictureUrl'];
+            } else {
+                unset($user_data['pictureUrl']);
+            }
+            if (isset($profile['language'])) {
+                $user_data['language'] = $profile['language'];
+            } else {
+                unset($user_data['language']);
+            }
+            if (isset($profile['statusMessage'])) {
+                $user_data['statusMessage'] = $profile['statusMessage'];
+            } else {
+                unset($user_data['statusMessage']);
+            }
+        } else {
+            $is_follow = false;
+        }
+
+        // insert
+        $result = $wpdb->insert(
+            $table_name_line_id,
+            array(
+                'channel_prefix' => $secret_prefix,
+                'line_id'        => $line_id,
+                'follow'         => $is_follow,
+                'profile'        => ! empty($user_data) ? json_encode($user_data, JSON_UNESCAPED_UNICODE) : null,
+            ),
+            array(
+                '%s',
+                '%s',
+                '%d',
+                '%s',
+            )
+        );
+        if ($result === false) {
+            error_log('insert_line_id_follow error');
+        } else {
+            // error_log('insert_line_id_follow success');
+        }
+    }
 
     // update line id follow
     public static function update_line_id_follow($secret_prefix, $line_id, $is_follow) {
@@ -104,87 +178,27 @@ class Account {
             return;
         }
         $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
-        $line_id_row = \Shipweb\LineConnect\Utilities\LineId::line_id_row($line_id, $secret_prefix);
-        if ($line_id_row) {
-            $user_data = json_decode($line_id_row['profile'], true);
-        } else {
-            $user_data = array();
-        }
 
-        if ($is_follow) {
-            // get line profile via LINE Messaging API
-            // Bot作成
-            $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
-            $bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channelSecret));
-
-            // ユーザーのプロフィール取得
-            $response = $bot->getProfile($line_id);
-            // check if response is 200
-            if ($response->getHTTPStatus() === 200) {
-                // レスポンスをJSONデコード
-                $profile = $response->getJSONDecodedBody();
-                if (isset($profile['displayName'])) {
-                    $user_data['displayName'] = $profile['displayName'];
-                }
-                if (isset($profile['pictureUrl'])) {
-                    $user_data['pictureUrl'] = $profile['pictureUrl'];
-                } else {
-                    unset($user_data['pictureUrl']);
-                }
-                if (isset($profile['language'])) {
-                    $user_data['language'] = $profile['language'];
-                } else {
-                    unset($user_data['language']);
-                }
-                if (isset($profile['statusMessage'])) {
-                    $user_data['statusMessage'] = $profile['statusMessage'];
-                } else {
-                    unset($user_data['statusMessage']);
-                }
-            } else {
-                $is_follow = false;
-            }
-        }
-        if ($line_id_row) {
-            // update
-            $result = $wpdb->update(
-                $table_name_line_id,
-                array(
-                    'follow'  => $is_follow,
-                    'profile' => ! empty($user_data) ? json_encode($user_data, JSON_UNESCAPED_UNICODE) : null,
-                ),
-                array(
-                    'line_id'        => $line_id,
-                    'channel_prefix' => $secret_prefix,
-                ),
-                array(
-                    '%d',
-                    '%s',
-                )
-            );
-            if ($result === false) {
-                error_log('update_line_id_follow error');
-            }
-        } else {
-            // insert
-            $result = $wpdb->insert(
-                $table_name_line_id,
-                array(
-                    'channel_prefix' => $secret_prefix,
-                    'line_id'        => $line_id,
-                    'follow'         => $is_follow,
-                    'profile'        => ! empty($user_data) ? json_encode($user_data, JSON_UNESCAPED_UNICODE) : null,
-                ),
-                array(
-                    '%s',
-                    '%s',
-                    '%d',
-                    '%s',
-                )
-            );
-            if ($result === false) {
-                error_log('insert_line_id_follow error');
-            }
+        // update
+        $result = $wpdb->update(
+            $table_name_line_id,
+            array(
+                'follow'  => $is_follow,
+            ),
+            array(
+                'channel_prefix' => $secret_prefix,
+                'line_id'        => $line_id,
+            ),
+            array(
+                '%d',
+            ),
+            array(
+                '%s',
+                '%s',
+            )
+        );
+        if ($result === false) {
+            error_log('update_line_id_follow error');
         }
     }
 }

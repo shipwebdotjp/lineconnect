@@ -1,11 +1,31 @@
-const MessageBubbleText = ({ text }) => {
+import React from 'react';
+
+const TextWithLineBreaks = ({ text, last }) => {
+    return (
+        <span>
+            {text.split('\n').map((line, index) => (
+                <span key={index}>
+                    {line}
+                    {index === last ? '' : <br />}
+                </span>
+            ))}
+        </span>
+    );
+};
+
+const MessageBubbleText = ({ text, className }) => {
     const last = text.split('\n').length - 1;
-    return text.split('\n').map((line, i) => (
-        <React.Fragment key={i}>
-            {line}
-            {i !== last && <br />}
-        </React.Fragment>
-    ));
+    return (
+        <div className={`${className} p-2`}>
+            {text && text.length > 0 ? (
+                <TextWithLineBreaks text={text} last={last} />
+            ) : (
+                <div className="text-gray-500 italic">
+                    {__('(No text provided)', 'lineconnect')}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default MessageBubbleText;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 // import { createRoot } from 'react-dom/client';
 import validator from '@rjsf/validator-ajv8';
 import Form from '@rjsf/mui';
@@ -6,13 +6,10 @@ import Form from '@rjsf/mui';
 import { TranslatableString, englishStringTranslator, replaceStringParameters, getTemplate, getUiOptions, titleId } from '@rjsf/utils';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
-import { ChatContext, actionTypes } from '../../context/ChatContext';
 
 const __ = wp.i18n.__;
 
-const MessageFormBuilder = (props) => {
-    const { state, dispatch } = useContext(ChatContext);
-    // const { buildMessages } = state;
+const MessageFormBuilder = ({ buildMessages, setBuildMessages }) => {
 
     const subSchema = lc_initdata['messageSubSchema'];
     const slc_messages = lc_initdata['slc_messages'];
@@ -31,6 +28,31 @@ const MessageFormBuilder = (props) => {
             },
         },
     });
+
+    useEffect(() => {
+        // Initialize form data from buildMessages if available
+        if (buildMessages && buildMessages.length > 0) {
+            setData(buildMessages);
+            const newform = [...form];
+            // clear current formData and schema
+            form.map((value, index) => {
+                // console.log(index);
+                // console.log(newform[index]);
+                newform[index]["formData"] = null;
+                if (index % 2 == 1) {
+                    newform[index]["schema"] = {};
+                }
+            });
+
+            buildMessages.map((value, index) => {
+                newform[index]["formData"] = value;
+                if (index % 2 == 0 && value.type && lc_initdata['messageSubSchema'][value.type]) {
+                    newform[index + 1]["schema"] = subSchema[value.type];
+                }
+            });
+            setForm(newform);
+        }
+    }, []);
 
     const onFormChange = (_form, id) => {
         // console.log(_form);
@@ -56,10 +78,7 @@ const MessageFormBuilder = (props) => {
             }
         }
         // console.log(newData);
-        dispatch({
-            type: actionTypes.SET_BUILD_MESSAGES,
-            payload: newData
-        });
+        setBuildMessages(newData);
     }
 
     const changeKeyLabel = (stringToTranslate, params) => {
@@ -84,7 +103,7 @@ const MessageFormBuilder = (props) => {
 
     const onMessageIdChange = (post_id) => {
         if (post_id == '0') {
-            // clear current formData and schema
+            // New Message
             const newform = [...form];
             form.map((value, index) => {
                 // console.log(index);
@@ -95,12 +114,10 @@ const MessageFormBuilder = (props) => {
                 }
             });
             setForm(form);
-            dispatch({
-                type: actionTypes.SET_BUILD_MESSAGES,
-                payload: []
-            });
+            setBuildMessages([]);
             return;
         }
+        // Load message template
         jQuery.ajax({
             type: "POST",
             url: lc_initdata['ajaxurl'], // admin-ajax.php のURLが格納された変数
@@ -132,15 +149,10 @@ const MessageFormBuilder = (props) => {
                 }
             });
             setForm(newform);
-            dispatch({
-                type: actionTypes.SET_BUILD_MESSAGES,
-                payload: data.formData
-            });
+            setBuildMessages(data.formData);
 
         }).fail(function (XMLHttpRequest, textStatus, error) {
-            // console.log('失敗' + error);
-            // console.log(XMLHttpRequest.responseText);
-            setResult({ "result": "failed", "error": [error, XMLHttpRequest.responseText] });
+            console.error('Failed to load template message:', error, XMLHttpRequest.responseText);
         });
     }
 

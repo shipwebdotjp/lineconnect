@@ -8,35 +8,35 @@ msgstr ""
 msgid "(This is a sticker message.)"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:46
+#: src/components/atoms/MessageBubbleText.js:24
+msgid "(No text provided)"
+msgstr ""
+
+#: src/components/molecules/MessageBubble.js:47
 msgid "Location"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:55
+#: src/components/molecules/MessageBubble.js:57
 msgid "(Template message.)"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:65
+#: src/components/molecules/MessageBubble.js:67
 msgid "(Unsupported message.)"
 msgstr ""
 
-#: src/components/molecules/MessageFormBuilder.js:149
+#: src/components/molecules/MessageFormBuilder.js:161
 msgid "Message"
 msgstr ""
 
-#: src/components/molecules/MessageFormBuilder.js:151
+#: src/components/molecules/MessageFormBuilder.js:163
 msgid "Template"
 msgstr ""
 
-#: src/components/molecules/MessageFormBuilder.js:153
+#: src/components/molecules/MessageFormBuilder.js:165
 msgid "New message"
 msgstr ""
 
-#: src/components/molecules/MessageInput.js:19
-msgid "Cancel"
-msgstr ""
-
-#: src/components/molecules/MessageInput.js:19
+#: src/components/molecules/MessageInput.js:15
 msgid "Open Message Input Form"
 msgstr ""
 
@@ -92,26 +92,98 @@ msgstr ""
 msgid "Membership event"
 msgstr ""
 
-#: src/components/organisms/MessageArea.js:23
+#: src/components/organisms/MessageArea.js:77
 msgid "Loading..."
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:19
+#: src/components/organisms/MessageArea.js:82
+msgid "Load older messages"
+msgstr ""
+
+#: src/components/organisms/MessageForm.js:25
 msgid "Send LINE chat message"
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:47
+#: src/components/organisms/MessageForm.js:57
 msgid "Disable notification"
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:58
+#: src/components/organisms/MessageForm.js:68
 msgid "Close"
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:72
+#: src/components/organisms/MessageForm.js:82
 msgid "Sending..."
 msgstr ""
 
-#: src/components/organisms/MessageForm.js:75
+#: src/components/organisms/MessageForm.js:85
 msgid "Send"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:103
+msgid "Scenario Subscriptions"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:108
+msgid "ID"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:111
+msgid "Status"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:114
+msgid "Start"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:117
+msgid "Updated"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:30
+msgid "Follow Status:"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:39
+msgid "Following"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:40
+msgid "Not Following"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:47
+msgid "Created:"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:50
+msgid "Updated:"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:57
+msgid "Profile Details"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:6
+msgid "No user selected"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:78
+msgid "Tags"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:92
+msgid "No tags available"
+msgstr ""
+
+#: src/pages/ChatLayout.js:236
+msgid "Loading users..."
+msgstr ""
+
+#: src/pages/ChatLayout.js:248
+msgid "Loading messages..."
+msgstr ""
+
+#: src/pages/ChatLayout.js:254
+msgid "Please select a user to start chatting."
 msgstr ""

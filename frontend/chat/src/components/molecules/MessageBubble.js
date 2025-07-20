@@ -15,27 +15,28 @@ const MessageBubble = ({ type, message, date, isMe }) => {
     // const { type, message: message, date, isMe } = message;
 
     const renderMessageContent = () => {
+        const defaultClass = 'rounded-lg shadow-md ' + (isMe ? 'bg-green-500' : 'bg-gray-800');
         switch (type) {
             case 1:
             case 'text':
             case 'textV2':
-                return <MessageBubbleText text={message.text} />;
+                return <MessageBubbleText text={message.text} className={defaultClass} />;
             case 2:
-                return <MessageBubbleImage file={message.file_path} />;
+                return <MessageBubbleImage file={message.file_path} className={defaultClass} />;
             case 'image':
-                return <MessageBubbleImage url={message.originalContentUrl} />;
+                return <MessageBubbleImage url={message.originalContentUrl} className={defaultClass} />;
             case 'imagemap':
-                return <MessageBubbleImage url={message.baseUrl} />;
+                return <MessageBubbleImage url={message.baseUrl} className={defaultClass} />;
             case 3:
-                return <MessageBubbleVideo file={message.file_path} />;
+                return <MessageBubbleVideo file={message.file_path} className={defaultClass} />;
             case 'video':
-                return <MessageBubbleVideo url={message.originalContentUrl} />;
+                return <MessageBubbleVideo url={message.originalContentUrl} className={defaultClass} />;
             case 4:
-                return <MessageBubbleAudio file={message.file_path} />;
+                return <MessageBubbleAudio file={message.file_path} className={defaultClass} />;
             case 'audio':
-                return <MessageBubbleAudio url={message.originalContentUrl} />;
+                return <MessageBubbleAudio url={message.originalContentUrl} className={defaultClass} />;
             case 5:
-                return <MessageBubbleFile file={message.file_path} fileName={message.fileName} fileSize={message.fileSize} />;
+                return <MessageBubbleFile file={message.file_path} fileName={message.fileName} fileSize={message.fileSize} className={defaultClass} />;
             case 6:
             case 'location':
                 return (
@@ -44,14 +45,15 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                         latitude={message.latitude}
                         longitude={message.longitude}
                         title={message.title || __('Location', 'lineconnect')}
+                        className={defaultClass}
                     />
                 );
             case 7:
             case 'sticker':
-                return <MessageBubbleSticker />;
+                return <MessageBubbleSticker className={defaultClass} />;
             case 'template':
                 return (
-                    <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
+                    <div className={`${defaultClass} p-2 inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full`}>
                         {'(' + (message.altText || __('(Template message.)', 'lineconnect')) + ')'}
                     </div>
                 );
@@ -61,7 +63,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                 );
             default:
                 return (
-                    <div className="inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full">
+                    <div className={`${defaultClass} p-2 inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full`}>
                         {__('(Unsupported message.)', 'lineconnect')}
                     </div>
                 );
@@ -76,7 +78,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             {isMe ? (
                 <>
                     <span className="text-black/40 text-xs mr-2">{date}</span>
-                    <div className="flex px-3 py-2 max-w-[80%] w-auto shadow-md bg-green-500 rounded-lg">
+                    <div className="flex max-w-[80%] w-auto">
                         <div className="flex flex-col flex-1">
                             <div className="flex-1 max-w-full text-base leading-[180%] text-black/90 whitespace-pre-wrap wrap-break-word break-all">{renderMessageContent()}</div>
                         </div>
@@ -84,7 +86,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                 </>
             ) : (
                 <>
-                    <div className="flex px-3 py-2 max-w-[80%] w-auto shadow-md bg-gray-800 rounded-lg">
+                    <div className="flex max-w-[80%] w-auto">
                         <div className="flex flex-col flex-1">
                             <div className="flex-1 max-w-full text-base leading-[180%] text-white/90 whitespace-pre-wrap wrap-break-word break-all">{renderMessageContent()}</div>
                         </div>

@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// This is a placeholder implementation using a standard select.
-// Please add the shadcn/ui Select component to your project
-// by running `npx shadcn-ui@latest add select`
-// and then replace the content of this file with the shadcn version.
-
 const ChannelSelector = ({ channels = [], selectedChannelId = null, onSelect }) => {
     const handleSelectChange = (e) => {
         onSelect(e.target.value);
     };
 
     return (
-        <div className="channel-selector">
-            <select value={selectedChannelId || ''} onChange={handleSelectChange}>
+        <div className="w-full">
+            <label htmlFor="channel-select" className="sr-only">Select a channel</label>
+            <select
+                id="channel-select"
+                value={selectedChannelId || ''}
+                onChange={handleSelectChange}
+                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-3 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
+            >
                 <option value="" disabled>Select a channel</option>
                 {channels.map(channel => (
                     <option key={channel.prefix} value={channel.prefix}>

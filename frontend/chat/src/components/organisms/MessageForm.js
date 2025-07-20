@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
-import { ChatContext, actionTypes } from '../../context/ChatContext';
+import React from 'react';
 
 import MessageFormBuilder from '../molecules/MessageFormBuilder';
 import MessageFormResult from '../molecules/MessageFormResult';
 
 const __ = wp.i18n.__;
-const MessageForm = ({ onSendMessage }) => {
-    const { state, dispatch } = useContext(ChatContext);
-    const { buildMessages, isSending, notificationDisabled } = state;
+const MessageForm = ({
+    buildMessages,
+    setBuildMessages,
+    isSending,
+    notificationDisabled,
+    setNotificationDisabled,
+    results,
+    onSendMessage,
+    onClose,
+}) => {
 
     return (
         <div className="relative z-10" aria-labelledby="dialog-title" role="dialog" aria-modal="true">
@@ -21,7 +27,7 @@ const MessageForm = ({ onSendMessage }) => {
                         <button
                             type="button"
                             className="ml-auto text-gray-500 hover:text-gray-700 focus:outline-none"
-                            onClick={() => dispatch({ type: actionTypes.TOGGLE_MESSAGE_FORM })}
+                            onClick={onClose}
                         >
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -32,7 +38,11 @@ const MessageForm = ({ onSendMessage }) => {
                         <div className="ChatBody w-full">
 
                             <div className="ChatRow">
-                                <MessageFormBuilder />
+
+                                <MessageFormBuilder
+                                    buildMessages={buildMessages}
+                                    setBuildMessages={setBuildMessages}
+                                />
                             </div>
                             <div className="ChatRow px-4 py-2 my-2">
                                 <div className="flex items-center">
@@ -41,7 +51,7 @@ const MessageForm = ({ onSendMessage }) => {
                                         id="notificationDisabled"
                                         name="notificationDisabled"
                                         checked={notificationDisabled}
-                                        onChange={() => dispatch({ type: actionTypes.TOGGLE_NOTIFICATION_DISABLED })}
+                                        onChange={() => setNotificationDisabled(prev => !prev)}
                                     />
                                     <label htmlFor="notificationDisabled" className="ml-2">
                                         {__('Disable notification', 'lineconnect')}
@@ -52,7 +62,7 @@ const MessageForm = ({ onSendMessage }) => {
                                 <div className="space-x-2">
                                     <button
                                         type="button"
-                                        onClick={() => dispatch({ type: actionTypes.TOGGLE_MESSAGE_FORM })}
+                                        onClick={onClose}
                                         className="button button-secondary button-large"
                                     >
                                         {__('Close', 'lineconnect')}
@@ -77,7 +87,7 @@ const MessageForm = ({ onSendMessage }) => {
                                     </button>
                                 </div>
                                 <div>
-                                    <MessageFormResult />
+                                    <MessageFormResult results={results} />
                                 </div>
                             </div>
                         </div>

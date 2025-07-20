@@ -73,6 +73,8 @@ $json_obj = json_decode($json_string);
 
 foreach ($json_obj->{'events'} as $event) {
 	$message = array();
+	// ユーザーをDB登録
+	Account::update_line_id_profile_for_new_user($secret_prefix, $event->{'source'}->{'userId'});
 	// ログ書き込み
 	$botlog                         = new BotLogWriter($event, $secret_prefix);
 	$isEventDuplicationOrInsertedId = $botlog->writeChatLog();

@@ -25,6 +25,7 @@ class FetchMessages {
      * AJAX handler to fetch messages for a user.
      */
     public static function execute() {
+
         header('Content-Type: application/json; charset=utf-8');
         $result = \Shipweb\LineConnect\Utilities\Guard::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
         if ($result['result'] === 'failed') {
@@ -46,12 +47,21 @@ class FetchMessages {
             ]);
         }
 
-        $timestamp = isset($_POST['timestamp']) ? $_POST['timestamp'] : wp_date('Y-m-d H:i:s.u');
-        if (!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}$/', $timestamp)) {
+        $timestamp = isset($_POST['timestamp']) ? sanitize_text_field(wp_unslash(urldecode($_POST['timestamp']))) : null;
+        if ($timestamp && !preg_match('/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}$/', $timestamp)) {
             wp_send_json_error([
                 'result' => 'failed',
-                'message' => __('Invalid timestamp format.', lineconnect::PLUGIN_NAME)
+                'message' => sprintf(__('Invalid timestamp format. %s', lineconnect::PLUGIN_NAME), $timestamp)
             ]);
+        }
+        $where = 'bot_id = %s and user_id = %s';
+        $values = [
+            sanitize_text_field(wp_unslash($_POST['channel_prefix'])),
+            sanitize_text_field(wp_unslash($_POST['user_id']))
+        ];
+        if ($timestamp) {
+            $where .= ' and timestamp < %s';
+            $values[] = $timestamp;
         }
 
         $user_id = sanitize_text_field(wp_unslash($_POST['user_id']));
@@ -65,15 +75,11 @@ class FetchMessages {
                 $wpdb->prepare(
                     "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp,status,error 
                     FROM {$table_name} 
-                    WHERE bot_id = %s and user_id = %s and timestamp < %s
+                    WHERE {$where}
                     ORDER BY timestamp desc, id desc
                     LIMIT 100
                     ",
-                    [
-                        $channel_prefix,
-                        $user_id,
-                        $timestamp
-                    ]
+                    $values
                 ),
                 ARRAY_A
             );
@@ -84,15 +90,11 @@ class FetchMessages {
                 $wpdb->prepare(
                     "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp 
                     FROM {$table_name} 
-                    WHERE bot_id = %s and user_id = %s and timestamp < %s
+                    WHERE {$where}
                     ORDER BY timestamp desc, id desc
                     LIMIT 100
                     ",
-                    [
-                        $channel_prefix,
-                        $user_id,
-                        $timestamp
-                    ]
+                    $values
                 ),
                 ARRAY_A
             );
