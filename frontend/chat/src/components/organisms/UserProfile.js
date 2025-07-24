@@ -1,14 +1,16 @@
 import React from 'react';
+import { FaRegEdit } from 'react-icons/fa';
 const __ = wp.i18n.__;
 import Avatar from '../atoms/Avatar';
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, openEditForm }) => {
     if (!user) return <div>{__('No user selected', 'lineconnect')}</div>;
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
+
 
     return (
         <div className="p-4 flex flex-col space-y-4 w-full bg-white rounded-lg shadow">
@@ -53,8 +55,17 @@ const UserProfile = ({ user }) => {
 
             {/* Dynamic Profile Details */}
             <div className="space-y-2">
-                <h3 className="font-semibold">
-                    {__('Profile Details', 'lineconnect')}
+                <h3 className="font-semibold flex justify-between items-center">
+                    <span className="text-gray-500">{__('Profile Details', 'lineconnect')}</span>
+                    <button
+                        className="ml-2 text-xs text-gray-500"
+                        onClick={() => openEditForm('profile')}
+                    >
+                        <FaRegEdit className="w-4 h-4" />
+                        <span className="sr-only">
+                            {__('Edit', 'lineconnect')}
+                        </span>
+                    </button>
                 </h3>
                 {Object.entries(user.profile).map(([key, value]) => {
                     if (key === 'pictureUrl' || key === 'displayName') return null;
@@ -73,12 +84,21 @@ const UserProfile = ({ user }) => {
             </div>
 
             {/* Tags */}
-            <div>
-                <h3 className="font-semibold mb-2">
-                    {__('Tags', 'lineconnect')}
+            <div className="space-y-2">
+                <h3 className="font-semibold flex justify-between items-center">
+                    <span className="text-gray-500">{__('Tags', 'lineconnect')}</span>
+                    <button
+                        className="ml-2 text-xs text-gray-500"
+                        onClick={() => openEditForm('tags')}
+                    >
+                        <FaRegEdit className="w-4 h-4" />
+                        <span className="sr-only">
+                            {__('Edit', 'lineconnect')}
+                        </span>
+                    </button>
                 </h3>
                 <div className="flex flex-wrap justify-start gap-2">
-                    {user.tags && user.tags.length > 0 && (
+                    {user.tags && user.tags.length > 0 ? (
                         user.tags.map((tag, index) => (
                             <span
                                 key={index}
@@ -87,21 +107,30 @@ const UserProfile = ({ user }) => {
                                 {tag}
                             </span>
                         ))
-                    ) || (
-                            <span className="text-gray-500">
-                                {__('No tags available', 'lineconnect')}
-                            </span>
-                        )}
+                    ) : (
+                        <span className="text-gray-500 text-sm">
+                            {__('No tags available', 'lineconnect')}
+                        </span>
+                    )}
                 </div>
             </div>
 
 
             {/* Scenarios */}
-            {user.scenarios && Object.keys(user.scenarios).length > 0 && (
-                <div className="space-y-2">
-                    <h3 className="font-semibold">
-                        {__('Scenario Subscriptions', 'lineconnect')}
-                    </h3>
+            <div className="space-y-2">
+                <h3 className="font-semibold flex justify-between items-center">
+                    <span className="text-gray-500">{__('Scenario Subscriptions', 'lineconnect')}</span>
+                    <button
+                        className="ml-2 text-xs text-gray-500"
+                        onClick={() => openEditForm('scenarios')}
+                    >
+                        <FaRegEdit className="w-4 h-4" />
+                        <span className="sr-only">
+                            {__('Edit', 'lineconnect')}
+                        </span>
+                    </button>
+                </h3>
+                {user.scenarios && Object.keys(user.scenarios).length > 0 ? (
                     <div className="mb-3 p-1 bg-gray-50 rounded text-sm">
                         <div className="flex items-center justify-between mb-1">
                             <p className="font-medium">
@@ -138,8 +167,12 @@ const UserProfile = ({ user }) => {
                             </div>
                         ))}
                     </div>
-                </div>
-            )}
+                ) : (
+                    <span className="text-gray-500 text-sm">
+                        {__('No scenarios available', 'lineconnect')}
+                    </span>
+                )}
+            </div>
         </div>
     );
 };

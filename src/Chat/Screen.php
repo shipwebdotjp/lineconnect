@@ -107,6 +107,8 @@ class Screen {
 		$ary_init_data['messageSubSchema']   = $messageSubSchema;
 		$ary_init_data['messageForm']        = $messageForm;
 		$ary_init_data['translateString']    = ReactJsonSchemaForm::get_translate_string();
+		$ary_init_data['userDataSchema'] = Schema::get_userdata_type_items();
+		$ary_init_data['userDataUiSchema'] = Schema::get_userdata_uischema();
 
 		$slc_messages = [];
 		foreach (SLCMessage::get_lineconnect_message_name_array() as $post_id => $title) {

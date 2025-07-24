@@ -77,7 +77,7 @@ class FetchMessages {
                     FROM {$table_name} 
                     WHERE {$where}
                     ORDER BY timestamp desc, id desc
-                    LIMIT 100
+                    LIMIT 101
                     ",
                     $values
                 ),
@@ -92,7 +92,7 @@ class FetchMessages {
                     FROM {$table_name} 
                     WHERE {$where}
                     ORDER BY timestamp desc, id desc
-                    LIMIT 100
+                    LIMIT 101
                     ",
                     $values
                 ),
@@ -102,6 +102,15 @@ class FetchMessages {
         }
         if (is_null($messages)) {
             wp_send_json_error(['result' => 'failed', 'message' => __('Failed to retrieve messages.', lineconnect::PLUGIN_NAME)]);
+        }
+        // check if has more messages
+        $has_more = false;
+        if (count($messages) >= 101) {
+            $has_more = true;
+        }
+        // remove the last message if has more messages
+        if ($has_more) {
+            array_pop($messages);
         }
         $ary_response = array();
         $ary_messages = array();
@@ -123,9 +132,11 @@ class FetchMessages {
                 'date' => $msg_time,
             );
         }
+
         $ary_response = array(
             'result' => 'success',
             'messages' => $ary_messages,
+            'has_more' => $has_more,
         );
         wp_send_json_success($ary_response);
 

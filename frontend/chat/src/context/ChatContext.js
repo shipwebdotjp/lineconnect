@@ -8,7 +8,9 @@ const initialState = {
   users: [],
   selectedUser: null,
   messages: [],
-  isLoading: false,
+  isMessageLoading: false,
+  isUserLoading: false,
+  isUserDataLoading: false,
 };
 
 // 2. アクションの種類を定義
@@ -41,11 +43,11 @@ const reducer = (state, action) => {
     //     messages: [],
     //   };
     case actionTypes.FETCH_USERS_START:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isUserLoading: true, error: null };
     case actionTypes.FETCH_USERS_SUCCESS:
-      return { ...state, isLoading: false, users: action.payload };
+      return { ...state, isUserLoading: false, users: action.payload };
     case actionTypes.FETCH_USERS_FAILURE:
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isUserLoading: false, error: action.payload };
 
     // case actionTypes.SELECT_USER:
     //   return {
@@ -56,25 +58,25 @@ const reducer = (state, action) => {
     //   };
 
     case actionTypes.FETCH_MESSAGES_START:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isMessageLoading: true, error: null };
 
     case actionTypes.FETCH_MESSAGES_SUCCESS:
-      return { ...state, isLoading: false, messages: action.payload };
+      return { ...state, isMessageLoading: false, messages: action.payload };
 
     case actionTypes.FETCH_OLDER_MESSAGES_SUCCESS:
-      return { ...state, isLoading: false, messages: [...action.payload, ...state.messages] };
+      return { ...state, isMessageLoading: false, messages: [...action.payload, ...state.messages] };
 
     case actionTypes.FETCH_MESSAGES_FAILURE:
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isMessageLoading: false, error: action.payload };
 
     case actionTypes.FETCH_USER_DATA_START:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isUserDataLoading: true, error: null };
 
     case actionTypes.FETCH_USER_DATA_SUCCESS:
-      return { ...state, isLoading: false, selectedUser: action.payload };
+      return { ...state, isUserDataLoading: false, selectedUser: action.payload };
 
     case actionTypes.FETCH_USER_DATA_FAILURE:
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isUserDataLoading: false, error: action.payload };
 
     case actionTypes.RESET_CHAT_STATE:
       return {

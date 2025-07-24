@@ -31,6 +31,7 @@ use \Shipweb\LineConnect\Admin\Setting\Setting as SettingScreen;
 use Shipweb\LineConnect\Admin\Setting\Constants as SettingConstants;
 use Shipweb\LineConnect\Chat\API\FetchUsers;
 use Shipweb\LineConnect\Chat\API\FetchUserData;
+use Shipweb\LineConnect\Chat\API\EditUserData;
 use Shipweb\LineConnect\Chat\API\FetchMessages;
 use Shipweb\LineConnect\Chat\Screen as ChatScreen;
 use Shipweb\LineConnect\Admin\ContentDownload;
@@ -587,6 +588,8 @@ class LineConnect {
 			add_action('wp_ajax_slc_fetch_users', array(FetchUsers::class, 'ajax_fetch_users'));
 			// ユーザー情報取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_user_data', array(FetchUserData::class, 'ajax_fetch_user_data'));
+			// ユーザー情報更新AJAXアクション
+			add_action('wp_ajax_slc_edit_user_data', array(EditUserData::class, 'ajax_edit_user_data'));
 			// メッセージ一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_messages', array(FetchMessages::class, 'execute'));
 		}

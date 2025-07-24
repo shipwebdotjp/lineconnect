@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UserListItem from '../molecules/UserListItem';
+const __ = wp.i18n.__;
 
-const UserList = ({ users, selectedUserId = null, onSelectUser }) => {
+const UserList = ({ users, selectedUserId = null, onSelectUser, isLoading }) => {
     return (
         <div className="user-list">
-            {users.map((user) => (
-                <UserListItem
-                    key={user.lineId}
-                    user={user}
-                    isSelected={user.lineId === selectedUserId}
-                    onSelectUser={onSelectUser}
-                />
-            ))}
+            {isLoading ? (
+                <div>{__('Loading...', 'lineconnect')}</div>
+            ) : (
+                users.map((user) => (
+                    <UserListItem
+                        key={user.lineId}
+                        user={user}
+                        isSelected={user.lineId === selectedUserId}
+                        onSelectUser={onSelectUser}
+                    />
+                ))
+            )}
         </div>
     );
 };

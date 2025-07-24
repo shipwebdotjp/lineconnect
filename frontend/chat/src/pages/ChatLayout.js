@@ -7,19 +7,22 @@ import { ChatContext, actionTypes } from '../context/ChatContext';
 import MessageArea from '../components/organisms/MessageArea';
 import MessageForm from '../components/organisms/MessageForm';
 import UserProfile from '../components/organisms/UserProfile';
+import UserDataEditForm from '../components/organisms/UserDataEditForm';
 const __ = wp.i18n.__;
 
 const ChatLayout = () => {
     const { channelId, userId } = useParams();
     const navigate = useNavigate();
     const { state, dispatch } = useContext(ChatContext);
-    const { users, messages, isLoading, error, selectedUser } = state;
+    const { users, messages, isMessageLoading, isUserLoading, isUserDataLoading, error, selectedUser } = state;
     const [buildMessages, setBuildMessages] = useState([]);
     const [isSending, setIsSending] = useState(false);
     const [notificationDisabled, setNotificationDisabled] = useState(false);
     const [results, setResults] = useState(null);
     const [isMessageFormOpen, setIsMessageFormOpen] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const [isUserDataEdiitFormOpen, setIsUserDataEditFormOpen] = useState(false);
+    const [userDataEditType, setUserDataEditType] = useState(null);
 
     const channels = lc_initdata['channels'];
 
@@ -28,7 +31,6 @@ const ChatLayout = () => {
     // チャネルIDがない場合、最初のチャネルにリダイレクト
     useEffect(() => {
         if (!channelId && channels && channels.length > 0) {
-            console.log('No channelId provided, redirecting to first channel');
             navigate(`/channel/${channels[0].prefix}`);
         }
     }, [channelId, channels, navigate]);
@@ -54,14 +56,12 @@ const ChatLayout = () => {
                 }
             };
             fetchUsers();
-            console.log(`Fetching users for channel: ${channelId}`);
         }
     }, [channelId, dispatch]);
 
     // ユーザー選択時にメッセージとユーザーデータをフェッチ
     useEffect(() => {
         if (channelId && userId) {
-            console.log(`Fetching messages and user data for : ${userId} in channel: ${channelId}`);
             dispatch({ type: actionTypes.RESET_CHAT_STATE });
             setHasMore(true);
             fetchMessages();
@@ -112,9 +112,7 @@ const ChatLayout = () => {
                 },
             });
             if (response.success) {
-                if (response.data.messages.length === 0) {
-                    setHasMore(false);
-                }
+                setHasMore(response.data.has_more);
                 dispatch({ type: actionTypes.FETCH_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
@@ -199,15 +197,48 @@ const ChatLayout = () => {
                 },
             });
             if (response.success) {
-                if (response.data.messages.length === 0) {
-                    setHasMore(false);
-                }
+                setHasMore(response.data.has_more);
                 dispatch({ type: actionTypes.FETCH_OLDER_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
         }
     }, [channelId, userId, dispatch, hasMore, messages]);
+
+    //ユーザーデータ編集フォームを開く
+    const openEditForm = (type) => {
+        console.log(`Opening edit form for type: ${type}`);
+        setIsUserDataEditFormOpen(true);
+        setUserDataEditType(type);
+    };
+
+    // ユーザーデータ編集のハンドラー
+    const handleUserDataEdit = async (data) => {
+        if (!selectedUser || !userDataEditType) return;
+        try {
+            const response = await window.jQuery.ajax({
+                url: lc_initdata['ajaxurl'],
+                type: 'POST',
+                data: {
+                    action: 'slc_edit_user_data',
+                    nonce: lc_initdata['ajax_nonce'],
+                    channel_prefix: channelId,
+                    line_id: selectedUser.lineId,
+                    type: userDataEditType,
+                    data: data,
+                },
+            });
+            if (response.success) {
+                // ユーザーデータの更新に成功した場合、再度ユーザーデータをフェッチ
+                fetchUserData();
+                setIsUserDataEditFormOpen(false);
+            } else {
+                console.error('Failed to update user data:', response.data);
+            }
+        } catch (error) {
+            console.error('Error updating user data:', error);
+        }
+    };
 
     return (
         <>
@@ -223,6 +254,14 @@ const ChatLayout = () => {
                     onClose={toggleMessageForm}
                 />
             )}
+            {isUserDataEdiitFormOpen && (
+                <UserDataEditForm
+                    user={selectedUser}
+                    type={userDataEditType}
+                    onEdit={handleUserDataEdit}
+                    onClose={() => setIsUserDataEditFormOpen(false)}
+                />
+            )}
             <div ref={containerRef} className="flex overflow-hidden">
                 {/* Left Sidebar */}
                 <div className="w-1/5 bg-gray-100 p-4 h-full overflow-y-auto">
@@ -233,21 +272,28 @@ const ChatLayout = () => {
                     {channelId && (
                         <div>
                             {/* User List */}
-                            {isLoading && <p>{__('Loading users...')}</p>}
-                            {!isLoading && !error && <UserList users={users} selectedUserId={userId} onSelectUser={handleUserSelect} />}
+                            {!error && <UserList users={users} selectedUserId={userId} onSelectUser={handleUserSelect} isLoading={isUserLoading} />}
                         </div>
                     )}
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-1 flex flex-col h-full overflow-y-auto">
+                <div className="flex-1 flex flex-col h-full ">
                     {userId ? (
                         <>
                             {/* Message Area */}
-                            <div className="flex-1 p-4">
-                                {isLoading && <p>{__('Loading messages...')}</p>}
-                                {!isLoading && !error && <MessageArea messages={messages} isLoading={isLoading} onSendMessage={handleMessageSend} onMessageFormToggle={toggleMessageForm} hasMore={hasMore} fetchOlder={fetchOlder} />}
-                            </div>
+                            {!error ? (
+                                <MessageArea
+                                    messages={messages}
+                                    isLoading={isMessageLoading}
+                                    onSendMessage={handleMessageSend}
+                                    onMessageFormToggle={toggleMessageForm}
+                                    hasMore={hasMore}
+                                    fetchOlder={fetchOlder}
+                                />
+                            ) : (
+                                <p>{__('Failed to load messages.', 'lineconnect')}</p>
+                            )}
                         </>
                     ) : (
                         <div className="flex-1 flex items-center justify-center">
@@ -260,7 +306,7 @@ const ChatLayout = () => {
                 {userId && (
                     <div className="w-1/5 bg-gray-100 p-4 h-full overflow-y-auto">
                         {/* User Profile */}
-                        <UserProfile user={selectedUser} />
+                        <UserProfile user={selectedUser} isLoading={isUserDataLoading} openEditForm={openEditForm} />
                     </div>
                 )}
             </div>
