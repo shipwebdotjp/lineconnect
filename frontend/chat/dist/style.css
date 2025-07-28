@@ -708,9 +708,6 @@
   .mb-2\.5 {
     margin-bottom: calc(var(--spacing) * 2.5);
   }
-  .mb-3 {
-    margin-bottom: calc(var(--spacing) * 3);
-  }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
   }
@@ -858,9 +855,6 @@
   .w-24 {
     width: calc(var(--spacing) * 24);
   }
-  .w-\[100px\] {
-    width: 100px;
-  }
   .w-auto {
     width: auto;
   }
@@ -959,9 +953,6 @@
   }
   .scroll-my-1 {
     scroll-margin-block: calc(var(--spacing) * 1);
-  }
-  .appearance-none {
-    appearance: none;
   }
   .flex-col {
     flex-direction: column;
@@ -1210,9 +1201,6 @@
   .border-red-500 {
     border-color: var(--color-red-500);
   }
-  .border-slate-200 {
-    border-color: var(--color-slate-200);
-  }
   .bg-\[\#0F1117\] {
     background-color: #0F1117;
   }
@@ -1242,9 +1230,6 @@
   }
   .bg-border {
     background-color: var(--border);
-  }
-  .bg-gray-50 {
-    background-color: var(--color-gray-50);
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
@@ -1342,9 +1327,6 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
-  .py-3 {
-    padding-block: calc(var(--spacing) * 3);
-  }
   .pt-2\.5 {
     padding-top: calc(var(--spacing) * 2.5);
   }
@@ -1362,9 +1344,6 @@
   }
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
-  }
-  .pl-3 {
-    padding-left: calc(var(--spacing) * 3);
   }
   .text-center {
     text-align: center;
@@ -1498,9 +1477,6 @@
   .text-popover-foreground {
     color: var(--popover-foreground);
   }
-  .text-slate-700 {
-    color: var(--color-slate-700);
-  }
   .text-white {
     color: var(--color-white);
   }
@@ -1600,10 +1576,6 @@
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
-  .shadow-sm {
-    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
   .shadow-xl {
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -1700,10 +1672,6 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .duration-300 {
-    --tw-duration: 300ms;
-    transition-duration: 300ms;
-  }
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
@@ -1720,9 +1688,6 @@
     :where(& > :not(:last-child)) {
       --tw-divide-x-reverse: 1;
     }
-  }
-  .duration-300 {
-    animation-duration: 300ms;
   }
   .ease-in-out {
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1753,18 +1718,6 @@
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         color: var(--color-gray-400);
-      }
-    }
-  }
-  .placeholder\:text-slate-400 {
-    &::placeholder {
-      color: var(--color-slate-400);
-    }
-  }
-  .hover\:border-slate-400 {
-    &:hover {
-      @media (hover: hover) {
-        border-color: var(--color-slate-400);
       }
     }
   }
@@ -1799,11 +1752,6 @@
       }
     }
   }
-  .focus\:border-slate-400 {
-    &:focus {
-      border-color: var(--color-slate-400);
-    }
-  }
   .focus\:bg-accent {
     &:focus {
       background-color: var(--accent);
@@ -1812,12 +1760,6 @@
   .focus\:text-accent-foreground {
     &:focus {
       color: var(--accent-foreground);
-    }
-  }
-  .focus\:shadow-md {
-    &:focus {
-      --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
   .focus\:outline-none {
@@ -2539,10 +2481,6 @@ input[type="text"]:focus.MuiInputBase-input, input[type="number"]:focus.MuiInput
   syntax: "*";
   inherits: false;
 }
-@property --tw-duration {
-  syntax: "*";
-  inherits: false;
-}
 @property --tw-ease {
   syntax: "*";
   inherits: false;
@@ -2639,7 +2577,6 @@ input[type="text"]:focus.MuiInputBase-input, input[type="number"]:focus.MuiInput
       --tw-backdrop-opacity: initial;
       --tw-backdrop-saturate: initial;
       --tw-backdrop-sepia: initial;
-      --tw-duration: initial;
       --tw-ease: initial;
     }
   }

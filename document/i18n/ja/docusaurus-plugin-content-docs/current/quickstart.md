@@ -19,12 +19,15 @@ LINE公式アカウントが必要になりますので、お持ちでない場�
 チャネルシークレットと、チャネルアクセストークン（長期）はプラグインの設定画面で必要となります。
 :::
 ### Webhook URL
-1. 該当の公式アカウントのLINE Messaging API設定のWebhook URLの欄で「編集」を押し、次のURLを入力します。
+1. WordPressのLINE Connectの設定画面、チャネル設定タブの下部Webhook設定にある「Webhook URL」をコピーしておきます。
+2. 該当の公式アカウントのLINE Messaging API設定のWebhook URLの欄で「編集」を押し、コピーしておいたURLを貼り付けます。
+3. この時点ではLINE Connectでチャネルを設定していないため「検証」は失敗します。
+URLの例: 
 ```
-https://your-domain/wp-content/plugins/lineconnect/bot.php
+https://{your-domain}/wp-content/plugins/lineconnect/bot.php
 ```
-※your-domainの部分をご自分のドメイン名に変更してください。  
-もしWordpressのURLがドメイン直下でない場合(サブディレクトリにインストールしている場合など)はWordpressディレクトリのパスを追加してください。  
+※your-domainの部分はご自分のドメイン名が入ります。  
+もしWordpressのURLがドメイン直下でない場合(サブディレクトリにインストールしている場合など)はWordpressディレクトリのパスが追加されます。  
 2. Webhookの利用をオンにします。 
 :::note
 	全ての友達へ投稿通知を行いたいだけの場合は、WebhookをONにする必要はありません。ただしその場合、ユーザー連携機能は使用できなくなります。

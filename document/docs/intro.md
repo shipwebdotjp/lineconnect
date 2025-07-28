@@ -19,8 +19,8 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 * Arbitrary LINE text messages can be sent to individual users
 * Save LINE messages and use them for messages sent by actions
 * Insert user's name etc. into the message and send it
-### Direct Messages
-* Text messages can be sent to LINE users who have an event log, even if they are not connected to LINE.
+### Chat
+* Display messages history and sent to LINE users who have an event log, even if they are not connected to LINE.
 ### Audience
 * Create audiences that narrow down users based on user attributes and call them when sending messages or executing actions
 ### Scenario

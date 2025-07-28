@@ -1,4 +1,6 @@
 import React from 'react';
+const __ = wp.i18n.__;
+
 
 const TextWithLineBreaks = ({ text, last }) => {
     return (
@@ -14,7 +16,7 @@ const TextWithLineBreaks = ({ text, last }) => {
 };
 
 const MessageBubbleText = ({ text, className }) => {
-    const last = text.split('\n').length - 1;
+    const last = text && text.length > 0 ? text.split('\n').length - 1 : 0;
     return (
         <div className={`${className} p-2`}>
             {text && text.length > 0 ? (

@@ -17,11 +17,19 @@ If you do not have a LINE official account, please create one. It is free to cre
 The Channel Secret and Channel Access Token (long-lived) will be required in the plugin settings screen.
 :::
 ### Webhook URL
-1. Set the Webhook URL in Webhook settings as follows
+1. Copy the Webhook URL from the "Webhook Settings" section at the bottom of the Channel Settings tab in LINE Connect's WordPress admin panel
+2. In the LINE Official Account's Messaging API settings:
+   - Click "Edit" next to the Webhook URL field
+   - Paste the copied URL
+3. Verification will fail at this stage as the channel is not yet configured in LINE Connect
+
+Example URL: 
 ```
-https://your-domain/wp-content/plugins/lineconnect/bot.php
+https://{your-domain}/wp-content/plugins/lineconnect/bot.php
 ```
-※Change the your-domain part to your domain name. If your Wordpress URL is not directly under your domain, add the path to your Wordpress directory.
+※ Replace `{your-domain}` with your actual domain name.  
+※ If WordPress is installed in a subdirectory (not at root), append the WordPress directory path after the domain.
+
 2. Turn on "Use webhook" toggle.
 :::note
 If you only want to send post notifications to all your friends, you do not need to turn on "Use webhook". In that case, the user linking feature will not be available.

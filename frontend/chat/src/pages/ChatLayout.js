@@ -22,7 +22,8 @@ const ChatLayout = () => {
     const [isMessageFormOpen, setIsMessageFormOpen] = useState(false);
     const [hasMoreMessage, setHasMoreMessage] = useState(true);
     const [hasMoreUser, setHasMoreUser] = useState(true);
-    const [nextCursor, setNextCursor] = useState(null);
+    const [nextUserCursor, setNextUserCursor] = useState(null);
+    const [nextMessageCursor, setNextMessageCursor] = useState(null);
     const [isUserDataEdiitFormOpen, setIsUserDataEditFormOpen] = useState(false);
     const [userDataEditType, setUserDataEditType] = useState(null);
     const [userDataEditId, setUserDataEditId] = useState(null);
@@ -54,14 +55,14 @@ const ChatLayout = () => {
                         },
                     });
                     setHasMoreUser(response.data.has_more);
-                    setNextCursor(response.data.next_cursor);
+                    setNextUserCursor(response.data.next_cursor);
                     dispatch({ type: actionTypes.FETCH_USERS_SUCCESS, payload: response.data.users });
                 } catch (err) {
                     dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
                 }
             };
             setHasMoreUser(true);
-            setNextCursor(null);
+            setNextUserCursor(null);
             fetchUsers();
         }
     }, [channelId, dispatch]);
@@ -115,11 +116,12 @@ const ChatLayout = () => {
                     nonce: lc_initdata['ajax_nonce'],
                     channel_prefix: channelId,
                     user_id: userId,
-                    // timestamp: timestamp,
+                    cursor: nextMessageCursor,
                 },
             });
             if (response.success) {
                 setHasMoreMessage(response.data.has_more);
+                setNextMessageCursor(response.data.next_cursor);
                 dispatch({ type: actionTypes.FETCH_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
@@ -188,10 +190,9 @@ const ChatLayout = () => {
     };
 
     const fetchOlder = useCallback(async () => {
-        if (!channelId || !userId || !hasMoreMessage) return;
+        if (!channelId || !userId || !hasMoreMessage || !nextMessageCursor) return;
         dispatch({ type: actionTypes.FETCH_MESSAGES_START });
         try {
-            const timestamp = messages.length > 0 ? messages[0].date : null;
             const response = await window.jQuery.ajax({
                 url: lc_initdata['ajaxurl'],
                 type: 'POST',
@@ -200,21 +201,22 @@ const ChatLayout = () => {
                     nonce: lc_initdata['ajax_nonce'],
                     channel_prefix: channelId,
                     user_id: userId,
-                    timestamp: timestamp,
+                    cursor: nextMessageCursor,
                 },
             });
             if (response.success) {
                 setHasMoreMessage(response.data.has_more);
+                setNextMessageCursor(response.data.next_cursor);
                 dispatch({ type: actionTypes.FETCH_OLDER_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
         }
-    }, [channelId, userId, dispatch, hasMoreMessage, messages]);
+    }, [channelId, userId, dispatch, hasMoreMessage, nextMessageCursor]);
 
     // 更にユーザーリストを読み込む
     const fetchMoreUsers = useCallback(async () => {
-        if (!channelId || !hasMoreUser || !nextCursor) return;
+        if (!channelId || !hasMoreUser || !nextUserCursor) return;
         dispatch({ type: actionTypes.FETCH_USERS_START });
         try {
             const response = await window.jQuery.ajax({
@@ -224,18 +226,18 @@ const ChatLayout = () => {
                     action: 'slc_fetch_users',
                     nonce: lc_initdata['ajax_nonce'],
                     channel_prefix: channelId,
-                    cursor: nextCursor,
+                    cursor: nextUserCursor,
                 },
             });
             if (response.success) {
                 setHasMoreUser(response.data.has_more);
-                setNextCursor(response.data.next_cursor);
+                setNextUserCursor(response.data.next_cursor);
                 dispatch({ type: actionTypes.FETCH_OLDER_USERS_SUCCESS, payload: response.data.users });
             }
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
         }
-    }, [channelId, dispatch, hasMoreUser, nextCursor]);
+    }, [channelId, dispatch, hasMoreUser, nextUserCursor]);
 
     //ユーザーデータ編集フォームを開く
     const openEditForm = (type, id = null) => {

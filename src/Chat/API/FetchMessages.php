@@ -47,21 +47,18 @@ class FetchMessages {
             ]);
         }
 
-        $timestamp = isset($_POST['timestamp']) ? sanitize_text_field(wp_unslash(urldecode($_POST['timestamp']))) : null;
-        if ($timestamp && !preg_match('/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}$/', $timestamp)) {
-            wp_send_json_error([
-                'result' => 'failed',
-                'message' => sprintf(__('Invalid timestamp format. %s', lineconnect::PLUGIN_NAME), $timestamp)
-            ]);
-        }
+        $cursor = isset($_POST['cursor']) ? json_decode(base64_decode(sanitize_text_field(wp_unslash($_POST['cursor']))), true) : null;
+
         $where = 'bot_id = %s and user_id = %s';
         $values = [
             sanitize_text_field(wp_unslash($_POST['channel_prefix'])),
             sanitize_text_field(wp_unslash($_POST['user_id']))
         ];
-        if ($timestamp) {
-            $where .= ' and timestamp < %s';
-            $values[] = $timestamp;
+        if ($cursor) {
+            $where .= ' and (timestamp < %s or (timestamp = %s and id < %d))';
+            $values[] = $cursor['last_timestamp'];
+            $values[] = $cursor['last_timestamp'];
+            $values[] = $cursor['last_id'];
         }
 
         $user_id = sanitize_text_field(wp_unslash($_POST['user_id']));
@@ -73,7 +70,7 @@ class FetchMessages {
             // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $messages = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT id,event_type,source_type,user_id,message_type,message,TIMESTAMPDIFF(MICROSECOND, '1970-01-01 00:00:00.000000', timestamp) / 1e6 as timestamp,status,error 
+                    "SELECT id,event_type,source_type,user_id,message_type,message,timestamp as raw_timestamp,TIMESTAMPDIFF(MICROSECOND, '1970-01-01 00:00:00.000000', timestamp) / 1e6 as timestamp,status,error 
                     FROM {$table_name} 
                     WHERE {$where}
                     ORDER BY timestamp desc, id desc
@@ -88,7 +85,7 @@ class FetchMessages {
             // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $messages = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp 
+                    "SELECT id,event_type,source_type,user_id,message_type,message,timestamp as raw_timestamp,UNIX_TIMESTAMP(timestamp) as timestamp 
                     FROM {$table_name} 
                     WHERE {$where}
                     ORDER BY timestamp desc, id desc
@@ -112,6 +109,18 @@ class FetchMessages {
         if ($has_more) {
             array_pop($messages);
         }
+
+        $next_cursor = null;
+        if ($has_more) {
+            $last_message = end($messages);
+            $next_cursor_data = [
+                'last_timestamp' => $last_message['raw_timestamp'],
+                'last_id'        => $last_message['id'],
+            ];
+            $next_cursor = base64_encode(json_encode($next_cursor_data));
+        }
+
+
         $ary_response = array();
         $ary_messages = array();
         foreach (array_reverse($messages) as $convasation) {
@@ -137,6 +146,7 @@ class FetchMessages {
             'result' => 'success',
             'messages' => $ary_messages,
             'has_more' => $has_more,
+            'next_cursor' => $next_cursor,
         );
         wp_send_json_success($ary_response);
 

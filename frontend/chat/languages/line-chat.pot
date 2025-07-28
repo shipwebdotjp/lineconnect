@@ -8,7 +8,7 @@ msgstr ""
 msgid "(This is a sticker message.)"
 msgstr ""
 
-#: src/components/atoms/MessageBubbleText.js:24
+#: src/components/atoms/MessageBubbleText.js:26
 msgid "(No text provided)"
 msgstr ""
 
@@ -217,10 +217,10 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: src/pages/ChatLayout.js:330
+#: src/pages/ChatLayout.js:332
 msgid "Failed to load messages."
 msgstr ""
 
-#: src/pages/ChatLayout.js:335
+#: src/pages/ChatLayout.js:337
 msgid "Please select a user to start chatting."
 msgstr ""
