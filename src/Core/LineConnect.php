@@ -43,7 +43,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.3.1';
+	const VERSION = '4.3.2';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -1091,7 +1091,7 @@ class LineConnect {
             KEY line_id (line_id),
 			KEY channel_prefix (channel_prefix),
 			KEY chanel_prefix_line_id (channel_prefix, line_id),
-			KEY channel_prefix_last_sent_at_id (channel_prefix, last_sent_at DESC, id DESC),
+			KEY channel_prefix_last_sent_at_id (channel_prefix, last_sent_at DESC, id DESC)
         ) $charset_collate;";
 		dbDelta($sql_line_id);
 
