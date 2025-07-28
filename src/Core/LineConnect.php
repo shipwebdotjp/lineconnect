@@ -43,7 +43,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.3.0';
+	const VERSION = '4.3.1';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -986,7 +986,7 @@ class LineConnect {
 	 * 現在のデータベースバージョンを返す
 	 */
 	static function get_current_db_version() {
-		return self::get_variable(self::DB_VERSION_KEY, self::$variables_option[self::DB_VERSION_KEY]['initial']);
+		return self::get_variable(self::DB_VERSION_KEY, '1.0');
 	}
 	/**
 	 * WordPress REST APIリクエストかどうかを判断します。
@@ -1088,7 +1088,7 @@ class LineConnect {
 			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id),
-            KEY line_id (line_id)
+            KEY line_id (line_id),
 			KEY channel_prefix (channel_prefix),
 			KEY chanel_prefix_line_id (channel_prefix, line_id),
 			KEY channel_prefix_last_sent_at_id (channel_prefix, last_sent_at DESC, id DESC),

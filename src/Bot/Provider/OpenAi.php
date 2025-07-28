@@ -213,7 +213,7 @@ class OpenAi {
 						)
 					)
 				);
-				error_log("convasation_count: " . $convasation_count);
+				// error_log("convasation_count: " . $convasation_count);
 				// メタ情報からLINEユーザーIDでユーザー検索
 				$user = lineconnect::get_wpuser_from_line_id($secret_prefix, $user_id);
 				if ($user) { // ユーザーが見つかればすでに連携されている
