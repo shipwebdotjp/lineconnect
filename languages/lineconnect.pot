@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.2.2\n"
+"Project-Id-Version: LINE Connect 4.3.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-07-15 16:24+0900\n"
+"POT-Creation-Date: 2025-07-26 23:05+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,9 @@ msgid "LINE Connect Direct Message"
 msgstr ""
 
 msgid "Direct Message"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Sent a LINE message."
@@ -434,13 +437,80 @@ msgstr ""
 msgid "LINE Connect Action Flows"
 msgstr ""
 
+msgid "LINE Connect Chat"
+msgstr ""
+
+msgid "Chat"
+msgstr ""
+
+msgid "Channel prefix is required."
+msgstr ""
+
+msgid "User ID is required."
+msgstr ""
+
+#, php-format
+msgid "Invalid timestamp format. %s"
+msgstr ""
+
+msgid "Failed to retrieve messages."
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Display Name"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Picture URL"
+msgstr ""
+
+msgid "Status Message"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Scenario ID"
+msgstr ""
+
+msgid "Log Date"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Result"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Started At"
+msgstr ""
+
+msgid "Updated At"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next Date"
+msgstr ""
+
+msgid "Add profile"
+msgstr ""
+
+msgid "Add tags"
+msgstr ""
+
 msgid "LINE Connect Bulk message"
 msgstr ""
 
 msgid "Bulk message"
-msgstr ""
-
-msgid "Message"
 msgstr ""
 
 msgid "You are not logged in."
@@ -971,6 +1041,49 @@ msgstr ""
 msgid "Updated the following rich menus: %s"
 msgstr ""
 
+msgid "You do not have permission to access this page."
+msgstr ""
+
+msgid "No file specified!"
+msgstr ""
+
+msgid "Nice try!"
+msgstr ""
+
+msgid "Invalid file path!"
+msgstr ""
+
+msgid "File not found!"
+msgstr ""
+
+msgid "Sent sticker message."
+msgstr ""
+
+msgid "Sent image message."
+msgstr ""
+
+msgid "Sent video message."
+msgstr ""
+
+msgid "Sent audio message."
+msgstr ""
+
+#, php-format
+msgid "Sent location message. %s (%s)"
+msgstr ""
+
+#, php-format
+msgid "Sent template message. %s"
+msgstr ""
+
+#, php-format
+msgid "Sent imagemap message. %s"
+msgstr ""
+
+#, php-format
+msgid "Sent flex message. %s"
+msgstr ""
+
 msgid "Broadcast message sent successfully."
 msgstr ""
 
@@ -1249,9 +1362,6 @@ msgid "Set LC Scenario Step"
 msgstr ""
 
 msgid "Set LINE Connect Scenario Step."
-msgstr ""
-
-msgid "Scenario ID"
 msgstr ""
 
 msgid "ID of the step to set."
@@ -1536,9 +1646,6 @@ msgid "Meta value. If empty, meta will be deleted."
 msgstr ""
 
 msgid "Steps"
-msgstr ""
-
-msgid "Step"
 msgstr ""
 
 msgid "ID"
@@ -1919,9 +2026,6 @@ msgstr ""
 msgid "User meta"
 msgstr ""
 
-msgid "Profile"
-msgstr ""
-
 msgid "Not"
 msgstr ""
 
@@ -2074,9 +2178,6 @@ msgid "Add value"
 msgstr ""
 
 msgid "Add user meta"
-msgstr ""
-
-msgid "Add profile"
 msgstr ""
 
 msgid "Add condition"
@@ -2361,6 +2462,63 @@ msgstr ""
 msgid "Add tap areas"
 msgstr ""
 
+msgid "Receive Unsend message event"
+msgstr ""
+
+msgid "Receive Followed event"
+msgstr ""
+
+msgid "Receive Unfollowed event"
+msgstr ""
+
+msgid "Receive Member Joined event"
+msgstr ""
+
+msgid "Receive Member Left event"
+msgstr ""
+
+msgid "Receive Postback event"
+msgstr ""
+
+msgid "Receive Video Play Complete event"
+msgstr ""
+
+msgid "Receive Beacon event"
+msgstr ""
+
+msgid "Receive Account Link event"
+msgstr ""
+
+msgid "Receive Things event"
+msgstr ""
+
+msgid "Receive Membership event"
+msgstr ""
+
+msgid "Receive Unknown event"
+msgstr ""
+
+msgid "Receive Image message"
+msgstr ""
+
+msgid "Receive Video message"
+msgstr ""
+
+msgid "Receive Audio message"
+msgstr ""
+
+msgid "Receive File message"
+msgstr ""
+
+msgid "Receive Location message"
+msgstr ""
+
+msgid "Receive Sticker message"
+msgstr ""
+
+msgid "Receive Unknown message type"
+msgstr ""
+
 msgid "Event ID"
 msgstr ""
 
@@ -2410,9 +2568,6 @@ msgid "LINE ID"
 msgstr ""
 
 msgid "Follow"
-msgstr ""
-
-msgid "Tags"
 msgstr ""
 
 msgid "Interactions"
@@ -2482,9 +2637,6 @@ msgid "Parameter condition group"
 msgstr ""
 
 msgid "New richmenu alias ID"
-msgstr ""
-
-msgid "Status"
 msgstr ""
 
 msgid "Date"
@@ -2832,6 +2984,9 @@ msgstr ""
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
 "1:1 ,Max width: 1024px, Max file size: 10 MB"
+msgstr ""
+
+msgid "Select message type"
 msgstr ""
 
 msgid "Image map"
@@ -3367,10 +3522,4 @@ msgid "Download"
 msgstr ""
 
 msgid "CSV Download"
-msgstr ""
-
-msgid "LINE Connect Audience Download"
-msgstr ""
-
-msgid "Download Audiences"
 msgstr ""

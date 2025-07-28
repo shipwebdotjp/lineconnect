@@ -88,7 +88,7 @@ class Dashboard {
             } else {
                 return false;
             }
-            error_log("from remote:" . $latest_version);
+            // error_log("from remote:" . $latest_version);
         }
 
         return $latest_version;

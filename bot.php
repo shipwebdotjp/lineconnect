@@ -299,7 +299,7 @@ foreach ($json_obj->{'events'} as $event) {
 		MessageLogger::writeOutboundMessageLog(
 			$multimessage,
 			'reply',
-			'bot',
+			isset($responseByAi) && $responseByAi === true ? 'bot' : 'system',
 			isset($event->{'source'}->{'userId'}) ? $event->{'source'}->{'userId'} : '',
 			$secret_prefix,
 			$resp->isSucceeded() ? 'sent' : 'failed',

@@ -112,7 +112,7 @@ class ExecuteScenarioStepTest extends WP_UnitTestCase {
         $status = Scenario::get_scenario_status($scenario_id, $line_user_id, $secret_prefix);
         $this->assertEquals('active', $status['status'], "Scenario status should be active.");
         $this->assertEquals('second', $status['next'], "Next step should be 'second'.");
-        $this->assertEquals($status['next_date'],  wp_date('Y-m-d H:i:s', strtotime("+5 minutes")), "Next date should be 5 minutes from now.");
+        $this->assertEquals($status['next_date'],  gmdate(DATE_ATOM, strtotime("+5 minutes")), "Next date should be 5 minutes from now.");
 
         // Test 1: Execute second step
         // $result = Scenario::execute_step($scenario_id, 'second', $line_user_id, $secret_prefix, wp_date('Y-m-d H:i:s'));
@@ -127,7 +127,7 @@ class ExecuteScenarioStepTest extends WP_UnitTestCase {
         $status = Scenario::get_scenario_status($scenario_id, $line_user_id, $secret_prefix);
         $this->assertEquals('active', $status['status'], "Scenario status should be active.");
         $this->assertEquals('third', $status['next'], "Next step should be 'third'.");
-        $this->assertEquals($status['next_date'],  wp_date('Y-m-d H:i:s', strtotime("+10 minutes")), "Next date should be 10 minutes from now.");
+        $this->assertEquals($status['next_date'],  gmdate(DATE_ATOM, strtotime("+10 minutes")), "Next date should be 10 minutes from now.");
 
         // $this->assertArrayNotHasKey('next', $status, "Next step should not be set.");
     }

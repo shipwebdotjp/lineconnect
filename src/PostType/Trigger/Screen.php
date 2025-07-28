@@ -48,7 +48,6 @@ class Screen {
 			// メニューの位置
 			NULL
 		);
-		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}
 
 	static function register_meta_box() {

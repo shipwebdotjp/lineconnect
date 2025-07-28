@@ -25,14 +25,7 @@ class UserColumnCustomizer {
                     $secret_prefix  = substr($channel['channel-secret'], 0, 4);
                     $user_meta_line = get_user_meta($user_id, LineConnect::META_KEY__LINE, true);
                     if ($user_meta_line && isset($user_meta_line[$secret_prefix]['id'])) {
-                        $line_sendmessage_url = add_query_arg(
-                            array(
-                                'line_id'        => $user_meta_line[$secret_prefix]['id'],
-                                'channel_prefix' => $secret_prefix,
-                                'action'         => 'message',
-                            ),
-                            admin_url('admin.php?page=' . LineConnect::SLUG__DM_FORM)
-                        );
+                        $line_sendmessage_url = admin_url('admin.php?page=' . LineConnect::SLUG__CHAT_SCREEN) . '#/channel/' . $secret_prefix . '/user/' . $user_meta_line[$secret_prefix]['id'];
                         $label = isset($user_meta_line[$secret_prefix]['displayName'])
                             ? $user_meta_line[$secret_prefix]['displayName']
                             : $linked_label;

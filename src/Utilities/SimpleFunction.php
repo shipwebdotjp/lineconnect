@@ -10,4 +10,13 @@ class SimpleFunction {
             return false;
         }
     }
+
+    /**
+     * 数字のみで構成された配列かどうかを判定する
+     * @param array $array
+     * @return bool
+     */
+    public static function array_is_list_compat(array $array): bool {
+        return $array === [] || array_keys($array) === range(0, count($array) - 1);
+    }
 }

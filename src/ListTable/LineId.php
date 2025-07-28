@@ -272,14 +272,7 @@ class LineId extends \WP_List_Table {
 
     protected function handle_row_actions($item, $column_name, $primary) {
         if ($column_name === 'line_id') {
-            $dm_url  = add_query_arg(
-                array(
-                    'line_id'        => $item['line_id'],
-                    'channel_prefix' => $item['channel_prefix'],
-                    'action'         => 'message',
-                ),
-                admin_url('admin.php?page=' . lineconnect::SLUG__DM_FORM)
-            );
+            $dm_url  = admin_url('admin.php?page=' . LineConnect::SLUG__CHAT_SCREEN) . '#/channel/' . $item['channel_prefix'] . '/user/' . $item['line_id'];
             // copy line_id to clipboard
             $copy_line_id = sprintf(
                 '<a class="copy-line-id" onclick="copyToClipboard(\'%s\', this)" style="cursor: pointer;">%s</a>',

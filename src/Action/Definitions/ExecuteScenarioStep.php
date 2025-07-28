@@ -72,7 +72,7 @@ class ExecuteScenarioStep extends AbstractActionDefinition {
 			return ['result' => 'error', 'message' => 'Invalid user ID or secret prefix'];
 		}
 
-		return Scenario::execute_step($scenario_id, $step_id, $line_user_id, $secret_prefix, wp_date('Y-m-d H:i:s'));
+		return Scenario::execute_step($scenario_id, $step_id, $line_user_id, $secret_prefix, gmdate(DATE_ATOM));
 	}
 
 }

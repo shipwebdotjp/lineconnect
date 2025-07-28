@@ -265,7 +265,7 @@ class ListTable extends \WP_List_Table {
 	}
 
 	public function column_timestamp($item) {
-		return date('Y/m/d H:i:s', (int) $item['timestamp']);
+		return wp_date('Y/m/d H:i:s', (int) $item['timestamp']);
 	}
 
 	public function column_event_type($item) {
@@ -277,9 +277,9 @@ class ListTable extends \WP_List_Table {
 	}
 
 	public function column_message_type($item) {
-		if ((int) $item['event_type'] === 1) { // message
-			return isset($item['message_type']) ? \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE[$item['message_type']] : '';
-		}
+		// if ((int) $item['event_type'] === 1) { // message
+		return isset($item['message_type']) ? (\Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE[$item['message_type']] ?? '') : '';
+		// }
 		return '';
 	}
 
@@ -303,21 +303,25 @@ class ListTable extends \WP_List_Table {
 
 
 	public function column_message($item) {
-		if ((int) $item['event_type'] === 1) {
-			$message = json_decode($item['message'], true);
-			if (json_last_error() == JSON_ERROR_NONE) {
-				if ($item['message_type'] == 1 && isset($message['text'])) {
+		$message = json_decode($item['message'], true);
+		if (json_last_error() == JSON_ERROR_NONE) {
+			if ($item['message_type'] == 1) {
+				if (is_array($message) && isset($message[0])) {
+					$message = $message[0];
+				}
+				if (isset($message['text'])) {
 					$msg_text = $message['text'];
-				} elseif (in_array($item['message_type'], array(2, 3, 4, 5))) {
-					// $msg_text = $message['type'];
-					if (isset($message['file_path'])) {
-						$msg_text = $message['file_path'];
-					}
+				}
+			} elseif (in_array($item['message_type'], array(2, 3, 4, 5))) {
+				// $msg_text = $message['type'];
+				if (isset($message['file_path'])) {
+					$msg_text = $message['file_path'];
+				}
+			} elseif ((int) $item['event_type'] === 9) { // postback
+				if (is_array($message)) {
+					$msg_text = $message['data'];
 				}
 			}
-		} elseif ((int) $item['event_type'] === 9) { // postback
-			$message  = json_decode($item['message'], true);
-			$msg_text = $message['data'];
 		}
 		if (! empty($msg_text)) {
 			// return first 100 characters
@@ -358,16 +362,9 @@ class ListTable extends \WP_List_Table {
 
 			return $this->row_actions($actions);
 		} elseif ($column_name === 'user_id') {
-			$dm_url  = add_query_arg(
-				array(
-					'line_id'        => $item['user_id'],
-					'channel_prefix' => $item['bot_id'],
-					'action'         => 'message',
-				),
-				admin_url('admin.php?page=' . lineconnect::SLUG__DM_FORM)
-			);
+			$chat_url = admin_url('admin.php?page=' . LineConnect::SLUG__CHAT_SCREEN) . '#/channel/' . $item['bot_id'] . '/user/' . $item['user_id'];
 			$actions = array(
-				'message' => sprintf('<a href="%s">%s</a>', $dm_url, __('Message', lineconnect::PLUGIN_NAME)),
+				'message' => sprintf('<a href="%s">%s</a>', $chat_url, __('Message', lineconnect::PLUGIN_NAME)),
 			);
 			return $this->row_actions($actions);
 		}

@@ -149,7 +149,7 @@ EOL;
 
 			$msg_type       = $convasation->source_type == 11 ? 'msg-remote' : 'msg-self';
 			$msg_name       = $convasation->source_type == 11 ? 'Chat GPT' : substr($convasation->user_id, -4);
-			$msg_time       = date('Y/m/d H:i:s', intval($convasation->timestamp));
+			$msg_time       = wp_date('Y/m/d H:i:s', intval($convasation->timestamp));
 			$msg_text       = null;
 			$message_object = json_decode($convasation->message, false);
 			if (json_last_error() == JSON_ERROR_NONE) {

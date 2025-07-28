@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Avatar from '../atoms/Avatar';
 
 const UserListItem = ({ user, isSelected, onSelectUser }) => {
-    const { lineId, displayName, pictureUrl = '', last_message = '', last_sent_at = '' } = user;
+    const { lineId, displayName, pictureUrl = null, last_message = null, last_sent_at = null } = user;
 
     const itemClassName = `flex items-center p-2 cursor-pointer ${isSelected ? 'bg-gray-200' : ''}`;
 
@@ -16,9 +16,9 @@ const UserListItem = ({ user, isSelected, onSelectUser }) => {
         const date = new Date(timestamp);
         const today = new Date();
         if (date.toDateString() === today.toDateString()) {
-            return date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+            return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
         } else {
-            return date.toLocaleDateString('ja-JP');
+            return date.toLocaleDateString(undefined);
         }
     };
 

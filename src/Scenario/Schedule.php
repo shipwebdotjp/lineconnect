@@ -72,7 +72,7 @@ class Schedule {
         }
 
         $datetime = new \DateTime();
-        return $datetime->format('Y-m-d H:i:s');
+        return $datetime->format(DATE_ATOM);
     }
 
     /**
@@ -140,7 +140,7 @@ class Schedule {
         }
 
 
-        return $nextExecuted->format('Y-m-d H:i:s');
+        return $nextExecuted->format(DATE_ATOM);
     }
 
     /**
@@ -150,7 +150,7 @@ class Schedule {
      * @param string $format
      * @return string|bool
      */
-    public static function formatDate(string $date, string $format = 'Y-m-d H:i:s'): string {
+    public static function formatDate(string $date, string $format = DATE_ATOM): string {
         try {
             $datetime = new \DateTime($date);
             return $datetime->format($format);

@@ -53,6 +53,9 @@ class Constants {
 		5 => 'file',
 		6 => 'location',
 		7 => 'sticker',
+		91 => 'imagemap',
+		92 => 'template',
+		93 => 'flex',
 	);
 
 	/**

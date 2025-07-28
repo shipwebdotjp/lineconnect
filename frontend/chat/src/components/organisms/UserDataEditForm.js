@@ -7,10 +7,10 @@ import Button from '@mui/material/Button';
 
 const __ = wp.i18n.__;
 
-const UserDataEditForm = ({ user, type, onEdit, onClose }) => {
+const UserDataEditForm = ({ user, type, id, onEdit, onClose }) => {
     const schema = lc_initdata['userDataSchema'][type] || {};
     const uiSchema = lc_initdata['userDataUiSchema'][type] || {};
-    const formData = user ? user[type] : {};
+    const formData = user ? (id ? user[type][id] : user[type]) : {};
     const translateString = lc_initdata['translateString'];
 
     const theme = createTheme({

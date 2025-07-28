@@ -47,7 +47,6 @@ class Screen {
 		);
 		add_action("admin_print_styles-{$page_hook_suffix}", array(Screen::class, 'wpdocs_plugin_admin_styles'));
 		add_action("admin_print_scripts-{$page_hook_suffix}", array(Screen::class, 'wpdocs_plugin_admin_scripts'));
-		// remove_menu_page( lineconnect::SLUG__DM_FORM );
 	}
 
 	/**

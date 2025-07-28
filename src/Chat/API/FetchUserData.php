@@ -25,11 +25,11 @@ class FetchUserData {
         ";
         $query = $wpdb->prepare($query, array($channel_prefix, $line_id));
         $result = $wpdb->get_row($query, ARRAY_A);
-        $result['profile'] = json_decode($result['profile'] ?: '', true);
-        $result['tags'] = json_decode($result['tags'] ?: '', true);
-        $result['interactions'] = json_decode($result['interactions'] ?: '', true);
-        $result['scenarios'] = json_decode($result['scenarios'] ?: '', true);
-        $result['stats'] = json_decode($result['stats'] ?: '', true);
+        $result['profile'] = json_decode($result['profile'] ?: '{}', true);
+        $result['tags'] = json_decode($result['tags'] ?: '[]', true);
+        $result['interactions'] = json_decode($result['interactions'] ?: '{}', true);
+        $result['scenarios'] = json_decode($result['scenarios'] ?: '{}', true);
+        $result['stats'] = json_decode($result['stats'] ?: '{}', true);
         echo json_encode($result);
         wp_die();
     }

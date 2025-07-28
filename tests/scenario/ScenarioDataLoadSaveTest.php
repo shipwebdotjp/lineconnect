@@ -234,7 +234,7 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertEquals($status['next'], 'second', "Next scenario is not second.");
         $this->assertArrayHasKey('next_date', $status, "Next date key is missing in the response.");
         $this->assertNotEmpty($status['next_date'], "Next date is empty.");
-        $this->assertEquals($status['next_date'], date('Y-m-d H:i:s', strtotime('+5 minutes')), "Next date is not correct.");
+        $this->assertEquals($status['next_date'], gmdate(DATE_ATOM, strtotime('+5 minutes')), "Next date is not correct.");
 
         //シナリオ開始アクションのテスト
         $result = $start_scenario->start_scenario(self::$scenarios[0], 'none');
@@ -276,7 +276,7 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertEquals($status['next'], 'first', "Next scenario is first.");
         $this->assertEquals($status['next_date'], $laststatus['next_date'], "Next date is same as before.");
 
-        $next_date = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+        $next_date = gmdate(DATE_ATOM, strtotime('+5 minutes'));
         $result = $set_scenario_step->set_scenario_step(self::$scenarios[0], 'first', $next_date, "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
         $this->assertArrayHasKey('result', $result, "Result key is missing in the response.");
         $this->assertEquals($result['result'], 'success', "Failed to set user scenario step.");
@@ -287,14 +287,14 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertEquals($status['next_date'], $next_date, "Next date is same as before.");
 
         $result = $set_scenario_step->set_scenario_step(self::$scenarios[0], 'first', '+1 minutes', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
-        $this->assertEquals($result['next_date'], wp_date('Y-m-d H:i:s', strtotime('+1 minutes')), "Next date should be adjusted by +1 minute.");
+        $this->assertEquals($result['next_date'], gmdate(DATE_ATOM, strtotime('+1 minutes')), "Next date should be adjusted by +1 minute.");
 
         $result = $set_scenario_step->set_scenario_step(self::$scenarios[0], 'first', '2125-01-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
-        $this->assertEquals($result['next_date'], '2125-01-01 15:00:00', "Next date should match the set date.");
+        $this->assertEquals($result['next_date'], gmdate(DATE_ATOM, strtotime('2125-01-01 15:00:00')), "Next date should match the set date.");
 
         $set_scenario_step->set_scenario_id(self::$scenarios[0]);
         $result = $set_scenario_step->set_scenario_step(null, 'first', '2125-02-01 15:00:00', "Ud2be13c6f39c97f05c683d92c696483b", "04f7");
-        $this->assertEquals($result['next_date'], '2125-02-01 15:00:00', "Next date should be adjusted by +1 minute.");
+        $this->assertEquals($result['next_date'], gmdate(DATE_ATOM, strtotime('2125-02-01 15:00:00')), "Next date should be adjusted by +1 minute.");
 
         //条件分岐シナリオテスト
         $result = $start_scenario->start_scenario(self::$scenarios[1]);
@@ -364,7 +364,7 @@ class ScenarioDataLoadSaveTest extends WP_UnitTestCase {
         $this->assertArrayHasKey('next', $status, "Next key is missing in the response for conditional branch.");
         $this->assertArrayHasKey('next_date', $status, "Next date key is missing in the response for conditional branch.");
         $this->assertEquals($status['next'], 'second', "Next scenario should be second for conditional branch.");
-        $this->assertEquals($status['next_date'], date('Y-m-d H:i:s', strtotime('+10 minutes')), "Next date should be 10 minutes after the start.");
+        $this->assertEquals($status['next_date'], gmdate(DATE_ATOM, strtotime('+10 minutes')), "Next date should be 10 minutes after the start.");
     }
 
     public function test_duble_start_scenario() {

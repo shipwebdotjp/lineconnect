@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-07-15 16:24+0900\n"
+"POT-Creation-Date: 2025-07-26 23:05+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -47,6 +47,9 @@ msgstr "LINE Connect DM"
 
 msgid "Direct Message"
 msgstr "ダイレクトメッセージ"
+
+msgid "Message"
+msgstr "メッセージ"
 
 msgid "Sent a LINE message."
 msgstr "LINEメッセージを送信しました"
@@ -435,14 +438,81 @@ msgstr "アクションフローを更新しました。"
 msgid "LINE Connect Action Flows"
 msgstr "LINE Connect アクションフロー"
 
+msgid "LINE Connect Chat"
+msgstr "LINE Connect チャット"
+
+msgid "Chat"
+msgstr "チャット"
+
+msgid "Channel prefix is required."
+msgstr "チャネルプレフィックスが必要です。"
+
+msgid "User ID is required."
+msgstr "ユーザーIDが必要です。"
+
+#, php-format
+msgid "Invalid timestamp format. %s"
+msgstr "無効なタイムスタンプ形式です。%s"
+
+msgid "Failed to retrieve messages."
+msgstr "メッセージの取得に失敗しました。"
+
+msgid "Profile"
+msgstr "プロフィール"
+
+msgid "Display Name"
+msgstr "表示名"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Picture URL"
+msgstr "プロフィール画像URL"
+
+msgid "Status Message"
+msgstr "ステータスメッセージ"
+
+msgid "Tags"
+msgstr "タグ"
+
+msgid "Scenario ID"
+msgstr "シナリオID"
+
+msgid "Log Date"
+msgstr "ログ日時"
+
+msgid "Step"
+msgstr "ステップ"
+
+msgid "Result"
+msgstr "結果"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Started At"
+msgstr "開始日時"
+
+msgid "Updated At"
+msgstr "更新日時"
+
+msgid "Next"
+msgstr "次"
+
+msgid "Next Date"
+msgstr "次回実行日時"
+
+msgid "Add profile"
+msgstr "プロフィール追加"
+
+msgid "Add tags"
+msgstr "タグ追加"
+
 msgid "LINE Connect Bulk message"
 msgstr "LINE Connect 一括配信"
 
 msgid "Bulk message"
 msgstr "一括配信"
-
-msgid "Message"
-msgstr "メッセージ"
 
 msgid "You are not logged in."
 msgstr "ログインしていません。"
@@ -948,8 +1018,11 @@ msgid ""
 "If you wish to use Webhook, please set the Webhook URL to the following "
 "value."
 msgstr ""
-"あらかじめ<a href=\"https://developers.line.biz/ja/\" target=\"_blank\">LINE Developers</a>にて、公式アカウントのMessaging APIチャネルを作成しておいてください。\n"
-"チャネルシークレットはチャネル基本設定ページから、チャネルアクセストークンはMessaging API設定ページから取得できます。\n"
+"あらかじめ<a href=\"https://developers.line.biz/ja/\" target=\"_blank\">LINE "
+"Developers</a>にて、公式アカウントのMessaging APIチャネルを作成しておいてくだ"
+"さい。\n"
+"チャネルシークレットはチャネル基本設定ページから、チャネルアクセストークンは"
+"Messaging API設定ページから取得できます。\n"
 "Webhookを利用する場合は、Webhook URLを下記の値に設定してください。"
 
 msgid "Save"
@@ -1009,6 +1082,49 @@ msgstr "設定を保存しました。"
 #, php-format
 msgid "Updated the following rich menus: %s"
 msgstr "次のリッチメニューIDを更新しました: %s"
+
+msgid "You do not have permission to access this page."
+msgstr "このページにアクセスする権限がありません。"
+
+msgid "No file specified!"
+msgstr "ファイルが指定されていません。"
+
+msgid "Nice try!"
+msgstr "良い試みです！"
+
+msgid "Invalid file path!"
+msgstr "無効なファイルパスです。"
+
+msgid "File not found!"
+msgstr "ファイルが見つかりません。"
+
+msgid "Sent sticker message."
+msgstr "スタンプメッセージを送信しました。"
+
+msgid "Sent image message."
+msgstr "画像メッセージを送信しました。"
+
+msgid "Sent video message."
+msgstr "動画メッセージを送信しました。"
+
+msgid "Sent audio message."
+msgstr "音声メッセージを送信しました。"
+
+#, php-format
+msgid "Sent location message. %s (%s)"
+msgstr "位置情報メッセージを送信しました。%s (%s)"
+
+#, php-format
+msgid "Sent template message. %s"
+msgstr "テンプレートメッセージを送信しました。%s"
+
+#, php-format
+msgid "Sent imagemap message. %s"
+msgstr "イメージマップメッセージを送信しました。%s"
+
+#, php-format
+msgid "Sent flex message. %s"
+msgstr "Flexメッセージを送信しました。%s"
 
 msgid "Broadcast message sent successfully."
 msgstr "ブロードキャストメッセージが送信されました。"
@@ -1293,9 +1409,6 @@ msgstr "シナリオステップ設定"
 msgid "Set LINE Connect Scenario Step."
 msgstr "シナリオの特定のステップへ移動します。"
 
-msgid "Scenario ID"
-msgstr "シナリオID"
-
 msgid "ID of the step to set."
 msgstr "設定するステップのID。"
 
@@ -1578,9 +1691,6 @@ msgid "Meta value. If empty, meta will be deleted."
 msgstr "メタ値。空の場合はメタが削除されます。"
 
 msgid "Steps"
-msgstr "ステップ"
-
-msgid "Step"
 msgstr "ステップ"
 
 msgid "ID"
@@ -1989,9 +2099,6 @@ msgstr "連携状態"
 msgid "User meta"
 msgstr "ユーザーメタ"
 
-msgid "Profile"
-msgstr "プロフィール"
-
 msgid "Not"
 msgstr "否定"
 
@@ -2147,9 +2254,6 @@ msgstr "値を追加"
 
 msgid "Add user meta"
 msgstr "ユーザーメタを追加"
-
-msgid "Add profile"
-msgstr "プロフィール追加"
 
 msgid "Add condition"
 msgstr "条件を追加"
@@ -2437,6 +2541,63 @@ msgstr "チャットバーに表示されるテキスト。最大文字数:14文
 msgid "Add tap areas"
 msgstr "タップ領域を追加する"
 
+msgid "Receive Unsend message event"
+msgstr "送信取り消しメッセージイベントを受信"
+
+msgid "Receive Followed event"
+msgstr "フォローイベントを受信"
+
+msgid "Receive Unfollowed event"
+msgstr "フォロー解除イベントを受信"
+
+msgid "Receive Member Joined event"
+msgstr "メンバー参加イベントを受信"
+
+msgid "Receive Member Left event"
+msgstr "メンバー退出イベントを受信"
+
+msgid "Receive Postback event"
+msgstr "ポストバックイベントを受信"
+
+msgid "Receive Video Play Complete event"
+msgstr "動画再生完了イベントを受信"
+
+msgid "Receive Beacon event"
+msgstr "ビーコンイベントを受信"
+
+msgid "Receive Account Link event"
+msgstr "アカウント連携イベントを受信"
+
+msgid "Receive Things event"
+msgstr "デバイスイベントを受信"
+
+msgid "Receive Membership event"
+msgstr "メンバーシップイベントを受信"
+
+msgid "Receive Unknown event"
+msgstr "不明なイベントを受信"
+
+msgid "Receive Image message"
+msgstr "画像メッセージを受信"
+
+msgid "Receive Video message"
+msgstr "動画メッセージを受信"
+
+msgid "Receive Audio message"
+msgstr "音声メッセージを受信"
+
+msgid "Receive File message"
+msgstr "ファイルメッセージを受信"
+
+msgid "Receive Location message"
+msgstr "位置情報メッセージを受信"
+
+msgid "Receive Sticker message"
+msgstr "スタンプメッセージを受信"
+
+msgid "Receive Unknown message type"
+msgstr "不明なメッセージタイプを受信"
+
 msgid "Event ID"
 msgstr "イベントID"
 
@@ -2487,9 +2648,6 @@ msgstr "LINE ID"
 
 msgid "Follow"
 msgstr "フォロー"
-
-msgid "Tags"
-msgstr "タグ"
 
 msgid "Interactions"
 msgstr "インタラクション"
@@ -2559,9 +2717,6 @@ msgstr ""
 
 msgid "New richmenu alias ID"
 msgstr ""
-
-msgid "Status"
-msgstr "ステータス"
 
 msgid "Date"
 msgstr "日"
@@ -2920,6 +3075,9 @@ msgid ""
 msgstr ""
 "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
 "1:1、最大横幅サイズ：1024px、"
+
+msgid "Select message type"
+msgstr "メッセージタイプを選択"
 
 msgid "Image map"
 msgstr "イメージマップ"
@@ -3520,11 +3678,11 @@ msgstr "ダウンロード"
 msgid "CSV Download"
 msgstr "CSVダウンロード"
 
-msgid "LINE Connect Audience Download"
-msgstr "LINE Connect オーディエンスダウンロード"
+#~ msgid "LINE Connect Audience Download"
+#~ msgstr "LINE Connect オーディエンスダウンロード"
 
-msgid "Download Audiences"
-msgstr "ダウンロードオーディエンス"
+#~ msgid "Download Audiences"
+#~ msgstr "ダウンロードオーディエンス"
 
 #~ msgid "Function name"
 #~ msgstr "関数名"
@@ -3672,9 +3830,6 @@ msgstr "ダウンロードオーディエンス"
 
 #~ msgid "When restart a scenario."
 #~ msgstr "シナリオがすでに開始されている場合の動作を設定します。"
-
-#~ msgid "Next Date"
-#~ msgstr "次回実行日時"
 
 #~ msgid "LINE User ID"
 #~ msgstr "LINEユーザーID"
@@ -3916,9 +4071,6 @@ msgstr "ダウンロードオーディエンス"
 #, php-format
 #~ msgid "Sent a LINE message to %s."
 #~ msgstr "%sさんへLINEメッセージを送信しました。"
-
-#~ msgid "LINE Connect Chat"
-#~ msgstr "LINE Connect チャット"
 
 #~ msgid "LINE Chat"
 #~ msgstr "LINE チャット"

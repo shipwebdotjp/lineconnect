@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"POT-Creation-Date: Sat Jul 26 2025 22:49:59 GMT+0900 (Japan Standard Time)\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: Sat Jul 26 2025 22:49:59 GMT+0900 (Japan Standard Time)\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+
+#: src/components/atoms/MessageBubbleSticker.js:7
+msgid "(This is a sticker message.)"
+msgstr "(スタンプメッセージです)"
+
+#: src/components/atoms/MessageBubbleText.js:24
+msgid "(No text provided)"
+msgstr "(テキストがありません)"
+
+#: src/components/molecules/MessageBubble.js:47
+msgid "Location"
+msgstr "位置情報"
+
+#: src/components/molecules/MessageBubble.js:57
+msgid "(Template message.)"
+msgstr "(テンプレートメッセージです)"
+
+#: src/components/molecules/MessageBubble.js:67
+msgid "(Unsupported message.)"
+msgstr "(サポートされていないメッセージです)"
+
+#: src/components/molecules/MessageFormBuilder.js:161
+msgid "Message"
+msgstr "メッセージ"
+
+#: src/components/molecules/MessageFormBuilder.js:163
+msgid "Template"
+msgstr "テンプレート"
+
+#: src/components/molecules/MessageFormBuilder.js:165
+msgid "New message"
+msgstr "新しいメッセージ"
+
+#: src/components/molecules/MessageInput.js:15
+msgid "Open Message Input Form"
+msgstr "メッセージ入力フォームを開く"
+
+#: src/components/molecules/SystemBubble.js:11
+msgid "Unsent message"
+msgstr "送信取り消し"
+
+#: src/components/molecules/SystemBubble.js:12
+msgid "Followed"
+msgstr "友だち追加されました"
+
+#: src/components/molecules/SystemBubble.js:13
+msgid "Unfollowed"
+msgstr "ブロックされました"
+
+#: src/components/molecules/SystemBubble.js:14
+msgid "Joined"
+msgstr "参加しました"
+
+#: src/components/molecules/SystemBubble.js:15
+msgid "Left"
+msgstr "退出しました"
+
+#: src/components/molecules/SystemBubble.js:16
+msgid "A member joined"
+msgstr "メンバーが参加しました"
+
+#: src/components/molecules/SystemBubble.js:17
+msgid "A member left"
+msgstr "メンバーが退出しました"
+
+#: src/components/molecules/SystemBubble.js:18
+msgid "Postback received"
+msgstr "ポストバックを受信しました"
+
+#: src/components/molecules/SystemBubble.js:19
+msgid "Video play completed"
+msgstr "動画の再生が完了しました"
+
+#: src/components/molecules/SystemBubble.js:20
+msgid "Beacon detected"
+msgstr "ビーコンを検出しました"
+
+#: src/components/molecules/SystemBubble.js:21
+msgid "Account linked"
+msgstr "アカウントが連携されました"
+
+#: src/components/molecules/SystemBubble.js:22
+msgid "Thing connected"
+msgstr "デバイスが接続されました"
+
+#: src/components/molecules/SystemBubble.js:23
+msgid "Membership event"
+msgstr "メンバーシップイベント"
+
+#: src/components/organisms/MessageArea.js:107
+#: src/components/organisms/UserList.js:24
+msgid "Loading..."
+msgstr "読み込み中..."
+
+#: src/components/organisms/MessageArea.js:107
+msgid "Load older messages"
+msgstr "過去のメッセージを読み込む"
+
+#: src/components/organisms/MessageForm.js:25
+msgid "Send LINE chat message"
+msgstr "LINEチャットメッセージを送信"
+
+#: src/components/organisms/MessageForm.js:57
+msgid "Disable notification"
+msgstr "通知を無効にする"
+
+#: src/components/organisms/MessageForm.js:68
+msgid "Close"
+msgstr "閉じる"
+
+#: src/components/organisms/MessageForm.js:82
+msgid "Sending..."
+msgstr "送信中..."
+
+#: src/components/organisms/MessageForm.js:85
+msgid "Send"
+msgstr "送信"
+
+#: src/components/organisms/UserDataEditForm.js:39
+msgid "Add"
+msgstr "追加"
+
+#: src/components/organisms/UserDataEditForm.js:51
+msgid "Edit Profile"
+msgstr "プロフィールを編集"
+
+#: src/components/organisms/UserDataEditForm.js:53
+msgid "Edit Tags"
+msgstr "タグを編集"
+
+#: src/components/organisms/UserDataEditForm.js:55
+msgid "Edit Scenarios"
+msgstr "シナリオを編集"
+
+#: src/components/organisms/UserDataEditForm.js:57
+msgid "Edit User Data"
+msgstr "ユーザーデータを編集"
+
+#: src/components/organisms/UserDataEditForm.js:102
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/organisms/UserDataEditForm.js:109
+msgid "Save"
+msgstr "保存"
+
+#: src/components/organisms/UserList.js:24
+msgid "Load more users"
+msgstr "さらにユーザーを読み込む"
+
+#: src/components/organisms/UserProfile.js:8
+msgid "No user selected"
+msgstr "ユーザーが選択されていません"
+
+#: src/components/organisms/UserProfile.js:33
+msgid "Follow Status:"
+msgstr "友だち状態："
+
+#: src/components/organisms/UserProfile.js:42
+msgid "Following"
+msgstr "友だち"
+
+#: src/components/organisms/UserProfile.js:43
+msgid "Not Following"
+msgstr "ブロック"
+
+#: src/components/organisms/UserProfile.js:50
+msgid "Created:"
+msgstr "作成日時："
+
+#: src/components/organisms/UserProfile.js:53
+msgid "Updated:"
+msgstr "更新日時："
+
+#: src/components/organisms/UserProfile.js:60
+msgid "Profile Details"
+msgstr "プロフィール詳細"
+
+#: src/components/organisms/UserProfile.js:67
+#: src/components/organisms/UserProfile.js:97
+#: src/components/organisms/UserProfile.js:133
+#: src/components/organisms/UserProfile.js:152
+msgid "Edit"
+msgstr "編集"
+
+#: src/components/organisms/UserProfile.js:90
+msgid "Tags"
+msgstr "タグ"
+
+#: src/components/organisms/UserProfile.js:113
+msgid "No tags available"
+msgstr "タグがありません"
+
+#: src/components/organisms/UserProfile.js:123
+msgid "Scenarios"
+msgstr "シナリオ"
+
+#: src/components/organisms/UserProfile.js:129
+msgid "ID"
+msgstr "ID"
+
+#: src/components/organisms/UserProfile.js:130
+msgid "Status"
+msgstr "ステータス"
+
+#: src/components/organisms/UserProfile.js:131
+msgid "Start"
+msgstr "開始"
+
+#: src/components/organisms/UserProfile.js:132
+msgid "Updated"
+msgstr "更新"
+
+#: src/components/organisms/UserProfile.js:162
+msgid "No scenarios available"
+msgstr "シナリオがありません"
+
+#: src/pages/ChatLayout.js:330
+msgid "Failed to load messages."
+msgstr "メッセージの読み込みに失敗しました。"
+
+#: src/pages/ChatLayout.js:335
+msgid "Please select a user to start chatting."
+msgstr "チャットを開始するにはユーザーを選択してください。"

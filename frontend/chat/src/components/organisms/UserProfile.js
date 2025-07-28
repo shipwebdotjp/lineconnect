@@ -2,12 +2,13 @@ import React from 'react';
 import { FaRegEdit } from 'react-icons/fa';
 const __ = wp.i18n.__;
 import Avatar from '../atoms/Avatar';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 const UserProfile = ({ user, openEditForm }) => {
     if (!user) return <div>{__('No user selected', 'lineconnect')}</div>;
 
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
@@ -18,8 +19,8 @@ const UserProfile = ({ user, openEditForm }) => {
             <div className="flex flex-col items-center">
                 <Avatar
                     className="w-24 h-24 mb-2"
-                    src={user.profile.pictureUrl}
-                    alt={user.profile.displayName}
+                    src={user.profile.pictureUrl || null}
+                    alt={user.profile.displayName || ''}
                 />
                 <p className="text-lg font-semibold">
                     {user.profile.displayName}
@@ -119,54 +120,43 @@ const UserProfile = ({ user, openEditForm }) => {
             {/* Scenarios */}
             <div className="space-y-2">
                 <h3 className="font-semibold flex justify-between items-center">
-                    <span className="text-gray-500">{__('Scenario Subscriptions', 'lineconnect')}</span>
-                    <button
-                        className="ml-2 text-xs text-gray-500"
-                        onClick={() => openEditForm('scenarios')}
-                    >
-                        <FaRegEdit className="w-4 h-4" />
-                        <span className="sr-only">
-                            {__('Edit', 'lineconnect')}
-                        </span>
-                    </button>
+                    <span className="text-gray-500">{__('Scenarios', 'lineconnect')}</span>
                 </h3>
                 {user.scenarios && Object.keys(user.scenarios).length > 0 ? (
-                    <div className="mb-3 p-1 bg-gray-50 rounded text-sm">
-                        <div className="flex items-center justify-between mb-1">
-                            <p className="font-medium">
-                                {__('ID', 'lineconnect')}
-                            </p>
-                            <p className="font-medium">
-                                {__('Status', 'lineconnect')}
-                            </p>
-                            <p className="font-medium">
-                                {__('Start', 'lineconnect')}
-                            </p>
-                            <p className="font-medium">
-                                {__('Updated', 'lineconnect')}
-                            </p>
-                        </div>
-                        {Object.entries(user.scenarios).map(([id, scenario]) => (
-                            <div key={id} className="flex items-center justify-between mb-1">
-                                <p className="font-medium">
-                                    {`${id}`}
-                                </p>
-                                <p>
-                                    <span className="capitalize">{scenario.status}</span>
-                                </p>
-                                <p>
-                                    {`${formatDate(
-                                        scenario.started_at
-                                    )}`}
-                                </p>
-                                <p>
-                                    {`${formatDate(
-                                        scenario.updated_at
-                                    )}`}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>{__('ID', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Status', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Start', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Updated', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Edit', 'lineconnect')}</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {Object.entries(user.scenarios).map(([id, scenario]) => (
+                                <TableRow key={id}>
+                                    <TableCell className="font-medium">{id}</TableCell>
+                                    <TableCell>
+                                        <span className="capitalize">{scenario.status}</span>
+                                    </TableCell>
+                                    <TableCell>{formatDate(scenario.started_at)}</TableCell>
+                                    <TableCell>{formatDate(scenario.updated_at)}</TableCell>
+                                    <TableCell>
+                                        <button
+                                            className="ml-2 text-xs text-gray-500"
+                                            onClick={() => openEditForm('scenarios', id)}
+                                        >
+                                            <FaRegEdit className="w-4 h-4" />
+                                            <span className="sr-only">
+                                                {__('Edit', 'lineconnect')}
+                                            </span>
+                                        </button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 ) : (
                     <span className="text-gray-500 text-sm">
                         {__('No scenarios available', 'lineconnect')}

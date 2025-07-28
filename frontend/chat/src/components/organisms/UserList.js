@@ -3,21 +3,28 @@ import PropTypes from 'prop-types';
 import UserListItem from '../molecules/UserListItem';
 const __ = wp.i18n.__;
 
-const UserList = ({ users, selectedUserId = null, onSelectUser, isLoading }) => {
+const UserList = ({ users, selectedUserId = null, onSelectUser, isLoading, hasMore, fetchMore }) => {
     return (
         <div className="user-list">
-            {isLoading ? (
-                <div>{__('Loading...', 'lineconnect')}</div>
-            ) : (
-                users.map((user) => (
-                    <UserListItem
-                        key={user.lineId}
-                        user={user}
-                        isSelected={user.lineId === selectedUserId}
-                        onSelectUser={onSelectUser}
-                    />
-                ))
-            )}
+
+            {users.map((user) => (
+                <UserListItem
+                    key={user.lineId}
+                    user={user}
+                    isSelected={user.lineId === selectedUserId}
+                    onSelectUser={onSelectUser}
+                />
+            ))}
+            {(hasMore && (
+                <button
+                    className="w-full text-center bg-blue-200 mb-4 p-4 text-blue-500 pointer-events-auto hover:bg-blue-100 disabled:opacity-50"
+                    onClick={fetchMore}
+                    disabled={isLoading}
+                >
+                    {isLoading ? __('Loading...', 'lineconnect') : __('Load more users', 'lineconnect')}
+                </button>
+            ))}
+
         </div>
     );
 };

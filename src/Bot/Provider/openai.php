@@ -205,7 +205,7 @@ class OpenAi {
 						"
 					SELECT COUNT(id) 
 					FROM {$table_name}
-					WHERE event_type = 1 AND source_type = 11 AND user_id = %s AND bot_id = %s AND DATE(timestamp) = CURDATE()
+					WHERE source_type = 11 AND user_id = %s AND bot_id = %s AND DATE(timestamp) = CURDATE()
 					",
 						array(
 							$user_id,
@@ -213,7 +213,7 @@ class OpenAi {
 						)
 					)
 				);
-
+				error_log("convasation_count: " . $convasation_count);
 				// メタ情報からLINEユーザーIDでユーザー検索
 				$user = lineconnect::get_wpuser_from_line_id($secret_prefix, $user_id);
 				if ($user) { // ユーザーが見つかればすでに連携されている
@@ -236,7 +236,7 @@ class OpenAi {
 					"
 				SELECT event_type,source_type,message_type,message 
 				FROM {$table_name}
-				WHERE event_type = 1 AND user_id = %s AND bot_id = %s
+				WHERE (event_type = 1 OR source_type = 11) AND user_id = %s AND bot_id = %s
 				ORDER BY id desc
 				LIMIT 1, {$context_num}
 				",
@@ -249,10 +249,17 @@ class OpenAi {
 
 			$image_array = [];
 			foreach (array_reverse($convasations) as $convasation) {
-				$role           = $convasation->source_type == 11 ? 'assistant' : 'user';
+				$role           = $convasation->source_type < 11 ? 'user' : 'assistant';
 				$message_object = json_decode($convasation->message, false);
 				if (json_last_error() == JSON_ERROR_NONE) {
-					if ($convasation->message_type == 1 && isset($message_object->text)) {
+					if ($convasation->message_type == 1) {
+						if (is_array($message_object)) {
+							$message_object = $message_object[0];
+						}
+						if (!isset($message_object->text)) {
+							continue;
+						}
+
 						if (empty($image_array) || $role == 'assistant') {
 							$content =  $message_object->text;
 						} else {
@@ -346,6 +353,7 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
+		error_log(print_r($messages, true));
 
 		// Define data
 		$data                = array();

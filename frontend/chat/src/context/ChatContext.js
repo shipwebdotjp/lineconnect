@@ -20,7 +20,7 @@ export const actionTypes = {
   FETCH_USERS_START: 'FETCH_USERS_START',
   FETCH_USERS_SUCCESS: 'FETCH_USERS_SUCCESS',
   FETCH_USERS_FAILURE: 'FETCH_USERS_FAILURE',
-  // SELECT_USER: 'SELECT_USER',
+  FETCH_OLDER_USERS_SUCCESS: 'FETCH_OLDER_USERS_SUCCESS',
   FETCH_MESSAGES_START: 'FETCH_MESSAGES_START',
   FETCH_MESSAGES_SUCCESS: 'FETCH_MESSAGES_SUCCESS',
   FETCH_OLDER_MESSAGES_SUCCESS: 'FETCH_OLDER_MESSAGES_SUCCESS',
@@ -48,7 +48,8 @@ const reducer = (state, action) => {
       return { ...state, isUserLoading: false, users: action.payload };
     case actionTypes.FETCH_USERS_FAILURE:
       return { ...state, isUserLoading: false, error: action.payload };
-
+    case actionTypes.FETCH_OLDER_USERS_SUCCESS:
+      return { ...state, isUserLoading: false, users: [...state.users, ...action.payload] };
     // case actionTypes.SELECT_USER:
     //   return {
     //     ...state,

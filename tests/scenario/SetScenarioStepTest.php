@@ -102,11 +102,11 @@ class SetScenarioStepTest extends WP_UnitTestCase {
         $status = Scenario::get_scenario_status($scenario_id, $line_user_id, $secret_prefix);
         $this->assertEquals('active', $status['status'], "Scenario status should be active.");
         $this->assertEquals('first', $status['next'], "Next step should be changed to 'first'.");
-        $expected_date = wp_date('Y-m-d H:i:s', strtotime('+5 minutes'));
+        $expected_date = gmdate(DATE_ATOM, strtotime('+5 minutes'));
         $this->assertEquals($expected_date, $status['next_date'], "Next date should be set to 5 minutes from now.");
 
         // Test 2: Set step with specific date string
-        $future_date = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+        $future_date = gmdate(DATE_ATOM, strtotime('+30 minutes'));
         $result = Scenario::set_scenario_step($scenario_id, 'second', $future_date, $line_user_id, $secret_prefix);
         $this->assertEquals('success', $result['result'], "Setting scenario step with date should be successful.");
         $this->assertEquals('second', $result['next'], "Next step should be 'second'.");
@@ -120,15 +120,15 @@ class SetScenarioStepTest extends WP_UnitTestCase {
 
         // Test 3: Set step with relative date string
         $result = Scenario::set_scenario_step($scenario_id, 'first', '+15 minutes', $line_user_id, $secret_prefix);
-        $expected_date = wp_date('Y-m-d H:i:s', strtotime('+15 minutes'));
+        $expected_date = gmdate(DATE_ATOM, strtotime('+15 minutes'));
         $this->assertEquals('success', $result['result'], "Setting scenario step with relative date should be successful.");
         $this->assertEquals('first', $result['next'], "Next step should be 'first'.");
         $this->assertEquals($expected_date, $result['next_date'], "Next date should match the relative date.");
 
         // Test 4: Test with past date (should set to current date)
-        $past_date = date('Y-m-d H:i:s', strtotime('-1 hour'));
+        $past_date = gmdate(DATE_ATOM, strtotime('-1 hour'));
         $result = Scenario::set_scenario_step($scenario_id, 'second', $past_date, $line_user_id, $secret_prefix);
-        $now = wp_date('Y-m-d H:i:s');
+        $now = gmdate(DATE_ATOM);
         $this->assertEquals('success', $result['result'], "Setting scenario step with past date should be successful.");
         $this->assertEquals('second', $result['next'], "Next step should be 'second'.");
         // Past dates should be adjusted to current time
@@ -153,7 +153,7 @@ class SetScenarioStepTest extends WP_UnitTestCase {
         $this->assertEquals('completed', $status['status'], "Scenario status should be completed.");
         $this->assertArrayNotHasKey('next', $status, "Next step should be empty.");
         $this->assertArrayNotHasKey('next_date', $status, "Next date should be empty.");
-        $expected_date = wp_date('Y-m-d H:i:s');
+        $expected_date = gmdate(DATE_ATOM);
 
         $result = Scenario::set_scenario_step($scenario_id, 'first', null, $line_user_id, $secret_prefix);
         $this->assertEquals('success', $result['result'], "Setting scenario step should be successful.");

@@ -128,13 +128,13 @@
   body #wpbody-content { @apply !pb-0; }
 }
 
-input[type="text"].MuiInputBase-input, input[type="number"].MuiInputBase-input {
+input[type="text"].MuiInputBase-input, input[type="number"].MuiInputBase-input, input[type="datetime-local"].MuiInputBase-input {
     padding: 25px 12px 8px 12px;
     min-height: 1.4375em;
     border: 0;
 }
 
-input[type="text"]:focus.MuiInputBase-input, input[type="number"]:focus.MuiInputBase-input  {
+input[type="text"]:focus.MuiInputBase-input, input[type="number"]:focus.MuiInputBase-input, input[type="datetime-local"]:focus.MuiInputBase-input {
     outline: 0;
     box-shadow: none;
 }

@@ -48,9 +48,10 @@ class LineConnect {
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.5';
+	const DB_VERSION = '1.6';
+	// 1.6: line_user_idテーブルのインデックスの変更(channel_prefix, last_sent_at DESC, id DESC)
 	// 1.5: lineconnect_bot_logsテーブルのstatus,errorカラムの追加、インデックスの変更
-	// 1.3: line_user_idテーブルにinteractions, scenario, statsカラムの追加
+	// 1.3: line_user_id テーブルにinteractions, scenario, statsカラムの追加
 
 	/**
 	 * DBバージョンのキー
@@ -268,7 +269,7 @@ class LineConnect {
 	const META_KEY__LINE = 'line';
 
 	/**
-	 * 画面のslug：チャット
+	 * 画面のslug：一括配信
 	 */
 	const SLUG__BULKMESSAGE_FORM = self::PLUGIN_ID . '-linechat-form';
 
@@ -305,7 +306,7 @@ class LineConnect {
 	/**
 	 * 画面のslug：DM(LINE)
 	 */
-	const SLUG__DM_FORM = self::PLUGIN_ID . '-linedm-form';
+	// const SLUG__DM_FORM = self::PLUGIN_ID . '-linedm-form';
 
 	/**
 	 * 画面のslug：Chat(LINE)
@@ -502,7 +503,7 @@ class LineConnect {
 			// 一括配信のメニューページを追加
 			add_action('admin_menu', array(BulkMessageScreen::class, 'set_plugin_menu'));
 			// ダイレクトメッセージのメニューを追加
-			add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
+			// add_action('admin_menu', array(DirectMessageScreen::class, 'set_plugin_menu'));
 			// チャットのメニューを追加
 			add_action('admin_menu', array(ChatScreen::class, 'set_plugin_menu'));
 			// アクション実行のトップページメニューを追加
@@ -1037,7 +1038,7 @@ class LineConnect {
 		// テーブル作成
 		global $wpdb;
 
-		$table_name      = $wpdb->prefix . self::TABLE_BOT_LOGS;
+		$table_name_bot_logs      = $wpdb->prefix . self::TABLE_BOT_LOGS;
 		$charset_collate = $wpdb->get_charset_collate();
 		/*
 		id: UUID v5を使ってRetry Keyとしても使用
@@ -1052,7 +1053,7 @@ class LineConnect {
 		status: ステータス(0:pending, 1:sent, 9:failed)
 		error: 送信失敗時のエラーメッセージJSON(OUTBOUND時)
 		*/
-		$sql = "CREATE TABLE $table_name (
+		$sql = "CREATE TABLE $table_name_bot_logs (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			event_id varchar(32) NOT NULL, 
 			event_type tinyint NOT NULL,
@@ -1090,7 +1091,7 @@ class LineConnect {
             KEY line_id (line_id)
 			KEY channel_prefix (channel_prefix),
 			KEY chanel_prefix_line_id (channel_prefix, line_id),
-			KEY channel_prefix_last_sent_at (channel_prefix, last_sent_at DESC),
+			KEY channel_prefix_last_sent_at_id (channel_prefix, last_sent_at DESC, id DESC),
         ) $charset_collate;";
 		dbDelta($sql_line_id);
 
@@ -1166,6 +1167,11 @@ class LineConnect {
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
 		dbDelta($sql_messages);
 */
+		// 1.6より前のバージョンからアップグレードした場合、bot_logsテーブルの既存のtimestampのタイムゾーン(Asia/Tokyo)をUTCに変更(9時間引く)
+		if (version_compare(self::get_current_db_version(), '1.6', '<')) {
+			$wpdb->query("UPDATE {$table_name_bot_logs} SET timestamp = DATE_SUB(timestamp, INTERVAL 9 HOUR)");
+		}
+
 		self::set_variable(self::DB_VERSION_KEY, self::DB_VERSION);
 	}
 

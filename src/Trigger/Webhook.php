@@ -35,6 +35,9 @@ class Webhook {
                 }
             }
             if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params'])) {
+                if( !isset($event->{'postback'}->{'params'}) ) {
+                    return false;
+                }
                 $result = self::check_webhook_message_postback_param_condition($trigger['postback']['params'], $event->{'postback'}->{'params'});
                 if (! $result) {
                     return false;

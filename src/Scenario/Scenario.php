@@ -1671,13 +1671,13 @@ class Scenario {
 			[
 				'id' => $scenario_id,
 				'status' => $status,
-				'updated_at' => wp_date('Y-m-d H:i:s'),
+				'updated_at' => gmdate(DATE_ATOM),
 			],
 			$addtional ?: []
 		);
 
 		if (self::STATUS_ACTIVE === $status && !isset($scenario_array['started_at'])) {
-			$scenario_array = array_merge($scenario_array, ['started_at' => wp_date('Y-m-d H:i:s')]);
+			$scenario_array = array_merge($scenario_array, ['started_at' => gmdate(DATE_ATOM)]);
 		}
 		if (self::STATUS_COMPLETED === $status && isset($scenario_array['next'])) {
 			unset($scenario_array['next']);
@@ -1782,7 +1782,7 @@ class Scenario {
 		if (empty($step_data)) {
 			$log = array(
 				'step' => $step_id,
-				'date' => wp_date('Y-m-d H:i:s'),
+				'date' => gmdate(DATE_ATOM),
 				'result' => 'error',
 				'message' => __('Step not found', lineconnect::PLUGIN_NAME),
 			);
@@ -1804,7 +1804,7 @@ class Scenario {
 			if (!$action_result['success'] || (isset($response['success']) && !$response['success'])) {
 				$log = array(
 					'step' => $step_data['id'],
-					'date' => wp_date('Y-m-d H:i:s'),
+					'date' => gmdate(DATE_ATOM),
 					'result' => 'error',
 					'message' => !$action_result['success'] ? $action_result['results'] : ($response['message'] ?? ''),
 				);
@@ -1815,7 +1815,7 @@ class Scenario {
 		}
 		$log = array(
 			'step' => $step_data['id'],
-			'date' => wp_date('Y-m-d H:i:s'),
+			'date' => gmdate(DATE_ATOM),
 			'result' => $condition_matched ? 'success' : 'skip',
 			'message' => '',
 		);
@@ -1862,13 +1862,13 @@ class Scenario {
 				// self::update_scenario_status($scenario_id, self::STATUS_COMPLETED, $line_user_id, $secret_prefix,  ['logs' => $logs]);
 			} else {
 				$status = self::STATUS_ACTIVE;
-				$last_executed_at = $last_executed_at ?: $line_user_scenario_status['next_date'] ?? wp_date('Y-m-d H:i:s');
+				$last_executed_at = $last_executed_at ?: $line_user_scenario_status['next_date'] ?? gmdate(DATE_ATOM);
 				$next_date = Schedule::getNextSchedule($step_data['schedule'] ?? [], $last_executed_at);
 				$now = new \DateTime();
 				if (!$next_date || $now > new \DateTime($next_date)) { // if next date is in the past set current date
 					// error_log(print_r($next_date, true));
 					// error_log(print_r($now, true));
-					$next_date = wp_date('Y-m-d H:i:s');
+					$next_date = gmdate(DATE_ATOM);
 				}
 				$addtional['next'] = $next;
 				$addtional['next_date'] = $next_date;
@@ -1923,10 +1923,10 @@ class Scenario {
 		}
 
 		$next = $next_step_data['id'] ?? null;
-		$next_date = $next_date ? wp_date('Y-m-d H:i:s', strtotime($next_date)) : ($line_user_scenario_status['next_date'] ?? (Schedule::getNextSchedule($current_step_data['schedule'] ?? [], wp_date('Y-m-d H:i:s')) ?? wp_date('Y-m-d H:i:s')));
+		$next_date = $next_date ? gmdate(DATE_ATOM, strtotime($next_date)) : ($line_user_scenario_status['next_date'] ?? (Schedule::getNextSchedule($current_step_data['schedule'] ?? [], gmdate(DATE_ATOM)) ?? gmdate(DATE_ATOM)));
 		$now = new \DateTime();
 		if (!$next_date || $now > new \DateTime($next_date)) { // if next date is in the past set current date
-			$next_date = wp_date('Y-m-d H:i:s');
+			$next_date = gmdate(DATE_ATOM);
 		}
 
 

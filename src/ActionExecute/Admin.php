@@ -49,7 +49,6 @@ class Admin {
         );
         add_action("admin_print_styles-{$page_hook_suffix}", array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'wpdocs_plugin_admin_styles'));
         add_action("admin_print_scripts-{$page_hook_suffix}", array(\Shipweb\LineConnect\ActionExecute\Admin::class, 'wpdocs_plugin_admin_scripts'));
-        // remove_menu_page( lineconnect::SLUG__DM_FORM );
     }
 
     // 管理画面用にスクリプト読み込み

@@ -1,0 +1,179 @@
+{
+  "translation-revision-date": "2025-07-26 22:55:54+0900",
+  "generator": "Custom PO to JED Converter",
+  "domain": "lineconnect",
+  "locale_data": {
+    "lineconnect": {
+      "": {
+        "domain": "lineconnect",
+        "lang": "ja",
+        "plural-forms": "nplurals=1; plural=0;"
+      },
+      "(This is a sticker message.)": [
+        "(スタンプメッセージです)"
+      ],
+      "(No text provided)": [
+        "(テキストがありません)"
+      ],
+      "Location": [
+        "位置情報"
+      ],
+      "(Template message.)": [
+        "(テンプレートメッセージです)"
+      ],
+      "(Unsupported message.)": [
+        "(サポートされていないメッセージです)"
+      ],
+      "Message": [
+        "メッセージ"
+      ],
+      "Template": [
+        "テンプレート"
+      ],
+      "New message": [
+        "新しいメッセージ"
+      ],
+      "Open Message Input Form": [
+        "メッセージ入力フォームを開く"
+      ],
+      "Unsent message": [
+        "送信取り消し"
+      ],
+      "Followed": [
+        "友だち追加されました"
+      ],
+      "Unfollowed": [
+        "ブロックされました"
+      ],
+      "Joined": [
+        "参加しました"
+      ],
+      "Left": [
+        "退出しました"
+      ],
+      "A member joined": [
+        "メンバーが参加しました"
+      ],
+      "A member left": [
+        "メンバーが退出しました"
+      ],
+      "Postback received": [
+        "ポストバックを受信しました"
+      ],
+      "Video play completed": [
+        "動画の再生が完了しました"
+      ],
+      "Beacon detected": [
+        "ビーコンを検出しました"
+      ],
+      "Account linked": [
+        "アカウントが連携されました"
+      ],
+      "Thing connected": [
+        "デバイスが接続されました"
+      ],
+      "Membership event": [
+        "メンバーシップイベント"
+      ],
+      "Loading...": [
+        "読み込み中..."
+      ],
+      "Load older messages": [
+        "過去のメッセージを読み込む"
+      ],
+      "Send LINE chat message": [
+        "LINEチャットメッセージを送信"
+      ],
+      "Disable notification": [
+        "通知を無効にする"
+      ],
+      "Close": [
+        "閉じる"
+      ],
+      "Sending...": [
+        "送信中..."
+      ],
+      "Send": [
+        "送信"
+      ],
+      "Add": [
+        "追加"
+      ],
+      "Edit Profile": [
+        "プロフィールを編集"
+      ],
+      "Edit Tags": [
+        "タグを編集"
+      ],
+      "Edit Scenarios": [
+        "シナリオを編集"
+      ],
+      "Edit User Data": [
+        "ユーザーデータを編集"
+      ],
+      "Cancel": [
+        "キャンセル"
+      ],
+      "Save": [
+        "保存"
+      ],
+      "Load more users": [
+        "さらにユーザーを読み込む"
+      ],
+      "No user selected": [
+        "ユーザーが選択されていません"
+      ],
+      "Follow Status:": [
+        "友だち状態："
+      ],
+      "Following": [
+        "友だち"
+      ],
+      "Not Following": [
+        "ブロック"
+      ],
+      "Created:": [
+        "作成日時："
+      ],
+      "Updated:": [
+        "更新日時："
+      ],
+      "Profile Details": [
+        "プロフィール詳細"
+      ],
+      "Edit": [
+        "編集"
+      ],
+      "Tags": [
+        "タグ"
+      ],
+      "No tags available": [
+        "タグがありません"
+      ],
+      "Scenarios": [
+        "シナリオ"
+      ],
+      "ID": [
+        "ID"
+      ],
+      "Status": [
+        "ステータス"
+      ],
+      "Start": [
+        "開始"
+      ],
+      "Updated": [
+        "更新"
+      ],
+      "No scenarios available": [
+        "シナリオがありません"
+      ],
+      "Failed to load messages.": [
+        "メッセージの読み込みに失敗しました。"
+      ],
+      "Please select a user to start chatting.": [
+        "チャットを開始するにはユーザーを選択してください。"
+      ]
+    }
+  }
+}

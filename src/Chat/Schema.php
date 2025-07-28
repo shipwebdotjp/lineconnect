@@ -3,6 +3,7 @@
 namespace Shipweb\LineConnect\Chat;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Scenario\Scenario;
 
 class Schema {
 
@@ -43,60 +44,70 @@ class Schema {
             ),
             'scenarios' => array(
                 'type' => 'object',
-                'patternProperties' => array(
-                    '^[0-9]+$' => array(
-                        'type' => 'object',
-                        'properties' => array(
-                            'id' => array(
-                                'type' => 'integer',
-                                'title' => __('Scenario ID', lineconnect::PLUGIN_NAME),
-                            ),
-                            'logs' => array(
-                                'type' => 'array',
-                                'items' => array(
-                                    'type' => 'object',
-                                    'properties' => array(
-                                        'date' => array(
-                                            'type' => 'string',
-                                            'format' => 'date-time',
-                                            'title' => __('Log Date', lineconnect::PLUGIN_NAME),
-                                        ),
-                                        'step' => array(
-                                            'type' => 'string',
-                                            'title' => __('Step', lineconnect::PLUGIN_NAME),
-                                        ),
-                                        'result' => array(
-                                            'type' => 'string',
-                                            'title' => __('Result', lineconnect::PLUGIN_NAME),
-                                        ),
-                                        'message' => array(
-                                            'type' => 'string',
-                                            'title' => __('Message', lineconnect::PLUGIN_NAME),
-                                        ),
-                                    ),
-                                    'required' => array('date', 'step', 'result', 'message'),
+                'title' => __('Scenarios', lineconnect::PLUGIN_NAME),
+                'properties' => array(
+                    'id' => array(
+                        'type' => 'integer',
+                        'title' => __('Scenario ID', lineconnect::PLUGIN_NAME),
+                    ),
+                    'logs' => array(
+                        'type' => 'array',
+                        'items' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'date' => array(
+                                    'type' => 'string',
+                                    'format' => 'date-time',
+                                    'title' => __('Log Date', lineconnect::PLUGIN_NAME),
+                                ),
+                                'step' => array(
+                                    'type' => 'string',
+                                    'title' => __('Step', lineconnect::PLUGIN_NAME),
+                                ),
+                                'result' => array(
+                                    'type' => 'string',
+                                    'title' => __('Result', lineconnect::PLUGIN_NAME),
+                                ),
+                                'message' => array(
+                                    'type' => 'string',
+                                    'title' => __('Message', lineconnect::PLUGIN_NAME),
                                 ),
                             ),
-                            'status' => array(
-                                'type' => 'string',
-                                'title' => __('Status', lineconnect::PLUGIN_NAME),
-                            ),
-                            'started_at' => array(
-                                'type' => 'string',
-                                'format' => 'date-time',
-                                'title' => __('Started At', lineconnect::PLUGIN_NAME),
-                            ),
-                            'updated_at' => array(
-                                'type' => 'string',
-                                'format' => 'date-time',
-                                'title' => __('Updated At', lineconnect::PLUGIN_NAME),
-                            ),
+                            'required' => array('date', 'step', 'result'),
                         ),
-                        'required' => array('id'),
+                    ),
+                    'status' => array(
+                        'type' => 'string',
+                        'title' => __('Status', lineconnect::PLUGIN_NAME),
+                        'oneOf' => array(
+                            array('const' => Scenario::STATUS_NONE),
+                            array('const' => Scenario::STATUS_ACTIVE),
+                            array('const' => Scenario::STATUS_COMPLETED),
+                            array('const' => Scenario::STATUS_ERROR),
+                            array('const' => Scenario::STATUS_PAUSED),
+                        ),
+                    ),
+                    'started_at' => array(
+                        'type' => 'string',
+                        'format' => 'date-time',
+                        'title' => __('Started At', lineconnect::PLUGIN_NAME),
+                    ),
+                    'updated_at' => array(
+                        'type' => 'string',
+                        'format' => 'date-time',
+                        'title' => __('Updated At', lineconnect::PLUGIN_NAME),
+                    ),
+                    'next' => array(
+                        'type' => 'string',
+                        'title' => __('Next', lineconnect::PLUGIN_NAME),
+                    ),
+                    'next_date' => array(
+                        'type' => 'string',
+                        'format' => 'date-time',
+                        'title' => __('Next Date', lineconnect::PLUGIN_NAME),
                     ),
                 ),
-                'additionalProperties' => false,
-                'title' => __('Scenarios', lineconnect::PLUGIN_NAME),
+                'required' => array('id'),
             ),
         );
     }

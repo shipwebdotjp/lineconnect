@@ -69,11 +69,11 @@ class FetchMessages {
 
         global $wpdb;
         $table_name = $wpdb->prefix . LineConnect::TABLE_BOT_LOGS;
-        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+        if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
             // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $messages = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT id,event_type,source_type,user_id,message_type,message,UNIX_TIMESTAMP(timestamp) as timestamp,status,error 
+                    "SELECT id,event_type,source_type,user_id,message_type,message,TIMESTAMPDIFF(MICROSECOND, '1970-01-01 00:00:00.000000', timestamp) / 1e6 as timestamp,status,error 
                     FROM {$table_name} 
                     WHERE {$where}
                     ORDER BY timestamp desc, id desc
@@ -115,7 +115,7 @@ class FetchMessages {
         $ary_response = array();
         $ary_messages = array();
         foreach (array_reverse($messages) as $convasation) {
-            $isMe       = $convasation['source_type'] >= 11 ? true : false;
+            $isMe       = $convasation['source_type'] >= 10 ? true : false;
             $msg_time   = wp_date('Y/m/d H:i:s', intval($convasation['timestamp']));
             $message_object = isset($convasation['message']) ? json_decode($convasation['message'], false) : null;
             $error_object = isset($convasation['error']) ? json_decode($convasation['error'], false) : null;

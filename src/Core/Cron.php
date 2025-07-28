@@ -356,19 +356,18 @@ class Cron {
             $wpdb->prepare(
                 $query,
                 array(
-                    wp_date('Y-m-d H:i:s', $last_run),
-                    wp_date('Y-m-d H:i:s', $current_time)
+                    gmdate(DATE_ATOM, $last_run),
+                    gmdate(DATE_ATOM, $current_time)
                 )
             ),
             ARRAY_A
         );
-        /*
-        if (empty($results)) {
-            error_log('No active scenarios found after last run: ' . wp_date("Y-m-d H:i:s", $last_run) . ' and before current time: ' . wp_date("Y-m-d H:i:s", $current_time));
-        } else {
-            error_log(print_r($results, true));
-        }
-*/
+        // if (empty($results)) {
+        //     error_log('No active scenarios found after last run: ' . wp_date("Y-m-d H:i:s", $last_run) . ' and before current time: ' . wp_date("Y-m-d H:i:s", $current_time));
+        // } else {
+        //     error_log(print_r($results, true));
+        // }
+
         return $results ? $results : array();
     }
 }

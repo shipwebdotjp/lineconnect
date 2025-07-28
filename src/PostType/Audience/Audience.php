@@ -727,14 +727,23 @@ class Audience {
     }
 
     /**
-     * 日時形式かどうかを判定 (例: '2025-01-01 00:00:00')
+     * 日時形式かどうかを判定 (例: '2025-01-01 00:00:00', '2025-01-01T00:00:00+00:00')
      * @param string $value
      * @return bool
      */
     private static function is_datetime($value) {
-        $format = 'Y-m-d H:i:s';
-        $d = \DateTime::createFromFormat($format, $value);
-        return $d && $d->format($format) === $value;
+        // チェックする日時フォーマットを配列で定義
+        $formats = [
+            'Y-m-d H:i:s',
+            \DateTime::ATOM, // ISO-8601 形式 (例: 2025-01-01T00:00:00+00:00)
+        ];
+        foreach ($formats as $format) {
+            $d = \DateTime::createFromFormat($format, $value);
+            if ($d && $d->format($format) === $value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -34,7 +34,7 @@ const sidebars = {
     'dashboard',
     'bulkmessage',
     'action-execute',
-    'dm',
+    'chat',
     'audience',
     'message',
     'scenario',

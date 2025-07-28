@@ -16,11 +16,11 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
 
     public function test_absolute() {
         $schedule = [
-            'absolute' => '2025-02-09 20:45:00'
+            'absolute' => '2025-02-09T20:45:00+00:00'
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
 
-        $this->assertEquals('2025-02-09 20:45:00', Schedule::getNextSchedule($schedule, $lastExecuted), '絶対日付時刻');
+        $this->assertEquals('2025-02-09T20:45:00+00:00', Schedule::getNextSchedule($schedule, $lastExecuted), '絶対日付時刻');
     }
 
     public function test_relative_minutes_exact() {
@@ -28,8 +28,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'minutes',
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-09 20:46:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1分後'); // included seconds in the expected value
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-09T20:46:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1分後'); // included seconds in the expected value
     }
 
     public function test_relative_hours_exact() {
@@ -37,8 +37,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'hours',
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-09 21:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1時間後'); // included seconds in the expected value
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-09T21:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1時間後'); // included seconds in the expected value
     }
 
     public function test_relative_hours_base_earlier_time() {
@@ -48,8 +48,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'type' => 'base',
             'minute' => 30
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-09 21:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1時間後'); // included seconds in the expected value
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-09T21:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1時間後'); // included seconds in the expected value
     }
 
     public function test_relative_hours_base_later_time() {
@@ -59,8 +59,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'type' => 'base',
             'minute' => 50
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-09 21:50:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1時間後'); // updated expected time
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-09T21:50:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1時間後'); // updated expected time
     }
 
 
@@ -71,8 +71,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'type' => 'base',
             'minute' => 10
         ];
-        $lastExecuted = '2025-02-09 23:45:00';
-        $this->assertEquals('2025-02-10 00:10:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌日1時間後'); // updated expected time for next day
+        $lastExecuted = '2025-02-09 23:45:00+00:00';
+        $this->assertEquals('2025-02-10T00:10:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌日1時間後'); // updated expected time for next day
     }
 
     // days
@@ -81,8 +81,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'days',
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-10 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1日後'); // included seconds in the expected value
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-10T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1日後'); // included seconds in the expected value
     }
 
     // days
@@ -91,8 +91,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'days',
         ];
-        $lastExecuted = '2025-02-28 20:45:00';
-        $this->assertEquals('2025-03-01 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1日後'); // updated expected time for next month
+        $lastExecuted = '2025-02-28T20:45:00+00:00';
+        $this->assertEquals('2025-03-01T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1日後'); // updated expected time for next month
     }
 
     // days base earlier time
@@ -103,8 +103,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'type' => 'base',
             'time' => '10:30',
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-10 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1日後'); // base time next day
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-10T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1日後'); // base time next day
     }
 
     // days base later time
@@ -113,10 +113,10 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'days',
             'type' => 'base',
-            'time' => '22:00',
+            'time' => '22:00+00:00',
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-10 22:00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1日後'); // base time next day
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-10T22:00:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 1日後'); // base time next day
     }
 
     // weeks exact
@@ -125,8 +125,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'weeks'
         ];
-        $lastExecuted = '2025-02-09 20:45:00'; // Sunday
-        $this->assertEquals('2025-02-16 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1週間後');
+        $lastExecuted = '2025-02-09T20:45:00+00:00'; // Sunday
+        $this->assertEquals('2025-02-16T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1週間後');
     }
 
     public function test_relative_weeks_base_specific_weekday() {
@@ -137,8 +137,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'weekday' => 3, // Wednesday
             'time' => '15:30'
         ];
-        $lastExecuted = '2025-02-09 20:45:00'; // Sunday
-        $this->assertEquals('2025-02-19 15:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 次の水曜日');
+        $lastExecuted = '2025-02-09T20:45:00+00:00'; // Sunday
+        $this->assertEquals('2025-02-19T15:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 次の水曜日');
     }
 
     public function test_relative_weeks_base_specific_this_same_weekday() {
@@ -148,10 +148,10 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'unit' => 'weeks',
             'type' => 'base',
             'weekday' => 0,
-            'time' => '10:00'
+            'time' => '10:00+00:00'
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-09 10:00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ この日曜日');
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-09T10:00:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ この日曜日');
     }
 
     public function test_relative_weeks_base_same_weekday() {
@@ -161,10 +161,10 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'unit' => 'weeks',
             'type' => 'base',
             'weekday' => 0, // Sunday
-            'time' => '10:00'
+            'time' => '10:00+00:00'
         ];
-        $lastExecuted = '2025-02-09 20:45:00'; // Sunday
-        $this->assertEquals('2025-02-16 10:00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 次の日曜日');
+        $lastExecuted = '2025-02-09T20:45:00+00:00'; // Sunday
+        $this->assertEquals('2025-02-16T10:00:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 次の日曜日');
     }
 
     public function test_relative_weeks_exact_over_month() {
@@ -172,8 +172,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'weeks'
         ];
-        $lastExecuted = '2025-02-25 20:45:00'; // Tuesday
-        $this->assertEquals('2025-03-04 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1週間後（月跨ぎ）');
+        $lastExecuted = '2025-02-25 20:45:00+00:00'; // Tuesday
+        $this->assertEquals('2025-03-04T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1週間後（月跨ぎ）');
     }
 
     public function test_relative_weeks_base_specific_this_weekday() {
@@ -184,8 +184,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'weekday' => 3,
             'time' => '15:30'
         ];
-        $lastExecuted = '2025-02-09 20:45:00';
-        $this->assertEquals('2025-02-12 15:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ この水曜日');
+        $lastExecuted = '2025-02-09T20:45:00+00:00';
+        $this->assertEquals('2025-02-12T15:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ この水曜日');
     }
 
     // months - exact type
@@ -194,8 +194,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'months'
         ];
-        $lastExecuted = '2025-01-15 20:45:00';
-        $this->assertEquals('2025-02-15 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1ヶ月後');
+        $lastExecuted = '2025-01-15T20:45:00+00:00';
+        $this->assertEquals('2025-02-15T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1ヶ月後');
     }
 
     public function test_relative_months_exact_month_end() {
@@ -203,8 +203,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'months'
         ];
-        $lastExecuted = '2025-01-31 20:45:00';
-        $this->assertEquals('2025-03-03 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1ヶ月後（月末からの移行）');
+        $lastExecuted = '2025-01-31T20:45:00+00:00';
+        $this->assertEquals('2025-03-03T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1ヶ月後（月末からの移行）');
     }
 
     public function test_relative_months_base_specific_day() {
@@ -215,8 +215,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 15,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-01-31 20:45:00';
-        $this->assertEquals('2025-02-15 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌月15日');
+        $lastExecuted = '2025-01-31T20:45:00+00:00';
+        $this->assertEquals('2025-02-15T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌月15日');
     }
 
     public function test_relative_months_base_last_day() {
@@ -227,8 +227,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 0,  // 0は月末を表す
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-01-31 20:45:00';
-        $this->assertEquals('2025-02-28 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌月末日');
+        $lastExecuted = '2025-01-31T20:45:00+00:00';
+        $this->assertEquals('2025-02-28T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌月末日');
     }
 
     public function test_relative_months_base_same_day_number() {
@@ -239,8 +239,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 31,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-01-31 20:45:00';
-        $this->assertEquals('2025-03-03 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 31日から次の31日');
+        $lastExecuted = '2025-01-31T20:45:00+00:00';
+        $this->assertEquals('2025-03-03T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 31日から次の31日');
     }
 
     public function test_relative_months_base_february_to_march() {
@@ -251,8 +251,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 30,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-02-28 20:45:00';
-        $this->assertEquals('2025-03-30 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 2月末から3月30日');
+        $lastExecuted = '2025-02-28T20:45:00+00:00';
+        $this->assertEquals('2025-03-30T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 2月末から3月30日');
     }
 
     public function test_relative_months_exact_over_year() {
@@ -260,8 +260,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'months'
         ];
-        $lastExecuted = '2025-12-31 20:45:00';
-        $this->assertEquals('2026-01-31 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 年跨ぎ');
+        $lastExecuted = '2025-12-31T20:45:00+00:00';
+        $this->assertEquals('2026-01-31T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 年跨ぎ');
     }
 
     // years - exact type
@@ -270,8 +270,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'years'
         ];
-        $lastExecuted = '2025-02-15 20:45:00';
-        $this->assertEquals('2026-02-15 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1年後');
+        $lastExecuted = '2025-02-15T20:45:00+00:00';
+        $this->assertEquals('2026-02-15T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ 1年後');
     }
 
     public function test_relative_years_exact_leap_year() {
@@ -279,8 +279,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'relative' => 1,
             'unit' => 'years'
         ];
-        $lastExecuted = '2024-02-29 20:45:00';
-        $this->assertEquals('2025-03-01 20:45:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ うるう年から次年');
+        $lastExecuted = '2024-02-29T20:45:00+00:00';
+        $this->assertEquals('2025-03-01T20:45:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - exactタイプ うるう年から次年');
     }
 
     public function test_relative_years_base_specific_month_day() {
@@ -292,8 +292,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 15,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-02-15 20:45:00';
-        $this->assertEquals('2026-06-15 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌年6月15日');
+        $lastExecuted = '2025-02-15T20:45:00+00:00';
+        $this->assertEquals('2026-06-15T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 翌年6月15日');
     }
 
     public function test_relative_years_base_month_end() {
@@ -305,8 +305,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 31,  // 2月は28日まで
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-12-31 20:45:00';
-        $this->assertEquals('2026-03-03 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 存在しない日付の繰り越し');
+        $lastExecuted = '2025-12-31T20:45:00+00:00';
+        $this->assertEquals('2026-03-03T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 存在しない日付の繰り越し');
     }
 
     public function test_relative_years_base_same_date() {
@@ -318,8 +318,8 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 31,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-12-31 20:45:00';
-        $this->assertEquals('2026-12-31 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 同じ月日');
+        $lastExecuted = '2025-12-31T20:45:00+00:00';
+        $this->assertEquals('2026-12-31T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 同じ月日');
     }
 
     public function test_relative_years_base_this_year() {
@@ -331,7 +331,7 @@ class ScenarioScheduleTest extends WP_UnitTestCase {
             'day' => 31,
             'time' => '10:30'
         ];
-        $lastExecuted = '2025-02-15 20:45:00';
-        $this->assertEquals('2025-12-31 10:30:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 今年の指定日');
+        $lastExecuted = '2025-02-15T20:45:00+00:00';
+        $this->assertEquals('2025-12-31T10:30:00+00:00', Schedule::getRelativeSchedule($schedule, $lastExecuted), '相対日付時刻 - baseタイプ 今年の指定日');
     }
 }

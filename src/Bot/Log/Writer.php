@@ -92,8 +92,13 @@ class Writer {
 
         $floatSec = $this->event->timestamp / 1000.0;
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
-        $dateTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-        $timestamp = $dateTime->format('Y-m-d H:i:s.u');
+        if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
+            $dateTime->setTimeZone(new \DateTimeZone('UTC')); // UTCで保存
+        }else{
+            $dateTime->setTimeZone(new \DateTimeZone('Asia/Tokyo')); // 日本時間で保存
+        }
+        $timestamp = $dateTime->format('Y-m-d H:i:s.u'); 
+        // error_log( 'received timestamp:' . $timestamp );
 
         $data = [
             'event_id'     => $event_id,
@@ -111,7 +116,7 @@ class Writer {
         $last_inserted_id = $wpdb->insert_id;
 
         // 各ユーザーの最終メッセージと最終受信時刻を更新
-        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+        if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
             $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
             $message_text = self::getEventText($event_type, $message_type, $message);
 
@@ -161,8 +166,8 @@ class Writer {
 
         $floatSec = microtime(true);
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
-        $dateTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-        $timestamp = $dateTime->format('Y-m-d H:i:s.u');
+        $dateTime->setTimeZone(new DateTimeZone('UTC')); // UTCで保存
+        $timestamp = $dateTime->format('Y-m-d\TH:i:s.uP'); 
 
         $data = [
             'event_id'     => $event_id,

@@ -33,11 +33,20 @@ class Logger {
         if ($message instanceof \LINE\LINEBot\MessageBuilder) {
             $message = $message->buildMessage();
         }
-
+        $message_type = null;
+        if (is_array($message) && count($message) == 1){
+            $message = $message[0];
+            $message_type = array_search($message['type'] ?? '', \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE) ?: 0;
+        }
         $floatSec = microtime(true);
         $dateTime = \DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
-        $dateTime->setTimeZone(new \DateTimeZone('Asia/Tokyo'));
-        $timestamp = $dateTime->format('Y-m-d H:i:s.u');
+        if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
+            $dateTime->setTimeZone(new \DateTimeZone('UTC')); // UTCで保存
+        }else{
+            $dateTime->setTimeZone(new \DateTimeZone('Asia/Tokyo')); // UTCで保存
+        }
+        $timestamp = $dateTime->format('Y-m-d H:i:s.u'); 
+        // error_log( 'sent timestamp:' . $timestamp );
 
         $result = false;
         $arrayValues = array();
@@ -50,14 +59,15 @@ class Logger {
                 $arrayValues[] = array_search($source_type, \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE) ?: 0;
                 $arrayValues[] = $uid;
                 $arrayValues[] = $secret_prefix;
+                $arrayValues[] = $message_type;
                 $arrayValues[] = json_encode($message);
                 $arrayValues[] = $timestamp;
                 $arrayValues[] = array_search($status, \Shipweb\LineConnect\Bot\Constants::WH_STATUS) ?: 0;
                 $arrayValues[] = !empty($error) ? json_encode($error) : json_encode(null);
-                $place_holders[] = '(%s, %d, %d, %s, %s, %s, %s, %d, %s)';
+                $place_holders[] = '(%s, %d, %d, %s, %s, %d, %s, %s, %d, %s)';
                 $affected_user_ids[] = $uid;
             }
-            $sql = 'INSERT INTO ' . $table_name . ' (event_id, event_type, source_type, user_id, bot_id, message, timestamp, status, error) VALUES ' . join(',', $place_holders);
+            $sql = 'INSERT INTO ' . $table_name . ' (event_id, event_type, source_type, user_id, bot_id, message_type, message, timestamp, status, error) VALUES ' . join(',', $place_holders);
         } else {
             foreach ($user_id as $uid) {
                 $arrayValues[] = $event_id ?: null;
@@ -65,17 +75,18 @@ class Logger {
                 $arrayValues[] = array_search($source_type, \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE) ?: 0;
                 $arrayValues[] = $uid;
                 $arrayValues[] = $secret_prefix;
+                $arrayValues[] = $message_type;
                 $arrayValues[] = json_encode($message);
                 $arrayValues[] = $timestamp;
-                $place_holders[] = '(%s, %d, %d, %s, %s, %s, %s)';
+                $place_holders[] = '(%s, %d, %d, %s, %s, %d, %s, %s)';
                 $affected_user_ids[] = $uid;
             }
-            $sql = 'INSERT INTO ' . $table_name . ' (event_id, event_type, source_type, user_id, bot_id, message, timestamp) VALUES ' . join(',', $place_holders);
+            $sql = 'INSERT INTO ' . $table_name . ' (event_id, event_type, source_type, user_id, bot_id, message_type, message, timestamp) VALUES ' . join(',', $place_holders);
         }
         $result = $wpdb->query($wpdb->prepare($sql, $arrayValues));
 
         // 各ユーザーの最終メッセージと最終送信時刻を更新
-        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+        if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
             $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
             $message_text = self::getMessageText($message);
 
@@ -100,7 +111,7 @@ class Logger {
     }
 
     private static function getMessageText($message): string {
-        if (is_array($message)) {
+        if (\Shipweb\LineConnect\Utilities\SimpleFunction::array_is_list_compat($message)) {
             // メッセージが配列の場合、最後のメッセージを取得
             $last_message = end($message);
         } else {

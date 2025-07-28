@@ -20,9 +20,12 @@ const ChatLayout = () => {
     const [notificationDisabled, setNotificationDisabled] = useState(false);
     const [results, setResults] = useState(null);
     const [isMessageFormOpen, setIsMessageFormOpen] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMoreMessage, setHasMoreMessage] = useState(true);
+    const [hasMoreUser, setHasMoreUser] = useState(true);
+    const [nextCursor, setNextCursor] = useState(null);
     const [isUserDataEdiitFormOpen, setIsUserDataEditFormOpen] = useState(false);
     const [userDataEditType, setUserDataEditType] = useState(null);
+    const [userDataEditId, setUserDataEditId] = useState(null);
 
     const channels = lc_initdata['channels'];
 
@@ -50,11 +53,15 @@ const ChatLayout = () => {
                             channel_prefix: channelId,
                         },
                     });
-                    dispatch({ type: actionTypes.FETCH_USERS_SUCCESS, payload: response });
+                    setHasMoreUser(response.data.has_more);
+                    setNextCursor(response.data.next_cursor);
+                    dispatch({ type: actionTypes.FETCH_USERS_SUCCESS, payload: response.data.users });
                 } catch (err) {
                     dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
                 }
             };
+            setHasMoreUser(true);
+            setNextCursor(null);
             fetchUsers();
         }
     }, [channelId, dispatch]);
@@ -63,7 +70,7 @@ const ChatLayout = () => {
     useEffect(() => {
         if (channelId && userId) {
             dispatch({ type: actionTypes.RESET_CHAT_STATE });
-            setHasMore(true);
+            setHasMoreMessage(true);
             fetchMessages();
             fetchUserData();
         }
@@ -112,7 +119,7 @@ const ChatLayout = () => {
                 },
             });
             if (response.success) {
-                setHasMore(response.data.has_more);
+                setHasMoreMessage(response.data.has_more);
                 dispatch({ type: actionTypes.FETCH_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
@@ -181,7 +188,7 @@ const ChatLayout = () => {
     };
 
     const fetchOlder = useCallback(async () => {
-        if (!channelId || !userId || !hasMore) return;
+        if (!channelId || !userId || !hasMoreMessage) return;
         dispatch({ type: actionTypes.FETCH_MESSAGES_START });
         try {
             const timestamp = messages.length > 0 ? messages[0].date : null;
@@ -197,19 +204,45 @@ const ChatLayout = () => {
                 },
             });
             if (response.success) {
-                setHasMore(response.data.has_more);
+                setHasMoreMessage(response.data.has_more);
                 dispatch({ type: actionTypes.FETCH_OLDER_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
         }
-    }, [channelId, userId, dispatch, hasMore, messages]);
+    }, [channelId, userId, dispatch, hasMoreMessage, messages]);
+
+    // 更にユーザーリストを読み込む
+    const fetchMoreUsers = useCallback(async () => {
+        if (!channelId || !hasMoreUser || !nextCursor) return;
+        dispatch({ type: actionTypes.FETCH_USERS_START });
+        try {
+            const response = await window.jQuery.ajax({
+                url: lc_initdata['ajaxurl'],
+                type: 'POST',
+                data: {
+                    action: 'slc_fetch_users',
+                    nonce: lc_initdata['ajax_nonce'],
+                    channel_prefix: channelId,
+                    cursor: nextCursor,
+                },
+            });
+            if (response.success) {
+                setHasMoreUser(response.data.has_more);
+                setNextCursor(response.data.next_cursor);
+                dispatch({ type: actionTypes.FETCH_OLDER_USERS_SUCCESS, payload: response.data.users });
+            }
+        } catch (err) {
+            dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
+        }
+    }, [channelId, dispatch, hasMoreUser, nextCursor]);
 
     //ユーザーデータ編集フォームを開く
-    const openEditForm = (type) => {
-        console.log(`Opening edit form for type: ${type}`);
+    const openEditForm = (type, id = null) => {
+        console.log(`Opening edit form for type: ${type} id: ${id}`);
         setIsUserDataEditFormOpen(true);
         setUserDataEditType(type);
+        setUserDataEditId(id);
     };
 
     // ユーザーデータ編集のハンドラー
@@ -225,6 +258,7 @@ const ChatLayout = () => {
                     channel_prefix: channelId,
                     line_id: selectedUser.lineId,
                     type: userDataEditType,
+                    id: userDataEditId,
                     data: data,
                 },
             });
@@ -258,6 +292,7 @@ const ChatLayout = () => {
                 <UserDataEditForm
                     user={selectedUser}
                     type={userDataEditType}
+                    id={userDataEditId}
                     onEdit={handleUserDataEdit}
                     onClose={() => setIsUserDataEditFormOpen(false)}
                 />
@@ -272,7 +307,7 @@ const ChatLayout = () => {
                     {channelId && (
                         <div>
                             {/* User List */}
-                            {!error && <UserList users={users} selectedUserId={userId} onSelectUser={handleUserSelect} isLoading={isUserLoading} />}
+                            {!error && <UserList users={users} selectedUserId={userId} onSelectUser={handleUserSelect} isLoading={isUserLoading} hasMore={hasMoreUser} fetchMore={fetchMoreUsers} />}
                         </div>
                     )}
                 </div>
@@ -288,7 +323,7 @@ const ChatLayout = () => {
                                     isLoading={isMessageLoading}
                                     onSendMessage={handleMessageSend}
                                     onMessageFormToggle={toggleMessageForm}
-                                    hasMore={hasMore}
+                                    hasMore={hasMoreMessage}
                                     fetchOlder={fetchOlder}
                                 />
                             ) : (
@@ -297,7 +332,7 @@ const ChatLayout = () => {
                         </>
                     ) : (
                         <div className="flex-1 flex items-center justify-center">
-                            <p>{__('Please select a user to start chatting.')}</p>
+                            <p>{__('Please select a user to start chatting.', 'lineconnect')}</p>
                         </div>
                     )}
                 </div>

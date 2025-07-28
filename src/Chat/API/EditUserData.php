@@ -18,17 +18,38 @@ class EditUserData {
         $channel_prefix = isset($_POST['channel_prefix']) ? stripslashes($_POST['channel_prefix']) : "";
         $line_id = isset($_POST['line_id']) ? stripslashes($_POST['line_id']) : "";
         $type = isset($_POST['type']) ? stripslashes($_POST['type']) : "";
+        $id = isset($_POST['id']) ? stripslashes($_POST['id']) : "";
         $data = isset($_POST['data']) ? array_map('stripslashes_deep', $_POST['data']) : null;
-        $data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
-
+        
         if (empty($channel_prefix) || empty($line_id) || empty($type)) {
             wp_send_json_error(array('message' => 'Invalid parameters.'));
             wp_die();
         }
-
+        
         if (!in_array($type, ['profile', 'tags', 'interactions', 'scenarios', 'stats'])) {
             wp_send_json_error(array('message' => 'Invalid type.'));
             wp_die();
+        }
+        
+        if (in_array($type, ['scenarios', 'interactions']) && empty($id)) {
+            wp_send_json_error(array('message' => 'id is required.'));
+            wp_die();
+        }
+        
+        if( $type === 'scenarios' ) {
+            $data['id'] = (int)$data['id'];
+            $data['next_date'] = gmdate(DATE_ATOM, strtotime($data['next_date']));
+            $data['started_at'] = gmdate(DATE_ATOM, strtotime($data['started_at']));
+            $data['updated_at'] = gmdate(DATE_ATOM, strtotime($data['updated_at']));
+        }
+        $data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
+        // 'scenarios', 'interactions'の場合は既存のデータを取得
+        if (in_array($type, ['scenarios', 'interactions'])) {
+            $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
+            $result = $wpdb->get_var($wpdb->prepare("SELECT {$type} FROM {$table_name} WHERE channel_prefix = %s AND line_id = %s", $channel_prefix, $line_id));
+            $original_data = json_decode($result ?? '[]', true);
+            $original_data[$id] = $data;
+            $data_json = json_encode($original_data, JSON_UNESCAPED_UNICODE);
         }
 
         $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
