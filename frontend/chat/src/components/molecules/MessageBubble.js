@@ -25,6 +25,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
                 return <MessageBubbleImage file={message.file_path} className={defaultClass} />;
             case 'image':
                 return <MessageBubbleImage url={message.originalContentUrl} className={defaultClass} />;
+            case 91:
             case 'imagemap':
                 return <MessageBubbleImage url={message.baseUrl} className={defaultClass} />;
             case 3:
@@ -51,12 +52,14 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             case 7:
             case 'sticker':
                 return <MessageBubbleSticker className={defaultClass} />;
+            case 92:
             case 'template':
                 return (
                     <div className={`${defaultClass} p-2 inline-block text-base leading-[180%] text-white/90 mb-1 max-w-full`}>
                         {'(' + (message.altText || __('(Template message.)', 'lineconnect')) + ')'}
                     </div>
                 );
+            case 93:
             case 'flex':
                 return (
                     <MessageBubbleFlex flexJSON={message.contents} />

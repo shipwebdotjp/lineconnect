@@ -133,7 +133,7 @@ class Schema {
 			'type'        => 'object',
 			'properties'  => array(
 				'type'  => array(
-					'type'  => 'string',
+					'type'  => array('string', 'null'),
 					'title' => __('Message type', lineconnect::PLUGIN_NAME),
 					'anyOf' => array(
 						array(

@@ -32,6 +32,14 @@ const ChatLayout = () => {
 
     const containerRef = useRef(null);
 
+    const handleChannelSelect = (selectedChannelId) => {
+        navigate(`/channel/${selectedChannelId}`);
+    };
+
+    const handleUserSelect = (selectedUserId) => {
+        navigate(`/channel/${channelId}/user/${selectedUserId}`);
+    };
+
     // チャネルIDがない場合、最初のチャネルにリダイレクト
     useEffect(() => {
         if (!channelId && channels && channels.length > 0) {
@@ -63,51 +71,78 @@ const ChatLayout = () => {
             };
             setHasMoreUser(true);
             setNextUserCursor(null);
+            setHasMoreMessage(true);
+            setNextMessageCursor(null);
             fetchUsers();
         }
     }, [channelId, dispatch]);
+
+    // 古いユーザーリストを読み込む
+    const fetchMoreUsers = useCallback(async () => {
+        if (!channelId || !hasMoreUser || !nextUserCursor) return;
+        dispatch({ type: actionTypes.FETCH_USERS_START });
+        try {
+            const response = await window.jQuery.ajax({
+                url: lc_initdata['ajaxurl'],
+                type: 'POST',
+                data: {
+                    action: 'slc_fetch_users',
+                    nonce: lc_initdata['ajax_nonce'],
+                    channel_prefix: channelId,
+                    cursor: nextUserCursor,
+                },
+            });
+            if (response.success) {
+                setHasMoreUser(response.data.has_more);
+                setNextUserCursor(response.data.next_cursor);
+                dispatch({ type: actionTypes.FETCH_OLDER_USERS_SUCCESS, payload: response.data.users });
+            }
+        } catch (err) {
+            dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
+        }
+    }, [channelId, dispatch, hasMoreUser, nextUserCursor]);
 
     // ユーザー選択時にメッセージとユーザーデータをフェッチ
     useEffect(() => {
         if (channelId && userId) {
             dispatch({ type: actionTypes.RESET_CHAT_STATE });
             setHasMoreMessage(true);
+            setNextMessageCursor(null);
             fetchMessages();
             fetchUserData();
         }
     }, [channelId, userId, dispatch]);
 
-    // コンテナの高さを調整
-    useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
-
-        const setHeight = () => {
-            const offset = el.getBoundingClientRect().top;
-            // wpfooterの高さを引く
-            const wpFooterHeight = document.querySelector('#wpfooter') ? document.querySelector('#wpfooter').offsetHeight : 0;
-            const totalOffset = offset + wpFooterHeight;
-            // console.log(`Setting height: ${el.style.height} offset: ${offset} wpFooterOffset: ${wpFooterHeight} total offset: ${totalOffset}`);
-            el.style.height = `calc(100dvh - ${totalOffset}px)`;
-        };
-
-        setHeight();
-        window.addEventListener('resize', setHeight);
-
-        const ro = new ResizeObserver(setHeight);
-        ro.observe(document.body);
-
-        return () => {
-            window.removeEventListener('resize', setHeight);
-            ro.disconnect();
-        };
-    }, []);
 
     const fetchMessages = useCallback(async () => {
         if (!channelId || !userId) return;
         dispatch({ type: actionTypes.FETCH_MESSAGES_START });
         try {
-            // const timestamp = messages.length > 0 ? messages[0].date : null;
+            const response = await window.jQuery.ajax({
+                url: lc_initdata['ajaxurl'],
+                type: 'POST',
+                data: {
+                    action: 'slc_fetch_messages',
+                    nonce: lc_initdata['ajax_nonce'],
+                    channel_prefix: channelId,
+                    user_id: userId,
+                    // cursor: nextMessageCursor,
+                },
+            });
+            if (response.success) {
+                setHasMoreMessage(response.data.has_more);
+                setNextMessageCursor(response.data.next_cursor);
+                dispatch({ type: actionTypes.FETCH_MESSAGES_SUCCESS, payload: response.data.messages });
+            }
+        } catch (err) {
+            dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
+        }
+    }, [channelId, userId, dispatch]);
+
+    const fetchOlderMessages = useCallback(async () => {
+        if (!channelId || !userId || !hasMoreMessage || !nextMessageCursor) return;
+        dispatch({ type: actionTypes.FETCH_MESSAGES_START });
+        try {
             const response = await window.jQuery.ajax({
                 url: lc_initdata['ajaxurl'],
                 type: 'POST',
@@ -122,12 +157,12 @@ const ChatLayout = () => {
             if (response.success) {
                 setHasMoreMessage(response.data.has_more);
                 setNextMessageCursor(response.data.next_cursor);
-                dispatch({ type: actionTypes.FETCH_MESSAGES_SUCCESS, payload: response.data.messages });
+                dispatch({ type: actionTypes.FETCH_OLDER_MESSAGES_SUCCESS, payload: response.data.messages });
             }
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
         }
-    }, [channelId, userId, dispatch]);
+    }, [channelId, userId, dispatch, hasMoreMessage, nextMessageCursor]);
 
     const fetchUserData = useCallback(async () => {
         if (!channelId || !userId) return;
@@ -149,13 +184,6 @@ const ChatLayout = () => {
         }
     }, [channelId, userId, dispatch]);
 
-    const handleChannelSelect = (selectedChannelId) => {
-        navigate(`/channel/${selectedChannelId}`);
-    };
-
-    const handleUserSelect = (selectedUserId) => {
-        navigate(`/channel/${channelId}/user/${selectedUserId}`);
-    };
 
     const handleMessageSend = () => {
         setIsSending(true);
@@ -189,55 +217,7 @@ const ChatLayout = () => {
         }
     };
 
-    const fetchOlder = useCallback(async () => {
-        if (!channelId || !userId || !hasMoreMessage || !nextMessageCursor) return;
-        dispatch({ type: actionTypes.FETCH_MESSAGES_START });
-        try {
-            const response = await window.jQuery.ajax({
-                url: lc_initdata['ajaxurl'],
-                type: 'POST',
-                data: {
-                    action: 'slc_fetch_messages',
-                    nonce: lc_initdata['ajax_nonce'],
-                    channel_prefix: channelId,
-                    user_id: userId,
-                    cursor: nextMessageCursor,
-                },
-            });
-            if (response.success) {
-                setHasMoreMessage(response.data.has_more);
-                setNextMessageCursor(response.data.next_cursor);
-                dispatch({ type: actionTypes.FETCH_OLDER_MESSAGES_SUCCESS, payload: response.data.messages });
-            }
-        } catch (err) {
-            dispatch({ type: actionTypes.FETCH_MESSAGES_FAILURE, payload: err.statusText });
-        }
-    }, [channelId, userId, dispatch, hasMoreMessage, nextMessageCursor]);
 
-    // 更にユーザーリストを読み込む
-    const fetchMoreUsers = useCallback(async () => {
-        if (!channelId || !hasMoreUser || !nextUserCursor) return;
-        dispatch({ type: actionTypes.FETCH_USERS_START });
-        try {
-            const response = await window.jQuery.ajax({
-                url: lc_initdata['ajaxurl'],
-                type: 'POST',
-                data: {
-                    action: 'slc_fetch_users',
-                    nonce: lc_initdata['ajax_nonce'],
-                    channel_prefix: channelId,
-                    cursor: nextUserCursor,
-                },
-            });
-            if (response.success) {
-                setHasMoreUser(response.data.has_more);
-                setNextUserCursor(response.data.next_cursor);
-                dispatch({ type: actionTypes.FETCH_OLDER_USERS_SUCCESS, payload: response.data.users });
-            }
-        } catch (err) {
-            dispatch({ type: actionTypes.FETCH_USERS_FAILURE, payload: err.statusText });
-        }
-    }, [channelId, dispatch, hasMoreUser, nextUserCursor]);
 
     //ユーザーデータ編集フォームを開く
     const openEditForm = (type, id = null) => {
@@ -276,6 +256,31 @@ const ChatLayout = () => {
         }
     };
 
+    // コンテナの高さを調整
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
+        const setHeight = () => {
+            const offset = el.getBoundingClientRect().top;
+            // wpfooterの高さを引く
+            const wpFooterHeight = document.querySelector('#wpfooter') ? document.querySelector('#wpfooter').offsetHeight : 0;
+            const totalOffset = offset + wpFooterHeight;
+            // console.log(`Setting height: ${el.style.height} offset: ${offset} wpFooterOffset: ${wpFooterHeight} total offset: ${totalOffset}`);
+            el.style.height = `calc(100dvh - ${totalOffset}px)`;
+        };
+
+        setHeight();
+        window.addEventListener('resize', setHeight);
+
+        const ro = new ResizeObserver(setHeight);
+        ro.observe(document.body);
+
+        return () => {
+            window.removeEventListener('resize', setHeight);
+            ro.disconnect();
+        };
+    }, []);
     return (
         <>
             {isMessageFormOpen && (
@@ -326,7 +331,7 @@ const ChatLayout = () => {
                                     onSendMessage={handleMessageSend}
                                     onMessageFormToggle={toggleMessageForm}
                                     hasMore={hasMoreMessage}
-                                    fetchOlder={fetchOlder}
+                                    fetchOlder={fetchOlderMessages}
                                 />
                             ) : (
                                 <p>{__('Failed to load messages.', 'lineconnect')}</p>

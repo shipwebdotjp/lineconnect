@@ -12,15 +12,15 @@ msgstr ""
 msgid "(No text provided)"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:47
+#: src/components/molecules/MessageBubble.js:48
 msgid "Location"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:57
+#: src/components/molecules/MessageBubble.js:59
 msgid "(Template message.)"
 msgstr ""
 
-#: src/components/molecules/MessageBubble.js:67
+#: src/components/molecules/MessageBubble.js:70
 msgid "(Unsupported message.)"
 msgstr ""
 
@@ -217,10 +217,10 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: src/pages/ChatLayout.js:332
+#: src/pages/ChatLayout.js:337
 msgid "Failed to load messages."
 msgstr ""
 
-#: src/pages/ChatLayout.js:337
+#: src/pages/ChatLayout.js:342
 msgid "Please select a user to start chatting."
 msgstr ""

@@ -321,6 +321,8 @@ class ListTable extends \WP_List_Table {
 				if (is_array($message)) {
 					$msg_text = $message['data'];
 				}
+			} elseif (in_array($item['message_type'], array(91, 92, 93))) {
+				$msg_text = $message['altText'];
 			}
 		}
 		if (! empty($msg_text)) {

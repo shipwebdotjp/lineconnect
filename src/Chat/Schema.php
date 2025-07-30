@@ -32,14 +32,14 @@ class Schema {
                     ),
                 ),
                 'additionalProperties' => array(
-                    'type' => 'string',
+                    'type' => array('string', 'integer', 'object', 'array', 'null'),
                 ),
             ),
             'tags' => array(
                 'type' => 'array',
                 'title' => __('Tags', lineconnect::PLUGIN_NAME),
                 'items' => array(
-                    'type' => 'string',
+                    'type' => array('string', 'integer', 'null'),
                 ),
             ),
             'scenarios' => array(
