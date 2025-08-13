@@ -141,6 +141,14 @@ const RJSFForm = () => {
             form.map((formItem, index) => {
                 if (formData[index]) {
                     formItem.formData = formData[index];
+                    if (lc_initdata['formName'] == 'slc_message-data' ||
+                        lc_initdata['formName'] == 'slc_trigger-data') {
+                        if (index % 2 === 1) {
+                            if (formData[index - 1].type && lc_initdata['subSchema'][formData[index - 1].type]) {
+                                formItem["schema"] = subSchema[formData[index - 1].type];
+                            }
+                        }
+                    }
                 }
             });
             formValueElement.value = textAreaValue;

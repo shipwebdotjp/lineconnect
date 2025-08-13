@@ -4,26 +4,26 @@ msgstr ""
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
 "Content-Type: text/plain;\n"
 
-#: src/component/RJSFForm.jsx:151
+#: src/component/RJSFForm.jsx:159
 msgid "Invalid JSON format: "
 msgstr ""
 
-#: src/component/RJSFForm.jsx:189
+#: src/component/RJSFForm.jsx:197
 msgid "JSON Data"
 msgstr ""
 
-#: src/component/RJSFForm.jsx:201
+#: src/component/RJSFForm.jsx:209
 msgid "Copy"
 msgstr ""
 
-#: src/component/RJSFForm.jsx:204
+#: src/component/RJSFForm.jsx:212
 msgid "Close"
 msgstr ""
 
-#: src/component/RJSFForm.jsx:207
+#: src/component/RJSFForm.jsx:215
 msgid "Apply"
 msgstr ""
 
-#: src/component/RJSFForm.jsx:215
+#: src/component/RJSFForm.jsx:223
 msgid "View as JSON"
 msgstr ""

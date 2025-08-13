@@ -14,5 +14,5 @@ for file in languages/lineconnect-js-ja-*.json; do
     echo "リネーム: $file -> languages/lineconnect-ja-${hash}.json"
 done
 
-rm -f languages/lineconnect-js.pot
-rm -f languages/lineconnect-js-ja.po
+# rm -f languages/lineconnect-js.pot
+# rm -f languages/lineconnect-js-ja.po

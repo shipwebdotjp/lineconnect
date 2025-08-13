@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-07-26 23:05+0900\n"
+"POT-Creation-Date: 2025-08-13 22:11+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -28,6 +28,12 @@ msgid "Teacher"
 msgstr "先生"
 
 msgid "Student"
+msgstr ""
+
+msgid "Channel prefix is required."
+msgstr "チャネルプレフィックスが必要です。"
+
+msgid "Line ID is required."
 msgstr ""
 
 msgid "User ID"
@@ -444,18 +450,20 @@ msgstr "LINE Connect チャット"
 msgid "Chat"
 msgstr "チャット"
 
-msgid "Channel prefix is required."
-msgstr "チャネルプレフィックスが必要です。"
-
 msgid "User ID is required."
 msgstr "ユーザーIDが必要です。"
 
-#, php-format
-msgid "Invalid timestamp format. %s"
-msgstr "無効なタイムスタンプ形式です。%s"
-
 msgid "Failed to retrieve messages."
 msgstr "メッセージの取得に失敗しました。"
+
+msgid "User is not logged in."
+msgstr ""
+
+msgid "User is not authorized."
+msgstr ""
+
+msgid "Nonce is not set."
+msgstr ""
 
 msgid "Profile"
 msgstr "プロフィール"
@@ -2309,6 +2317,9 @@ msgstr "メッセージテンプレート"
 msgid "Send when a future post is published"
 msgstr "予約投稿時に送信する"
 
+msgid "Audience"
+msgstr "オーディエンス"
+
 msgid "Sent a LINE message to all friends."
 msgstr "全ての友達にLINEを送信しました"
 
@@ -2325,6 +2336,11 @@ msgstr "条件にマッチするユーザーがいませんでした"
 
 msgid "Failed to send a LINE message to selected roles."
 msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
+
+msgid ""
+"Failed to send a LINE message due to Channel access token or Channel secret "
+"not set."
+msgstr ""
 
 # php-format
 #, php-format
@@ -3618,9 +3634,6 @@ msgstr "LINE Connect オーディエンス"
 msgid "Audiences"
 msgstr "オーディエンス"
 
-msgid "Audience"
-msgstr "オーディエンス"
-
 msgid "Audience condition"
 msgstr "オーディエンス条件"
 
@@ -3677,6 +3690,10 @@ msgstr "ダウンロード"
 
 msgid "CSV Download"
 msgstr "CSVダウンロード"
+
+#, php-format
+#~ msgid "Invalid timestamp format. %s"
+#~ msgstr "無効なタイムスタンプ形式です。%s"
 
 #~ msgid "LINE Connect Audience Download"
 #~ msgstr "LINE Connect オーディエンスダウンロード"
