@@ -388,7 +388,7 @@ class OpenAi {
 			$responce = json_decode($result, true);
 		}
 		curl_close($curl);
-		// error_log(print_r($responce, true));
+		error_log(print_r($responce, true));
 		return $responce;
 	}
 

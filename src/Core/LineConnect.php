@@ -33,6 +33,7 @@ use Shipweb\LineConnect\Chat\API\FetchUsers;
 use Shipweb\LineConnect\Chat\API\FetchUserData;
 use Shipweb\LineConnect\Chat\API\EditUserData;
 use Shipweb\LineConnect\Chat\API\FetchMessages;
+use Shipweb\LineConnect\Chat\API\ChatSend;
 use Shipweb\LineConnect\Chat\Screen as ChatScreen;
 use Shipweb\LineConnect\Admin\ContentDownload;
 
@@ -43,7 +44,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.3.3';
+	const VERSION = '4.3.4';
 
 	/**
 	 * このプラグインのデータベースバージョン
@@ -565,9 +566,7 @@ class LineConnect {
 			// ダッシュボードデータ取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_dashboard', array(DashboardScreen::class, 'ajax_get_dashboard'));
 			// DM送信アクション
-			add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
-			// チャット送信アクション
-			add_action('wp_ajax_lc_ajax_chat_send', array(ChatScreen::class, 'ajax_chat_send'));
+			// add_action('wp_ajax_lc_ajax_dm_send', array(DirectMessageScreen::class, 'ajax_dm_send'));
 			// リッチメニュー一覧取得AJAXアクション
 			add_action('wp_ajax_lc_ajax_get_richmenus', array(RichMenu::class, 'ajax_get_richmenus'));
 			// リッチメニュー取得AJAXアクション
@@ -584,7 +583,7 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array(RichMenu::class, 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array(RichMenu::class, 'ajax_update_richmenu_alias'));
-
+			
 			// ユーザー一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_users', array(FetchUsers::class, 'ajax_fetch_users'));
 			// ユーザー情報取得AJAXアクション
@@ -593,6 +592,8 @@ class LineConnect {
 			add_action('wp_ajax_slc_edit_user_data', array(EditUserData::class, 'ajax_edit_user_data'));
 			// メッセージ一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_messages', array(FetchMessages::class, 'execute'));
+			// チャット送信アクション
+			add_action('wp_ajax_lc_ajax_chat_send', array(ChatSend::class, 'ajax_chat_send'));
 		}
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);

@@ -178,7 +178,7 @@ const ChatLayout = () => {
                     line_id: userId,
                 },
             });
-            dispatch({ type: actionTypes.FETCH_USER_DATA_SUCCESS, payload: response });
+            dispatch({ type: actionTypes.FETCH_USER_DATA_SUCCESS, payload: response.data });
         } catch (err) {
             dispatch({ type: actionTypes.FETCH_USER_DATA_FAILURE, payload: err.statusText });
         }
@@ -187,26 +187,31 @@ const ChatLayout = () => {
 
     const handleMessageSend = () => {
         setIsSending(true);
-        jQuery.ajax({
-            type: "POST",
-            url: lc_initdata['ajaxurl'],
-            data: {
-                action: 'lc_ajax_chat_send',
-                nonce: lc_initdata['ajax_nonce'],
-                messages: buildMessages,
-                channel: channelId,
-                to: userId,
-                notificationDisabled: notificationDisabled ? 1 : 0,
-            },
-            dataType: 'json',
-        }).done((data) => {
-            setIsSending(false);
-            setResults(data);
-            fetchMessages();
-        }).fail((XMLHttpRequest, textStatus, error) => {
-            setIsSending(false);
-            setResults({ error });
-        });
+        (async () => {
+            try {
+                const response = await window.jQuery.ajax({
+                    type: 'POST',
+                    url: lc_initdata['ajaxurl'],
+                    data: {
+                        action: 'lc_ajax_chat_send',
+                        nonce: lc_initdata['ajax_nonce'],
+                        messages: buildMessages,
+                        channel: channelId,
+                        to: userId,
+                        notificationDisabled: notificationDisabled ? 1 : 0,
+                    },
+                    dataType: 'json',
+                });
+                setIsSending(false);
+                setResults(response.data);
+                if (response.success) {
+                    fetchMessages();
+                }
+            } catch (error) {
+                setIsSending(false);
+                setResults({ error: [error?.statusText || error] });
+            }
+        })();
     };
 
     // チャットメッセージフォームのトグル

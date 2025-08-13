@@ -13,7 +13,6 @@ class EditUserData {
         $result = \Shipweb\LineConnect\Utilities\Guard::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
         if ($result['result'] === 'failed') {
             wp_send_json_error($result);
-            wp_die();
         }
         $channel_prefix = isset($_POST['channel_prefix']) ? stripslashes($_POST['channel_prefix']) : "";
         $line_id = isset($_POST['line_id']) ? stripslashes($_POST['line_id']) : "";
@@ -23,17 +22,14 @@ class EditUserData {
         
         if (empty($channel_prefix) || empty($line_id) || empty($type)) {
             wp_send_json_error(array('message' => 'Invalid parameters.'));
-            wp_die();
         }
         
         if (!in_array($type, ['profile', 'tags', 'interactions', 'scenarios', 'stats'])) {
             wp_send_json_error(array('message' => 'Invalid type.'));
-            wp_die();
         }
         
         if (in_array($type, ['scenarios', 'interactions']) && empty($id)) {
             wp_send_json_error(array('message' => 'id is required.'));
-            wp_die();
         }
         
         if( $type === 'scenarios' ) {
@@ -66,6 +62,5 @@ class EditUserData {
         );
         $response = $result === false ? array('result' => 'failed') : array('result' => 'success');
         wp_send_json_success($response);
-        wp_die();
     }
 }

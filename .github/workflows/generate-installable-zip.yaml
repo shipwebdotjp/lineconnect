@@ -32,7 +32,7 @@ jobs:
       - name: Create artifact
         uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -X -r build/lineconnect.zip . -x *.git* node_modules/* docs/* document/* tests/* flex-render/* CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* gettext.sh mo.sh phpunit.xml release.sh test.php
+          args: zip -X -r build/lineconnect.zip . -x *.git* node_modules/* docs/* document/* tests/* flex-render/* frontend/*/src/* frontend/*/dist/*.map frontend/*/languages/*.po frontend/*/languages/*.pot frontend/*/package.json frontend/*/package-lock.json frontend/*/list CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md CNAME *.dist composer.* gettext.sh mo.sh phpunit.xml release.sh test.php po2json.js postcss.config.js tailwind.config.js webpack.config.js pnpm-lock.yaml tsconfig.json react-gettext-parser.config.js package-lock.json babel.config.js
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- LINE Connect — icon-only (square bubble with LC monogram) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="LINE Connect icon">
+  <title>LINE Connect — icon</title>
+  <defs>
+    <style type="text/css"><![CDATA[
+      .lc-green { fill: #10a37f; }
+      .lc-white { fill: #ffffff; }
+    ]]></style>
+  </defs>
+
+  <!-- Rounded bubble -->
+  <rect x="0" y="0" width="160" height="160" rx="26" ry="26" class="lc-green" />
+  <!-- Tail (small) -->
+  <path d="M28 160 L52 132 L44 154 Z" class="lc-green" />
+  <!-- C arc -->
+  <path d="M46 44c-16 0-28 12-28 28s12 28 28 28" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- L stroke -->
+  <path d="M66 44v56h28" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -217,10 +217,10 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: src/pages/ChatLayout.js:337
+#: src/pages/ChatLayout.js:342
 msgid "Failed to load messages."
 msgstr ""
 
-#: src/pages/ChatLayout.js:342
+#: src/pages/ChatLayout.js:347
 msgid "Please select a user to start chatting."
 msgstr ""

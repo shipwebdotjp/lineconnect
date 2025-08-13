@@ -30,7 +30,7 @@ class Guard {
             );
         }
         // nonceで設定したcredentialをPOST受信していない場合は無視
-        if (! isset($_POST[$nonce_name]) || ! $_POST[$nonce_name] || ! check_ajax_referer($action, $nonce_name)) {
+        if (! isset($_POST[$nonce_name]) || ! $_POST[$nonce_name] || ! check_ajax_referer($action, $nonce_name, false)) {
             return array(
                 'result' => 'failed',
                 'success' => array(),

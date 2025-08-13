@@ -11,6 +11,30 @@ use Shipweb\LineConnect\Core\LineConnect;
 class lineconnectTest {
     public static function init() {
         global $wpdb;
+        // DROP ALL TABLES 
+        // 1. 外部キー制約がある場合を考慮して一時的に無効化（InnoDB のとき）
+        $wpdb->query('SET FOREIGN_KEY_CHECKS=0;');
+
+        // 2. 既存テーブルを削除（DROP）してスキーマを完全にリセット
+        $tables = [
+            $wpdb->prefix . LineConnect::TABLE_BOT_LOGS,
+            $wpdb->prefix . LineConnect::TABLE_LINE_ID,
+            $wpdb->prefix . LineConnect::TABLE_LINE_STATS,
+            $wpdb->prefix . LineConnect::TABLE_LINE_DAILY,
+            // 必要なら他の関連テーブルも
+        ];
+        foreach ($tables as $table) {
+            $wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+        }
+
+        // 3. 外部キーチェックを戻す
+        $wpdb->query('SET FOREIGN_KEY_CHECKS=1;');
+
+        // 4. バージョンオプション等を削除して「未インストール状態」に
+        delete_option(LineConnect::OPTION_KEY__VARIABLES);
+        delete_option(LineConnect::OPTION_KEY__CHANNELS);
+        delete_option(LineConnect::OPTION_KEY__SETTINGS);
+
         $table_name_line_id = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
 
         LineConnect::pluginActivation();

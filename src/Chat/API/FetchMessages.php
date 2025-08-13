@@ -29,8 +29,7 @@ class FetchMessages {
         header('Content-Type: application/json; charset=utf-8');
         $result = \Shipweb\LineConnect\Utilities\Guard::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
         if ($result['result'] === 'failed') {
-            echo json_encode($result);
-            wp_die();
+            wp_send_json_error($result);
         }
 
         if (! isset($_POST['user_id']) || empty($_POST['user_id'])) {

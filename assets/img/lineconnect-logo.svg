@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- LINE Connect — full logo (icon + wordmark) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200" role="img" aria-label="LINE Connect logo">
+  <title>LINE Connect — WordPress plugin to connect WordPress users with LINE users</title>
+  <defs>
+    <style type="text/css"><![CDATA[
+      .lc-green { fill: #10a37f; }
+      .lc-dark { fill: #2d2d2d; }
+      .lc-white { fill: #ffffff; }
+      .word-line { fill: #10a37f; font-family: "Noto Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size:48px; letter-spacing:0.5px; }
+      .word-connect { fill: #2d2d2d; font-family: "Noto Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 500; font-size:48px; letter-spacing:0.5px; }
+    ]]></style>
+  </defs>
+
+  <!-- Icon (left) -->
+  <g transform="translate(20,20)">
+    <!-- rounded chat bubble base -->
+    <rect x="0" y="0" width="160" height="160" rx="26" ry="26" class="lc-green" />
+    <!-- tail to emphasize chat bubble -->
+    <path d="M28 160 L52 132 L44 154 Z" class="lc-green" />
+    <!-- Monogram: C (arc) -->
+    <path d="M46 64c-9.5 0-16.5 7-16.5 16.5S36.5 97 46 97" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Monogram: L -->
+    <path d="M54 64v33h21" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Wordmark (right) -->
+  <g transform="translate(210,110)">
+    <text x="0" y="16" class="word-line">LINE</text>
+    <text x="124" y="16" class="word-connect">Connect</text>
+  </g>
+</svg>

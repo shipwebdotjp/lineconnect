@@ -9,12 +9,25 @@ class FetchUserData {
     static function ajax_fetch_user_data() {
         global $wpdb;
 
-        header('Content-Type: application/json; charset=utf-8');
         $result = \Shipweb\LineConnect\Utilities\Guard::check_ajax_referer(lineconnect::CREDENTIAL_ACTION__POST);
         if ($result['result'] === 'failed') {
-            echo json_encode($result);
-            wp_die();
+            wp_send_json_error($result);
         }
+
+        if (!isset($_POST['channel_prefix']) || empty($_POST['channel_prefix'])) {
+            wp_send_json_error([
+                'result' => 'failed',
+                'message' => __('Channel prefix is required.', 'lineconnect')
+            ]);
+        }
+
+        if (!isset($_POST['line_id']) || empty($_POST['line_id'])) {
+            wp_send_json_error([
+                'result' => 'failed',
+                'message' => __('Line ID is required.', 'lineconnect')
+            ]);
+        }
+        
         $channel_prefix = isset($_POST['channel_prefix']) ? stripslashes($_POST['channel_prefix']) : "";
         $line_id = isset($_POST['line_id']) ? stripslashes($_POST['line_id']) : "";
         $table_name = $wpdb->prefix . lineconnect::TABLE_LINE_ID;
@@ -30,7 +43,6 @@ class FetchUserData {
         $result['interactions'] = json_decode($result['interactions'] ?: '{}', true);
         $result['scenarios'] = json_decode($result['scenarios'] ?: '{}', true);
         $result['stats'] = json_decode($result['stats'] ?: '{}', true);
-        echo json_encode($result);
-        wp_die();
+        wp_send_json_success($result);
     }
 }
