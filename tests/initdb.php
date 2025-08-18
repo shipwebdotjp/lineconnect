@@ -21,10 +21,12 @@ class lineconnectTest {
             $wpdb->prefix . LineConnect::TABLE_LINE_ID,
             $wpdb->prefix . LineConnect::TABLE_LINE_STATS,
             $wpdb->prefix . LineConnect::TABLE_LINE_DAILY,
+            $wpdb->prefix . LineConnect::TABLE_INTERACTION_SESSIONS,
+            $wpdb->prefix . LineConnect::TABLE_INTERACTION_LOGS,
             // 必要なら他の関連テーブルも
         ];
         foreach ($tables as $table) {
-            $wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
         }
 
         // 3. 外部キーチェックを戻す

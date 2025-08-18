@@ -226,6 +226,30 @@ foreach ($json_obj->{'events'} as $event) {
 		$result = File::update_message_filepath($isEventDuplicationOrInsertedId, $saved_content_file_name);
 	}
 
+	//　インタラクション
+	$session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
+	$action_runner = new Shipweb\LineConnect\Interaction\ActionRunner();
+	$message_builder = new Shipweb\LineConnect\Interaction\MessageBuilder();
+	$normalizer = new Shipweb\LineConnect\Interaction\InputNormalizer();
+	$validator = new Shipweb\LineConnect\Interaction\Validator();
+	$interaction_handler = new Shipweb\LineConnect\Interaction\InteractionHandler(
+		$session_repository,
+		$action_runner,
+		$message_builder,
+		$normalizer,
+		$validator
+	);
+	$interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
+		$session_repository,
+		$interaction_handler
+	);
+	if (isset($event->{'source'}->{'userId'})) {
+		$interaction_messages = $interaction_manager->handleEvent($secret_prefix, $event->{'source'}->{'userId'}, $event);
+		if (!empty($interaction_messages)) {
+			$message = array_merge($message, $interaction_messages);
+		}
+	}
+
 	// check if match trigger
 	$triggers = array();
 	$args     = array(
