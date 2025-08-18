@@ -107,7 +107,7 @@ class InteractionHandler {
         }
 
         // Determine the next step
-        $next_step_id = $step->get_next_step_id($session);
+        $next_step_id = $this->determine_next_step_id($step, $session);
 
         if ($next_step_id) {
             $session->set_current_step_id($next_step_id);
@@ -149,5 +149,37 @@ class InteractionHandler {
             return $event->postback->data;
         }
         return null;
+    }
+
+    private function determine_next_step_id(StepDefinition $step, InteractionSession $session): ?string {
+        $branches = $step->get_branches();
+        $last_answer = $session->get_answer($step->get_id());
+
+        if (!empty($branches) && $last_answer !== null) {
+            foreach ($branches as $branch) {
+                $branch = (object)$branch;
+                $condition_type = $branch->type ?? 'equals';
+                $condition_value = $branch->value ?? '';
+
+                $match = false;
+                switch ($condition_type) {
+                    case 'equals':
+                        $match = ($last_answer === $condition_value);
+                        break;
+                    case 'contains':
+                        $match = (is_string($last_answer) && is_string($condition_value) && strpos($last_answer, $condition_value) !== false);
+                        break;
+                    case 'regex':
+                        $match = (is_string($last_answer) && preg_match($condition_value, $last_answer) === 1);
+                        break;
+                }
+
+                if ($match) {
+                    return $branch->nextStepId;
+                }
+            }
+        }
+
+        return $step->get_next_step_id();
     }
 }

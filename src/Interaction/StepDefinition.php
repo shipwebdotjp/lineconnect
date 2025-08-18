@@ -31,6 +31,10 @@ class StepDefinition {
         return $this->data['messages'] ?? [];
     }
 
+    public function get_branches(): array {
+        return $this->data['branches'] ?? [];
+    }
+
     public function get_next_step_id(): ?string {
         return $this->data['nextStepId'] ?? null;
     }

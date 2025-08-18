@@ -531,6 +531,36 @@ class Schema {
                                     ),
                                 ),
                             ),
+                            'branches' => array(
+                                'type' => 'array',
+                                'title' => __('Branches', LineConnect::PLUGIN_NAME),
+                                'description' => __('Define conditional branches based on user input. If no conditions match, the default Next Step ID will be used.', LineConnect::PLUGIN_NAME),
+                                'items' => array(
+                                    'type' => 'object',
+                                    'title' => __('Branch', LineConnect::PLUGIN_NAME),
+                                    'required' => array('type', 'value', 'nextStepId'),
+                                    'properties' => array(
+                                        'type' => array(
+                                            'type' => 'string',
+                                            'title' => __('Condition Type', LineConnect::PLUGIN_NAME),
+                                            'oneOf' => array(
+                                                array('const' => 'equals', 'title' => __('Equals', LineConnect::PLUGIN_NAME)),
+                                                array('const' => 'contains', 'title' => __('Contains', LineConnect::PLUGIN_NAME)),
+                                                array('const' => 'regex', 'title' => __('Regex', LineConnect::PLUGIN_NAME)),
+                                            ),
+                                            'default' => 'equals',
+                                        ),
+                                        'value' => array(
+                                            'type' => 'string',
+                                            'title' => __('Value to Match', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        'nextStepId' => array(
+                                            'type' => 'string',
+                                            'title' => __('Next Step ID for this branch', LineConnect::PLUGIN_NAME),
+                                        ),
+                                    ),
+                                ),
+                            ),
                             'nextStepId' => array(
                                 'type' => array('string', 'null'),
                                 'title' => __('Next Step ID', LineConnect::PLUGIN_NAME),
