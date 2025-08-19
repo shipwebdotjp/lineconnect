@@ -245,6 +245,10 @@ class Schema {
                                                             'type' => 'object',
                                                             'title' => __('Template Button Settings', LineConnect::PLUGIN_NAME),
                                                             'properties' => array(
+                                                                'text' => array(
+                                                                    'type' => 'string',
+                                                                    'title' => __('Template Title', LineConnect::PLUGIN_NAME),
+                                                                ),
                                                                 'options' => array(
                                                                     'type' => 'array',
                                                                     'title' => __('Options', LineConnect::PLUGIN_NAME),
