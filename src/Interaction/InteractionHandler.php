@@ -39,8 +39,7 @@ class InteractionHandler {
      * @param object $event
      * @return array
      */
-    public function presentStep(InteractionSession $session, InteractionDefinition $interaction_definition, object $event): array
-    {
+    public function presentStep(InteractionSession $session, InteractionDefinition $interaction_definition, object $event): array {
         $current_step_id = $session->get_current_step_id();
         $step = $interaction_definition->get_step($current_step_id);
 
@@ -55,6 +54,7 @@ class InteractionHandler {
         if (!empty($before_actions)) {
             $action_messages = $this->action_runner->run($before_actions, $session, $event);
             $messages = array_merge($messages, $action_messages);
+            // var_dump($messages);
         }
 
         // Build the message for the current step.

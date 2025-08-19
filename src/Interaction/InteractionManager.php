@@ -6,6 +6,8 @@ use Shipweb\LineConnect\Interaction\SessionRepository;
 use Shipweb\LineConnect\Interaction\InteractionHandler;
 use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\InteractionSession;
+use Shipweb\LineConnect\Message\LINE\Builder as LineMessageBuilder;
+
 
 /**
  * Manages the overall interaction flow.
@@ -35,27 +37,59 @@ class InteractionManager {
         // Find an active session for the user.
         $session = $this->session_repository->find_active($channel_prefix, $line_user_id);
 
-        if ($session) {
-            // Session exists, so load its definition.
-            $interaction_definition = InteractionDefinition::from_post(
-                $session->get_interaction_id(),
-                $session->get_interaction_version()
-            );
-
-            if (!$interaction_definition) {
-                // TODO: Handle error: definition not found for an existing session.
-                // Maybe log the error and complete the session to prevent it from being stuck.
-                $session->complete();
-                $this->session_repository->save($session);
-                return [];
-            }
-
-            // Delegate the handling of the step to the InteractionHandler.
-            return $this->interaction_handler->handle($session, $event, $interaction_definition);
+        if (!$session) {
+            // No active session found, so do nothing.
+            return [];
         }
 
-        // No active session found, so do nothing.
-        return [];
+        // Session exists, so load its definition.
+        $interaction_definition = InteractionDefinition::from_post(
+            $session->get_interaction_id(),
+            $session->get_interaction_version()
+        );
+
+        if (!$interaction_definition) {
+            // TODO: Handle error: definition not found for an existing session.
+            // Maybe log the error and complete the session to prevent it from being stuck.
+            $session->complete();
+            $this->session_repository->save($session);
+            return [];
+        }
+
+        // Delegate the handling of the step to the InteractionHandler.
+        $messages = $this->interaction_handler->handle($session, $event, $interaction_definition);
+
+        // Check if the session was completed and if there's a paused session to resume.
+        if ($session->get_status() === 'completed') {
+            $paused_sessions = $this->session_repository->find_paused($channel_prefix, $line_user_id);
+            if (!empty($paused_sessions)) {
+                // Take the most recent paused session (first in the array due to ORDER BY DESC)
+                $paused_session = $paused_sessions[0];
+
+                // A paused session exists, so let's resume it.
+                $paused_session->set_status('active');
+                $this->session_repository->save($paused_session);
+
+                // Load the definition for the resumed interaction.
+                $resumed_definition = InteractionDefinition::from_post(
+                    $paused_session->get_interaction_id(),
+                    $paused_session->get_interaction_version()
+                );
+
+                if ($resumed_definition) {
+                    // Present the current step of the resumed session.
+                    $resume_messages = $this->interaction_handler->presentStep($paused_session, $resumed_definition, $event);
+                    $messages = array_merge($messages, $resume_messages);
+                } else {
+                    // Error handling: definition for paused session not found.
+                    // To prevent a stuck session, we should probably complete it.
+                    $paused_session->complete();
+                    $this->session_repository->save($paused_session);
+                }
+            }
+        }
+
+        return [LineMessageBuilder::createMultiMessage($messages)];
     }
 
     /**
@@ -110,7 +144,7 @@ class InteractionManager {
                 'userId' => $line_user_id
             ]
         ];
-        var_dump($interaction_id, $line_user_id, $channel_prefix, $overridePolicy, $activeSession, $same_form, $stack_same);
+        // var_dump($interaction_id, $line_user_id, $channel_prefix, $overridePolicy, $activeSession, $same_form, $stack_same);
 
         // Implement override policies.
         switch ($overridePolicy) {
