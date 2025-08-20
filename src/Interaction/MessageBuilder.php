@@ -98,8 +98,7 @@ class MessageBuilder {
      * @param string $step_id The current step ID.
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public function buildTemplateButtonMessage(array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
-    {
+    public function buildTemplateButtonMessage(array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
         $options = isset($message['options']) ? $message['options'] : [];
         $columns = isset($message['column']) ? $message['column'] : 1;
         $widths = ["100%", "100%", "48%", "30%", "20%"]; // 0, 1, 2, 3, 4 columns
@@ -116,13 +115,14 @@ class MessageBuilder {
                 $button_style = 'secondary';
             }
 
-            $button_width = isset($option['width']) ? $option['width'] : (isset($widths[$columns]) ? $widths[$columns] : intval(90 / $columns) . "%" );
+            $button_width = isset($option['width']) ? $option['width'] : (isset($widths[$columns]) ? $widths[$columns] : intval(90 / $columns) . "%");
+            $label = isset($option['label']) ? $option['label'] : $option['value'];
 
             $action = [
                 'type' => 'postback',
-                'label' => $option['label'],
+                'label' => $label,
                 'link' => $data,
-                'displayText' => $option['label'],
+                'displayText' => $label,
             ];
 
             $button_atts = [

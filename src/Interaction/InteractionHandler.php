@@ -107,7 +107,7 @@ class InteractionHandler {
         }
 
         // Determine the next step
-        $next_step_id = $this->determine_next_step_id($step, $session);
+        $next_step_id = $this->determine_next_step_id($step, $session, $event);
 
         if ($next_step_id) {
             $session->set_current_step_id($next_step_id);
@@ -142,16 +142,71 @@ class InteractionHandler {
      * @param object $event
      * @return string|null
      */
-    private function extractUserInput(object $event): ?string {
-        if ($event->type === 'message' && $event->message->type === 'text') {
-            return $event->message->text;
-        } elseif ($event->type === 'postback') {
+    private function extractUserInput(?object $event): ?string {
+        if (!$event) {
+            return null;
+        }
+
+        // 1. postback->params->datetime|date|time (最優先)
+        if ($event->type === 'postback' && isset($event->postback->params)) {
+            $params = $event->postback->params;
+
+            // datetime, date, time の順で確認
+            if (isset($params->datetime)) {
+                return $params->datetime;
+            }
+            if (isset($params->date)) {
+                return $params->date;
+            }
+            if (isset($params->time)) {
+                return $params->time;
+            }
+        }
+
+        // 2. postback->dataがクエリストリング形式の場合のvalue
+        if ($event->type === 'postback' && isset($event->postback->data)) {
+            $data = $event->postback->data;
+
+            // クエリストリング形式かチェック
+            if (strpos($data, '=') !== false) {
+                parse_str($data, $parsed);
+                if (isset($parsed['value'])) {
+                    return $parsed['value'];
+                }
+            }
+        }
+
+        // 3. postback->data (そのまま)
+        if ($event->type === 'postback' && isset($event->postback->data)) {
             return $event->postback->data;
         }
+
+        // 4. message->text (最後)
+        if (
+            $event->type === 'message' &&
+            isset($event->message->type) &&
+            $event->message->type === 'text' &&
+            isset($event->message->text)
+        ) {
+            return $event->message->text;
+        }
+
         return null;
     }
 
-    private function determine_next_step_id(StepDefinition $step, InteractionSession $session): ?string {
+    private function determine_next_step_id(StepDefinition $step, InteractionSession $session, object $event): ?string {
+        // postback data
+        if ($event->type === 'postback' && isset($event->postback->data)) {
+            $data = $event->postback->data;
+            // if query string and has nextStepId
+            if (strpos($data, '=') !== false) {
+                parse_str($data, $parsed);
+                if (isset($parsed['nextStepId'])) {
+                    return $parsed['nextStepId'];
+                }
+            }
+        }
+
         $branches = $step->get_branches();
         $last_answer = $session->get_answer($step->get_id());
 

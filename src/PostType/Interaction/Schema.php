@@ -261,6 +261,8 @@ class Schema {
                                                                             'value' => array('type' => 'string', 'title' => __('Value', LineConnect::PLUGIN_NAME)),
                                                                             'label' => array('type' => 'string', 'title' => __('Label', LineConnect::PLUGIN_NAME)),
                                                                             'nextStepId' => array('type' => array('string', 'null'), 'title' => __('Next Step ID', LineConnect::PLUGIN_NAME)),
+                                                                            'secondary' => array('type' => 'boolean', 'title' => __('Secondary Button Style', LineConnect::PLUGIN_NAME)),
+                                                                            'width' => array('type' => 'string', 'title' => __('Width', LineConnect::PLUGIN_NAME)),
                                                                         ),
                                                                     ),
                                                                 ),

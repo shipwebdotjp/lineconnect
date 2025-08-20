@@ -25,6 +25,6 @@ class ActionRunner {
         $chains = $action_definition->chains ?? null;
         $secret_prefix = $session->get_channel_prefix();
 
-        return Action::do_action($actions, $chains, $event, $secret_prefix);
+        return Action::do_action($actions, $chains, $event, $secret_prefix, null, $session);
     }
 }

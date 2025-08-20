@@ -12,8 +12,7 @@ use Shipweb\LineConnect\Interaction\StepDefinition;
 use Shipweb\LineConnect\Interaction\InteractionSession;
 use Shipweb\LineConnect\Interaction\ValidationResult;
 
-class InteractionHandlerTest extends TestCase
-{
+class InteractionHandlerBranchByTextTest extends TestCase {
     private $sessionRepositoryMock;
     private $actionRunnerMock;
     private $messageBuilderMock;
@@ -23,8 +22,7 @@ class InteractionHandlerTest extends TestCase
     private $sessionMock;
     private $stepMock;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         $this->sessionRepositoryMock = $this->createMock(SessionRepository::class);
         $this->actionRunnerMock = $this->createMock(ActionRunner::class);
         $this->messageBuilderMock = $this->createMock(MessageBuilder::class);
@@ -42,8 +40,7 @@ class InteractionHandlerTest extends TestCase
         $this->validatorMock->method('validate')->willReturn($validationResultMock);
     }
 
-    private function createEvent(string $text): object
-    {
+    private function createEvent(string $text): object {
         return (object) [
             'type' => 'message',
             'message' => (object) [
@@ -53,8 +50,7 @@ class InteractionHandlerTest extends TestCase
         ];
     }
 
-    public function testHandleWithBranchingEqualsCondition()
-    {
+    public function testHandleWithBranchingEqualsCondition() {
         $event = $this->createEvent('yes');
 
         $this->stepMock->method('get_id')->willReturn('confirm_step');
@@ -66,7 +62,7 @@ class InteractionHandlerTest extends TestCase
 
         $this->sessionMock->method('get_current_step_id')->willReturn('confirm_step');
         $this->sessionMock->method('get_answer')->with('confirm_step')->willReturn('yes');
-        
+
         // Expect that the session's step is updated to 'yes_step'
         $this->sessionMock->expects($this->once())
             ->method('set_current_step_id')
@@ -83,8 +79,7 @@ class InteractionHandlerTest extends TestCase
         $handler->handle($this->sessionMock, $event, $this->interactionDefinitionMock);
     }
 
-    public function testHandleWithBranchingContainsCondition()
-    {
+    public function testHandleWithBranchingContainsCondition() {
         $event = $this->createEvent('I want to apply');
 
         $this->stepMock->method('get_id')->willReturn('apply_step');
@@ -111,8 +106,7 @@ class InteractionHandlerTest extends TestCase
         $handler->handle($this->sessionMock, $event, $this->interactionDefinitionMock);
     }
 
-    public function testHandleWithBranchingFallbackToDefault()
-    {
+    public function testHandleWithBranchingFallbackToDefault() {
         $event = $this->createEvent('maybe');
 
         $this->stepMock->method('get_id')->willReturn('confirm_step');
