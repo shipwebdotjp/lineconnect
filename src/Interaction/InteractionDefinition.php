@@ -3,6 +3,7 @@
 namespace Shipweb\LineConnect\Interaction;
 
 use Shipweb\LineConnect\PostType\Interaction\Interaction as InteractionCPT;
+use Shipweb\LineConnect\Core\LineConnect;
 
 /**
  * Holds the definition of an entire interaction flow.
@@ -66,6 +67,13 @@ class InteractionDefinition {
         if (empty($data)) {
             return null;
         }
+
+        $data = apply_filters(
+            lineconnect::FILTER_PREFIX . 'interaction_definition',
+            $data,
+            $post_id,
+            $form_version
+        );
 
         return new self($post_id, $form_version, $data, $post->post_title);
     }

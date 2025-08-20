@@ -49,6 +49,12 @@ class SessionRepository {
         $data = $session->to_db_array();
         unset($data['id']); // ID is not part of the data to be inserted/updated.
 
+        $data = apply_filters(
+            LineConnect::FILTER_PREFIX . 'interaction_session_save',
+            $data,
+            $session
+        );
+
         if ($session->get_id()) {
             // Update existing session
             $result = $this->wpdb->update(

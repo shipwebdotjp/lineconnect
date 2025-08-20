@@ -4,6 +4,7 @@ namespace Shipweb\LineConnect\Interaction;
 
 use DateTime;
 use DateTimeZone;
+use Shipweb\LineConnect\Core\LineConnect;
 
 /**
  * Represents a single interaction session, corresponding to a row in the database.
@@ -64,7 +65,8 @@ class InteractionSession {
         $session->expires_at = $row->expires_at ? new DateTime($row->expires_at, new DateTimeZone('UTC')) : null;
         $session->created_at = new DateTime($row->created_at, new DateTimeZone('UTC'));
         $session->updated_at = new DateTime($row->updated_at, new DateTimeZone('UTC'));
-        return $session;
+
+        return apply_filters(LineConnect::FILTER_PREFIX . 'interaction_session_load', $session);
     }
 
     /**

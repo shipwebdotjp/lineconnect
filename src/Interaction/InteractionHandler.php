@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\Interaction;
 use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\ValidationResult;
 use Shipweb\LineConnect\Interaction\StepDefinition;
+use Shipweb\LineConnect\Core\LineConnect;
 
 /**
  * Handles the processing of a single interaction step.
@@ -63,7 +64,7 @@ class InteractionHandler {
             $messages[] = $step_message;
         }
 
-        return array_filter($messages);
+        return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message', $messages, $session, $event));
     }
 
     /**
@@ -87,9 +88,8 @@ class InteractionHandler {
         $user_input = $this->extractUserInput($event);
 
         if ($user_input !== null) {
-            $normalized_input = $this->normalizer->normalize($user_input, $step->get_normalize_rules());
-            $validation_result = $this->validator->validate($normalized_input, $step->get_validation_rules());
-
+            $normalized_input = apply_filters(LineConnect::FILTER_PREFIX . 'interaction_normalize', $this->normalizer->normalize($user_input, $step->get_normalize_rules()), $step, $session, $event);
+            $validation_result = apply_filters(LineConnect::FILTER_PREFIX . 'interaction_validate', $this->validator->validate($normalized_input, $step->get_validation_rules()), $step, $session, $event);
             if (!$validation_result->isValid()) {
                 $error_message = $this->message_builder->build($step, $validation_result->getErrors());
                 return [$error_message];
@@ -133,7 +133,7 @@ class InteractionHandler {
 
         $this->session_repository->save($session);
 
-        return array_filter($messages);
+        return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message', $messages, $session, $event));
     }
 
     /**
