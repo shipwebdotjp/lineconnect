@@ -120,6 +120,16 @@ class InteractionManager {
             $overridePolicy = 'stack';
         }
 
+        // Enforce runPolicy 'single_forbid' at start time (interaction unit).
+        // If run_policy is single_forbid and any session for this interaction exists for this user/channel,
+        // refuse to start a new interaction.
+        if ($interaction_definition->get_run_policy() === 'single_forbid') {
+            $existing_sessions = $this->session_repository->find_sessions_by_interaction($channel_prefix, $line_user_id, $interaction_definition->get_id());
+            if (!empty($existing_sessions)) {
+                return [];
+            }
+        }
+
         // prepare first step (needed for resets)
         $first_step = $interaction_definition->get_first_step();
         if (!$first_step) {

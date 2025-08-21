@@ -7,6 +7,7 @@ use Shipweb\LineConnect\Interaction\ActionRunner;
 use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Interaction\InputNormalizer;
 use Shipweb\LineConnect\Interaction\Validator;
+use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
 
 class InteractionHandlerExtractUserInputTest extends TestCase {
     private $sessionRepositoryMock;
@@ -36,7 +37,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -59,7 +61,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -80,7 +83,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -101,7 +105,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -120,7 +125,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -139,7 +145,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $event = (object)[
@@ -159,7 +166,8 @@ class InteractionHandlerExtractUserInputTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $this->assertNull($this->invokeExtractUserInput($handler, null));

@@ -6,6 +6,7 @@ use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\ValidationResult;
 use Shipweb\LineConnect\Interaction\StepDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
 
 /**
  * Handles the processing of a single interaction step.
@@ -16,19 +17,22 @@ class InteractionHandler {
     private $message_builder;
     private $normalizer;
     private $validator;
+    private $run_policy_enforcer;
 
     public function __construct(
         SessionRepository $session_repository,
         ActionRunner $action_runner,
         MessageBuilder $message_builder,
         InputNormalizer $normalizer,
-        Validator $validator
+        Validator $validator,
+        RunPolicyEnforcer $run_policy_enforcer
     ) {
         $this->session_repository = $session_repository;
         $this->action_runner = $action_runner;
         $this->message_builder = $message_builder;
         $this->normalizer = $normalizer;
         $this->validator = $validator;
+        $this->run_policy_enforcer = $run_policy_enforcer;
     }
 
     /**
@@ -132,6 +136,13 @@ class InteractionHandler {
         }
 
         $this->session_repository->save($session);
+
+        // Apply runPolicy if session was completed
+        if ($session->get_status() === 'completed') {
+            $this->run_policy_enforcer->enforceOnComplete($session, $interaction_definition);
+            // save answers
+            $this->save_answers($session, $interaction_definition);
+        }
 
         return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message', $messages, $session, $event));
     }
@@ -237,4 +248,8 @@ class InteractionHandler {
 
         return $step->get_next_step_id();
     }
-}
+
+    private function save_answers(InteractionSession $session, InteractionDefinition $interaction_definition): void {
+        // 回答の最終保存処理
+        // excludeStepsを除いた後、storage=profileならprofileに保存(ステップIDをキーにして)
+    }

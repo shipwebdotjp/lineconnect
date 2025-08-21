@@ -721,10 +721,17 @@ class Schema {
                     'title' => __('Storage', LineConnect::PLUGIN_NAME),
                     'description' => __('Where the interaction data is stored', LineConnect::PLUGIN_NAME),
                     'anyOf' => array(
-                        array('const' => 'profile', 'title' => __('Profile', LineConnect::PLUGIN_NAME)),
+                        array('const' => 'profile', 'title' => __('Bind to Profile', LineConnect::PLUGIN_NAME)),
                         array('const' => 'interactions', 'title' => __('Interactions', LineConnect::PLUGIN_NAME)),
                     ),
                     'default' => 'interactions',
+                ),
+                'excludeSteps' => array(
+                    'type' => 'array',
+                    'title' => __('Exclude Steps', LineConnect::PLUGIN_NAME),
+                    'items' => array(
+                        'type' => 'string',
+                    )
                 ),
             ),
             'additionalProperties' => false,

@@ -26,7 +26,8 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -66,7 +67,8 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -113,7 +115,8 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -159,7 +162,8 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -212,7 +216,8 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,

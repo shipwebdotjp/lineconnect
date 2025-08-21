@@ -122,7 +122,54 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                                 ],
                                 'special' => 'complete',
                             ],
-                        ]
+                        ],
+                        "runPolicy" => "multi_keep_history",
+                    ],
+                ],
+            ],
+            "RunPolicy_single_latest_only" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "steps" => [
+                            [
+                                "id" => "step-1",
+                                "title" => "最初のステップ",
+                                "description" => "最初のステップです。",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "最初のメッセージ",
+                                    ],
+                                ],
+                                'stop' => true,
+                            ]
+                        ],
+                        "runPolicy" => "single_latest_only",
+                    ],
+                ],
+            ],
+            "RunPolicy_single_forbid" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "steps" => [
+                            [
+                                "id" => "step-1",
+                                "title" => "最初のステップ",
+                                "description" => "最初のステップです。",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "最初のメッセージ",
+                                    ],
+                                ],
+                                'stop' => true,
+                            ]
+                        ],
+                        "runPolicy" => "single_forbid",
                     ],
                 ],
             ],

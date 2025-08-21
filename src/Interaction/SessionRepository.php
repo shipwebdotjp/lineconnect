@@ -117,6 +117,30 @@ class SessionRepository {
     }
 
     /**
+     * Find all sessions for given user/channel and interaction.
+     *
+     * @return InteractionSession[] An array of sessions (may be empty).
+     */
+    public function find_sessions_by_interaction(string $channel_prefix, string $line_user_id, int $interaction_id): array {
+        $rows = $this->wpdb->get_results(
+            $this->wpdb->prepare(
+                "SELECT * FROM {$this->table_name} WHERE channel_prefix = %s AND line_user_id = %s AND interaction_id = %d ORDER BY updated_at DESC",
+                $channel_prefix,
+                $line_user_id,
+                $interaction_id
+            )
+        );
+
+        $sessions = [];
+        if ($rows) {
+            foreach ($rows as $row) {
+                $sessions[] = InteractionSession::from_db_row($row);
+            }
+        }
+        return $sessions;
+    }
+
+    /**
      * Delete a session from the database.
      */
     public function delete(InteractionSession $session): bool {

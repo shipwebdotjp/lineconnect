@@ -7,6 +7,7 @@ use Shipweb\LineConnect\Interaction\ActionRunner;
 use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Interaction\InputNormalizer;
 use Shipweb\LineConnect\Interaction\Validator;
+use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
 use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\StepDefinition;
 use Shipweb\LineConnect\Interaction\InteractionSession;
@@ -74,7 +75,8 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $handler->handle($this->sessionMock, $event, $this->interactionDefinitionMock);
@@ -103,7 +105,8 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $handler->handle($this->sessionMock, $event, $this->interactionDefinitionMock);
@@ -132,7 +135,8 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
             $this->actionRunnerMock,
             $this->messageBuilderMock,
             $this->normalizerMock,
-            $this->validatorMock
+            $this->validatorMock,
+            new RunPolicyEnforcer($this->sessionRepositoryMock)
         );
 
         $handler->handle($this->sessionMock, $event, $this->interactionDefinitionMock);

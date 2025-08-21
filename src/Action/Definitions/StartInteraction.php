@@ -11,6 +11,7 @@ use Shipweb\LineConnect\Interaction\ActionRunner;
 use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Interaction\InputNormalizer;
 use Shipweb\LineConnect\Interaction\Validator;
+use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
 
 class StartInteraction extends AbstractActionDefinition {
 	/**
@@ -91,12 +92,14 @@ class StartInteraction extends AbstractActionDefinition {
 		$message_builder = new MessageBuilder();
 		$normalizer = new InputNormalizer();
 		$validator = new Validator();
+		$run_policy_enforcer = new RunPolicyEnforcer($session_repository);
 		$interaction_handler = new InteractionHandler(
 			$session_repository,
 			$action_runner,
 			$message_builder,
 			$normalizer,
-			$validator
+			$validator,
+			$run_policy_enforcer
 		);
 		$interaction_manager = new InteractionManager(
 			$session_repository,

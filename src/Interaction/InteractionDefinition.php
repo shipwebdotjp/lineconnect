@@ -18,6 +18,8 @@ class InteractionDefinition {
     private string $run_policy;
     private string $override_policy;
     private int $version;
+    private string $storage;
+    private array $exclude_steps = [];
 
     /**
      * @param int $post_id The post ID of the interaction.
@@ -139,5 +141,13 @@ class InteractionDefinition {
 
     public function get_override_policy(): string {
         return $this->override_policy;
+    }
+
+    public function get_storage(): string {
+        return $this->storage;
+    }
+
+    public function get_exclude_steps(): array {
+        return $this->exclude_steps;
     }
 }

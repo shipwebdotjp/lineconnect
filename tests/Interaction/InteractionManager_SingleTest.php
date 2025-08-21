@@ -28,7 +28,8 @@ class InteractionManager_SingleTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -69,7 +70,8 @@ class InteractionManager_SingleTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -142,7 +144,8 @@ class InteractionManager_SingleTest extends InteractionManager_Base {
             $action_runner,
             $message_builder,
             $normalizer,
-            $validator
+            $validator,
+            new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
         );
         $interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
             $session_repository,
@@ -208,5 +211,15 @@ class InteractionManager_SingleTest extends InteractionManager_Base {
             $completed_messages[0]
         );
         $this->assertStringContainsString("別インタラクション: 完了メッセージ", $completed_messages[0]->buildMessage()[0]["text"]);
+
+        //ここで再度インタラクションを開始
+        $first_step_messages = $interaction_manager->startInteraction($interaction_id, $line_user_id, $secret_prefix);
+        $this->assertNotEmpty($first_step_messages);
+        $this->assertInstanceOf(
+            \LINE\LINEBot\MessageBuilder\MultiMessageBuilder::class,
+            $first_step_messages[0]
+        );
+        $this->assertCount(1, $first_step_messages[0]->buildMessage());
+        $this->assertStringContainsString("別インタラクション: 最初のメッセージ", $first_step_messages[0]->buildMessage()[0]["text"]);
     }
 }
