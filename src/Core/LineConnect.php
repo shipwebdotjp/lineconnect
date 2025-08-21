@@ -1171,6 +1171,8 @@ class LineConnect {
 			`current_step_id` VARCHAR(255) NULL COMMENT '現在のステップID',
 			`previous_step_id` VARCHAR(255) NULL COMMENT '直前のステップID',
 			`answers` JSON NULL COMMENT 'このセッションで収集した回答データ',
+			`remind_at` DATETIME NULL COMMENT 'リマインド予定時刻',
+			`reminder_sent_at` DATETIME NULL COMMENT 'リマインド送信時刻',
 			`expires_at` DATETIME DEFAULT NULL COMMENT 'セッションの有効期限',
 			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
 			`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最終更新日時',

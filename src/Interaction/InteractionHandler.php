@@ -135,7 +135,6 @@ class InteractionHandler {
             }
         }
 
-        $this->session_repository->save($session);
 
         // Apply runPolicy if session was completed
         if ($session->get_status() === 'completed') {
@@ -144,6 +143,7 @@ class InteractionHandler {
             $this->save_answers($session, $interaction_definition);
         }
 
+        $this->session_repository->save($session);
         return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message', $messages, $session, $event));
     }
 
@@ -249,7 +249,56 @@ class InteractionHandler {
         return $step->get_next_step_id();
     }
 
-    private function save_answers(InteractionSession $session, InteractionDefinition $interaction_definition): void {
-        // 回答の最終保存処理
-        // excludeStepsを除いた後、storage=profileならprofileに保存(ステップIDをキーにして)
+    private function save_answers(InteractionSession &$session, InteractionDefinition $interaction_definition): void {
+        global $wpdb;
+
+        $session->unset_answers($interaction_definition->get_exclude_steps());
+
+        // Check if the interaction is configured to save answers to the profile.
+        if ($interaction_definition->get_storage() !== 'profile') {
+            return;
+        }
+
+        // $answers = $session->get_excluded_answers($interaction_definition->get_exclude_steps());
+        $answers = $session->get_answers();
+        if (empty($answers)) {
+            return;
+        }
+
+        $line_user_id = $session->get_line_user_id();
+        $channel_prefix = $session->get_channel_prefix();
+        $table_name = $wpdb->prefix . LineConnect::TABLE_LINE_ID;
+
+        // Get current profile
+        $current_profile = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT profile FROM $table_name WHERE line_id = %s AND channel_prefix = %s",
+                $line_user_id,
+                $channel_prefix
+            )
+        );
+
+        $profile_array = json_decode($current_profile ?? '{}', true);
+
+        foreach ($answers as $step_id => $answer) {
+
+            $step = $interaction_definition->get_step($step_id);
+            if ($step) {
+                $profile_key = $step->get_id();
+                if (isset($answer) && $answer !== '') {
+                    $profile_array[$profile_key] = $answer;
+                } else {
+                    // Remove the key from the profile if the answer is empty.
+                    unset($profile_array[$profile_key]);
+                }
+            }
+        }
+
+        // Update database
+        $wpdb->update(
+            $table_name,
+            ['profile' => json_encode($profile_array, JSON_UNESCAPED_UNICODE)],
+            ['line_id' => $line_user_id, 'channel_prefix' => $channel_prefix]
+        );
     }
+}

@@ -19,10 +19,13 @@ class InteractionSession {
     private ?string $current_step_id = null;
     private ?string $previous_step_id = null;
     private array $answers = [];
+    private ?DateTime $remind_at = null;
+    private ?DateTime $reminder_sent_at = null;
     private ?DateTime $expires_at = null;
     private DateTime $created_at;
     private DateTime $updated_at;
     private int $timeout_minutes = 0;
+    private int $timeout_remind_minutes = 0;
 
     private function __construct() {
     }
@@ -39,10 +42,14 @@ class InteractionSession {
         $session->status = 'active';
         $session->created_at = new DateTime('now', new DateTimeZone('UTC'));
         $session->updated_at = new DateTime('now', new DateTimeZone('UTC'));
-
         $session->timeout_minutes = $interaction->get_timeout_minutes();
+        $session->timeout_remind_minutes = $interaction->get_timeout_remind_minutes();
+
         if ($session->timeout_minutes > 0) {
             $session->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$session->timeout_minutes} minutes");
+            if ($session->timeout_remind_minutes > 0) {
+                $session->remind_at = $session->expires_at->modify("-{$session->timeout_remind_minutes} minutes");
+            }
         }
 
         return $session;
@@ -62,6 +69,8 @@ class InteractionSession {
         $session->current_step_id = $row->current_step_id;
         $session->previous_step_id = $row->previous_step_id;
         $session->answers = json_decode($row->answers, true) ?? [];
+        $session->remind_at = $row->remind_at ? new DateTime($row->remind_at, new DateTimeZone('UTC')) : null;
+        $session->reminder_sent_at = $row->reminder_sent_at ? new DateTime($row->reminder_sent_at, new DateTimeZone('UTC')) : null;
         $session->expires_at = $row->expires_at ? new DateTime($row->expires_at, new DateTimeZone('UTC')) : null;
         $session->created_at = new DateTime($row->created_at, new DateTimeZone('UTC'));
         $session->updated_at = new DateTime($row->updated_at, new DateTimeZone('UTC'));
@@ -83,6 +92,8 @@ class InteractionSession {
             'current_step_id' => $this->current_step_id,
             'previous_step_id' => $this->previous_step_id,
             'answers' => json_encode($this->answers),
+            'remind_at' => $this->remind_at ? $this->remind_at->format('Y-m-d H:i:s') : null,
+            'reminder_sent_at' => $this->reminder_sent_at ? $this->reminder_sent_at->format('Y-m-d H:i:s') : null,
             'expires_at' => $this->expires_at ? $this->expires_at->format('Y-m-d H:i:s') : null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
@@ -162,7 +173,7 @@ class InteractionSession {
      */
     public function complete(): void {
         $this->set_status('completed');
-        // TODO: save answers, resume paused session
+        // TODO: finalize answers
     }
 
     /**
@@ -176,6 +187,32 @@ class InteractionSession {
         return $this->answers;
     }
 
+    public function unset_answers(array $keys): void {
+        foreach ($keys as $key) {
+            unset($this->answers[$key]);
+        }
+        $this->touch();
+    }
+
+    public function get_excluded_answers($exclude_steps): array {
+        $answers = $this->get_answers();
+        $excluded_answers = [];
+        foreach ($answers as $key => $value) {
+            if (!in_array($key, $exclude_steps, true)) {
+                $excluded_answers[$key] = $value;
+            }
+        }
+        return $excluded_answers;
+    }
+
+    public function get_expires_at(): ?DateTime {
+        return $this->expires_at;
+    }
+
+    public function set_reminder_sent_at(?DateTime $reminder_sent_at): void {
+        $this->reminder_sent_at = $reminder_sent_at;
+    }
+
     /**
      * Update the 'updated_at' timestamp.
      */
@@ -183,8 +220,10 @@ class InteractionSession {
         $this->updated_at = new DateTime('now', new DateTimeZone('UTC'));
         // extend expiration if timeout is configured
         if ($this->expires_at) {
-            $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))
-                ->modify("+{$this->timeout_minutes} minutes");
+            $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->timeout_minutes} minutes");
+            if ($this->timeout_remind_minutes > 0) {
+                $this->remind_at = $this->expires_at->modify("-{$this->timeout_remind_minutes} minutes");
+            }
         }
     }
 }

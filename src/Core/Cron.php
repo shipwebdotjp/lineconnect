@@ -19,6 +19,10 @@ use Shipweb\LineConnect\Core\Stats;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
+use Shipweb\LineConnect\Interaction\InteractionSession;
+use Shipweb\LineConnect\Interaction\InteractionDefinition;
+use Shipweb\LineConnect\Interaction\MessageBuilder;
+use Shipweb\LineConnect\Message\LINE\Builder as LineMessageBuilder;
 
 
 
@@ -99,6 +103,12 @@ class Cron {
         if (in_array(false, $response)) {
             $success = false;
         }
+
+        //インタラクションリマインダー送信
+        self::send_interaction_sessions_reminders($last_run, $current_time);
+
+        //インタラクションタイムアウト処理
+        self::process_interaction_timeouts($last_run, $current_time);
 
         return array(
             'success' => $success,
@@ -369,5 +379,120 @@ class Cron {
         // }
 
         return $results ? $results : array();
+    }
+
+    /**
+     * インタラクションリマインダー送信
+     */
+    static function send_interaction_sessions_reminders($last_run, $current_time) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
+
+        $query = $wpdb->prepare(
+            "SELECT * FROM $table_name WHERE status IN ('active','editing') AND reminder_sent_at IS NULL AND remind_at IS NOT NULL AND remind_at <= %s AND remind_at > %s AND %s < expires_at",
+            gmdate(DATE_ATOM, $current_time),
+            gmdate(DATE_ATOM, $last_run),
+            gmdate(DATE_ATOM, $last_run)
+        );
+
+        $results = $wpdb->get_results($query);
+        $sessions = [];
+        if ($results) {
+            foreach ($results as $row) {
+                $sessions[] = InteractionSession::from_db_row($row);
+            }
+        }
+        $message_builder = new MessageBuilder();
+        foreach ($sessions as $session) {
+            $line_user_id = $session->get_line_user_id();
+            $channel_prefix = $session->get_channel_prefix();
+            $interaction_id = $session->get_interaction_id();
+            $interaction_version = $session->get_interaction_version();
+            $interactionDefinition = InteractionDefinition::from_post($interaction_id, $interaction_version);
+            $reminder_step = $interactionDefinition->get_special_step('timeoutRemind');
+            $expire_at = $session->get_expires_at();
+            $remaining_time = $expire_at ? $expire_at->getTimestamp() - time() : 0;
+
+            $messages = [];
+            if ($reminder_step) {
+                $messages[] = $message_builder->build($reminder_step);
+            } else {
+                $messages[] = LineMessageBuilder::createTextMessage(sprintf(__('This session will time out in %s minutes.', 'lineconnect'), ceil($remaining_time / 60)));
+            }
+            if (! empty($messages)) {
+                $channel = LineConnect::get_channel($channel_prefix);
+                $sendResult = LineMessageBuilder::sendPushMessage($channel, $line_user_id, $messages);
+                if ($sendResult['success']) {
+                    // 成功した場合の処理(reminder_sent_atを更新)
+                    $result = $wpdb->update(
+                        $table_name,
+                        ['reminder_sent_at' => (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s')],
+                        ['id' => $session->get_id()]
+                    );
+                }
+            }
+        }
+        return $messages;
+    }
+
+    /**
+     * インタラクションタイムアウト処理
+     */
+    static function process_interaction_timeouts($last_run, $current_time) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
+
+        $query = $wpdb->prepare(
+            "SELECT * FROM $table_name WHERE status IN ('active','editing') AND expires_at IS NOT NULL AND expires_at <= %s AND expires_at > %s",
+            gmdate(DATE_ATOM, $current_time),
+            gmdate(DATE_ATOM, $last_run)
+        );
+
+        $results = $wpdb->get_results($query);
+        $sessions = [];
+        if ($results) {
+            foreach ($results as $row) {
+                $sessions[] = InteractionSession::from_db_row($row);
+            }
+        }
+
+        $message_builder = new MessageBuilder();
+        foreach ($sessions as $session) {
+            $interaction_id = $session->get_interaction_id();
+            $interaction_version = $session->get_interaction_version();
+            $interactionDefinition = InteractionDefinition::from_post($interaction_id, $interaction_version);
+
+            // Send timeout message
+            $line_user_id = $session->get_line_user_id();
+            $channel_prefix = $session->get_channel_prefix();
+            $timeout_step = $interactionDefinition->get_special_step('timeoutNotice');
+
+            $messages = [];
+            if ($timeout_step) {
+                $messages[] = $message_builder->build($timeout_step);
+            } else {
+                $messages[] = LineMessageBuilder::createTextMessage(__('Your session has timed out.', 'lineconnect'));
+            }
+
+            if (!empty($messages)) {
+                $channel = LineConnect::get_channel($channel_prefix);
+                LineMessageBuilder::sendPushMessage($channel, $line_user_id, $messages);
+            }
+
+            // Handle timeout action
+            $on_timeout_action = $interactionDefinition->get_on_timeout();
+
+            if ($on_timeout_action === 'delete_session') {
+                $wpdb->delete($table_name, ['id' => $session->get_id()], ['%d']);
+            } elseif ($on_timeout_action === 'mark_timeout') {
+                $wpdb->update(
+                    $table_name,
+                    ['status' => 'timeout'],
+                    ['id' => $session->get_id()],
+                    ['%s'],
+                    ['%d']
+                );
+            }
+        }
     }
 }

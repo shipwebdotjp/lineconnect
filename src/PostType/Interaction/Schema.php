@@ -670,13 +670,16 @@ class Schema {
                 'timeoutMinutes' => array(
                     'type' => 'integer',
                     'title' => __('Timeout (minutes)', LineConnect::PLUGIN_NAME),
+                    'description' => __('The number of minutes from the last update to the timeout. If 0, there is no timeout.', LineConnect::PLUGIN_NAME),
                     'minimum' => 0,
                     'default' => 0,
                 ),
                 'timeoutRemind' => array(
-                    'type' => 'boolean',
+                    'type' => 'integer',
                     'title' => __('Send timeout reminder', LineConnect::PLUGIN_NAME),
-                    'default' => false,
+                    'description' => __('Set how many minutes before the timeout to send a reminder. 0 means no reminder.', LineConnect::PLUGIN_NAME),
+                    'minimum' => 0,
+                    'default' => 0,
                 ),
                 'onTimeout' => array(
                     'type' => 'string',

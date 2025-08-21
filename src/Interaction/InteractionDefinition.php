@@ -13,13 +13,24 @@ class InteractionDefinition {
     private string $title;
     private array $steps = [];
     private int $timeout_minutes;
-    private bool $timeout_remind;
+    private int $timeout_remind_minutes;
     private string $on_timeout;
     private string $run_policy;
     private string $override_policy;
     private int $version;
     private string $storage;
     private array $exclude_steps = [];
+    const SPECIAL_STEPS = [
+        'confirm',
+        'editPicker',
+        'complete',
+        'resumeConfirm',
+        'canceled',
+        'resumeConfirm',
+        'timeoutRemind',
+        'timeoutNotice',
+    ];
+
 
     /**
      * @param int $post_id The post ID of the interaction.
@@ -36,10 +47,12 @@ class InteractionDefinition {
         }
 
         $this->timeout_minutes = $data['timeoutMinutes'] ?? 0;
-        $this->timeout_remind = $data['timeoutRemind'] ?? false;
+        $this->timeout_remind_minutes = $data['timeoutRemind'] ?? false;
         $this->on_timeout = $data['onTimeout'] ?? 'mark_timeout';
         $this->run_policy = $data['runPolicy'] ?? 'single_latest_only';
         $this->override_policy = $data['overridePolicy'] ?? 'stack';
+        $this->storage = $data['storage'] ?? 'none';
+        $this->exclude_steps = $data['excludeSteps'] ?? [];
     }
 
     /**
@@ -117,8 +130,6 @@ class InteractionDefinition {
         return null;
     }
 
-
-
     public function get_version(): int {
         return $this->version;
     }
@@ -127,8 +138,8 @@ class InteractionDefinition {
         return $this->timeout_minutes;
     }
 
-    public function get_timeout_remind(): bool {
-        return $this->timeout_remind;
+    public function get_timeout_remind_minutes(): int {
+        return $this->timeout_remind_minutes;
     }
 
     public function get_on_timeout(): string {
@@ -148,6 +159,6 @@ class InteractionDefinition {
     }
 
     public function get_exclude_steps(): array {
-        return $this->exclude_steps;
+        return array_merge($this->exclude_steps, self::SPECIAL_STEPS);
     }
 }

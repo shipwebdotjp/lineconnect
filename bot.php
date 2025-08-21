@@ -237,7 +237,8 @@ foreach ($json_obj->{'events'} as $event) {
 		$action_runner,
 		$message_builder,
 		$normalizer,
-		$validator
+		$validator,
+		new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
 	);
 	$interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
 		$session_repository,

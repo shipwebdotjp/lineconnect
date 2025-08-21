@@ -173,6 +173,55 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                     ],
                 ],
             ],
+            "storage_profile" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'profile',
+                        "excludeSteps" => [
+                            "役職名"
+                        ],
+                        "steps" => [
+                            [
+                                "id" => "会社名",
+                                "title" => "会社名",
+                                "description" => "会社名を入力してください。",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "会社名を教えてください。",
+                                    ],
+                                ],
+                                'nextStepId' => "部署名",
+                            ],
+                            [
+                                "id" => "部署名",
+                                "title" => "部署名",
+                                "description" => "部署名を入力してください。",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "部署名を教えてください。",
+                                    ],
+                                ],
+                                'nextStepId' => "役職名",
+                            ],
+                            [
+                                "id" => "役職名",
+                                "title" => "役職名",
+                                "description" => "役職名を入力してください。",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "役職名を教えてください。",
+                                    ],
+                                ],
+                                'stop' => true,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         self::$interaction_ids = [];
         foreach (self::$interaction_datas as $interaction_name => $interaction_data) {
