@@ -1,0 +1,52 @@
+name: 'Run PHPUnit Tests'
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: 'PHPUnit Tests'
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mariadb:10.6
+        ports:
+          - '3306:3306'
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_tests
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Set up PHP'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysql, mysqli
+          coverage: none
+
+      - name: 'Install Composer dependencies'
+        run: composer install --prefer-dist --no-progress
+
+      - name: 'Set up WordPress test environment'
+        uses: sjinks/setup-wordpress-test-library@v2
+        with:
+          db_user: root
+          db_password: root
+          db_name: wordpress_tests
+          db_host: 127.0.0.1:${{ job.services.mysql.ports[3306] }}
+
+      - name: 'Run PHPUnit tests'
+        run: vendor/bin/phpunit
+        env:
+          WP_PHPUNIT_TESTS_CONFIG_PATH: ${{ env.WP_TESTS_DIR }}/wp-tests-config.php
