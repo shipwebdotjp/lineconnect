@@ -213,6 +213,10 @@ class InteractionSession {
         $this->reminder_sent_at = $reminder_sent_at;
     }
 
+    public function get_remind_at(): ?DateTime {
+        return $this->remind_at;
+    }
+
     /**
      * Update the 'updated_at' timestamp.
      */
@@ -222,7 +226,7 @@ class InteractionSession {
         if ($this->expires_at) {
             $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->timeout_minutes} minutes");
             if ($this->timeout_remind_minutes > 0) {
-                $this->remind_at = $this->expires_at->modify("-{$this->timeout_remind_minutes} minutes");
+                $this->remind_at = (clone $this->expires_at)->modify("-{$this->timeout_remind_minutes} minutes");
             }
         }
     }

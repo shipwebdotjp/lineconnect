@@ -390,9 +390,9 @@ class Cron {
 
         $query = $wpdb->prepare(
             "SELECT * FROM $table_name WHERE status IN ('active','editing') AND reminder_sent_at IS NULL AND remind_at IS NOT NULL AND remind_at <= %s AND remind_at > %s AND %s < expires_at",
-            gmdate(DATE_ATOM, $current_time),
-            gmdate(DATE_ATOM, $last_run),
-            gmdate(DATE_ATOM, $last_run)
+            gmdate('Y-m-d H:i:s', $current_time),
+            gmdate('Y-m-d H:i:s', $last_run),
+            gmdate('Y-m-d H:i:s', $last_run)
         );
 
         $results = $wpdb->get_results($query);
@@ -402,6 +402,8 @@ class Cron {
                 $sessions[] = InteractionSession::from_db_row($row);
             }
         }
+
+        $results = [];
         $message_builder = new MessageBuilder();
         foreach ($sessions as $session) {
             $line_user_id = $session->get_line_user_id();
@@ -420,8 +422,9 @@ class Cron {
                 $messages[] = LineMessageBuilder::createTextMessage(sprintf(__('This session will time out in %s minutes.', 'lineconnect'), ceil($remaining_time / 60)));
             }
             if (! empty($messages)) {
+                $message = LineMessageBuilder::createMultiMessage($messages);
                 $channel = LineConnect::get_channel($channel_prefix);
-                $sendResult = LineMessageBuilder::sendPushMessage($channel, $line_user_id, $messages);
+                $sendResult = LineMessageBuilder::sendPushMessage($channel, $line_user_id, $message);
                 if ($sendResult['success']) {
                     // 成功した場合の処理(reminder_sent_atを更新)
                     $result = $wpdb->update(
@@ -429,10 +432,11 @@ class Cron {
                         ['reminder_sent_at' => (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s')],
                         ['id' => $session->get_id()]
                     );
+                    $results[] = $session->get_id();
                 }
             }
         }
-        return $messages;
+        return $results;
     }
 
     /**
@@ -444,8 +448,8 @@ class Cron {
 
         $query = $wpdb->prepare(
             "SELECT * FROM $table_name WHERE status IN ('active','editing') AND expires_at IS NOT NULL AND expires_at <= %s AND expires_at > %s",
-            gmdate(DATE_ATOM, $current_time),
-            gmdate(DATE_ATOM, $last_run)
+            gmdate('Y-m-d H:i:s', $current_time),
+            gmdate('Y-m-d H:i:s', $last_run)
         );
 
         $results = $wpdb->get_results($query);
@@ -456,6 +460,7 @@ class Cron {
             }
         }
 
+        $results = [];
         $message_builder = new MessageBuilder();
         foreach ($sessions as $session) {
             $interaction_id = $session->get_interaction_id();
@@ -475,6 +480,7 @@ class Cron {
             }
 
             if (!empty($messages)) {
+                $messages = LineMessageBuilder::createMultiMessage($messages);
                 $channel = LineConnect::get_channel($channel_prefix);
                 LineMessageBuilder::sendPushMessage($channel, $line_user_id, $messages);
             }
@@ -493,6 +499,8 @@ class Cron {
                     ['%d']
                 );
             }
+            $results[] = $session->get_id();
         }
+        return $results;
     }
 }

@@ -222,6 +222,63 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                     ],
                 ],
             ],
+            "interaction_with_timeout" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "timeoutMinutes" => 30,
+                        "timeoutRemind" => 10,
+                        "onTimeout" => "mark_timeout",
+                        "steps" => [
+                            [
+                                "id" => "tstep-1",
+                                "title" => "Timeout step 1",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これはタイムアウトテストのステップ1です。",
+                                    ],
+                                ],
+                                "nextStepId" => "tstep-2",
+                            ],
+                            [
+                                "id" => "tstep-2",
+                                "title" => "Timeout step 2",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これはタイムアウトテストのステップ2です。",
+                                    ],
+                                ],
+                                "stop" => true,
+                            ],
+                            [
+                                "id" => "timeout-remind",
+                                "title" => "Timeout Remind",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "[Test]このセッションはまもなくタイムアウトします。",
+                                    ],
+                                ],
+                                "special" => "timeoutRemind",
+                            ],
+                            [
+                                "id" => "timeout-notice",
+                                "title" => "Timeout Notice",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "[Test]セッションはタイムアウトしました。",
+                                    ],
+                                ],
+                                "special" => "timeoutNotice",
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         self::$interaction_ids = [];
         foreach (self::$interaction_datas as $interaction_name => $interaction_data) {

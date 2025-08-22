@@ -24,9 +24,8 @@ class InteractionDefinition {
         'confirm',
         'editPicker',
         'complete',
-        'resumeConfirm',
+        'cancelConfirm',
         'canceled',
-        'resumeConfirm',
         'timeoutRemind',
         'timeoutNotice',
     ];

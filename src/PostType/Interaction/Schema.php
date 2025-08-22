@@ -585,7 +585,7 @@ class Schema {
                                     array('const' => 'complete', 'title' => __('Complete', LineConnect::PLUGIN_NAME)),
                                     array('const' => 'cancelConfirm', 'title' => __('Cancel Confirm', LineConnect::PLUGIN_NAME)),
                                     array('const' => 'canceled', 'title' => __('Canceled', LineConnect::PLUGIN_NAME)),
-                                    array('const' => 'resumeConfirm', 'title' => __('Resume Confirm', LineConnect::PLUGIN_NAME)),
+                                    // array('const' => 'resumeConfirm', 'title' => __('Resume Confirm', LineConnect::PLUGIN_NAME)),
                                     array('const' => 'timeoutRemind', 'title' => __('Timeout Remind', LineConnect::PLUGIN_NAME)),
                                     array('const' => 'timeoutNotice', 'title' => __('Timeout Notice', LineConnect::PLUGIN_NAME)),
                                 ),
