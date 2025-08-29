@@ -74,14 +74,14 @@ class StartInteraction extends AbstractActionDefinition {
 	 * @param ?string $overridePolicy 上書きポリシー
 	 * @param ?string $line_user_id LINEユーザーID
 	 * @param ?string $secret_prefix チャネルシークレットの先頭4文字
-	 * @return array 成功・失敗
+	 * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder|null 
 	 */
-	public function start_interaction(int $interaction_id, ?string $overridePolicy = null, ?string $line_user_id = null, ?string $secret_prefix = null): array {
+	public function start_interaction(int $interaction_id, ?string $overridePolicy = null, ?string $line_user_id = null, ?string $secret_prefix = null): \LINE\LINEBot\MessageBuilder\MultiMessageBuilder|null {
 		$line_user_id = $line_user_id ?? $this->event->source->userId;
 		$secret_prefix = $secret_prefix ?? $this->secret_prefix;
 
 		if (empty($line_user_id) || empty($secret_prefix)) {
-			return ['result' => 'error', 'message' => 'Invalid user ID or secret prefix'];
+			return null;
 		}
 		// if (is_null($overridePolicy)) {
 		// 	$overridePolicy = null;
@@ -107,6 +107,11 @@ class StartInteraction extends AbstractActionDefinition {
 		);
 
 		// Stage 1: Start the interaction
-		return $interaction_manager->startInteraction($interaction_id, $line_user_id, $secret_prefix, $overridePolicy);
+		$messages = $interaction_manager->startInteraction($interaction_id, $line_user_id, $secret_prefix, $overridePolicy);
+		$multimessage = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+		foreach ($messages as $message_item) {
+			$multimessage->add($message_item);
+		}
+		return !empty($messages) ? $multimessage : null;
 	}
 }

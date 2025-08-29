@@ -52,7 +52,8 @@ class LineConnect {
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.6';
+	const DB_VERSION = '1.7';
+	// 1.7: セッションテーブル追加
 	// 1.6: line_user_idテーブルのインデックスの変更(channel_prefix, last_sent_at DESC, id DESC)
 	// 1.5: lineconnect_bot_logsテーブルのstatus,errorカラムの追加、インデックスの変更
 	// 1.3: line_user_id テーブルにinteractions, scenario, statsカラムの追加
@@ -1163,8 +1164,8 @@ class LineConnect {
 		$table_name_interaction_sessions = $wpdb->prefix . self::TABLE_INTERACTION_SESSIONS;
 		$sql_interaction_sessions = "CREATE TABLE $table_name_interaction_sessions (
 			`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-			`line_user_id` VARCHAR(255) NOT NULL COMMENT 'LINEユーザーID',
-			`channel_prefix` VARCHAR(4) NOT NULL COMMENT 'チャネルID (シークレットの先頭4文字)',
+			`line_user_id` CHAR(33) NOT NULL COMMENT 'LINEユーザーID',
+			`channel_prefix` CHAR(4) NOT NULL COMMENT 'チャネルID (シークレットの先頭4文字)',
 			`interaction_id` BIGINT UNSIGNED NOT NULL COMMENT 'フォームの投稿ID',
 			`interaction_version` INT UNSIGNED NOT NULL COMMENT '開始時のフォームのバージョン',
 			`status` VARCHAR(20) NOT NULL DEFAULT 'active' COMMENT 'セッション状態 (active, editing, paused, completed, timeout など)',
@@ -1175,7 +1176,7 @@ class LineConnect {
 			`reminder_sent_at` DATETIME NULL COMMENT 'リマインド送信時刻',
 			`expires_at` DATETIME DEFAULT NULL COMMENT 'セッションの有効期限',
 			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
-			`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最終更新日時',
+			`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最終更新日時',
 			PRIMARY KEY (`id`),
 			INDEX `idx_channel_prefix_line_user_id` (`channel_prefix`, `line_user_id`),
 			INDEX `idx_interaction_id` (`interaction_id`),

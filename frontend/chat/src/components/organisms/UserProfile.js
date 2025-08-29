@@ -163,6 +163,51 @@ const UserProfile = ({ user, openEditForm }) => {
                     </span>
                 )}
             </div>
+
+            {/* Interactions */}
+            <div className="space-y-2">
+                <h3 className="font-semibold flex justify-between items-center">
+                    <span className="text-gray-500">{__('Interactions', 'lineconnect')}</span>
+                </h3>
+                {user.interactions && Object.keys(user.interactions).length > 0 ? (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>{__('Name', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Status', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Updated', 'lineconnect')}</TableHead>
+                                <TableHead>{__('Edit', 'lineconnect')}</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {Object.entries(user.interactions).map(([id, interaction]) => (
+                                <TableRow key={id}>
+                                    <TableCell>{interaction.name}</TableCell>
+                                    <TableCell>
+                                        <span className="capitalize">{interaction.status}</span>
+                                    </TableCell>
+                                    <TableCell>{formatDate(interaction.updated_at)}</TableCell>
+                                    <TableCell>
+                                        <button
+                                            className="ml-2 text-xs text-gray-500"
+                                            onClick={() => openEditForm('interactions', id)}
+                                        >
+                                            <FaRegEdit className="w-4 h-4" />
+                                            <span className="sr-only">
+                                                {__('Edit', 'lineconnect')}
+                                            </span>
+                                        </button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <span className="text-gray-500 text-sm">
+                        {__('No interactions available', 'lineconnect')}
+                    </span>
+                )}
+            </div>
         </div>
     );
 };

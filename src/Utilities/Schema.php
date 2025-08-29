@@ -7,6 +7,7 @@ use Shipweb\LineConnect\RichMenu\RichMenu;
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\PostType\Audience\Audience;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\PostType\Interaction\Interaction;
 
 class Schema {
 
@@ -128,6 +129,21 @@ class Schema {
                 $schema['oneOf'][] = array(
                     'const' => '',
                     'title' => __('Please add scenario first', lineconnect::PLUGIN_NAME),
+                );
+            }
+        } elseif ($parameter['type'] == 'slc_interaction') {
+            $actual_type     = 'integer';
+            $schema['oneOf'] = array();
+            foreach (Interaction::get_name_array() as $interaction_id => $interaction) {
+                $schema['oneOf'][] = array(
+                    'const' => $interaction_id,
+                    'title' => $interaction,
+                );
+            }
+            if (count($schema['oneOf']) == 0) {
+                $schema['oneOf'][] = array(
+                    'const' => '',
+                    'title' => __('Please add interaction first', lineconnect::PLUGIN_NAME),
                 );
             }
         }

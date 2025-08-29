@@ -63,6 +63,11 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
         $this->assertCount(1, $next_step_messages[0]->buildMessage());
         $this->assertStringContainsString("これはキャンセルテストのステップ2です。", $next_step_messages[0]->buildMessage()[0]["text"]);
 
+        $session = $session_repository->find_active($secret_prefix, $line_user_id);
+        $this->assertNotNull($session);
+        $this->assertEquals($interaction_id, $session->get_interaction_id());
+        var_dump($session->to_db_array());
+
         // Now request cancel confirm via postback with action=cancel
         $reply_event->type = 'postback';
         unset($reply_event->message);

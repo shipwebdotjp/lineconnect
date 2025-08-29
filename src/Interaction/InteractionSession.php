@@ -48,7 +48,7 @@ class InteractionSession {
         if ($session->timeout_minutes > 0) {
             $session->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$session->timeout_minutes} minutes");
             if ($session->timeout_remind_minutes > 0) {
-                $session->remind_at = $session->expires_at->modify("-{$session->timeout_remind_minutes} minutes");
+                $session->remind_at = (clone $session->expires_at)->modify("-{$session->timeout_remind_minutes} minutes");
             }
         }
 
@@ -229,6 +229,7 @@ class InteractionSession {
         // extend expiration if timeout is configured
         if ($this->expires_at) {
             $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->timeout_minutes} minutes");
+            var_dump(["expires_at" => $this->expires_at, "timeout_minutes" => $this->timeout_remind_minutes]);
             if ($this->timeout_remind_minutes > 0) {
                 $this->remind_at = (clone $this->expires_at)->modify("-{$this->timeout_remind_minutes} minutes");
             }

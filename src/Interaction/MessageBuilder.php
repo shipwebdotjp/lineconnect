@@ -44,16 +44,16 @@ class MessageBuilder {
                     $messages[] = LineMessageBuilder::createTextMessage($message['text']);
                     break;
                 case 'template_button':
-                    $messages[] = $this->buildTemplateButtonMessage($message, $step->get_id());
+                    $messages[] = $this->buildTemplateButtonMessage($message['template_button'], $step->get_id());
                     break;
                 case 'confirm_template':
-                    $messages[] = $this->buildConfirmTemplateMessage($session, $message, $step->get_id());
+                    $messages[] = $this->buildConfirmTemplateMessage($session, $message['confirm_template'], $step->get_id());
                     break;
                 case 'editPicker_template':
-                    $messages[] = $this->buildEditPickerMessage($session, $message, $step->get_id());
+                    $messages[] = $this->buildEditPickerMessage($session, $message['editPicker_template'], $step->get_id());
                     break;
                 case 'cancel_confirm_template':
-                    $messages[] = $this->buildCancelConfirmTemplateMessage($session, $message, $step->get_id());
+                    $messages[] = $this->buildCancelConfirmTemplateMessage($session, $message['cancel_confirm_template'], $step->get_id());
                     break;
                 case 'sticker':
                     if (isset($message['packageId'], $message['stickerId'])) {

@@ -316,14 +316,16 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                                 "messages" => [
                                     [
                                         "type" => "confirm_template",
-                                        "title" => "入力内容を確認してください。",
-                                        "apply" => [
-                                            "nextStepId" => "cstep-end",
-                                            "label" => "OK",
-                                        ],
-                                        "edit" => [
-                                            "nextStepId" => "cstep-edit",
-                                            "label" => "編集",
+                                        "confirm_template" => [
+                                            "text" => "入力内容を確認してください。",
+                                            "apply" => [
+                                                "nextStepId" => "cstep-end",
+                                                "label" => "OK",
+                                            ],
+                                            "edit" => [
+                                                "nextStepId" => "cstep-edit",
+                                                "label" => "編集",
+                                            ],
                                         ],
                                     ],
                                 ],
@@ -336,10 +338,12 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                                 "messages" => [
                                     [
                                         "type" => "editPicker_template",
-                                        "title" => "編集する項目を選択してください。",
-                                        "cancel" => [
-                                            "nextStepId" => "confirm",
-                                            "label" => "キャンセル",
+                                        "editPicker_template" => [
+                                            "title" => "編集する項目を選択してください。",
+                                            "cancel" => [
+                                                "nextStepId" => "confirm",
+                                                "label" => "キャンセル",
+                                            ],
                                         ],
                                     ],
                                 ],
@@ -396,12 +400,14 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                                 "messages" => [
                                     [
                                         "type" => "cancel_confirm_template",
-                                        "title" => "申込みを中止しますか？",
-                                        "abort" => [
-                                            "label" => "申込みを中止",
-                                        ],
-                                        "continue" => [
-                                            "label" => "申込みを続ける",
+                                        "cancel_confirm_template" => [
+                                            "title" => "申込みを中止しますか？",
+                                            "abort" => [
+                                                "label" => "申込みを中止",
+                                            ],
+                                            "continue" => [
+                                                "label" => "申込みを続ける",
+                                            ],
                                         ],
                                     ],
                                 ],
