@@ -58,6 +58,9 @@ class Schema {
                                                 array('const' => 'flex', 'title' => __('Flex', LineConnect::PLUGIN_NAME)),
                                                 array('const' => 'raw', 'title' => __('Raw', LineConnect::PLUGIN_NAME)),
                                                 array('const' => 'template_button', 'title' => __('Template Button', LineConnect::PLUGIN_NAME)),
+                                                array('const' => 'confirm_template', 'title' => __('Confirm Template', LineConnect::PLUGIN_NAME)),
+                                                array('const' => 'editPicker_template', 'title' => __('Edit Picker Template', LineConnect::PLUGIN_NAME)),
+                                                array('const' => 'cancel_confirm_template', 'title' => __('Cancel Confirm Template', LineConnect::PLUGIN_NAME)),
                                             ),
                                         ),
                                     ),
@@ -267,6 +270,119 @@ class Schema {
                                                                     ),
                                                                 ),
                                                                 'column' => array('type' => 'integer', 'title' => __('Columns', LineConnect::PLUGIN_NAME)),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                                array(
+                                                    'properties' => array(
+                                                        'type' => array(
+                                                            'const' => 'confirm_template',
+                                                        ),
+                                                        'confirm_template' => array(
+                                                            'type' => 'object',
+                                                            'title' => __('Confirm Template Settings', LineConnect::PLUGIN_NAME),
+                                                            'properties' => array(
+                                                                'title' => array(
+                                                                    'type' => 'string',
+                                                                    'title' => __('Template Title', LineConnect::PLUGIN_NAME),
+                                                                ),
+                                                                'apply' => array(
+                                                                    'type' => 'object',
+                                                                    'title' => __('Apply Button Settings', LineConnect::PLUGIN_NAME),
+                                                                    'properties' => array(
+                                                                        'nextStepId' => array(
+                                                                            'type' => 'string',
+                                                                        ),
+                                                                        'label' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Button Label', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                                'edit' => array(
+                                                                    'type' => 'object',
+                                                                    'title' => __('Edit Button Settings', LineConnect::PLUGIN_NAME),
+                                                                    'properties' => array(
+                                                                        'nextStepId' => array(
+                                                                            'type' => 'string',
+                                                                            'default' => 'editPicker',
+                                                                        ),
+                                                                        'label' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Button Label', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                                array(
+                                                    'properties' => array(
+                                                        'type' => array(
+                                                            'const' => 'editPicker_template',
+                                                        ),
+                                                        'editPicker_template' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'title' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'cancel' => array(
+                                                                    'type' => 'object',
+                                                                    'title' => __('Edit Button Settings', LineConnect::PLUGIN_NAME),
+                                                                    'properties' => array(
+                                                                        'nextStepId' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Next Step ID. Default: previous step ID', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                        'label' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Button Label', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                                array(
+                                                    'properties' => array(
+                                                        'type' => array(
+                                                            'const' => 'cancel_confirm_template',
+                                                        ),
+                                                        'cancel_confirm_template' => array(
+                                                            'type' => 'object',
+                                                            'title' => __('Cancel Confirm Template Settings', LineConnect::PLUGIN_NAME),
+                                                            'properties' => array(
+                                                                'title' => array(
+                                                                    'type' => 'string',
+                                                                    'title' => __('Template Title', LineConnect::PLUGIN_NAME),
+                                                                    'default' => __('Are you sure you want to cancel?', LineConnect::PLUGIN_NAME),
+                                                                ),
+                                                                'abort' => array(
+                                                                    'type' => 'object',
+                                                                    'title' => __('Abort Button Settings', LineConnect::PLUGIN_NAME),
+                                                                    'properties' => array(
+                                                                        'label' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Button Label', LineConnect::PLUGIN_NAME),
+                                                                            'default' => __('Yes', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                                'continue' => array(
+                                                                    'type' => 'object',
+                                                                    'title' => __('Continue Button Settings', LineConnect::PLUGIN_NAME),
+                                                                    'properties' => array(
+                                                                        'label' => array(
+                                                                            'type' => 'string',
+                                                                            'title' => __('Button Label', LineConnect::PLUGIN_NAME),
+                                                                            'default' => __('Continue', LineConnect::PLUGIN_NAME),
+                                                                        ),
+                                                                    ),
+                                                                ),
                                                             ),
                                                         ),
                                                     ),
@@ -735,6 +851,32 @@ class Schema {
                     'items' => array(
                         'type' => 'string',
                     )
+                ),
+                'cancelWords' => array(
+                    'type' => 'array',
+                    'title' => __('Cancel Words', LineConnect::PLUGIN_NAME),
+                    'description' => __('Define words or phrases that will trigger cancellation of the interaction.', LineConnect::PLUGIN_NAME),
+                    'items' => array(
+                        'type' => 'object',
+                        'title' => __('Cancel Word', LineConnect::PLUGIN_NAME),
+                        'required' => array('type', 'value'),
+                        'properties' => array(
+                            'type' => array(
+                                'type' => 'string',
+                                'title' => __('Condition Type', LineConnect::PLUGIN_NAME),
+                                'oneOf' => array(
+                                    array('const' => 'equals', 'title' => __('Equals', LineConnect::PLUGIN_NAME)),
+                                    array('const' => 'contains', 'title' => __('Contains', LineConnect::PLUGIN_NAME)),
+                                    array('const' => 'regex', 'title' => __('Regex', LineConnect::PLUGIN_NAME)),
+                                ),
+                                'default' => 'equals',
+                            ),
+                            'value' => array(
+                                'type' => 'string',
+                                'title' => __('Value to Match', LineConnect::PLUGIN_NAME),
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'additionalProperties' => false,

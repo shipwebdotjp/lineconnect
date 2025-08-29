@@ -139,6 +139,10 @@ class InteractionSession {
         $this->touch();
     }
 
+    public function get_previous_step_id(): ?string {
+        return $this->previous_step_id;
+    }
+
     public function get_answer(string $key): mixed {
         return $this->answers[$key] ?? null;
     }

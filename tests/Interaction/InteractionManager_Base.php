@@ -279,6 +279,155 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                     ],
                 ],
             ],
+            "interaction_with_confirmation" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "timeoutMinutes" => 30,
+                        "timeoutRemind" => 10,
+                        "onTimeout" => "mark_timeout",
+                        "steps" => [
+                            [
+                                "id" => "cstep-1",
+                                "title" => "Confirmation step 1",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これは確認テストのステップ1です。",
+                                    ],
+                                ],
+                                "nextStepId" => "cstep-2",
+                            ],
+                            [
+                                "id" => "cstep-2",
+                                "title" => "Confirmation step 2",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これは確認テストのステップ2です。",
+                                    ],
+                                ],
+                                "nextStepId" => "confirm",
+                            ],
+                            [
+                                "id" => "confirm",
+                                "title" => "Confirmation step confirm",
+                                "messages" => [
+                                    [
+                                        "type" => "confirm_template",
+                                        "title" => "入力内容を確認してください。",
+                                        "apply" => [
+                                            "nextStepId" => "cstep-end",
+                                            "label" => "OK",
+                                        ],
+                                        "edit" => [
+                                            "nextStepId" => "cstep-edit",
+                                            "label" => "編集",
+                                        ],
+                                    ],
+                                ],
+                                "special" => "confirm",
+                                "stop" => true,
+                            ],
+                            [
+                                "id" => "cstep-edit",
+                                "title" => "Confirmation step edit",
+                                "messages" => [
+                                    [
+                                        "type" => "editPicker_template",
+                                        "title" => "編集する項目を選択してください。",
+                                        "cancel" => [
+                                            "nextStepId" => "confirm",
+                                            "label" => "キャンセル",
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            [
+                                "id" => "cstep-end",
+                                "title" => "Confirmation step end",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "入力が完了しました。ありがとうございました。",
+                                    ],
+                                ],
+                                "special" => "complete",
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            "interaction_with_cancel" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "timeoutMinutes" => 30,
+                        "timeoutRemind" => 10,
+                        "onTimeout" => "mark_timeout",
+                        "steps" => [
+                            [
+                                "id" => "cstep-1",
+                                "title" => "Cancel step 1",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これはキャンセルテストのステップ1です。",
+                                    ],
+                                ],
+                                "nextStepId" => "cstep-2",
+                            ],
+                            [
+                                "id" => "cstep-2",
+                                "title" => "Cancel step 2",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "これはキャンセルテストのステップ2です。",
+                                    ],
+                                ],
+                                "stop" => true,
+                            ],
+                            [
+                                "id" => "cancelConfirm",
+                                "title" => "Confirmation Cancel",
+                                "messages" => [
+                                    [
+                                        "type" => "cancel_confirm_template",
+                                        "title" => "申込みを中止しますか？",
+                                        "abort" => [
+                                            "label" => "申込みを中止",
+                                        ],
+                                        "continue" => [
+                                            "label" => "申込みを続ける",
+                                        ],
+                                    ],
+                                ],
+                                "special" => "cancelConfirm",
+                            ],
+                            [
+                                "id" => "canceled",
+                                "title" => "Canceled",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "申込みは中止されました。",
+                                    ],
+                                ],
+                                "special" => "canceled",
+                            ],
+                        ],
+                        "cancelWords" => [
+                            [
+                                "type" => "equals",
+                                "value" => "申し込み中止"
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         self::$interaction_ids = [];
         foreach (self::$interaction_datas as $interaction_name => $interaction_data) {

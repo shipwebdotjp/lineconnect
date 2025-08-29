@@ -20,6 +20,7 @@ class InteractionDefinition {
     private int $version;
     private string $storage;
     private array $exclude_steps = [];
+    private array $cancel_words = [];
     const SPECIAL_STEPS = [
         'confirm',
         'editPicker',
@@ -52,6 +53,7 @@ class InteractionDefinition {
         $this->override_policy = $data['overridePolicy'] ?? 'stack';
         $this->storage = $data['storage'] ?? 'none';
         $this->exclude_steps = $data['excludeSteps'] ?? [];
+        $this->cancel_words = $data['cancelWords'] ?? [];
     }
 
     /**
@@ -126,7 +128,98 @@ class InteractionDefinition {
                 return $step;
             }
         }
-        return null;
+        // return default by type
+        switch ($special_type) {
+            case 'confirm':
+                return new StepDefinition([
+                    'id' => 'confirm',
+                    'title' => __('Confirmation', 'lineconnect'),
+                    'message' => [
+                        [
+                            'type' => 'confirm_template',
+                            'confirm_template' => [
+                                'title' => __('Please confirm your input and send.', 'lineconnect'),
+                                'apply' => [
+                                    'label' => __('Send', 'lineconnect'),
+                                ],
+                                'edit' => [
+                                    'label' => __('Edit', 'lineconnect'),
+                                ],
+                            ],
+                        ]
+                    ],
+                ]);
+            case 'editPicker':
+                return new StepDefinition([
+                    'id' => 'editPicker',
+                    'title' => __('Edit Selection', 'lineconnect'),
+                    'messages' => [
+                        [
+                            'type' => 'editPicker_template',
+                            'editPicker_template' => [
+                                'title' => __('Please select an option to edit.', 'lineconnect'),
+                                'cancel' => [
+                                    'label' => __('Cancel', 'lineconnect'),
+                                ],
+                            ],
+                        ]
+                    ],
+                ]);
+            case 'cancelConfirm':
+                return new StepDefinition([
+                    'id' => 'cancelConfirm',
+                    'title' => __('Cancel Confirmation', 'lineconnect'),
+                    'messages' => [
+                        [
+                            'type' => 'cancel_confirm_template',
+                            'cancel_confirm_template' => [
+                                'title' => __('Are you sure you want to cancel?', 'lineconnect'),
+                                'abort' => [
+                                    'label' => __('Yes, cancel', 'lineconnect'),
+                                ],
+                                'continue' => [
+                                    'label' => __('No, go back', 'lineconnect'),
+                                ],
+                            ],
+                        ]
+                    ],
+                ]);
+            case 'canceled':
+                return new StepDefinition([
+                    'id' => 'canceled',
+                    'title' => __('Canceled', 'lineconnect'),
+                    'messages' => [
+                        [
+                            "type" => "text",
+                            "text" => __("The process has been canceled.", 'lineconnect'),
+                        ]
+                    ],
+                ]);
+            case 'timeoutRemind':
+                return new StepDefinition([
+                    'id' => 'timeoutRemind',
+                    'title' => __('Timeout Reminder', 'lineconnect'),
+                    'messages' => [
+                        [
+                            "type" => "text",
+                            "text" => __("You have a pending action that will time out soon.", 'lineconnect'),
+                        ]
+                    ],
+                ]);
+            case 'timeoutNotice':
+                return new StepDefinition([
+                    'id' => 'timeoutNotice',
+                    'title' => __('Timeout Notice', 'lineconnect'),
+                    'messages' => [
+                        [
+                            "type" => "text",
+                            "text" => __("Your action has timed out.", 'lineconnect'),
+                        ]
+                    ],
+                ]);
+            default:
+                return null;
+        }
     }
 
     public function get_version(): int {
@@ -159,5 +252,8 @@ class InteractionDefinition {
 
     public function get_exclude_steps(): array {
         return array_merge($this->exclude_steps, self::SPECIAL_STEPS);
+    }
+    public function get_cancel_words(): array {
+        return $this->cancel_words;
     }
 }

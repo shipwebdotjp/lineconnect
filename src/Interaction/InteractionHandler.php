@@ -63,7 +63,7 @@ class InteractionHandler {
         }
 
         // Build the message for the current step.
-        $step_message = $this->message_builder->build($step);
+        $step_message = $this->message_builder->build($step, $session);
         if ($step_message) {
             $messages[] = $step_message;
         }
@@ -89,13 +89,38 @@ class InteractionHandler {
             return [];
         }
 
+        $messages = [];
+
+        // Check for cancel words
+        $isCancelConfirm = $this->determine_is_cancel_confirm($event, $interaction_definition);
+        if ($isCancelConfirm) {
+            $cancel_step = $interaction_definition->get_special_step('cancelConfirm');
+            if ($cancel_step) {
+                $messages[] = $this->message_builder->build($cancel_step, $session);
+                return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message_cancel_confirm', $messages, $session, $event));
+            }
+        }
+        $userChoice = $this->determine_user_choice($event, $interaction_definition);
+        if ($userChoice === 'abort') {
+            // delete session
+            $canceled_step = $interaction_definition->get_special_step('canceled');
+            if ($canceled_step) {
+                $messages[] = $this->message_builder->build($canceled_step, $session);
+            }
+            $this->session_repository->delete($session);
+            return array_filter(apply_filters(LineConnect::FILTER_PREFIX . 'interaction_message_cancel_request', $messages, $session, $event));
+        } elseif ($userChoice === 'continue') {
+            // continue interaction
+            return $this->presentStep($session, $interaction_definition, $event);
+        }
+
         $user_input = $this->extractUserInput($event);
 
         if ($user_input !== null) {
             $normalized_input = apply_filters(LineConnect::FILTER_PREFIX . 'interaction_normalize', $this->normalizer->normalize($user_input, $step->get_normalize_rules()), $step, $session, $event);
             $validation_result = apply_filters(LineConnect::FILTER_PREFIX . 'interaction_validate', $this->validator->validate($normalized_input, $step->get_validation_rules()), $step, $session, $event);
             if (!$validation_result->isValid()) {
-                $error_message = $this->message_builder->build($step, $validation_result->getErrors());
+                $error_message = $this->message_builder->build($step, $session, $validation_result->getErrors());
                 return [$error_message];
             }
             $session->set_answer($current_step_id, $normalized_input);
@@ -123,7 +148,7 @@ class InteractionHandler {
                     $action_messages = $this->action_runner->run($before_actions, $session, $event);
                     $messages = array_merge($messages, $action_messages);
                 }
-                $messages[] = $this->message_builder->build($next_step);
+                $messages[] = $this->message_builder->build($next_step, $session);
             }
         } else {
             // No next step, so complete the interaction
@@ -131,7 +156,7 @@ class InteractionHandler {
             // Potentially build a completion message
             $completion_step = $interaction_definition->get_special_step('complete');
             if ($completion_step) {
-                $messages[] = $this->message_builder->build($completion_step);
+                $messages[] = $this->message_builder->build($completion_step, $session);
             }
         }
 
@@ -205,19 +230,172 @@ class InteractionHandler {
         return null;
     }
 
-    private function determine_next_step_id(StepDefinition $step, InteractionSession $session, object $event): ?string {
-        // postback data
+    /**
+     * Determine if the incoming event represents a cancel-confirm action.
+     *
+     * Returns true if:
+     *  - a postback contains a query parameter `action=cancel`
+     *  - or the user's input matches any of the cancelWords rules defined on the interaction
+     *
+     * @param object $event
+     * @param InteractionDefinition $interaction_definition
+     * @return bool
+     */
+    private function determine_is_cancel_confirm(object $event, InteractionDefinition $interaction_definition): bool {
+        if (!$event) {
+            return false;
+        }
+
+        // 1) Postback with explicit cancel=confirm in query-string style data
         if ($event->type === 'postback' && isset($event->postback->data)) {
             $data = $event->postback->data;
-            // if query string and has nextStepId
+
             if (strpos($data, '=') !== false) {
                 parse_str($data, $parsed);
+                if (isset($parsed['action']) && mb_strtolower((string)$parsed['action'], 'UTF-8') === 'cancel') {
+                    return true;
+                }
+            }
+        }
+
+        // 2) Check cancelWords rules against the extracted user input
+        $input = $this->extractUserInput($event);
+        if ($input === null) {
+            return false;
+        }
+
+        $input_lower = mb_strtolower((string)$input, 'UTF-8');
+        $cancel_words = $interaction_definition->get_cancel_words();
+        if (empty($cancel_words) || !is_array($cancel_words)) {
+            return false;
+        }
+
+        foreach ($cancel_words as $cw) {
+            // cw can be array or object; normalise to array-like access
+            $type = null;
+            $value = null;
+            if (is_array($cw)) {
+                $type = $cw['type'] ?? null;
+                $value = $cw['value'] ?? null;
+            } elseif (is_object($cw)) {
+                $type = $cw->type ?? null;
+                $value = $cw->value ?? null;
+            }
+
+            if ($type === null || $value === null) {
+                continue;
+            }
+
+            $type = (string)$type;
+            $value = (string)$value;
+
+            if ($value === '') {
+                continue;
+            }
+
+            switch ($type) {
+                case 'equals':
+                    if ($input_lower === mb_strtolower($value, 'UTF-8')) {
+                        return true;
+                    }
+                    break;
+                case 'contains':
+                    if (mb_stripos((string)$input, $value, 0, 'UTF-8') !== false) {
+                        return true;
+                    }
+                    break;
+                case 'regex':
+                    // Ensure pattern has delimiters. If not, wrap with /.../u
+                    $pattern = $value;
+                    if ($pattern === '') {
+                        break;
+                    }
+                    $first = $pattern[0] ?? '';
+                    if ($first !== '/' && $first !== '#') {
+                        // escape delimiter occurrences and add unicode flag
+                        $escaped = str_replace('/', '\/', $pattern);
+                        $pattern = '/' . $escaped . '/u';
+                    }
+                    // Suppress warnings from invalid patterns; treat as non-match on error.
+                    if (@preg_match($pattern, (string)$input) === 1) {
+                        return true;
+                    }
+                    break;
+                default:
+                    // Unknown type - ignore
+                    break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * イベントからユーザーの選択を判定する
+     * 
+     * postbackイベントのdataフィールドからaction パラメータを解析し、
+     * ユーザーの選択（'abort' または 'continue'）を特定する。
+     * 
+     * @param object $event イベントオブジェクト（postbackタイプを想定）
+     * @param InteractionDefinition $interaction_definition インタラクション定義
+     * @return string|null ユーザーの選択（'abort' または 'continue'）、該当しない場合はnull
+     */
+    private function determine_user_choice(object $event, InteractionDefinition $interaction_definition): ?string {
+        if (!$event || $event->type !== 'postback' || !isset($event->postback->data)) {
+            return null;
+        }
+
+        $data = $event->postback->data;
+
+        // クエリ文字列形式をパース
+        if (strpos($data, '=') !== false) {
+            parse_str($data, $parsed);
+
+            if (isset($parsed['action'])) {
+                $action = mb_strtolower((string)$parsed['action'], 'UTF-8');
+
+                // 有効なアクションのみ受け入れ
+                if (in_array($action, ['abort', 'continue'], true)) {
+                    return $action;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function determine_next_step_id(StepDefinition $step, InteractionSession $session, object $event): ?string {
+        $return_to_key = '__return_to';
+
+        // Handle postback data for navigation
+        if ($event->type === 'postback' && isset($event->postback->data)) {
+            $data = $event->postback->data;
+            if (strpos($data, '=') !== false) {
+                parse_str($data, $parsed);
+
+                // If 'returnTo' is present, it means we are in an "edit" flow.
+                // We save the step to return to (e.g., a confirmation step) in the session.
+                if (isset($parsed['returnTo'])) {
+                    $session->set_answer($return_to_key, $parsed['returnTo']);
+                }
+
+                // If 'nextStepId' is present, navigate to that step immediately.
+                // This is used for "edit" buttons to jump to a specific step.
                 if (isset($parsed['nextStepId'])) {
                     return $parsed['nextStepId'];
                 }
             }
         }
 
+        // After a user provides a new value for an edited step, this logic returns them
+        // to the step specified in 'returnTo' (e.g., the confirmation step).
+        $return_to_step = $session->get_answer($return_to_key);
+        if ($return_to_step) {
+            $session->set_answer($return_to_key, null); // Clear the return marker to avoid loops
+            return $return_to_step;
+        }
+
+        // Standard branching logic based on the user's answer for the current step
         $branches = $step->get_branches();
         $last_answer = $session->get_answer($step->get_id());
 
@@ -246,7 +424,41 @@ class InteractionHandler {
             }
         }
 
-        return $step->get_next_step_id();
+        // If no branches match, apply fallback rules:
+        // 1) If this step is marked as a stop step, treat as final (null)
+        if ($step->is_stop_step()) {
+            return null;
+        }
+
+        // 2) If the step defines a nextStepId, use it
+        $next = $step->get_next_step_id();
+        if (!empty($next)) {
+            return $next;
+        }
+
+        // 3) nextStepId is empty — determine the next step by locating the current step
+        //    in the interaction's ordered steps and returning the subsequent element.
+        $interaction_id = $session->get_interaction_id();
+        $interaction_version = $session->get_interaction_version();
+        $interaction = InteractionDefinition::from_post($interaction_id, $interaction_version);
+
+        if (!$interaction) {
+            return null;
+        }
+
+        $steps = $interaction->get_steps();
+        for ($i = 0; $i < count($steps); $i++) {
+            $s = $steps[$i];
+            if ($s->get_id() === $step->get_id()) {
+                if (isset($steps[$i + 1])) {
+                    return $steps[$i + 1]->get_id();
+                }
+                break;
+            }
+        }
+
+        // No next step found; treat as final
+        return null;
     }
 
     private function save_answers(InteractionSession &$session, InteractionDefinition $interaction_definition): void {

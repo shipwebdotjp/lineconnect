@@ -417,7 +417,7 @@ class Cron {
 
             $messages = [];
             if ($reminder_step) {
-                $messages[] = $message_builder->build($reminder_step);
+                $messages[] = $message_builder->build($reminder_step, $session);
             } else {
                 $messages[] = LineMessageBuilder::createTextMessage(sprintf(__('This session will time out in %s minutes.', 'lineconnect'), ceil($remaining_time / 60)));
             }
