@@ -42,8 +42,7 @@ class InteractionSession {
         $session->status = 'active';
         $session->created_at = new DateTime('now', new DateTimeZone('UTC'));
         $session->updated_at = new DateTime('now', new DateTimeZone('UTC'));
-        $session->timeout_minutes = $interaction->get_timeout_minutes();
-        $session->timeout_remind_minutes = $interaction->get_timeout_remind_minutes();
+        $session->set_interaction_definition($interaction);
 
         if ($session->timeout_minutes > 0) {
             $session->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$session->timeout_minutes} minutes");
@@ -76,6 +75,11 @@ class InteractionSession {
         $session->updated_at = new DateTime($row->updated_at, new DateTimeZone('UTC'));
 
         return apply_filters(LineConnect::FILTER_PREFIX . 'interaction_session_load', $session);
+    }
+
+    public function set_interaction_definition(InteractionDefinition $interaction): void {
+        $this->timeout_minutes = $interaction->get_timeout_minutes();
+        $this->timeout_remind_minutes = $interaction->get_timeout_remind_minutes();
     }
 
     /**
@@ -229,7 +233,7 @@ class InteractionSession {
         // extend expiration if timeout is configured
         if ($this->expires_at) {
             $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->timeout_minutes} minutes");
-            var_dump(["expires_at" => $this->expires_at, "timeout_minutes" => $this->timeout_remind_minutes]);
+            // var_dump(["expires_at" => $this->expires_at, "timeout_minutes" => $this->timeout_remind_minutes]);
             if ($this->timeout_remind_minutes > 0) {
                 $this->remind_at = (clone $this->expires_at)->modify("-{$this->timeout_remind_minutes} minutes");
             }

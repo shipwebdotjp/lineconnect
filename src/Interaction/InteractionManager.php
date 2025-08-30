@@ -56,6 +56,8 @@ class InteractionManager {
             return [];
         }
 
+        $session->set_interaction_definition($interaction_definition);
+
         // Delegate the handling of the step to the InteractionHandler.
         $messages = $this->interaction_handler->handle($session, $event, $interaction_definition);
 
@@ -77,6 +79,7 @@ class InteractionManager {
                 );
 
                 if ($resumed_definition) {
+                    $paused_session->set_interaction_definition($resumed_definition);
                     // Present the current step of the resumed session.
                     $resume_messages = $this->interaction_handler->presentStep($paused_session, $resumed_definition, $event);
                     $messages = array_merge($messages, $resume_messages);
@@ -141,6 +144,15 @@ class InteractionManager {
 
         // Determine active session (if any) for this user/channel.
         $activeSession = $this->session_repository->find_active($channel_prefix, $line_user_id);
+        if ($activeSession) {
+            $activeInteractionDefinition = InteractionDefinition::from_post(
+                $activeSession->get_interaction_id(),
+                $activeSession->get_interaction_version()
+            );
+            if ($activeInteractionDefinition) {
+                $activeSession->set_interaction_definition($activeInteractionDefinition);
+            }
+        }
         $same_form = $activeSession && $activeSession->get_interaction_id() === $interaction_definition->get_id();
 
         // Check paused/stacked sessions for duplication (used by some policies).

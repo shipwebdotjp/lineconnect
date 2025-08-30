@@ -66,7 +66,7 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
         $session = $session_repository->find_active($secret_prefix, $line_user_id);
         $this->assertNotNull($session);
         $this->assertEquals($interaction_id, $session->get_interaction_id());
-        var_dump($session->to_db_array());
+
 
         // Now request cancel confirm via postback with action=cancel
         $reply_event->type = 'postback';

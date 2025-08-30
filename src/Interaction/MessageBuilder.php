@@ -137,7 +137,7 @@ class MessageBuilder {
             $action = [
                 'type' => 'postback',
                 'label' => $label,
-                'data' => $data,
+                'link' => $data,
                 'displayText' => $label,
             ];
 

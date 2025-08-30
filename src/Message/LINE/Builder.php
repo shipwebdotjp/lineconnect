@@ -175,9 +175,13 @@ class Builder {
 
 	// Button Component
 	static function createButtonComponent($action, $atts = null) {
-		if (isset($atts['style']) && $atts['style'] == 'button') {
+		if (isset($atts['style']) && ($atts['style'] == 'button' || $atts['style'] == 'primary')) {
 			$default_color    = lineconnect::get_option('link_text_color');
 			$background_color = lineconnect::get_option('link_button_background_color');
+			$border_color     = lineconnect::get_option('link_button_background_color');
+		} elseif (isset($atts['style']) && $atts['style'] == 'secondary') {
+			$default_color    = lineconnect::get_option('link_button_background_color');
+			// $background_color = lineconnect::get_option('link_button_background_color');
 			$border_color     = lineconnect::get_option('link_button_background_color');
 		} else {
 			$default_color    = lineconnect::get_option('link_text_color');
