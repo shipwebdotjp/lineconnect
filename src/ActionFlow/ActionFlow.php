@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\ActionFlow;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 
 /**
  * アクションフロークラス
@@ -177,7 +178,7 @@ class ActionFlow {
                     $response = null;
                     if (! empty($action_result['messages'])) {
                         $multimessage = Builder::createMultiMessage($action_result['messages']);
-                        $response = Builder::sendPushMessage($channel, $line_user_id, $multimessage);
+                        $response = Sender::sendPushMessage($channel, $line_user_id, $multimessage);
                     }
                     if ($action_result['success'] && (is_null($response) || (isset($response['success']) && $response['success']))) {
                         $ary_result_success[] = $line_user_id;

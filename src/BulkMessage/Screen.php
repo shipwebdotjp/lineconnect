@@ -9,6 +9,8 @@ namespace Shipweb\LineConnect\BulkMessage;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
+use Shipweb\LineConnect\Message\LINE\Validater;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\PostType\Message\Schema as SLCMessageSchema;
 use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
@@ -204,9 +206,9 @@ EOM;
 				);
 			} else {
 				if ($mode === 'validate') {
-					$response = Builder::validateAudienceMessage($recepient, $messages_formdata);
+					$response = Validater::validateAudienceMessage($recepient, $messages_formdata);
 				} else {
-					$response = Builder::sendAudienceMessage($recepient, $messages_formdata, $notificationDisabled);
+					$response = Sender::sendAudienceMessage($recepient, $messages_formdata, $notificationDisabled);
 				}
 			}
 		} elseif ($mode === 'count') {

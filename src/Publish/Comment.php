@@ -16,6 +16,7 @@ namespace Shipweb\LineConnect\Publish;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 
 
 class Comment {
@@ -74,8 +75,7 @@ class Comment {
 		//$comment_author_id = $comment->user_id;
 
 		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
-			Builder::sendMessageWpUser($channel, $author_id, $flexMessage);
-			//Builder::sendMessageWpUser($channel, $comment_author_id, $flexMessage);
+			Sender::sendMessageWpUser($channel, $author_id, $flexMessage);
 		}
 	}
 }

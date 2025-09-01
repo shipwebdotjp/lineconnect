@@ -9,6 +9,7 @@ namespace Shipweb\LineConnect\Scenario;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 use Shipweb\LineConnect\Utilities\Condition;
 use stdClass;
 
@@ -1799,7 +1800,7 @@ class Scenario {
 			if (! empty($action_result['messages'])) {
 				$channel = lineconnect::get_channel($secret_prefix);
 				$multimessage = Builder::createMultiMessage($action_result['messages']);
-				$response = Builder::sendPushMessage($channel, $line_user_id, $multimessage);
+				$response = Sender::sendPushMessage($channel, $line_user_id, $multimessage);
 			}
 			if (!$action_result['success'] || (isset($response['success']) && !$response['success'])) {
 				$log = array(

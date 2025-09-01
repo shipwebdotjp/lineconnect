@@ -3,6 +3,7 @@
 
 // Ensure base test setup is loaded
 require_once __DIR__ . '/InteractionManager_Base.php';
+require_once __DIR__ . '/../../tests/LINEBot/Util/DummyHttpClient.php';
 
 // Provide a small stub for the LINE SDK to avoid external HTTP calls during tests.
 // We declare minimal parts of the LINE SDK that Builder::sendPushMessage invokes.
@@ -98,6 +99,13 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
             $session_repository,
             $interaction_handler
         );
+        $mock = function ($testRunner, $httpMethod, $url, $data) {
+            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            $testRunner->assertEquals('POST', $httpMethod);
+            $testRunner->assertEquals('https://api.line.me/v2/bot/message/push', $url);
+            return ['status' => 200];
+        };
+        $httpClient = new LINE\Tests\LINEBot\Util\DummyHttpClient($this, $mock);
 
         // Start interaction to create a session row
         $interaction_messages = $interaction_manager->startInteraction($interaction_id, $line_user_id, $secret_prefix);
@@ -134,7 +142,7 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $session->get_id()));
 
         // Call the target method
-        $messages = Cron::send_interaction_sessions_reminders($last_run, $current_time);
+        $messages = Cron::send_interaction_sessions_reminders($last_run, $current_time, $httpClient);
 
         // Reload session row and assert reminder_sent_at was set
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $session->get_id()));
@@ -148,7 +156,7 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
         // again
         $last_run = $now;
         $current_time = $last_run + 60;
-        $messages = Cron::send_interaction_sessions_reminders($last_run, $current_time);
+        $messages = Cron::send_interaction_sessions_reminders($last_run, $current_time, $httpClient);
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $session->get_id()));
         $this->assertNotNull($row, 'Session row disappeared');
         $this->assertEquals($reminder_sent_at, $row->reminder_sent_at, 'reminder_sent_at was updated again on second call');
@@ -192,7 +200,7 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
         // check expiration
         $current_time = $session->get_expires_at()->getTimestamp() + 60;
         $last_run = $now - 60;
-        $messages = Cron::process_interaction_timeouts($last_run, $current_time);
+        $messages = Cron::process_interaction_timeouts($last_run, $current_time, $httpClient);
         $this->assertNotEmpty($messages, 'process_interaction_timeouts returned empty messages');
         $this->assertContains($session->get_id(), $messages, 'Session ID was not found in reminder messages');
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $session->get_id()));

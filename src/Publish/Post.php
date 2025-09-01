@@ -16,6 +16,7 @@ namespace Shipweb\LineConnect\Publish;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\PostType\Audience\Audience;
 use WP_REST_Server;
@@ -336,7 +337,7 @@ class Post {
 					foreach ($roles as $slc_audience_id) {
 						$audience = Audience::get_lineconnect_audience_from_vary($slc_audience_id, []);
 						if (!empty($audience)) {
-							$response = Builder::sendAudienceMessage($audience, $buildMessage);
+							$response = Sender::sendAudienceMessage($audience, $buildMessage);
 							if ($response['success']) {
 								$success_message = implode(', ', $response['success_messages']);
 							} else {
@@ -350,7 +351,7 @@ class Post {
 					if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0) {
 						if (in_array("slc_all", $roles)) {
 							//送信するロールがすべてのユーザーならブロードキャスト
-							$response = Builder::sendBroadcastMessage($channel, $buildMessage);
+							$response = Sender::sendBroadcastMessage($channel, $buildMessage);
 							if ($response['success']) {
 								$success_message = __('Sent a LINE message to all friends.', lineconnect::PLUGIN_NAME);
 							} else {
@@ -358,7 +359,7 @@ class Post {
 							}
 						} else {
 
-							$response = Builder::sendMessageRole($channel, $roles, $buildMessage);
+							$response = Sender::sendMessageRole($channel, $roles, $buildMessage);
 							if ($response['success']) {
 								if ($response['num']) {
 									$success_message =  sprintf(_n('Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME), number_format($response['num']));

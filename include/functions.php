@@ -15,6 +15,7 @@
 use Shipweb\LineConnect\Scenario\Scenario;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 use Shipweb\LineConnect\Action\Action;
 
 class lineconnectFunctions {
