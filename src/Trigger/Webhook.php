@@ -23,7 +23,6 @@ class Webhook {
             if ($trigger['message']['type'] === 'text') {
                 $result = self::check_webhook_message_text_condition($trigger['message']['text'], $event->{'message'}->{'text'});
                 if (! $result) {
-                    // error_log("check_webhook_message_text_condition:".$result);
                     return false;
                 }
             }
@@ -34,8 +33,8 @@ class Webhook {
                     return false;
                 }
             }
-            if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params'])) {
-                if( !isset($event->{'postback'}->{'params'}) ) {
+            if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params']['conditions'])) {
+                if (!isset($event->{'postback'}->{'params'})) {
                     return false;
                 }
                 $result = self::check_webhook_message_postback_param_condition($trigger['postback']['params'], $event->{'postback'}->{'params'});
@@ -54,8 +53,6 @@ class Webhook {
         if (! empty($trigger['condition'])) {
             $result = self::check_webhook_condition($trigger['condition'], $event, $secret_prefix);
             if (! $result) {
-                // error_log("check_webhook_condition:".$result);
-
                 return false;
             }
         }
@@ -140,6 +137,7 @@ class Webhook {
                 return false;
             }
         }
+        // error_log(print_r(array('query_array' => $query_array, 'data_array' => $data_array, 'intersect' => array_intersect_assoc($query_array, $data_array)), true));
         return true;
     }
 

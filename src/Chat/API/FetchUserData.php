@@ -4,6 +4,7 @@ namespace Shipweb\LineConnect\Chat\API;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\PostType\Interaction\Interaction;
+use Shipweb\LineConnect\Scenario\Scenario;
 
 class FetchUserData {
     // 指定されたユーザーデータを取得
@@ -42,8 +43,16 @@ class FetchUserData {
         $result['profile'] = json_decode($result['profile'] ?: '{}', true);
         $result['tags'] = json_decode($result['tags'] ?: '[]', true);
         // $result['interactions'] = json_decode($result['interactions'] ?: '{}', true);
-        $result['scenarios'] = json_decode($result['scenarios'] ?: '{}', true);
         $result['stats'] = json_decode($result['stats'] ?: '{}', true);
+
+        $scenario_names = Scenario::get_scenario_name_array();
+        if ($result['scenarios']) {
+            $scenarios = json_decode($result['scenarios'] ?: '{}', true);
+            foreach ($scenarios as &$scenario) {
+                $scenario['name'] = $scenario_names[$scenario['id']] ?? __('Unknown Scenario', 'lineconnect');
+            }
+        }
+        $result['scenarios'] = $scenarios ?? [];
 
         // get interactions
         $interactions = [];

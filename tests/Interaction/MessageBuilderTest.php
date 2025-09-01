@@ -7,39 +7,38 @@ use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Interaction\StepDefinition;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 
-class MessageBuilderTest extends WP_UnitTestCase
-{
+class MessageBuilderTest extends WP_UnitTestCase {
     private $messageBuilder;
 
-    public function setUp(): void
-    {
+    public function setUp(): void {
         parent::setUp();
         $this->messageBuilder = new MessageBuilder();
     }
 
-    public function testBuildTemplateButtonMessage()
-    {
+    public function testBuildTemplateButtonMessage() {
         // 1. Setup
         $message_definition = [
             'type' => 'template_button',
-            'text' => 'Select an option:',
-            'options' => [
-                [
-                    'value' => 'option1',
-                    'label' => 'Option 1',
-                    'nextStepId' => 'step2',
+            'template_button' => [
+                'text' => 'Select an option:',
+                'options' => [
+                    [
+                        'value' => 'option1',
+                        'label' => 'Option 1',
+                        'nextStepId' => 'step2',
+                    ],
+                    [
+                        'value' => 'option2',
+                        'label' => 'Option 2',
+                        'nextStepId' => null,
+                    ],
+                    [
+                        'value' => 'option3',
+                        'label' => 'Option 3',
+                    ],
                 ],
-                [
-                    'value' => 'option2',
-                    'label' => 'Option 2',
-                    'nextStepId' => null,
-                ],
-                [
-                    'value' => 'option3',
-                    'label' => 'Option 3',
-                ],
-            ],
-            'column' => 2,
+                'column' => 2,
+            ]
         ];
 
         $stepDefinition = $this->createMockStepDefinition([$message_definition], 'test_step_1');
@@ -75,7 +74,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         // Assert Box holding button rows
         $buttonRowsContainer = $bodyContents[1];
         $this->assertEquals('box', $buttonRowsContainer['type']);
-        
+
         $buttonRows = $buttonRowsContainer['contents'];
         $this->assertCount(2, $buttonRows);
 
@@ -113,8 +112,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals('mode=interaction&step=test_step_1&value=option3', $action3['data']);
     }
 
-    public function testBuildStickerMessage()
-    {
+    public function testBuildStickerMessage() {
         $message_definition = [
             'type' => 'sticker',
             'packageId' => '1',
@@ -128,8 +126,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals('1', $built[0]['stickerId']);
     }
 
-    public function testBuildImageMessage()
-    {
+    public function testBuildImageMessage() {
         $message_definition = [
             'type' => 'image',
             'originalContentUrl' => 'https://example.com/original.jpg',
@@ -143,8 +140,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals('https://example.com/preview.jpg', $built[0]['previewImageUrl']);
     }
 
-    public function testBuildVideoMessage()
-    {
+    public function testBuildVideoMessage() {
         $message_definition = [
             'type' => 'video',
             'originalContentUrl' => 'https://example.com/original.mp4',
@@ -158,8 +154,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals('https://example.com/preview.jpg', $built[0]['previewImageUrl']);
     }
 
-    public function testBuildAudioMessage()
-    {
+    public function testBuildAudioMessage() {
         $message_definition = [
             'type' => 'audio',
             'originalContentUrl' => 'https://example.com/original.m4a',
@@ -173,8 +168,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals(60000, $built[0]['duration']);
     }
 
-    public function testBuildLocationMessage()
-    {
+    public function testBuildLocationMessage() {
         $message_definition = [
             'type' => 'location',
             'title' => 'my location',
@@ -192,8 +186,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals(139.7454, $built[0]['longitude']);
     }
 
-    public function testBuildFlexMessage()
-    {
+    public function testBuildFlexMessage() {
         $flexContent = ['type' => 'bubble', 'body' => ['type' => 'box', 'layout' => 'vertical', 'contents' => [['type' => 'text', 'text' => 'hello']]]];
         $message_definition = [
             'type' => 'flex',
@@ -208,8 +201,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals($flexContent, $built[0]['contents']);
     }
 
-    public function testBuildRawMessage()
-    {
+    public function testBuildRawMessage() {
         $rawContent = ['type' => 'text', 'text' => 'raw message'];
         $message_definition = [
             'type' => 'raw',
@@ -221,8 +213,7 @@ class MessageBuilderTest extends WP_UnitTestCase
         $this->assertEquals($rawContent, $built[0]);
     }
 
-    private function createMockStepDefinition(array $messages, string $step_id = 'test_step')
-    {
+    private function createMockStepDefinition(array $messages, string $step_id = 'test_step') {
         $stepDefinition = $this->getMockBuilder(StepDefinition::class)
             ->disableOriginalConstructor()
             ->getMock();

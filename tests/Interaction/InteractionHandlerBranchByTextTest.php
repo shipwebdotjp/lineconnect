@@ -62,7 +62,7 @@ class InteractionHandlerBranchByTextTest extends TestCase {
         $this->stepMock->method('get_next_step_id')->willReturn('fallback_step');
 
         $this->sessionMock->method('get_current_step_id')->willReturn('confirm_step');
-        $this->sessionMock->method('get_answer')->with('confirm_step')->willReturn('yes');
+        $this->sessionMock->method('get_answer')->willReturnMap([['confirm_step', 'yes']]);
 
         // Expect that the session's step is updated to 'yes_step'
         $this->sessionMock->expects($this->once())
@@ -91,7 +91,7 @@ class InteractionHandlerBranchByTextTest extends TestCase {
         $this->stepMock->method('get_next_step_id')->willReturn('fallback_step');
 
         $this->sessionMock->method('get_current_step_id')->willReturn('apply_step');
-        $this->sessionMock->method('get_answer')->with('apply_step')->willReturn('I want to apply');
+        $this->sessionMock->method('get_answer')->willReturnMap([['apply_step', 'I want to apply']]);
 
         $this->sessionMock->expects($this->once())
             ->method('set_current_step_id')
@@ -120,7 +120,7 @@ class InteractionHandlerBranchByTextTest extends TestCase {
         $this->stepMock->method('get_next_step_id')->willReturn('fallback_step');
 
         $this->sessionMock->method('get_current_step_id')->willReturn('confirm_step');
-        $this->sessionMock->method('get_answer')->with('confirm_step')->willReturn('maybe');
+        $this->sessionMock->method('get_answer')->willReturnMap([['confirm_step', 'maybe']]);
 
         $this->sessionMock->expects($this->once())
             ->method('set_current_step_id')

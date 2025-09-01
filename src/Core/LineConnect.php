@@ -1168,7 +1168,7 @@ class LineConnect {
 			`channel_prefix` CHAR(4) NOT NULL COMMENT 'チャネルID (シークレットの先頭4文字)',
 			`interaction_id` BIGINT UNSIGNED NOT NULL COMMENT 'フォームの投稿ID',
 			`interaction_version` INT UNSIGNED NOT NULL COMMENT '開始時のフォームのバージョン',
-			`status` VARCHAR(20) NOT NULL DEFAULT 'active' COMMENT 'セッション状態 (active, editing, paused, completed, timeout など)',
+			`status` VARCHAR(20) NOT NULL DEFAULT 'active' COMMENT 'セッション状態 (active, paused, completed, timeout など)',
 			`current_step_id` VARCHAR(255) NULL COMMENT '現在のステップID',
 			`previous_step_id` VARCHAR(255) NULL COMMENT '直前のステップID',
 			`answers` JSON NULL COMMENT 'このセッションで収集した回答データ',

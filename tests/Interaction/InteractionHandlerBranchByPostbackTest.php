@@ -54,7 +54,7 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
 
     public function testHandleWithPostbackQueryStringNextStepId() {
         // postback->dataに nextStepId=post_step が含まれている場合、それが優先される
-        $event = $this->createPostbackEvent('nextStepId=post_step&value=foo');
+        $event = $this->createPostbackEvent('mode=interaction&step=start&nextStepId=post_step&value=foo');
 
         $this->stepMock->method('get_id')->willReturn('start');
         // branches があっても無視されるはず
@@ -84,7 +84,7 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
 
     public function testHandleWithPostbackPlainDataMatchesBranchEquals() {
         // postback->data がプレーンな 'opt1' の場合、branches の equals にマッチする
-        $event = $this->createPostbackEvent('opt1');
+        $event = $this->createPostbackEvent('mode=interaction&step=choice_step&value=opt1');
 
         $this->stepMock->method('get_id')->willReturn('choice_step');
         $this->stepMock->method('get_branches')->willReturn([
@@ -94,7 +94,9 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
         $this->stepMock->method('get_next_step_id')->willReturn('fallback_step');
 
         $this->sessionMock->method('get_current_step_id')->willReturn('choice_step');
-        $this->sessionMock->method('get_answer')->with('choice_step')->willReturn('opt1');
+        $this->sessionMock->method('get_answer')->willReturnCallback(function ($key) {
+            return $key === 'choice_step' ? 'opt1' : null;
+        });
 
         $this->sessionMock->expects($this->once())
             ->method('set_current_step_id')
@@ -114,7 +116,7 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
 
     public function testHandleWithPostbackFallbackToDefault() {
         // postback->data が branches にマッチしない場合、get_next_step_id が選ばれる
-        $event = $this->createPostbackEvent('unknown');
+        $event = $this->createPostbackEvent('mode=interaction&step=confirm_step&value=unknown');
 
         $this->stepMock->method('get_id')->willReturn('confirm_step');
         $this->stepMock->method('get_branches')->willReturn([
@@ -124,7 +126,9 @@ class InteractionHandlerBranchByPostbackTest extends TestCase {
         $this->stepMock->method('get_next_step_id')->willReturn('fallback_step');
 
         $this->sessionMock->method('get_current_step_id')->willReturn('confirm_step');
-        $this->sessionMock->method('get_answer')->with('confirm_step')->willReturn('unknown');
+        $this->sessionMock->method('get_answer')->willReturnCallback(function ($key) {
+            return $key === 'confirm_step' ? 'unknown' : null;
+        });
 
         $this->sessionMock->expects($this->once())
             ->method('set_current_step_id')

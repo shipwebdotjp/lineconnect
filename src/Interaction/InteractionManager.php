@@ -68,10 +68,6 @@ class InteractionManager {
                 // Take the most recent paused session (first in the array due to ORDER BY DESC)
                 $paused_session = $paused_sessions[0];
 
-                // A paused session exists, so let's resume it.
-                $paused_session->set_status('active');
-                $this->session_repository->save($paused_session);
-
                 // Load the definition for the resumed interaction.
                 $resumed_definition = InteractionDefinition::from_post(
                     $paused_session->get_interaction_id(),
@@ -80,6 +76,11 @@ class InteractionManager {
 
                 if ($resumed_definition) {
                     $paused_session->set_interaction_definition($resumed_definition);
+
+                    // A paused session exists, so let's resume it.
+                    $paused_session->active();
+                    $this->session_repository->save($paused_session);
+
                     // Present the current step of the resumed session.
                     $resume_messages = $this->interaction_handler->presentStep($paused_session, $resumed_definition, $event);
                     $messages = array_merge($messages, $resume_messages);
@@ -92,7 +93,7 @@ class InteractionManager {
             }
         }
 
-        return [LineMessageBuilder::createMultiMessage($messages)];
+        return !empty($messages) ? [LineMessageBuilder::createMultiMessage($messages)] : [];
     }
 
     /**
@@ -192,15 +193,14 @@ class InteractionManager {
                 if ($stack_same) {
                     // if active session then pause it
                     if ($activeSession) {
-                        // $activeSession->pause();
-                        $activeSession->set_status('paused');
+                        $activeSession->pause();
                         if (!$this->session_repository->save($activeSession)) {
                             return [];
                         }
                     }
 
                     $stack_same->reset_to_step($first_step_id);
-                    $stack_same->set_status('active');
+                    $stack_same->active();
                     if (!$this->session_repository->save($stack_same)) {
                         return [];
                     }
@@ -253,7 +253,7 @@ class InteractionManager {
                 if ($stack_same) {
                     // Bring paused same-form session to active and reset it.
                     $stack_same->reset_to_step($first_step_id);
-                    $stack_same->set_status('active');
+                    $stack_same->active();
                     if (!$this->session_repository->save($stack_same)) {
                         return [];
                     }
@@ -275,18 +275,18 @@ class InteractionManager {
                     // If stack already contains the same-form, activate
                     if ($stack_same) {
                         // Pause the current active session and activate the stacked one.
-                        $activeSession->set_status('paused');
+                        $activeSession->pause();
                         if (!$this->session_repository->save($activeSession)) {
                             return [];
                         }
-                        $stack_same->set_status('active');
+                        $stack_same->active();
                         if (!$this->session_repository->save($stack_same)) {
                             return [];
                         }
                         return $this->interaction_handler->presentStep($stack_same, $interaction_definition, $synthetic_event);
                     }
                     // Pause the current active session and create a new one.
-                    $activeSession->set_status('paused');
+                    $activeSession->pause();
                     if (!$this->session_repository->save($activeSession)) {
                         return [];
                     }
@@ -302,6 +302,7 @@ class InteractionManager {
         $session->set_current_step_id($first_step_id);
 
         if (!$this->session_repository->save($session)) {
+            error_log("Failed to save new interaction session for interaction ID: $interaction_id, user: $line_user_id");
             return [];
         }
 

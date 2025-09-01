@@ -34,7 +34,7 @@ class SessionRepository {
     public function find_active(string $channel_prefix, string $line_user_id): ?InteractionSession {
         $row = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE channel_prefix = %s AND line_user_id = %s AND status IN ('active', 'editing') ORDER BY updated_at DESC LIMIT 1",
+                "SELECT * FROM {$this->table_name} WHERE channel_prefix = %s AND line_user_id = %s AND status = 'active' ORDER BY updated_at DESC LIMIT 1",
                 $channel_prefix,
                 $line_user_id
             )

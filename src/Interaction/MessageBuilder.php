@@ -22,7 +22,7 @@ class MessageBuilder {
     public function build(StepDefinition $step, ?InteractionSession $session = null, array $validationErrors = []): \LINE\LINEBot\MessageBuilder|null {
         if (!empty($validationErrors)) {
             $errorText = implode("\n", $validationErrors);
-            return $this->buildErrorMessage($errorText);
+            return LineMessageBuilder::createMultiMessage([$this->buildErrorMessage($errorText)]);
         }
 
         // if ($step->get_special_type() === 'editPicker' && $session) {
@@ -190,35 +190,35 @@ class MessageBuilder {
 
         $title = $message['title'] ?? (__('Confirmation', LineConnect::PLUGIN_NAME));
         $header = LineMessageBuilder::createBoxComponent([
-            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'xl']),
+            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'lg']),
         ], null, ['layout' => 'vertical', 'paddingAll' => 'md']);
 
         $body_components = [];
         foreach ($answers as $answer_step_id => $answer_value) {
             $step = $interaction->get_step($answer_step_id);
             if ($step) {
-                $body_components[] = LineMessageBuilder::createTextComponent($step->get_title(), ['size' => 'sm', 'color' => '#555555']);
-                $body_components[] = LineMessageBuilder::createTextComponent(is_array($answer_value) ? implode(', ', $answer_value) : $answer_value, ['wrap' => true]);
+                $body_components[] = LineMessageBuilder::createTextComponent($step->get_title(), ['size' => 'sm', 'color' => '#555555', 'align' => 'start']);
+                $body_components[] = LineMessageBuilder::createTextComponent(is_array($answer_value) ? implode(', ', $answer_value) : $answer_value, ['wrap' => true, 'align' => 'start']);
             }
         }
 
-        $body = LineMessageBuilder::createBoxComponent($body_components, null, ['layout' => 'vertical', 'spacing' => 'md']);
+        $body = LineMessageBuilder::createBoxComponent($body_components, null, ['layout' => 'vertical', 'spacing' => 'md', 'paddingAll' => 'lg']);
 
         $apply_button = LineMessageBuilder::createButtonComponent([
             'type' => 'postback',
             'label' => $message['apply']['label'] ?? (__('Apply', LineConnect::PLUGIN_NAME)),
-            'link' => 'mode=interaction&step=' . $step_id . '&nextStepId=' . $message['apply']['nextStepId'],
+            'link' => 'mode=interaction&step=' . $step_id . ($message['apply']['nextStepId'] ? '&nextStepId=' . $message['apply']['nextStepId'] : ''),
             'displayText' => $message['apply']['label'] ?? (__('Apply', LineConnect::PLUGIN_NAME)),
-        ]);
+        ], ['style' => 'primary', 'height' => 'sm']);
 
         $edit_button = LineMessageBuilder::createButtonComponent([
             'type' => 'postback',
             'label' => $message['edit']['label'] ?? (__('Edit', LineConnect::PLUGIN_NAME)),
             'link' => 'mode=interaction&step=' . $step_id . '&nextStepId=' . ($message['edit']['nextStepId'] ?? 'editPicker'),
             'displayText' => $message['edit']['label'] ?? (__('Edit', LineConnect::PLUGIN_NAME)),
-        ]);
+        ], ['style' => 'secondary', 'height' => 'sm']);
 
-        $footer = LineMessageBuilder::createBoxComponent([$apply_button, $edit_button], null, ['layout' => 'horizontal', 'spacing' => 'sm']);
+        $footer = LineMessageBuilder::createBoxComponent([$apply_button, $edit_button], null, ['layout' => 'horizontal', 'spacing' => 'md']);
 
         $bubble = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
         $bubble->setHeader($header);
@@ -251,8 +251,8 @@ class MessageBuilder {
 
         $title = $message['title'] ?? (__('Select item to edit', LineConnect::PLUGIN_NAME));
         $header = LineMessageBuilder::createBoxComponent([
-            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'xl']),
-        ], null, ['layout' => 'vertical', 'paddingAll' => 'md']);
+            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'lg', 'wrap' => true]),
+        ], null, ['layout' => 'vertical', 'paddingAll' => 'lg']);
 
         $body_components = [];
         foreach (array_keys($answers) as $answer_step_id) {
@@ -269,11 +269,11 @@ class MessageBuilder {
                     'label' => $step_to_edit->get_title(),
                     'link' => $data,
                     'displayText' => $step_to_edit->get_title(),
-                ], ['style' => 'secondary', 'height' => 'sm']);
+                ], ['style' => 'primary', 'height' => 'sm']);
             }
         }
 
-        $body = LineMessageBuilder::createBoxComponent($body_components, null, ['layout' => 'vertical', 'spacing' => 'sm']);
+        $body = LineMessageBuilder::createBoxComponent($body_components, null, ['layout' => 'vertical', 'spacing' => 'md', 'paddingAll' => 'lg']);
 
         $cancel_label = $message['cancel']['label'] ?? (__('Back to confirmation', LineConnect::PLUGIN_NAME));
         $footer_button = LineMessageBuilder::createButtonComponent([
@@ -285,9 +285,9 @@ class MessageBuilder {
                 'nextStepId' => $message['cancel']['nextStepId'] ?? $returnTo
             ]),
             'displayText' => $cancel_label,
-        ]);
+        ], ['style' => 'secondary', 'height' => 'sm']);
 
-        $footer = LineMessageBuilder::createBoxComponent([$footer_button], null, ['layout' => 'vertical', 'spacing' => 'sm']);
+        $footer = LineMessageBuilder::createBoxComponent([$footer_button], null, ['layout' => 'vertical', 'spacing' => 'md', 'paddingAll' => 'lg']);
 
         $bubble = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
         $bubble->setHeader($header);
@@ -314,7 +314,7 @@ class MessageBuilder {
 
         $title = $message['title'] ?? (__('Are you sure you want to cancel?', LineConnect::PLUGIN_NAME));
         $header = LineMessageBuilder::createBoxComponent([
-            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'xl']),
+            LineMessageBuilder::createTextComponent($title, ['weight' => 'bold', 'size' => 'lg', 'wrap' => true]),
         ], null, ['layout' => 'vertical', 'paddingAll' => 'md']);
 
         $abort_label = $message['abort']['label'] ?? (__('Yes', LineConnect::PLUGIN_NAME));
@@ -341,7 +341,7 @@ class MessageBuilder {
                 ]),
                 'displayText' => $continue_label,
             ], ['style' => 'secondary', 'height' => 'sm']),
-        ], null, ['layout' => 'vertical', 'spacing' => 'sm']);
+        ], null, ['layout' => 'vertical', 'spacing' => 'md']);
 
         $bubble = new \LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder();
         $bubble->setHeader($header);

@@ -26,6 +26,7 @@ class InteractionSession {
     private DateTime $updated_at;
     private int $timeout_minutes = 0;
     private int $timeout_remind_minutes = 0;
+    private InteractionDefinition $interaction_definition;
 
     private function __construct() {
     }
@@ -44,10 +45,10 @@ class InteractionSession {
         $session->updated_at = new DateTime('now', new DateTimeZone('UTC'));
         $session->set_interaction_definition($interaction);
 
-        if ($session->timeout_minutes > 0) {
-            $session->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$session->timeout_minutes} minutes");
-            if ($session->timeout_remind_minutes > 0) {
-                $session->remind_at = (clone $session->expires_at)->modify("-{$session->timeout_remind_minutes} minutes");
+        if ($session->interaction_definition->get_timeout_minutes() > 0) {
+            $session->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$session->interaction_definition->get_timeout_minutes()} minutes");
+            if ($session->interaction_definition->get_timeout_remind_minutes() > 0) {
+                $session->remind_at = (clone $session->expires_at)->modify("-{$session->interaction_definition->get_timeout_remind_minutes()} minutes");
             }
         }
 
@@ -78,8 +79,9 @@ class InteractionSession {
     }
 
     public function set_interaction_definition(InteractionDefinition $interaction): void {
-        $this->timeout_minutes = $interaction->get_timeout_minutes();
-        $this->timeout_remind_minutes = $interaction->get_timeout_remind_minutes();
+        $this->interaction_definition = $interaction;
+        // $this->timeout_minutes = $interaction->get_timeout_minutes();
+        // $this->timeout_remind_minutes = $interaction->get_timeout_remind_minutes();
     }
 
     /**
@@ -128,9 +130,9 @@ class InteractionSession {
         return $this->status;
     }
 
-    public function set_status(string $status): void {
+    private function set_status(string $status, bool $isExtend = false): void {
         $this->status = $status;
-        $this->touch();
+        $this->touch($isExtend);
     }
 
     public function get_current_step_id(): ?string {
@@ -177,6 +179,13 @@ class InteractionSession {
     }
 
     /**
+     * Mark the session as active
+     */
+    public function active(): void {
+        $this->set_status('active', true);
+    }
+
+    /**
      * Mark the session as completed.
      */
     public function complete(): void {
@@ -203,11 +212,13 @@ class InteractionSession {
     }
 
     public function get_excluded_answers($exclude_steps): array {
+        $steps = $this->interaction_definition->get_steps();
         $answers = $this->get_answers();
         $excluded_answers = [];
-        foreach ($answers as $key => $value) {
-            if (!in_array($key, $exclude_steps, true)) {
-                $excluded_answers[$key] = $value;
+        foreach ($steps as $step) {
+            $step_id = $step->get_id();
+            if (!in_array($step_id, $exclude_steps, true) && isset($answers[$step_id])) {
+                $excluded_answers[$step_id] = $answers[$step_id] ?? null;
             }
         }
         return $excluded_answers;
@@ -228,14 +239,13 @@ class InteractionSession {
     /**
      * Update the 'updated_at' timestamp.
      */
-    private function touch(): void {
+    private function touch($isExtended = false): void {
         $this->updated_at = new DateTime('now', new DateTimeZone('UTC'));
-        // extend expiration if timeout is configured
-        if ($this->expires_at) {
-            $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->timeout_minutes} minutes");
-            // var_dump(["expires_at" => $this->expires_at, "timeout_minutes" => $this->timeout_remind_minutes]);
-            if ($this->timeout_remind_minutes > 0) {
-                $this->remind_at = (clone $this->expires_at)->modify("-{$this->timeout_remind_minutes} minutes");
+        if ($isExtended && $this->expires_at) {
+            $this->expires_at = (new DateTime('now', new DateTimeZone('UTC')))->modify("+{$this->interaction_definition->get_timeout_minutes()} minutes");
+            // var_dump(["expires_at" => $this->expires_at, "timeout_minutes" => $this->interaction_definition->get_timeout_minutes()]);
+            if ($this->interaction_definition->get_timeout_remind_minutes() > 0) {
+                $this->remind_at = (clone $this->expires_at)->modify("-{$this->interaction_definition->get_timeout_remind_minutes()} minutes");
             }
         }
     }

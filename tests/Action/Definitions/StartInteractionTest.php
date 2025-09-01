@@ -98,14 +98,14 @@ class StartInteractionTest extends WP_UnitTestCase {
 
         // Assert messages returned
         $this->assertNotEmpty($result, 'start_interaction の返り値が空です。');
-        $this->assertIsArray($result);
+        // $this->assertIsArray($result);
         // Expect at least the built step message (MessageBuilder returns MultiMessageBuilder inside array)
         $this->assertInstanceOf(
             \LINE\LINEBot\MessageBuilder\MultiMessageBuilder::class,
-            $result[0]
+            $result
         );
-        $this->assertStringContainsString("テスト: 最初のメッセージです。", $result[0]->buildMessage()[0]["text"]);
-        $this->assertStringContainsString("テスト: 2番目のメッセージです。", $result[0]->buildMessage()[1]["text"]);
+        $this->assertStringContainsString("テスト: 最初のメッセージです。", $result->buildMessage()[0]["text"]);
+        $this->assertStringContainsString("テスト: 2番目のメッセージです。", $result->buildMessage()[1]["text"]);
 
         // Verify session saved in DB
         $session_repository = new SessionRepository();

@@ -30,6 +30,8 @@ class InteractionSessionTest extends WP_UnitTestCase {
             'current_step_id' => 'step1',
             'previous_step_id' => null,
             'answers' => json_encode(['name' => 'Taro']),
+            'remind_at' => null,
+            'reminder_sent_at' => null,
             'expires_at' => '2025-08-16 12:30:00',
             'created_at' => '2025-08-16 12:00:00',
             'updated_at' => '2025-08-16 12:05:00',

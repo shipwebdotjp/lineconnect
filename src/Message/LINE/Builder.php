@@ -181,7 +181,7 @@ class Builder {
 			$border_color     = lineconnect::get_option('link_button_background_color');
 		} elseif (isset($atts['style']) && $atts['style'] == 'secondary') {
 			$default_color    = lineconnect::get_option('link_button_background_color');
-			// $background_color = lineconnect::get_option('link_button_background_color');
+			$background_color = lineconnect::get_option('title_backgraound_color');
 			$border_color     = lineconnect::get_option('link_button_background_color');
 		} else {
 			$default_color    = lineconnect::get_option('link_text_color');
@@ -197,7 +197,7 @@ class Builder {
 				'border_color'    => $border_color,
 				'layout'          => 'vertical',
 				'flex'            => 1,
-				'margin'          => 'none',
+				'margin'          => null, //'none',
 				'height'          => 'md',
 				'style'           => 'link',
 				'spacing'         => null, //'none',
@@ -276,6 +276,7 @@ class Builder {
 			'margin' => null,
 			'layout' => 'vertical',
 			'spacing' => null,
+			'paddingAll' => null,
 		));
 
 		$boxComponent = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder(
@@ -290,6 +291,10 @@ class Builder {
 		//set justifyContent
 		if (isset($atts['justifyContent'])) {
 			$boxComponent->setJustifyContent($atts['justifyContent']);
+		}
+		//set paddingAll
+		if (isset($atts['paddingAll'])) {
+			$boxComponent->setPaddingAll($atts['paddingAll']);
 		}
 		return $boxComponent;
 	}

@@ -87,6 +87,8 @@ class StartInteraction extends AbstractActionDefinition {
 		// 	$overridePolicy = null;
 		// }
 
+		// error_log("Starting interaction: $interaction_id for user: $line_user_id");
+
 		$session_repository = new SessionRepository();
 		$action_runner = new ActionRunner();
 		$message_builder = new MessageBuilder();
@@ -112,6 +114,7 @@ class StartInteraction extends AbstractActionDefinition {
 		foreach ($messages as $message_item) {
 			$multimessage->add($message_item);
 		}
+		// error_log("Started interaction: $interaction_id for user: $line_user_id with " . count($messages) . " messages.");
 		return !empty($messages) ? $multimessage : null;
 	}
 }

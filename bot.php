@@ -248,6 +248,7 @@ foreach ($json_obj->{'events'} as $event) {
 		$interaction_messages = $interaction_manager->handleEvent($secret_prefix, $event->{'source'}->{'userId'}, $event);
 		if (!empty($interaction_messages)) {
 			$message = array_merge($message, $interaction_messages);
+			// error_log('interaction response:' . print_r($interaction_messages, true));
 		}
 	}
 
@@ -284,6 +285,7 @@ foreach ($json_obj->{'events'} as $event) {
 
 		if (isset($trigger['action'])) {
 			$action_return = Action::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
+			// error_log('trigger action return:' . print_r($action_return, true));
 			if (!empty($action_return['messages'])) {
 				$message = array_merge($message, $action_return['messages']);
 			}
@@ -305,7 +307,7 @@ foreach ($json_obj->{'events'} as $event) {
 		);
 		$message[]    = $gptResponse['message'];
 		$responseByAi = $gptResponse['responseByAi'];
-		// error_log('gpt response:' . print_r($gptResponse, true));
+		error_log('gpt response:' . print_r($gptResponse, true));
 	}
 
 	// 応答メッセージがあれば送信する

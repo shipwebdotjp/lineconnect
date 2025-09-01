@@ -47,8 +47,8 @@ class StepDefinition {
         return $this->data['special'] ?? null;
     }
 
-    public function get_normalize_rules(): object {
-        return (object)($this->data['normalize'] ?? []);
+    public function get_normalize_rules(): array {
+        return (array)($this->data['normalize'] ?? []);
     }
 
     public function get_validation_rules(): array {

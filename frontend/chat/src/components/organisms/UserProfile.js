@@ -12,6 +12,12 @@ const UserProfile = ({ user, openEditForm }) => {
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
+    // truncate string
+    const truncateString = (str, maxLength) => {
+        if (!str) return '';
+        if (str.length <= maxLength) return str;
+        return str.slice(0, maxLength) + '...';
+    };
 
     return (
         <div className="p-4 flex flex-col space-y-4 w-full bg-white rounded-lg shadow">
@@ -128,7 +134,6 @@ const UserProfile = ({ user, openEditForm }) => {
                             <TableRow>
                                 <TableHead>{__('ID', 'lineconnect')}</TableHead>
                                 <TableHead>{__('Status', 'lineconnect')}</TableHead>
-                                <TableHead>{__('Start', 'lineconnect')}</TableHead>
                                 <TableHead>{__('Updated', 'lineconnect')}</TableHead>
                                 <TableHead>{__('Edit', 'lineconnect')}</TableHead>
                             </TableRow>
@@ -136,11 +141,10 @@ const UserProfile = ({ user, openEditForm }) => {
                         <TableBody>
                             {Object.entries(user.scenarios).map(([id, scenario]) => (
                                 <TableRow key={id}>
-                                    <TableCell className="font-medium">{id}</TableCell>
+                                    <TableCell className="font-medium">{truncateString(scenario.name, 15)}</TableCell>
                                     <TableCell>
                                         <span className="capitalize">{scenario.status}</span>
                                     </TableCell>
-                                    <TableCell>{formatDate(scenario.started_at)}</TableCell>
                                     <TableCell>{formatDate(scenario.updated_at)}</TableCell>
                                     <TableCell>
                                         <button
@@ -182,7 +186,7 @@ const UserProfile = ({ user, openEditForm }) => {
                         <TableBody>
                             {Object.entries(user.interactions).map(([id, interaction]) => (
                                 <TableRow key={id}>
-                                    <TableCell>{interaction.name}</TableCell>
+                                    <TableCell>{truncateString(interaction.interaction_name, 15)}</TableCell>
                                     <TableCell>
                                         <span className="capitalize">{interaction.status}</span>
                                     </TableCell>

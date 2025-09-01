@@ -170,7 +170,7 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
         $step_messages = $interaction_manager->handleEvent($secret_prefix, $line_user_id, $reply_event);
         // expireが伸びたことを確認
         $this->assertNotEmpty($step_messages, 'handleEvent returned empty messages');
-        var_dump([$session->get_expires_at()->getTimestamp(), new DateTime($expires_at, new DateTimeZone('UTC'))->getTimestamp()]);
+        // var_dump([$session->get_expires_at()->getTimestamp(), new DateTime($expires_at, new DateTimeZone('UTC'))->getTimestamp()]);
         $this->assertLessThan(
             $session->get_expires_at()->getTimestamp(),
             new DateTime($expires_at, new DateTimeZone('UTC'))->getTimestamp(),

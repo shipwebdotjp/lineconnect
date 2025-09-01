@@ -5,13 +5,11 @@ use Shipweb\LineConnect\Interaction\ActionRunner;
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Interaction\InteractionSession;
 
-class ActionRunnerTest extends TestCase
-{
+class ActionRunnerTest extends TestCase {
     /**
      * @covers Shipweb\LineConnect\Interaction\ActionRunner::run
      */
-    public function testRun()
-    {
+    public function testRun() {
         // Action::do_action a static method, so we need to use a mock builder to mock it.
         $actionMock = $this->getMockBuilder(Action::class)
             ->getMock();
@@ -49,20 +47,12 @@ class ActionRunnerTest extends TestCase
         // Since we cannot mock the static method, we cannot assert the return value content.
         // We will just assert the structure of the return value.
         $this->assertIsArray($result);
-        $this->assertArrayHasKey('success', $result);
-        $this->assertArrayHasKey('messages', $result);
-        $this->assertArrayHasKey('results', $result);
-        $this->assertIsBool($result['success']);
-        $this->assertIsArray($result['messages']);
-        $this->assertIsArray($result['results']);
-
     }
 
     /**
      * @covers Shipweb\LineConnect\Interaction\ActionRunner::run
      */
-    public function testRunEmptyActions()
-    {
+    public function testRunEmptyActions() {
         $actionRunner = new ActionRunner();
         $action_definition = (object)[
             'actions' => [],
@@ -78,10 +68,6 @@ class ActionRunnerTest extends TestCase
 
         $result = $actionRunner->run($action_definition, $session, $event);
 
-        $this->assertEquals([
-            'success' => true,
-            'messages' => [],
-            'results' => [],
-        ], $result);
+        $this->assertEquals([], $result);
     }
 }

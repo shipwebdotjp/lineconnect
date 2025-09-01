@@ -33,9 +33,8 @@ class Validator {
     }
 
     private function dispatch_rule(mixed $input, mixed $rule): ValidationResult {
-        // The rule object has a single property which is its type (e.g., $rule->required, $rule->length)
-        $rule_type = key(get_object_vars($rule));
-        $rule_params = $rule->{$rule_type};
+        $rule_type = $rule['type'];
+        $rule_params = $rule[$rule_type];
 
         switch ($rule_type) {
             case 'required':
@@ -92,7 +91,7 @@ class Validator {
         return ValidationResult::success();
     }
 
-    private function validate_number(mixed $input, object $params): ValidationResult {
+    private function validate_number(mixed $input, array $params): ValidationResult {
         // Treat empty string and null as "no input" (do not validate) — but accept "0"
         if ($input === '' || $input === null) {
             return ValidationResult::success();
@@ -100,25 +99,25 @@ class Validator {
         if (!is_numeric($input)) {
             return ValidationResult::failure(__('Must be a number.', LineConnect::PLUGIN_NAME));
         }
-        if (isset($params->min) && $input < $params->min) {
-            return ValidationResult::failure(sprintf(__('Must be at least %s.', LineConnect::PLUGIN_NAME), $params->min));
+        if (isset($params['min']) && $input < $params['min']) {
+            return ValidationResult::failure(sprintf(__('Must be at least %s.', LineConnect::PLUGIN_NAME), $params['min']));
         }
-        if (isset($params->max) && $input > $params->max) {
-            return ValidationResult::failure(sprintf(__('Must be at most %s.', LineConnect::PLUGIN_NAME), $params->max));
+        if (isset($params['max']) && $input > $params['max']) {
+            return ValidationResult::failure(sprintf(__('Must be at most %s.', LineConnect::PLUGIN_NAME), $params['max']));
         }
         return ValidationResult::success();
     }
 
-    private function validate_length(mixed $input, object $params): ValidationResult {
+    private function validate_length(mixed $input, array $params): ValidationResult {
         if (empty($input) || !is_string($input)) {
             return ValidationResult::success();
         }
         $len = mb_strlen($input);
-        if (isset($params->minlength) && $len < $params->minlength) {
-            return ValidationResult::failure(sprintf(__('Length must be at least %s characters.', LineConnect::PLUGIN_NAME), $params->minlength));
+        if (isset($params['minlength']) && $len < $params['minlength']) {
+            return ValidationResult::failure(sprintf(__('Length must be at least %s characters.', LineConnect::PLUGIN_NAME), $params['minlength']));
         }
-        if (isset($params->maxlength) && $len > $params->maxlength) {
-            return ValidationResult::failure(sprintf(__('Length must be at most %s characters.', LineConnect::PLUGIN_NAME), $params->maxlength));
+        if (isset($params['maxlength']) && $len > $params['maxlength']) {
+            return ValidationResult::failure(sprintf(__('Length must be at most %s characters.', LineConnect::PLUGIN_NAME), $params['maxlength']));
         }
         return ValidationResult::success();
     }

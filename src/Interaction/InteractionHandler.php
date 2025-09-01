@@ -7,6 +7,7 @@ use Shipweb\LineConnect\Interaction\ValidationResult;
 use Shipweb\LineConnect\Interaction\StepDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
+use Shipweb\LineConnect\Utilities\StringUtil;
 
 /**
  * Handles the processing of a single interaction step.
@@ -59,7 +60,6 @@ class InteractionHandler {
         if (!empty($before_actions)) {
             $action_messages = $this->action_runner->run($before_actions, $session, $event);
             $messages = array_merge($messages, $action_messages);
-            // var_dump($messages);
         }
 
         // Build the message for the current step.
@@ -91,6 +91,11 @@ class InteractionHandler {
 
         $messages = [];
 
+        // Check if interaction postback
+        if ($event->type === 'postback' && StringUtil::getQueryValue($event->postback->data ?? '', 'mode') !== 'interaction') {
+            return [];
+        }
+
         // Check for cancel words
         $isCancelConfirm = $this->determine_is_cancel_confirm($event, $interaction_definition);
         if ($isCancelConfirm) {
@@ -112,6 +117,12 @@ class InteractionHandler {
         } elseif ($userChoice === 'continue') {
             // continue interaction
             return $this->presentStep($session, $interaction_definition, $event);
+        }
+
+        // Check if postback step is current step
+        if ($event->type === 'postback' && StringUtil::getQueryValue($event->postback->data ?? '', 'step') !== $current_step_id) {
+            // Postback step is not the current step, ignore it.
+            return [];
         }
 
         $user_input = $this->extractUserInput($event);
@@ -156,14 +167,20 @@ class InteractionHandler {
             // Potentially build a completion message
             $completion_step = $interaction_definition->get_special_step('complete');
             if ($completion_step) {
+                $before_actions = $completion_step->get_before_actions();
+                if (!empty($before_actions)) {
+                    $action_messages = $this->action_runner->run($before_actions, $session, $event);
+                    $messages = array_merge($messages, $action_messages);
+                }
                 $messages[] = $this->message_builder->build($completion_step, $session);
             }
         }
 
-
         // Apply runPolicy if session was completed
         if ($session->get_status() === 'completed') {
             $this->run_policy_enforcer->enforceOnComplete($session, $interaction_definition);
+            // unset exclude answers
+            $session->unset_answers($interaction_definition->get_exclude_steps());
             // save answers
             $this->save_answers($session, $interaction_definition);
         }
@@ -229,6 +246,7 @@ class InteractionHandler {
 
         return null;
     }
+
 
     /**
      * Determine if the incoming event represents a cancel-confirm action.
@@ -391,7 +409,7 @@ class InteractionHandler {
         // to the step specified in 'returnTo' (e.g., the confirmation step).
         $return_to_step = $session->get_answer($return_to_key);
         if ($return_to_step) {
-            $session->set_answer($return_to_key, null); // Clear the return marker to avoid loops
+            $session->unset_answers([$return_to_key]); // Clear the return marker to avoid loops
             return $return_to_step;
         }
 

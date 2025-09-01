@@ -29,7 +29,7 @@ class Interaction {
         if (isset($formData[$form_version])) {
             $formData = $formData[$form_version][0];
         }
-        error_log('Interaction::get_form_data: ' . print_r($formData, true));
+        // error_log('Interaction::get_form_data: ' . print_r($formData, true));
         if (empty($schema_version) || $schema_version == self::SCHEMA_VERSION) {
             return !empty($formData) ? $formData : new \stdClass();
         }

@@ -6,14 +6,16 @@ use Shipweb\LineConnect\Interaction\ValidationResult;
 class ValidatorTest extends WP_UnitTestCase {
     public function test_time_valid() {
         $v = new Validator();
-        $rules = [(object)['time' => true]];
+        $rules = [['type' => 'time', 'time' => true]];
         $res = $v->validate('09:30', $rules);
+        $this->assertTrue($res->isValid());
+        $res = $v->validate('09:30:00', $rules);
         $this->assertTrue($res->isValid());
     }
 
     public function test_time_invalid() {
         $v = new Validator();
-        $rules = [(object)['time' => true]];
+        $rules = [['type' => 'time', 'time' => true]];
         $res = $v->validate('25:00', $rules);
         $this->assertFalse($res->isValid());
         $this->assertStringContainsString('Invalid time format', $res->getErrors()[0]);
@@ -21,14 +23,18 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_datetime_valid() {
         $v = new Validator();
-        $rules = [(object)['datetime' => true]];
+        $rules = [['type' => 'datetime', 'datetime' => true]];
         $res = $v->validate('2025-08-16 09:30', $rules);
+        $this->assertTrue($res->isValid());
+        $res = $v->validate('2025/08/16 09:30:00', $rules);
+        $this->assertTrue($res->isValid());
+        $res = $v->validate('2025-08-16T09:30:00', $rules);
         $this->assertTrue($res->isValid());
     }
 
     public function test_datetime_invalid_date_part() {
         $v = new Validator();
-        $rules = [(object)['datetime' => true]];
+        $rules = [['type' => 'datetime', 'datetime' => true]];
         $res = $v->validate('2025-02-30 09:30', $rules); // Feb 30 is invalid
         $this->assertFalse($res->isValid());
         $this->assertStringContainsString('Invalid datetime (date part is not valid)', $res->getErrors()[0]);
@@ -36,14 +42,14 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_url_valid() {
         $v = new Validator();
-        $rules = [(object)['url' => true]];
+        $rules = [['type' => 'url', 'url' => true]];
         $res = $v->validate('https://example.com/path?x=1', $rules);
         $this->assertTrue($res->isValid());
     }
 
     public function test_url_invalid_scheme() {
         $v = new Validator();
-        $rules = [(object)['url' => true]];
+        $rules = [['type' => 'url', 'url' => true]];
         $res = $v->validate('ftp://example.com', $rules);
         $this->assertFalse($res->isValid());
         $this->assertStringContainsString('Only http and https are allowed', $res->getErrors()[0]);
@@ -51,7 +57,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_enum_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['enum' => ['red', 'blue']]];
+        $rules = [['type' => 'enum', 'enum' => ['red', 'blue']]];
 
         $res1 = $v->validate('red', $rules);
         $this->assertTrue($res1->isValid());
@@ -65,7 +71,7 @@ class ValidatorTest extends WP_UnitTestCase {
         $v = new Validator();
 
         // Forbidden words
-        $rules_words = [(object)['forbidden' => (object)['words' => ['bad', 'evil']]]];
+        $rules_words = [['type' => 'forbidden', 'forbidden' => ['words' => ['bad', 'evil']]]];
         $res_ok = $v->validate('this is good', $rules_words);
         $this->assertTrue($res_ok->isValid());
 
@@ -75,7 +81,7 @@ class ValidatorTest extends WP_UnitTestCase {
         $this->assertStringContainsString('bad', $res_bad->getErrors()[0]);
 
         // Forbidden patterns
-        $rules_patterns = [(object)['forbidden' => (object)['patterns' => ['^abc']]]];
+        $rules_patterns = [['type' => 'forbidden', 'forbidden' => ['patterns' => ['^abc']]]];
         $res_pat = $v->validate('abcdef', $rules_patterns);
         $this->assertFalse($res_pat->isValid());
         $this->assertStringContainsString('pattern matched', $res_pat->getErrors()[0]);
@@ -86,7 +92,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_required_present_and_empty() {
         $v = new Validator();
-        $rules = [(object)['required' => true]];
+        $rules = [['type' => 'required', 'required' => true]];
 
         $res_ok = $v->validate('value', $rules);
         $this->assertTrue($res_ok->isValid());
@@ -101,7 +107,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_email_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['email' => true]];
+        $rules = [['type' => 'email', 'email' => true]];
 
         $res_ok = $v->validate('user@example.com', $rules);
         $this->assertTrue($res_ok->isValid());
@@ -111,9 +117,21 @@ class ValidatorTest extends WP_UnitTestCase {
         $this->assertStringContainsString('Invalid email', $res_bad->getErrors()[0]);
     }
 
+    public function test_number_checks() {
+        $v = new Validator();
+        $rules = [['type' => 'number', 'number' => []]];
+
+        $res_ok = $v->validate('5', $rules);
+        $this->assertTrue($res_ok->isValid());
+
+        $res_not_number = $v->validate('abc', $rules);
+        $this->assertFalse($res_not_number->isValid());
+        $this->assertStringContainsString('number', $res_not_number->getErrors()[0]);
+    }
+
     public function test_number_checks_and_bounds() {
         $v = new Validator();
-        $rules = [(object)['number' => (object)['min' => 1, 'max' => 10]]];
+        $rules = [['type' => 'number', 'number' => ['min' => 1, 'max' => 10]]];
 
         $res_ok = $v->validate('5', $rules);
         $this->assertTrue($res_ok->isValid());
@@ -133,7 +151,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_length_min_and_max() {
         $v = new Validator();
-        $rules = [(object)['length' => (object)['minlength' => 2, 'maxlength' => 5]]];
+        $rules = [['type' => 'length', 'length' => ['minlength' => 2, 'maxlength' => 5]]];
 
         $res_short = $v->validate('a', $rules);
         $this->assertFalse($res_short->isValid());
@@ -149,7 +167,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_regex_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['regex' => '/^[a-z]+$/u']];
+        $rules = [['type' => 'regex', 'regex' => '/^[a-z]+$/u']];
 
         $res_ok = $v->validate('abcxyz', $rules);
         $this->assertTrue($res_ok->isValid());
@@ -159,7 +177,7 @@ class ValidatorTest extends WP_UnitTestCase {
         $this->assertStringContainsString('Invalid format', $res_bad->getErrors()[0]);
 
         // null pattern should be skipped
-        $rules_none = [(object)['regex' => null]];
+        $rules_none = [['type' => 'regex', 'regex' => null]];
         $res_skip = $v->validate('anything', $rules_none);
         $this->assertTrue($res_skip->isValid());
     }
@@ -167,7 +185,7 @@ class ValidatorTest extends WP_UnitTestCase {
     public function test_phone_valid_and_invalid() {
         $v = new Validator();
 
-        $rules = [(object)['phone' => true]];
+        $rules = [['type' => 'phone', 'phone' => true]];
 
         $res_ok1 = $v->validate('03-1234-5678', $rules); // Tokyo landline -> 0312345678 (10 digits)
         $this->assertTrue($res_ok1->isValid());
@@ -182,9 +200,12 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_date_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['date' => true]];
+        $rules = [['type' => 'date', 'date' => true]];
 
         $res_ok = $v->validate('2025-08-16', $rules);
+        $this->assertTrue($res_ok->isValid());
+
+        $res_ok = $v->validate('2025/08/16', $rules);
         $this->assertTrue($res_ok->isValid());
 
         $res_invalid_format = $v->validate('16-08-2025', $rules);
@@ -199,25 +220,25 @@ class ValidatorTest extends WP_UnitTestCase {
     public function test_empty_values_are_skipped_for_optional_validators() {
         $v = new Validator();
 
-        $rules_number = [(object)['number' => (object)[]]];
+        $rules_number = [['type' => 'number', 'number' => []]];
         $this->assertTrue($v->validate('', $rules_number)->isValid(), 'Empty number input should be skipped');
 
-        $rules_email = [(object)['email' => true]];
+        $rules_email = [['type' => 'email', 'email' => true]];
         $this->assertTrue($v->validate('', $rules_email)->isValid(), 'Empty email input should be skipped');
 
-        $rules_url = [(object)['url' => true]];
+        $rules_url = [['type' => 'url', 'url' => true]];
         $this->assertTrue($v->validate('', $rules_url)->isValid(), 'Empty url input should be skipped');
 
-        $rules_enum = [(object)['enum' => ['a', 'b']]];
+        $rules_enum = [['type' => 'enum', 'enum' => ['a', 'b']]];
         $this->assertTrue($v->validate('', $rules_enum)->isValid(), 'Empty enum input should be skipped');
 
-        $rules_forbidden_empty = [(object)['forbidden' => (object)[]]];
+        $rules_forbidden_empty = [['type' => 'forbidden', 'forbidden' => []]];
         $this->assertTrue($v->validate('anything', $rules_forbidden_empty)->isValid(), 'Empty forbidden params should be skipped');
     }
 
     public function test_japanese_hiragana_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['japanese' => 'hiragana']];
+        $rules = [['type' => 'japanese', 'japanese' => 'hiragana']];
 
         $res_ok = $v->validate('こんにちは', $rules); // hiragana
         $this->assertTrue($res_ok->isValid());
@@ -234,7 +255,7 @@ class ValidatorTest extends WP_UnitTestCase {
 
     public function test_japanese_katakana_valid_and_invalid() {
         $v = new Validator();
-        $rules = [(object)['japanese' => 'katakana']];
+        $rules = [['type' => 'japanese', 'japanese' => 'katakana']];
 
         $res_ok = $v->validate('コンニチハ', $rules); // katakana
         $this->assertTrue($res_ok->isValid());

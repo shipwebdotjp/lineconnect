@@ -328,6 +328,7 @@ class Schema {
                                                             'properties' => array(
                                                                 'title' => array(
                                                                     'type' => 'string',
+                                                                    'default' => __('Choose an option to edit', LineConnect::PLUGIN_NAME),
                                                                 ),
                                                                 'cancel' => array(
                                                                     'type' => 'object',
@@ -393,17 +394,65 @@ class Schema {
                                 ),
                             ),
                             'normalize' => array(
-                                'type' => 'object',
+                                'type' => 'array',
                                 'title' => __('Normalize', LineConnect::PLUGIN_NAME),
-                                'properties' => array(
-                                    'trim' => array('type' => 'boolean', 'title' => __('Trim', LineConnect::PLUGIN_NAME)),
-                                    'omit' => array('type' => 'string', 'title' => __('Omit', LineConnect::PLUGIN_NAME)),
-                                    'HanKatatoZenKata' => array('type' => 'boolean', 'title' => __('Half-width Katakana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME)), // 半角カタカナ → 全角カタカナ
-                                    'HanKatatoZenKana' => array('type' => 'boolean', 'title' => __('Half-width Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME)), // 半角カタカナ → 全角ひらがな
-                                    'ZenKatatoZenKana' => array('type' => 'boolean', 'title' => __('Zen-kaku Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME)),   // 全角カタカナ → 全角ひらがな
-                                    'ZenKanatoZenKata' => array('type' => 'boolean', 'title' => __('Zen-kaku Hiragana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME)),   // 全角ひらがな → 全角カタカナ
-                                    'HanEisutoZenEisu' => array('type' => 'boolean', 'title' => __('Half-width Alphanumeric to Zen-kaku Alphanumeric', LineConnect::PLUGIN_NAME)), // 半角英数字 → 全角
-                                    'ZenEisutoHanEisu' => array('type' => 'boolean', 'title' => __('Zen-kaku Alphanumeric to Half-width Alphanumeric', LineConnect::PLUGIN_NAME)), // 全角英数字 → 半角
+                                'uniqueItems' => true,
+                                'items' => array(
+                                    'type' => 'string',
+                                    'oneOf' => array(
+                                        array(
+                                            'const' => 'trim',
+                                            'title' => __('Trim', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'omit_comma',
+                                            'title' => __('Omit Comma', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'omit_hyphen',
+                                            'title' => __('Omit Hyphen', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'omit_inner_halfwidth_space',
+                                            'title' => __('Omit Inner Half-width Space', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'omit_inner_fullwidth_space',
+                                            'title' => __('Omit Inner Full-width Space', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'HanKatatoZenKata',
+                                            'title' => __('Half-width Katakana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'HanKatatoZenKana',
+                                            'title' => __('Half-width Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'ZenKatatoZenKana',
+                                            'title' => __('Zen-kaku Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'ZenKanatoZenKata',
+                                            'title' => __('Zen-kaku Hiragana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'HanEisutoZenEisu',
+                                            'title' => __('Half-width Alphanumeric to Zen-kaku Alphanumeric', LineConnect::PLUGIN_NAME),
+                                        ),
+                                        array(
+                                            'const' => 'ZenEisutoHanEisu',
+                                            'title' => __('Zen-kaku Alphanumeric to Half-width Alphanumeric', LineConnect::PLUGIN_NAME),
+                                        ),
+                                    ),
+                                    // 'trim' => array('type' => 'boolean', 'title' => __('Trim', LineConnect::PLUGIN_NAME)),
+                                    // 'omit' => array('type' => 'string', 'title' => __('Omit', LineConnect::PLUGIN_NAME)),
+                                    // 'HanKatatoZenKata' => array('type' => 'boolean', 'title' => __('Half-width Katakana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME)), // 半角カタカナ → 全角カタカナ
+                                    // 'HanKatatoZenKana' => array('type' => 'boolean', 'title' => __('Half-width Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME)), // 半角カタカナ → 全角ひらがな
+                                    // 'ZenKatatoZenKana' => array('type' => 'boolean', 'title' => __('Zen-kaku Katakana to Zen-kaku Hiragana', LineConnect::PLUGIN_NAME)),   // 全角カタカナ → 全角ひらがな
+                                    // 'ZenKanatoZenKata' => array('type' => 'boolean', 'title' => __('Zen-kaku Hiragana to Zen-kaku Katakana', LineConnect::PLUGIN_NAME)),   // 全角ひらがな → 全角カタカナ
+                                    // 'HanEisutoZenEisu' => array('type' => 'boolean', 'title' => __('Half-width Alphanumeric to Zen-kaku Alphanumeric', LineConnect::PLUGIN_NAME)), // 半角英数字 → 全角
+                                    // 'ZenEisutoHanEisu' => array('type' => 'boolean', 'title' => __('Zen-kaku Alphanumeric to Half-width Alphanumeric', LineConnect::PLUGIN_NAME)), // 全角英数字 → 半角
                                     //'dateParseToUTC' => array('type' => 'boolean', 'title' => __('Parse Date to UTC', LineConnect::PLUGIN_NAME)),
                                 ),
                             ),
@@ -454,10 +503,6 @@ class Schema {
                                                             'type' => 'object',
                                                             'title' => __('Number Validation', LineConnect::PLUGIN_NAME),
                                                             'properties' => array(
-                                                                'enabled' => array(
-                                                                    'type' => 'boolean',
-                                                                    'title' => __('Enable Number Validation', LineConnect::PLUGIN_NAME),
-                                                                ),
                                                                 'min' => array(
                                                                     'type' => array('number', 'null'),
                                                                     'title' => __('Min', LineConnect::PLUGIN_NAME),
@@ -709,7 +754,7 @@ class Schema {
                             ),
                             'beforeActions' => array(
                                 'type' => 'object',
-                                'title' => __('Before Actions', LineConnect::PLUGIN_NAME),
+                                'title' => __('Before Input Actions', LineConnect::PLUGIN_NAME),
                                 'properties' => array(
                                     'actions'  => array(
                                         'title' => __('Action', lineconnect::PLUGIN_NAME),
@@ -745,7 +790,7 @@ class Schema {
                             ),
                             'afterActions' => array(
                                 'type' => 'object',
-                                'title' => __('After Actions', LineConnect::PLUGIN_NAME),
+                                'title' => __('After Input Actions', LineConnect::PLUGIN_NAME),
                                 'properties' => array(
                                     'actions'  => array(
                                         'title' => __('Action', lineconnect::PLUGIN_NAME),
@@ -898,10 +943,52 @@ class Schema {
                 'items' => array(
                     'messages' => array(
                         'items' => array(
+                            'text' => array(
+                                'ui:widget' => 'textarea',
+                                'ui:options' => array(
+                                    'rows' => 5,
+                                ),
+                            ),
+                            'flex' => array(
+                                'raw' => array(
+                                    'ui:widget' => 'textarea',
+                                    'ui:options' => array(
+                                        'rows' => 5,
+                                    ),
+                                ),
+                            ),
+                            'raw' => array(
+                                'ui:widget' => 'textarea',
+                                'ui:options' => array(
+                                    'rows' => 5,
+                                ),
+                            ),
                             'template_button' => array(
+                                'text' => array(
+                                    'ui:widget' => 'textarea',
+                                    'ui:options' => array(
+                                        'rows' => 3,
+                                    ),
+                                ),
                                 'options' => array(
                                     'ui:options' => array(
                                         'addText' => __('Add option', LineConnect::PLUGIN_NAME),
+                                    ),
+                                ),
+                            ),
+                            'confirm_template' => array(
+                                'title' => array(
+                                    'ui:widget' => 'textarea',
+                                    'ui:options' => array(
+                                        'rows' => 3,
+                                    ),
+                                ),
+                            ),
+                            'cancel_confirm_template' => array(
+                                'title' => array(
+                                    'ui:widget' => 'textarea',
+                                    'ui:options' => array(
+                                        'rows' => 3,
                                     ),
                                 ),
                             ),
@@ -922,8 +1009,35 @@ class Schema {
                             'addText' => __('Add validation', LineConnect::PLUGIN_NAME),
                         ),
                     ),
+                    'branches' => array(
+                        'ui:options' => array(
+                            'addText' => __('Add branch', LineConnect::PLUGIN_NAME),
+                        ),
+                    ),
                     'beforeActions' => array(
                         'actions' => array(
+                            'items' => array(
+                                'action_name' => array(
+                                    'ui:widget' => 'hidden',
+                                ),
+                                'parameters' => array(
+                                    'ui:options' => array(
+                                        'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
+                                    ),
+                                    'body' => array(
+                                        'ui:widget' => 'textarea',
+                                        'ui:options' => array(
+                                            'rows' => 5,
+                                        ),
+                                    ),
+                                    'json' => array(
+                                        'ui:widget' => 'textarea',
+                                        'ui:options' => array(
+                                            'rows' => 5,
+                                        ),
+                                    ),
+                                ),
+                            ),
                             'ui:options' => array(
                                 'addText' => __('Add action', LineConnect::PLUGIN_NAME),
                             ),
@@ -936,6 +1050,28 @@ class Schema {
                     ),
                     'afterActions' => array(
                         'actions' => array(
+                            'items' => array(
+                                'action_name' => array(
+                                    'ui:widget' => 'hidden',
+                                ),
+                                'parameters' => array(
+                                    'ui:options' => array(
+                                        'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
+                                    ),
+                                    'body' => array(
+                                        'ui:widget' => 'textarea',
+                                        'ui:options' => array(
+                                            'rows' => 5,
+                                        ),
+                                    ),
+                                    'json' => array(
+                                        'ui:widget' => 'textarea',
+                                        'ui:options' => array(
+                                            'rows' => 5,
+                                        ),
+                                    ),
+                                ),
+                            ),
                             'ui:options' => array(
                                 'addText' => __('Add action', LineConnect::PLUGIN_NAME),
                             ),
@@ -949,6 +1085,16 @@ class Schema {
                 ),
                 'ui:options' => array(
                     'addText' => __('Add steps', LineConnect::PLUGIN_NAME),
+                ),
+            ),
+            'excludeSteps' => array(
+                'ui:options' => array(
+                    'addText' => __('Add exclude step', LineConnect::PLUGIN_NAME),
+                ),
+            ),
+            'cancelWords' => array(
+                'ui:options' => array(
+                    'addText' => __('Add cancel word', LineConnect::PLUGIN_NAME),
                 ),
             ),
         );

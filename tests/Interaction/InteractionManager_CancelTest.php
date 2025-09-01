@@ -191,8 +191,7 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
 
         $final_messages = $interaction_manager->handleEvent($secret_prefix, $line_user_id, $reply_event);
 
-        $this->assertNotEmpty($final_messages);
-        $this->assertInstanceOf(\LINE\LINEBot\MessageBuilder\MultiMessageBuilder::class, $final_messages[0]);
+        $this->assertEmpty($final_messages);
     }
 
     public function testCancelByKeyword() {
