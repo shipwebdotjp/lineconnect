@@ -172,7 +172,7 @@ class InteractionManager {
         // Implement override policies.
         switch ($overridePolicy) {
             case 'reject':
-                // Always refuse to interrupt an existing active/editing session.
+                // Always refuse to interrupt an existing active session.
                 if ($activeSession) {
                     return [];
                 }

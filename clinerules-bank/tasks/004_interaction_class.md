@@ -188,10 +188,7 @@
 ---
 
 ### 互換性・注意点（追記）
-- `find_active()` は現状 `status IN (\'active\',\'editing\')` を返す実装です。`startInteraction` ではこの返り値を「アクティブ相当」として扱っています。将来的に `editing` を除外する場合は `find_active()` の修正が必要です。
-- 「同一フォーム判定」に version を含める必要がある場合は仕様変更を連絡してください（現在は `interaction_id` のみ）。
 - `paused` ステータスの導入により、既存の処理や管理画面で `status` を前提にしたロジックがある場合は影響が出る可能性があります。必要なら関連箇所の修正を行います。
-- スタック（paused）からの復帰（resume）ロジックは今回未実装です。必要な場合は別タスクで対応します。
 
 ---
 
@@ -207,7 +204,12 @@
   - [x] `interaction_message` フィルターを追加し、表示するメッセージデータをフックできるようにする。
   - [x] `interaction_normalize` フィルターを追加し、入力データの正規化処理をフックできるようにする。
   - [x] `interaction_validate` フィルターを追加し、入力データの検証処理をフックできるようにする。
--[ ] storageがprofileの場合の処理実装
+-[x] storageがprofileの場合の処理実装
   - complete時の処理として、LINEIDのユーザーのprofileをマッピングして更新する。マッピングテーブルをスキーマにまず追加する必要があるかも。
 -[x] runPolicyの処理(single_forbid, single_latest_only, multi_keep_history)
 -[x] timeoutの処理を実装
+- [ ] エンドユーザー向けドキュメントの整備
+  - [ ] インタラクションの項目、ステップの作成方法や注意点を含める
+  - [ ] フィルターフックをdocument/i18n/ja/docusaurus-plugin-content-docs/current/hook.mdに追記
+- [ ] 管理画面における集計結果ダッシュボードの設計・実装
+- [ ] .poファイルの日本語化

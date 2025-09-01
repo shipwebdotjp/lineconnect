@@ -389,7 +389,7 @@ class Cron {
         $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
 
         $query = $wpdb->prepare(
-            "SELECT * FROM $table_name WHERE status IN ('active','editing') AND reminder_sent_at IS NULL AND remind_at IS NOT NULL AND remind_at <= %s AND remind_at > %s AND %s < expires_at",
+            "SELECT * FROM $table_name WHERE status = 'active' AND reminder_sent_at IS NULL AND remind_at IS NOT NULL AND remind_at <= %s AND remind_at > %s AND %s < expires_at",
             gmdate('Y-m-d H:i:s', $current_time),
             gmdate('Y-m-d H:i:s', $last_run),
             gmdate('Y-m-d H:i:s', $last_run)
@@ -447,7 +447,7 @@ class Cron {
         $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
 
         $query = $wpdb->prepare(
-            "SELECT * FROM $table_name WHERE status IN ('active','editing') AND expires_at IS NOT NULL AND expires_at <= %s AND expires_at > %s",
+            "SELECT * FROM $table_name WHERE status = 'active' AND expires_at IS NOT NULL AND expires_at <= %s AND expires_at > %s",
             gmdate('Y-m-d H:i:s', $current_time),
             gmdate('Y-m-d H:i:s', $last_run)
         );
