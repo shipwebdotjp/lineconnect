@@ -64,4 +64,36 @@ class ArrayUtil {
         }
         return $result;
     }
+
+    /**
+     * Flatten WordPress post meta array:
+     * - ['key' => ['value']] => ['key' => 'value']
+     * - 数値キーの配列は先頭要素のみ採用
+     * - 連想配列は再帰的に処理
+     *
+     * @param array $meta
+     * @return array
+     */
+    public static function flatten_post_meta(array $meta): array {
+        $result = [];
+
+        foreach ($meta as $key => $value) {
+            if (is_array($value)) {
+                // 連想配列か数値配列かを判定
+                $is_assoc = array_keys($value) !== range(0, count($value) - 1);
+
+                if ($is_assoc) {
+                    // 連想配列なら再帰的にフラット化
+                    $result[$key] = self::flatten_post_meta($value);
+                } else {
+                    // 数値配列なら先頭要素だけ採用（存在すれば）
+                    $result[$key] = array_key_exists(0, $value) ? $value[0] : null;
+                }
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
 }

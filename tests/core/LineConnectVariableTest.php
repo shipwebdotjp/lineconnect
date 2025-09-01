@@ -7,6 +7,12 @@
 use Shipweb\LineConnect\Core\LineConnect;
 
 class LineConnectVariableTest extends WP_UnitTestCase {
+    public function setUp(): void {
+        // global $wpdb;
+        // error_log('DBG: dbhost=' . (property_exists($wpdb, 'dbhost') ? $wpdb->dbhost : 'NO_PROP'));
+
+        parent::setUp();
+    }
 
     /**
      * Test for set_variable() and get_variable()

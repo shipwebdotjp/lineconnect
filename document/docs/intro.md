@@ -10,7 +10,7 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 ### Linking function with Wordpress users
 * Using LINE Messaging API to link friends of LINE official accounts with accounts of Wordpress users
 ### Update Notification
-* Send article update notifications via LINE to linked users and users in specific roles.
+* Send article update notifications via LINE to linked users, users in specific roles and audiences.
 * Notification messages are sent in a card-style layout including an futured image.
 * Notification message layout can be customized to original layout with Flex message.
 * When posts published, updated or future post is published can send notifications.
@@ -21,6 +21,7 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 * Insert user's name etc. into the message and send it
 ### Chat
 * Display messages history and sent to LINE users who have an event log, even if they are not connected to LINE.
+* Display LINE user profile and tag information.
 ### Audience
 * Create audiences that narrow down users based on user attributes and call them when sending messages or executing actions
 ### Scenario

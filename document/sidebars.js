@@ -40,6 +40,7 @@ const sidebars = {
     'scenario',
     'actionflow',
     'trigger',
+    'interaction',
     'eventlog',
     'settings',
     {

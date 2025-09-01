@@ -36,6 +36,9 @@ use Shipweb\LineConnect\Chat\API\FetchMessages;
 use Shipweb\LineConnect\Chat\API\ChatSend;
 use Shipweb\LineConnect\Chat\Screen as ChatScreen;
 use Shipweb\LineConnect\Admin\ContentDownload;
+use Shipweb\LineConnect\PostType\Interaction\Screen as InteractionScreen;
+use Shipweb\LineConnect\PostType\Interaction\Interaction as InteractionPostType;
+
 
 class LineConnect {
 
@@ -44,12 +47,13 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.3.4';
+	const VERSION = '4.3.5';
 
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.6';
+	const DB_VERSION = '1.7';
+	// 1.7: セッションテーブル追加
 	// 1.6: line_user_idテーブルのインデックスの変更(channel_prefix, last_sent_at DESC, id DESC)
 	// 1.5: lineconnect_bot_logsテーブルのstatus,errorカラムの追加、インデックスの変更
 	// 1.3: line_user_id テーブルにinteractions, scenario, statsカラムの追加
@@ -380,6 +384,16 @@ class LineConnect {
 	const TABLE_LINE_DAILY = 'lineconnect_line_daily';
 
 	/**
+	 * インタラクションセッション MySQLテーブル名
+	 */
+	const TABLE_INTERACTION_SESSIONS = 'lineconnect_interaction_sessions';
+
+	/**
+	 * インタラクションログ MySQLテーブル名
+	 */
+	const TABLE_INTERACTION_LOGS = 'lineconnect_interaction_logs';
+
+	/**
 	 * メッセージ MySQLテーブル名
 	 */
 	// const TABLE_MESSAGES = 'lineconnect_messages';
@@ -496,6 +510,10 @@ class LineConnect {
 		add_action('save_post_' . ActionFlow::POST_TYPE, array(ActionFlowAdmin::class, 'save_post'), 15, 6);
 		add_action('admin_enqueue_scripts', array(ActionFlowAdmin::class, 'wpdocs_selectively_enqueue_admin_script'));
 
+		// Interaction関係
+		add_action('save_post_' . InteractionPostType::POST_TYPE, array(InteractionScreen::class, 'save_post_interaction'), 15, 6);
+		add_action('admin_enqueue_scripts', array(InteractionScreen::class, 'wpdocs_selectively_enqueue_admin_script'));
+
 		// 管理画面を表示中、且つ、ログイン済、且つ、特権管理者or管理者の場合
 		if (is_admin() && is_user_logged_in() && (is_super_admin() || current_user_can('administrator'))) {
 			//メニュー追加
@@ -519,6 +537,8 @@ class LineConnect {
 			add_action('admin_menu', array(TriggerScreen::class, 'set_plugin_menu'));
 			// シナリオのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
+			// オーディエンスのメニューを追加
+			add_action('admin_menu', array(InteractionScreen::class, 'set_plugin_menu'));
 			// リッチメニューのメニューを追加
 			add_action('admin_menu', array(RichMenu::class, 'set_plugin_menu'));
 			// LINE IDリストのメニューを追加
@@ -583,7 +603,7 @@ class LineConnect {
 			add_action('wp_ajax_lc_ajax_create_richmenu_alias', array(RichMenu::class, 'ajax_create_richmenu_alias'));
 			// リッチメニューエイリアス更新AJAXアクション
 			add_action('wp_ajax_lc_ajax_update_richmenu_alias', array(RichMenu::class, 'ajax_update_richmenu_alias'));
-			
+
 			// ユーザー一覧取得AJAXアクション
 			add_action('wp_ajax_slc_fetch_users', array(FetchUsers::class, 'ajax_fetch_users'));
 			// ユーザー情報取得AJAXアクション
@@ -1140,34 +1160,48 @@ class LineConnect {
 			UNIQUE KEY unique_channel_date (channel_prefix, date)
 		) $charset_collate;";
 		dbDelta($sql_line_daily);
-		/*
-		$table_name_messages = $wpdb->prefix . self::TABLE_MESSAGES;
-		$sql_messages = "CREATE TABLE $table_name_messages (
+
+		$table_name_interaction_sessions = $wpdb->prefix . self::TABLE_INTERACTION_SESSIONS;
+		$sql_interaction_sessions = "CREATE TABLE $table_name_interaction_sessions (
 			`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-			`request_id` VARCHAR(50) NULL COMMENT 'LINE APIリクエストID (X-Line-Request-Idヘッダーなど)',
-			`api_message_id` VARCHAR(50) NULL COMMENT 'LINE APIから返却された個別のメッセージID',
-			`direction` TINYINT NOT NULL COMMENT '1: Inbound (User->System), 2: Outbound (System->User)',
-			`line_user_id` VARCHAR(33) NOT NULL COMMENT 'LINEユーザーID',
-			`channel_prefix` CHAR(4) NOT NULL COMMENT 'チャンネル識別子',
-			`source_type` TINYINT NOT NULL COMMENT 'メッセージのソース元 (1:user, 2:group, 3:room, 11:broadcast, 12:multicast, 13:push, 14:reply, 15:narrowcast)',
-			`sender_id` VARCHAR(255) NULL COMMENT '送信者ID (Inbound: LINE User ID, Outbound: WP User ID or system)',
-			`event_id` VARCHAR(32) NULL COMMENT 'WebhookイベントID (Inbound時)',
-			`event_type` TINYINT NULL COMMENT 'Webhookイベントタイプ (Inbound時)',
-			`message_type` TINYINT NOT NULL COMMENT 'メッセージタイプ (text, image, etc.)',
-			`payload` JSON NOT NULL COMMENT 'メッセージ本体',
-			`quote_token` VARCHAR(32) NULL COMMENT '引用返信元のトークン (Inbound時)',
-			`status` TINYINT NOT NULL DEFAULT 0 COMMENT 'ステータス (0:pending, 1:sent, 2:delivered, 3:read, 10:scheduled, 99:failed)',
-			`error_message` TEXT NULL COMMENT '送信失敗時のエラーメッセージ',
-			`created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '作成日時(ミリ秒含む)',
-			`scheduled_at` DATETIME NULL COMMENT '送信予約日時',
+			`line_user_id` CHAR(33) NOT NULL COMMENT 'LINEユーザーID',
+			`channel_prefix` CHAR(4) NOT NULL COMMENT 'チャネルID (シークレットの先頭4文字)',
+			`interaction_id` BIGINT UNSIGNED NOT NULL COMMENT 'フォームの投稿ID',
+			`interaction_version` INT UNSIGNED NOT NULL COMMENT '開始時のフォームのバージョン',
+			`status` VARCHAR(20) NOT NULL DEFAULT 'active' COMMENT 'セッション状態 (active, paused, completed, timeout など)',
+			`current_step_id` VARCHAR(255) NULL COMMENT '現在のステップID',
+			`previous_step_id` VARCHAR(255) NULL COMMENT '直前のステップID',
+			`answers` JSON NULL COMMENT 'このセッションで収集した回答データ',
+			`remind_at` DATETIME NULL COMMENT 'リマインド予定時刻',
+			`reminder_sent_at` DATETIME NULL COMMENT 'リマインド送信時刻',
+			`expires_at` DATETIME DEFAULT NULL COMMENT 'セッションの有効期限',
+			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時',
+			`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最終更新日時',
 			PRIMARY KEY (`id`),
-			INDEX `idx_user_time` (`line_user_id`, `created_at`),
-			INDEX `idx_request_id` (`request_id`),
-			INDEX `idx_api_message_id` (`api_message_id`),
-			INDEX `idx_status_scheduled_at` (`status`, `scheduled_at`)
+			INDEX `idx_channel_prefix_line_user_id` (`channel_prefix`, `line_user_id`),
+			INDEX `idx_interaction_id` (`interaction_id`),
+			INDEX `idx_status` (`status`),
+			INDEX `idx_expires_at` (`expires_at`),
+			INDEX `idx_channel_prefix_user_interaction` (`channel_prefix`, `line_user_id`, `interaction_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
-		dbDelta($sql_messages);
-*/
+		dbDelta($sql_interaction_sessions);
+
+		$table_name_interaction_logs = $wpdb->prefix . self::TABLE_INTERACTION_LOGS;
+		$sql_interaction_logs = "CREATE TABLE $table_name_interaction_logs (
+			`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+			`session_id` BIGINT UNSIGNED NOT NULL COMMENT 'interaction_sessionsテーブルのID',
+			`event_type` VARCHAR(50) NOT NULL COMMENT 'イベントタイプ (step_start, input_valid, action_fail など)',
+			`step_id` VARCHAR(255) NULL COMMENT 'イベントが発生したステップのID',
+			`details` JSON NULL COMMENT '入力内容、エラーメッセージなどの詳細情報',
+			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'イベント発生日時',
+			PRIMARY KEY (`id`),
+			INDEX `idx_session_id` (`session_id`),
+			INDEX `idx_event_type` (`event_type`),
+			INDEX `idx_session_created` (`session_id`, `created_at`),
+			INDEX `idx_step_id` (`step_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
+		dbDelta($sql_interaction_logs);
+
 		// 1.6より前のバージョンからアップグレードした場合、bot_logsテーブルの既存のtimestampのタイムゾーン(Asia/Tokyo)をUTCに変更(9時間引く)
 		if (version_compare(self::get_current_db_version(), '1.6', '<')) {
 			$wpdb->query("UPDATE {$table_name_bot_logs} SET timestamp = DATE_SUB(timestamp, INTERVAL 9 HOUR)");
@@ -1472,6 +1506,57 @@ class LineConnect {
 				'show_in_rest'         => false,
 				'supports'             => array('title'),
 				'register_meta_box_cb' => array(ActionFlowAdmin::class, 'register_meta_box'),
+				'has_archive'          => false,
+				'rewrite'              => false,
+				'query_var'            => false,
+				'menu_position'        => null,
+			)
+		);
+
+
+		// register custom post type: Interaction
+		register_post_type(
+			InteractionPostType::POST_TYPE,
+			array(
+				'labels'               => array(
+					'name'                     => __('Interactions', self::PLUGIN_NAME),
+					'singular_name'            => __('Interaction', self::PLUGIN_NAME),
+					'add_new'                  => __('Add New', self::PLUGIN_NAME),
+					'add_new_item'             => __('Add New Interaction', self::PLUGIN_NAME),
+					'edit_item'                => __('Edit Interaction', self::PLUGIN_NAME),
+					'new_item'                 => __('New Interaction', self::PLUGIN_NAME),
+					'view_item'                => __('View Interaction', self::PLUGIN_NAME),
+					'search_items'             => __('Search Interactions', self::PLUGIN_NAME),
+					'not_found'                => __('No Interactions found', self::PLUGIN_NAME),
+					'not_found_in_trash'       => __('No Interactions found in Trash', self::PLUGIN_NAME),
+					'parent_item_colon'        => '',
+					'menu_name'                => __('Interactions', self::PLUGIN_NAME),
+					'all_items'                => __('All Interactions', self::PLUGIN_NAME),
+					'archives'                 => __('Interaction Archives', self::PLUGIN_NAME),
+					'attributes'               => __('Interaction Attributes', self::PLUGIN_NAME),
+					'insert_into_item'         => __('Insert into Interaction', self::PLUGIN_NAME),
+					'uploaded_to_this_item'    => __('Uploaded to this Interaction', self::PLUGIN_NAME),
+					'featured_image'           => __('Featured Image', self::PLUGIN_NAME),
+					'set_featured_image'       => __('Set featured image', self::PLUGIN_NAME),
+					'remove_featured_image'    => __('Remove featured image', self::PLUGIN_NAME),
+					'use_featured_image'       => __('Use as featured image', self::PLUGIN_NAME),
+					'filter_items_list'        => __('Filter Interactions list', self::PLUGIN_NAME),
+					'items_list_navigation'    => __('Interactions list navigation', self::PLUGIN_NAME),
+					'items_list'               => __('Interactions list', self::PLUGIN_NAME),
+					'item_published'           => __('Interaction published.', self::PLUGIN_NAME),
+					'item_published_privately' => __('Interaction published privately.', self::PLUGIN_NAME),
+					'item_reverted_to_draft'   => __('Interaction reverted to draft.', self::PLUGIN_NAME),
+					'item_scheduled'           => __('Interaction scheduled.', self::PLUGIN_NAME),
+					'item_updated'             => __('Interaction updated.', self::PLUGIN_NAME),
+				),
+				'description'          => __('LINE Connect Interactions', self::PLUGIN_NAME),
+				'public'               => false,
+				'hierarchical'         => false,
+				'show_ui'              => true,
+				'show_in_menu'         => false, // self::SLUG__DASHBOARD,
+				'show_in_rest'         => false,
+				'supports'             => array('title'),
+				'register_meta_box_cb' => array(InteractionScreen::class, 'register_meta_box'),
 				'has_archive'          => false,
 				'rewrite'              => false,
 				'query_var'            => false,

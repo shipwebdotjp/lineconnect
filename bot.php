@@ -226,6 +226,32 @@ foreach ($json_obj->{'events'} as $event) {
 		$result = File::update_message_filepath($isEventDuplicationOrInsertedId, $saved_content_file_name);
 	}
 
+	//　インタラクション
+	$session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
+	$action_runner = new Shipweb\LineConnect\Interaction\ActionRunner();
+	$message_builder = new Shipweb\LineConnect\Interaction\MessageBuilder();
+	$normalizer = new Shipweb\LineConnect\Interaction\InputNormalizer();
+	$validator = new Shipweb\LineConnect\Interaction\Validator();
+	$interaction_handler = new Shipweb\LineConnect\Interaction\InteractionHandler(
+		$session_repository,
+		$action_runner,
+		$message_builder,
+		$normalizer,
+		$validator,
+		new Shipweb\LineConnect\Interaction\RunPolicyEnforcer($session_repository)
+	);
+	$interaction_manager = new Shipweb\LineConnect\Interaction\InteractionManager(
+		$session_repository,
+		$interaction_handler
+	);
+	if (isset($event->{'source'}->{'userId'})) {
+		$interaction_messages = $interaction_manager->handleEvent($secret_prefix, $event->{'source'}->{'userId'}, $event);
+		if (!empty($interaction_messages)) {
+			$message = array_merge($message, $interaction_messages);
+			// error_log('interaction response:' . print_r($interaction_messages, true));
+		}
+	}
+
 	// check if match trigger
 	$triggers = array();
 	$args     = array(
@@ -259,6 +285,7 @@ foreach ($json_obj->{'events'} as $event) {
 
 		if (isset($trigger['action'])) {
 			$action_return = Action::do_action($trigger['action'], $trigger['chain'] ?? null, $event, $secret_prefix);
+			// error_log('trigger action return:' . print_r($action_return, true));
 			if (!empty($action_return['messages'])) {
 				$message = array_merge($message, $action_return['messages']);
 			}
@@ -280,7 +307,7 @@ foreach ($json_obj->{'events'} as $event) {
 		);
 		$message[]    = $gptResponse['message'];
 		$responseByAi = $gptResponse['responseByAi'];
-		// error_log('gpt response:' . print_r($gptResponse, true));
+		error_log('gpt response:' . print_r($gptResponse, true));
 	}
 
 	// 応答メッセージがあれば送信する

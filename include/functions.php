@@ -141,16 +141,6 @@ class lineconnectFunctions {
 
 	// LC 通知メッセージ取得
 	function get_button_message($title, $body, $thumb, $type, $label, $link, $displayText = null, $atts = null) {
-		error_log(print_r(array(
-			'title' => $title,
-			'body'  => $body,
-			'thumb' => $thumb,
-			'type'  => $type,
-			'label' => $label,
-			'link'  => $link,
-			'displayText' => $displayText,
-			'atts'  => $atts,
-		), true));
 		$message = Builder::createFlexMessage(
 			array(
 				'title' => $title,

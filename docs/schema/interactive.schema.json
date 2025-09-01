@@ -1,0 +1,317 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+        "version",
+        "storage",
+        "steps"
+    ],
+    "properties": {
+        "version": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "storage": {
+            "type": "string",
+            "enum": [
+                "profile",
+                "interactions"
+            ]
+        },
+        "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "input",
+                    "message"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "input": {
+                        "type": "object",
+                        "required": [
+                            "type"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "none",
+                                    "text",
+                                    "date",
+                                    "list",
+                                    "image",
+                                    "video",
+                                    "audio",
+                                    "location",
+                                    "sticker",
+                                    "file"
+                                ]
+                            },
+                            "list": {
+                                "type": "object",
+                                "properties": {
+                                    "options": {
+                                        "type": "array",
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "value",
+                                                "label"
+                                            ],
+                                            "properties": {
+                                                "value": {
+                                                    "type": "string"
+                                                },
+                                                "label": {
+                                                    "type": "string"
+                                                },
+                                                "nextStepId": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "column": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "message": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "text"
+                            },
+                            "text": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "normalize": {
+                        "type": "object",
+                        "properties": {
+                            "trim": {
+                                "type": "boolean"
+                            },
+                            "omit": {
+                                "type": "string"
+                            },
+                            "dateParseToUTC": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "validate": {
+                        "type": "object",
+                        "properties": {
+                            "required": {
+                                "type": "boolean"
+                            },
+                            "number": {
+                                "type": "boolean"
+                            },
+                            "min": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "max": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "minlength": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ],
+                                "minimum": 0
+                            },
+                            "maxlength": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ],
+                                "minimum": 1
+                            },
+                            "email": {
+                                "type": "boolean"
+                            },
+                            "phone": {
+                                "type": "boolean"
+                            },
+                            "datetime": {
+                                "type": "boolean"
+                            },
+                            "url": {
+                                "type": "boolean"
+                            },
+                            "enum": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "file_type": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "file_size": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ],
+                                "minimum": 1
+                            },
+                            "regex": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "nextStepId": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "stop": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "special": {
+                        "type": "object",
+                        "properties": {
+                            "confirm": {
+                                "type": "boolean"
+                            },
+                            "editPicker": {
+                                "type": "boolean"
+                            },
+                            "complete": {
+                                "type": "boolean"
+                            },
+                            "cancelConfirm": {
+                                "type": "boolean"
+                            },
+                            "canceled": {
+                                "type": "boolean"
+                            },
+                            "resumeConfirm": {
+                                "type": "boolean"
+                            },
+                            "timeoutRemind": {
+                                "type": "boolean"
+                            },
+                            "timeoutNotice": {
+                                "type": "boolean"
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "actions": {
+                        "type": "object",
+                        "properties": {
+                            "before": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "type",
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "params": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            },
+                            "after": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "type",
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "params": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "timeoutMinutes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+        },
+        "timeoutRemind": {
+            "type": "boolean",
+            "default": false
+        },
+        "onTimeout": {
+            "type": "string",
+            "enum": [
+                "delete_session",
+                "mark_timeout"
+            ],
+            "default": "mark_timeout"
+        },
+        "runPolicy": {
+            "type": "string",
+            "enum": [
+                "single_forbid",
+                "single_latest_only",
+                "multi_keep_history"
+            ],
+            "default": "single_latest_only"
+        }
+    },
+    "additionalProperties": false
+}

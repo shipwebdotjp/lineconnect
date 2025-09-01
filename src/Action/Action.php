@@ -8,6 +8,7 @@ use Shipweb\LineConnect\Message\LINE\Builder as LineBuilder;
 use Shipweb\LineConnect\Utilities\ActionParameterInjector;
 use Shipweb\LineConnect\Utilities\PlaceholderReplacer;
 use Shipweb\LineConnect\Utilities\PrepareArguments;
+use Shipweb\LineConnect\Interaction\InteractionSession;
 
 /**
  * Central dispatcher for LINE Connect actions.
@@ -87,10 +88,11 @@ class Action {
 	 * @param object $event         LINE webhook event object.
 	 * @param string $secret_prefix Channel secret prefix.
 	 * @param string $scenario_id   Scenario ID.
+	 * @param InteractionSession $session
 	 * @return array{success:bool,messages:array,results:array}
 	 */
 
-	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null) {
+	static function do_action($actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null, ?InteractionSession $session = null) {
 		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$results = array();
 		$message = array();
@@ -98,6 +100,7 @@ class Action {
 			'return' => array(),
 			'webhook' => self::merge_postback_data_to_params(json_decode(json_encode($event), true)),
 			'user' =>  $event ? lineconnect::get_userdata_from_line_id($secret_prefix, $event->{'source'}->{'userId'}) : [],
+			'session' => $session ? $session->get_answers() : [],
 		);
 		// error_log(print_r($injection_data['user'], true));
 		foreach ($actions as $action_idx => $action) {
@@ -124,6 +127,9 @@ class Action {
 							}
 							if ($scenario_id && method_exists($class_name, 'set_scenario_id')) {
 								$class_name->set_scenario_id($scenario_id);
+							}
+							if ($session && method_exists($class_name, 'set_session')) {
+								$class_name->set_session($session);
 							}
 						} catch (\Exception $e) {
 							$error = array(

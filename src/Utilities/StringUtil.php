@@ -31,4 +31,33 @@ class StringUtil {
 
         return $decoded;
     }
+
+    /**
+     * クエリストリング形式の文字列から指定されたキーの値を取得する
+     * 
+     * @param string $queryString クエリストリング形式の文字列
+     * @param string $key 取得したいキー名
+     * @return string|null キーが存在する場合はその値、存在しない場合やクエリストリングでない場合はnull
+     */
+    public static function getQueryValue($queryString, $key) {
+        // 空文字列や null の場合
+        if (empty($queryString)) {
+            return null;
+        }
+
+        // クエリストリング形式かチェック（=を含むかどうか）
+        if (strpos($queryString, '=') === false) {
+            return null;
+        }
+
+        // parse_str を使ってクエリストリングを解析
+        parse_str($queryString, $params);
+
+        // キーが存在するかチェック
+        if (isset($params[$key])) {
+            return $params[$key];
+        }
+
+        return null;
+    }
 }

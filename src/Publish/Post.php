@@ -17,6 +17,7 @@ namespace Shipweb\LineConnect\Publish;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
+use Shipweb\LineConnect\PostType\Audience\Audience;
 use WP_REST_Server;
 
 
@@ -95,8 +96,15 @@ class Post {
 		$default_send_checkbox = lineconnect::get_option('default_send_checkbox');
 		$default_send_template = lineconnect::get_option('default_send_template');
 
-		//チャンネルリスト毎に出力
-		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
+		//チャンネルリスト+オーディエンス毎に出力
+		$channels = lineconnect::get_all_channels();
+		$audiences = array(
+			'name' => __('Audience', lineconnect::PLUGIN_NAME),
+			'prefix' => 'audience',
+			'role' => [],
+		);
+		$channels['audience'] = $audiences;
+		foreach ($channels as $channel_id => $channel) {
 
 			$htmls = array();
 			foreach ($channnel_field as $option_key => $option_name) {
@@ -104,24 +112,23 @@ class Post {
 				if ($option_key == 'role-selectbox') {
 					if (isset($is_send_line[$channel['prefix']])) {
 						$roles = $is_send_line[$channel['prefix']]['role'] ?? $channel['role'];
-						// error_log($channel['prefix'].' saved role:'.implode(',',$roles));
-
 					} else {
 						$roles = $channel['role'];
-						// error_log($channel['prefix'].' role:'.implode(',',$roles));
-
 					}
-
 
 					$roles = is_array($roles) ? $roles : esc_html($roles);
 					// ロール選択セレクトボックスを出力
 					// Sendboxのパラメータ名
 					$param_role = lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix'] . "[]";
 					$input_filed = '<label for="' . $param_role . '">' . $option_name . '</label>' . "<select name=" . $param_role . " multiple class='slc-multi-select'>";
-					// $all_roles = array("slc_all" => "すべての友達", "slc_linked" => "連携済みの友達");
-					$all_roles = array("slc_all" => __('All Friends', lineconnect::PLUGIN_NAME), "slc_linked" => __('Linked Friends', lineconnect::PLUGIN_NAME));
-					foreach (wp_roles()->roles as $role_name => $role) {
-						$all_roles[esc_attr($role_name)] = translate_user_role($role['name']);
+					if ($channel['prefix'] == 'audience') {
+						// オーディエンスの場合は、オーディエンスリストを取得
+						$all_roles = Audience::get_lineconnect_audience_name_array();
+					} else {
+						$all_roles = array("slc_all" => __('All Friends', lineconnect::PLUGIN_NAME), "slc_linked" => __('Linked Friends', lineconnect::PLUGIN_NAME));
+						foreach (wp_roles()->roles as $role_name => $role) {
+							$all_roles[esc_attr($role_name)] = translate_user_role($role['name']);
+						}
 					}
 					$input_filed .= lineconnect::makeHtmlSelectOptions($all_roles, $roles);
 					$input_filed .= "</select>";
@@ -194,13 +201,20 @@ class Post {
 		//投稿メタを取得
 		$is_send_line = get_post_meta($post_ID, lineconnect::META_KEY__IS_SEND_LINE, true);
 		//チャンネルリスト毎に送信
-		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
+		$channels = lineconnect::get_all_channels();
+		$audiences = array(
+			'name' => __('Audience', lineconnect::PLUGIN_NAME),
+			'prefix' => 'audience',
+			'role' => [],
+		);
+		$channels['audience'] = $audiences;
+		foreach ($channels as $channel_id => $channel) {
 			$error_message = $success_message = "";
 			$send_checkbox_value = "";
 			$roles = array();
 			$template = 0;
-			$channel_access_token = $channel['channel-access-token'];
-			$channel_secret = $channel['channel-secret'];
+			$channel_access_token = $channel['channel-access-token'] ?? '';
+			$channel_secret = $channel['channel-secret'] ?? '';
 
 			//投稿メタからLINE送信チェックボックスと、ロールを取得
 			if ($isRestAPI) {
@@ -233,7 +247,7 @@ class Post {
 			// apply_filters compact extract $send_checkbox_value, $roles $template
 			extract(apply_filters(lineconnect::FILTER_PREFIX . 'send_notification_is_send_line', compact('send_checkbox_value', 'roles', 'template'), $post_ID, $post));
 			// ChannelAccessTokenとChannelSecretが設定されており、LINEメッセージ送信チェックボックスにチェックがある場合
-			if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0 && $send_checkbox_value == 'ON') {
+			if ($send_checkbox_value == 'ON') {
 				// 投稿のタイトルを取得
 				$title = sanitize_text_field($post->post_title);
 
@@ -293,14 +307,19 @@ class Post {
 					$args = ["title" => $title, "body" => $body, "thumb" => $thumb, "type" => "uri", "label" => $link_label, "link" => $link];
 					$buildMessage = Builder::createFlexMessage($args);
 				} else {
-					$args = \Shipweb\LineConnect\Utilities\ArrayUtil::flat($post->to_array());
-					// get and merge post_meta
-					foreach (get_post_meta($post_ID, '', true) as $key => $value) {
-						$value = maybe_unserialize($value[0]);
-						if (is_array($value) || is_object($value)) {
-							$args = array_merge($args, \Shipweb\LineConnect\Utilities\ArrayUtil::flat($value, 'post_meta.' . $key));
-						} elseif (is_string($value)) {
-							$args['post_meta.' . $key] = $value;
+					if (version_compare(PHP_VERSION, '8.1.0', '>=')) {
+						$args = $post->to_array();
+						$args['post_meta'] = \Shipweb\LineConnect\Utilities\ArrayUtil::flatten_post_meta(get_post_meta($post_ID, '', true));
+					} else {
+						$args = \Shipweb\LineConnect\Utilities\ArrayUtil::flat($post->to_array());
+						// get and merge post_meta
+						foreach (get_post_meta($post_ID, '', true) as $key => $value) {
+							$value = maybe_unserialize($value[0]);
+							if (is_array($value) || is_object($value)) {
+								$args = array_merge($args, \Shipweb\LineConnect\Utilities\ArrayUtil::flat($value, 'post_meta.' . $key));
+							} elseif (is_string($value)) {
+								$args['post_meta.' . $key] = $value;
+							}
 						}
 					}
 					$args['formatted_title'] = $title;
@@ -313,28 +332,48 @@ class Post {
 					$buildMessage = SLCMessage::get_lineconnect_message($template, $args);
 				}
 				$buildMessage = apply_filters(lineconnect::FILTER_PREFIX . 'notification_message', $buildMessage, $args, $template);
-
-				if (in_array("slc_all", $roles)) {
-					//送信するロールがすべてのユーザーならブロードキャスト
-					$response = Builder::sendBroadcastMessage($channel, $buildMessage);
-					if ($response['success']) {
-						$success_message = __('Sent a LINE message to all friends.', lineconnect::PLUGIN_NAME);
-					} else {
-						$error_message = __('Failed to send a LINE message to all friends.', lineconnect::PLUGIN_NAME) . $response['message'];
+				if ($channel['prefix'] == 'audience') {
+					foreach ($roles as $slc_audience_id) {
+						$audience = Audience::get_lineconnect_audience_from_vary($slc_audience_id, []);
+						if (!empty($audience)) {
+							$response = Builder::sendAudienceMessage($audience, $buildMessage);
+							if ($response['success']) {
+								$success_message = implode(', ', $response['success_messages']);
+							} else {
+								$error_message = implode(', ', $response['error_messages']);
+							}
+						} else {
+							$error_message = __('Error: Invalid audience ID.', lineconnect::PLUGIN_NAME);
+						}
 					}
 				} else {
-
-					$response = Builder::sendMessageRole($channel, $roles, $buildMessage);
-					if ($response['success']) {
-						if ($response['num']) {
-							$success_message =  sprintf(_n('Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME), number_format($response['num']));
+					if (strlen($channel_access_token) > 0 && strlen($channel_secret) > 0) {
+						if (in_array("slc_all", $roles)) {
+							//送信するロールがすべてのユーザーならブロードキャスト
+							$response = Builder::sendBroadcastMessage($channel, $buildMessage);
+							if ($response['success']) {
+								$success_message = __('Sent a LINE message to all friends.', lineconnect::PLUGIN_NAME);
+							} else {
+								$error_message = __('Failed to send a LINE message to all friends.', lineconnect::PLUGIN_NAME) . $response['message'];
+							}
 						} else {
-							$error_message = __('No users matched', lineconnect::PLUGIN_NAME);
+
+							$response = Builder::sendMessageRole($channel, $roles, $buildMessage);
+							if ($response['success']) {
+								if ($response['num']) {
+									$success_message =  sprintf(_n('Sent a LINE message to %s person.', 'Sent a LINE message to %s people.', $response['num'], lineconnect::PLUGIN_NAME), number_format($response['num']));
+								} else {
+									$error_message = __('No users matched', lineconnect::PLUGIN_NAME);
+								}
+							} else {
+								$error_message = __('Failed to send a LINE message to selected roles.', lineconnect::PLUGIN_NAME) . $response['message'];
+							}
 						}
 					} else {
-						$error_message = __('Failed to send a LINE message to selected roles.', lineconnect::PLUGIN_NAME) . $response['message'];
+						$error_message = __('Failed to send a LINE message due to Channel access token or Channel secret not set.', lineconnect::PLUGIN_NAME);
 					}
 				}
+
 				// 送信に成功した場合
 				if ($success_message) {
 					$ary_success_message[] = $channel['name'] . ": " . $success_message;
@@ -394,7 +433,14 @@ class Post {
 		}
 
 		$is_send_line = array();
-		foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
+		$channels = lineconnect::get_all_channels();
+		$audiences = array(
+			'name' => __('Audience', lineconnect::PLUGIN_NAME),
+			'prefix' => 'audience',
+			'role' => [],
+		);
+		$channels['audience'] = $audiences;
+		foreach ($channels  as $channel_id => $channel) {
 			if ($isRestAPI) {
 				$req_json = json_decode(WP_REST_Server::get_raw_data());
 				if (isset($req_json->lc_channels)) {

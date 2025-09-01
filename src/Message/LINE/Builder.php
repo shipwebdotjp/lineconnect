@@ -30,12 +30,12 @@ class Builder {
 				'color'    => lineconnect::get_option('body_text_color'),
 				'align'    => 'center',
 				'flex'     => 1,
-				'size'     => 'md',
+				'size'     => null, //'md',
 				'wrap'     => false,
 				'maxLines' => 0,
 				'margin'   => 'none',
-				'gravity'  => 'top',
-				'weight'   => 'regular',
+				'gravity'  => null, //'top',
+				'weight'   => null, //'regular',
 			)
 		);
 
@@ -175,9 +175,13 @@ class Builder {
 
 	// Button Component
 	static function createButtonComponent($action, $atts = null) {
-		if (isset($atts['style']) && $atts['style'] == 'button') {
+		if (isset($atts['style']) && ($atts['style'] == 'button' || $atts['style'] == 'primary')) {
 			$default_color    = lineconnect::get_option('link_text_color');
 			$background_color = lineconnect::get_option('link_button_background_color');
+			$border_color     = lineconnect::get_option('link_button_background_color');
+		} elseif (isset($atts['style']) && $atts['style'] == 'secondary') {
+			$default_color    = lineconnect::get_option('link_button_background_color');
+			$background_color = lineconnect::get_option('title_backgraound_color');
 			$border_color     = lineconnect::get_option('link_button_background_color');
 		} else {
 			$default_color    = lineconnect::get_option('link_text_color');
@@ -193,13 +197,15 @@ class Builder {
 				'border_color'    => $border_color,
 				'layout'          => 'vertical',
 				'flex'            => 1,
-				'margin'          => 'none',
+				'margin'          => null, //'none',
 				'height'          => 'md',
 				'style'           => 'link',
-				'spacing'         => 'none',
+				'spacing'         => null, //'none',
 				'cornerRadius'    => '5px',
 				'alignItems'      => 'center',
 				'paddingAll'      => 'lg',
+				'gravity'         => null, //' top ',
+				'wrap'            => false,
 			)
 		);
 
@@ -220,7 +226,10 @@ class Builder {
 		} else {
 			$label = 'Button';
 		}
-		$textComponent = self::createTextComponent($label, array('color' => $atts['color']));
+		$textComponent = self::createTextComponent($label, array(
+			'color' => $atts['color'],
+			'wrap' => $atts['wrap'],
+		));
 
 		$buttonComponent = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder(
 			$atts['layout'], // layout
@@ -251,7 +260,59 @@ class Builder {
 			$buttonComponent->setWidth($atts['width']);
 		}
 
+		// set justifyContent
+		if (isset($atts['justifyContent'])) {
+			$buttonComponent->setJustifyContent($atts['justifyContent']);
+		}
+
 		return $buttonComponent;
+	}
+
+	//Box Component
+	static function createBoxComponent($componentBuilders, $action = null, $atts = null) {
+		$atts = wp_parse_args($atts, array(
+			'background_color' => lineconnect::get_option('title_backgraound_color'),
+			'flex' => 1,
+			'margin' => null,
+			'layout' => 'vertical',
+			'spacing' => null,
+			'paddingAll' => null,
+		));
+
+		$boxComponent = new \LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder(
+			$atts['layout'], //Layout
+			$componentBuilders, //ComponentBuilders
+			$atts['flex'], //Flex
+			$atts['spacing'], //Spacing
+			$atts['margin'], //Margin
+			$action //Action
+		);
+		$boxComponent->setBackgroundColor($atts['background_color']);
+		//set justifyContent
+		if (isset($atts['justifyContent'])) {
+			$boxComponent->setJustifyContent($atts['justifyContent']);
+		}
+		//set paddingAll
+		if (isset($atts['paddingAll'])) {
+			$boxComponent->setPaddingAll($atts['paddingAll']);
+		}
+		return $boxComponent;
+	}
+
+	//Multi Column box
+	static function createMultiColumnBoxComponent($componentBuilders, $atts = null) {
+		$row = [];
+		foreach ($componentBuilders as $rows) {
+			$row_box = self::createBoxComponent($rows, null, [
+				'layout' => 'horizontal',
+				'justifyContent' => 'space-between',
+			]);
+			$row[] = $row_box;
+		}
+		$body = self::createBoxComponent($row, null, [
+			'spacing' => 'lg',
+		]);
+		return $body;
 	}
 
 	// Flexメッセージを作成

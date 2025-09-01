@@ -153,59 +153,67 @@ msgstr ""
 msgid "Load more users"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:113
+#: src/components/organisms/UserProfile.js:119
 msgid "No tags available"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:123
+#: src/components/organisms/UserProfile.js:129
 msgid "Scenarios"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:129
+#: src/components/organisms/UserProfile.js:135
 msgid "ID"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:130
-msgid "Status"
-msgstr ""
-
-#: src/components/organisms/UserProfile.js:131
-msgid "Start"
-msgstr ""
-
-#: src/components/organisms/UserProfile.js:132
-msgid "Updated"
-msgstr ""
-
-#: src/components/organisms/UserProfile.js:152
-msgid "Edit"
-msgstr ""
-
-#: src/components/organisms/UserProfile.js:162
+#: src/components/organisms/UserProfile.js:166
 msgid "No scenarios available"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:33
+#: src/components/organisms/UserProfile.js:174
+msgid "Interactions"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:180
+msgid "Name"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:181
+msgid "Status"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:182
+msgid "Updated"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:201
+msgid "Edit"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:211
+msgid "No interactions available"
+msgstr ""
+
+#: src/components/organisms/UserProfile.js:39
 msgid "Follow Status:"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:42
+#: src/components/organisms/UserProfile.js:48
 msgid "Following"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:43
+#: src/components/organisms/UserProfile.js:49
 msgid "Not Following"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:50
+#: src/components/organisms/UserProfile.js:56
 msgid "Created:"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:53
+#: src/components/organisms/UserProfile.js:59
 msgid "Updated:"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:60
+#: src/components/organisms/UserProfile.js:66
 msgid "Profile Details"
 msgstr ""
 
@@ -213,7 +221,7 @@ msgstr ""
 msgid "No user selected"
 msgstr ""
 
-#: src/components/organisms/UserProfile.js:90
+#: src/components/organisms/UserProfile.js:96
 msgid "Tags"
 msgstr ""
 
