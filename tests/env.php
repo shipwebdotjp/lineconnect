@@ -1,2 +1,4 @@
 <?php
-$_tests_dir = "/Applications/MAMP/htdocs/wordpress-tests-suit/wptest-tests";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+$_tests_dir = $_ENV['WP_TESTS_DIR'];
