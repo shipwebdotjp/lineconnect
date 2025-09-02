@@ -43,7 +43,7 @@ jobs:
           : # Do not install Composer dependencies becuase we are included vendor dir
   
       - name: 'Set up WordPress test environment'
-        uses: sjinks/setup-wordpress-test-library@v2
+        uses: sjinks/setup-wordpress-test-library@master
         with:
           version: latest
           db_user: wordpress
