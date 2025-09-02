@@ -64,6 +64,16 @@ jobs:
           done
         timeout-minutes: 1
 
+      - name: 'Debug phpunit path'
+        run: |
+          php -v
+          which php || type -a php
+          pwd
+          ls -la
+          ls -la vendor/bin
+          ls -la vendor/phpunit/phpunit
+          cat -n vendor/bin/phpunit | sed -n '1,5p'
+
       - name: 'Run PHPUnit tests'
         run: vendor/bin/phpunit
         env:
