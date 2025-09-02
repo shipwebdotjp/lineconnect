@@ -65,6 +65,6 @@ jobs:
         timeout-minutes: 1
 
       - name: 'Run PHPUnit tests'
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit tests/Interaction/InteractionManager_ReminderTest.php --debug
         env:
           WP_PHPUNIT_TESTS_CONFIG_PATH: ${{ env.WP_TESTS_DIR }}/wp-tests-config.php
