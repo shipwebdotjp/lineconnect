@@ -3,7 +3,6 @@ evn.php
 deploy
 node_modules/
 log/
-bin/
 .vscode/
 clinerules-bank/
 rector/Rules/
