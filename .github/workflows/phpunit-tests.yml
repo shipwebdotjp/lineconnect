@@ -74,6 +74,6 @@ jobs:
           find tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
 
       - name: 'Run PHPUnit tests'
-        run: php -d xdebug.mode=develop -d xdebug.start_with_request=yes -d xdebug.start_upon_error=yes vendor/bin/phpunit  tests/Interaction/InteractionManager_ReminderTest.php --debug
+        run: vendor/bin/phpunit --debug
         env:
           WP_PHPUNIT_TESTS_CONFIG_PATH: ${{ env.WP_TESTS_DIR }}/wp-tests-config.php
