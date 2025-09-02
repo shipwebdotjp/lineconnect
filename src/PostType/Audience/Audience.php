@@ -494,7 +494,7 @@ class Audience {
         // JSONキーのエスケープ処理
         $escaped_key = str_replace('"', '\\"', $key);
         $json_path = '$."' . $escaped_key . '"';
-        $json_access = "profile->>'" . $json_path . "'";
+        $json_access = "JSON_UNQUOTE(JSON_EXTRACT(profile, '" . $json_path . "'))";
 
         $where = "";
         $condition = "";

@@ -8,11 +8,12 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
         '89efb1254ef2d1c5d80096acd12c4098' => __DIR__ . '/..' . '/twig/twig/src/Resources/core.php',
         'ffecb95d45175fd40f75be8a23b34f90' => __DIR__ . '/..' . '/twig/twig/src/Resources/debug.php',
@@ -32,6 +33,7 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Shipweb\\LineConnect\\' => 20,
@@ -43,13 +45,19 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'P' => 
         array (
             'PhpParser\\' => 10,
+            'PhpOption\\' => 10,
         ),
         'L' => 
         array (
             'LINE\\' => 5,
         ),
+        'G' => 
+        array (
+            'GrahamCampbell\\ResultType\\' => 26,
+        ),
         'D' => 
         array (
+            'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
         ),
@@ -63,6 +71,10 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -84,9 +96,21 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PhpOption\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
         'LINE\\' => 
         array (
             0 => __DIR__ . '/..' . '/linecorp/line-bot-sdk/src',
+        ),
+        'GrahamCampbell\\ResultType\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -101,6 +125,9 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
     public static $classMap = array (
         'ActionExecuteAjaxActionExecuteTest' => __DIR__ . '/../..' . '/tests/ActionExecute/ActionExecuteAjaxActionExecuteTest.php',
         'ActionFlowAjaxChatSendTest' => __DIR__ . '/../..' . '/tests/ActionFlow/ActionFlowAjaxChatSendTest.php',
+        'ActionRunnerTest' => __DIR__ . '/../..' . '/tests/Interaction/ActionRunnerTest.php',
+        'AddUserTagsTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/AddUserTagsTest.php',
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'AudienceBasicTest' => __DIR__ . '/../..' . '/tests/audience/AudienceBasicTest.php',
         'AudienceChannelTest' => __DIR__ . '/../..' . '/tests/audience/AudienceChannelTest.php',
         'AudienceComplexConditionsTest' => __DIR__ . '/../..' . '/tests/audience/AudienceComplexConditionsTest.php',
@@ -112,10 +139,40 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'AudienceRoleTest' => __DIR__ . '/../..' . '/tests/audience/AudienceRoleTest.php',
         'AudienceUserMetaTest' => __DIR__ . '/../..' . '/tests/audience/AudienceUserMetaTest.php',
         'AudienceWpUserIdTest' => __DIR__ . '/../..' . '/tests/audience/AudienceWpUserIdTest.php',
+        'BulkmessageAjaxChatSendFailTest' => __DIR__ . '/../..' . '/tests/bulkmessage/BulkmessageAjaxChatSendFailTest.php',
         'BulkmessageAjaxChatSendTest' => __DIR__ . '/../..' . '/tests/bulkmessage/BulkmessageAjaxChatSendTest.php',
         'ChannelTest' => __DIR__ . '/../..' . '/tests/core/ChannelTest.php',
+        'ChatSendTest' => __DIR__ . '/../..' . '/tests/Chat/API/ChatSendTest.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DataDeleteTest' => __DIR__ . '/../..' . '/tests/Admin/Setting/DataDeleteTest.php',
+        'EditUserDataTest' => __DIR__ . '/../..' . '/tests/Chat/API/EditUserDataTest.php',
         'ExecuteScenarioStepTest' => __DIR__ . '/../..' . '/tests/scenario/ExecuteScenarioStepTest.php',
+        'FetchMessagesMultiPageTest' => __DIR__ . '/../..' . '/tests/Chat/API/FetchMessagesMultiPageTest.php',
+        'FetchMessagesOnePageTest' => __DIR__ . '/../..' . '/tests/Chat/API/FetchMessagesOnePageTest.php',
+        'FetchUserDataTest' => __DIR__ . '/../..' . '/tests/Chat/API/FetchUserDataTest.php',
+        'FetchUsersMultiPageTest' => __DIR__ . '/../..' . '/tests/Chat/API/FetchUsersMultiPageTest.php',
+        'FetchUsersOnePageTest' => __DIR__ . '/../..' . '/tests/Chat/API/FetchUsersOnePageTest.php',
+        'GetMyUserInfoTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/GetMyUserInfoTest.php',
+        'GetUserProfileValueTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/GetUserProfileValueTest.php',
+        'InputNormalizerTest' => __DIR__ . '/../..' . '/tests/Interaction/InputNormalizerTest.php',
+        'InteractionDefinitionTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionDefinitionTest.php',
+        'InteractionHandlerBranchByPostbackTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionHandlerBranchByPostbackTest.php',
+        'InteractionHandlerBranchByTextTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionHandlerBranchByTextTest.php',
+        'InteractionHandlerExtractUserInputTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionHandlerExtractUserInputTest.php',
+        'InteractionManager_Base' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_Base.php',
+        'InteractionManager_CancelTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_CancelTest.php',
+        'InteractionManager_ConfirmTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_ConfirmTest.php',
+        'InteractionManager_DuplicateTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_DuplicateTest.php',
+        'InteractionManager_PauseResumeTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_PauseResumeTest.php',
+        'InteractionManager_ReminderTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_ReminderTest.php',
+        'InteractionManager_SingleTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_SingleTest.php',
+        'InteractionManager_ValidateTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionManager_ValidateTest.php',
+        'InteractionSessionTest' => __DIR__ . '/../..' . '/tests/Interaction/InteractionSessionTest.php',
+        'LINE\\Tests\\LINEBot\\Util\\DummyHttpClient' => __DIR__ . '/../..' . '/tests/LINEBot/Util/DummyHttpClient.php',
+        'LineConnectActivationTest' => __DIR__ . '/../..' . '/tests/core/LineConnectActivationTest.php',
+        'LineConnectVariableTest' => __DIR__ . '/../..' . '/tests/core/LineConnectVariableTest.php',
+        'LoggerTest' => __DIR__ . '/../..' . '/tests/Message/LINE/LoggerTest.php',
+        'OptionTest' => __DIR__ . '/../..' . '/tests/core/OptionTest.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -537,7 +594,12 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'RemoveUserTagsTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/RemoveUserTagsTest.php',
+        'RunPolicyEnforcerTest' => __DIR__ . '/../..' . '/tests/Interaction/RunPolicyEnforcerTest.php',
         'SampleTest' => __DIR__ . '/../..' . '/tests/SampleTest.php',
+        'SavePostByAudienceTest' => __DIR__ . '/../..' . '/tests/Publish/SavePostByAudienceTest.php',
+        'SavePostTest' => __DIR__ . '/../..' . '/tests/Publish/SavePostTest.php',
         'ScenarioDataLoadSaveTest' => __DIR__ . '/../..' . '/tests/scenario/ScenarioDataLoadSaveTest.php',
         'ScenarioScheduleTest' => __DIR__ . '/../..' . '/tests/scenario/ScenarioScheduleTest.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
@@ -740,7 +802,13 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SessionRepositoryTest' => __DIR__ . '/../..' . '/tests/Interaction/SessionRepositoryTest.php',
         'SetScenarioStepTest' => __DIR__ . '/../..' . '/tests/scenario/SetScenarioStepTest.php',
+        'Shipweb\\LineConnect\\Tests\\Interaction\\MessageBuilderTest' => __DIR__ . '/../..' . '/tests/Interaction/MessageBuilderTest.php',
+        'ShowSendCheckboxTest' => __DIR__ . '/../..' . '/tests/Publish/ShowSendCheckboxTest.php',
+        'StartInteractionTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/StartInteractionTest.php',
+        'StorageSaveToProfileTest' => __DIR__ . '/../..' . '/tests/Interaction/StorageSaveToProfileTest.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
         'TheSeer\\Tokenizer\\NamespaceUri' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUri.php',
         'TheSeer\\Tokenizer\\NamespaceUriException' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUriException.php',
@@ -749,6 +817,10 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'UpdateUserMetaTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/UpdateUserMetaTest.php',
+        'UpdateUserProfileTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/UpdateUserProfileTest.php',
+        'UpdateUserTagsTest' => __DIR__ . '/../..' . '/tests/Action/Definitions/UpdateUserTagsTest.php',
         'UserTest' => __DIR__ . '/../..' . '/tests/core/UserTest.php',
         'UtilConditionChannelTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionChannelTest.php',
         'UtilConditionCompareTest' => __DIR__ . '/../..' . '/tests/util/UtilConditionCompareTest.php',
@@ -762,6 +834,8 @@ class ComposerStaticInit25e6a4139d918b21922886b776894607
         'UtilInjectParamTest' => __DIR__ . '/../..' . '/tests/util/UtilInjectParamTest.php',
         'UtilPrepareArgumentsTest' => __DIR__ . '/../..' . '/tests/util/UtilPrepareArgumentsTest.php',
         'UtilReplaceTest' => __DIR__ . '/../..' . '/tests/util/UtilReplaceTest.php',
+        'ValidatorTest' => __DIR__ . '/../..' . '/tests/Interaction/ValidatorTest.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'WebhookConditionTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookConditionTest.php',
         'WebhookDateTimeTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookDateTimeTest.php',
         'WebhookPostBackParamConditionTest' => __DIR__ . '/../..' . '/tests/trigger/WebhookPostBackParamConditionTest.php',

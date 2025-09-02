@@ -181,13 +181,13 @@ class InteractionManager_ReminderTest extends InteractionManager_Base {
         // var_dump([$session->get_expires_at()->getTimestamp(), new DateTime($expires_at, new DateTimeZone('UTC'))->getTimestamp()]);
         $this->assertLessThan(
             $session->get_expires_at()->getTimestamp(),
-            new DateTime($expires_at, new DateTimeZone('UTC'))->getTimestamp(),
+            (new DateTime($expires_at, new DateTimeZone('UTC')))->getTimestamp(),
             'Session expiration was not extended'
         );
         // remind_atが伸びたことを確認
         $this->assertLessThan(
             $session->get_remind_at()->getTimestamp(),
-            new DateTime($row->remind_at, new DateTimeZone('UTC'))->getTimestamp(),
+            (new DateTime($row->remind_at, new DateTimeZone('UTC')))->getTimestamp(),
             'Session reminder time was not extended'
         );
         //　remind_atがexpire-10分になっていることを確認
