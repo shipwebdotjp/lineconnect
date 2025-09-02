@@ -64,7 +64,16 @@ jobs:
           done
         timeout-minutes: 1
 
+      - name: 'Debug'
+        run: |
+          echo "WP_TESTS_DIR: ${{ env.WP_TESTS_DIR }}"
+          echo "DB_HOST: 127.0.0.1:${{ job.services.mysql.ports[3306] }}"
+          echo "DB_USER: wordpress"
+          echo "DB_PASSWORD: wordpress"
+          echo "DB_NAME: wordpress_test"
+          find tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
       - name: 'Run PHPUnit tests'
-        run: vendor/bin/phpunit tests/Interaction/InteractionManager_ReminderTest.php --debug
+        run: php -d xdebug.mode=develop -d xdebug.start_with_request=yes -d xdebug.start_upon_error=yes vendor/bin/phpunit  tests/Interaction/InteractionManager_ReminderTest.php --debug
         env:
           WP_PHPUNIT_TESTS_CONFIG_PATH: ${{ env.WP_TESTS_DIR }}/wp-tests-config.php
