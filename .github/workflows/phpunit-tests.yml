@@ -38,9 +38,10 @@ jobs:
           extensions: mysql, mysqli
           coverage: none
 
-      - name: 'Install Composer dependencies'
-        uses: ramsey/composer-install@v2
-
+      - name: 'Why do not composer install'
+        run: |
+          : # Do not install Composer dependencies becuase we are included vendor dir
+  
       - name: 'Set up WordPress test environment'
         uses: sjinks/setup-wordpress-test-library@v2
         with:
