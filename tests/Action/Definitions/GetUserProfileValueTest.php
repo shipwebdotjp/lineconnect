@@ -14,7 +14,7 @@ class GetUserProfileValueTest extends WP_UnitTestCase {
     public function test_get_user_profile_value() {
         $func = new \Shipweb\LineConnect\Action\Definitions\GetUserProfileValue();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $result = $func->get_user_profile_value('new_key');
         // assert null
         $this->assertNull($result);
@@ -27,7 +27,7 @@ class GetUserProfileValueTest extends WP_UnitTestCase {
     public function test_get_user_profile_value_nested() {
         $func = new \Shipweb\LineConnect\Action\Definitions\GetUserProfileValue();
         $func->set_secret_prefix("2f38");
-        $func->set_event((object) array("source" => (object) array("userId" => "U4123ab4ac2bd7bc6e23018a1996263d5")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4123a772125a1")));
         $result = $func->get_user_profile_value('住所.都道府県');
         $this->assertEquals('静岡県', $result);
     }

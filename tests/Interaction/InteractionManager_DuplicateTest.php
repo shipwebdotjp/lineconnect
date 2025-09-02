@@ -13,7 +13,7 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
 
     public function testStartInteractionReject() {
         $interaction_id = self::$interaction_ids['シンプルインタラクション'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         $session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
@@ -54,7 +54,7 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
     public function testStartInteractionRestartSame() {
         $interaction_id = self::$interaction_ids['シンプルインタラクション'];
         $interactionB = self::$interaction_ids['別インタラクション'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         $session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
@@ -102,7 +102,7 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
     public function testStartInteractionRestartDiff() {
         $interactionA = self::$interaction_ids['シンプルインタラクション'];
         $interactionB = self::$interaction_ids['別インタラクション'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         $session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
@@ -149,7 +149,7 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
     public function testStartInteractionRestartAlways() {
         $interactionA = self::$interaction_ids['シンプルインタラクション'];
         $interactionB = self::$interaction_ids['別インタラクション'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         $session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();
@@ -203,7 +203,7 @@ class InteractionManager_DuplicateTest extends InteractionManager_Base {
     public function testStartInteractionStack() {
         $interactionA = self::$interaction_ids['シンプルインタラクション'];
         $interactionB = self::$interaction_ids['別インタラクション'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         $session_repository = new Shipweb\LineConnect\Interaction\SessionRepository();

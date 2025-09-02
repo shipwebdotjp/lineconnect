@@ -23,6 +23,7 @@ use Shipweb\LineConnect\Interaction\InteractionSession;
 use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Message\LINE\Builder as LineMessageBuilder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 
 
 
@@ -384,7 +385,7 @@ class Cron {
     /**
      * インタラクションリマインダー送信
      */
-    static function send_interaction_sessions_reminders($last_run, $current_time) {
+    static function send_interaction_sessions_reminders($last_run, $current_time,  ?\LINE\LINEBot\HTTPClient $httpClient = null) {
         global $wpdb;
         $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
 
@@ -424,7 +425,7 @@ class Cron {
             if (! empty($messages)) {
                 $message = LineMessageBuilder::createMultiMessage($messages);
                 $channel = LineConnect::get_channel($channel_prefix);
-                $sendResult = LineMessageBuilder::sendPushMessage($channel, $line_user_id, $message);
+                $sendResult = Sender::sendPushMessage($channel, $line_user_id, $message, false, $httpClient);
                 if ($sendResult['success']) {
                     // 成功した場合の処理(reminder_sent_atを更新)
                     $result = $wpdb->update(
@@ -442,7 +443,7 @@ class Cron {
     /**
      * インタラクションタイムアウト処理
      */
-    static function process_interaction_timeouts($last_run, $current_time) {
+    static function process_interaction_timeouts($last_run, $current_time,  ?\LINE\LINEBot\HTTPClient $httpClient = null) {
         global $wpdb;
         $table_name = $wpdb->prefix . lineconnect::TABLE_INTERACTION_SESSIONS;
 
@@ -482,7 +483,7 @@ class Cron {
             if (!empty($messages)) {
                 $messages = LineMessageBuilder::createMultiMessage($messages);
                 $channel = LineConnect::get_channel($channel_prefix);
-                LineMessageBuilder::sendPushMessage($channel, $line_user_id, $messages);
+                Sender::sendPushMessage($channel, $line_user_id, $messages, false, $httpClient);
             }
 
             // Handle timeout action

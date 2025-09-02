@@ -1,0 +1,4 @@
+./tests/testdata/wp_users.json
+./tests/testdata/line_users.json
+./tests/util/UtilConditionProfileTest.php
+./tests/Action/Definitions/GetMyUserInfoTest.php

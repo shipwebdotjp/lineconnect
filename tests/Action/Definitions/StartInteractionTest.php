@@ -84,7 +84,7 @@ class StartInteractionTest extends WP_UnitTestCase {
 
     public function test_start_interaction_creates_session_and_returns_messages() {
         $interaction_id = self::$interaction_id;
-        $line_user_id = 'Ud2be13c6f39c97f05c683d92c696483b';
+        $line_user_id = 'U_PLACEHOLDER_USERID4e7a9902e5e7d';
         $secret_prefix = '04f7';
 
         // Prepare the StartInteraction action

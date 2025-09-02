@@ -98,7 +98,7 @@ class ExecuteScenarioStepTest extends WP_UnitTestCase {
      */
     public function test_set_scenario_step() {
         $scenario_id = self::$scenarios[0];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
 
         // Initial setup: Start the scenario

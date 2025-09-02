@@ -1,0 +1,94 @@
+[
+    {
+        "login": "testuser1",
+        "password": "testuser1",
+        "email": "testuser1@example.com",
+        "role": [
+            "administrator"
+        ],
+        "display_name": "Test User 1",
+        "meta": {
+            "line": {
+                "04f7": {
+                    "id": "U_PLACEHOLDER_USERID4e7a9902e5e7d",
+                    "displayName": "TestUser1",
+                    "pictureUrl": null
+                }
+            },
+            "性別": "男性",
+            "生年": "2000",
+            "居住地": "東京都渋谷区",
+            "最終購入日": "2025-12-01 10:30:00"
+        }
+    },
+    {
+        "login": "testuser2",
+        "password": "testuser2",
+        "email": "testuser2@example.com",
+        "role": [
+            "subscriber",
+            "teacher"
+        ],
+        "display_name": "Test User 2",
+        "meta": {
+            "line": {
+                "04f7": {
+                    "id": "U_PLACEHOLDER_USERIDc3f457cdefcc9",
+                    "displayName": "TestUser2",
+                    "isFriend": true
+                }
+            },
+            "誕生月": "7",
+            "配信停止フラグ": 1,
+            "会員ランク": "シルバー",
+            "生年": "1980",
+            "購入回数": 5
+        }
+    },
+    {
+        "login": "testuser3",
+        "password": "testuser3",
+        "email": "testuser3@example.com",
+        "role": [
+            "teacher",
+            "student"
+        ],
+        "display_name": "Test User 3",
+        "meta": {
+            "line": {
+                "2f38": {
+                    "id": "U_PLACEHOLDER_USERID1ccdbac80ea15",
+                    "displayName": "TestUser2",
+                    "pictureUrl": "https://example.com/image.jpg"
+                }
+            },
+            "性別": "女性",
+            "会員ランク": "ゴールド",
+            "最終購入日": "2024-10-15 10:30:00",
+            "生年": "2005",
+            "購入回数": 1
+        }
+    },
+    {
+        "login": "testuser4",
+        "password": "testuser4",
+        "email": "testuser4@example.com",
+        "role": [
+            "author"
+        ],
+        "display_name": "Test User 4",
+        "meta": {
+            "性別": "男性",
+            "誕生月": "11",
+            "居住地": "京都府西区"
+        }
+    },
+    {
+        "login": "testuser5",
+        "password": "testuser5",
+        "email": "testuser5@example.com",
+        "role": [
+            "editor"
+        ]
+    }
+]

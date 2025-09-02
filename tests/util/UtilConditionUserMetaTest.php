@@ -26,7 +26,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '性別', 'compare' => '=', 'value' => '男性']], 
                 '04f7', 
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の性別は男性'
         );
@@ -36,7 +36,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '性別', 'compare' => '=', 'value' => '女性']], 
                 '04f7', 
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の性別は女性ではない'
         );
@@ -49,7 +49,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
                     ['key' => '購入回数', 'compare' => '>=', 'value' => '5']
                 ],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は会員ランクがシルバーで購入回数が5以上'
         );
@@ -62,7 +62,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
                     ['key' => '購入回数', 'compare' => '>=', 'value' => '6']
                 ],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は会員ランクがシルバーだが購入回数が6以上ではないのでFalse'
         );
@@ -75,7 +75,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
                     ['key' => '購入回数', 'compare' => '>=', 'value' => '6']
                 ],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は会員ランクがゴールドでもないし、購入回数が6以上でもないのでFalse'
         );
@@ -85,7 +85,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => 'EXISTS']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3の最終購入日は存在する'
         );
@@ -95,7 +95,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => 'ポイント', 'compare' => 'EXISTS']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3のポイントは存在しない'
         );
@@ -105,7 +105,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '存在しないキー', 'compare' => 'NOT EXISTS']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             '存在しないキーに対するNOT EXISTSはtrue'
         );
@@ -115,7 +115,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => 'NOT EXISTS']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             '存在するキーに対するNOT EXISTSはfalse'
         );
@@ -125,7 +125,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'IN', 'values' => ['2000', '2005', '2010']]],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3の生年は2000, 2005, 2010のいずれか'
         );
@@ -135,7 +135,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'IN', 'values' => ['2001', '2004', '2010']]],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3の生年は2001, 2004, 2010のいずれでもない'
         );
@@ -145,7 +145,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '会員ランク', 'compare' => 'NOT IN', 'values' => ['プラチナ', 'ダイヤモンド']]],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2の会員ランクはプラチナでもダイヤモンドでもない'
         );
@@ -155,7 +155,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '会員ランク', 'compare' => 'NOT IN', 'values' => ['シルバー', 'ゴールド']]],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2の会員ランクはシルバーでもゴールドでもないはFalse(実際はシルバー)'
         );
@@ -165,7 +165,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'BETWEEN', 'values' => ['2000', '2010']]],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3の生年は2000-2010の間'
         );
@@ -175,7 +175,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'BETWEEN', 'values' => ['2006', '2010']]],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3の生年は2006-2010の間ではない'
         );
@@ -185,7 +185,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'NOT BETWEEN', 'values' => ['2001', '2010']]],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の生年は2001-2010の間ではない'
         );
@@ -195,7 +195,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '生年', 'compare' => 'NOT BETWEEN', 'values' => ['2000', '2010']]],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の生年は2000-2010の間なので、NOT BETWEEN は false'
         );
@@ -215,7 +215,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '存在しないキー', 'compare' => '=', 'value' => '何か']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             '存在しないメタキーは比較をスキップしてtrueを返す'
         );
@@ -225,7 +225,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '居住地', 'compare' => 'LIKE', 'value' => '東京都']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の居住地は東京都を含む'
         );
@@ -235,7 +235,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '居住地', 'compare' => 'LIKE', 'value' => '埼玉県']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の居住地は埼玉県を含まない'
         );
@@ -245,7 +245,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '居住地', 'compare' => 'NOT LIKE', 'value' => '埼玉県']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の居住地は埼玉県を含まないのでNOT LIKE は true'
         );
@@ -255,7 +255,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '居住地', 'compare' => 'NOT LIKE', 'value' => '東京都']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1の居住地は東京都を含むのでNOT LIKE は false'
         );
@@ -265,7 +265,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '会員ランク', 'compare' => '!=', 'value' => 'プラチナ']],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は会員ランクがプラチナではない'
         );
@@ -275,7 +275,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '会員ランク', 'compare' => '!=', 'value' => 'シルバー']],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は会員ランクがシルバーなので!=シルバーはfalse'
         );
@@ -285,7 +285,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '購入回数', 'compare' => '>', 'value' => '1']],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は購入回数が1以上である'
         );
@@ -295,7 +295,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '購入回数', 'compare' => '>', 'value' => '10']],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser2は購入回数が10以上ではない'
         );
@@ -305,7 +305,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '性別', 'compare' => '>', 'value' => '女性']],
                 '04f7',
-                'U131aa592ec09610ca4d5e36f4b60ccdb'
+                'U_PLACEHOLDER_USERIDc3f457cdefcc9'
             ),
             'testuser1は性別が女性以上という比較(男性のコードポイントが大きいためtrue)'
         );
@@ -315,7 +315,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '>=', 'value' => '2025-12-01 10:30:00']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1は最終購入日が2025-12-01以降である'
         );
@@ -325,7 +325,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '>=', 'value' => '2026-01-01 10:30:00']],
                 '04f7',
-                'Ud2be13c6f39c97f05c683d92c696483b'
+                'U_PLACEHOLDER_USERID4e7a9902e5e7d'
             ),
             'testuser1は最終購入日が2026-01-01以降ではない'
         );
@@ -335,7 +335,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '<', 'value' => '2025-12-01 10:30:00']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3は最終購入日が2025-12-01より前である'
         );
@@ -345,7 +345,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '<', 'value' => '2024-10-10 10:30:00']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3は最終購入日が2024-10-10より前ではない'
         );
@@ -356,7 +356,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '<=', 'value' => '2024-10-15 10:30:00']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3は最終購入日が2024-10-15以前である'
         );
@@ -366,7 +366,7 @@ class UtilConditionUserMetaTest extends WP_UnitTestCase {
             Condition::evaluate_usermeta(
                 [['key' => '最終購入日', 'compare' => '<=', 'value' => '2024-10-10 10:30:00']],
                 '2f38',
-                'U1ccd59c9cace6053f6614fb6997f978d'
+                'U_PLACEHOLDER_USERID1ccdbac80ea15'
             ),
             'testuser3は最終購入日が2024-10-10以前ではない'
         );

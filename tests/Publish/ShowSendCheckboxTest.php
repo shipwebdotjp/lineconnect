@@ -23,7 +23,7 @@ class ShowSendCheckboxTest extends WP_UnitTestCase {
         $this->assertStringContainsString('Send target:', $result);
         $this->assertStringContainsString('Message template:', $result);
         $this->assertStringContainsString('Send when a future post is published', $result);
-        $this->assertStringContainsString('SOHO MIND', $result);
+        $this->assertStringContainsString('Test Channel 1', $result);
         $this->assertStringContainsString('<input type="checkbox" name="slc_send-checkbox04f7" value="ON" id="id_slc_send-checkbox04f7" checked>', $result);
         $this->assertStringContainsString('<select name=slc_role-selectbox04f7[] multiple class=\'slc-multi-select\'>', $result);
         $this->assertStringContainsString('<input type="checkbox" name="slc_future-checkbox04f7" value="ON" id="id_slc_future-checkbox04f7" >', $result);

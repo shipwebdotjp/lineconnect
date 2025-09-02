@@ -14,14 +14,14 @@ class AddUserTagsTest extends WP_UnitTestCase {
     public function test_add_new_tags_to_none_tags_user() {
         $func = new \Shipweb\LineConnect\Action\Definitions\AddUserTags();
         $func->set_secret_prefix("2f38");
-        $func->set_event((object) array("source" => (object) array("userId" => "U4123ab4ac2bd7bc6e23018a1996263d5")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4123a772125a1")));
         $tags = ['new_tag1', 'new_tag2'];
         $result = $func->add_user_tags($tags);
         $this->assertTrue($result);
         // タグを取得して検証
         $getTagsFunc = new \Shipweb\LineConnect\Action\Definitions\GetUserTags();
         $getTagsFunc->set_secret_prefix("2f38");
-        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U4123ab4ac2bd7bc6e23018a1996263d5")));
+        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4123a772125a1")));
         $result = $getTagsFunc->get_user_tags();
         $this->assertEqualSets($tags, $result);
     }
@@ -29,7 +29,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
     public function test_add_new_tags() {
         $func = new \Shipweb\LineConnect\Action\Definitions\AddUserTags();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
 
         $tags = ['new_tag1', 'new_tag2'];
         $result = $func->add_user_tags($tags);
@@ -38,7 +38,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
         // タグを取得して検証
         $getTagsFunc = new \Shipweb\LineConnect\Action\Definitions\GetUserTags();
         $getTagsFunc->set_secret_prefix("04f7");
-        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $current_tags = $getTagsFunc->get_user_tags();
 
         $this->assertContains('new_tag1', $current_tags);
@@ -50,7 +50,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
     public function test_add_duplicate_tags() {
         $func = new \Shipweb\LineConnect\Action\Definitions\AddUserTags();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
 
         $tags = ['プレミアム', 'new_tag'];
         $result = $func->add_user_tags($tags);
@@ -59,7 +59,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
         // タグを取得して検証
         $getTagsFunc = new \Shipweb\LineConnect\Action\Definitions\GetUserTags();
         $getTagsFunc->set_secret_prefix("04f7");
-        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $current_tags = $getTagsFunc->get_user_tags();
 
         $this->assertCount(2, $current_tags); // 元の1つ + 新規1つ
@@ -70,7 +70,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
     public function test_skip_duplicate_tags() {
         $func = new \Shipweb\LineConnect\Action\Definitions\AddUserTags();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
 
         $tags = ['プレミアム']; // 既存のタグ
         $result = $func->add_user_tags($tags);
@@ -79,7 +79,7 @@ class AddUserTagsTest extends WP_UnitTestCase {
         // タグを取得して検証
         $getTagsFunc = new \Shipweb\LineConnect\Action\Definitions\GetUserTags();
         $getTagsFunc->set_secret_prefix("04f7");
-        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $current_tags = $getTagsFunc->get_user_tags();
 
         $this->assertCount(1, $current_tags); // タグ数は変わらない
@@ -101,12 +101,12 @@ class AddUserTagsTest extends WP_UnitTestCase {
     public function test_empty_tags() {
         $func = new \Shipweb\LineConnect\Action\Definitions\AddUserTags();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
 
         // 最初のタグ状態を取得
         $getTagsFunc = new \Shipweb\LineConnect\Action\Definitions\GetUserTags();
         $getTagsFunc->set_secret_prefix("04f7");
-        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $getTagsFunc->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $initial_tags = $getTagsFunc->get_user_tags();
 
         $tags = [];

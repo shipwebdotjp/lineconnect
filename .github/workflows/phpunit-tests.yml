@@ -17,7 +17,10 @@ jobs:
           - '3306:3306'
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: wordpress_tests
+          MARIADB_INITDB_SKIP_TZINFO: 1
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress_test
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -35,16 +38,21 @@ jobs:
           extensions: mysql, mysqli
           coverage: none
 
-      - name: 'Install Composer dependencies'
-        run: composer install --prefer-dist --no-progress
-
       - name: 'Set up WordPress test environment'
-        uses: sjinks/setup-wordpress-test-library@v2
+        uses: sjinks/setup-wordpress-test-library@master
         with:
-          db_user: root
-          db_password: root
+          version: latest
+          db_user: wordpress
+          db_password: wordpress
           db_name: wordpress_tests
           db_host: 127.0.0.1:${{ job.services.mysql.ports[3306] }}
+
+      - name: Verify MariaDB connection
+        run: |
+          while ! mysqladmin ping -h 127.0.0.1 -P ${{ job.services.mysql.ports[3306] }} --silent; do
+            sleep 1
+          done
+        timeout-minutes: 1
 
       - name: 'Run PHPUnit tests'
         run: vendor/bin/phpunit

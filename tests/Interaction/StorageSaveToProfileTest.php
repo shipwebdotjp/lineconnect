@@ -8,7 +8,7 @@ class StorageSaveToProfileTest extends InteractionManager_Base {
     // テストケースをここに追加
     public function test_savetoprofile() {
         $interaction_id = self::$interaction_ids['storage_profile'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();

@@ -26,6 +26,7 @@ use Shipweb\LineConnect\BulkMessage\Screen as BulkMessageScreen;
 use Shipweb\LineConnect\PostType\Message\Screen as MessageScreen;
 use Shipweb\LineConnect\PostType\Message\Message as MessagePostType;
 use Shipweb\LineConnect\Message\LINE\Builder;
+use Shipweb\LineConnect\Message\LINE\Sender;
 use Shipweb\LineConnect\RichMenu\RichMenu;
 use \Shipweb\LineConnect\Admin\Setting\Setting as SettingScreen;
 use Shipweb\LineConnect\Admin\Setting\Constants as SettingConstants;
@@ -628,10 +629,10 @@ class LineConnect {
 		add_action('line_unlink_richmenu', array(RichMenu::class, 'line_unlink_richmenu'), 10, 2);
 
 		// 特定ロールの連携済みユーザーへメッセージを送信
-		add_action('send_message_to_role', array(Builder::class, 'sendMessageRole'), 10, 3);
+		add_action('send_message_to_role', array(Sender::class, 'sendMessageRole'), 10, 3);
 
 		// 特定の連携済みユーザーへメッセージを送信
-		add_action('send_message_to_wpuser', array(Builder::class, 'sendMessageWpUser'), 10, 3);
+		add_action('send_message_to_wpuser', array(Sender::class, 'sendMessageWpUser'), 10, 3);
 
 		if (self::get_option('send_new_comment')) {
 			// コメントが投稿されたときのアクション

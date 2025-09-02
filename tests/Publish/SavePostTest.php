@@ -9,13 +9,25 @@
 use Shipweb\LineConnect\Publish\Post as PublishPost;
 use Shipweb\LineConnect\Core\LineConnect;
 
+require_once __DIR__ . '/../../tests/LINEBot/Util/DummyHttpClient.php';
+
 class SavePostTest extends WP_UnitTestCase {
     protected static $post_id;
 
     public static function wpSetUpBeforeClass($factory) {
         add_action('save_post', array(PublishPost::class, 'save_post'), 10, 2);
-
         lineconnectTest::init();
+    }
+
+    public function setUp(): void {
+        parent::setUp();
+        add_filter(LineConnect::FILTER_PREFIX . 'httpclient', function ($httpClient) {
+            $mock = function ($testRunner, $httpMethod, $url, $data) {
+                return ['status' => 200];
+            };
+            $dummyHttpClient = new LINE\Tests\LINEBot\Util\DummyHttpClient($this, $mock);
+            return $dummyHttpClient;
+        });
     }
 
     public function test_SavePostSendNotification() {
@@ -49,7 +61,7 @@ class SavePostTest extends WP_UnitTestCase {
         $get_transient = get_transient(lineconnect::TRANSIENT_KEY__SUCCESS_SEND_TO_LINE);
         // Check if the transient is set
         $this->assertNotEmpty($get_transient, 'Transient should be set after saving post');
-        $this->assertStringContainsString("SOHO MIND: Sent a LINE message to 1 person", $get_transient);
+        $this->assertStringContainsString("Test Channel 1: Sent a LINE message to 1 person", $get_transient);
     }
 
     public function test_SavePostNotSendNotification() {

@@ -7,7 +7,7 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
 
     public function testCancelAbort() {
         $interaction_id = self::$interaction_ids['interaction_with_cancel'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();
@@ -107,7 +107,7 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
 
     public function testCancelContinue() {
         $interaction_id = self::$interaction_ids['interaction_with_cancel'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();
@@ -196,7 +196,7 @@ class InteractionManager_CancelTest extends InteractionManager_Base {
 
     public function testCancelByKeyword() {
         $interaction_id = self::$interaction_ids['interaction_with_cancel'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();

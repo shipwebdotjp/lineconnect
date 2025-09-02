@@ -35,7 +35,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U1ccd59c9cace6053f6614fb6997f978d')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID1ccdbac80ea15')),
                 '2f38'
             )
         );
@@ -45,7 +45,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U1ccd59c9cace6053f6614fb6997f978d')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID1ccdbac80ea15')),
                 '2f38'
             )
         );
@@ -253,14 +253,14 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '2f38'
             )
         );
@@ -278,14 +278,14 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '2f38'
             )
         );
@@ -303,14 +303,14 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '2f38'
             )
         );
@@ -335,7 +335,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             ),
             'administrator role matches'
@@ -344,7 +344,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U131aa592ec09610ca4d5e36f4b60ccdb')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERIDc3f457cdefcc9')),
                 '04f7'
             ),
             'subscriber role matches'
@@ -353,7 +353,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U1ccd59c9cace6053f6614fb6997f978d')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID1ccdbac80ea15')),
                 '2f38'
             ),
             'role does not match'
@@ -386,7 +386,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -395,7 +395,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U1ccd59c9cace6053f6614fb6997f978d')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID1ccdbac80ea15')),
                 '2f38'
             )
         );
@@ -426,7 +426,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U131aa592ec09610ca4d5e36f4b60ccdb')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERIDc3f457cdefcc9')),
                 '04f7'
             )
         );
@@ -435,7 +435,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -467,7 +467,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '2f38'
             )
         );
@@ -476,7 +476,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -507,7 +507,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -516,7 +516,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U131aa592ec09610ca4d5e36f4b60ccdb')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERIDc3f457cdefcc9')),
                 '04f7'
             )
         );
@@ -555,7 +555,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -564,7 +564,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U1ccd59c9cace6053f6614fb6997f978d')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID1ccdbac80ea15')),
                 '2f38'
             )
         );
@@ -601,7 +601,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -610,7 +610,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U131aa592ec09610ca4d5e36f4b60ccdb')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERIDc3f457cdefcc9')),
                 '04f7'
             )
         );
@@ -630,7 +630,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                     'type' => 'source',
                     'source' => array(
                         'type' => 'user',
-                        'userId' => array('Ud2be13c6f39c97f05c683d92c696483b')
+                        'userId' => array('U_PLACEHOLDER_USERID4e7a9902e5e7d')
                     )
                 )
             )
@@ -640,7 +640,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -649,7 +649,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '04f7'
             )
         );
@@ -670,7 +670,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                     'type' => 'source',
                     'source' => array(
                         'type' => 'user',
-                        'userId' => array('Ud2be13c6f39c97f05c683d92c696483b')
+                        'userId' => array('U_PLACEHOLDER_USERID4e7a9902e5e7d')
                     )
                 )
             )
@@ -680,7 +680,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 '04f7'
             )
         );
@@ -689,7 +689,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '04f7'
             )
         );
@@ -710,7 +710,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                     'type' => 'source',
                     'source' => array(
                         'type' => 'user',
-                        'userId' => array('Ud2be13c6f39c97f05c683d92c696483b')
+                        'userId' => array('U_PLACEHOLDER_USERID4e7a9902e5e7d')
                     )
                 )
             )
@@ -720,7 +720,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 '04f7'
             )
         );
@@ -729,7 +729,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d')),
                 'wrong'
             )
         );
@@ -738,7 +738,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5')),
+                (object) array('source' => (object) array('type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1')),
                 'wrong'
             )
         );
@@ -755,7 +755,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                     'condition' => [
                         'conditions' => [
                             ['type' => 'channel', 'secret_prefix' => ['04f7']],
-                            ['type' => 'source', 'source' => ['type' => 'user', 'userId' => ['Ud2be13c6f39c97f05c683d92c696483b']]]
+                            ['type' => 'source', 'source' => ['type' => 'user', 'userId' => ['U_PLACEHOLDER_USERID4e7a9902e5e7d']]]
                         ]
                     ]
                 ]
@@ -766,7 +766,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d']],
                 '04f7'
             )
         );
@@ -775,7 +775,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 '04f7'
             )
         );
@@ -794,7 +794,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                         'operator'   => 'or',
                         'conditions' => [
                             ['type' => 'channel', 'secret_prefix' => ['04f7']],
-                            ['type' => 'source', 'source' => ['type' => 'user', 'userId' => ['Ud2be13c6f39c97f05c683d92c696483b']]]
+                            ['type' => 'source', 'source' => ['type' => 'user', 'userId' => ['U_PLACEHOLDER_USERID4e7a9902e5e7d']]]
                         ]
                     ]
                 ]
@@ -805,7 +805,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 '04f7'
             )
         );
@@ -814,7 +814,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d']],
                 'wrong'
             )
         );
@@ -823,7 +823,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 'wrong'
             )
         );
@@ -842,7 +842,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                         'conditions' => [
                             [
                                 'type'   => 'source',
-                                'source' => ['type' => 'user', 'userId' => ['Ud2be13c6f39c97f05c683d92c696483b']]
+                                'source' => ['type' => 'user', 'userId' => ['U_PLACEHOLDER_USERID4e7a9902e5e7d']]
                             ]
                         ]
                     ]
@@ -854,7 +854,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d']],
                 '04f7'
             )
         );
@@ -863,7 +863,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 '04f7'
             )
         );
@@ -883,7 +883,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
                         'conditions' => [
                             [
                                 'type'   => 'source',
-                                'source' => ['type' => 'user', 'userId' => ['Ud2be13c6f39c97f05c683d92c696483b']]
+                                'source' => ['type' => 'user', 'userId' => ['U_PLACEHOLDER_USERID4e7a9902e5e7d']]
                             ]
                         ]
                     ]
@@ -895,7 +895,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 '04f7'
             )
         );
@@ -904,7 +904,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertTrue(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'Ud2be13c6f39c97f05c683d92c696483b']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d']],
                 'wrong'
             )
         );
@@ -913,7 +913,7 @@ class WebhookConditionTest extends WP_UnitTestCase {
         $this->assertFalse(
             Webhook::check_webhook_condition(
                 $source,
-                (object)['source' => (object)['type' => 'user', 'userId' => 'U4123ab4ac2bd7bc6e23018a1996263d5']],
+                (object)['source' => (object)['type' => 'user', 'userId' => 'U_PLACEHOLDER_USERID4123a772125a1']],
                 'wrong'
             )
         );
