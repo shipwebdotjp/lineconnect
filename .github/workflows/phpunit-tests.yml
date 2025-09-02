@@ -41,7 +41,12 @@ jobs:
       - name: 'Why do not composer install'
         run: |
           : # Do not install Composer dependencies becuase we are included vendor dir
-  
+
+      - name: Install Subversion
+        run: |
+        sudo apt-get update
+        sudo apt-get install -y subversion
+
       - name: 'Set up WordPress test environment'
         uses: sjinks/setup-wordpress-test-library@master
         with:
