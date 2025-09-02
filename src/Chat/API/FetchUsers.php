@@ -58,7 +58,7 @@ class FetchUsers {
         $where = implode(' AND ', $where_clauses);
 
         $query = "
-            SELECT id, channel_prefix, line_id as lineId, follow, profile->>'$.displayName' AS displayName, profile->>'$.pictureUrl' AS pictureUrl, last_message, last_sent_at
+            SELECT id, channel_prefix, line_id as lineId, follow, JSON_UNQUOTE(JSON_EXTRACT(profile, '$.displayName')) AS displayName, JSON_UNQUOTE(JSON_EXTRACT(profile, '$.pictureUrl')) AS pictureUrl, last_message, last_sent_at
             FROM {$table_name}
             WHERE {$where}
             ORDER BY last_sent_at DESC, id DESC

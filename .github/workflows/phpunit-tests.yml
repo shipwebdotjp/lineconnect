@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch: {}
 
 jobs:
   test:
@@ -38,13 +39,22 @@ jobs:
           extensions: mysql, mysqli
           coverage: none
 
+      - name: 'Why do not composer install'
+        run: |
+          : # Do not install Composer dependencies becuase we are included vendor dir
+
+      - name: 'Install Subversion'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y subversion
+
       - name: 'Set up WordPress test environment'
         uses: sjinks/setup-wordpress-test-library@master
         with:
           version: latest
           db_user: wordpress
           db_password: wordpress
-          db_name: wordpress_tests
+          db_name: wordpress_test
           db_host: 127.0.0.1:${{ job.services.mysql.ports[3306] }}
 
       - name: Verify MariaDB connection
@@ -54,7 +64,16 @@ jobs:
           done
         timeout-minutes: 1
 
+      - name: 'Debug'
+        run: |
+          echo "WP_TESTS_DIR: ${{ env.WP_TESTS_DIR }}"
+          echo "DB_HOST: 127.0.0.1:${{ job.services.mysql.ports[3306] }}"
+          echo "DB_USER: wordpress"
+          echo "DB_PASSWORD: wordpress"
+          echo "DB_NAME: wordpress_test"
+          find tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
       - name: 'Run PHPUnit tests'
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --debug
         env:
           WP_PHPUNIT_TESTS_CONFIG_PATH: ${{ env.WP_TESTS_DIR }}/wp-tests-config.php
