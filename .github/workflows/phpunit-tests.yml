@@ -38,13 +38,16 @@ jobs:
           extensions: mysql, mysqli
           coverage: none
 
+      - name: 'Install Composer dependencies'
+        uses: ramsey/composer-install@v2
+
       - name: 'Set up WordPress test environment'
-        uses: sjinks/setup-wordpress-test-library@master
+        uses: sjinks/setup-wordpress-test-library@v2
         with:
           version: latest
           db_user: wordpress
           db_password: wordpress
-          db_name: wordpress_tests
+          db_name: wordpress_test
           db_host: 127.0.0.1:${{ job.services.mysql.ports[3306] }}
 
       - name: Verify MariaDB connection
