@@ -1,0 +1,40 @@
+[
+  {
+    "prefix": "04f7",
+    "name": "Test Channel 1",
+    "channel-access-token": "dummy",
+    "channel-secret": "04f719eaaec1ba180c75a8fb301f627f",
+    "role": [
+      "premium"
+    ],
+    "linked-richmenu": "",
+    "unlinked-richmenu": "",
+    "administrator-richmenu": "",
+    "editor-richmenu": "",
+    "author-richmenu": "",
+    "contributor-richmenu": "",
+    "subscriber-richmenu": "",
+    "free-richmenu": "",
+    "premium-richmenu": "",
+    "lite-richmenu": ""
+  },
+  {
+    "prefix": "2f38",
+    "name": "Test Channel 2",
+    "channel-access-token": "dummy",
+    "channel-secret": "2f3819eaaec1ba180c75a8fb301f627f",
+    "role": [
+      "administrator"
+    ],
+    "linked-richmenu": "",
+    "unlinked-richmenu": "",
+    "administrator-richmenu": "",
+    "editor-richmenu": "",
+    "author-richmenu": "",
+    "contributor-richmenu": "",
+    "subscriber-richmenu": "",
+    "free-richmenu": "",
+    "premium-richmenu": "",
+    "lite-richmenu": ""
+  }
+]

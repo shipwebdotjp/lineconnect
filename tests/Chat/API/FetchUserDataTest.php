@@ -16,7 +16,7 @@ class FetchUserDataTest extends WP_Ajax_UnitTestCase {
 
         $_POST['nonce'] = wp_create_nonce(LineConnect::CREDENTIAL_ACTION__POST);
         $_POST['channel_prefix'] = '04f7';
-        $_POST['line_id'] = 'Ud2be13c6f39c97f05c683d92c696483b';
+        $_POST['line_id'] = 'U_PLACEHOLDER_USERID4e7a9902e5e7d';
 
         try {
             $this->_handleAjax('slc_fetch_user_data');
@@ -32,7 +32,7 @@ class FetchUserDataTest extends WP_Ajax_UnitTestCase {
         $this->assertArrayHasKey('lineId', $response['data']);
         $this->assertArrayHasKey('profile', $response['data']);
         $this->assertEquals('04f7', $response['data']['channel_prefix']);
-        $this->assertEquals('Ud2be13c6f39c97f05c683d92c696483b', $response['data']['lineId']);
+        $this->assertEquals('U_PLACEHOLDER_USERID4e7a9902e5e7d', $response['data']['lineId']);
     }
 
     public function test_ajax_fetch_user_data_no_permission() {
@@ -40,7 +40,7 @@ class FetchUserDataTest extends WP_Ajax_UnitTestCase {
 
         $_POST['nonce'] = wp_create_nonce(LineConnect::CREDENTIAL_ACTION__POST);
         $_POST['channel_prefix'] = '04f7';
-        $_POST['line_id'] = 'Ud2be13c6f39c97f05c683d92c696483b';
+        $_POST['line_id'] = 'U_PLACEHOLDER_USERID4e7a9902e5e7d';
 
         try {
             $this->_handleAjax('slc_fetch_user_data');
@@ -59,7 +59,7 @@ class FetchUserDataTest extends WP_Ajax_UnitTestCase {
         $this->_setRole('administrator');
 
         $_POST['nonce'] = wp_create_nonce(LineConnect::CREDENTIAL_ACTION__POST);
-        $_POST['line_id'] = 'Ud2be13c6f39c97f05c683d92c696483b';
+        $_POST['line_id'] = 'U_PLACEHOLDER_USERID4e7a9902e5e7d';
 
         try {
             $this->_handleAjax('slc_fetch_user_data');

@@ -22,15 +22,13 @@ use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\Response;
 use PHPUnit\Framework\TestCase;
 
-class DummyHttpClient implements HTTPClient
-{
+class DummyHttpClient implements HTTPClient {
     /** @var \PHPUnit\Framework\TestCase */
     private $testRunner;
     /** @var \Closure */
     private $mock;
 
-    public function __construct(TestCase $testRunner, \Closure $mock)
-    {
+    public function __construct(TestCase $testRunner, \Closure $mock) {
         $this->testRunner = $testRunner;
         $this->mock = $mock;
     }
@@ -41,10 +39,13 @@ class DummyHttpClient implements HTTPClient
      * @param array $headers
      * @return Response
      */
-    public function get($url, array $data = [], array $headers = [])
-    {
+    public function get($url, array $data = [], array $headers = []) {
         $ret = call_user_func($this->mock, $this->testRunner, 'GET', $url, is_null($data) ? [] : $data);
-        return new Response(200, json_encode($ret));
+        $status = 200;
+        if (is_array($ret) && isset($ret['status']) && is_int($ret['status'])) {
+            $status = $ret['status'];
+        }
+        return new Response($status, json_encode($ret));
     }
 
     /**
@@ -53,10 +54,13 @@ class DummyHttpClient implements HTTPClient
      * @param array $headers Optional
      * @return Response
      */
-    public function post($url, array $data, array $headers = null)
-    {
+    public function post($url, array $data, ?array $headers = null) {
         $ret = call_user_func($this->mock, $this->testRunner, 'POST', $url, $data, $headers);
-        return new Response(200, json_encode($ret));
+        $status = 200;
+        if (is_array($ret) && isset($ret['status']) && is_int($ret['status'])) {
+            $status = $ret['status'];
+        }
+        return new Response($status, json_encode($ret));
     }
 
     /**
@@ -67,10 +71,13 @@ class DummyHttpClient implements HTTPClient
      * @param array|null $headers Request headers.
      * @return Response Response of API request.
      */
-    public function put($url, array $data, array $headers = null)
-    {
+    public function put($url, array $data, ?array $headers = null) {
         $ret = call_user_func($this->mock, $this->testRunner, 'PUT', $url, $data, $headers);
-        return new Response(200, json_encode($ret));
+        $status = 200;
+        if (is_array($ret) && isset($ret['status']) && is_int($ret['status'])) {
+            $status = $ret['status'];
+        }
+        return new Response($status, json_encode($ret));
     }
 
     /**
@@ -78,9 +85,12 @@ class DummyHttpClient implements HTTPClient
      * @param array|null $data
      * @return Response
      */
-    public function delete($url, $data = null)
-    {
+    public function delete($url, $data = null) {
         $ret = call_user_func($this->mock, $this->testRunner, 'DELETE', $url, is_null($data) ? [] : $data);
-        return new Response(200, json_encode($ret));
+        $status = 200;
+        if (is_array($ret) && isset($ret['status']) && is_int($ret['status'])) {
+            $status = $ret['status'];
+        }
+        return new Response($status, json_encode($ret));
     }
 }

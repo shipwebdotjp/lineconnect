@@ -17,8 +17,8 @@ class AudienceChannelTest extends WP_UnitTestCase {
         $condition_single = json_decode('{"condition":{"conditions":[{"type":"channel","secret_prefix":["2f38"]}]}}', true);
         $condition_double = json_decode('{"condition":{"conditions":[{"type":"channel","secret_prefix":["2f38","04f7"]}]}}', true);
 
-        $expected_single = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U4123ab4ac2bd7bc6e23018a1996263d5","U1ccd59c9cace6053f6614fb6997f978d"]}}', true);
-        $expected_double = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U4123ab4ac2bd7bc6e23018a1996263d5","U1ccd59c9cace6053f6614fb6997f978d"]},"04f7":{"type":"multicast","line_user_ids":["U131aa592ec09610ca4d5e36f4b60ccdb","Ud2be13c6f39c97f05c683d92c696483b"]}}', true);
+        $expected_single = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID4123a772125a1","U_PLACEHOLDER_USERID1ccdbac80ea15"]}}', true);
+        $expected_double = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID4123a772125a1","U_PLACEHOLDER_USERID1ccdbac80ea15"]},"04f7":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERIDc3f457cdefcc9","U_PLACEHOLDER_USERID4e7a9902e5e7d"]}}', true);
 
         $actual_single = Audience::get_audience_by_condition($condition_single['condition']);
         $actual_double = Audience::get_audience_by_condition($condition_double['condition']);

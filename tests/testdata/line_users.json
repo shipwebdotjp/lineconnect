@@ -1,0 +1,86 @@
+[
+    {
+        "channel_prefix": "04f7",
+        "line_id": "U_PLACEHOLDER_USERID4e7a9902e5e7d",
+        "follow": true,
+        "profile": {
+            "displayName": "TestUser1",
+            "pictureUrl": null,
+            "language": "ja",
+            "性別": "男性",
+            "年齢": "20代",
+            "職業": "会社員",
+            "在住地": "東京都",
+            "使用機器": "iPhone",
+            "来店回数": "10",
+            "好きな色": "赤",
+            "最終購入日": "2023-08-15 14:30:00"
+        },
+        "tags": [
+            "プレミアム"
+        ]
+    },
+    {
+        "channel_prefix": "04f7",
+        "line_id": "U_PLACEHOLDER_USERIDc3f457cdefcc9",
+        "follow": true,
+        "profile": {
+            "displayName": "TestUser2",
+            "pictureUrl": null,
+            "language": "ja",
+            "性別": "男性",
+            "年齢": "30代",
+            "職業": "自営業",
+            "在住地": "北海道",
+            "使用機器": "Android",
+            "来店回数": 0,
+            "車種": "軽自動車",
+            "最終購入日": "2024-10-01 04:40:00"
+        },
+        "tags": [
+            "友達追加"
+        ]
+    },
+    {
+        "channel_prefix": "2f38",
+        "line_id": "U_PLACEHOLDER_USERID1ccdbac80ea15",
+        "follow": false,
+        "profile": {
+            "displayName": "TestUser2",
+            "pictureUrl": "https://example.com/image.jpg",
+            "language": "ja",
+            "性別": "男性",
+            "年齢": "40代",
+            "職業": "エンジニア",
+            "在住地": "東京都",
+            "使用機器": "iPhone",
+            "来店回数": "5",
+            "好きな食べ物": "ラーメン",
+            "配信停止フラグ": 1
+        },
+        "tags": [
+            "写真あり"
+        ]
+    },
+    {
+        "channel_prefix": "2f38",
+        "line_id": "U_PLACEHOLDER_USERID4123a772125a1",
+        "follow": true,
+        "profile": {
+            "displayName": "TestUser1(未連携)",
+            "pictureUrl": "https://example.com/placeholder.png",
+            "language": "en",
+            "性別": "女性",
+            "年齢": "20代",
+            "職業": "ライター",
+            "在住地": "静岡県",
+            "住所": {
+                "都道府県": "静岡県",
+                "市区町": "浜松市"
+            },
+            "使用機器": "Windows",
+            "来店回数": 15,
+            "婚姻状況": "既婚"
+        }
+    }
+]

@@ -29,14 +29,14 @@ class UtilConditionChannelTest extends WP_UnitTestCase {
             'type' => 'channel',
             'secret_prefix' => array('aaaa'),
         );
-        $this->assertTrue(Condition::evaluate_condition($condition1, 'aaaa', 'U1ccd59c9cace6053f6614fb6997f978d'), 'チャンネルIDあり');
+        $this->assertTrue(Condition::evaluate_condition($condition1, 'aaaa', 'U_PLACEHOLDER_USERID1ccdbac80ea15'), 'チャンネルIDあり');
 
 
         $condition2 = array(
             'type' => 'destination',
-            'destination' => array('type' => 'user', 'lineUserId' => array('U1ccd59c9cace6053f6614fb6997f978d')),
+            'destination' => array('type' => 'user', 'lineUserId' => array('U_PLACEHOLDER_USERID1ccdbac80ea15')),
         );
-        $this->assertTrue(Condition::evaluate_condition($condition2, 'bbbb', 'U1ccd59c9cace6053f6614fb6997f978d'), '複数チャンネルIDあり');
+        $this->assertTrue(Condition::evaluate_condition($condition2, 'bbbb', 'U_PLACEHOLDER_USERID1ccdbac80ea15'), '複数チャンネルIDあり');
         $this->assertFalse(Condition::evaluate_condition($condition2, 'cccc', 'a'), '複数チャンネルIDなし');
 
         $conditions = array(
@@ -45,8 +45,8 @@ class UtilConditionChannelTest extends WP_UnitTestCase {
                 $condition2,
             ),
         );
-        $this->assertTrue(Condition::evaluate_conditions($conditions, 'aaaa', 'U1ccd59c9cace6053f6614fb6997f978d'), '複数条件あり');
-        $this->assertFalse(Condition::evaluate_conditions($conditions, 'bbbb', 'U1ccd59c9cace6053f6614fb6997f978d'), 'チャネル違い');
+        $this->assertTrue(Condition::evaluate_conditions($conditions, 'aaaa', 'U_PLACEHOLDER_USERID1ccdbac80ea15'), '複数条件あり');
+        $this->assertFalse(Condition::evaluate_conditions($conditions, 'bbbb', 'U_PLACEHOLDER_USERID1ccdbac80ea15'), 'チャネル違い');
         $this->assertFalse(Condition::evaluate_conditions($conditions, 'cccc', 'a'), '条件すべて外れ');
 
         $single_conditions = array(
@@ -54,6 +54,6 @@ class UtilConditionChannelTest extends WP_UnitTestCase {
                 $condition1,
             ),
         );
-        $this->assertTrue(Condition::evaluate_conditions($single_conditions, 'aaaa', 'U1ccd59c9cace6053f6614fb6997f978d'), '単一条件あり');
+        $this->assertTrue(Condition::evaluate_conditions($single_conditions, 'aaaa', 'U_PLACEHOLDER_USERID1ccdbac80ea15'), '単一条件あり');
     }
 }

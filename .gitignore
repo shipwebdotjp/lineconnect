@@ -3,7 +3,6 @@ evn.php
 deploy
 node_modules/
 log/
-testdata/
 bin/
 .vscode/
 clinerules-bank/

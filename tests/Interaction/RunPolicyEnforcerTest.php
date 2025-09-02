@@ -7,7 +7,7 @@ class RunPolicyEnforcerTest extends InteractionManager_Base {
     public function test_single_latest_only() {
         // 複数回実行した際に、最後の結果だけが保持されることを確認する
         $interaction_id = self::$interaction_ids['RunPolicy_single_latest_only'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();
@@ -66,7 +66,7 @@ class RunPolicyEnforcerTest extends InteractionManager_Base {
         // すでに保存されている結果があるインタラクションを開始しようとしても何も返ってこない(結果が空)確認する
         // 複数回実行した際に、最後の結果だけが保持されることを確認する
         $interaction_id = self::$interaction_ids['RunPolicy_single_forbid'];
-        $line_user_id = "Ud2be13c6f39c97f05c683d92c696483b";
+        $line_user_id = "U_PLACEHOLDER_USERID4e7a9902e5e7d";
         $secret_prefix = "04f7";
         $event = new \stdClass();
         $event->{'source'} = new \stdClass();

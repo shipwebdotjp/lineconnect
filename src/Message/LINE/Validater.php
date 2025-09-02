@@ -85,7 +85,7 @@ class Validater {
         $channel_secret       = $channel['channel-secret'];
 
         // LINE BOT
-        $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token);
+        $httpClient = apply_filters(LineConnect::FILTER_PREFIX . 'httpclient', new \LINE\LINEBot\HTTPClient\CurlHTTPClient($channel_access_token));
         $bot        = new \LINE\LINEBot($httpClient, array('channelSecret' => $channel_secret));
 
         // バリデーション

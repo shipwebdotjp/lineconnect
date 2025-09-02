@@ -22,7 +22,7 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
         $this->assertEquals([], $empty_result, '空の配列を指定した場合、空の配列を返すこと');
 
         // テストケース2: 有効な1つのID
-        $single_id = ['U1ccd59c9cace6053f6614fb6997f978d'];
+        $single_id = ['U_PLACEHOLDER_USERID1ccdbac80ea15'];
         $single_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => $single_id]
@@ -39,7 +39,7 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
         $this->assertEquals($expected_single, $single_result, '有効な1つのIDを指定した場合、そのユーザーIDを含む配列を返すこと');
 
         // テストケース3: 有効な2つのID
-        $two_ids = ['U1ccd59c9cace6053f6614fb6997f978d', 'U131aa592ec09610ca4d5e36f4b60ccdb'];
+        $two_ids = ['U_PLACEHOLDER_USERID1ccdbac80ea15', 'U_PLACEHOLDER_USERIDc3f457cdefcc9'];
         $two_result = Audience::get_audience_by_condition([
             'conditions' => [
                 ['type' => 'lineUserId', 'lineUserId' => $two_ids]
@@ -48,11 +48,11 @@ class AudienceLineUserIdTest extends WP_UnitTestCase {
         $expected_two = [
             '2f38' => [
                 'type' => 'multicast',
-                'line_user_ids' => ['U1ccd59c9cace6053f6614fb6997f978d']
+                'line_user_ids' => ['U_PLACEHOLDER_USERID1ccdbac80ea15']
             ],
             '04f7' => [
                 'type' => 'multicast',
-                'line_user_ids' => ['U131aa592ec09610ca4d5e36f4b60ccdb']
+                'line_user_ids' => ['U_PLACEHOLDER_USERIDc3f457cdefcc9']
             ]
         ];
         $this->sortLineUserIds($expected_two);

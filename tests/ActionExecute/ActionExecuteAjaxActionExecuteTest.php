@@ -80,7 +80,7 @@ class ActionExecuteAjaxActionExecuteTest extends WP_Ajax_UnitTestCase {
         $this->assertEmpty($response['error'], 'Error response should be empty');
         // check if the user profile has been updated
         $func = new \Shipweb\LineConnect\Action\Definitions\GetUserProfileValue();
-        $value = $func->get_user_profile_value("test_key", 'Ud2be13c6f39c97f05c683d92c696483b', '04f7');
+        $value = $func->get_user_profile_value("test_key", 'U_PLACEHOLDER_USERID4e7a9902e5e7d', '04f7');
         $this->assertNotNull($value, 'User profile value should not be null');
         $this->assertEquals('updated', $value, 'User profile value should match the expected updated value');
     }

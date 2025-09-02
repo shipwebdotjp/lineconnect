@@ -15,7 +15,7 @@ class GetMyUserInfoTest extends WP_UnitTestCase {
     public function test_get_my_user_info() {
         $func = new \Shipweb\LineConnect\Action\Definitions\GetMyUserInfo();
         $func->set_secret_prefix("04f7");
-        $func->set_event((object) array("source" => (object) array("userId" => "Ud2be13c6f39c97f05c683d92c696483b")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4e7a9902e5e7d")));
         $result = $func->get_my_user_info();
         $this->assertEquals('linked', $result['linkstatus']);
         $this->assertEquals('Test User 1', $result['display_name']);
@@ -25,10 +25,10 @@ class GetMyUserInfoTest extends WP_UnitTestCase {
     public function test_not_linked_but_registered() {
         $func = new \Shipweb\LineConnect\Action\Definitions\GetMyUserInfo();
         $func->set_secret_prefix("2f38");
-        $func->set_event((object) array("source" => (object) array("userId" => "U4123ab4ac2bd7bc6e23018a1996263d5")));
+        $func->set_event((object) array("source" => (object) array("userId" => "U_PLACEHOLDER_USERID4123a772125a1")));
         $result = $func->get_my_user_info();
         $this->assertEquals('not_linked', $result['linkstatus']);
-        $this->assertEquals('しんぺい(未連携)', $result['display_name']);
+        $this->assertEquals('TestUser1(未連携)', $result['display_name']);
     }
 
     public function test_not_linked_and_not_registered() {

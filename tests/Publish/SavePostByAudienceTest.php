@@ -89,6 +89,6 @@ class SavePostByAudienceTest extends WP_UnitTestCase {
     $get_transient = get_transient(lineconnect::TRANSIENT_KEY__SUCCESS_SEND_TO_LINE);
     // Check if the transient is set
     $this->assertNotEmpty($get_transient, 'Transient should be set after saving post');
-    $this->assertStringContainsString("SOHO MIND: Multicast message sent to 1 person.", $get_transient);
+    $this->assertStringContainsString("Test Channel 1: Multicast message sent to 1 person.", $get_transient);
   }
 }

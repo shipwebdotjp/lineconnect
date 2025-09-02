@@ -18,9 +18,9 @@ class AudienceLinkTest extends WP_UnitTestCase {
         $condition_all = json_decode('{"condition":{"conditions":[{"type":"link","link":{"type":"all"}}]}}', true);
         $condition_broadcast = json_decode('{"condition":{"conditions":[{"type":"link","link":{"type":"broadcast"}}]}}', true);
 
-        $expected_linked = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U1ccd59c9cace6053f6614fb6997f978d"]},"04f7":{"type":"multicast","line_user_ids":["Ud2be13c6f39c97f05c683d92c696483b","U131aa592ec09610ca4d5e36f4b60ccdb"]}}', true);
-        $expected_unlinked = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U4123ab4ac2bd7bc6e23018a1996263d5"]}}', true);
-        $expected_all = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U1ccd59c9cace6053f6614fb6997f978d","U4123ab4ac2bd7bc6e23018a1996263d5"]},"04f7":{"type":"multicast","line_user_ids":["Ud2be13c6f39c97f05c683d92c696483b","U131aa592ec09610ca4d5e36f4b60ccdb"]}}', true);
+        $expected_linked = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID1ccdbac80ea15"]},"04f7":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID4e7a9902e5e7d","U_PLACEHOLDER_USERIDc3f457cdefcc9"]}}', true);
+        $expected_unlinked = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID4123a772125a1"]}}', true);
+        $expected_all = json_decode('{"2f38":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID1ccdbac80ea15","U_PLACEHOLDER_USERID4123a772125a1"]},"04f7":{"type":"multicast","line_user_ids":["U_PLACEHOLDER_USERID4e7a9902e5e7d","U_PLACEHOLDER_USERIDc3f457cdefcc9"]}}', true);
         $expected_broadcast = json_decode('{"04f7":{"type":"broadcast"},"2f38":{"type":"broadcast"}}', true);
 
         $this->sortLineUserIds($expected_all);

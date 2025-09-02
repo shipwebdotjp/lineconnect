@@ -15,7 +15,7 @@ class EditUserDataTest extends WP_Ajax_UnitTestCase {
         return [
             'nonce' => wp_create_nonce(LineConnect::CREDENTIAL_ACTION__POST),
             'channel_prefix' => '04f7',
-            'line_id' => 'Ud2be13c6f39c97f05c683d92c696483b',
+            'line_id' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d',
             'type' => $type,
             'id' => $id,
             'data' => $data
@@ -36,7 +36,7 @@ class EditUserDataTest extends WP_Ajax_UnitTestCase {
 
         global $wpdb;
         $table_name = $wpdb->prefix . LineConnect::TABLE_LINE_ID;
-        $result = $wpdb->get_var($wpdb->prepare("SELECT profile FROM {$table_name} WHERE channel_prefix = %s AND line_id = %s", '04f7', 'Ud2be13c6f39c97f05c683d92c696483b'));
+        $result = $wpdb->get_var($wpdb->prepare("SELECT profile FROM {$table_name} WHERE channel_prefix = %s AND line_id = %s", '04f7', 'U_PLACEHOLDER_USERID4e7a9902e5e7d'));
         $profile = json_decode($result, true);
         $this->assertEquals('Test User', $profile['name']);
         $this->assertEquals(30, $profile['age']);
@@ -69,7 +69,7 @@ class EditUserDataTest extends WP_Ajax_UnitTestCase {
         $data = $wpdb->get_var($wpdb->prepare(
             "SELECT scenarios FROM {$table_name} WHERE channel_prefix = %s AND line_id = %s",
             '04f7',
-            'Ud2be13c6f39c97f05c683d92c696483b'
+            'U_PLACEHOLDER_USERID4e7a9902e5e7d'
         ));
         $scenarios = json_decode($data, true);
         $this->assertArrayHasKey(1, $scenarios);
@@ -89,7 +89,7 @@ class EditUserDataTest extends WP_Ajax_UnitTestCase {
         $_POST = [
             'nonce' => wp_create_nonce(LineConnect::CREDENTIAL_ACTION__POST),
             'channel_prefix' => '04f7',
-            'line_id' => 'Ud2be13c6f39c97f05c683d92c696483b'
+            'line_id' => 'U_PLACEHOLDER_USERID4e7a9902e5e7d'
         ];
 
         $response = $this->edit_user_data();
