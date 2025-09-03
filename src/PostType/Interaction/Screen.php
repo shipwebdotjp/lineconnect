@@ -44,7 +44,7 @@ class Screen {
     }
 
     /**
-     * オーディエンスフォームの表示
+     * インタラクションのフォームの表示
      */
     static function show_interaction_form() {
         $ary_init_data = array();

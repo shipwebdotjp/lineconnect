@@ -39,6 +39,7 @@ use Shipweb\LineConnect\Chat\Screen as ChatScreen;
 use Shipweb\LineConnect\Admin\ContentDownload;
 use Shipweb\LineConnect\PostType\Interaction\Screen as InteractionScreen;
 use Shipweb\LineConnect\PostType\Interaction\Interaction as InteractionPostType;
+use Shipweb\LineConnect\PostType\Interaction\Column as InteractionColumn;
 
 
 class LineConnect {
@@ -572,6 +573,9 @@ class LineConnect {
 			//オーディエンスにダウンロードカラム追加
 			add_filter('manage_' . AudiencePostType::POST_TYPE . '_posts_columns', array(AudienceColumn::class, 'add_download_column'));
 			add_action('manage_' . AudiencePostType::POST_TYPE . '_posts_custom_column', array(AudienceColumn::class, 'add_download_column_content'), 10, 2);
+			//インタラクションにカラム追加
+			// add_filter('manage_' . InteractionPostType::POST_TYPE . '_posts_columns', array(InteractionColumn::class, 'add_columns'));
+			// add_action('manage_' . InteractionPostType::POST_TYPE . '_posts_custom_column', array(InteractionColumn::class, 'add_columns_content'), 10, 2);
 
 			// AJAXアクション
 			// 一括配信AJAXアクション

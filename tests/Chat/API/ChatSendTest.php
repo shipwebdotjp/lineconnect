@@ -42,7 +42,7 @@ class ChatSendTest extends WP_Ajax_UnitTestCase {
         );
 
         $response = $this->handle_ajax_request();
-        var_dump($response);
+        // var_dump($response);
         $this->assertTrue($response['success']);
         $this->assertEquals('success', $response['data']['result']);
     }
