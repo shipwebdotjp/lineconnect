@@ -6,7 +6,8 @@ import { MultiSelect } from "../components/ui/multi-select";
 import { useUrlFilters } from '../lib/useUrlFilters';
 import { Input } from "../components/ui/input";
 import { DateTimePicker } from '../components/ui/datetime-picker';
-import { X, Trash2 } from 'lucide-react';
+import { X, Trash2, Download } from 'lucide-react';
+import { Button } from "../components/ui/button";
 // wp_localize_scriptによって 'lineConnectConfig' という名前で渡される
 const lineConnectConfig = window.lineConnectConfig || {};
 const __ = wp.i18n.__;
@@ -89,6 +90,27 @@ const Sessions = () => {
         handleUpdatedAtEndChange,
         handlePageChange,
     } = useUrlFilters(interactionId);
+
+    const handleCsvDownload = () => {
+        const url = new URL(window.location.href);
+        // The search params from the current URL are already the filters we want
+        const queryParams = url.searchParams;
+
+        // Remove pagination params as we want all data
+        queryParams.delete('page');
+        queryParams.delete('per_page');
+
+        const csvUrl = `${lineConnectConfig.rest_url}lineconnect/interactions/${interactionId}/sessions/csv?${queryParams.toString()}`;
+
+        // To trigger download, we can open the URL in a new tab, or create a link and click it.
+        // The latter is cleaner as it doesn't leave a blank tab open if the browser can't close it.
+        const link = document.createElement('a');
+        link.href = csvUrl;
+        link.setAttribute('download', ''); // this is important for browsers to treat it as a download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const statusOptions = [
         { value: "active", label: __("Active", "lineconnect") },
@@ -234,6 +256,14 @@ const Sessions = () => {
                         <X className="h-4 w-4" />
                     </button>
                 </div>
+                <Button
+                    variant="outline"
+                    onClick={handleCsvDownload}
+                    className="flex items-center"
+                >
+                    <Download className="h-4 w-4 mr-2" />
+                    {__("CSV Download", "lineconnect")}
+                </Button>
             </div>
             <table className="wp-list-table widefat striped">
                 <thead>
