@@ -40,6 +40,8 @@ use Shipweb\LineConnect\Admin\ContentDownload;
 use Shipweb\LineConnect\PostType\Interaction\Screen as InteractionScreen;
 use Shipweb\LineConnect\PostType\Interaction\Interaction as InteractionPostType;
 use Shipweb\LineConnect\PostType\Interaction\Column as InteractionColumn;
+use Shipweb\LineConnect\Interaction\Manage\RESTAPI as InteractionManageRESTAPI;
+use Shipweb\LineConnect\Interaction\Manage\Screen as InteractionManageScreen;
 
 
 class LineConnect {
@@ -311,6 +313,11 @@ class LineConnect {
 	const SLUG__DASHBOARD = self::PLUGIN_ID . '-dashboard';
 
 	/**
+	 * 画面のslug：LINE Dashboard
+	 */
+	const SLUG__SESSION = self::PLUGIN_ID . '-interaction-session';
+
+	/**
 	 * 画面のslug：DM(LINE)
 	 */
 	// const SLUG__DM_FORM = self::PLUGIN_ID . '-linedm-form';
@@ -539,8 +546,10 @@ class LineConnect {
 			add_action('admin_menu', array(TriggerScreen::class, 'set_plugin_menu'));
 			// シナリオのメニューを追加
 			add_action('admin_menu', array(\Shipweb\LineConnect\Scenario\Admin::class, 'set_plugin_menu'));
-			// オーディエンスのメニューを追加
+			// インタラクションのメニューを追加
 			add_action('admin_menu', array(InteractionScreen::class, 'set_plugin_menu'));
+			add_action('admin_menu', array(InteractionManageScreen::class, 'set_plugin_menu'));
+			add_action('admin_head', array(InteractionManageScreen::class, 'inject_css'));
 			// リッチメニューのメニューを追加
 			add_action('admin_menu', array(RichMenu::class, 'set_plugin_menu'));
 			// LINE IDリストのメニューを追加
@@ -574,8 +583,11 @@ class LineConnect {
 			add_filter('manage_' . AudiencePostType::POST_TYPE . '_posts_columns', array(AudienceColumn::class, 'add_download_column'));
 			add_action('manage_' . AudiencePostType::POST_TYPE . '_posts_custom_column', array(AudienceColumn::class, 'add_download_column_content'), 10, 2);
 			//インタラクションにカラム追加
-			// add_filter('manage_' . InteractionPostType::POST_TYPE . '_posts_columns', array(InteractionColumn::class, 'add_columns'));
-			// add_action('manage_' . InteractionPostType::POST_TYPE . '_posts_custom_column', array(InteractionColumn::class, 'add_columns_content'), 10, 2);
+			add_filter('manage_' . InteractionPostType::POST_TYPE . '_posts_columns', array(InteractionColumn::class, 'add_columns'));
+			add_action('manage_' . InteractionPostType::POST_TYPE . '_posts_custom_column', array(InteractionColumn::class, 'add_columns_content'), 10, 2);
+			add_action('manage_edit-' . InteractionPostType::POST_TYPE . '_sortable_columns', array(InteractionColumn::class, 'sortable_columns'), 10, 2);
+			add_filter('posts_clauses', [InteractionColumn::class, 'posts_clauses_for_interaction_list'], 10, 2);
+
 
 			// AJAXアクション
 			// 一括配信AJAXアクション
@@ -620,6 +632,9 @@ class LineConnect {
 			// チャット送信アクション
 			add_action('wp_ajax_lc_ajax_chat_send', array(ChatSend::class, 'ajax_chat_send'));
 		}
+
+		// インタラクションのREST APIルートの追加
+		add_action('rest_api_init', array(InteractionManageRESTAPI::class, 'register_routes'));
 		// ログイン時、LINEアカウント連携の場合リダイレクトさせる
 		add_action('wp_login', array($this, 'redirect_account_link'), 10, 2);
 

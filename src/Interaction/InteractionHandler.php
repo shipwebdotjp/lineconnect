@@ -125,7 +125,9 @@ class InteractionHandler {
             return [];
         }
 
+
         $user_input = $this->extractUserInput($event);
+        
 
         if ($user_input !== null) {
             $normalized_input = apply_filters(LineConnect::FILTER_PREFIX . 'interaction_normalize', $this->normalizer->normalize($user_input, $step->get_normalize_rules()), $step, $session, $event);
@@ -281,7 +283,7 @@ class InteractionHandler {
         if ($input === null) {
             return false;
         }
-
+        
         $input_lower = mb_strtolower((string)$input, 'UTF-8');
         $cancel_words = $interaction_definition->get_cancel_words();
         if (empty($cancel_words) || !is_array($cancel_words)) {

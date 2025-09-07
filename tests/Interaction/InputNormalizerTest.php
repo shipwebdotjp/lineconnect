@@ -19,6 +19,8 @@ class InputNormalizerTest extends WP_UnitTestCase {
     public function test_normalize_trim() {
         $rules = ['trim'];
         $this->assertEquals('hello', $this->normalizer->normalize('  hello  ', $rules));
+        $this->assertEquals('日本語', $this->normalizer->normalize('　日本語　', $rules));
+        $this->assertEquals('不満', $this->normalizer->normalize('不満', $rules));
     }
 
     public function test_normalize_omit_comma_and_hyphen() {
@@ -26,9 +28,44 @@ class InputNormalizerTest extends WP_UnitTestCase {
         $this->assertEquals('0123456789', $this->normalizer->normalize('0123-456,789', $rules));
     }
 
+    public function test_normalize_omit_comma_fullwidth() {
+        $rules = ['omit_comma'];
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123，456、789', $rules));
+        $this->assertEquals('あいうえお', $this->normalizer->normalize('あ、い、う、え、お', $rules));
+        $this->assertEquals('テスト文字列', $this->normalizer->normalize('テ，スト，文，字，列', $rules));
+    }
+
+    public function test_normalize_omit_hyphen_fullwidth() {
+        $rules = ['omit_hyphen'];
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123ー456－789', $rules));
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123—456‑789', $rules));
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123−456ー789', $rules));
+        $this->assertEquals('カタカナ', $this->normalizer->normalize('カタカーナ', $rules));
+    }
+
+    public function test_normalize_omit_comma_and_hyphen_mixed() {
+        $rules = ['omit_hyphen', 'omit_comma'];
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123-456，789', $rules));
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123ー456,789', $rules));
+        $this->assertEquals('0123456789', $this->normalizer->normalize('0123－456、789', $rules));
+        $this->assertEquals('あいうえお', $this->normalizer->normalize('あ-い、うーえ、お', $rules));
+    }
+
+    public function test_normalize_omit_comma_and_hyphen_edge_cases() {
+        $rules = ['omit_hyphen', 'omit_comma'];
+        $this->assertEquals('先頭末尾', $this->normalizer->normalize('、先頭末尾ー', $rules));
+        $this->assertEquals('文字列', $this->normalizer->normalize('ー文字列、', $rules));
+        $this->assertEquals('', $this->normalizer->normalize('ー，ー，', $rules));
+    }
+
     public function test_normalize_HanKatatoZenKata() {
         $rules = ['HanKatatoZenKata'];
         $this->assertEquals('アイウエオ', $this->normalizer->normalize('ｱｲｳｴｵ', $rules));
+        // 半角カタカナの濁点・半濁点もテスト
+        $this->assertEquals('ガギグゲゴ', $this->normalizer->normalize('ｶﾞｷﾞｸﾞｹﾞｺﾞ', $rules));
+        $this->assertEquals('パピプペポ', $this->normalizer->normalize('ﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟ', $rules));
+        // 混合文字列
+        $this->assertEquals('アイウエオ123', $this->normalizer->normalize('ｱｲｳｴｵ123', $rules));
     }
 
     public function test_normalize_ZenKatatoZenKana() {
@@ -79,6 +116,14 @@ class InputNormalizerTest extends WP_UnitTestCase {
     public function test_normalize_omit_inner_fullwidth_space() {
         $rules = ['omit_inner_fullwidth_space'];
         $this->assertEquals('あいう', $this->normalizer->normalize('あ　い　う', $rules));
+    }
+
+    public function test_normalize_omit_inner_halfwidth_space() {
+        $rules = ['omit_inner_halfwidth_space'];
+        $this->assertEquals('あいう', $this->normalizer->normalize('あ い う', $rules));
+        $this->assertEquals('ABC123', $this->normalizer->normalize('A B C 1 2 3', $rules));
+        // 先頭と末尾のスペースは保持される（trimルールと組み合わせる必要がある）
+        $this->assertEquals(' あいう ', $this->normalizer->normalize(' あ い う ', $rules));
     }
 
     public function test_normalize_with_emoji() {

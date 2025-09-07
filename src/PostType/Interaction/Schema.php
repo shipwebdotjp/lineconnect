@@ -41,6 +41,7 @@ class Schema {
                             ),
                             'messages' => array(
                                 'type' => 'array',
+                                'title' => __('Messages', LineConnect::PLUGIN_NAME),
                                 'items' => array(
                                     'type' => 'object',
                                     'title' => __('Messages', LineConnect::PLUGIN_NAME),

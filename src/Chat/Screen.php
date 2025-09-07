@@ -60,6 +60,7 @@ class Screen {
 		$ary_init_data['ajaxurl']    = admin_url('admin-ajax.php');
 		$ary_init_data['ajax_nonce'] = wp_create_nonce(lineconnect::CREDENTIAL_ACTION__POST);
 		$ary_init_data['downloadurl'] = admin_url('admin-post.php?action=' . lineconnect::SLUG__CONTENT_DOWNLOAD);
+		$ary_init_data['sessionurl'] = admin_url('admin.php?page=' . lineconnect::SLUG__SESSION);
 
 		/*
 		$line_id                     = isset($_GET['line_id']) ? $_GET['line_id'] : array();

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-08-13 22:11+0900\n"
+"POT-Creation-Date: 2025-09-05 21:19+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -74,6 +74,13 @@ msgstr "チャネルかユーザーがセットされていません"
 
 msgid "Failed to execute scenario"
 msgstr ""
+
+#, php-format
+msgid "This session will time out in %s minutes."
+msgstr "このセッションは%s分後にタイムアウトします。"
+
+msgid "Your session has timed out."
+msgstr "セッションがタイムアウトしました。"
 
 msgid "LINE ID List"
 msgstr "LINE ID リスト"
@@ -444,11 +451,86 @@ msgstr "アクションフローを更新しました。"
 msgid "LINE Connect Action Flows"
 msgstr "LINE Connect アクションフロー"
 
+msgid "Interactions"
+msgstr "インタラクション"
+
+msgid "Interaction"
+msgstr "インタラクション"
+
+msgid "Add New Interaction"
+msgstr "新しいインタラクションを追加"
+
+msgid "Edit Interaction"
+msgstr "インタラクションを編集"
+
+msgid "New Interaction"
+msgstr "新しいインタラクション"
+
+msgid "View Interaction"
+msgstr "インタラクションを表示"
+
+msgid "Search Interactions"
+msgstr "インタラクションを検索"
+
+msgid "No Interactions found"
+msgstr "インタラクションが見つかりません"
+
+msgid "No Interactions found in Trash"
+msgstr "ゴミ箱にインタラクションが見つかりません"
+
+msgid "All Interactions"
+msgstr "すべてのインタラクション"
+
+msgid "Interaction Archives"
+msgstr "インタラクションアーカイブ"
+
+msgid "Interaction Attributes"
+msgstr "インタラクション属性"
+
+msgid "Insert into Interaction"
+msgstr "インタラクションに挿入"
+
+msgid "Uploaded to this Interaction"
+msgstr "このインタラクションにアップロード済み"
+
+msgid "Filter Interactions list"
+msgstr "インタラクションリストをフィルタ"
+
+msgid "Interactions list navigation"
+msgstr "インタラクションリストナビゲーション"
+
+msgid "Interactions list"
+msgstr "インタラクションリスト"
+
+msgid "Interaction published."
+msgstr "インタラクションが公開されました。"
+
+msgid "Interaction published privately."
+msgstr "インタラクションが非公開で公開されました。"
+
+msgid "Interaction reverted to draft."
+msgstr "インタラクションが下書きに戻されました。"
+
+msgid "Interaction scheduled."
+msgstr "インタラクションが予約されました。"
+
+msgid "Interaction updated."
+msgstr "インタラクションが更新されました。"
+
+msgid "LINE Connect Interactions"
+msgstr "LINE Connect インタラクション"
+
 msgid "LINE Connect Chat"
 msgstr "LINE Connect チャット"
 
 msgid "Chat"
 msgstr "チャット"
+
+msgid "Unknown Scenario"
+msgstr "不明なシナリオ"
+
+msgid "Deleted Interaction"
+msgstr "削除されたインタラクション"
 
 msgid "User ID is required."
 msgstr "ユーザーIDが必要です。"
@@ -1134,6 +1216,23 @@ msgstr "イメージマップメッセージを送信しました。%s"
 msgid "Sent flex message. %s"
 msgstr "Flexメッセージを送信しました。%s"
 
+msgid "Message will be sent to all users who have subscribed to this channel."
+msgstr "メッセージはチャネルの友だち全員に送られます"
+
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr "メッセージはマルチキャストで %s 人に送信されます。"
+
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr "メッセージはプッシュで %s 人に送信されます。"
+
+msgid "Valid message."
+msgstr "有効なメッセージです。"
+
+msgid "Invalid message."
+msgstr "無効なメッセージです。"
+
 msgid "Broadcast message sent successfully."
 msgstr "ブロードキャストメッセージが送信されました。"
 
@@ -1154,23 +1253,6 @@ msgstr "%s 人にプッシュメッセージを送信しました。"
 #, php-format
 msgid "Push message failed to sent to %s person."
 msgstr "%s 人へのプッシュメッセージの送信に失敗しました。"
-
-msgid "Message will be sent to all users who have subscribed to this channel."
-msgstr "メッセージはチャネルの友だち全員に送られます"
-
-#, php-format
-msgid "Message will be sent to %s person by multicast."
-msgstr "メッセージはマルチキャストで %s 人に送信されます。"
-
-#, php-format
-msgid "Message will be sent to %s person by push."
-msgstr "メッセージはプッシュで %s 人に送信されます。"
-
-msgid "Valid message."
-msgstr "有効なメッセージです。"
-
-msgid "Invalid message."
-msgstr "無効なメッセージです。"
 
 #, php-format
 msgid "Push to %s"
@@ -1278,7 +1360,10 @@ msgid "Please add audience first"
 msgstr "オーディエンスを追加してください"
 
 msgid "Please add scenario first"
-msgstr ""
+msgstr "シナリオを追加してください"
+
+msgid "Please add interaction first"
+msgstr "インタラクションを追加してください"
 
 msgid "Item"
 msgstr "項目"
@@ -1646,6 +1731,33 @@ msgstr "LINEユーザープロフィールから値を取得"
 
 msgid "Profile key to get"
 msgstr "取得するプロフィールキー"
+
+msgid "Start Interaction"
+msgstr "インタラクションを開始"
+
+msgid "Start LINE Connect Interaction."
+msgstr "LINE Connect インタラクションを開始します。"
+
+msgid "Interaction ID"
+msgstr "インタラクション ID"
+
+msgid "Interaction override policy"
+msgstr "インタラクション上書きポリシー"
+
+msgid "Do nothing if exists active session"
+msgstr "アクティブなセッションが存在する場合は何もしない"
+
+msgid "Restart only same interaction"
+msgstr "同じインタラクションのみ再開"
+
+msgid "Restart only different interaction"
+msgstr "異なるインタラクションのみ再開"
+
+msgid "Always restart interaction"
+msgstr "常にインタラクションを再開"
+
+msgid "Stack interaction"
+msgstr "インタラクションをスタック"
 
 msgid "Send LINE message"
 msgstr "LINEメッセージ送信"
@@ -2665,9 +2777,6 @@ msgstr "LINE ID"
 msgid "Follow"
 msgstr "フォロー"
 
-msgid "Interactions"
-msgstr "インタラクション"
-
 msgid "Stats"
 msgstr "統計"
 
@@ -2676,6 +2785,157 @@ msgstr "作成日"
 
 msgid "Updated"
 msgstr "更新日"
+
+msgid "This field is required."
+msgstr "この項目は必須です。"
+
+msgid "Invalid email format."
+msgstr "メールアドレスの形式が正しくありません。"
+
+msgid "Must be a number."
+msgstr "数値を入力してください。"
+
+#, php-format
+msgid "Must be at least %s."
+msgstr "%s以上である必要があります。"
+
+#, php-format
+msgid "Must be at most %s."
+msgstr "%s以下である必要があります。"
+
+#, php-format
+msgid "Length must be at least %s characters."
+msgstr "%s文字以上で入力してください。"
+
+#, php-format
+msgid "Length must be at most %s characters."
+msgstr "%s文字以内で入力してください。"
+
+msgid "Invalid format."
+msgstr "形式が正しくありません。"
+
+msgid "Invalid Japanese phone number format."
+msgstr "日本の電話番号の形式が正しくありません。"
+
+msgid "Invalid date format. Please use YYYY-MM-DD or YYYY/MM/DD."
+msgstr "日付の形式が正しくありません。YYYY-MM-DD または YYYY/MM/DD の形式で入力してください。"
+
+msgid "Invalid date."
+msgstr "日付が正しくありません。"
+
+msgid "Invalid time format. Use HH:MM or HH:MM:SS."
+msgstr "時刻の形式が正しくありません。HH:MM または HH:MM:SS の形式で入力してください。"
+
+msgid "Invalid datetime format. Use YYYY-MM-DD HH:MM or YYYY-MM-DDTHH:MM."
+msgstr "日時の形式が正しくありません。YYYY-MM-DD HH:MM または YYYY-MM-DDTHH:MM の形式で入力してください。"
+
+msgid "Invalid datetime format."
+msgstr "日時の形式が正しくありません。"
+
+msgid "Invalid datetime (date part is not valid)."
+msgstr "日時が正しくありません（日付部分が無効です）。"
+
+msgid "Invalid datetime."
+msgstr "日時が正しくありません。"
+
+msgid "Invalid URL."
+msgstr "URLが正しくありません。"
+
+msgid "Invalid URL. Only http and https are allowed."
+msgstr "URLが正しくありません。http および https のみ使用できます。"
+
+#, php-format
+msgid "Invalid value. Must be one of: %s."
+msgstr "値が正しくありません。次のいずれかである必要があります：%s"
+
+#, php-format
+msgid "Contains forbidden content: %s"
+msgstr "禁止されたコンテンツが含まれています：%s"
+
+#, php-format
+msgid "Contains forbidden content (pattern matched): %s"
+msgstr "禁止されたコンテンツが含まれています（パターンマッチ）：%s"
+
+msgid "Only hiragana characters are allowed."
+msgstr "ひらがなのみ入力できます。"
+
+msgid "Only katakana characters are allowed."
+msgstr "カタカナのみ入力できます。"
+
+msgid "Invalid japanese validation mode."
+msgstr "日本語検証モードが正しくありません。"
+
+msgid "Confirmation"
+msgstr "確認"
+
+msgid "Please confirm your input and send."
+msgstr "入力内容を確認して送信してください。"
+
+msgid "Send"
+msgstr "送信"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Edit Selection"
+msgstr "選択を編集"
+
+msgid "Please select an option to edit."
+msgstr "編集する項目を選択してください。"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Cancel Confirmation"
+msgstr "キャンセルの確認"
+
+msgid "Are you sure you want to cancel?"
+msgstr "本当にキャンセルしますか？"
+
+msgid "Yes, cancel"
+msgstr "はい、キャンセルします"
+
+msgid "No, go back"
+msgstr "いいえ、戻ります"
+
+msgid "Canceled"
+msgstr "キャンセルされました"
+
+msgid "The process has been canceled."
+msgstr "処理がキャンセルされました。"
+
+msgid "Timeout Reminder"
+msgstr "タイムアウト通知"
+
+msgid "You have a pending action that will time out soon."
+msgstr "間もなくタイムアウトする未完了のアクションがあります。"
+
+msgid "Timeout Notice"
+msgstr "タイムアウト通知"
+
+msgid "Your action has timed out."
+msgstr "アクションがタイムアウトしました。"
+
+msgid "Please select an option."
+msgstr "選択肢を選んでください。"
+
+msgid "Apply"
+msgstr "適用"
+
+msgid "Select item to edit"
+msgstr "編集する項目を選択"
+
+msgid "Back to confirmation"
+msgstr "確認に戻る"
+
+msgid "Interaction not found"
+msgstr "インタラクションが見つかりません"
+
+msgid "LINE Connect Interaction Sessions"
+msgstr "LINE Connect インタラクションセッション"
+
+msgid "Sessions"
+msgstr "セッション"
 
 msgid "Triggers"
 msgstr "トリガー"
@@ -3691,6 +3951,339 @@ msgstr "ダウンロード"
 msgid "CSV Download"
 msgstr "CSVダウンロード"
 
+msgid "LINE Connect Interaction"
+msgstr "LINE Connect インタラクション"
+
+msgid "Interaction form schema"
+msgstr "インタラクションフォームスキーマ"
+
+msgid "Description"
+msgstr "説明"
+
+msgid "Template Button"
+msgstr "テンプレートボタン"
+
+msgid "Confirm Template"
+msgstr "確認テンプレート"
+
+msgid "Edit Picker Template"
+msgstr "編集項目選択テンプレート"
+
+msgid "Cancel Confirm Template"
+msgstr "キャンセル確認テンプレート"
+
+msgid "Template Button Settings"
+msgstr "テンプレートボタン設定"
+
+msgid "Template Title"
+msgstr "テンプレートタイトル"
+
+msgid "Options"
+msgstr "オプション"
+
+msgid "Option"
+msgstr "オプション"
+
+msgid "Next Step ID"
+msgstr "次のステップID"
+
+msgid "Secondary Button Style"
+msgstr "セカンダリボタンスタイル"
+
+msgid "Confirm Template Settings"
+msgstr "確認テンプレート設定"
+
+msgid "Apply Button Settings"
+msgstr "適用ボタン設定"
+
+msgid "Button Label"
+msgstr "ボタンラベル"
+
+msgid "Edit Button Settings"
+msgstr "編集ボタン設定"
+
+msgid "Choose an option to edit"
+msgstr "編集するオプションを選択"
+
+msgid "Next Step ID. Default: previous step ID"
+msgstr "次のステップID。デフォルト：前のステップID"
+
+msgid "Cancel Confirm Template Settings"
+msgstr "キャンセル確認テンプレート設定"
+
+msgid "Abort Button Settings"
+msgstr "中止ボタン設定"
+
+msgid "Continue Button Settings"
+msgstr "続行ボタン設定"
+
+msgid "Continue"
+msgstr "続行"
+
+msgid "Normalize"
+msgstr "正規化"
+
+msgid "Trim"
+msgstr "トリム"
+
+msgid "Omit Comma"
+msgstr "カンマを除去"
+
+msgid "Omit Hyphen"
+msgstr "ハイフンを除去"
+
+msgid "Omit Inner Half-width Space"
+msgstr "文字間の半角スペースを除去"
+
+msgid "Omit Inner Full-width Space"
+msgstr "文字間の全角スペースを除去"
+
+msgid "Half-width Katakana to Zen-kaku Katakana"
+msgstr "半角カタカナを全角カタカナに"
+
+msgid "Half-width Katakana to Zen-kaku Hiragana"
+msgstr "半角カタカナを全角ひらがなに"
+
+msgid "Zen-kaku Katakana to Zen-kaku Hiragana"
+msgstr "全角カタカナを全角ひらがなに"
+
+msgid "Zen-kaku Hiragana to Zen-kaku Katakana"
+msgstr "全角ひらがなを全角カタカナに"
+
+msgid "Half-width Alphanumeric to Zen-kaku Alphanumeric"
+msgstr "半角英数字を全角英数字に"
+
+msgid "Zen-kaku Alphanumeric to Half-width Alphanumeric"
+msgstr "全角英数字を半角英数字に"
+
+msgid "Validation"
+msgstr "バリデーション"
+
+msgid "Required"
+msgstr "必須項目"
+
+msgid "Number"
+msgstr "数値(Number)"
+
+msgid "Length"
+msgstr "文字数"
+
+msgid "Phone"
+msgstr "電話番号"
+
+msgid "Datetime"
+msgstr "日時"
+
+msgid "Enum"
+msgstr "列挙型"
+
+msgid "Regex"
+msgstr "正規表現"
+
+msgid "Japanese"
+msgstr "日本語"
+
+msgid "Forbidden Content"
+msgstr "禁止コンテンツ"
+
+msgid "Number Validation"
+msgstr "数値バリデーション"
+
+msgid "Min"
+msgstr "最小値"
+
+msgid "Max"
+msgstr "最大値"
+
+msgid "Length Validation"
+msgstr "文字数バリデーション"
+
+msgid "Min Length"
+msgstr "最小文字数"
+
+msgid "Max Length"
+msgstr "最大文字数"
+
+msgid "Japanese Validation"
+msgstr "日本語バリデーション"
+
+msgid "Hiragana Only"
+msgstr "ひらがなのみ"
+
+msgid "Katakana Only"
+msgstr "カタカナのみ"
+
+msgid "Forbidden Words"
+msgstr "禁止ワード"
+
+msgid "Forbidden Patterns (Regex)"
+msgstr "禁止パターン（正規表現）"
+
+msgid "Branches"
+msgstr "分岐"
+
+msgid ""
+"Define conditional branches based on user input. If no conditions match, the "
+"default Next Step ID will be used."
+msgstr "ユーザー入力に基づく条件分岐を定義します。どの条件にも一致しない場合は、デフォルトの次のステップIDが使用されます。"
+
+msgid "Branch"
+msgstr "分岐"
+
+msgid "Condition Type"
+msgstr "条件タイプ"
+
+msgid "Value to Match"
+msgstr "マッチする値"
+
+msgid "Next Step ID for this branch"
+msgstr "この分岐の次のステップID"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Special Step"
+msgstr "特別ステップ"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Edit Picker"
+msgstr "編集項目選択"
+
+msgid "Complete"
+msgstr "完了"
+
+msgid "Cancel Confirm"
+msgstr "キャンセル確認"
+
+msgid "Timeout Remind"
+msgstr "タイムアウト通知"
+
+msgid "Before Input Actions"
+msgstr "入力前アクション"
+
+msgid "After Input Actions"
+msgstr "入力後アクション"
+
+msgid "Timeout (minutes)"
+msgstr "タイムアウト（分）"
+
+msgid ""
+"The number of minutes from the last update to the timeout. If 0, there is no "
+"timeout."
+msgstr "最後の更新からタイムアウトまでの分数。0の場合、タイムアウトしません。"
+
+msgid "Send timeout reminder"
+msgstr "タイムアウト通知を送信"
+
+msgid ""
+"Set how many minutes before the timeout to send a reminder. 0 means no "
+"reminder."
+msgstr "タイムアウトの何分前に通知を送信するかを設定します。0の場合は通知しません。"
+
+msgid "On Timeout"
+msgstr "タイムアウト時"
+
+msgid "Delete Session"
+msgstr "セッションを削除"
+
+msgid "Mark as Timeout"
+msgstr "タイムアウトとしてマーク"
+
+msgid "Run Policy"
+msgstr "実行ポリシー"
+
+msgid "Don't allow"
+msgstr "許可しない"
+
+msgid "Allow (keep latest only)"
+msgstr "許可（最新のみ保持）"
+
+msgid "Allow (keep history)"
+msgstr "許可（履歴を保持）"
+
+msgid "Override Policy"
+msgstr "上書きポリシー"
+
+msgid "Reject"
+msgstr "拒否"
+
+msgid "Restart only same"
+msgstr "同じもののみ再開"
+
+msgid "Restart only different"
+msgstr "異なるもののみ再開"
+
+msgid "Stack"
+msgstr "スタック"
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid ""
+"The version of the interaction form. If you need to make changes to the form "
+"structure, increment this version number."
+msgstr "インタラクションフォームのバージョン。フォーム構造を変更する必要がある場合は、このバージョン番号を増やしてください。"
+
+msgid "Storage"
+msgstr "ストレージ"
+
+msgid "Where the interaction data is stored"
+msgstr "インタラクションデータが保存される場所"
+
+msgid "Bind to Profile"
+msgstr "プロフィールに書き込み"
+
+msgid "Exclude Steps"
+msgstr "除外ステップ"
+
+msgid "Cancel Words"
+msgstr "キャンセルワード"
+
+msgid ""
+"Define words or phrases that will trigger cancellation of the interaction."
+msgstr "インタラクションを中止するための単語やフレーズを定義します。"
+
+msgid "Cancel Word"
+msgstr "キャンセルワード"
+
+msgid "Add option"
+msgstr "オプションを追加"
+
+msgid "Add message"
+msgstr "メッセージを追加"
+
+msgid "Add enum"
+msgstr "列挙型を追加"
+
+msgid "Add validation"
+msgstr "バリデーションを追加"
+
+msgid "Add branch"
+msgstr "分岐を追加"
+
+msgid "Add steps"
+msgstr "ステップを追加"
+
+msgid "Add exclude step"
+msgstr "除外ステップを追加"
+
+msgid "Add cancel word"
+msgstr "キャンセルワードを追加"
+
+msgid "Timeout"
+msgstr "タイムアウト"
+
+msgid "Completion Rate"
+msgstr "完了率"
+
+msgid "Unique Users"
+msgstr "ユニークユーザー"
+
+msgid "View Sessions"
+msgstr "セッションを表示"
+
 #, php-format
 #~ msgid "Invalid timestamp format. %s"
 #~ msgstr "無効なタイムスタンプ形式です。%s"
@@ -3713,9 +4306,6 @@ msgstr "CSVダウンロード"
 #~ msgid "Namespace of the function"
 #~ msgstr "関数が属する名前空間"
 
-#~ msgid "Description"
-#~ msgstr "説明"
-
 #~ msgid "Description of the action"
 #~ msgstr "アクションの説明"
 
@@ -3730,9 +4320,6 @@ msgstr "CSVダウンロード"
 
 #~ msgid "Description of the parameter"
 #~ msgstr "パラメーターの説明"
-
-#~ msgid "Required"
-#~ msgstr "必須項目"
 
 #~ msgid "Whether the parameter is required"
 #~ msgstr "パラメーターが必須かどうか"
@@ -3766,9 +4353,6 @@ msgstr "CSVダウンロード"
 
 #~ msgid "Data Type"
 #~ msgstr "データ型"
-
-#~ msgid "Number"
-#~ msgstr "数値(Number)"
 
 #~ msgid "Integer"
 #~ msgstr "整数(Integer)"
@@ -3919,9 +4503,6 @@ msgstr "CSVダウンロード"
 #~ "ユーザーを個別に指定するには、ユーザー一覧ページでLINE連携の「連携済」リン"
 #~ "クを利用するか、対象ユーザーにチェックを入れて一括操作で「LINEメッセージ送"
 #~ "信」を「適用」してください。"
-
-#~ msgid "Send"
-#~ msgstr "送信"
 
 #~ msgid "New message"
 #~ msgstr "新規メッセージ"

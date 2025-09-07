@@ -95,8 +95,7 @@ class Message {
 		$message_data = array();
 		if (! empty($formData)) {
 			for ($i = 0; $i < 10; $i += 2) {
-
-				if (! empty($formData[$i + 1])) {
+				if (! empty($formData[$i + 1]) && ! empty($formData[$i]) && ! empty($formData[$i]['type'])) {
 					$message = array(
 						'type' => $formData[$i]['type'],
 						'message' => $formData[$i + 1],

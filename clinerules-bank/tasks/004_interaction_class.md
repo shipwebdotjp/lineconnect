@@ -204,12 +204,14 @@
   - [x] `interaction_message` フィルターを追加し、表示するメッセージデータをフックできるようにする。
   - [x] `interaction_normalize` フィルターを追加し、入力データの正規化処理をフックできるようにする。
   - [x] `interaction_validate` フィルターを追加し、入力データの検証処理をフックできるようにする。
--[x] storageがprofileの場合の処理実装
+- [x] storageがprofileの場合の処理実装
   - complete時の処理として、LINEIDのユーザーのprofileをマッピングして更新する。マッピングテーブルをスキーマにまず追加する必要があるかも。
--[x] runPolicyの処理(single_forbid, single_latest_only, multi_keep_history)
--[x] timeoutの処理を実装
-- [ ] エンドユーザー向けドキュメントの整備
+- [x] runPolicyの処理(single_forbid, single_latest_only, multi_keep_history)
+- [x] timeoutの処理を実装
+- [x] エンドユーザー向けドキュメントの整備
   - [ ] インタラクションの項目、ステップの作成方法や注意点を含める
   - [ ] フィルターフックをdocument/i18n/ja/docusaurus-plugin-content-docs/current/hook.mdに追記
-- [ ] 管理画面における集計結果ダッシュボードの設計・実装
-- [ ] .poファイルの日本語化
+- [x] 管理画面における集計結果ダッシュボードの設計・実装
+- [x] .poファイルの日本語化
+- [ ] メッセージクイックリプライを追加できるようにする
+- [ ] 管理画面のセッション詳細のドロワーでセッションを編集できるようにするのと、高さがある場合スクロールできるようにする、回答の間隔を縮める

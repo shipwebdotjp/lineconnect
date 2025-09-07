@@ -1,0 +1,10 @@
+./src/error-page.jsx
+./src/components/ui/avatar.jsx
+./src/components/SessionPagination.jsx
+./src/components/InteractionTabs.jsx
+./src/components/SessionDetailDrawer.jsx
+./src/index.jsx
+./src/routes/statistics.jsx
+./src/routes/root.jsx
+./src/routes/sessions.jsx
+./src/routes/InteractionLayout.jsx

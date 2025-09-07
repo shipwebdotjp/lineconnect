@@ -81,7 +81,7 @@ class InputNormalizer {
 
             switch ($rule) {
                 case 'trim':
-                    $normalized_input = trim($normalized_input, " \t\n\r\0\x0B　");
+                    $normalized_input = preg_replace('/^[\s　]+|[\s　]+$/u', '', $normalized_input);
                     break;
 
                 case 'omit_comma':
@@ -118,12 +118,12 @@ class InputNormalizer {
 
                 case 'HanKatatoZenKata':
                     // Half-width katakana -> full-width katakana
-                    $normalized_input = mb_convert_kana($normalized_input, 'K', 'UTF-8');
+                    $normalized_input = mb_convert_kana($normalized_input, 'KV', 'UTF-8');
                     break;
 
                 case 'HanKatatoZenKana':
                     // Half-width katakana -> full-width katakana, then to hiragana
-                    $normalized_input = mb_convert_kana($normalized_input, 'K', 'UTF-8');
+                    $normalized_input = mb_convert_kana($normalized_input, 'KV', 'UTF-8');
                     $normalized_input = mb_convert_kana($normalized_input, 'c', 'UTF-8');
                     break;
 

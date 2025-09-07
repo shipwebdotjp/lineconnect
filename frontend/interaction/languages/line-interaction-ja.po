@@ -1,0 +1,257 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: Sat Sep 06 2025 20:38:40 GMT+0900 (日本標準時)\n"
+"PO-Revision-Date: Fri Sep 05 2025 20:19:06 GMT+0900 (日本標準時)\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/components/InteractionTabs.jsx:18
+msgid "Sessions"
+msgstr "セッション"
+
+#: src/components/InteractionTabs.jsx:26
+msgid "Statistics"
+msgstr "統計"
+
+#: src/components/SessionDetailDrawer.jsx:18 src/routes/sessions.jsx:94
+msgid "Active"
+msgstr "実行中"
+
+#: src/components/SessionDetailDrawer.jsx:19 src/routes/sessions.jsx:95
+msgid "Paused"
+msgstr "一時停止"
+
+#: src/components/SessionDetailDrawer.jsx:20 src/routes/sessions.jsx:96
+msgid "Completed"
+msgstr "完了"
+
+#: src/components/SessionDetailDrawer.jsx:21 src/routes/sessions.jsx:97
+msgid "Timeout"
+msgstr "タイムアウト"
+
+#: src/components/SessionDetailDrawer.jsx:113
+msgid "Saved successfully"
+msgstr "保存しました"
+
+#: src/components/SessionDetailDrawer.jsx:121
+msgid "Failed to save"
+msgstr "保存に失敗しました"
+
+#: src/components/SessionDetailDrawer.jsx:131
+msgid "Session Details"
+msgstr "セッション詳細"
+
+#: src/components/SessionDetailDrawer.jsx:133
+msgid "Session ID: "
+msgstr "セッションID: "
+
+#: src/components/SessionDetailDrawer.jsx:139
+msgid "Answer List"
+msgstr "回答一覧"
+
+#: src/components/SessionDetailDrawer.jsx:163
+msgid "No answer data available."
+msgstr "回答データがありません。"
+
+#: src/components/SessionDetailDrawer.jsx:167
+msgid "Session Information"
+msgstr "セッション情報"
+
+#: src/components/SessionDetailDrawer.jsx:169
+msgid "Version: "
+msgstr "バージョン: "
+
+#: src/components/SessionDetailDrawer.jsx:170
+msgid "LINE User: "
+msgstr "LINEユーザー: "
+
+#: src/components/SessionDetailDrawer.jsx:173
+msgid "Status: "
+msgstr "ステータス: "
+
+#: src/components/SessionDetailDrawer.jsx:190
+msgid "Current Step: "
+msgstr "現在のステップ: "
+
+#: src/components/SessionDetailDrawer.jsx:192
+msgid "Created At: "
+msgstr "作成日時: "
+
+#: src/components/SessionDetailDrawer.jsx:193
+msgid "Updated At: "
+msgstr "更新日時: "
+
+#: src/components/SessionDetailDrawer.jsx:213
+msgid "Edit"
+msgstr "編集"
+
+#: src/components/SessionDetailDrawer.jsx:216 src/routes/sessions.jsx:279
+msgid "Delete"
+msgstr "削除"
+
+#: src/components/SessionDetailDrawer.jsx:222
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/SessionDetailDrawer.jsx:225
+msgid "Saving..."
+msgstr "保存中..."
+
+#: src/components/SessionDetailDrawer.jsx:225
+msgid "Save"
+msgstr "保存"
+
+#: src/components/SessionPagination.jsx:125
+#: src/components/SessionPagination.jsx:129
+msgid "items"
+msgstr "件"
+
+#: src/routes/InteractionLayout.jsx:37
+msgid "Interaction Details"
+msgstr "インタラクション詳細"
+
+#: src/routes/root.jsx:17
+msgid "Channels"
+msgstr "チャネル"
+
+#: src/routes/sessions.jsx:100
+msgid "Version "
+msgstr "バージョン "
+
+#: src/routes/sessions.jsx:138
+msgid "Are you sure you want to delete this session?"
+msgstr "このセッションを削除してもよろしいですか？"
+
+#: src/routes/sessions.jsx:152
+msgid "Failed to delete session."
+msgstr "セッションの削除に失敗しました。"
+
+#: src/routes/sessions.jsx:159
+msgid "Error deleting session."
+msgstr "セッション削除中にエラーが発生しました。"
+
+#: src/routes/sessions.jsx:170
+msgid "Filter by status"
+msgstr "ステータスで絞り込み"
+
+#: src/routes/sessions.jsx:179
+msgid "Filter by version"
+msgstr "バージョンで絞り込み"
+
+#: src/routes/sessions.jsx:187
+msgid "Filter by channel"
+msgstr "チャネルで絞り込み"
+
+#: src/routes/sessions.jsx:196
+msgid "Search by LINE User ID"
+msgstr "LINEユーザーIDで検索"
+
+#: src/routes/sessions.jsx:204
+msgid "Updated at start"
+msgstr "更新日時（開始）"
+
+#: src/routes/sessions.jsx:212
+msgid "Clear start date"
+msgstr "開始日時をクリア"
+
+#: src/routes/sessions.jsx:213 src/routes/sessions.jsx:232
+msgid "Clear"
+msgstr "クリア"
+
+#: src/routes/sessions.jsx:223
+msgid "Updated at end"
+msgstr "更新日時（終了）"
+
+#: src/routes/sessions.jsx:231
+msgid "Clear end date"
+msgstr "終了日時をクリア"
+
+#: src/routes/sessions.jsx:241
+msgid "Session ID"
+msgstr "セッションID"
+
+#: src/routes/sessions.jsx:242 src/routes/statistics.jsx:68
+msgid "Version"
+msgstr "バージョン"
+
+#: src/routes/sessions.jsx:243
+msgid "Channel"
+msgstr "チャネル"
+
+#: src/routes/sessions.jsx:244
+msgid "LINE User ID"
+msgstr "LINEユーザーID"
+
+#: src/routes/sessions.jsx:245
+msgid "Status"
+msgstr "ステータス"
+
+#: src/routes/sessions.jsx:246
+msgid "Current Step"
+msgstr "現在のステップ"
+
+#: src/routes/sessions.jsx:247
+msgid "Updated At"
+msgstr "更新日時"
+
+#: src/routes/sessions.jsx:248
+msgid "Actions"
+msgstr "アクション"
+
+#: src/routes/sessions.jsx:254
+msgid "No sessions found for this interaction."
+msgstr "このインタラクションにはセッションが見つかりませんでした。"
+
+#: src/routes/sessions.jsx:278
+msgid "Delete session"
+msgstr "セッションを削除"
+
+#: src/routes/statistics.jsx:11
+msgid "Loading statistics..."
+msgstr "統計を読み込み中..."
+
+#: src/routes/statistics.jsx:17
+msgid "No statistics available for this interaction."
+msgstr "このインタラクションで利用可能な統計はありません。"
+
+#: src/routes/statistics.jsx:29
+msgid "Overall Statistics"
+msgstr "全体の統計"
+
+#: src/routes/statistics.jsx:34 src/routes/statistics.jsx:72
+msgid "Total Sessions:"
+msgstr "合計セッション:"
+
+#: src/routes/statistics.jsx:37 src/routes/statistics.jsx:75
+msgid "Active:"
+msgstr "実行中:"
+
+#: src/routes/statistics.jsx:40 src/routes/statistics.jsx:78
+msgid "Paused:"
+msgstr "一時停止:"
+
+#: src/routes/statistics.jsx:43 src/routes/statistics.jsx:81
+msgid "Completed:"
+msgstr "完了:"
+
+#: src/routes/statistics.jsx:46 src/routes/statistics.jsx:84
+msgid "Timeout:"
+msgstr "タイムアウト:"
+
+#: src/routes/statistics.jsx:49 src/routes/statistics.jsx:87
+msgid "Completion Rate:"
+msgstr "完了率:"
+
+#: src/routes/statistics.jsx:52 src/routes/statistics.jsx:90
+msgid "Unique Users:"
+msgstr "ユニークユーザー:"
+
+#: src/routes/statistics.jsx:62
+msgid "Statistics by Version"
+msgstr "バージョン別の統計"

@@ -1,0 +1,265 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: Sat Sep 06 2025 20:38:40 GMT+0900 (日本標準時)\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/InteractionTabs.jsx:18
+msgid "Sessions"
+msgstr ""
+
+#: src/components/InteractionTabs.jsx:26
+msgid "Statistics"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:18
+#: src/routes/sessions.jsx:94
+msgid "Active"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:19
+#: src/routes/sessions.jsx:95
+msgid "Paused"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:20
+#: src/routes/sessions.jsx:96
+msgid "Completed"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:21
+#: src/routes/sessions.jsx:97
+msgid "Timeout"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:113
+msgid "Saved successfully"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:121
+msgid "Failed to save"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:131
+msgid "Session Details"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:133
+msgid "Session ID: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:139
+msgid "Answer List"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:163
+msgid "No answer data available."
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:167
+msgid "Session Information"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:169
+msgid "Version: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:170
+msgid "LINE User: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:173
+msgid "Status: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:190
+msgid "Current Step: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:192
+msgid "Created At: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:193
+msgid "Updated At: "
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:213
+msgid "Edit"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:216
+#: src/routes/sessions.jsx:279
+msgid "Delete"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:222
+msgid "Cancel"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:225
+msgid "Saving..."
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:225
+msgid "Save"
+msgstr ""
+
+#: src/components/SessionPagination.jsx:125
+#: src/components/SessionPagination.jsx:129
+msgid "items"
+msgstr ""
+
+#: src/routes/InteractionLayout.jsx:37
+msgid "Interaction Details"
+msgstr ""
+
+#: src/routes/root.jsx:17
+msgid "Channels"
+msgstr ""
+
+#: src/routes/sessions.jsx:100
+msgid "Version "
+msgstr ""
+
+#: src/routes/sessions.jsx:138
+msgid "Are you sure you want to delete this session?"
+msgstr ""
+
+#: src/routes/sessions.jsx:152
+msgid "Failed to delete session."
+msgstr ""
+
+#: src/routes/sessions.jsx:159
+msgid "Error deleting session."
+msgstr ""
+
+#: src/routes/sessions.jsx:170
+msgid "Filter by status"
+msgstr ""
+
+#: src/routes/sessions.jsx:179
+msgid "Filter by version"
+msgstr ""
+
+#: src/routes/sessions.jsx:187
+msgid "Filter by channel"
+msgstr ""
+
+#: src/routes/sessions.jsx:196
+msgid "Search by LINE User ID"
+msgstr ""
+
+#: src/routes/sessions.jsx:204
+msgid "Updated at start"
+msgstr ""
+
+#: src/routes/sessions.jsx:212
+msgid "Clear start date"
+msgstr ""
+
+#: src/routes/sessions.jsx:213
+#: src/routes/sessions.jsx:232
+msgid "Clear"
+msgstr ""
+
+#: src/routes/sessions.jsx:223
+msgid "Updated at end"
+msgstr ""
+
+#: src/routes/sessions.jsx:231
+msgid "Clear end date"
+msgstr ""
+
+#: src/routes/sessions.jsx:241
+msgid "Session ID"
+msgstr ""
+
+#: src/routes/sessions.jsx:242
+#: src/routes/statistics.jsx:68
+msgid "Version"
+msgstr ""
+
+#: src/routes/sessions.jsx:243
+msgid "Channel"
+msgstr ""
+
+#: src/routes/sessions.jsx:244
+msgid "LINE User ID"
+msgstr ""
+
+#: src/routes/sessions.jsx:245
+msgid "Status"
+msgstr ""
+
+#: src/routes/sessions.jsx:246
+msgid "Current Step"
+msgstr ""
+
+#: src/routes/sessions.jsx:247
+msgid "Updated At"
+msgstr ""
+
+#: src/routes/sessions.jsx:248
+msgid "Actions"
+msgstr ""
+
+#: src/routes/sessions.jsx:254
+msgid "No sessions found for this interaction."
+msgstr ""
+
+#: src/routes/sessions.jsx:278
+msgid "Delete session"
+msgstr ""
+
+#: src/routes/statistics.jsx:11
+msgid "Loading statistics..."
+msgstr ""
+
+#: src/routes/statistics.jsx:17
+msgid "No statistics available for this interaction."
+msgstr ""
+
+#: src/routes/statistics.jsx:29
+msgid "Overall Statistics"
+msgstr ""
+
+#: src/routes/statistics.jsx:34
+#: src/routes/statistics.jsx:72
+msgid "Total Sessions:"
+msgstr ""
+
+#: src/routes/statistics.jsx:37
+#: src/routes/statistics.jsx:75
+msgid "Active:"
+msgstr ""
+
+#: src/routes/statistics.jsx:40
+#: src/routes/statistics.jsx:78
+msgid "Paused:"
+msgstr ""
+
+#: src/routes/statistics.jsx:43
+#: src/routes/statistics.jsx:81
+msgid "Completed:"
+msgstr ""
+
+#: src/routes/statistics.jsx:46
+#: src/routes/statistics.jsx:84
+msgid "Timeout:"
+msgstr ""
+
+#: src/routes/statistics.jsx:49
+#: src/routes/statistics.jsx:87
+msgid "Completion Rate:"
+msgstr ""
+
+#: src/routes/statistics.jsx:52
+#: src/routes/statistics.jsx:90
+msgid "Unique Users:"
+msgstr ""
+
+#: src/routes/statistics.jsx:62
+msgid "Statistics by Version"
+msgstr ""

@@ -1,8 +1,9 @@
 import React from 'react';
-import { FaRegEdit } from 'react-icons/fa';
+import { FaRegEdit, FaSearch } from 'react-icons/fa';
 const __ = wp.i18n.__;
 import Avatar from '../atoms/Avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = ({ user, openEditForm }) => {
     if (!user) return <div>{__('No user selected', 'lineconnect')}</div>;
@@ -180,27 +181,28 @@ const UserProfile = ({ user, openEditForm }) => {
                                 <TableHead>{__('Name', 'lineconnect')}</TableHead>
                                 <TableHead>{__('Status', 'lineconnect')}</TableHead>
                                 <TableHead>{__('Updated', 'lineconnect')}</TableHead>
-                                <TableHead>{__('Edit', 'lineconnect')}</TableHead>
+                                <TableHead>{__('View', 'lineconnect')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {Object.entries(user.interactions).map(([id, interaction]) => (
-                                <TableRow key={id}>
+                                <TableRow key={interaction.id}>
                                     <TableCell>{truncateString(interaction.interaction_name, 15)}</TableCell>
                                     <TableCell>
                                         <span className="capitalize">{interaction.status}</span>
                                     </TableCell>
                                     <TableCell>{formatDate(interaction.updated_at)}</TableCell>
                                     <TableCell>
-                                        <button
-                                            className="ml-2 text-xs text-gray-500"
-                                            onClick={() => openEditForm('interactions', id)}
+                                        <a
+                                            className="ml-2 text-xs text-gray-500 block"
+                                            href={lc_initdata['sessionurl'] + '#/interactions/' + interaction.interaction_id + '/sessions' + '/' + interaction.id + '?line_user_id=' + user.lineId}
+                                            target="_blank"
                                         >
-                                            <FaRegEdit className="w-4 h-4" />
+                                            <FaSearch className="w-4 h-4" />
                                             <span className="sr-only">
-                                                {__('Edit', 'lineconnect')}
+                                                {__('View', 'lineconnect')}
                                             </span>
-                                        </button>
+                                        </a>
                                     </TableCell>
                                 </TableRow>
                             ))}

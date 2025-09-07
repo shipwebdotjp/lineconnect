@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 4.3.5\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-08-13 22:11+0900\n"
+"POT-Creation-Date: 2025-09-05 21:19+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,6 +72,13 @@ msgid "Channel or User is not set."
 msgstr ""
 
 msgid "Failed to execute scenario"
+msgstr ""
+
+#, php-format
+msgid "This session will time out in %s minutes."
+msgstr ""
+
+msgid "Your session has timed out."
 msgstr ""
 
 msgid "LINE ID List"
@@ -443,10 +450,85 @@ msgstr ""
 msgid "LINE Connect Action Flows"
 msgstr ""
 
+msgid "Interactions"
+msgstr ""
+
+msgid "Interaction"
+msgstr ""
+
+msgid "Add New Interaction"
+msgstr ""
+
+msgid "Edit Interaction"
+msgstr ""
+
+msgid "New Interaction"
+msgstr ""
+
+msgid "View Interaction"
+msgstr ""
+
+msgid "Search Interactions"
+msgstr ""
+
+msgid "No Interactions found"
+msgstr ""
+
+msgid "No Interactions found in Trash"
+msgstr ""
+
+msgid "All Interactions"
+msgstr ""
+
+msgid "Interaction Archives"
+msgstr ""
+
+msgid "Interaction Attributes"
+msgstr ""
+
+msgid "Insert into Interaction"
+msgstr ""
+
+msgid "Uploaded to this Interaction"
+msgstr ""
+
+msgid "Filter Interactions list"
+msgstr ""
+
+msgid "Interactions list navigation"
+msgstr ""
+
+msgid "Interactions list"
+msgstr ""
+
+msgid "Interaction published."
+msgstr ""
+
+msgid "Interaction published privately."
+msgstr ""
+
+msgid "Interaction reverted to draft."
+msgstr ""
+
+msgid "Interaction scheduled."
+msgstr ""
+
+msgid "Interaction updated."
+msgstr ""
+
+msgid "LINE Connect Interactions"
+msgstr ""
+
 msgid "LINE Connect Chat"
 msgstr ""
 
 msgid "Chat"
+msgstr ""
+
+msgid "Unknown Scenario"
+msgstr ""
+
+msgid "Deleted Interaction"
 msgstr ""
 
 msgid "User ID is required."
@@ -1092,6 +1174,23 @@ msgstr ""
 msgid "Sent flex message. %s"
 msgstr ""
 
+msgid "Message will be sent to all users who have subscribed to this channel."
+msgstr ""
+
+#, php-format
+msgid "Message will be sent to %s person by multicast."
+msgstr ""
+
+#, php-format
+msgid "Message will be sent to %s person by push."
+msgstr ""
+
+msgid "Valid message."
+msgstr ""
+
+msgid "Invalid message."
+msgstr ""
+
 msgid "Broadcast message sent successfully."
 msgstr ""
 
@@ -1111,23 +1210,6 @@ msgstr ""
 
 #, php-format
 msgid "Push message failed to sent to %s person."
-msgstr ""
-
-msgid "Message will be sent to all users who have subscribed to this channel."
-msgstr ""
-
-#, php-format
-msgid "Message will be sent to %s person by multicast."
-msgstr ""
-
-#, php-format
-msgid "Message will be sent to %s person by push."
-msgstr ""
-
-msgid "Valid message."
-msgstr ""
-
-msgid "Invalid message."
 msgstr ""
 
 #, php-format
@@ -1234,6 +1316,9 @@ msgid "Please add audience first"
 msgstr ""
 
 msgid "Please add scenario first"
+msgstr ""
+
+msgid "Please add interaction first"
 msgstr ""
 
 msgid "Item"
@@ -1600,6 +1685,33 @@ msgid "Get value from LINE user profile"
 msgstr ""
 
 msgid "Profile key to get"
+msgstr ""
+
+msgid "Start Interaction"
+msgstr ""
+
+msgid "Start LINE Connect Interaction."
+msgstr ""
+
+msgid "Interaction ID"
+msgstr ""
+
+msgid "Interaction override policy"
+msgstr ""
+
+msgid "Do nothing if exists active session"
+msgstr ""
+
+msgid "Restart only same interaction"
+msgstr ""
+
+msgid "Restart only different interaction"
+msgstr ""
+
+msgid "Always restart interaction"
+msgstr ""
+
+msgid "Stack interaction"
 msgstr ""
 
 msgid "Send LINE message"
@@ -2586,9 +2698,6 @@ msgstr ""
 msgid "Follow"
 msgstr ""
 
-msgid "Interactions"
-msgstr ""
-
 msgid "Stats"
 msgstr ""
 
@@ -2596,6 +2705,157 @@ msgid "Created"
 msgstr ""
 
 msgid "Updated"
+msgstr ""
+
+msgid "This field is required."
+msgstr ""
+
+msgid "Invalid email format."
+msgstr ""
+
+msgid "Must be a number."
+msgstr ""
+
+#, php-format
+msgid "Must be at least %s."
+msgstr ""
+
+#, php-format
+msgid "Must be at most %s."
+msgstr ""
+
+#, php-format
+msgid "Length must be at least %s characters."
+msgstr ""
+
+#, php-format
+msgid "Length must be at most %s characters."
+msgstr ""
+
+msgid "Invalid format."
+msgstr ""
+
+msgid "Invalid Japanese phone number format."
+msgstr ""
+
+msgid "Invalid date format. Please use YYYY-MM-DD or YYYY/MM/DD."
+msgstr ""
+
+msgid "Invalid date."
+msgstr ""
+
+msgid "Invalid time format. Use HH:MM or HH:MM:SS."
+msgstr ""
+
+msgid "Invalid datetime format. Use YYYY-MM-DD HH:MM or YYYY-MM-DDTHH:MM."
+msgstr ""
+
+msgid "Invalid datetime format."
+msgstr ""
+
+msgid "Invalid datetime (date part is not valid)."
+msgstr ""
+
+msgid "Invalid datetime."
+msgstr ""
+
+msgid "Invalid URL."
+msgstr ""
+
+msgid "Invalid URL. Only http and https are allowed."
+msgstr ""
+
+#, php-format
+msgid "Invalid value. Must be one of: %s."
+msgstr ""
+
+#, php-format
+msgid "Contains forbidden content: %s"
+msgstr ""
+
+#, php-format
+msgid "Contains forbidden content (pattern matched): %s"
+msgstr ""
+
+msgid "Only hiragana characters are allowed."
+msgstr ""
+
+msgid "Only katakana characters are allowed."
+msgstr ""
+
+msgid "Invalid japanese validation mode."
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
+
+msgid "Please confirm your input and send."
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit Selection"
+msgstr ""
+
+msgid "Please select an option to edit."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Cancel Confirmation"
+msgstr ""
+
+msgid "Are you sure you want to cancel?"
+msgstr ""
+
+msgid "Yes, cancel"
+msgstr ""
+
+msgid "No, go back"
+msgstr ""
+
+msgid "Canceled"
+msgstr ""
+
+msgid "The process has been canceled."
+msgstr ""
+
+msgid "Timeout Reminder"
+msgstr ""
+
+msgid "You have a pending action that will time out soon."
+msgstr ""
+
+msgid "Timeout Notice"
+msgstr ""
+
+msgid "Your action has timed out."
+msgstr ""
+
+msgid "Please select an option."
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Select item to edit"
+msgstr ""
+
+msgid "Back to confirmation"
+msgstr ""
+
+msgid "Interaction not found"
+msgstr ""
+
+msgid "LINE Connect Interaction Sessions"
+msgstr ""
+
+msgid "Sessions"
 msgstr ""
 
 msgid "Triggers"
@@ -3535,4 +3795,337 @@ msgid "Download"
 msgstr ""
 
 msgid "CSV Download"
+msgstr ""
+
+msgid "LINE Connect Interaction"
+msgstr ""
+
+msgid "Interaction form schema"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Template Button"
+msgstr ""
+
+msgid "Confirm Template"
+msgstr ""
+
+msgid "Edit Picker Template"
+msgstr ""
+
+msgid "Cancel Confirm Template"
+msgstr ""
+
+msgid "Template Button Settings"
+msgstr ""
+
+msgid "Template Title"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Option"
+msgstr ""
+
+msgid "Next Step ID"
+msgstr ""
+
+msgid "Secondary Button Style"
+msgstr ""
+
+msgid "Confirm Template Settings"
+msgstr ""
+
+msgid "Apply Button Settings"
+msgstr ""
+
+msgid "Button Label"
+msgstr ""
+
+msgid "Edit Button Settings"
+msgstr ""
+
+msgid "Choose an option to edit"
+msgstr ""
+
+msgid "Next Step ID. Default: previous step ID"
+msgstr ""
+
+msgid "Cancel Confirm Template Settings"
+msgstr ""
+
+msgid "Abort Button Settings"
+msgstr ""
+
+msgid "Continue Button Settings"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Normalize"
+msgstr ""
+
+msgid "Trim"
+msgstr ""
+
+msgid "Omit Comma"
+msgstr ""
+
+msgid "Omit Hyphen"
+msgstr ""
+
+msgid "Omit Inner Half-width Space"
+msgstr ""
+
+msgid "Omit Inner Full-width Space"
+msgstr ""
+
+msgid "Half-width Katakana to Zen-kaku Katakana"
+msgstr ""
+
+msgid "Half-width Katakana to Zen-kaku Hiragana"
+msgstr ""
+
+msgid "Zen-kaku Katakana to Zen-kaku Hiragana"
+msgstr ""
+
+msgid "Zen-kaku Hiragana to Zen-kaku Katakana"
+msgstr ""
+
+msgid "Half-width Alphanumeric to Zen-kaku Alphanumeric"
+msgstr ""
+
+msgid "Zen-kaku Alphanumeric to Half-width Alphanumeric"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Datetime"
+msgstr ""
+
+msgid "Enum"
+msgstr ""
+
+msgid "Regex"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Forbidden Content"
+msgstr ""
+
+msgid "Number Validation"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Length Validation"
+msgstr ""
+
+msgid "Min Length"
+msgstr ""
+
+msgid "Max Length"
+msgstr ""
+
+msgid "Japanese Validation"
+msgstr ""
+
+msgid "Hiragana Only"
+msgstr ""
+
+msgid "Katakana Only"
+msgstr ""
+
+msgid "Forbidden Words"
+msgstr ""
+
+msgid "Forbidden Patterns (Regex)"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+msgid ""
+"Define conditional branches based on user input. If no conditions match, the "
+"default Next Step ID will be used."
+msgstr ""
+
+msgid "Branch"
+msgstr ""
+
+msgid "Condition Type"
+msgstr ""
+
+msgid "Value to Match"
+msgstr ""
+
+msgid "Next Step ID for this branch"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Special Step"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Edit Picker"
+msgstr ""
+
+msgid "Complete"
+msgstr ""
+
+msgid "Cancel Confirm"
+msgstr ""
+
+msgid "Timeout Remind"
+msgstr ""
+
+msgid "Before Input Actions"
+msgstr ""
+
+msgid "After Input Actions"
+msgstr ""
+
+msgid "Timeout (minutes)"
+msgstr ""
+
+msgid ""
+"The number of minutes from the last update to the timeout. If 0, there is no "
+"timeout."
+msgstr ""
+
+msgid "Send timeout reminder"
+msgstr ""
+
+msgid ""
+"Set how many minutes before the timeout to send a reminder. 0 means no "
+"reminder."
+msgstr ""
+
+msgid "On Timeout"
+msgstr ""
+
+msgid "Delete Session"
+msgstr ""
+
+msgid "Mark as Timeout"
+msgstr ""
+
+msgid "Run Policy"
+msgstr ""
+
+msgid "Don't allow"
+msgstr ""
+
+msgid "Allow (keep latest only)"
+msgstr ""
+
+msgid "Allow (keep history)"
+msgstr ""
+
+msgid "Override Policy"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Restart only same"
+msgstr ""
+
+msgid "Restart only different"
+msgstr ""
+
+msgid "Stack"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid ""
+"The version of the interaction form. If you need to make changes to the form "
+"structure, increment this version number."
+msgstr ""
+
+msgid "Storage"
+msgstr ""
+
+msgid "Where the interaction data is stored"
+msgstr ""
+
+msgid "Bind to Profile"
+msgstr ""
+
+msgid "Exclude Steps"
+msgstr ""
+
+msgid "Cancel Words"
+msgstr ""
+
+msgid ""
+"Define words or phrases that will trigger cancellation of the interaction."
+msgstr ""
+
+msgid "Cancel Word"
+msgstr ""
+
+msgid "Add option"
+msgstr ""
+
+msgid "Add message"
+msgstr ""
+
+msgid "Add enum"
+msgstr ""
+
+msgid "Add validation"
+msgstr ""
+
+msgid "Add branch"
+msgstr ""
+
+msgid "Add steps"
+msgstr ""
+
+msgid "Add exclude step"
+msgstr ""
+
+msgid "Add cancel word"
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "Completion Rate"
+msgstr ""
+
+msgid "Unique Users"
+msgstr ""
+
+msgid "View Sessions"
 msgstr ""
