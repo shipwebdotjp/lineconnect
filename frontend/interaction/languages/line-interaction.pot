@@ -1,9 +1,8 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Sat Sep 06 2025 20:38:40 GMT+0900 (日本標準時)\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: LINE Connect\n"
+"Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
+"Content-Type: text/plain;\n"
 
 #: src/components/InteractionTabs.jsx:18
 msgid "Sessions"
@@ -11,26 +10,6 @@ msgstr ""
 
 #: src/components/InteractionTabs.jsx:26
 msgid "Statistics"
-msgstr ""
-
-#: src/components/SessionDetailDrawer.jsx:18
-#: src/routes/sessions.jsx:94
-msgid "Active"
-msgstr ""
-
-#: src/components/SessionDetailDrawer.jsx:19
-#: src/routes/sessions.jsx:95
-msgid "Paused"
-msgstr ""
-
-#: src/components/SessionDetailDrawer.jsx:20
-#: src/routes/sessions.jsx:96
-msgid "Completed"
-msgstr ""
-
-#: src/components/SessionDetailDrawer.jsx:21
-#: src/routes/sessions.jsx:97
-msgid "Timeout"
 msgstr ""
 
 #: src/components/SessionDetailDrawer.jsx:113
@@ -73,6 +52,16 @@ msgstr ""
 msgid "Status: "
 msgstr ""
 
+#: src/components/SessionDetailDrawer.jsx:18
+#: src/routes/sessions.jsx:116
+msgid "Active"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:19
+#: src/routes/sessions.jsx:117
+msgid "Paused"
+msgstr ""
+
 #: src/components/SessionDetailDrawer.jsx:190
 msgid "Current Step: "
 msgstr ""
@@ -85,12 +74,22 @@ msgstr ""
 msgid "Updated At: "
 msgstr ""
 
+#: src/components/SessionDetailDrawer.jsx:20
+#: src/routes/sessions.jsx:118
+msgid "Completed"
+msgstr ""
+
+#: src/components/SessionDetailDrawer.jsx:21
+#: src/routes/sessions.jsx:119
+msgid "Timeout"
+msgstr ""
+
 #: src/components/SessionDetailDrawer.jsx:213
 msgid "Edit"
 msgstr ""
 
 #: src/components/SessionDetailDrawer.jsx:216
-#: src/routes/sessions.jsx:279
+#: src/routes/sessions.jsx:309
 msgid "Delete"
 msgstr ""
 
@@ -106,7 +105,6 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: src/components/SessionPagination.jsx:125
 #: src/components/SessionPagination.jsx:129
 msgid "items"
 msgstr ""
@@ -119,97 +117,96 @@ msgstr ""
 msgid "Channels"
 msgstr ""
 
-#: src/routes/sessions.jsx:100
-msgid "Version "
-msgstr ""
-
-#: src/routes/sessions.jsx:138
+#: src/routes/sessions.jsx:160
 msgid "Are you sure you want to delete this session?"
 msgstr ""
 
-#: src/routes/sessions.jsx:152
+#: src/routes/sessions.jsx:174
 msgid "Failed to delete session."
 msgstr ""
 
-#: src/routes/sessions.jsx:159
+#: src/routes/sessions.jsx:181
 msgid "Error deleting session."
 msgstr ""
 
-#: src/routes/sessions.jsx:170
+#: src/routes/sessions.jsx:192
 msgid "Filter by status"
 msgstr ""
 
-#: src/routes/sessions.jsx:179
+#: src/routes/sessions.jsx:201
 msgid "Filter by version"
 msgstr ""
 
-#: src/routes/sessions.jsx:187
+#: src/routes/sessions.jsx:209
 msgid "Filter by channel"
 msgstr ""
 
-#: src/routes/sessions.jsx:196
+#: src/routes/sessions.jsx:218
 msgid "Search by LINE User ID"
 msgstr ""
 
-#: src/routes/sessions.jsx:204
+#: src/routes/sessions.jsx:226
 msgid "Updated at start"
 msgstr ""
 
-#: src/routes/sessions.jsx:212
+#: src/routes/sessions.jsx:234
 msgid "Clear start date"
 msgstr ""
 
-#: src/routes/sessions.jsx:213
-#: src/routes/sessions.jsx:232
-msgid "Clear"
-msgstr ""
-
-#: src/routes/sessions.jsx:223
+#: src/routes/sessions.jsx:245
 msgid "Updated at end"
 msgstr ""
 
-#: src/routes/sessions.jsx:231
+#: src/routes/sessions.jsx:253
 msgid "Clear end date"
 msgstr ""
 
-#: src/routes/sessions.jsx:241
+#: src/routes/sessions.jsx:254
+msgid "Clear"
+msgstr ""
+
+#: src/routes/sessions.jsx:265
+msgid "CSV Download"
+msgstr ""
+
+#: src/routes/sessions.jsx:271
 msgid "Session ID"
 msgstr ""
 
-#: src/routes/sessions.jsx:242
+#: src/routes/sessions.jsx:272
 #: src/routes/statistics.jsx:68
 msgid "Version"
 msgstr ""
 
-#: src/routes/sessions.jsx:243
+#: src/routes/sessions.jsx:273
 msgid "Channel"
 msgstr ""
 
-#: src/routes/sessions.jsx:244
+#: src/routes/sessions.jsx:274
 msgid "LINE User ID"
 msgstr ""
 
-#: src/routes/sessions.jsx:245
+#: src/routes/sessions.jsx:275
 msgid "Status"
 msgstr ""
 
-#: src/routes/sessions.jsx:246
+#: src/routes/sessions.jsx:276
 msgid "Current Step"
 msgstr ""
 
-#: src/routes/sessions.jsx:247
+#: src/routes/sessions.jsx:277
 msgid "Updated At"
 msgstr ""
 
-#: src/routes/sessions.jsx:248
+#: src/routes/sessions.jsx:278
 msgid "Actions"
 msgstr ""
 
-#: src/routes/sessions.jsx:254
+#: src/routes/sessions.jsx:284
 msgid "No sessions found for this interaction."
 msgstr ""
 
-#: src/routes/sessions.jsx:278
+#: src/routes/sessions.jsx:308
 msgid "Delete session"
 msgstr ""
 
@@ -225,41 +222,34 @@ msgstr ""
 msgid "Overall Statistics"
 msgstr ""
 
-#: src/routes/statistics.jsx:34
+#: src/routes/statistics.jsx:62
+msgid "Statistics by Version"
+msgstr ""
+
 #: src/routes/statistics.jsx:72
 msgid "Total Sessions:"
 msgstr ""
 
-#: src/routes/statistics.jsx:37
 #: src/routes/statistics.jsx:75
 msgid "Active:"
 msgstr ""
 
-#: src/routes/statistics.jsx:40
 #: src/routes/statistics.jsx:78
 msgid "Paused:"
 msgstr ""
 
-#: src/routes/statistics.jsx:43
 #: src/routes/statistics.jsx:81
 msgid "Completed:"
 msgstr ""
 
-#: src/routes/statistics.jsx:46
 #: src/routes/statistics.jsx:84
 msgid "Timeout:"
 msgstr ""
 
-#: src/routes/statistics.jsx:49
 #: src/routes/statistics.jsx:87
 msgid "Completion Rate:"
 msgstr ""
 
-#: src/routes/statistics.jsx:52
 #: src/routes/statistics.jsx:90
 msgid "Unique Users:"
-msgstr ""
-
-#: src/routes/statistics.jsx:62
-msgid "Statistics by Version"
 msgstr ""

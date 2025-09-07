@@ -100,7 +100,7 @@ const Sessions = () => {
         queryParams.delete('page');
         queryParams.delete('per_page');
 
-        const csvUrl = `${lineConnectConfig.rest_url}lineconnect/interactions/${interactionId}/sessions/csv?${queryParams.toString()}`;
+        const csvUrl = `${lineConnectConfig.interaction_session_download_url}&interaction_id=${interactionId}&${queryParams.toString()}`;
 
         // To trigger download, we can open the URL in a new tab, or create a link and click it.
         // The latter is cleaner as it doesn't leave a blank tab open if the browser can't close it.

@@ -21241,6 +21241,40 @@ const Clock = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/icons/download.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/download.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
+/* harmony export */   "default": () => (/* binding */ Download)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.482.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["polyline", { points: "7 10 12 15 17 10", key: "2ggqvy" }],
+  ["line", { x1: "12", x2: "12", y1: "15", y2: "3", key: "1vk2je" }]
+];
+const Download = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Download", __iconNode);
+
+
+//# sourceMappingURL=download.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/lucide-react/dist/esm/icons/ellipsis.js":
 /*!**************************************************************!*\
   !*** ./node_modules/lucide-react/dist/esm/icons/ellipsis.js ***!
@@ -73965,15 +73999,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _components_SessionDetailDrawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SessionDetailDrawer */ "./src/components/SessionDetailDrawer.jsx");
 /* harmony import */ var _components_SessionPagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/SessionPagination */ "./src/components/SessionPagination.jsx");
 /* harmony import */ var _components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ui/multi-select */ "./src/components/ui/multi-select.tsx");
 /* harmony import */ var _lib_useUrlFilters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/useUrlFilters */ "./src/lib/useUrlFilters.js");
 /* harmony import */ var _components_ui_input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/ui/input */ "./src/components/ui/input.tsx");
 /* harmony import */ var _components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ui/datetime-picker */ "./src/components/ui/datetime-picker.tsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/x.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/trash-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/x.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/download.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/trash-2.js");
+/* harmony import */ var _components_ui_button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ui/button */ "./src/components/ui/button.tsx");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var _jsxFileName = "/Applications/MAMP/htdocs/wptest/wp-content/plugins/lineconnect/frontend/interaction/src/routes/sessions.jsx",
   _this = undefined;
@@ -73986,6 +74022,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 
 
 
@@ -74092,16 +74129,16 @@ function _loader() {
 }
 var Sessions = function Sessions() {
   var _filters$versions;
-  var _useLoaderData = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useLoaderData)(),
+  var _useLoaderData = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLoaderData)(),
     sessions = _useLoaderData.sessions,
     currentPage = _useLoaderData.currentPage,
     totalPages = _useLoaderData.totalPages,
     filters = _useLoaderData.filters,
     totalItems = _useLoaderData.totalItems;
-  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useParams)(),
+  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)(),
     interactionId = _useParams.interactionId,
     sessionId = _useParams.sessionId;
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
   // local state for sessions so we can update list immediately after edit
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(sessions || []),
     _useState2 = _slicedToArray(_useState, 2),
@@ -74129,6 +74166,25 @@ var Sessions = function Sessions() {
     handleUpdatedAtStartChange = _useUrlFilters.handleUpdatedAtStartChange,
     handleUpdatedAtEndChange = _useUrlFilters.handleUpdatedAtEndChange,
     handlePageChange = _useUrlFilters.handlePageChange;
+  var handleCsvDownload = function handleCsvDownload() {
+    var url = new URL(window.location.href);
+    // The search params from the current URL are already the filters we want
+    var queryParams = url.searchParams;
+
+    // Remove pagination params as we want all data
+    queryParams["delete"]('page');
+    queryParams["delete"]('per_page');
+    var csvUrl = "".concat(lineConnectConfig.interaction_session_download_url, "&interaction_id=").concat(interactionId, "&").concat(queryParams.toString());
+
+    // To trigger download, we can open the URL in a new tab, or create a link and click it.
+    // The latter is cleaner as it doesn't leave a blank tab open if the browser can't close it.
+    var link = document.createElement('a');
+    link.href = csvUrl;
+    link.setAttribute('download', ''); // this is important for browsers to treat it as a download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   var statusOptions = [{
     value: "active",
     label: __("Active", "lineconnect")
@@ -74250,7 +74306,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 164,
+      lineNumber: 186,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74258,7 +74314,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 165,
+      lineNumber: 187,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74272,7 +74328,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 166,
+      lineNumber: 188,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74285,7 +74341,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 175,
+      lineNumber: 197,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74299,7 +74355,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 183,
+      lineNumber: 205,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_input__WEBPACK_IMPORTED_MODULE_5__.Input, {
@@ -74313,7 +74369,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 192,
+      lineNumber: 214,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74321,7 +74377,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 199,
+      lineNumber: 221,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__.DateTimePicker, {
@@ -74338,7 +74394,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 200,
+      lineNumber: 222,
       columnNumber: 21
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -74352,15 +74408,15 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 208,
+      lineNumber: 230,
       columnNumber: 21
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
     className: "h-4 w-4",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 215,
+      lineNumber: 237,
       columnNumber: 25
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74368,7 +74424,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 218,
+      lineNumber: 240,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__.DateTimePicker, {
@@ -74385,7 +74441,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 219,
+      lineNumber: 241,
       columnNumber: 21
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -74399,37 +74455,55 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 227,
+      lineNumber: 249,
       columnNumber: 21
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
     className: "h-4 w-4",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 234,
+      lineNumber: 256,
       columnNumber: 25
     }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_7__.Button, {
+    variant: "outline",
+    onClick: handleCsvDownload,
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 259,
+      columnNumber: 17
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    className: "h-4 w-4 mr-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 264,
+      columnNumber: 21
+    }
+  }), __("CSV Download", "lineconnect"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
     className: "wp-list-table widefat striped",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 238,
+      lineNumber: 268,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 239,
+      lineNumber: 269,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 240,
+      lineNumber: 270,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74437,7 +74511,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 241,
+      lineNumber: 271,
       columnNumber: 25
     }
   }, __('Session ID', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74445,7 +74519,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 242,
+      lineNumber: 272,
       columnNumber: 25
     }
   }, __('Version', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74453,7 +74527,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 243,
+      lineNumber: 273,
       columnNumber: 25
     }
   }, __('Channel', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74461,7 +74535,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 244,
+      lineNumber: 274,
       columnNumber: 25
     }
   }, __('LINE User ID', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74469,7 +74543,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 245,
+      lineNumber: 275,
       columnNumber: 25
     }
   }, __('Status', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74477,7 +74551,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 246,
+      lineNumber: 276,
       columnNumber: 25
     }
   }, __('Current Step', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74485,7 +74559,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 247,
+      lineNumber: 277,
       columnNumber: 25
     }
   }, __('Updated At', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74493,21 +74567,21 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 248,
+      lineNumber: 278,
       columnNumber: 25
     }
   }, __('Actions', 'lineconnect')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 251,
+      lineNumber: 281,
       columnNumber: 17
     }
   }, sessionsState.length === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 253,
+      lineNumber: 283,
       columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
@@ -74515,7 +74589,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 254,
+      lineNumber: 284,
       columnNumber: 29
     }
   }, __('No sessions found for this interaction.', 'lineconnect'))), sessionsState.map(function (session) {
@@ -74529,42 +74603,42 @@ var Sessions = function Sessions() {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 258,
+        lineNumber: 288,
         columnNumber: 25
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 263,
+        lineNumber: 293,
         columnNumber: 29
       }
     }, session.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 264,
+        lineNumber: 294,
         columnNumber: 29
       }
     }, session.interaction_version), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 265,
+        lineNumber: 295,
         columnNumber: 29
       }
     }, session.channel_name || session.channel_prefix), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 266,
+        lineNumber: 296,
         columnNumber: 29
       }
     }, session.displayName || session.line_user_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 267,
+        lineNumber: 297,
         columnNumber: 29
       }
     }, ((_statusOptions$find = statusOptions.find(function (option) {
@@ -74573,21 +74647,21 @@ var Sessions = function Sessions() {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 268,
+        lineNumber: 298,
         columnNumber: 29
       }
     }, session.status === 'active' ? session.current_step_id : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 269,
+        lineNumber: 299,
         columnNumber: 29
       }
     }, new Date(session.updated_at).toLocaleString('ja-JP')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 270,
+        lineNumber: 300,
         columnNumber: 29
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -74602,15 +74676,15 @@ var Sessions = function Sessions() {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 271,
+        lineNumber: 301,
         columnNumber: 33
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_11__["default"], {
       className: "h-4 w-4",
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 281,
+        lineNumber: 311,
         columnNumber: 37
       }
     }))));
@@ -74619,7 +74693,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 288,
+      lineNumber: 318,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SessionPagination__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -74630,7 +74704,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 289,
+      lineNumber: 319,
       columnNumber: 17
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SessionDetailDrawer__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -74656,7 +74730,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 296,
+      lineNumber: 326,
       columnNumber: 13
     }
   }));

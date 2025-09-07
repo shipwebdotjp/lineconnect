@@ -42,7 +42,7 @@ use Shipweb\LineConnect\PostType\Interaction\Interaction as InteractionPostType;
 use Shipweb\LineConnect\PostType\Interaction\Column as InteractionColumn;
 use Shipweb\LineConnect\Interaction\Manage\RESTAPI as InteractionManageRESTAPI;
 use Shipweb\LineConnect\Interaction\Manage\Screen as InteractionManageScreen;
-
+use Shipweb\LineConnect\Interaction\Manage\InteractionSessionDownload as InteractionSessionDownload;
 
 class LineConnect {
 
@@ -308,6 +308,11 @@ class LineConnect {
 	const SLUG__CONTENT_DOWNLOAD = self::PLUGIN_ID . '-content-download';
 
 	/**
+	 * 画面のslug：インタラクションセッションダウンロード
+	 */
+	const SLUG__INTERACTION_SESSION_DOWNLOAD = self::PLUGIN_ID . '-interaction-session-download';
+
+	/**
 	 * 画面のslug：LINE Dashboard
 	 */
 	const SLUG__DASHBOARD = self::PLUGIN_ID . '-dashboard';
@@ -562,6 +567,8 @@ class LineConnect {
 			add_action('admin_post_' . LineConnect::SLUG__AUDIENCE_DOWNLOAD, array(AudienceColumn::class, 'download_audience_page'));
 			// コンテンツダウンロードアクション
 			add_action('admin_post_' . LineConnect::SLUG__CONTENT_DOWNLOAD, array(ContentDownload::class, 'download_content_page'));
+			// インタラクションセッションダウンロードアクション
+			add_action('admin_post_' . LineConnect::SLUG__INTERACTION_SESSION_DOWNLOAD, array(InteractionSessionDownload::class, 'download_interaction_session_page'));
 
 			// 管理画面各ページの最初、ページがレンダリングされる前に実行するアクションに、
 			// 初期設定を保存する関数をフック

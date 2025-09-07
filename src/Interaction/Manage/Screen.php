@@ -70,6 +70,7 @@ EOM;
 				'pluginSlug' => lineconnect::PLUGIN_NAME,
 				'rest_url' => esc_url_raw(rest_url()),
 				'rest_nonce' => wp_create_nonce('wp_rest'),
+				'interaction_session_download_url' => admin_url('admin-post.php?action=' . lineconnect::SLUG__INTERACTION_SESSION_DOWNLOAD),
 			)
 		);
 	}
