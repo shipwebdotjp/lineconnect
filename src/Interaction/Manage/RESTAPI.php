@@ -129,6 +129,69 @@ class RESTAPI {
             )
         );
 
+        // 特定のインタラクションに紐づくセッションのリストをCSVでダウンロード
+        register_rest_route(
+            LineConnect::PLUGIN_NAME,
+            '/interactions/(?P<interaction_id>\d+)/sessions/csv',
+            array(
+                'methods' => 'GET',
+                'callback' => [__CLASS__, 'download_sessions_csv'],
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+                'args' => array(
+                    'interaction_id' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            return is_numeric($param);
+                        },
+                        'required' => true,
+                    ),
+                    'status' => array(
+                        'sanitize_callback' => function ($param, $request, $key) {
+                            return is_array($param) ? array_map('sanitize_text_field', $param) : sanitize_text_field($param);
+                        }
+                    ),
+                    'version' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            return is_array($param) ? array_map('absint', $param) : absint($param);
+                        }
+                    ),
+                    'channel' => array(
+                        'sanitize_callback' => function ($param, $request, $key) {
+                            return is_array($param) ? array_map('sanitize_text_field', $param) : sanitize_text_field($param);
+                        }
+                    ),
+                    'line_user_id' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            if (empty($param)) {
+                                return true;
+                            }
+                            return preg_match('/^U[a-zA-Z0-9]{32}$/', $param);
+                        },
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'updated_at_start' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            if (empty($param)) {
+                                return true;
+                            }
+                            return preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/', $param);
+                        },
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'updated_at_end' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            if (empty($param)) {
+                                return true;
+                            }
+                            return preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/', $param);
+                        },
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+            )
+        );
+
         // 特定のセッションを更新する（answers 完全上書き / status 更新）
         register_rest_route(
             LineConnect::PLUGIN_NAME,
@@ -624,5 +687,145 @@ class RESTAPI {
 
         // 成功時は204 No Contentを返す
         return new \WP_REST_Response(null, 204);
+    }
+
+    /**
+     * 特定のインタラクションに紐づくセッションのリストをCSVでダウンロード
+     */
+    public static function download_sessions_csv(\WP_REST_Request $request) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . LineConnect::TABLE_INTERACTION_SESSIONS;
+        $table_name_line_id = $wpdb->prefix . LineConnect::TABLE_LINE_ID;
+        $interaction_id = $request['interaction_id'];
+
+        // WHERE句の構築 (get_sessions_by_interactionから流用)
+        $where_clauses = array();
+        $where_values = array();
+        $where_clauses[] = 'sessions.interaction_id = %d';
+        $where_values[] = $interaction_id;
+
+        if ($status = $request->get_param('status')) {
+            if (is_array($status)) {
+                $placeholders = implode(', ', array_fill(0, count($status), '%s'));
+                $where_clauses[] = "sessions.status IN ($placeholders)";
+                $where_values = array_merge($where_values, $status);
+            } else {
+                $where_clauses[] = 'sessions.status = %s';
+                $where_values[] = $status;
+            }
+        }
+        if ($version = $request->get_param('version')) {
+            if(is_array($version)) {
+                $placeholders = implode(', ', array_fill(0, count($version), '%d'));
+                $where_clauses[] = "sessions.interaction_version IN ($placeholders)";
+                $where_values = array_merge($where_values, $version);
+            } else {
+                $where_clauses[] = 'sessions.interaction_version = %d';
+                $where_values[] = $version;
+            }
+        }
+        if ($channel = $request->get_param('channel')) {
+            if(is_array($channel)) {
+                $placeholders = implode(', ', array_fill(0, count($channel), '%s'));
+                $where_clauses[] = "sessions.channel_prefix IN ($placeholders)";
+                $where_values = array_merge($where_values, $channel);
+            } else {
+                $where_clauses[] = 'sessions.channel_prefix = %s';
+                $where_values[] = $channel;
+            }
+        }
+        if ($lineUserId = $request->get_param('line_user_id')) {
+            $where_clauses[] = 'sessions.line_user_id = %s';
+            $where_values[] = $lineUserId;
+        }
+        if ($updatedAtStart = $request->get_param('updated_at_start')) {
+            $startDateTime = new \DateTime($updatedAtStart, new \DateTimeZone('UTC'));
+            $where_clauses[] = 'sessions.updated_at >= %s';
+            $where_values[] = $startDateTime->format('Y-m-d H:i:s');
+        }
+        if ($updatedAtEnd = $request->get_param('updated_at_end')) {
+            $endDateTime = new \DateTime($updatedAtEnd, new \DateTimeZone('UTC'));
+            $where_clauses[] = 'sessions.updated_at < %s';
+            $where_values[] = $endDateTime->format('Y-m-d H:i:s');
+        }
+        $where_sql = implode(' AND ', $where_clauses);
+
+        // データ本体の取得 (ページネーションなし)
+        $query = $wpdb->prepare(
+            "SELECT sessions.*, JSON_UNQUOTE(JSON_EXTRACT(line_id.profile, '$.displayName')) AS displayName FROM {$table_name} sessions LEFT JOIN {$table_name_line_id} line_id ON line_id.line_id = sessions.line_user_id AND line_id.channel_prefix = sessions.channel_prefix WHERE {$where_sql} ORDER BY sessions.updated_at DESC",
+            $where_values
+        );
+        $results = $wpdb->get_results($query, ARRAY_A);
+
+        // 対象インタラクションの全バージョンまたは指定バージョンからステップを収集
+        $interaction_versions = $version ? (is_array($version) ? $version : [$version]) : null;
+        $all_steps = [];
+        $interaction_post = get_post($interaction_id);
+        if ($interaction_post) {
+            $versions_to_load = $interaction_versions ?? range(1, get_post_meta($interaction_id, '_version', true) ?: 1);
+            foreach ($versions_to_load as $v) {
+                $interaction_def = InteractionDefinition::from_post($interaction_id, $v);
+                if ($interaction_def) {
+                    foreach ($interaction_def->get_steps() as $step) {
+                        if (!isset($all_steps[$step->get_id()])) {
+                            $all_steps[$step->get_id()] = $step->get_title();
+                        }
+                    }
+                }
+            }
+        }
+
+        // CSVヘッダー
+        $headers = [
+            __('Session ID', LineConnect::PLUGIN_NAME),
+            __('Version', LineConnect::PLUGIN_NAME),
+            __('Channel', LineConnect::PLUGIN_NAME),
+            __('LINE User ID', LineConnect::PLUGIN_NAME),
+            __('Status', LineConnect::PLUGIN_NAME),
+            __('Current Step', LineConnect::PLUGIN_NAME),
+            __('Updated At', LineConnect::PLUGIN_NAME),
+            __('Created At', LineConnect::PLUGIN_NAME),
+        ];
+        $step_headers = array_values($all_steps);
+        $headers = array_merge($headers, $step_headers);
+
+        // ファイル名の生成
+        $interaction = get_post($interaction_id);
+        $filename_slug = $interaction ? sanitize_title($interaction->post_title) : 'sessions';
+        $filename = "{$filename_slug}_sessions_" . date('Y-m-d') . ".csv";
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        fputcsv($output, $headers);
+
+        // CSVデータ
+        foreach ($results as $row) {
+            $session = InteractionSession::from_db_row((object)$row);
+            $answers = $session->get_answers();
+
+            $channel = LineConnect::get_channel($row['channel_prefix']);
+            $channel_name = $channel ? $channel['name'] : $row['channel_prefix'];
+
+            $csv_row = [
+                $row['id'],
+                $row['interaction_version'],
+                $channel_name,
+                $row['line_user_id'],
+                $row['status'],
+                $row['current_step_id'],
+                DateUtil::format_utc_in_wp_tz($row['updated_at']),
+                DateUtil::format_utc_in_wp_tz($row['created_at']),
+            ];
+
+            foreach ($all_steps as $step_id => $step_title) {
+                $csv_row[] = isset($answers[$step_id]) ? $answers[$step_id] : '';
+            }
+            fputcsv($output, $csv_row);
+        }
+
+        fclose($output);
+        die();
     }
 }
