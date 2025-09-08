@@ -121,3 +121,65 @@ For example, if you have a step with the ID `ask-name` where the user enters the
 ```
 Hello, {{session.ask-name}}! Welcome to our service.
 ```
+
+## Managing Sessions
+
+You can view and manage the sessions for each interaction directly from the interaction list screen in the WordPress admin.
+
+### Interaction List Columns
+
+The interaction list has been enhanced with several columns to give you a quick overview of session statistics:
+
+| Column | Description |
+| :--- | :--- |
+| **Active** | The number of sessions that are currently in progress. |
+| **Paused** | The number of sessions that are paused (e.g., stacked by another interaction). |
+| **Completed** | The number of sessions that have been successfully completed. |
+| **Timeout** | The number of sessions that have expired due to user inactivity. |
+| **Completion Rate**| The percentage of sessions that have been completed out of the total number of sessions started. |
+| **Unique Users** | The number of unique LINE users who have started a session for this interaction. |
+| **Sessions** | A link to the detailed session management page for the interaction. |
+
+You can click on the column headers to sort the interactions by these statistics.
+
+### Session Management Screen
+
+Clicking the "View Sessions" link in the **Sessions** column will take you to the session management screen. This screen provides a detailed view of all sessions for the selected interaction.
+
+#### Filtering and Searching
+
+You can filter and search the sessions using the controls at the top of the page:
+- **Filter by status**: Show only sessions with a specific status (e.g., Active, Completed).
+- **Filter by version**: Filter by the version number of the interaction.
+- **Filter by channel**: Filter by the LINE Official Account channel the session belongs to.
+- **Search by LINE User ID**: Find all sessions for a specific user.
+- **Filter by Updated At**: Select a start and end date to find sessions updated within a specific time frame.
+
+#### CSV Download
+
+You can export the current filtered list of sessions to a CSV file by clicking the **CSV Download** button. This is useful for external analysis and record-keeping.
+
+#### Session List
+
+The main part of the screen is the list of sessions, which includes the following information:
+- Session ID
+- Interaction Version
+- Channel Name
+- LINE User (Display Name or User ID)
+- Status
+- Current Step ID (for active sessions)
+- Last Updated Time
+
+#### Viewing and Editing Session Details
+
+Clicking on any session in the list will open a side panel (drawer) with the complete details of that session. This includes all the data collected from the user during the interaction.
+
+From this view, you can:
+- **Edit Session Data**: Modify the values of the collected data.
+- **Change Status**: Manually change the status of a session (e.g., from 'active' to 'completed').
+
+Any changes you make are saved by clicking the "Save" button.
+
+#### Deleting a Session
+
+To delete a session, click the trash can icon in the **Actions** column for the corresponding session in the list. You will be asked to confirm the deletion. Deleting a session is permanent and cannot be undone. You can also delete a session from the detail view.
