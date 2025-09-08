@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install -y subversion
 
       - name: 'Set up WordPress test environment'
-        uses: sjinks/setup-wordpress-test-library@v2
+        uses: sjinks/setup-wordpress-test-library@latest
         with:
           version: latest
           db_user: wordpress
