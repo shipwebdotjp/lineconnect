@@ -8,6 +8,7 @@ import { Input } from "../components/ui/input";
 import { DateTimePicker } from '../components/ui/datetime-picker';
 import { X, Trash2, Download } from 'lucide-react';
 import { Button } from "../components/ui/button";
+import { Checkbox } from "../components/ui/checkbox";
 // wp_localize_scriptによって 'lineConnectConfig' という名前で渡される
 const lineConnectConfig = window.lineConnectConfig || {};
 const __ = wp.i18n.__;
@@ -74,6 +75,7 @@ const Sessions = () => {
     const [sessionsState, setSessionsState] = useState(sessions || []);
     const [selectedSession, setSelectedSession] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedIds, setSelectedIds] = useState(new Set());
 
     const {
         statusValues,
@@ -90,6 +92,61 @@ const Sessions = () => {
         handleUpdatedAtEndChange,
         handlePageChange,
     } = useUrlFilters(interactionId);
+
+    const handleSelectionChange = (id) => {
+        setSelectedIds(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+            return newSet;
+        });
+    };
+
+    const handleSelectAll = (checked) => {
+        if (checked) {
+            setSelectedIds(new Set(sessionsState.map(s => s.id)));
+        } else {
+            setSelectedIds(new Set());
+        }
+    };
+
+    const handleBulkDelete = async () => {
+        if (selectedIds.size === 0) return;
+
+        if (!confirm(`${__('Are you sure you want to delete the selected', 'lineconnect')} ${selectedIds.size} ${__('sessions?', 'lineconnect')}`)) {
+            return;
+        }
+
+        const deleteUrl = `${lineConnectConfig.rest_url}lineconnect/interactions/${interactionId}/sessions`;
+        try {
+            const response = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-WP-Nonce': lineConnectConfig.rest_nonce,
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ session_ids: Array.from(selectedIds) }),
+            });
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}));
+                alert(err.message || __('Failed to delete sessions.', 'lineconnect'));
+                return;
+            }
+
+            // Success, update local state
+            setSessionsState(prev => prev.filter(s => !selectedIds.has(s.id)));
+            setSelectedIds(new Set());
+
+        } catch (e) {
+            console.error(e);
+            alert(__('Error deleting sessions.', 'lineconnect'));
+        }
+    };
 
     const handleCsvDownload = () => {
         const url = new URL(window.location.href);
@@ -264,10 +321,26 @@ const Sessions = () => {
                     <Download className="h-4 w-4 mr-2" />
                     {__("CSV Download", "lineconnect")}
                 </Button>
+                <Button
+                    variant="destructive"
+                    onClick={handleBulkDelete}
+                    disabled={selectedIds.size === 0}
+                    className="flex items-center"
+                >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    {__("Bulk Delete", "lineconnect")} ({selectedIds.size})
+                </Button>
             </div>
             <table className="wp-list-table widefat striped">
                 <thead>
                     <tr>
+                        <th scope="col" className="w-12">
+                            <Checkbox
+                                checked={selectedIds.size > 0 && selectedIds.size === sessionsState.length}
+                                onCheckedChange={handleSelectAll}
+                                aria-label={__("Select all", "lineconnect")}
+                            />
+                        </th>
                         <th scope="col">{__('Session ID', 'lineconnect')}</th>
                         <th scope="col">{__('Version', 'lineconnect')}</th>
                         <th scope="col">{__('Channel', 'lineconnect')}</th>
@@ -281,22 +354,30 @@ const Sessions = () => {
                 <tbody>
                     {sessionsState.length === 0 && (
                         <tr>
-                            <td colSpan={8}>{__('No sessions found for this interaction.', 'lineconnect')}</td>
+                            <td colSpan={9}>{__('No sessions found for this interaction.', 'lineconnect')}</td>
                         </tr>
                     )}
                     {sessionsState.map((session) => (
                         <tr
                             key={session.id}
-                            onClick={() => handleSessionClick(session)}
+                            // onClick={() => handleSessionClick(session)}
                             className="cursor-pointer hover:bg-gray-50"
                         >
-                            <td>{session.id}</td>
-                            <td>{session.interaction_version}</td>
-                            <td>{session.channel_name || session.channel_prefix}</td>
-                            <td>{session.displayName || session.line_user_id}</td>
-                            <td>{statusOptions.find(option => option.value === session.status)?.label || session.status}</td>
-                            <td>{session.status === 'active' ? session.current_step_id : ''}</td>
-                            <td>{new Date(session.updated_at).toLocaleString('ja-JP')}</td>
+                            <td>
+                                <Checkbox
+                                    checked={selectedIds.has(session.id)}
+                                    onCheckedChange={() => handleSelectionChange(session.id)}
+                                    onClick={(e) => e.stopPropagation()}
+                                    aria-label={`Select session ${session.id}`}
+                                />
+                            </td>
+                            <td onClick={() => handleSessionClick(session)}>{session.id}</td>
+                            <td onClick={() => handleSessionClick(session)}>{session.interaction_version}</td>
+                            <td onClick={() => handleSessionClick(session)}>{session.channel_name || session.channel_prefix}</td>
+                            <td onClick={() => handleSessionClick(session)}>{session.displayName || session.line_user_id}</td>
+                            <td onClick={() => handleSessionClick(session)}>{statusOptions.find(option => option.value === session.status)?.label || session.status}</td>
+                            <td onClick={() => handleSessionClick(session)}>{session.status === 'active' ? session.current_step_id : ''}</td>
+                            <td onClick={() => handleSessionClick(session)}>{new Date(session.updated_at).toLocaleString('ja-JP')}</td>
                             <td>
                                 <button
                                     type="button"
