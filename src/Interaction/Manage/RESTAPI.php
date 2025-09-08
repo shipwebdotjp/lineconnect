@@ -183,6 +183,27 @@ class RESTAPI {
                 ),
             )
         );
+
+        // セッションを一括削除する
+        register_rest_route(
+            LineConnect::PLUGIN_NAME,
+            '/interactions/(?P<interaction_id>\d+)/sessions',
+            array(
+                'methods' => 'DELETE',
+                'callback' => [__CLASS__, 'delete_sessions_bulk'],
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+                'args' => array(
+                    'interaction_id' => array(
+                        'validate_callback' => function ($param, $request, $key) {
+                            return is_numeric($param);
+                        },
+                        'required' => true,
+                    ),
+                ),
+            )
+        );
     }
 
     /**
@@ -627,4 +648,49 @@ class RESTAPI {
         return new \WP_REST_Response(null, 204);
     }
 
+    /**
+     * セッションを一括削除する
+     */
+    public static function delete_sessions_bulk(\WP_REST_Request $request) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . LineConnect::TABLE_INTERACTION_SESSIONS;
+
+        $interaction_id = intval($request['interaction_id']);
+        $body = $request->get_json_params();
+        $session_ids = isset($body['session_ids']) ? $body['session_ids'] : [];
+
+        if (empty($session_ids) || !is_array($session_ids)) {
+            return new \WP_Error('invalid_request', __('Session IDs must be a non-empty array.', LineConnect::PLUGIN_NAME), array('status' => 400));
+        }
+
+        // 全てのIDが数値であることを確認
+        $sanitized_ids = array_map('intval', $session_ids);
+        foreach ($sanitized_ids as $id) {
+            if ($id <= 0) {
+                return new \WP_Error('invalid_ids', __('Invalid session ID found.', LineConnect::PLUGIN_NAME), array('status' => 400));
+            }
+        }
+
+        // プレースホルダを作成
+        $placeholders = implode(', ', array_fill(0, count($sanitized_ids), '%d'));
+
+        // interaction_idも削除条件に加えて、他のインタラクションのセッションを誤って削除しないようにする
+        $query = $wpdb->prepare(
+            "DELETE FROM {$table_name} WHERE interaction_id = %d AND id IN ({$placeholders})",
+            array_merge([$interaction_id], $sanitized_ids)
+        );
+
+        $deleted = $wpdb->query($query);
+
+        if ($deleted === false) {
+            return new \WP_Error('db_delete_failed', __('Failed to delete sessions.', LineConnect::PLUGIN_NAME), array('status' => 500));
+        }
+
+        if ($deleted === 0) {
+            // 削除対象が見つからなかった場合。これはエラーではないかもしれないが、念のためクライアントに伝える
+            return new \WP_Error('not_found', __('No matching sessions found to delete.', LineConnect::PLUGIN_NAME), array('status' => 404));
+        }
+
+        return new \WP_REST_Response(null, 204);
+    }
 }
