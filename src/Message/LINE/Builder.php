@@ -420,13 +420,39 @@ class Builder {
 		return new \LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder($buttonBuilders);
 	}
 
-	// Textメッセージを作成
+	/**
+	 * Textメッセージを作成
+	 * 
+	 * @param string $text メインテキスト
+	 * @param QuickReplyBuilder|null $quickReply クイックリプライ
+	 * @param SenderBuilder|null $sender 送信者情報
+	 * @param string[] $extraTexts 追加テキスト（複数メッセージ用）
+	 * @return \LINE\LINEBot\MessageBuilder\TextMessageBuilder
+	 */
 	static function createTextMessage($text, $quickReply = null, $sender = null, $extraTexts = null) {
-		// LINEBOT SDKの読み込み
-		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
-		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text,  $quickReply, $sender, $extraTexts);
-	}
+		// 引数を配列にまとめる（nullでないものだけ）
+		$args = [$text];
 
+		if ($quickReply !== null) {
+			$args[] = $quickReply;
+		}
+
+		if ($sender !== null) {
+			$args[] = $sender;
+		}
+
+		// 追加テキストがある場合は展開して追加
+		if ($extraTexts !== null) {
+			if (is_array($extraTexts)) {
+				$args = array_merge($args, $extraTexts);
+			} else {
+				$args[] = $extraTexts;
+			}
+		}
+
+		// 可変引数として渡す
+		return new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(...$args);
+	}
 	// Image message
 	static function createImageMessage($originalContentUrl, $previewImageUrl, $quickReply = null, $sender = null) {
 		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';

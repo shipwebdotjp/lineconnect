@@ -303,7 +303,7 @@ class ListTable extends \WP_List_Table {
 
 
 	public function column_message($item) {
-		$message = json_decode($item['message'], true);
+		$message = json_decode($item['message'] ?: '{}', true);
 		if (json_last_error() == JSON_ERROR_NONE) {
 			if ($item['message_type'] == 1) {
 				if (is_array($message) && isset($message[0])) {

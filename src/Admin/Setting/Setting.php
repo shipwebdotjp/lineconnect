@@ -524,7 +524,7 @@ EOM;
 								if ($channel['prefix'] == $new_key) {
 									$options['value'] = $_POST[lineconnect::PARAMETER_PREFIX . $option_key . 'new'];
 								} else {
-									$options['value'] = $_POST[lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix']];
+									$options['value'] = $_POST[lineconnect::PARAMETER_PREFIX . $option_key . $channel['prefix']] ?? [];
 								}
 								foreach ($options['value'] as $key => $tmp) {
 									$options['value'][$key] = trim(sanitize_text_field($tmp));

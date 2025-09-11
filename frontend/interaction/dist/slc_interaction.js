@@ -3310,6 +3310,846 @@ var Root = Arrow;
 
 /***/ }),
 
+/***/ "./node_modules/@radix-ui/react-checkbox/dist/index.mjs":
+/*!**************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/dist/index.mjs ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Checkbox: () => (/* binding */ Checkbox),
+/* harmony export */   CheckboxIndicator: () => (/* binding */ CheckboxIndicator),
+/* harmony export */   Indicator: () => (/* binding */ CheckboxIndicator),
+/* harmony export */   Root: () => (/* binding */ Checkbox),
+/* harmony export */   createCheckboxScope: () => (/* binding */ createCheckboxScope),
+/* harmony export */   unstable_BubbleInput: () => (/* binding */ CheckboxBubbleInput),
+/* harmony export */   unstable_CheckboxBubbleInput: () => (/* binding */ CheckboxBubbleInput),
+/* harmony export */   unstable_CheckboxProvider: () => (/* binding */ CheckboxProvider),
+/* harmony export */   unstable_CheckboxTrigger: () => (/* binding */ CheckboxTrigger),
+/* harmony export */   unstable_Provider: () => (/* binding */ CheckboxProvider),
+/* harmony export */   unstable_Trigger: () => (/* binding */ CheckboxTrigger)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @radix-ui/react-compose-refs */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-compose-refs/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @radix-ui/react-context */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-context/dist/index.mjs");
+/* harmony import */ var _radix_ui_primitive__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @radix-ui/primitive */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/primitive/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_controllable_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @radix-ui/react-use-controllable-state */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-controllable-state/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_previous__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @radix-ui/react-use-previous */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-previous/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_size__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @radix-ui/react-use-size */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-size/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_presence__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @radix-ui/react-presence */ "./node_modules/@radix-ui/react-presence/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @radix-ui/react-primitive */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-primitive/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+"use client";
+
+// src/checkbox.tsx
+
+
+
+
+
+
+
+
+
+
+var CHECKBOX_NAME = "Checkbox";
+var [createCheckboxContext, createCheckboxScope] = (0,_radix_ui_react_context__WEBPACK_IMPORTED_MODULE_2__.createContextScope)(CHECKBOX_NAME);
+var [CheckboxProviderImpl, useCheckboxContext] = createCheckboxContext(CHECKBOX_NAME);
+function CheckboxProvider(props) {
+  const {
+    __scopeCheckbox,
+    checked: checkedProp,
+    children,
+    defaultChecked,
+    disabled,
+    form,
+    name,
+    onCheckedChange,
+    required,
+    value = "on",
+    // @ts-expect-error
+    internal_do_not_use_render
+  } = props;
+  const [checked, setChecked] = (0,_radix_ui_react_use_controllable_state__WEBPACK_IMPORTED_MODULE_3__.useControllableState)({
+    prop: checkedProp,
+    defaultProp: defaultChecked ?? false,
+    onChange: onCheckedChange,
+    caller: CHECKBOX_NAME
+  });
+  const [control, setControl] = react__WEBPACK_IMPORTED_MODULE_0__.useState(null);
+  const [bubbleInput, setBubbleInput] = react__WEBPACK_IMPORTED_MODULE_0__.useState(null);
+  const hasConsumerStoppedPropagationRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+  const isFormControl = control ? !!form || !!control.closest("form") : (
+    // We set this to true by default so that events bubble to forms without JS (SSR)
+    true
+  );
+  const context = {
+    checked,
+    disabled,
+    setChecked,
+    control,
+    setControl,
+    name,
+    form,
+    value,
+    hasConsumerStoppedPropagationRef,
+    required,
+    defaultChecked: isIndeterminate(defaultChecked) ? false : defaultChecked,
+    isFormControl,
+    bubbleInput,
+    setBubbleInput
+  };
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+    CheckboxProviderImpl,
+    {
+      scope: __scopeCheckbox,
+      ...context,
+      children: isFunction(internal_do_not_use_render) ? internal_do_not_use_render(context) : children
+    }
+  );
+}
+var TRIGGER_NAME = "CheckboxTrigger";
+var CheckboxTrigger = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  ({ __scopeCheckbox, onKeyDown, onClick, ...checkboxProps }, forwardedRef) => {
+    const {
+      control,
+      value,
+      disabled,
+      checked,
+      required,
+      setControl,
+      setChecked,
+      hasConsumerStoppedPropagationRef,
+      isFormControl,
+      bubbleInput
+    } = useCheckboxContext(TRIGGER_NAME, __scopeCheckbox);
+    const composedRefs = (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_4__.useComposedRefs)(forwardedRef, setControl);
+    const initialCheckedStateRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(checked);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+      const form = control?.form;
+      if (form) {
+        const reset = () => setChecked(initialCheckedStateRef.current);
+        form.addEventListener("reset", reset);
+        return () => form.removeEventListener("reset", reset);
+      }
+    }, [control, setChecked]);
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__.Primitive.button,
+      {
+        type: "button",
+        role: "checkbox",
+        "aria-checked": isIndeterminate(checked) ? "mixed" : checked,
+        "aria-required": required,
+        "data-state": getState(checked),
+        "data-disabled": disabled ? "" : void 0,
+        disabled,
+        value,
+        ...checkboxProps,
+        ref: composedRefs,
+        onKeyDown: (0,_radix_ui_primitive__WEBPACK_IMPORTED_MODULE_6__.composeEventHandlers)(onKeyDown, (event) => {
+          if (event.key === "Enter") event.preventDefault();
+        }),
+        onClick: (0,_radix_ui_primitive__WEBPACK_IMPORTED_MODULE_6__.composeEventHandlers)(onClick, (event) => {
+          setChecked((prevChecked) => isIndeterminate(prevChecked) ? true : !prevChecked);
+          if (bubbleInput && isFormControl) {
+            hasConsumerStoppedPropagationRef.current = event.isPropagationStopped();
+            if (!hasConsumerStoppedPropagationRef.current) event.stopPropagation();
+          }
+        })
+      }
+    );
+  }
+);
+CheckboxTrigger.displayName = TRIGGER_NAME;
+var Checkbox = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  (props, forwardedRef) => {
+    const {
+      __scopeCheckbox,
+      name,
+      checked,
+      defaultChecked,
+      required,
+      disabled,
+      value,
+      onCheckedChange,
+      form,
+      ...checkboxProps
+    } = props;
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      CheckboxProvider,
+      {
+        __scopeCheckbox,
+        checked,
+        defaultChecked,
+        disabled,
+        required,
+        onCheckedChange,
+        name,
+        form,
+        value,
+        internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, { children: [
+          /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+            CheckboxTrigger,
+            {
+              ...checkboxProps,
+              ref: forwardedRef,
+              __scopeCheckbox
+            }
+          ),
+          isFormControl && /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+            CheckboxBubbleInput,
+            {
+              __scopeCheckbox
+            }
+          )
+        ] })
+      }
+    );
+  }
+);
+Checkbox.displayName = CHECKBOX_NAME;
+var INDICATOR_NAME = "CheckboxIndicator";
+var CheckboxIndicator = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  (props, forwardedRef) => {
+    const { __scopeCheckbox, forceMount, ...indicatorProps } = props;
+    const context = useCheckboxContext(INDICATOR_NAME, __scopeCheckbox);
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      _radix_ui_react_presence__WEBPACK_IMPORTED_MODULE_7__.Presence,
+      {
+        present: forceMount || isIndeterminate(context.checked) || context.checked === true,
+        children: /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+          _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__.Primitive.span,
+          {
+            "data-state": getState(context.checked),
+            "data-disabled": context.disabled ? "" : void 0,
+            ...indicatorProps,
+            ref: forwardedRef,
+            style: { pointerEvents: "none", ...props.style }
+          }
+        )
+      }
+    );
+  }
+);
+CheckboxIndicator.displayName = INDICATOR_NAME;
+var BUBBLE_INPUT_NAME = "CheckboxBubbleInput";
+var CheckboxBubbleInput = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  ({ __scopeCheckbox, ...props }, forwardedRef) => {
+    const {
+      control,
+      hasConsumerStoppedPropagationRef,
+      checked,
+      defaultChecked,
+      required,
+      disabled,
+      name,
+      value,
+      form,
+      bubbleInput,
+      setBubbleInput
+    } = useCheckboxContext(BUBBLE_INPUT_NAME, __scopeCheckbox);
+    const composedRefs = (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_4__.useComposedRefs)(forwardedRef, setBubbleInput);
+    const prevChecked = (0,_radix_ui_react_use_previous__WEBPACK_IMPORTED_MODULE_8__.usePrevious)(checked);
+    const controlSize = (0,_radix_ui_react_use_size__WEBPACK_IMPORTED_MODULE_9__.useSize)(control);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+      const input = bubbleInput;
+      if (!input) return;
+      const inputProto = window.HTMLInputElement.prototype;
+      const descriptor = Object.getOwnPropertyDescriptor(
+        inputProto,
+        "checked"
+      );
+      const setChecked = descriptor.set;
+      const bubbles = !hasConsumerStoppedPropagationRef.current;
+      if (prevChecked !== checked && setChecked) {
+        const event = new Event("click", { bubbles });
+        input.indeterminate = isIndeterminate(checked);
+        setChecked.call(input, isIndeterminate(checked) ? false : checked);
+        input.dispatchEvent(event);
+      }
+    }, [bubbleInput, prevChecked, checked, hasConsumerStoppedPropagationRef]);
+    const defaultCheckedRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(isIndeterminate(checked) ? false : checked);
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__.Primitive.input,
+      {
+        type: "checkbox",
+        "aria-hidden": true,
+        defaultChecked: defaultChecked ?? defaultCheckedRef.current,
+        required,
+        disabled,
+        name,
+        value,
+        form,
+        ...props,
+        tabIndex: -1,
+        ref: composedRefs,
+        style: {
+          ...props.style,
+          ...controlSize,
+          position: "absolute",
+          pointerEvents: "none",
+          opacity: 0,
+          margin: 0,
+          // We transform because the input is absolutely positioned but we have
+          // rendered it **after** the button. This pulls it back to sit on top
+          // of the button.
+          transform: "translateX(-100%)"
+        }
+      }
+    );
+  }
+);
+CheckboxBubbleInput.displayName = BUBBLE_INPUT_NAME;
+function isFunction(value) {
+  return typeof value === "function";
+}
+function isIndeterminate(checked) {
+  return checked === "indeterminate";
+}
+function getState(checked) {
+  return isIndeterminate(checked) ? "indeterminate" : checked ? "checked" : "unchecked";
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/primitive/dist/index.mjs":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/primitive/dist/index.mjs ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   canUseDOM: () => (/* binding */ canUseDOM),
+/* harmony export */   composeEventHandlers: () => (/* binding */ composeEventHandlers),
+/* harmony export */   getActiveElement: () => (/* binding */ getActiveElement),
+/* harmony export */   getOwnerDocument: () => (/* binding */ getOwnerDocument),
+/* harmony export */   getOwnerWindow: () => (/* binding */ getOwnerWindow),
+/* harmony export */   isFrame: () => (/* binding */ isFrame)
+/* harmony export */ });
+// src/primitive.tsx
+var canUseDOM = !!(typeof window !== "undefined" && window.document && window.document.createElement);
+function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
+  return function handleEvent(event) {
+    originalEventHandler?.(event);
+    if (checkForDefaultPrevented === false || !event.defaultPrevented) {
+      return ourEventHandler?.(event);
+    }
+  };
+}
+function getOwnerWindow(element) {
+  if (!canUseDOM) {
+    throw new Error("Cannot access window outside of the DOM");
+  }
+  return element?.ownerDocument?.defaultView ?? window;
+}
+function getOwnerDocument(element) {
+  if (!canUseDOM) {
+    throw new Error("Cannot access document outside of the DOM");
+  }
+  return element?.ownerDocument ?? document;
+}
+function getActiveElement(node, activeDescendant = false) {
+  const { activeElement } = getOwnerDocument(node);
+  if (!activeElement?.nodeName) {
+    return null;
+  }
+  if (isFrame(activeElement) && activeElement.contentDocument) {
+    return getActiveElement(activeElement.contentDocument.body, activeDescendant);
+  }
+  if (activeDescendant) {
+    const id = activeElement.getAttribute("aria-activedescendant");
+    if (id) {
+      const element = getOwnerDocument(activeElement).getElementById(id);
+      if (element) {
+        return element;
+      }
+    }
+  }
+  return activeElement;
+}
+function isFrame(element) {
+  return element.tagName === "IFRAME";
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-compose-refs/dist/index.mjs":
+/*!********************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-compose-refs/dist/index.mjs ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   composeRefs: () => (/* binding */ composeRefs),
+/* harmony export */   useComposedRefs: () => (/* binding */ useComposedRefs)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+// packages/react/compose-refs/src/compose-refs.tsx
+
+function setRef(ref, value) {
+  if (typeof ref === "function") {
+    return ref(value);
+  } else if (ref !== null && ref !== void 0) {
+    ref.current = value;
+  }
+}
+function composeRefs(...refs) {
+  return (node) => {
+    let hasCleanup = false;
+    const cleanups = refs.map((ref) => {
+      const cleanup = setRef(ref, node);
+      if (!hasCleanup && typeof cleanup == "function") {
+        hasCleanup = true;
+      }
+      return cleanup;
+    });
+    if (hasCleanup) {
+      return () => {
+        for (let i = 0; i < cleanups.length; i++) {
+          const cleanup = cleanups[i];
+          if (typeof cleanup == "function") {
+            cleanup();
+          } else {
+            setRef(refs[i], null);
+          }
+        }
+      };
+    }
+  };
+}
+function useComposedRefs(...refs) {
+  return react__WEBPACK_IMPORTED_MODULE_0__.useCallback(composeRefs(...refs), refs);
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-context/dist/index.mjs":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-context/dist/index.mjs ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createContext: () => (/* binding */ createContext2),
+/* harmony export */   createContextScope: () => (/* binding */ createContextScope)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+// packages/react/context/src/create-context.tsx
+
+
+function createContext2(rootComponentName, defaultContext) {
+  const Context = react__WEBPACK_IMPORTED_MODULE_0__.createContext(defaultContext);
+  const Provider = (props) => {
+    const { children, ...context } = props;
+    const value = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => context, Object.values(context));
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Context.Provider, { value, children });
+  };
+  Provider.displayName = rootComponentName + "Provider";
+  function useContext2(consumerName) {
+    const context = react__WEBPACK_IMPORTED_MODULE_0__.useContext(Context);
+    if (context) return context;
+    if (defaultContext !== void 0) return defaultContext;
+    throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+  }
+  return [Provider, useContext2];
+}
+function createContextScope(scopeName, createContextScopeDeps = []) {
+  let defaultContexts = [];
+  function createContext3(rootComponentName, defaultContext) {
+    const BaseContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(defaultContext);
+    const index = defaultContexts.length;
+    defaultContexts = [...defaultContexts, defaultContext];
+    const Provider = (props) => {
+      const { scope, children, ...context } = props;
+      const Context = scope?.[scopeName]?.[index] || BaseContext;
+      const value = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => context, Object.values(context));
+      return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Context.Provider, { value, children });
+    };
+    Provider.displayName = rootComponentName + "Provider";
+    function useContext2(consumerName, scope) {
+      const Context = scope?.[scopeName]?.[index] || BaseContext;
+      const context = react__WEBPACK_IMPORTED_MODULE_0__.useContext(Context);
+      if (context) return context;
+      if (defaultContext !== void 0) return defaultContext;
+      throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+    }
+    return [Provider, useContext2];
+  }
+  const createScope = () => {
+    const scopeContexts = defaultContexts.map((defaultContext) => {
+      return react__WEBPACK_IMPORTED_MODULE_0__.createContext(defaultContext);
+    });
+    return function useScope(scope) {
+      const contexts = scope?.[scopeName] || scopeContexts;
+      return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+        () => ({ [`__scope${scopeName}`]: { ...scope, [scopeName]: contexts } }),
+        [scope, contexts]
+      );
+    };
+  };
+  createScope.scopeName = scopeName;
+  return [createContext3, composeContextScopes(createScope, ...createContextScopeDeps)];
+}
+function composeContextScopes(...scopes) {
+  const baseScope = scopes[0];
+  if (scopes.length === 1) return baseScope;
+  const createScope = () => {
+    const scopeHooks = scopes.map((createScope2) => ({
+      useScope: createScope2(),
+      scopeName: createScope2.scopeName
+    }));
+    return function useComposedScopes(overrideScopes) {
+      const nextScopes = scopeHooks.reduce((nextScopes2, { useScope, scopeName }) => {
+        const scopeProps = useScope(overrideScopes);
+        const currentScope = scopeProps[`__scope${scopeName}`];
+        return { ...nextScopes2, ...currentScope };
+      }, {});
+      return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => ({ [`__scope${baseScope.scopeName}`]: nextScopes }), [nextScopes]);
+    };
+  };
+  createScope.scopeName = baseScope.scopeName;
+  return createScope;
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-primitive/dist/index.mjs":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-primitive/dist/index.mjs ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Primitive: () => (/* binding */ Primitive),
+/* harmony export */   Root: () => (/* binding */ Root),
+/* harmony export */   dispatchDiscreteCustomEvent: () => (/* binding */ dispatchDiscreteCustomEvent)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _radix_ui_react_slot__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @radix-ui/react-slot */ "./node_modules/@radix-ui/react-slot/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+// src/primitive.tsx
+
+
+
+
+var NODES = [
+  "a",
+  "button",
+  "div",
+  "form",
+  "h2",
+  "h3",
+  "img",
+  "input",
+  "label",
+  "li",
+  "nav",
+  "ol",
+  "p",
+  "select",
+  "span",
+  "svg",
+  "ul"
+];
+var Primitive = NODES.reduce((primitive, node) => {
+  const Slot = (0,_radix_ui_react_slot__WEBPACK_IMPORTED_MODULE_3__.createSlot)(`Primitive.${node}`);
+  const Node = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((props, forwardedRef) => {
+    const { asChild, ...primitiveProps } = props;
+    const Comp = asChild ? Slot : node;
+    if (typeof window !== "undefined") {
+      window[Symbol.for("radix-ui")] = true;
+    }
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Comp, { ...primitiveProps, ref: forwardedRef });
+  });
+  Node.displayName = `Primitive.${node}`;
+  return { ...primitive, [node]: Node };
+}, {});
+function dispatchDiscreteCustomEvent(target, event) {
+  if (target) react_dom__WEBPACK_IMPORTED_MODULE_1__.flushSync(() => target.dispatchEvent(event));
+}
+var Root = Primitive;
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-controllable-state/dist/index.mjs":
+/*!******************************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-controllable-state/dist/index.mjs ***!
+  \******************************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useControllableState: () => (/* binding */ useControllableState),
+/* harmony export */   useControllableStateReducer: () => (/* binding */ useControllableStateReducer)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _radix_ui_react_use_layout_effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @radix-ui/react-use-layout-effect */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_effect_event__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @radix-ui/react-use-effect-event */ "./node_modules/@radix-ui/react-use-effect-event/dist/index.mjs");
+// src/use-controllable-state.tsx
+
+
+var useInsertionEffect = /*#__PURE__*/ (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react__WEBPACK_IMPORTED_MODULE_0__, 2)))[" useInsertionEffect ".trim().toString()] || _radix_ui_react_use_layout_effect__WEBPACK_IMPORTED_MODULE_1__.useLayoutEffect;
+function useControllableState({
+  prop,
+  defaultProp,
+  onChange = () => {
+  },
+  caller
+}) {
+  const [uncontrolledProp, setUncontrolledProp, onChangeRef] = useUncontrolledState({
+    defaultProp,
+    onChange
+  });
+  const isControlled = prop !== void 0;
+  const value = isControlled ? prop : uncontrolledProp;
+  if (true) {
+    const isControlledRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(prop !== void 0);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+      const wasControlled = isControlledRef.current;
+      if (wasControlled !== isControlled) {
+        const from = wasControlled ? "controlled" : "uncontrolled";
+        const to = isControlled ? "controlled" : "uncontrolled";
+        console.warn(
+          `${caller} is changing from ${from} to ${to}. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.`
+        );
+      }
+      isControlledRef.current = isControlled;
+    }, [isControlled, caller]);
+  }
+  const setValue = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (nextValue) => {
+      if (isControlled) {
+        const value2 = isFunction(nextValue) ? nextValue(prop) : nextValue;
+        if (value2 !== prop) {
+          onChangeRef.current?.(value2);
+        }
+      } else {
+        setUncontrolledProp(nextValue);
+      }
+    },
+    [isControlled, prop, setUncontrolledProp, onChangeRef]
+  );
+  return [value, setValue];
+}
+function useUncontrolledState({
+  defaultProp,
+  onChange
+}) {
+  const [value, setValue] = react__WEBPACK_IMPORTED_MODULE_0__.useState(defaultProp);
+  const prevValueRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(value);
+  const onChangeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(onChange);
+  useInsertionEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (prevValueRef.current !== value) {
+      onChangeRef.current?.(value);
+      prevValueRef.current = value;
+    }
+  }, [value, prevValueRef]);
+  return [value, setValue, onChangeRef];
+}
+function isFunction(value) {
+  return typeof value === "function";
+}
+
+// src/use-controllable-state-reducer.tsx
+
+
+var SYNC_STATE = Symbol("RADIX:SYNC_STATE");
+function useControllableStateReducer(reducer, userArgs, initialArg, init) {
+  const { prop: controlledState, defaultProp, onChange: onChangeProp, caller } = userArgs;
+  const isControlled = controlledState !== void 0;
+  const onChange = (0,_radix_ui_react_use_effect_event__WEBPACK_IMPORTED_MODULE_2__.useEffectEvent)(onChangeProp);
+  if (true) {
+    const isControlledRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(controlledState !== void 0);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+      const wasControlled = isControlledRef.current;
+      if (wasControlled !== isControlled) {
+        const from = wasControlled ? "controlled" : "uncontrolled";
+        const to = isControlled ? "controlled" : "uncontrolled";
+        console.warn(
+          `${caller} is changing from ${from} to ${to}. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.`
+        );
+      }
+      isControlledRef.current = isControlled;
+    }, [isControlled, caller]);
+  }
+  const args = [{ ...initialArg, state: defaultProp }];
+  if (init) {
+    args.push(init);
+  }
+  const [internalState, dispatch] = react__WEBPACK_IMPORTED_MODULE_0__.useReducer(
+    (state2, action) => {
+      if (action.type === SYNC_STATE) {
+        return { ...state2, state: action.state };
+      }
+      const next = reducer(state2, action);
+      if (isControlled && !Object.is(next.state, state2.state)) {
+        onChange(next.state);
+      }
+      return next;
+    },
+    ...args
+  );
+  const uncontrolledState = internalState.state;
+  const prevValueRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(uncontrolledState);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (prevValueRef.current !== uncontrolledState) {
+      prevValueRef.current = uncontrolledState;
+      if (!isControlled) {
+        onChange(uncontrolledState);
+      }
+    }
+  }, [onChange, uncontrolledState, prevValueRef, isControlled]);
+  const state = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    const isControlled2 = controlledState !== void 0;
+    if (isControlled2) {
+      return { ...internalState, state: controlledState };
+    }
+    return internalState;
+  }, [internalState, controlledState]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (isControlled && !Object.is(controlledState, internalState.state)) {
+      dispatch({ type: SYNC_STATE, state: controlledState });
+    }
+  }, [controlledState, internalState.state, isControlled]);
+  return [state, dispatch];
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useLayoutEffect: () => (/* binding */ useLayoutEffect2)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+// packages/react/use-layout-effect/src/use-layout-effect.tsx
+
+var useLayoutEffect2 = globalThis?.document ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : () => {
+};
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-previous/dist/index.mjs":
+/*!********************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-previous/dist/index.mjs ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   usePrevious: () => (/* binding */ usePrevious)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+// packages/react/use-previous/src/use-previous.tsx
+
+function usePrevious(value) {
+  const ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef({ value, previous: value });
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    if (ref.current.value !== value) {
+      ref.current.previous = ref.current.value;
+      ref.current.value = value;
+    }
+    return ref.current.previous;
+  }, [value]);
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-size/dist/index.mjs":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-size/dist/index.mjs ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useSize: () => (/* binding */ useSize)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _radix_ui_react_use_layout_effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @radix-ui/react-use-layout-effect */ "./node_modules/@radix-ui/react-checkbox/node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs");
+// packages/react/use-size/src/use-size.tsx
+
+
+function useSize(element) {
+  const [size, setSize] = react__WEBPACK_IMPORTED_MODULE_0__.useState(void 0);
+  (0,_radix_ui_react_use_layout_effect__WEBPACK_IMPORTED_MODULE_1__.useLayoutEffect)(() => {
+    if (element) {
+      setSize({ width: element.offsetWidth, height: element.offsetHeight });
+      const resizeObserver = new ResizeObserver((entries) => {
+        if (!Array.isArray(entries)) {
+          return;
+        }
+        if (!entries.length) {
+          return;
+        }
+        const entry = entries[0];
+        let width;
+        let height;
+        if ("borderBoxSize" in entry) {
+          const borderSizeEntry = entry["borderBoxSize"];
+          const borderSize = Array.isArray(borderSizeEntry) ? borderSizeEntry[0] : borderSizeEntry;
+          width = borderSize["inlineSize"];
+          height = borderSize["blockSize"];
+        } else {
+          width = element.offsetWidth;
+          height = element.offsetHeight;
+        }
+        setSize({ width, height });
+      });
+      resizeObserver.observe(element, { box: "border-box" });
+      return () => resizeObserver.unobserve(element);
+    } else {
+      setSize(void 0);
+    }
+  }, [element]);
+  return size;
+}
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@radix-ui/react-collection/dist/index.mjs":
 /*!****************************************************************!*\
   !*** ./node_modules/@radix-ui/react-collection/dist/index.mjs ***!
@@ -21338,6 +22178,45 @@ const Search = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
 
 
 //# sourceMappingURL=search.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/square-pen.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/square-pen.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
+/* harmony export */   "default": () => (/* binding */ SquarePen)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.482.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7", key: "1m0v6g" }],
+  [
+    "path",
+    {
+      d: "M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z",
+      key: "ohrbg2"
+    }
+  ]
+];
+const SquarePen = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("SquarePen", __iconNode);
+
+
+//# sourceMappingURL=square-pen.js.map
 
 
 /***/ }),
@@ -69032,13 +69911,15 @@ var SessionDetailDrawer = function SessionDetailDrawer(_ref) {
     isOpen = _ref.isOpen,
     onClose = _ref.onClose,
     onEdit = _ref.onEdit,
-    onDelete = _ref.onDelete;
+    onDelete = _ref.onDelete,
+    _ref$initialEditing = _ref.initialEditing,
+    initialEditing = _ref$initialEditing === void 0 ? false : _ref$initialEditing;
   var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)(),
     sessionId = _useParams.sessionId;
 
   // URLにsessionIdがある場合、またはisOpenがtrueの場合に開く
   var shouldOpen = sessionId || isOpen;
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialEditing),
     _useState2 = _slicedToArray(_useState, 2),
     isEditing = _useState2[0],
     setIsEditing = _useState2[1];
@@ -69077,11 +69958,11 @@ var SessionDetailDrawer = function SessionDetailDrawer(_ref) {
       }
       setFormAnswers(initial);
       setFormStatus(session.status || '');
-      setIsEditing(false);
+      setIsEditing(initialEditing);
       setErrorMessage(null);
       setSuccessMessage(null);
     }
-  }, [session]);
+  }, [session, initialEditing]);
   if (!session) {
     return null;
   }
@@ -69912,6 +70793,66 @@ var Button = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function
   }));
 });
 Button.displayName = "Button";
+
+
+/***/ }),
+
+/***/ "./src/components/ui/checkbox.tsx":
+/*!****************************************!*\
+  !*** ./src/components/ui/checkbox.tsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Checkbox: () => (/* binding */ Checkbox)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _radix_ui_react_checkbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @radix-ui/react-checkbox */ "./node_modules/@radix-ui/react-checkbox/dist/index.mjs");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/check.js");
+/* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/lib/utils */ "./src/lib/utils.ts");
+var _excluded = ["className"];
+var _jsxFileName = "/Applications/MAMP/htdocs/wptest/wp-content/plugins/lineconnect/frontend/interaction/src/components/ui/checkbox.tsx";
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+
+
+
+
+function Checkbox(_ref) {
+  var className = _ref.className,
+    props = _objectWithoutProperties(_ref, _excluded);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_radix_ui_react_checkbox__WEBPACK_IMPORTED_MODULE_2__.Root, _extends({
+    "data-slot": "checkbox",
+    className: (0,_lib_utils__WEBPACK_IMPORTED_MODULE_1__.cn)("peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50", className)
+  }, props, {
+    __self: this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 12,
+      columnNumber: 5
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_radix_ui_react_checkbox__WEBPACK_IMPORTED_MODULE_2__.Indicator, {
+    "data-slot": "checkbox-indicator",
+    className: "flex items-center justify-center text-current transition-none",
+    __self: this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 20,
+      columnNumber: 7
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "size-3.5",
+    __self: this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 24,
+      columnNumber: 9
+    }
+  })));
+}
 
 
 /***/ }),
@@ -73999,17 +74940,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _components_SessionDetailDrawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SessionDetailDrawer */ "./src/components/SessionDetailDrawer.jsx");
 /* harmony import */ var _components_SessionPagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/SessionPagination */ "./src/components/SessionPagination.jsx");
 /* harmony import */ var _components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ui/multi-select */ "./src/components/ui/multi-select.tsx");
 /* harmony import */ var _lib_useUrlFilters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/useUrlFilters */ "./src/lib/useUrlFilters.js");
 /* harmony import */ var _components_ui_input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/ui/input */ "./src/components/ui/input.tsx");
 /* harmony import */ var _components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ui/datetime-picker */ "./src/components/ui/datetime-picker.tsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/x.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/download.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/trash-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/x.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/square-pen.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/trash-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/download.js");
 /* harmony import */ var _components_ui_button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ui/button */ "./src/components/ui/button.tsx");
+/* harmony import */ var _components_ui_checkbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/ui/checkbox */ "./src/components/ui/checkbox.tsx");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var _jsxFileName = "/Applications/MAMP/htdocs/wptest/wp-content/plugins/lineconnect/frontend/interaction/src/routes/sessions.jsx",
   _this = undefined;
@@ -74032,6 +74975,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 
 
+
 // wp_localize_scriptによって 'lineConnectConfig' という名前で渡される
 var lineConnectConfig = window.lineConnectConfig || {};
 var __ = wp.i18n.__;
@@ -74039,10 +74983,10 @@ function loader(_x) {
   return _loader.apply(this, arguments);
 }
 function _loader() {
-  _loader = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref) {
+  _loader = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_ref) {
     var params, request, url, status, version, channel, lineUserId, updatedAtStart, updatedAtEnd, page, perPage, queryParams, apiUrl, response, errorData, responseData, sessions, totalItems, totalPages, currentPage, filters;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
         case 0:
           params = _ref.params, request = _ref.request;
           url = new URL(request.url);
@@ -74082,7 +75026,7 @@ function _loader() {
           queryParams.set('page', page);
           queryParams.set('per_page', perPage);
           apiUrl = "".concat(lineConnectConfig.rest_url, "lineconnect/interactions/").concat(params.interactionId, "/sessions?").concat(queryParams.toString());
-          _context2.next = 22;
+          _context3.next = 22;
           return fetch(apiUrl, {
             headers: {
               'X-WP-Nonce': lineConnectConfig.rest_nonce
@@ -74090,29 +75034,29 @@ function _loader() {
             credentials: 'same-origin'
           });
         case 22:
-          response = _context2.sent;
+          response = _context3.sent;
           if (response.ok) {
-            _context2.next = 28;
+            _context3.next = 28;
             break;
           }
-          _context2.next = 26;
+          _context3.next = 26;
           return response.json()["catch"](function () {
             return {};
           });
         case 26:
-          errorData = _context2.sent;
+          errorData = _context3.sent;
           throw new Error(errorData.message || "HTTP error! status: ".concat(response.status));
         case 28:
-          _context2.next = 30;
+          _context3.next = 30;
           return response.json();
         case 30:
-          responseData = _context2.sent;
+          responseData = _context3.sent;
           sessions = responseData.data;
           totalItems = responseData.meta.pagination.total;
           totalPages = responseData.meta.pagination.pages;
           currentPage = parseInt(page) || 1;
           filters = responseData.meta.filters;
-          return _context2.abrupt("return", {
+          return _context3.abrupt("return", {
             sessions: sessions,
             currentPage: currentPage,
             totalPages: totalPages,
@@ -74121,24 +75065,24 @@ function _loader() {
           });
         case 37:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _loader.apply(this, arguments);
 }
 var Sessions = function Sessions() {
   var _filters$versions;
-  var _useLoaderData = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLoaderData)(),
+  var _useLoaderData = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLoaderData)(),
     sessions = _useLoaderData.sessions,
     currentPage = _useLoaderData.currentPage,
     totalPages = _useLoaderData.totalPages,
     filters = _useLoaderData.filters,
     totalItems = _useLoaderData.totalItems;
-  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)(),
+  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useParams)(),
     interactionId = _useParams.interactionId,
     sessionId = _useParams.sessionId;
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
   // local state for sessions so we can update list immediately after edit
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(sessions || []),
     _useState2 = _slicedToArray(_useState, 2),
@@ -74152,6 +75096,14 @@ var Sessions = function Sessions() {
     _useState6 = _slicedToArray(_useState5, 2),
     drawerOpen = _useState6[0],
     setDrawerOpen = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Set()),
+    _useState8 = _slicedToArray(_useState7, 2),
+    selectedIds = _useState8[0],
+    setSelectedIds = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startInEditMode = _useState10[0],
+    setStartInEditMode = _useState10[1];
   var _useUrlFilters = (0,_lib_useUrlFilters__WEBPACK_IMPORTED_MODULE_4__.useUrlFilters)(interactionId),
     statusValues = _useUrlFilters.statusValues,
     versionValues = _useUrlFilters.versionValues,
@@ -74166,6 +75118,97 @@ var Sessions = function Sessions() {
     handleUpdatedAtStartChange = _useUrlFilters.handleUpdatedAtStartChange,
     handleUpdatedAtEndChange = _useUrlFilters.handleUpdatedAtEndChange,
     handlePageChange = _useUrlFilters.handlePageChange;
+  var handleSelectionChange = function handleSelectionChange(id) {
+    setSelectedIds(function (prev) {
+      var newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet["delete"](id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+  var handleSelectAll = function handleSelectAll(checked) {
+    if (checked) {
+      setSelectedIds(new Set(sessionsState.map(function (s) {
+        return s.id;
+      })));
+    } else {
+      setSelectedIds(new Set());
+    }
+  };
+  var handleBulkDelete = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var deleteUrl, response, err;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            if (!(selectedIds.size === 0)) {
+              _context.next = 2;
+              break;
+            }
+            return _context.abrupt("return");
+          case 2:
+            if (confirm("".concat(__('Are you sure you want to delete the selected', 'lineconnect'), " ").concat(selectedIds.size, " ").concat(__('sessions?', 'lineconnect')))) {
+              _context.next = 4;
+              break;
+            }
+            return _context.abrupt("return");
+          case 4:
+            deleteUrl = "".concat(lineConnectConfig.rest_url, "lineconnect/interactions/").concat(interactionId, "/sessions");
+            _context.prev = 5;
+            _context.next = 8;
+            return fetch(deleteUrl, {
+              method: 'DELETE',
+              headers: {
+                'X-WP-Nonce': lineConnectConfig.rest_nonce,
+                'Content-Type': 'application/json'
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                session_ids: Array.from(selectedIds)
+              })
+            });
+          case 8:
+            response = _context.sent;
+            if (response.ok) {
+              _context.next = 15;
+              break;
+            }
+            _context.next = 12;
+            return response.json()["catch"](function () {
+              return {};
+            });
+          case 12:
+            err = _context.sent;
+            alert(err.message || __('Failed to delete sessions.', 'lineconnect'));
+            return _context.abrupt("return");
+          case 15:
+            // Success, update local state
+            setSessionsState(function (prev) {
+              return prev.filter(function (s) {
+                return !selectedIds.has(s.id);
+              });
+            });
+            setSelectedIds(new Set());
+            _context.next = 23;
+            break;
+          case 19:
+            _context.prev = 19;
+            _context.t0 = _context["catch"](5);
+            console.error(_context.t0);
+            alert(__('Error deleting sessions.', 'lineconnect'));
+          case 23:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[5, 19]]);
+    }));
+    return function handleBulkDelete() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
   var handleCsvDownload = function handleCsvDownload() {
     var url = new URL(window.location.href);
     // The search params from the current URL are already the filters we want
@@ -74228,6 +75271,15 @@ var Sessions = function Sessions() {
   }, [sessionId, sessionsState]);
   var handleSessionClick = function handleSessionClick(session) {
     setSelectedSession(session);
+    setStartInEditMode(false);
+    setDrawerOpen(true);
+    navigate("/interactions/".concat(interactionId, "/sessions/").concat(session.id), {
+      replace: true
+    });
+  };
+  var handleEditClick = function handleEditClick(session) {
+    setSelectedSession(session);
+    setStartInEditMode(true);
     setDrawerOpen(true);
     navigate("/interactions/".concat(interactionId, "/sessions/").concat(session.id), {
       replace: true
@@ -74237,26 +75289,27 @@ var Sessions = function Sessions() {
     setDrawerOpen(open);
     if (!open) {
       setSelectedSession(null);
+      setStartInEditMode(false);
       navigate("/interactions/".concat(interactionId, "/sessions"), {
         replace: true
       });
     }
   };
   var handleDeleteClick = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(sessionId) {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(sessionId) {
       var deleteUrl, response, err;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
           case 0:
             if (confirm(__('Are you sure you want to delete this session?', 'lineconnect'))) {
-              _context.next = 2;
+              _context2.next = 2;
               break;
             }
-            return _context.abrupt("return");
+            return _context2.abrupt("return");
           case 2:
             deleteUrl = "".concat(lineConnectConfig.rest_url, "lineconnect/interactions/").concat(interactionId, "/sessions/").concat(sessionId);
-            _context.prev = 3;
-            _context.next = 6;
+            _context2.prev = 3;
+            _context2.next = 6;
             return fetch(deleteUrl, {
               method: 'DELETE',
               headers: {
@@ -74265,19 +75318,19 @@ var Sessions = function Sessions() {
               credentials: 'same-origin'
             });
           case 6:
-            response = _context.sent;
+            response = _context2.sent;
             if (response.ok) {
-              _context.next = 13;
+              _context2.next = 13;
               break;
             }
-            _context.next = 10;
+            _context2.next = 10;
             return response.json()["catch"](function () {
               return {};
             });
           case 10:
-            err = _context.sent;
+            err = _context2.sent;
             alert(err.message || __('Failed to delete session.', 'lineconnect'));
-            return _context.abrupt("return");
+            return _context2.abrupt("return");
           case 13:
             // success, update local state
             setSessionsState(function (prev) {
@@ -74285,28 +75338,28 @@ var Sessions = function Sessions() {
                 return s.id.toString() !== sessionId.toString();
               });
             });
-            _context.next = 20;
+            _context2.next = 20;
             break;
           case 16:
-            _context.prev = 16;
-            _context.t0 = _context["catch"](3);
-            console.error(_context.t0);
+            _context2.prev = 16;
+            _context2.t0 = _context2["catch"](3);
+            console.error(_context2.t0);
             alert(__('Error deleting session.', 'lineconnect'));
           case 20:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
-      }, _callee, null, [[3, 16]]);
+      }, _callee2, null, [[3, 16]]);
     }));
     return function handleDeleteClick(_x2) {
-      return _ref2.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 186,
+      lineNumber: 253,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74314,7 +75367,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 187,
+      lineNumber: 254,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74328,7 +75381,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 188,
+      lineNumber: 255,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74341,7 +75394,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 197,
+      lineNumber: 264,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_multi_select__WEBPACK_IMPORTED_MODULE_3__.MultiSelect, {
@@ -74355,7 +75408,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 205,
+      lineNumber: 272,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_input__WEBPACK_IMPORTED_MODULE_5__.Input, {
@@ -74369,7 +75422,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 214,
+      lineNumber: 281,
       columnNumber: 17
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74377,7 +75430,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 221,
+      lineNumber: 288,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__.DateTimePicker, {
@@ -74394,7 +75447,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 222,
+      lineNumber: 289,
       columnNumber: 21
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -74408,15 +75461,15 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 230,
+      lineNumber: 297,
       columnNumber: 21
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
     className: "h-4 w-4",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 237,
+      lineNumber: 304,
       columnNumber: 25
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -74424,7 +75477,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 240,
+      lineNumber: 307,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_datetime_picker__WEBPACK_IMPORTED_MODULE_6__.DateTimePicker, {
@@ -74441,7 +75494,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 241,
+      lineNumber: 308,
       columnNumber: 21
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -74455,63 +75508,64 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 249,
+      lineNumber: 316,
       columnNumber: 21
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
     className: "h-4 w-4",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 256,
+      lineNumber: 323,
       columnNumber: 25
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_7__.Button, {
-    variant: "outline",
-    onClick: handleCsvDownload,
-    className: "flex items-center",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 259,
-      columnNumber: 17
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    className: "h-4 w-4 mr-2",
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 264,
-      columnNumber: 21
-    }
-  }), __("CSV Download", "lineconnect"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
     className: "wp-list-table widefat striped",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 268,
+      lineNumber: 328,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 269,
+      lineNumber: 329,
       columnNumber: 17
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 270,
+      lineNumber: 330,
       columnNumber: 21
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
     scope: "col",
+    className: "w-12",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 271,
+      lineNumber: 331,
+      columnNumber: 25
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_checkbox__WEBPACK_IMPORTED_MODULE_8__.Checkbox, {
+    checked: selectedIds.size > 0 && selectedIds.size === sessionsState.length,
+    onCheckedChange: handleSelectAll,
+    "aria-label": __("Select all", "lineconnect"),
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 332,
+      columnNumber: 29
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
+    scope: "col",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 338,
       columnNumber: 25
     }
   }, __('Session ID', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74519,7 +75573,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 272,
+      lineNumber: 339,
       columnNumber: 25
     }
   }, __('Version', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74527,7 +75581,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 273,
+      lineNumber: 340,
       columnNumber: 25
     }
   }, __('Channel', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74535,7 +75589,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 274,
+      lineNumber: 341,
       columnNumber: 25
     }
   }, __('LINE User ID', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74543,7 +75597,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 275,
+      lineNumber: 342,
       columnNumber: 25
     }
   }, __('Status', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74551,7 +75605,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 276,
+      lineNumber: 343,
       columnNumber: 25
     }
   }, __('Current Step', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74559,7 +75613,7 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 277,
+      lineNumber: 344,
       columnNumber: 25
     }
   }, __('Updated At', 'lineconnect')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
@@ -74567,104 +75621,177 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 278,
+      lineNumber: 345,
       columnNumber: 25
     }
   }, __('Actions', 'lineconnect')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 281,
+      lineNumber: 348,
       columnNumber: 17
     }
   }, sessionsState.length === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 283,
+      lineNumber: 350,
       columnNumber: 25
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
-    colSpan: 8,
+    colSpan: 9,
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 284,
+      lineNumber: 351,
       columnNumber: 29
     }
   }, __('No sessions found for this interaction.', 'lineconnect'))), sessionsState.map(function (session) {
     var _statusOptions$find;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
-      key: session.id,
-      onClick: function onClick() {
-        return handleSessionClick(session);
-      },
+      key: session.id
+      // onClick={() => handleSessionClick(session)}
+      ,
       className: "cursor-pointer hover:bg-gray-50",
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 288,
+        lineNumber: 355,
         columnNumber: 25
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 293,
+        lineNumber: 360,
+        columnNumber: 29
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_checkbox__WEBPACK_IMPORTED_MODULE_8__.Checkbox, {
+      checked: selectedIds.has(session.id),
+      onCheckedChange: function onCheckedChange() {
+        return handleSelectionChange(session.id);
+      },
+      onClick: function onClick(e) {
+        return e.stopPropagation();
+      },
+      "aria-label": "Select session ".concat(session.id),
+      __self: _this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 361,
+        columnNumber: 33
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
+      __self: _this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 368,
         columnNumber: 29
       }
     }, session.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 294,
+        lineNumber: 369,
         columnNumber: 29
       }
     }, session.interaction_version), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 295,
+        lineNumber: 370,
         columnNumber: 29
       }
     }, session.channel_name || session.channel_prefix), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 296,
+        lineNumber: 371,
         columnNumber: 29
       }
     }, session.displayName || session.line_user_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 297,
+        lineNumber: 372,
         columnNumber: 29
       }
     }, ((_statusOptions$find = statusOptions.find(function (option) {
       return option.value === session.status;
     })) === null || _statusOptions$find === void 0 ? void 0 : _statusOptions$find.label) || session.status), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 298,
+        lineNumber: 373,
         columnNumber: 29
       }
     }, session.status === 'active' ? session.current_step_id : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
+      onClick: function onClick() {
+        return handleSessionClick(session);
+      },
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 299,
+        lineNumber: 374,
         columnNumber: 29
       }
     }, new Date(session.updated_at).toLocaleString('ja-JP')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 300,
+        lineNumber: 375,
         columnNumber: 29
       }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "flex items-center",
+      __self: _this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 376,
+        columnNumber: 33
+      }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      type: "button",
+      onClick: function onClick(e) {
+        e.stopPropagation();
+        handleEditClick(session);
+      },
+      className: "text-blue-600 hover:text-blue-800 p-1",
+      "aria-label": __('Edit session', 'lineconnect'),
+      title: __('Edit', 'lineconnect'),
+      __self: _this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 377,
+        columnNumber: 37
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      className: "h-4 w-4",
+      __self: _this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 387,
+        columnNumber: 41
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       type: "button",
       onClick: function onClick(e) {
         e.stopPropagation();
@@ -74676,27 +75803,72 @@ var Sessions = function Sessions() {
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 301,
-        columnNumber: 33
+        lineNumber: 389,
+        columnNumber: 37
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_12__["default"], {
       className: "h-4 w-4",
       __self: _this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 311,
-        columnNumber: 37
+        lineNumber: 399,
+        columnNumber: 41
       }
-    }))));
+    })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "my-2 text-sm flex justify-end",
+    className: "my-2 text-sm flex justify-between",
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 318,
+      lineNumber: 407,
       columnNumber: 13
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SessionPagination__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex gap-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 408,
+      columnNumber: 17
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_7__.Button, {
+    variant: "outline",
+    onClick: handleCsvDownload,
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 409,
+      columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    className: "h-4 w-4 mr-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 414,
+      columnNumber: 25
+    }
+  }), __("CSV Download", "lineconnect")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_7__.Button, {
+    variant: "destructive",
+    onClick: handleBulkDelete,
+    disabled: selectedIds.size === 0,
+    className: "flex items-center",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 417,
+      columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    className: "h-4 w-4 mr-2",
+    __self: _this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 423,
+      columnNumber: 25
+    }
+  }), __("Bulk Delete", "lineconnect"), " (", selectedIds.size, ")")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SessionPagination__WEBPACK_IMPORTED_MODULE_2__["default"], {
     currentPage: currentPage,
     totalPages: totalPages,
     totalItems: totalItems,
@@ -74704,13 +75876,14 @@ var Sessions = function Sessions() {
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 319,
+      lineNumber: 427,
       columnNumber: 17
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SessionDetailDrawer__WEBPACK_IMPORTED_MODULE_1__["default"], {
     session: selectedSession,
     isOpen: drawerOpen,
     onClose: handleDrawerClose,
+    initialEditing: startInEditMode,
     onEdit: function onEdit(updatedSession) {
       // update selectedSession and sessions list immediately
       if (updatedSession) {
@@ -74724,13 +75897,14 @@ var Sessions = function Sessions() {
             }
           });
         });
+        setStartInEditMode(false);
       }
     },
     onDelete: handleDeleteClick,
     __self: _this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 326,
+      lineNumber: 434,
       columnNumber: 13
     }
   }));

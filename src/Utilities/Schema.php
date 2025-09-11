@@ -151,6 +151,10 @@ class Schema {
         if (! empty($parameter['enum'])) {
             $schema['enum'] = $parameter['enum'];
         }
+        //uniqueItems
+        if (! empty($parameter['uniqueItems'])) {
+            $schema['uniqueItems'] = $parameter['uniqueItems'];
+        }
 
         $schema['type'] = $actual_type;
         return $schema;

@@ -94,10 +94,10 @@ class Writer {
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
         if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
             $dateTime->setTimeZone(new \DateTimeZone('UTC')); // UTCで保存
-        }else{
+        } else {
             $dateTime->setTimeZone(new \DateTimeZone('Asia/Tokyo')); // 日本時間で保存
         }
-        $timestamp = $dateTime->format('Y-m-d H:i:s.u'); 
+        $timestamp = $dateTime->format('Y-m-d H:i:s.u');
         // error_log( 'received timestamp:' . $timestamp );
 
         $data = [
@@ -144,7 +144,7 @@ class Writer {
     }
 
     /**
-     * AIからの応答をロギング
+     * AIからの応答をロギング(現在未使用)
      *
      * @param string $responseMessage AI の応答テキスト
      */
@@ -163,11 +163,12 @@ class Writer {
             'for'  => $this->event->message->id ?? '',
         ]);
         $message_type = 1;
+        $scope = array_search('ai', \Shipweb\LineConnect\Bot\Constants::WH_SCOPE) ?: 0;
 
         $floatSec = microtime(true);
         $dateTime = DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
         $dateTime->setTimeZone(new DateTimeZone('UTC')); // UTCで保存
-        $timestamp = $dateTime->format('Y-m-d\TH:i:s.uP'); 
+        $timestamp = $dateTime->format('Y-m-d\TH:i:s.uP');
 
         $data = [
             'event_id'     => $event_id,
@@ -181,11 +182,49 @@ class Writer {
         ];
         $format = ['%s', '%d', '%d', '%s', '%s', '%d', '%s', '%s'];
 
+        if (version_compare(lineconnect::get_current_db_version(), '1.8', '>=')) {
+            $data['scope'] = $scope;
+            $format[] = '%d';
+        }
+
         $wpdb->insert($table_name, $data, $format);
     }
 
+    /**
+     * イベントログのscopeを更新
+     * 
+     * @param string log_id
+     * @param string scope
+     * @return bool
+     */
+    public static function update_scope(string $log_id, string $scope): bool {
+        global $wpdb;
+        if (version_compare(lineconnect::get_current_db_version(), '1.8', '>=')) {
+
+            $table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
+
+            $result = $wpdb->update(
+                $table_name,
+                array(
+                    'scope' => array_search($scope, \Shipweb\LineConnect\Bot\Constants::WH_SCOPE) ?: 0,
+                ),
+                array(
+                    'id' => $log_id,
+                ),
+                array(
+                    '%s',
+                ),
+                array(
+                    '%s',
+                )
+            );
+            return $result ? true : false;
+        }
+        return false;
+    }
+
     private static function getEventText($event_type, $message_type, $message): string {
-        $message = json_decode($message, true);
+        $message = json_decode($message ?: '{}', true);
         switch ($event_type) {
             case 1: // message
                 return self::getMessageTextByType($message_type, $message);

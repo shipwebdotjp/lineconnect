@@ -44,6 +44,7 @@ class CancelInteraction extends AbstractActionDefinition
                     'name' => 'slc_interaction_id',
                     'description' => __('Interaction ID. If not specified, the current active interaction will be targeted.', lineconnect::PLUGIN_NAME),
                     'required' => false,
+                    'nullable' => true,
                 ),
                 array(
                     'type' => 'string',
@@ -53,6 +54,7 @@ class CancelInteraction extends AbstractActionDefinition
                         array('const' => 'force', 'title' => __('Force cancel', LineConnect::PLUGIN_NAME)),
                         array('const' => 'confirm', 'title' => __('Show confirmation', LineConnect::PLUGIN_NAME)),
                     ),
+                    'nullable' => true,
                 ),
                 array(
                     'type' => 'array',
@@ -88,8 +90,8 @@ class CancelInteraction extends AbstractActionDefinition
     /**
      * インタラクションを中止する
      *
-     * @param ?int $interaction_id インタラクションID 指定がない場合はアクティブなセッションのインタラクションIDを使用
      * @param ?string $cancelPolicy キャンセルポリシー force=即削除, confirm=確認を表示
+     * @param ?int $interaction_id インタラクションID 指定がない場合はアクティブなセッションのインタラクションIDを使用
      * @param ?array $status キャンセルするステータス active=アクティブ, paused=一時停止, completed=完了, timeout=タイムアウト
      * @param ?string $line_user_id LINEユーザーID
      * @param ?string $secret_prefix チャネルシークレットの先頭4文字
@@ -147,7 +149,6 @@ class CancelInteraction extends AbstractActionDefinition
             }
         }
         $messages = [];
-
 
         if(!empty($sessions)){
             foreach($sessions as $session){

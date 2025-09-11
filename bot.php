@@ -73,6 +73,7 @@ $json_obj = json_decode($json_string);
 
 foreach ($json_obj->{'events'} as $event) {
 	$message = array();
+	$scope = null;
 	// ユーザーをDB登録
 	Account::update_line_id_profile_for_new_user($secret_prefix, $event->{'source'}->{'userId'});
 	// ログ書き込み
@@ -120,6 +121,7 @@ foreach ($json_obj->{'events'} as $event) {
 					// 連携開始メッセージ作成
 					$message[] = Account::getLinkStartMessage($secret_prefix, $userId);
 				}
+				$scope = 'link';
 			}
 		}
 	} elseif ($type === 'accountLink') {
@@ -181,6 +183,7 @@ foreach ($json_obj->{'events'} as $event) {
 				$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(lineconnect::get_option('link_failed_body'));
 			}
 		}
+		$scope = 'link';
 	} elseif ($type === 'postback') {
 		// ポストバック受け取り時
 
@@ -196,10 +199,12 @@ foreach ($json_obj->{'events'} as $event) {
 
 			// 連携解除完了のテキストメッセージ作成
 			$message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($mes);
+			$scope = 'link';
 		} elseif ($postback === 'action=link') {
 			// 連携選択時
 			$userId    = $event->{'source'}->{'userId'};
 			$message[] = Account::getLinkStartMessage($secret_prefix, $userId);
+			$scope = 'link';
 		}
 	} elseif ($type == 'follow') {
 		$userId = $event->{'source'}->{'userId'};
@@ -249,6 +254,7 @@ foreach ($json_obj->{'events'} as $event) {
 		if (!empty($interaction_messages)) {
 			$message = array_merge($message, $interaction_messages);
 			// error_log('interaction response:' . print_r($interaction_messages, true));
+			$scope = 'interaction';
 		}
 	}
 
@@ -288,6 +294,7 @@ foreach ($json_obj->{'events'} as $event) {
 			// error_log('trigger action return:' . print_r($action_return, true));
 			if (!empty($action_return['messages'])) {
 				$message = array_merge($message, $action_return['messages']);
+				$scope = 'trigger';
 			}
 		}
 	}
@@ -305,9 +312,12 @@ foreach ($json_obj->{'events'} as $event) {
 				),
 			)
 		);
-		$message[]    = $gptResponse['message'];
-		$responseByAi = $gptResponse['responseByAi'];
-		error_log('gpt response:' . print_r($gptResponse, true));
+		if (!empty($gptResponse['message'])) {
+			$message[]    = $gptResponse['message'];
+			$scope = 'ai';
+		}
+		$responseByAi = $gptResponse['responseByAi'] ?? false;
+		// error_log('gpt response:' . print_r($gptResponse, true));
 	}
 
 	// 応答メッセージがあれば送信する
@@ -331,9 +341,15 @@ foreach ($json_obj->{'events'} as $event) {
 			$secret_prefix,
 			$resp->isSucceeded() ? 'sent' : 'failed',
 			$resp->getJSONDecodedBody(),
-			$event->{'webhookEventId'} ?? null
+			$event->{'webhookEventId'} ?? null,
+			$scope
 		);
 		LoggingAPIResponse($resp, $message);
+	}
+
+	// scopeでイベントログを更新
+	if (!empty($scope)) {
+		BotLogWriter::update_scope($isEventDuplicationOrInsertedId, $scope);
 	}
 
 	if (isset($responseByAi) && $responseByAi === true) {

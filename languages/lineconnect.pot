@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 4.3.5\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-05 21:19+0900\n"
+"POT-Creation-Date: 2025-09-11 21:49+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1738,13 +1738,29 @@ msgstr ""
 msgid "ID of the step to execute."
 msgstr ""
 
-msgid "Change LC scenario status"
+msgid "Cancel Interaction"
 msgstr ""
 
-msgid "Change LINE Connect scenario status."
+msgid "Cancel LINE Connect Interaction."
 msgstr ""
 
-msgid "The status to set."
+msgid ""
+"Interaction ID. If not specified, the current active interaction will be "
+"targeted."
+msgstr ""
+
+msgid "Cancel policy. force=delete immediately, confirm=show confirmation"
+msgstr ""
+
+msgid "Force cancel"
+msgstr ""
+
+msgid "Show confirmation"
+msgstr ""
+
+msgid ""
+"Status to cancel. active=active, paused=paused, completed=completed, "
+"timeout=timeout"
 msgstr ""
 
 msgid "Active"
@@ -1754,6 +1770,18 @@ msgid "Paused"
 msgstr ""
 
 msgid "Completed"
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "Change LC scenario status"
+msgstr ""
+
+msgid "Change LINE Connect scenario status."
+msgstr ""
+
+msgid "The status to set."
 msgstr ""
 
 msgid "Update user meta"
@@ -2840,6 +2868,9 @@ msgstr ""
 msgid "Please select an option."
 msgstr ""
 
+msgid "—(No inputs)"
+msgstr ""
+
 msgid "Apply"
 msgstr ""
 
@@ -2849,7 +2880,61 @@ msgstr ""
 msgid "Back to confirmation"
 msgstr ""
 
+msgid "Session ID"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "LINE User ID"
+msgstr ""
+
+msgid "Current Step"
+msgstr ""
+
+msgid "Created At"
+msgstr ""
+
+msgid "Permission denied"
+msgstr ""
+
+msgid "Invalid interaction_id"
+msgstr ""
+
 msgid "Interaction not found"
+msgstr ""
+
+msgid "Session not found"
+msgstr ""
+
+msgid "Invalid status"
+msgstr ""
+
+msgid "Answers must be an object"
+msgstr ""
+
+msgid "No fields to update"
+msgstr ""
+
+msgid "Failed to update session"
+msgstr ""
+
+msgid "Session not found after update"
+msgstr ""
+
+msgid "Failed to delete session"
+msgstr ""
+
+msgid "Session IDs must be a non-empty array."
+msgstr ""
+
+msgid "Invalid session ID found."
+msgstr ""
+
+msgid "Failed to delete sessions."
+msgstr ""
+
+msgid "No matching sessions found to delete."
 msgstr ""
 
 msgid "LINE Connect Interaction Sessions"
@@ -4064,9 +4149,6 @@ msgstr ""
 msgid "Stack"
 msgstr ""
 
-msgid "Version"
-msgstr ""
-
 msgid ""
 "The version of the interaction form. If you need to make changes to the form "
 "structure, increment this version number."
@@ -4116,9 +4198,6 @@ msgid "Add exclude step"
 msgstr ""
 
 msgid "Add cancel word"
-msgstr ""
-
-msgid "Timeout"
 msgstr ""
 
 msgid "Completion Rate"

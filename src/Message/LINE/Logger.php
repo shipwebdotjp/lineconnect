@@ -17,6 +17,7 @@ class Logger {
         string $status = 'pending',
         string|array $error = '',
         ?string $event_id = null,
+        ?string $scope = null,
     ): bool {
         global $wpdb;
 
@@ -34,7 +35,7 @@ class Logger {
             $message = $message->buildMessage();
         }
         $message_type = null;
-        if (is_array($message) && count($message) == 1){
+        if (is_array($message) && count($message) == 1) {
             $message = $message[0];
             $message_type = array_search($message['type'] ?? '', \Shipweb\LineConnect\Bot\Constants::WH_MESSAGE_TYPE) ?: 0;
         }
@@ -42,17 +43,35 @@ class Logger {
         $dateTime = \DateTime::createFromFormat('U.u', sprintf('%1.6F', $floatSec));
         if (version_compare(lineconnect::get_current_db_version(), '1.6', '>=')) {
             $dateTime->setTimeZone(new \DateTimeZone('UTC')); // UTCで保存
-        }else{
+        } else {
             $dateTime->setTimeZone(new \DateTimeZone('Asia/Tokyo')); // UTCで保存
         }
-        $timestamp = $dateTime->format('Y-m-d H:i:s.u'); 
+        $timestamp = $dateTime->format('Y-m-d H:i:s.u');
         // error_log( 'sent timestamp:' . $timestamp );
+
 
         $result = false;
         $arrayValues = array();
         $place_holders = array();
         $affected_user_ids = array();
-        if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
+        if (version_compare(lineconnect::get_current_db_version(), '1.8', '>=')) {
+            foreach ($user_id as $uid) {
+                $arrayValues[] = $event_id ?: null;
+                $arrayValues[] = array_search($event_type, \Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE) ?: 0;
+                $arrayValues[] = array_search($source_type, \Shipweb\LineConnect\Bot\Constants::WH_SOURCE_TYPE) ?: 0;
+                $arrayValues[] = $uid;
+                $arrayValues[] = $secret_prefix;
+                $arrayValues[] = $message_type;
+                $arrayValues[] = json_encode($message);
+                $arrayValues[] = $timestamp;
+                $arrayValues[] = array_search($status, \Shipweb\LineConnect\Bot\Constants::WH_STATUS) ?: 0;
+                $arrayValues[] = !empty($error) ? json_encode($error) : json_encode(null);
+                $arrayValues[] = array_search($scope, \Shipweb\LineConnect\Bot\Constants::WH_SCOPE) ?: 0;
+                $place_holders[] = '(%s, %d, %d, %s, %s, %d, %s, %s, %d, %s, %d)';
+                $affected_user_ids[] = $uid;
+            }
+            $sql = 'INSERT INTO ' . $table_name . ' (event_id, event_type, source_type, user_id, bot_id, message_type, message, timestamp, status, error, scope) VALUES ' . join(',', $place_holders);
+        } else if (version_compare(lineconnect::get_current_db_version(), '1.5', '>=')) {
             foreach ($user_id as $uid) {
                 $arrayValues[] = $event_id ?: null;
                 $arrayValues[] = array_search($event_type, \Shipweb\LineConnect\Bot\Constants::WH_EVENT_TYPE) ?: 0;

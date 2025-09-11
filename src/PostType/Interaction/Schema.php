@@ -4,6 +4,7 @@ namespace Shipweb\LineConnect\PostType\Interaction;
 
 use Shipweb\LineConnect\Action\Action;
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\PostType\Message\Schema as MessageSchema;
 
 class Schema {
     static function get_schema() {
@@ -62,6 +63,30 @@ class Schema {
                                                 array('const' => 'confirm_template', 'title' => __('Confirm Template', LineConnect::PLUGIN_NAME)),
                                                 array('const' => 'editPicker_template', 'title' => __('Edit Picker Template', LineConnect::PLUGIN_NAME)),
                                                 array('const' => 'cancel_confirm_template', 'title' => __('Cancel Confirm Template', LineConnect::PLUGIN_NAME)),
+                                            ),
+                                        ),
+                                        'quickReply' => array(
+                                            'type'       => 'object',
+                                            'title'      => __('Quick reply', lineconnect::PLUGIN_NAME),
+                                            'properties' => array(
+                                                'items' => array(
+                                                    'type'  => 'array',
+                                                    'title' => __('Quick reply container', lineconnect::PLUGIN_NAME),
+                                                    'items' => array(
+                                                        'type'       => 'object',
+                                                        'title'      => __('Quick reply button object', lineconnect::PLUGIN_NAME),
+                                                        'properties' => array(
+                                                            'imageUrl' => array(
+                                                                'type' => 'string',
+                                                                'title' => __('Image URL', lineconnect::PLUGIN_NAME),
+                                                            ),
+                                                            'action'   => array(
+                                                                '$ref' => '#/definitions/action',
+                                                            ),
+                                                        ),
+                                                    ),
+                                                    'maxItems' => 13,
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -925,6 +950,9 @@ class Schema {
                     ),
                 ),
             ),
+            'definitions' => array(
+                'action' => MessageSchema::get_action_object_schema(),
+            ),
             'additionalProperties' => false,
         );
         Action::build_action_schema_items(
@@ -992,6 +1020,16 @@ class Schema {
                                         'rows' => 3,
                                     ),
                                 ),
+                            ),
+                            'ui:order' => array(
+                                'type',
+                                'text',
+                                'flex',
+                                'raw',
+                                'template_button',
+                                'confirm_template',
+                                'cancel_confirm_template',
+                                '*',
                             ),
                         ),
                         'ui:options' => array(

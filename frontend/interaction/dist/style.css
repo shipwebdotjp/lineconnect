@@ -14,6 +14,7 @@
     --color-green-600: oklch(0.627 0.194 149.214);
     --color-blue-100: oklch(0.932 0.032 255.585);
     --color-blue-300: oklch(0.809 0.105 251.813);
+    --color-blue-600: oklch(0.546 0.245 262.881);
     --color-blue-800: oklch(0.424 0.199 265.638);
     --color-gray-50: oklch(0.985 0.002 247.839);
     --color-gray-100: oklch(0.967 0.003 264.542);
@@ -627,6 +628,9 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
+  .w-12 {
+    width: calc(var(--spacing) * 12);
+  }
   .w-48 {
     width: calc(var(--spacing) * 48);
   }
@@ -918,6 +922,9 @@
   }
   .rounded {
     border-radius: 0.25rem;
+  }
+  .rounded-\[4px\] {
+    border-radius: 4px;
   }
   .rounded-full {
     border-radius: calc(infinity * 1px);
@@ -1270,6 +1277,9 @@
   .text-accent-foreground {
     color: var(--accent-foreground);
   }
+  .text-blue-600 {
+    color: var(--color-blue-600);
+  }
   .text-blue-800 {
     color: var(--color-blue-800);
   }
@@ -1523,6 +1533,14 @@
     transition-property: opacity;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-shadow {
+    transition-property: box-shadow;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-none {
+    transition-property: none;
   }
   .duration-200 {
     --tw-duration: 200ms;
@@ -1806,6 +1824,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--accent-foreground);
+      }
+    }
+  }
+  .hover\:text-blue-800 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-blue-800);
       }
     }
   }
@@ -2264,6 +2289,21 @@
       }
     }
   }
+  .data-\[state\=checked\]\:border-primary {
+    &[data-state="checked"] {
+      border-color: var(--primary);
+    }
+  }
+  .data-\[state\=checked\]\:bg-primary {
+    &[data-state="checked"] {
+      background-color: var(--primary);
+    }
+  }
+  .data-\[state\=checked\]\:text-primary-foreground {
+    &[data-state="checked"] {
+      color: var(--primary-foreground);
+    }
+  }
   .data-\[state\=closed\]\:duration-300 {
     &[data-state="closed"] {
       --tw-duration: 300ms;
@@ -2546,6 +2586,13 @@
     &:is(.dark *) {
       &[aria-invalid="true"] {
         --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
+      }
+    }
+  }
+  .dark\:data-\[state\=checked\]\:bg-primary {
+    &:is(.dark *) {
+      &[data-state="checked"] {
+        background-color: var(--primary);
       }
     }
   }

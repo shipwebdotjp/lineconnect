@@ -51,12 +51,13 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.3.5';
+	const VERSION = '4.4.0';
 
 	/**
 	 * このプラグインのデータベースバージョン
 	 */
-	const DB_VERSION = '1.7';
+	const DB_VERSION = '1.8';
+	// 1.8: lineconnect_bot_logsテーブルにscopeカラムの追加、インデックスの変更
 	// 1.7: セッションテーブル追加
 	// 1.6: line_user_idテーブルのインデックスの変更(channel_prefix, last_sent_at DESC, id DESC)
 	// 1.5: lineconnect_bot_logsテーブルのstatus,errorカラムの追加、インデックスの変更
@@ -1100,6 +1101,7 @@ class LineConnect {
 		timestamp: LINEのWebhookイベントタイムスタンプ(INBOUND時) 送信日時(OUTBOUND時)
 		status: ステータス(0:pending, 1:sent, 9:failed)
 		error: 送信失敗時のエラーメッセージJSON(OUTBOUND時)
+		scope: 使用用途(1:link, 2:interaction, 3:trigger, 4:ai)
 		*/
 		$sql = "CREATE TABLE $table_name_bot_logs (
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -1113,9 +1115,11 @@ class LineConnect {
 			timestamp datetime(3) NOT NULL,
 			status tinyint DEFAULT NULL,
 			error json DEFAULT NULL,
+			scope tinyint DEFAULT NULL,
 			PRIMARY KEY  (id),
 			KEY idx_bot_user_ts_id_desc (bot_id, user_id, timestamp, id),
-			KEY event_id (event_id)
+			KEY event_id (event_id),
+			KEY idx_bot_user_scope_ts_id_desc (bot_id, user_id, scope, timestamp, id)
 		) $charset_collate;";
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta($sql);

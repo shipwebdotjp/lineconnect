@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-05 21:19+0900\n"
+"POT-Creation-Date: 2025-09-11 21:49+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -34,7 +34,7 @@ msgid "Channel prefix is required."
 msgstr "チャネルプレフィックスが必要です。"
 
 msgid "Line ID is required."
-msgstr ""
+msgstr "LINE IDが必要です。"
 
 msgid "User ID"
 msgstr "ユーザーID"
@@ -1769,10 +1769,10 @@ msgid "LC message id, message text or message object"
 msgstr "LCメッセージID、メッセージテキスト、またはメッセージオブジェクト"
 
 msgid "LINE user ID. Default value is LINE user id of event source."
-msgstr ""
+msgstr "LINEユーザーID。デフォルトは送信元ユーザーID。"
 
 msgid "Channel. Default value is channel of event source."
-msgstr ""
+msgstr "チャネル。デフォルトは送信元チャネル。"
 
 msgid "Execute LC Scenario Step"
 msgstr "シナリオステップを実行"
@@ -1783,14 +1783,34 @@ msgstr "シナリオステップを実行"
 msgid "ID of the step to execute."
 msgstr "実行するステップのID。"
 
-msgid "Change LC scenario status"
-msgstr "シナリオステータス変更"
+msgid "Cancel Interaction"
+msgstr "インタラクションのキャンセル"
 
-msgid "Change LINE Connect scenario status."
-msgstr "シナリオのステータスを変更します。"
+msgid "Cancel LINE Connect Interaction."
+msgstr "LINE Connectインタラクションをキャンセルします。"
 
-msgid "The status to set."
-msgstr "設定するステータス。"
+msgid ""
+"Interaction ID. If not specified, the current active interaction will be "
+"targeted."
+msgstr ""
+"インタラクションID。指定されていない場合、現在アクティブなインタラクションが"
+"対象となります。"
+
+msgid "Cancel policy. force=delete immediately, confirm=show confirmation"
+msgstr "キャンセルポリシー。force=即座に削除、confirm=確認画面を表示"
+
+msgid "Force cancel"
+msgstr "強制キャンセル"
+
+msgid "Show confirmation"
+msgstr "確認画面を表示"
+
+msgid ""
+"Status to cancel. active=active, paused=paused, completed=completed, "
+"timeout=timeout"
+msgstr ""
+"キャンセル対象のステータス。active=アクティブ、paused=一時停止、completed=完"
+"了、timeout=タイムアウト"
 
 msgid "Active"
 msgstr "アクティブ"
@@ -1800,6 +1820,18 @@ msgstr "一時停止"
 
 msgid "Completed"
 msgstr "完了"
+
+msgid "Timeout"
+msgstr "タイムアウト"
+
+msgid "Change LC scenario status"
+msgstr "シナリオステータス変更"
+
+msgid "Change LINE Connect scenario status."
+msgstr "シナリオのステータスを変更します。"
+
+msgid "The status to set."
+msgstr "設定するステータス。"
 
 msgid "Update user meta"
 msgstr "ユーザーメタ更新"
@@ -2818,16 +2850,22 @@ msgid "Invalid Japanese phone number format."
 msgstr "日本の電話番号の形式が正しくありません。"
 
 msgid "Invalid date format. Please use YYYY-MM-DD or YYYY/MM/DD."
-msgstr "日付の形式が正しくありません。YYYY-MM-DD または YYYY/MM/DD の形式で入力してください。"
+msgstr ""
+"日付の形式が正しくありません。YYYY-MM-DD または YYYY/MM/DD の形式で入力してく"
+"ださい。"
 
 msgid "Invalid date."
 msgstr "日付が正しくありません。"
 
 msgid "Invalid time format. Use HH:MM or HH:MM:SS."
-msgstr "時刻の形式が正しくありません。HH:MM または HH:MM:SS の形式で入力してください。"
+msgstr ""
+"時刻の形式が正しくありません。HH:MM または HH:MM:SS の形式で入力してくださ"
+"い。"
 
 msgid "Invalid datetime format. Use YYYY-MM-DD HH:MM or YYYY-MM-DDTHH:MM."
-msgstr "日時の形式が正しくありません。YYYY-MM-DD HH:MM または YYYY-MM-DDTHH:MM の形式で入力してください。"
+msgstr ""
+"日時の形式が正しくありません。YYYY-MM-DD HH:MM または YYYY-MM-DDTHH:MM の形式"
+"で入力してください。"
 
 msgid "Invalid datetime format."
 msgstr "日時の形式が正しくありません。"
@@ -2919,6 +2957,9 @@ msgstr "アクションがタイムアウトしました。"
 msgid "Please select an option."
 msgstr "選択肢を選んでください。"
 
+msgid "—(No inputs)"
+msgstr "-(未入力)"
+
 msgid "Apply"
 msgstr "適用"
 
@@ -2928,8 +2969,62 @@ msgstr "編集する項目を選択"
 msgid "Back to confirmation"
 msgstr "確認に戻る"
 
+msgid "Session ID"
+msgstr "セッションID"
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid "LINE User ID"
+msgstr "LINEユーザーID"
+
+msgid "Current Step"
+msgstr "現在のステップ"
+
+msgid "Created At"
+msgstr "作成日時"
+
+msgid "Permission denied"
+msgstr "権限が拒否されました"
+
+msgid "Invalid interaction_id"
+msgstr "無効なインタラクションIDです"
+
 msgid "Interaction not found"
 msgstr "インタラクションが見つかりません"
+
+msgid "Session not found"
+msgstr "セッションが見つかりません"
+
+msgid "Invalid status"
+msgstr "無効なステータスです"
+
+msgid "Answers must be an object"
+msgstr "回答はオブジェクトである必要があります"
+
+msgid "No fields to update"
+msgstr "更新するフィールドがありません"
+
+msgid "Failed to update session"
+msgstr "セッションの更新に失敗しました"
+
+msgid "Session not found after update"
+msgstr "更新後にセッションが見つかりません"
+
+msgid "Failed to delete session"
+msgstr "セッションの削除に失敗しました"
+
+msgid "Session IDs must be a non-empty array."
+msgstr "セッションIDは空でない配列である必要があります。"
+
+msgid "Invalid session ID found."
+msgstr "無効なセッションIDが見つかりました。"
+
+msgid "Failed to delete sessions."
+msgstr "セッションの削除に失敗しました。"
+
+msgid "No matching sessions found to delete."
+msgstr "削除対象のセッションが見つかりません。"
 
 msgid "LINE Connect Interaction Sessions"
 msgstr "LINE Connect インタラクションセッション"
@@ -2983,61 +3078,61 @@ msgid "Parameter"
 msgstr "パラメーター"
 
 msgid "Parameters condition group"
-msgstr ""
+msgstr "パラメータ条件グループ"
 
 msgid "Parameter condition"
-msgstr ""
+msgstr "パラメータ条件"
 
 msgid "Parameter condition group"
-msgstr ""
+msgstr "パラメータ条件グループ"
 
 msgid "New richmenu alias ID"
-msgstr ""
+msgstr "新規リッチメニューエイリアスID"
 
 msgid "Date"
 msgstr "日"
 
 msgid "Time"
-msgstr ""
+msgstr "時刻"
 
 msgid "Date and time"
 msgstr "日付時刻"
 
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 msgid "Richmenu alias ID not found"
-msgstr ""
+msgstr "リッチメニューエイリアスIDが見つかりません"
 
 msgid "Richmenu not found"
-msgstr ""
+msgstr "リッチメニューが見つかりません"
 
 msgid "Date: YYYY-MM-DD"
-msgstr ""
+msgstr "日付: YYYY-MM-DD"
 
 msgid "Compare type"
-msgstr ""
+msgstr "比較方法"
 
 msgid "Before"
-msgstr ""
+msgstr "より前"
 
 msgid "Before or equal"
-msgstr ""
+msgstr "以前"
 
 msgid "After"
-msgstr ""
+msgstr "より後"
 
 msgid "After or equal"
-msgstr ""
+msgstr "以降"
 
 msgid "Time: hh:mm"
-msgstr ""
+msgstr "時刻: hh:mm"
 
 msgid "DateTime"
-msgstr ""
+msgstr "日付時刻"
 
 msgid "DateTime: YYYY-MM-DDThh:mm"
-msgstr ""
+msgstr "日付時刻: YYYY-MM-DDThh:mm"
 
 msgid "Webhook"
 msgstr "Webhook"
@@ -4125,7 +4220,9 @@ msgstr "分岐"
 msgid ""
 "Define conditional branches based on user input. If no conditions match, the "
 "default Next Step ID will be used."
-msgstr "ユーザー入力に基づく条件分岐を定義します。どの条件にも一致しない場合は、デフォルトの次のステップIDが使用されます。"
+msgstr ""
+"ユーザー入力に基づく条件分岐を定義します。どの条件にも一致しない場合は、デ"
+"フォルトの次のステップIDが使用されます。"
 
 msgid "Branch"
 msgstr "分岐"
@@ -4180,7 +4277,8 @@ msgstr "タイムアウト通知を送信"
 msgid ""
 "Set how many minutes before the timeout to send a reminder. 0 means no "
 "reminder."
-msgstr "タイムアウトの何分前に通知を送信するかを設定します。0の場合は通知しません。"
+msgstr ""
+"タイムアウトの何分前に通知を送信するかを設定します。0の場合は通知しません。"
 
 msgid "On Timeout"
 msgstr "タイムアウト時"
@@ -4218,13 +4316,12 @@ msgstr "異なるもののみ再開"
 msgid "Stack"
 msgstr "スタック"
 
-msgid "Version"
-msgstr "バージョン"
-
 msgid ""
 "The version of the interaction form. If you need to make changes to the form "
 "structure, increment this version number."
-msgstr "インタラクションフォームのバージョン。フォーム構造を変更する必要がある場合は、このバージョン番号を増やしてください。"
+msgstr ""
+"インタラクションフォームのバージョン。フォーム構造を変更する必要がある場合"
+"は、このバージョン番号を増やしてください。"
 
 msgid "Storage"
 msgstr "ストレージ"
@@ -4271,9 +4368,6 @@ msgstr "除外ステップを追加"
 
 msgid "Add cancel word"
 msgstr "キャンセルワードを追加"
-
-msgid "Timeout"
-msgstr "タイムアウト"
 
 msgid "Completion Rate"
 msgstr "完了率"
@@ -4431,9 +4525,6 @@ msgstr "セッションを表示"
 
 #~ msgid "When restart a scenario."
 #~ msgstr "シナリオがすでに開始されている場合の動作を設定します。"
-
-#~ msgid "LINE User ID"
-#~ msgstr "LINEユーザーID"
 
 #~ msgid "Template"
 #~ msgstr "テンプレート"

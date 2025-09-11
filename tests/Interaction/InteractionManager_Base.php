@@ -488,7 +488,63 @@ abstract class InteractionManager_Base extends WP_UnitTestCase {
                     ],
                 ],
             ],
+            "interaction_with_quickreply" => [
+                "1" => [
+                    [
+                        "version" => "1",
+                        "storage" => 'interactions',
+                        "steps" => [
+                            [
+                                "id" => "step-1",
+                                "title" => "Validate step 1",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "数字のみ許可されています。",
+                                        "quickReply" => [
+                                            "items" => [
+                                                [
+                                                    "action" => [
+                                                        "postback" => [
+                                                            "data" => "mode=interaction&nestStepId=step-2",
+                                                            "displayText" => "スキップ",
+                                                            "label" => "回答をスキップ"
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ],
+                                ],
+                                "nextStepId" => "step-2",
 
+                            ],
+                            [
+                                "id" => "step-2",
+                                "title" => "Validate step 2",
+                                "messages" => [
+                                    [
+                                        "type" => "text",
+                                        "text" => "数字のみ許可されています。",
+                                    ],
+                                ],
+                                "stop" => true,
+                                "validate" => [
+                                    [
+                                        "type" => "number",
+                                        "number" => [
+                                            "enabled" => true,
+                                            "min" => 1,
+                                            "max" => 100,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
         ];
         self::$interaction_ids = [];
         foreach (self::$interaction_datas as $interaction_name => $interaction_data) {

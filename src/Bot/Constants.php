@@ -66,4 +66,14 @@ class Constants {
 		1  => 'sent',
 		9  => 'failed',
 	);
+
+	/**
+	 * 使用用途(scope)
+	 */
+	const WH_SCOPE = array(
+		1 => 'link',
+		2 => 'interaction',
+		3 => 'trigger',
+		4 => 'ai',
+	);
 }

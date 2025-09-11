@@ -3,6 +3,7 @@
 namespace Shipweb\LineConnect\Interaction;
 
 use Shipweb\LineConnect\Message\LINE\Builder as LineMessageBuilder;
+use Shipweb\LineConnect\PostType\Message\Message;
 use Shipweb\LineConnect\Interaction\StepDefinition;
 use Shipweb\LineConnect\Interaction\InteractionSession;
 use Shipweb\LineConnect\Core\LineConnect;
@@ -38,57 +39,71 @@ class MessageBuilder {
         }
 
         foreach ($messages_definitions as $message) {
+            $quickReply = null;
+            if (! empty($message['quickReply'])) {
+                $quickReplay_items = array();
+                foreach ($message['quickReply']['items'] as $quickReplay_container) {
+                    $templateAction = Message::buildTemplateActionBuilder($quickReplay_container['action']);
+                    if (! empty($templateAction)) {
+                        $quickReplay_button  = LineMessageBuilder::createQuickReplayButtonBuilder($templateAction, $quickReplay_container['imageUrl'] ?? null);
+                        $quickReplay_items[] = $quickReplay_button;
+                    }
+                }
+                if (! empty($quickReplay_items)) {
+                    $quickReply = LineMessageBuilder::createQuickReplyMessageBuilder($quickReplay_items);
+                }
+            }
             $type = isset($message['type']) ? $message['type'] : null;
             switch ($type) {
                 case 'text':
-                    $messages[] = LineMessageBuilder::createTextMessage($message['text']);
+                    $messages[] = LineMessageBuilder::createTextMessage($message['text'], $quickReply);
                     break;
                 case 'template_button':
-                    $messages[] = $this->buildTemplateButtonMessage($message['template_button'], $step->get_id());
+                    $messages[] = $this->buildTemplateButtonMessage($message['template_button'], $step->get_id(), $quickReply);
                     break;
                 case 'confirm_template':
-                    $messages[] = $this->buildConfirmTemplateMessage($session, $message['confirm_template'], $step->get_id());
+                    $messages[] = $this->buildConfirmTemplateMessage($session, $message['confirm_template'], $step->get_id(), $quickReply);
                     break;
                 case 'editPicker_template':
-                    $messages[] = $this->buildEditPickerMessage($session, $message['editPicker_template'], $step->get_id());
+                    $messages[] = $this->buildEditPickerMessage($session, $message['editPicker_template'], $step->get_id(), $quickReply);
                     break;
                 case 'cancel_confirm_template':
-                    $messages[] = $this->buildCancelConfirmTemplateMessage($session, $message['cancel_confirm_template'], $step->get_id());
+                    $messages[] = $this->buildCancelConfirmTemplateMessage($session, $message['cancel_confirm_template'], $step->get_id(), $quickReply);
                     break;
                 case 'sticker':
                     if (isset($message['packageId'], $message['stickerId'])) {
-                        $messages[] = LineMessageBuilder::createStickerMessage($message['packageId'], $message['stickerId']);
+                        $messages[] = LineMessageBuilder::createStickerMessage($message['packageId'], $message['stickerId'], $quickReply);
                     }
                     break;
                 case 'image':
                     if (isset($message['originalContentUrl'], $message['previewImageUrl'])) {
-                        $messages[] = LineMessageBuilder::createImageMessage($message['originalContentUrl'], $message['previewImageUrl']);
+                        $messages[] = LineMessageBuilder::createImageMessage($message['originalContentUrl'], $message['previewImageUrl'], $quickReply);
                     }
                     break;
                 case 'video':
                     if (isset($message['originalContentUrl'], $message['previewImageUrl'])) {
-                        $messages[] = LineMessageBuilder::createVideoMessage($message['originalContentUrl'], $message['previewImageUrl']);
+                        $messages[] = LineMessageBuilder::createVideoMessage($message['originalContentUrl'], $message['previewImageUrl'], $message['trackingId'] ?? null, $quickReply);
                     }
                     break;
                 case 'audio':
                     if (isset($message['originalContentUrl'], $message['duration'])) {
-                        $messages[] = LineMessageBuilder::createAudioMessage($message['originalContentUrl'], $message['duration']);
+                        $messages[] = LineMessageBuilder::createAudioMessage($message['originalContentUrl'], $message['duration'], $quickReply);
                     }
                     break;
                 case 'location':
                     if (isset($message['title'], $message['address'], $message['latitude'], $message['longitude'])) {
-                        $messages[] = LineMessageBuilder::createLocationMessage($message['title'], $message['address'], $message['latitude'], $message['longitude']);
+                        $messages[] = LineMessageBuilder::createLocationMessage($message['title'], $message['address'], $message['latitude'], $message['longitude'], $quickReply);
                     }
                     break;
                 case 'flex':
                     if (isset($message['contents'])) {
                         $altText = isset($message['altText']) ? $message['altText'] : 'Flex Message';
-                        $messages[] = LineMessageBuilder::createFlexRawMessage($message['contents'], $altText);
+                        $messages[] = LineMessageBuilder::createFlexRawMessage($message['contents'], $altText, $quickReply);
                     }
                     break;
                 case 'raw':
                     if (isset($message['raw'])) {
-                        $messages[] = LineMessageBuilder::createRawMessage($message['raw']);
+                        $messages[] = LineMessageBuilder::createRawMessage($message['raw'], $quickReply);
                     }
                     break;
             }
@@ -112,9 +127,10 @@ class MessageBuilder {
      *
      * @param array $message The message definition.
      * @param string $step_id The current step ID.
+     * @param \LINE\LINEBot\MessageBuilder\QuickReplyMessageBuilder|null $quickReply
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public function buildTemplateButtonMessage(array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
+    public function buildTemplateButtonMessage(array $message, string $step_id, $quickReply = null): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
         $options = isset($message['options']) ? $message['options'] : [];
         $columns = isset($message['column']) ? $message['column'] : 1;
         $widths = ["100%", "100%", "48%", "30%", "20%"]; // 0, 1, 2, 3, 4 columns
@@ -168,7 +184,7 @@ class MessageBuilder {
 
         $altText = isset($message['text']) ? $message['text'] : (__('Please select an option.', LineConnect::PLUGIN_NAME));
 
-        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble);
+        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble, $quickReply);
     }
 
     /**
@@ -177,9 +193,10 @@ class MessageBuilder {
      * @param InteractionSession|null $session The interaction session.
      * @param array $message The message definition.
      * @param string $step_id The current step ID.
+     * @param \LINE\LINEBot\MessageBuilder\QuickReplyMessageBuilder|null $quickReply
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    private function buildConfirmTemplateMessage(?InteractionSession $session, array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
+    private function buildConfirmTemplateMessage(?InteractionSession $session, array $message, string $step_id, $quickReply = null): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
         $interaction_id = $session->get_interaction_id();
         $interaction_version = $session->get_interaction_version();
         $interaction = InteractionDefinition::from_post($interaction_id, $interaction_version);
@@ -198,7 +215,10 @@ class MessageBuilder {
             $step = $interaction->get_step($answer_step_id);
             if ($step) {
                 $body_components[] = LineMessageBuilder::createTextComponent($step->get_title(), ['size' => 'sm', 'color' => '#555555', 'align' => 'start']);
-                $body_components[] = LineMessageBuilder::createTextComponent(is_array($answer_value) ? implode(', ', $answer_value) : $answer_value, ['wrap' => true, 'align' => 'start']);
+                $value = is_array($answer_value) ? implode(', ', $answer_value) : (string) $answer_value;
+                $value = trim($value);
+                $placeholder = __('—(No inputs)', LineConnect::PLUGIN_NAME);
+                $body_components[] = LineMessageBuilder::createTextComponent($value === '' ? $placeholder : $value, ['wrap' => true, 'align' => 'start']);
             }
         }
 
@@ -207,7 +227,7 @@ class MessageBuilder {
         $apply_button = LineMessageBuilder::createButtonComponent([
             'type' => 'postback',
             'label' => $message['apply']['label'] ?? (__('Apply', LineConnect::PLUGIN_NAME)),
-            'link' => 'mode=interaction&step=' . $step_id . ($message['apply']['nextStepId'] ? '&nextStepId=' . $message['apply']['nextStepId'] : ''),
+            'link' => 'mode=interaction&step=' . $step_id . (!empty($message['apply']['nextStepId']) ? '&nextStepId=' . $message['apply']['nextStepId'] : ''),
             'displayText' => $message['apply']['label'] ?? (__('Apply', LineConnect::PLUGIN_NAME)),
         ], ['style' => 'primary', 'height' => 'sm']);
 
@@ -227,7 +247,7 @@ class MessageBuilder {
 
         $altText = $title;
 
-        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble);
+        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble, $quickReply);
     }
 
     /**
@@ -236,9 +256,10 @@ class MessageBuilder {
      * @param InteractionSession $session The interaction session.
      * @param array $message The message definition from the step.
      * @param string $step_id The current step ID ('editPicker').
+     * @param \LINE\LINEBot\MessageBuilder\QuickReplyMessageBuilder|null $quickReply
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    private function buildEditPickerMessage(InteractionSession $session, array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
+    private function buildEditPickerMessage(InteractionSession $session, array $message, string $step_id, $quickReply = null): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
         $interaction_id = $session->get_interaction_id();
         $interaction_version = $session->get_interaction_version();
         $interaction = InteractionDefinition::from_post($interaction_id, $interaction_version);
@@ -296,7 +317,7 @@ class MessageBuilder {
 
         $altText = $title;
 
-        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble);
+        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble, $quickReply);
     }
 
     /**
@@ -305,9 +326,10 @@ class MessageBuilder {
      * @param InteractionSession $session The interaction session.
      * @param array $message The message definition from the step.
      * @param string $step_id The current step ID ('cancel_confirm_template').
+     * @param \LINE\LINEBot\MessageBuilder\QuickReplyMessageBuilder|null $quickReply
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    private function buildCancelConfirmTemplateMessage(InteractionSession $session, array $message, string $step_id): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
+    private function buildCancelConfirmTemplateMessage(InteractionSession $session, array $message, string $step_id, $quickReply = null): \LINE\LINEBot\MessageBuilder\FlexMessageBuilder {
         $interaction_id = $session->get_interaction_id();
         $interaction_version = $session->get_interaction_version();
         $interaction = InteractionDefinition::from_post($interaction_id, $interaction_version);
@@ -350,6 +372,6 @@ class MessageBuilder {
 
         $altText = $title;
 
-        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble);
+        return new \LINE\LINEBot\MessageBuilder\FlexMessageBuilder($altText, $bubble, $quickReply);
     }
 }

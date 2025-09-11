@@ -21,13 +21,13 @@ const STATUS_OPTIONS = [
     { value: "timeout", label: __("Timeout", "lineconnect") },
 ];
 
-const SessionDetailDrawer = ({ session, isOpen, onClose, onEdit, onDelete }) => {
+const SessionDetailDrawer = ({ session, isOpen, onClose, onEdit, onDelete, initialEditing = false }) => {
     const { sessionId } = useParams();
 
     // URLにsessionIdがある場合、またはisOpenがtrueの場合に開く
     const shouldOpen = sessionId || isOpen;
 
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(initialEditing);
     const [formAnswers, setFormAnswers] = useState({});
     const [formStatus, setFormStatus] = useState(session ? session.status : '');
     const [isSaving, setIsSaving] = useState(false);
@@ -45,11 +45,11 @@ const SessionDetailDrawer = ({ session, isOpen, onClose, onEdit, onDelete }) => 
             }
             setFormAnswers(initial);
             setFormStatus(session.status || '');
-            setIsEditing(false);
+            setIsEditing(initialEditing);
             setErrorMessage(null);
             setSuccessMessage(null);
         }
-    }, [session]);
+    }, [session, initialEditing]);
 
     if (!session) {
         return null;

@@ -1,5 +1,5 @@
 {
-  "translation-revision-date": "2025-09-06 20:43:06+0900",
+  "translation-revision-date": "2025-09-08 22:12:04+0900",
   "generator": "Custom PO to JED Converter",
   "domain": "lineconnect",
   "locale_data": {
@@ -90,6 +90,18 @@
       "Channels": [
         "チャネル"
       ],
+      "Are you sure you want to delete the selected": [
+        "選択されたセッションを削除してもよろしいですか？"
+      ],
+      "sessions?": [
+        "セッション"
+      ],
+      "Failed to delete sessions.": [
+        "セッションの削除に失敗しました。"
+      ],
+      "Error deleting sessions.": [
+        "セッション削除中にエラーが発生しました。"
+      ],
       "Version ": [
         "バージョン "
       ],
@@ -129,6 +141,9 @@
       "Clear end date": [
         "終了日時をクリア"
       ],
+      "Select all": [
+        "全選択"
+      ],
       "Session ID": [
         "セッションID"
       ],
@@ -156,8 +171,17 @@
       "No sessions found for this interaction.": [
         "このインタラクションにはセッションが見つかりませんでした。"
       ],
+      "Edit session": [
+        "セッションを編集"
+      ],
       "Delete session": [
         "セッションを削除"
+      ],
+      "CSV Download": [
+        "CSVダウンロード"
+      ],
+      "Bulk Delete": [
+        "一括削除"
       ],
       "Loading statistics...": [
         "統計を読み込み中..."

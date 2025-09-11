@@ -16,6 +16,12 @@ class PrepareArguments {
                 $parameter_schema['name'] = $parameter_schema['name'] ?? 'param' . $idx;
                 if (isset($arguments_parsed[$parameter_schema['name']])) {
                     $arguments_array[] = $arguments_parsed[$parameter_schema['name']];
+                }else{
+                    if((is_array($parameter_schema['type']) && in_array('array', $parameter_schema['type'])) || ($parameter_schema['type'] == 'array' && isset($parameter_schema['nullable']) && $parameter_schema['nullable'])){
+                        $arguments_array[] = [];
+                    }else if((is_array($parameter_schema['type']) && in_array('null', $parameter_schema['type'])) || isset($parameter_schema['nullable']) && $parameter_schema['nullable']){
+                        $arguments_array[] = null;
+                    }
                 }
             }
         }

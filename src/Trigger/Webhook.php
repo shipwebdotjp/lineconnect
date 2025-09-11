@@ -33,7 +33,7 @@ class Webhook {
                     return false;
                 }
             }
-            if (! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params']['conditions'])) {
+            if (isset($trigger['postback']['params']['conditions']) && ! \Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($trigger['postback']['params']['conditions'])) {
                 if (!isset($event->{'postback'}->{'params'})) {
                     return false;
                 }

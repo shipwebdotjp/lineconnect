@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Sat Sep 06 2025 20:38:40 GMT+0900 (日本標準時)\n"
+"POT-Creation-Date: Mon Sep 08 2025 22:02:49 GMT+0900 (日本標準時)\n"
 "PO-Revision-Date: Fri Sep 05 2025 20:19:06 GMT+0900 (日本標準時)\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,19 +19,19 @@ msgstr "セッション"
 msgid "Statistics"
 msgstr "統計"
 
-#: src/components/SessionDetailDrawer.jsx:18 src/routes/sessions.jsx:94
+#: src/components/SessionDetailDrawer.jsx:18 src/routes/sessions.jsx:174
 msgid "Active"
 msgstr "実行中"
 
-#: src/components/SessionDetailDrawer.jsx:19 src/routes/sessions.jsx:95
+#: src/components/SessionDetailDrawer.jsx:19 src/routes/sessions.jsx:175
 msgid "Paused"
 msgstr "一時停止"
 
-#: src/components/SessionDetailDrawer.jsx:20 src/routes/sessions.jsx:96
+#: src/components/SessionDetailDrawer.jsx:20 src/routes/sessions.jsx:176
 msgid "Completed"
 msgstr "完了"
 
-#: src/components/SessionDetailDrawer.jsx:21 src/routes/sessions.jsx:97
+#: src/components/SessionDetailDrawer.jsx:21 src/routes/sessions.jsx:177
 msgid "Timeout"
 msgstr "タイムアウト"
 
@@ -87,11 +87,11 @@ msgstr "作成日時: "
 msgid "Updated At: "
 msgstr "更新日時: "
 
-#: src/components/SessionDetailDrawer.jsx:213
+#: src/components/SessionDetailDrawer.jsx:213 src/routes/sessions.jsx:385
 msgid "Edit"
 msgstr "編集"
 
-#: src/components/SessionDetailDrawer.jsx:216 src/routes/sessions.jsx:279
+#: src/components/SessionDetailDrawer.jsx:216 src/routes/sessions.jsx:397
 msgid "Delete"
 msgstr "削除"
 
@@ -120,97 +120,129 @@ msgstr "インタラクション詳細"
 msgid "Channels"
 msgstr "チャネル"
 
-#: src/routes/sessions.jsx:100
+#: src/routes/sessions.jsx:120
+msgid "Are you sure you want to delete the selected"
+msgstr "選択されたセッションを削除してもよろしいですか？"
+
+#: src/routes/sessions.jsx:120
+msgid "sessions?"
+msgstr "セッション選択済み"
+
+#: src/routes/sessions.jsx:138
+msgid "Failed to delete sessions."
+msgstr "セッションの削除に失敗しました。"
+
+#: src/routes/sessions.jsx:148
+msgid "Error deleting sessions."
+msgstr "セッション削除中にエラーが発生しました。"
+
+#: src/routes/sessions.jsx:180
 msgid "Version "
 msgstr "バージョン "
 
-#: src/routes/sessions.jsx:138
+#: src/routes/sessions.jsx:227
 msgid "Are you sure you want to delete this session?"
 msgstr "このセッションを削除してもよろしいですか？"
 
-#: src/routes/sessions.jsx:152
+#: src/routes/sessions.jsx:241
 msgid "Failed to delete session."
 msgstr "セッションの削除に失敗しました。"
 
-#: src/routes/sessions.jsx:159
+#: src/routes/sessions.jsx:248
 msgid "Error deleting session."
 msgstr "セッション削除中にエラーが発生しました。"
 
-#: src/routes/sessions.jsx:170
+#: src/routes/sessions.jsx:259
 msgid "Filter by status"
 msgstr "ステータスで絞り込み"
 
-#: src/routes/sessions.jsx:179
+#: src/routes/sessions.jsx:268
 msgid "Filter by version"
 msgstr "バージョンで絞り込み"
 
-#: src/routes/sessions.jsx:187
+#: src/routes/sessions.jsx:276
 msgid "Filter by channel"
 msgstr "チャネルで絞り込み"
 
-#: src/routes/sessions.jsx:196
+#: src/routes/sessions.jsx:285
 msgid "Search by LINE User ID"
 msgstr "LINEユーザーIDで検索"
 
-#: src/routes/sessions.jsx:204
+#: src/routes/sessions.jsx:293
 msgid "Updated at start"
 msgstr "更新日時（開始）"
 
-#: src/routes/sessions.jsx:212
+#: src/routes/sessions.jsx:301
 msgid "Clear start date"
 msgstr "開始日時をクリア"
 
-#: src/routes/sessions.jsx:213 src/routes/sessions.jsx:232
+#: src/routes/sessions.jsx:302 src/routes/sessions.jsx:321
 msgid "Clear"
 msgstr "クリア"
 
-#: src/routes/sessions.jsx:223
+#: src/routes/sessions.jsx:312
 msgid "Updated at end"
 msgstr "更新日時（終了）"
 
-#: src/routes/sessions.jsx:231
+#: src/routes/sessions.jsx:320
 msgid "Clear end date"
 msgstr "終了日時をクリア"
 
-#: src/routes/sessions.jsx:241
+#: src/routes/sessions.jsx:335
+msgid "Select all"
+msgstr "全選択"
+
+#: src/routes/sessions.jsx:338
 msgid "Session ID"
 msgstr "セッションID"
 
-#: src/routes/sessions.jsx:242 src/routes/statistics.jsx:68
+#: src/routes/sessions.jsx:339 src/routes/statistics.jsx:68
 msgid "Version"
 msgstr "バージョン"
 
-#: src/routes/sessions.jsx:243
+#: src/routes/sessions.jsx:340
 msgid "Channel"
 msgstr "チャネル"
 
-#: src/routes/sessions.jsx:244
+#: src/routes/sessions.jsx:341
 msgid "LINE User ID"
 msgstr "LINEユーザーID"
 
-#: src/routes/sessions.jsx:245
+#: src/routes/sessions.jsx:342
 msgid "Status"
 msgstr "ステータス"
 
-#: src/routes/sessions.jsx:246
+#: src/routes/sessions.jsx:343
 msgid "Current Step"
 msgstr "現在のステップ"
 
-#: src/routes/sessions.jsx:247
+#: src/routes/sessions.jsx:344
 msgid "Updated At"
 msgstr "更新日時"
 
-#: src/routes/sessions.jsx:248
+#: src/routes/sessions.jsx:345
 msgid "Actions"
 msgstr "アクション"
 
-#: src/routes/sessions.jsx:254
+#: src/routes/sessions.jsx:351
 msgid "No sessions found for this interaction."
 msgstr "このインタラクションにはセッションが見つかりませんでした。"
 
-#: src/routes/sessions.jsx:278
+#: src/routes/sessions.jsx:384
+msgid "Edit session"
+msgstr "セッションを編集"
+
+#: src/routes/sessions.jsx:396
 msgid "Delete session"
 msgstr "セッションを削除"
+
+#: src/routes/sessions.jsx:415
+msgid "CSV Download"
+msgstr "CSVダウンロード"
+
+#: src/routes/sessions.jsx:424
+msgid "Bulk Delete"
+msgstr "一括削除"
 
 #: src/routes/statistics.jsx:11
 msgid "Loading statistics..."

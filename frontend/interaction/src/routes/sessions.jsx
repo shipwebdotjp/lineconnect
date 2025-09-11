@@ -6,7 +6,7 @@ import { MultiSelect } from "../components/ui/multi-select";
 import { useUrlFilters } from '../lib/useUrlFilters';
 import { Input } from "../components/ui/input";
 import { DateTimePicker } from '../components/ui/datetime-picker';
-import { X, Trash2, Download } from 'lucide-react';
+import { X, Trash2, Download, Edit } from 'lucide-react';
 import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 // wp_localize_scriptによって 'lineConnectConfig' という名前で渡される
@@ -76,6 +76,7 @@ const Sessions = () => {
     const [selectedSession, setSelectedSession] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedIds, setSelectedIds] = useState(new Set());
+    const [startInEditMode, setStartInEditMode] = useState(false);
 
     const {
         statusValues,
@@ -201,6 +202,14 @@ const Sessions = () => {
 
     const handleSessionClick = (session) => {
         setSelectedSession(session);
+        setStartInEditMode(false);
+        setDrawerOpen(true);
+        navigate(`/interactions/${interactionId}/sessions/${session.id}`, { replace: true });
+    };
+
+    const handleEditClick = (session) => {
+        setSelectedSession(session);
+        setStartInEditMode(true);
         setDrawerOpen(true);
         navigate(`/interactions/${interactionId}/sessions/${session.id}`, { replace: true });
     };
@@ -209,6 +218,7 @@ const Sessions = () => {
         setDrawerOpen(open);
         if (!open) {
             setSelectedSession(null);
+            setStartInEditMode(false);
             navigate(`/interactions/${interactionId}/sessions`, { replace: true });
         }
     };
@@ -313,23 +323,7 @@ const Sessions = () => {
                         <X className="h-4 w-4" />
                     </button>
                 </div>
-                <Button
-                    variant="outline"
-                    onClick={handleCsvDownload}
-                    className="flex items-center"
-                >
-                    <Download className="h-4 w-4 mr-2" />
-                    {__("CSV Download", "lineconnect")}
-                </Button>
-                <Button
-                    variant="destructive"
-                    onClick={handleBulkDelete}
-                    disabled={selectedIds.size === 0}
-                    className="flex items-center"
-                >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    {__("Bulk Delete", "lineconnect")} ({selectedIds.size})
-                </Button>
+
             </div>
             <table className="wp-list-table widefat striped">
                 <thead>
@@ -379,24 +373,57 @@ const Sessions = () => {
                             <td onClick={() => handleSessionClick(session)}>{session.status === 'active' ? session.current_step_id : ''}</td>
                             <td onClick={() => handleSessionClick(session)}>{new Date(session.updated_at).toLocaleString('ja-JP')}</td>
                             <td>
-                                <button
-                                    type="button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteClick(session.id);
-                                    }}
-                                    className="text-red-600 hover:text-red-800 p-1"
-                                    aria-label={__('Delete session', 'lineconnect')}
-                                    title={__('Delete', 'lineconnect')}
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
+                                <div className="flex items-center">
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleEditClick(session);
+                                        }}
+                                        className="text-blue-600 hover:text-blue-800 p-1"
+                                        aria-label={__('Edit session', 'lineconnect')}
+                                        title={__('Edit', 'lineconnect')}
+                                    >
+                                        <Edit className="h-4 w-4" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteClick(session.id);
+                                        }}
+                                        className="text-red-600 hover:text-red-800 p-1"
+                                        aria-label={__('Delete session', 'lineconnect')}
+                                        title={__('Delete', 'lineconnect')}
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className='my-2 text-sm flex justify-end'>
+            <div className='my-2 text-sm flex justify-between'>
+                <div className='flex gap-2'>
+                    <Button
+                        variant="outline"
+                        onClick={handleCsvDownload}
+                        className="flex items-center"
+                    >
+                        <Download className="h-4 w-4 mr-2" />
+                        {__("CSV Download", "lineconnect")}
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        onClick={handleBulkDelete}
+                        disabled={selectedIds.size === 0}
+                        className="flex items-center"
+                    >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        {__("Bulk Delete", "lineconnect")} ({selectedIds.size})
+                    </Button>
+                </div>
                 <SessionPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -408,6 +435,7 @@ const Sessions = () => {
                 session={selectedSession}
                 isOpen={drawerOpen}
                 onClose={handleDrawerClose}
+                initialEditing={startInEditMode}
                 onEdit={(updatedSession) => {
                     // update selectedSession and sessions list immediately
                     if (updatedSession) {
@@ -419,6 +447,7 @@ const Sessions = () => {
                                 return s;
                             }
                         }));
+                        setStartInEditMode(false);
                     }
                 }}
                 onDelete={handleDeleteClick}

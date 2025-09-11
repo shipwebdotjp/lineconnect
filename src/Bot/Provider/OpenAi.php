@@ -231,21 +231,43 @@ class OpenAi {
 				}
 			}
 			// 過去の文脈を取得
-			$convasations = $wpdb->get_results(
-				$wpdb->prepare(
-					"
+			if (version_compare(lineconnect::get_current_db_version(), '1.8', '>=')) {
+				$scope = array_search('ai', \Shipweb\LineConnect\Bot\Constants::WH_SCOPE) ?: 0;
+
+				$convasations = $wpdb->get_results(
+					$wpdb->prepare(
+						"
 				SELECT event_type,source_type,message_type,message 
 				FROM {$table_name}
-				WHERE (event_type = 1 OR source_type = 11) AND user_id = %s AND bot_id = %s
+				WHERE bot_id = %s AND user_id = %s AND scope = %d 
+				ORDER BY id desc
+				LIMIT 0, {$context_num}
+				",
+						array(
+							$bot_id,
+							$user_id,
+							$scope,
+						)
+					)
+				);
+			} else {
+				$convasations = $wpdb->get_results(
+					$wpdb->prepare(
+						"
+				SELECT event_type,source_type,message_type,message 
+				FROM {$table_name}
+				WHERE bot_id = %s AND user_id = %s AND (event_type = 1 OR source_type = 11)
 				ORDER BY id desc
 				LIMIT 1, {$context_num}
 				",
-					array(
-						$user_id,
-						$bot_id,
+						array(
+							$bot_id,
+							$user_id,
+						)
 					)
-				)
-			);
+				);
+			}
+			error_log(print_r($convasations, true));
 
 			$image_array = [];
 			foreach (array_reverse($convasations) as $convasation) {
@@ -353,7 +375,7 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
-		// error_log(print_r($messages, true));
+		error_log(print_r($messages, true));
 
 		// Define data
 		$data                = array();
