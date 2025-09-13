@@ -871,6 +871,7 @@ class Schema {
                 'onTimeout' => array(
                     'type' => 'string',
                     'title' => __('On Timeout', LineConnect::PLUGIN_NAME),
+                    'description' => __('Defines the action to take when a session times out.', LineConnect::PLUGIN_NAME),
                     'anyOf' => array(
                         array('const' => 'delete_session', 'title' => __('Delete Session', LineConnect::PLUGIN_NAME)),
                         array('const' => 'mark_timeout', 'title' => __('Mark as Timeout', LineConnect::PLUGIN_NAME)),
@@ -879,23 +880,40 @@ class Schema {
                 ),
                 'runPolicy' => array(
                     'type' => 'string',
-                    'title' => __('Run Policy', LineConnect::PLUGIN_NAME),
+                    'title' => __('Interaction Run Policy', LineConnect::PLUGIN_NAME),
+                    'description' => __('Defines how to handle repeated runs of the same interaction by the same user.', LineConnect::PLUGIN_NAME),
                     'anyOf' => array(
-                        array('const' => 'single_forbid', 'title' => __("Don't allow", LineConnect::PLUGIN_NAME)),
-                        array('const' => 'single_latest_only', 'title' => __('Allow (keep latest only)', LineConnect::PLUGIN_NAME)),
-                        array('const' => 'multi_keep_history', 'title' => __('Allow (keep history)', LineConnect::PLUGIN_NAME)),
+                        array('const' => 'single_forbid',       'title' => __('Do not allow (block new runs if one exists)', LineConnect::PLUGIN_NAME)),
+                        array('const' => 'single_latest_only',  'title' => __('Allow (replace previous runs; keep latest only)', LineConnect::PLUGIN_NAME)),
+                        array('const' => 'multi_keep_history',  'title' => __('Allow (keep history)', LineConnect::PLUGIN_NAME)),
                     ),
                     'default' => 'single_latest_only',
                 ),
                 'overridePolicy' => array(
                     'type' => 'string',
                     'title' => __('Override Policy', LineConnect::PLUGIN_NAME),
+                    'description' => __('Defines how to handle a new interaction request when another interaction is already in progress.', LineConnect::PLUGIN_NAME),
                     'anyOf' => array(
-                        array('const' => 'reject', 'title' => __('Reject', LineConnect::PLUGIN_NAME)),
-                        array('const' => 'restart_same', 'title' => __('Restart only same', LineConnect::PLUGIN_NAME)),
-                        array('const' => 'restart_diff', 'title' => __('Restart only different', LineConnect::PLUGIN_NAME)),
-                        array('const' => 'restart_always', 'title' => __('Always restart', LineConnect::PLUGIN_NAME)),
-                        array('const' => 'stack', 'title' => __('Stack', LineConnect::PLUGIN_NAME)),
+                        array(
+                            'const' => 'reject',
+                            'title' => __('Reject (do not start a new interaction)', LineConnect::PLUGIN_NAME)
+                        ),
+                        array(
+                            'const' => 'restart_same',
+                            'title' => __('Restart only if the interaction is the same', LineConnect::PLUGIN_NAME)
+                        ),
+                        array(
+                            'const' => 'restart_diff',
+                            'title' => __('Restart only if the interaction is different', LineConnect::PLUGIN_NAME)
+                        ),
+                        array(
+                            'const' => 'restart_always',
+                            'title' => __('Always restart (end current and start new)', LineConnect::PLUGIN_NAME)
+                        ),
+                        array(
+                            'const' => 'stack',
+                            'title' => __('Stack (pause current, start new, then resume)', LineConnect::PLUGIN_NAME)
+                        ),
                     ),
                     'default' => 'stack',
                 ),
@@ -919,6 +937,7 @@ class Schema {
                 'excludeSteps' => array(
                     'type' => 'array',
                     'title' => __('Exclude Steps', LineConnect::PLUGIN_NAME),
+                    'description' => __('Input values for the step IDs defined here will not be displayed on the confirmation screen and will not be saved. Use this for steps that do not collect user data, such as consent or simple explanations.', LineConnect::PLUGIN_NAME),
                     'items' => array(
                         'type' => 'string',
                     )

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-11 21:49+0900\n"
+"POT-Creation-Date: 2025-09-13 22:26+0900\n"
 "PO-Revision-Date: 2023-08-05 23:17+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -2937,13 +2937,13 @@ msgid "No, go back"
 msgstr "いいえ、戻ります"
 
 msgid "Canceled"
-msgstr "キャンセルされました"
+msgstr "キャンセル済み"
 
 msgid "The process has been canceled."
 msgstr "処理がキャンセルされました。"
 
 msgid "Timeout Reminder"
-msgstr "タイムアウト通知"
+msgstr "タイムアウトリマインダー"
 
 msgid "You have a pending action that will time out soon."
 msgstr "間もなくタイムアウトする未完了のアクションがあります。"
@@ -4255,7 +4255,7 @@ msgid "Cancel Confirm"
 msgstr "キャンセル確認"
 
 msgid "Timeout Remind"
-msgstr "タイムアウト通知"
+msgstr "タイムアウトリマインダー"
 
 msgid "Before Input Actions"
 msgstr "入力前アクション"
@@ -4283,20 +4283,27 @@ msgstr ""
 msgid "On Timeout"
 msgstr "タイムアウト時"
 
+msgid "Defines the action to take when a session times out."
+msgstr "セッションがタイムアウトした場合に実行する処理を定義します。"
+
 msgid "Delete Session"
 msgstr "セッションを削除"
 
 msgid "Mark as Timeout"
 msgstr "タイムアウトとしてマーク"
 
-msgid "Run Policy"
+msgid "Interaction Run Policy"
 msgstr "実行ポリシー"
 
-msgid "Don't allow"
-msgstr "許可しない"
+msgid ""
+"Defines how to handle repeated runs of the same interaction by the same user."
+msgstr "同じユーザーが同じインタラクションを繰り返し実行しようとした場合の処理方法を定義します。"
 
-msgid "Allow (keep latest only)"
-msgstr "許可（最新のみ保持）"
+msgid "Do not allow (block new runs if one exists)"
+msgstr "許可しない（既存の実行がある場合は新しい実行を開始しない）"
+
+msgid "Allow (replace previous runs; keep latest only)"
+msgstr "許可（以前の実行を置き換え、最新のみ保持）"
 
 msgid "Allow (keep history)"
 msgstr "許可（履歴を保持）"
@@ -4304,17 +4311,25 @@ msgstr "許可（履歴を保持）"
 msgid "Override Policy"
 msgstr "上書きポリシー"
 
-msgid "Reject"
-msgstr "拒否"
+msgid ""
+"Defines how to handle a new interaction request when another interaction is "
+"already in progress."
+msgstr "進行中のインタラクションがある場合に新しいインタラクション要求をどのように扱うかを定義します。"
 
-msgid "Restart only same"
-msgstr "同じもののみ再開"
+msgid "Reject (do not start a new interaction)"
+msgstr "拒否（新しいインタラクションを開始しない）"
 
-msgid "Restart only different"
-msgstr "異なるもののみ再開"
+msgid "Restart only if the interaction is the same"
+msgstr "同じ場合のみ再起動（新しいインタラクションが現在のものと同じ場合、最初からやり直す）"
 
-msgid "Stack"
-msgstr "スタック"
+msgid "Restart only if the interaction is different"
+msgstr "異なる場合のみ再起動（新しいインタラクションが現在のものと異なる場合、現在のものを終了して新規開始）"
+
+msgid "Always restart (end current and start new)"
+msgstr "常に再起動（現在のセッションを終了し、新しいセッションを開始）"
+
+msgid "Stack (pause current, start new, then resume)"
+msgstr "スタック（一時停止して新規開始、完了後に再開）"
 
 msgid ""
 "The version of the interaction form. If you need to make changes to the form "
@@ -4334,6 +4349,12 @@ msgstr "プロフィールに書き込み"
 
 msgid "Exclude Steps"
 msgstr "除外ステップ"
+
+msgid ""
+"Input values for the step IDs defined here will not be displayed on the "
+"confirmation screen and will not be saved. Use this for steps that do not "
+"collect user data, such as consent or simple explanations."
+msgstr "ここで設定したステップIDの入力値は確認画面に表示されず、保存もされません。同意や単なる説明ステップなど、ユーザーデータを収集しないステップに設定します。"
 
 msgid "Cancel Words"
 msgstr "キャンセルワード"
@@ -4377,6 +4398,27 @@ msgstr "ユニークユーザー"
 
 msgid "View Sessions"
 msgstr "セッションを表示"
+
+#~ msgid "Run Policy"
+#~ msgstr "実行ポリシー"
+
+#~ msgid "Don't allow"
+#~ msgstr "許可しない"
+
+#~ msgid "Allow (keep latest only)"
+#~ msgstr "許可（最新のみ保持）"
+
+#~ msgid "Reject"
+#~ msgstr "拒否"
+
+#~ msgid "Restart only same"
+#~ msgstr "同じもののみ再開"
+
+#~ msgid "Restart only different"
+#~ msgstr "異なるもののみ再開"
+
+#~ msgid "Stack"
+#~ msgstr "スタック"
 
 #, php-format
 #~ msgid "Invalid timestamp format. %s"

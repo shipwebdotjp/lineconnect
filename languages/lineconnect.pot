@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.3.5\n"
+"Project-Id-Version: LINE Connect 4.4.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-11 21:49+0900\n"
+"POT-Creation-Date: 2025-09-13 22:26+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4116,19 +4116,26 @@ msgstr ""
 msgid "On Timeout"
 msgstr ""
 
+msgid "Defines the action to take when a session times out."
+msgstr ""
+
 msgid "Delete Session"
 msgstr ""
 
 msgid "Mark as Timeout"
 msgstr ""
 
-msgid "Run Policy"
+msgid "Interaction Run Policy"
 msgstr ""
 
-msgid "Don't allow"
+msgid ""
+"Defines how to handle repeated runs of the same interaction by the same user."
 msgstr ""
 
-msgid "Allow (keep latest only)"
+msgid "Do not allow (block new runs if one exists)"
+msgstr ""
+
+msgid "Allow (replace previous runs; keep latest only)"
 msgstr ""
 
 msgid "Allow (keep history)"
@@ -4137,16 +4144,24 @@ msgstr ""
 msgid "Override Policy"
 msgstr ""
 
-msgid "Reject"
+msgid ""
+"Defines how to handle a new interaction request when another interaction is "
+"already in progress."
 msgstr ""
 
-msgid "Restart only same"
+msgid "Reject (do not start a new interaction)"
 msgstr ""
 
-msgid "Restart only different"
+msgid "Restart only if the interaction is the same"
 msgstr ""
 
-msgid "Stack"
+msgid "Restart only if the interaction is different"
+msgstr ""
+
+msgid "Always restart (end current and start new)"
+msgstr ""
+
+msgid "Stack (pause current, start new, then resume)"
 msgstr ""
 
 msgid ""
@@ -4164,6 +4179,12 @@ msgid "Bind to Profile"
 msgstr ""
 
 msgid "Exclude Steps"
+msgstr ""
+
+msgid ""
+"Input values for the step IDs defined here will not be displayed on the "
+"confirmation screen and will not be saved. Use this for steps that do not "
+"collect user data, such as consent or simple explanations."
 msgstr ""
 
 msgid "Cancel Words"
