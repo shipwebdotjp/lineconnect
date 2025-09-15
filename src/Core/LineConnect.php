@@ -51,7 +51,7 @@ class LineConnect {
 	/**
 	 * このプラグインのバージョン
 	 */
-	const VERSION = '4.4.1';
+	const VERSION = '4.4.2';
 
 	/**
 	 * このプラグインのデータベースバージョン

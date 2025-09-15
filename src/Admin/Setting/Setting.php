@@ -293,7 +293,7 @@ EOM;
                             </div>
                         </div>
                     </div>
-					<div class='postbox hide' id="newChannelBtn">
+					<div class='postbox' id="newChannelBtn">
                         <h3 class='hndle'><span>{$new_channel_title}</span></h3>
                         <div class='inside'>
 							<button type="button" onclick="showNewChannel()" class="button button-secondary button-large">{$new_channel_label}</button>

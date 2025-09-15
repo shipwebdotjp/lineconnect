@@ -357,7 +357,7 @@ class Post {
 							} else {
 								$error_message = __('Failed to send a LINE message to all friends.', lineconnect::PLUGIN_NAME) . $response['message'];
 							}
-						} else {
+						} elseif (!empty($roles)) {
 
 							$response = Sender::sendMessageRole($channel, $roles, $buildMessage);
 							if ($response['success']) {
