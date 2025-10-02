@@ -9,42 +9,43 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class GetUserMeta extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'get_user_meta';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'get_user_meta';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Get user meta', lineconnect::PLUGIN_NAME),
-				'description' => __('Get WordPress user meta value', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'integer',
-						'name' => 'user_id',
-						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Get user meta', lineconnect::PLUGIN_NAME),
+			'description' => __('Get WordPress user meta value', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'integer',
+					'name' => 'user_id',
+					'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'key',
+					'description' => __('Meta key', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2100,
+		);
+	}
 
 	/**
 	 * ユーザーメタを取得

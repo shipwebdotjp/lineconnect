@@ -67,6 +67,7 @@ class SendLineMessageByAudience extends AbstractActionDefinition {
 			),
 			'namespace'   => self::class,
 			'role'        => 'any',
+			'order'       => 1100,
 		);
 	}
 

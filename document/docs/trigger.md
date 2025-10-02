@@ -98,6 +98,14 @@ The trigger will not activate if the current time is after the end date.
   Specifies the number of minutes before the target time to trigger the action.  
   For example, to trigger the action 24 hours before the last day of each month, check the last day of the month and input "1440" for the minutes of advance notice. This setup ensures the trigger will fire one day before the last day of the month, regardless of the exact last day.  
 
+### Audience
+This can be set when the trigger type is `Schedule`. The audience specified here will be the target (The event source) of the action.
+If not specified, the action will be executed without a target user, so actions requiring a source will not work correctly.
+Also, even if you check `Send return value as LINE message`, if an audience is not specified, the LINE message will not be sent.
+(Except when a user ID is specified as an action argument.)
+For instructions on setting the audience, see [Audience](./audience.md).
+Note that when the trigger type is `Webhook`, the event sender is the target of the action, and you cannot set an audience.  
+
 ### Action
 This is the action to be executed when the trigger is activated.  
 To know more about the action, please refer to the [Action Flow](./actionflow.md) documentation.

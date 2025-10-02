@@ -11,36 +11,37 @@ use Shipweb\LineConnect\Message\LINE\Builder;
  * Definition for the get_my_user_info action.
  */
 class GetTextMessage extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'get_text_message';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'get_text_message';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Get LINE text message', lineconnect::PLUGIN_NAME),
-				'description' => __('Get LINE text message.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'body',
-						'description' => __('Message body', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Get LINE text message', lineconnect::PLUGIN_NAME),
+			'description' => __('Get LINE text message.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'string',
+					'name' => 'body',
+					'description' => __('Message body', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'any',
-			);
-    }
+			),
+			'namespace'   => self::class,
+			'role'        => 'any',
+			'order'       => 200,
+		);
+	}
 
 
 	// LINETEXT メッセージ取得

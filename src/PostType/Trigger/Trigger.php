@@ -4,18 +4,20 @@ namespace Shipweb\LineConnect\PostType\Trigger;
 
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\PostType\Audience\Schema as AudienceSchema;
 
 class Trigger {
-    const NAME = 'trigger';
-    const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
-    const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
-    const META_KEY_DATA = self::NAME . '-data';
-    const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
-    const SCHEMA_VERSION = 1;
-    const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
+	const NAME = 'trigger';
+	const CREDENTIAL_ACTION = LineConnect::PLUGIN_ID . '-nonce-action_' . self::NAME;
+	const CREDENTIAL_NAME = LineConnect::PLUGIN_ID . '-nonce-name_' . self::NAME;
+	const META_KEY_DATA = self::NAME . '-data';
+	const PARAMETER_DATA = LineConnect::PLUGIN_PREFIX . self::META_KEY_DATA;
+	const SCHEMA_VERSION = 1;
+	const POST_TYPE = LineConnect::PLUGIN_PREFIX . self::NAME;
 
-    static function get_schema() {
-        $schema = array(
+	static function get_schema() {
+		$schema = array(
 			'type'       => 'object',
 			'properties' => array(
 				'triggers' => array(
@@ -978,7 +980,7 @@ class Trigger {
 				),
 			),
 		);
-        Action::build_action_schema_items($schema['properties']['action']['items']['oneOf']);
+		Action::build_action_schema_items($schema['properties']['action']['items']['oneOf']);
 
 		$all_roles = array();
 		foreach (wp_roles()->roles as $role_name => $role) {
@@ -1003,19 +1005,32 @@ class Trigger {
 			);
 		}
 		$schema['definitions']['secret_prefix']['items']['oneOf'] = $all_channels;
-
+		$audience_schema = Audience::get_audience_schema();
 
 		$trigger_schema_bytype = array();
 		foreach (self::get_types() as $type => $type_schema) {
 			$trigger_schema_bytype[$type] = $schema;
 			$trigger_schema_bytype[$type]['properties']['triggers']['items'] = $type_schema;
+			if ($type == 'schedule') {
+				$trigger_schema_bytype[$type]['properties']['audience'] = array(
+					'type'       => 'object',
+					'title'      => __('Audience', lineconnect::PLUGIN_NAME),
+					'properties' => array(
+						'condition' => array(
+							'$ref' => '#/definitions/audience_condition',
+						),
+					)
+				);
+				$trigger_schema_bytype[$type]['definitions']['audience_condition'] = $audience_schema['definitions']['condition'];
+				$trigger_schema_bytype[$type]['definitions']['audience_condition']['properties']['conditions']['minItems'] = 0;
+			}
 		}
 
 		return $trigger_schema_bytype;
-    }
+	}
 
-    static function get_types() {
-        return array(
+	static function get_types() {
+		return array(
 			'webhook' => array(
 				'type' => 'object',
 				'title' => __('Webhook', lineconnect::PLUGIN_NAME),
@@ -1941,193 +1956,201 @@ class Trigger {
 				//),
 			),
 		);
-    }
+	}
 
-    static function get_uischema(){
-        return array(
-            'ui:submitButtonOptions' => array(
-                'norender' => true,
-            ),
-            'triggers' => array(
-                'items' => array(
-                    'ui:order' => array(
-                        'type',
-                        'message',
-                        'postback',
-                        'follow',
-                        '*',
-                    ),
-                    'condition' => array(
-                        'conditions' => array(
-                            'items' => array(
-                                'ui:order' => array(
-                                    'type',
-                                    'source',
-                                    'secret_prefix',
-                                    '*',
-                                ),
-                                /*
+	static function get_uischema() {
+		return array(
+			'ui:submitButtonOptions' => array(
+				'norender' => true,
+			),
+			'ui:order' => array(
+				'triggers',
+				'audience',
+				'action',
+				'chain',
+				'*',
+			),
+			'triggers' => array(
+				'items' => array(
+					'ui:order' => array(
+						'type',
+						'message',
+						'postback',
+						'follow',
+						'*',
+					),
+					'condition' => array(
+						'conditions' => array(
+							'items' => array(
+								'ui:order' => array(
+									'type',
+									'source',
+									'secret_prefix',
+									'*',
+								),
+								/*
                                 'not' => array(
                                     'ui:widget' => 'select',
                                 ),*/
-                            ),
-                            'ui:options' => array(
-                                'addText' =>  __('Add source condition', lineconnect::PLUGIN_NAME),
-                            ),
-                        ),
-                    ),
-                    'message' => array(
-                        'text' => array(
-                            'conditions' => array(
-                                'items' => array(
-                                    'ui:order' => array(
-                                        'type',
-                                        'source',
-                                        '*',
-                                    ),
-                                    /*
+							),
+							'ui:options' => array(
+								'addText' =>  __('Add source condition', lineconnect::PLUGIN_NAME),
+							),
+						),
+					),
+					'message' => array(
+						'text' => array(
+							'conditions' => array(
+								'items' => array(
+									'ui:order' => array(
+										'type',
+										'source',
+										'*',
+									),
+									/*
                                     'not' => array(
                                         'ui:widget' => 'select',
                                     ),*/
-                                    'source' => array(
-                                        'query' => array(
-                                            'parameters' => array(
-                                                'ui:options' => array(
-                                                    'addText' =>  __('Add query parameter', lineconnect::PLUGIN_NAME),
-                                                ),
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                                'ui:options' => array(
-                                    'addText' =>  __('Add message condition', lineconnect::PLUGIN_NAME),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'postback' => array(
-                        'data' => array(
-                            'conditions' => array(
-                                'items' => array(
-                                    'ui:order' => array(
-                                        'type',
-                                        'source',
-                                        '*',
-                                    ),
-                                    /*
+									'source' => array(
+										'query' => array(
+											'parameters' => array(
+												'ui:options' => array(
+													'addText' =>  __('Add query parameter', lineconnect::PLUGIN_NAME),
+												),
+											),
+										),
+									),
+								),
+								'ui:options' => array(
+									'addText' =>  __('Add message condition', lineconnect::PLUGIN_NAME),
+								),
+							),
+						),
+					),
+					'postback' => array(
+						'data' => array(
+							'conditions' => array(
+								'items' => array(
+									'ui:order' => array(
+										'type',
+										'source',
+										'*',
+									),
+									/*
                                     'not' => array(
                                         'ui:widget' => 'select',
                                     ),*/
-                                ),
-                                'ui:options' => array(
-                                    'addText' =>  __('Add postback condition', lineconnect::PLUGIN_NAME),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'repeat' => array(
-                        'ui:order' => array(
-                            'every',
-                            'hour',
-                            'day',
-                            'date',
-                            'week',
-                            'month',
-                            'year',
-                            '*',
-                        ),
-                        'hour' => array(
-                            'ui:widget' => 'checkboxes',
-                            'ui:options' => array(
-                                'inline' => true,
-                            ),
-                        ),
-                        'day' => array(
-                            'items' => array(
-                                'number' => array(
-                                    'ui:widget' => 'checkboxes',
-                                    'ui:options' => array(
-                                        'inline' => true,
-                                    ),
-                                ),
-                                'day' => array(
-                                    'ui:widget' => 'checkboxes',
-                                    'ui:options' => array(
-                                        'inline' => true,
-                                    ),
-                                ),
-                            ),
-                            'ui:options' => array(
-                                'addText' =>  __('Add day', lineconnect::PLUGIN_NAME),
-                            ),
-                        ),
-                        'date' => array(
-                            'ui:widget' => 'checkboxes',
-                            'ui:options' => array(
-                                'inline' => true,
-                            ),
-                        ),
-                        'week' => array(
-                            'ui:options' => array(
-                                'addText' =>  __('Add week', lineconnect::PLUGIN_NAME),
-                            ),
-                        ),
-                        'month' => array(
-                            'ui:widget' => 'checkboxes',
-                            'ui:options' => array(
-                                'inline' => true,
-                            ),
-                        ),
-                        'year' => array(
-                            'ui:options' => array(
-                                'addText' =>  __('Add year', lineconnect::PLUGIN_NAME),
-                            ),
-                        ),
-                    ),
-                ),
-                'ui:options' => array(
-                    'addText' =>  __('Add trigger', lineconnect::PLUGIN_NAME),
-                ),
-            ),
-            'action'                 => array(
-                'items' => array(
-                    'action_name' => array(
-                        'ui:style' => array(
-                            'display' => 'none',
-                        ),
-                    ),
-                    'parameters' => array(
-                        'ui:options' => array(
-                            'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
-                        ),
-                        'body' => array(
-                            'ui:widget' => 'textarea',
-                            'ui:options' => array(
-                                'rows' => 5,
-                            ),
-                        ),
-                        'json' => array(
-                            'ui:widget' => 'textarea',
-                            'ui:options' => array(
-                                'rows' => 5,
-                            ),
-                        ),
-                    ),
-                ),
-                'ui:options' => array(
-                    'addText' =>  __('Add action', lineconnect::PLUGIN_NAME),
-                ),
-            ),
-            'chain' => array(
-                'ui:options' => array(
-                    'addText' =>  __('Add chain', lineconnect::PLUGIN_NAME),
-                ),
-            ),
-        );
-    }
+								),
+								'ui:options' => array(
+									'addText' =>  __('Add postback condition', lineconnect::PLUGIN_NAME),
+								),
+							),
+						),
+					),
+					'repeat' => array(
+						'ui:order' => array(
+							'every',
+							'hour',
+							'day',
+							'date',
+							'week',
+							'month',
+							'year',
+							'*',
+						),
+						'hour' => array(
+							'ui:widget' => 'checkboxes',
+							'ui:options' => array(
+								'inline' => true,
+							),
+						),
+						'day' => array(
+							'items' => array(
+								'number' => array(
+									'ui:widget' => 'checkboxes',
+									'ui:options' => array(
+										'inline' => true,
+									),
+								),
+								'day' => array(
+									'ui:widget' => 'checkboxes',
+									'ui:options' => array(
+										'inline' => true,
+									),
+								),
+							),
+							'ui:options' => array(
+								'addText' =>  __('Add day', lineconnect::PLUGIN_NAME),
+							),
+						),
+						'date' => array(
+							'ui:widget' => 'checkboxes',
+							'ui:options' => array(
+								'inline' => true,
+							),
+						),
+						'week' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add week', lineconnect::PLUGIN_NAME),
+							),
+						),
+						'month' => array(
+							'ui:widget' => 'checkboxes',
+							'ui:options' => array(
+								'inline' => true,
+							),
+						),
+						'year' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add year', lineconnect::PLUGIN_NAME),
+							),
+						),
+					),
+				),
+				'ui:options' => array(
+					'addText' =>  __('Add trigger', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'audience' => AudienceSchema::get_uischema(),
+			'action'                 => array(
+				'items' => array(
+					'action_name' => array(
+						'ui:style' => array(
+							'display' => 'none',
+						),
+					),
+					'parameters' => array(
+						'ui:options' => array(
+							'addText' => __('Add parameter', lineconnect::PLUGIN_NAME),
+						),
+						'body' => array(
+							'ui:widget' => 'textarea',
+							'ui:options' => array(
+								'rows' => 5,
+							),
+						),
+						'json' => array(
+							'ui:widget' => 'textarea',
+							'ui:options' => array(
+								'rows' => 5,
+							),
+						),
+					),
+				),
+				'ui:options' => array(
+					'addText' =>  __('Add action', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'chain' => array(
+				'ui:options' => array(
+					'addText' =>  __('Add chain', lineconnect::PLUGIN_NAME),
+				),
+			),
+		);
+	}
 
-    static function get_type_schema(){
-        return array(
+	static function get_type_schema() {
+		return array(
 			'type'       => 'object',
 			'properties' => array(
 				'type' => array(
@@ -2146,10 +2169,10 @@ class Trigger {
 				),
 			),
 		);
-    }
+	}
 
-    static function get_type_uischema(){
-        return array(
+	static function get_type_uischema() {
+		return array(
 			'ui:submitButtonOptions' => array(
 				'norender' => true,
 			),
@@ -2161,6 +2184,5 @@ class Trigger {
 				),
 			),
 		);
-    }
-
+	}
 }

@@ -1,11 +1,12 @@
 <?php
+
 namespace Shipweb\LineConnect\PostType\Audience;
 
 use Shipweb\LineConnect\Core\LineConnect;
 
 class Schema {
-    static function get_schema() {
-        return array(
+	static function get_schema() {
+		return array(
 			'type'       => 'object',
 			'title'      => __('Audience', lineconnect::PLUGIN_NAME),
 			'properties' => array(
@@ -560,14 +561,13 @@ class Schema {
 				),
 			),
 		);
-    }
+	}
 
-    static function get_uischema() {
-        return array(
+	static function get_uischema() {
+		return array(
 			'ui:submitButtonOptions' => array(
 				'norender' => true,
 			),
-
 			'condition' => array(
 				// 'ui:classNames' => 'title-hidden',
 				'ui:options' => array(
@@ -579,7 +579,7 @@ class Schema {
 						'copyable' => true,
 					),
 					'items' => array(
-						'userId' => array(
+						'lineUserId' => array(
 							'ui:options' => array(
 								'addText' =>  __('Add LINE user ID', lineconnect::PLUGIN_NAME),
 								'copyable' => true,
@@ -591,19 +591,25 @@ class Schema {
 								'copyable' => true,
 							),
 						),
-						'email' => array(
+						'user_email' => array(
 							'ui:options' => array(
 								'addText' =>  __('Add email', lineconnect::PLUGIN_NAME),
 								'copyable' => true,
 							),
 						),
-						'username' => array(
+						'user_login' => array(
 							'ui:options' => array(
 								'addText' =>  __('Add username', lineconnect::PLUGIN_NAME),
 								'copyable' => true,
 							),
 						),
-						'userMeta' => array(
+						'display_name' => array(
+							'ui:options' => array(
+								'addText' =>  __('Add display name', lineconnect::PLUGIN_NAME),
+								'copyable' => true,
+							),
+						),
+						'usermeta' => array(
 							'ui:options' => array(
 								'addText' =>  __('Add user meta', lineconnect::PLUGIN_NAME),
 								'copyable' => true,
@@ -618,10 +624,9 @@ class Schema {
 						'condition' => array(
 							'$.ref' => 'condition',
 						),
-
 					),
 				),
 			),
 		);
-    }
+	}
 }

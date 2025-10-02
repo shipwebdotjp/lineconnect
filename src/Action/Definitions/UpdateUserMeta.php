@@ -9,50 +9,52 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class UpdateUserMeta extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'update_user_meta';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'update_user_meta';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Update user meta', lineconnect::PLUGIN_NAME),
-				'description' => __('Update or delete WordPress user meta value', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'integer',
-						'name' => 'user_id',
-						'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Meta key', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'value',
-						'description' => __('Meta value. If empty, meta will be deleted.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Update user meta', lineconnect::PLUGIN_NAME),
+			'description' => __('Update or delete WordPress user meta value', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'integer',
+					'name' => 'user_id',
+					'description' => __('WordPress user ID', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'key',
+					'description' => __('Meta key', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+				array(
+					'type' => 'string',
+					'name' => 'value',
+					'description' => __('Meta value. If empty, meta will be deleted.', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2110,
 
-    /**
+		);
+	}
+
+	/**
 	 * ユーザーメタを更新
 	 * @param int $user_id WordPressユーザーID
 	 * @param string $key メタキー

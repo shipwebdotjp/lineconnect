@@ -9,88 +9,90 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class WPUserQuery extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'WP_User_Query';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'WP_User_Query';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Search users', lineconnect::PLUGIN_NAME),
-				'description' => 'Get users information with WP_User_Query. ID, name, email, link status, etc.',
-				'parameters'  => array(
-					array(
-						'type'       => 'object',
-						'properties' => array(
-							'role'         => array(
-								'type'        => 'string',
-								'title'       => __('Role', lineconnect::PLUGIN_NAME),
-								'description' => 'A comma-separated list of role names that users must match to be included in results.',
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Search users', lineconnect::PLUGIN_NAME),
+			'description' => 'Get users information with WP_User_Query. ID, name, email, link status, etc.',
+			'parameters'  => array(
+				array(
+					'type'       => 'object',
+					'properties' => array(
+						'role'         => array(
+							'type'        => 'string',
+							'title'       => __('Role', lineconnect::PLUGIN_NAME),
+							'description' => 'A comma-separated list of role names that users must match to be included in results.',
+						),
+						'search'       => array(
+							'type'        => 'string',
+							'title'       => __('Search', lineconnect::PLUGIN_NAME),
+							'description' => 'Search keyword.',
+						),
+						'include'      => array(
+							'type'        => 'array',
+							'title'       => __('Include', lineconnect::PLUGIN_NAME),
+							'description' => 'List of user id to be included.',
+							'items'       => array(
+								'type' => 'integer',
+								'title'       => __('Item', lineconnect::PLUGIN_NAME),
 							),
-							'search'       => array(
-								'type'        => 'string',
-								'title'       => __('Search', lineconnect::PLUGIN_NAME),
-								'description' => 'Search keyword.',
-							),
-							'include'      => array(
-								'type'        => 'array',
-								'title'       => __('Include', lineconnect::PLUGIN_NAME),
-								'description' => 'List of user id to be included.',
-								'items'       => array(
-									'type' => 'integer',
-									'title'       => __('Item', lineconnect::PLUGIN_NAME),
-								),
-							),
-							'order'        => array(
-								'type'    => 'string',
-								'title'       => __('Order', lineconnect::PLUGIN_NAME),
-								'enum'    => array('ASC', 'DESC'),
-								'default' => 'DESC',
-							),
-							'orderby'      => array(
-								'type'        => 'string',
-								'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
-								'description' => 'Sort retrieved users by parameter.',
-								'default'     => 'login',
-							),
-							'offset'       => array(
-								'type'        => 'integer',
-								'title'       => __('Offset', lineconnect::PLUGIN_NAME),
-								'description' => 'Offset the returned results.',
-							),
-							'meta_key'     => array(
-								'type'        => 'string',
-								'title'       => __('Meta Key', lineconnect::PLUGIN_NAME),
-								'description' => 'Custom field key',
-							),
-							'meta_value'   => array(
-								'type'        => 'string',
-								'title'       => __('Meta Value', lineconnect::PLUGIN_NAME),
-								'description' => 'Custom field value',
-							),
-							'meta_compare' => array(
-								'type'        => 'string',
-								'title'       => __('Meta Compare', lineconnect::PLUGIN_NAME),
-								'description' => 'Operator to test the ‘meta_value‘. ',
-							),
+						),
+						'order'        => array(
+							'type'    => 'string',
+							'title'       => __('Order', lineconnect::PLUGIN_NAME),
+							'enum'    => array('ASC', 'DESC'),
+							'default' => 'DESC',
+						),
+						'orderby'      => array(
+							'type'        => 'string',
+							'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
+							'description' => 'Sort retrieved users by parameter.',
+							'default'     => 'login',
+						),
+						'offset'       => array(
+							'type'        => 'integer',
+							'title'       => __('Offset', lineconnect::PLUGIN_NAME),
+							'description' => 'Offset the returned results.',
+						),
+						'meta_key'     => array(
+							'type'        => 'string',
+							'title'       => __('Meta Key', lineconnect::PLUGIN_NAME),
+							'description' => 'Custom field key',
+						),
+						'meta_value'   => array(
+							'type'        => 'string',
+							'title'       => __('Meta Value', lineconnect::PLUGIN_NAME),
+							'description' => 'Custom field value',
+						),
+						'meta_compare' => array(
+							'type'        => 'string',
+							'title'       => __('Meta Compare', lineconnect::PLUGIN_NAME),
+							'description' => 'Operator to test the ‘meta_value‘. ',
 						),
 					),
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 5010,
 
-    // ユーザー検索
+		);
+	}
+
+	// ユーザー検索
 	function WP_User_Query($args) {
 		$args['number'] = (isset($args['number']) && $args['number'] <= 20 ? $args['number'] : 20); // 取得する投稿を５件までに制限
 		$args['fields'] = 'all_with_meta';

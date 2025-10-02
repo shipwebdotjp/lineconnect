@@ -64,6 +64,7 @@ class StartInteraction extends AbstractActionDefinition {
 			),
 			'namespace'   => self::class,
 			'role'        => 'administrator',
+			'order'       => 3000,
 		);
 	}
 

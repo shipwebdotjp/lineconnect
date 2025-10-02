@@ -9,52 +9,53 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class UpdateUserProfile extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'update_user_profile';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'update_user_profile';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Update LINE user profile', lineconnect::PLUGIN_NAME),
-				'description' => __('Update or delete value in LINE user profile', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Profile key to update', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'value',
-						'description' => __('Profile value. If empty, key will be deleted.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Update LINE user profile', lineconnect::PLUGIN_NAME),
+			'description' => __('Update or delete value in LINE user profile', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'string',
+					'name' => 'key',
+					'description' => __('Profile key to update', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'value',
+					'description' => __('Profile value. If empty, key will be deleted.', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+				),
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2020,
+		);
+	}
 
 	/**
 	 * LINEユーザープロフィールに値を保存

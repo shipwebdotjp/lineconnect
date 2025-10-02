@@ -9,41 +9,43 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class GetUserTags extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'get_user_tags';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'get_user_tags';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Get LINE user tags', lineconnect::PLUGIN_NAME),
-				'description' => __('Get LINE user tags.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Get LINE user tags', lineconnect::PLUGIN_NAME),
+			'description' => __('Get LINE user tags.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2200,
+
+		);
+	}
 
 	/**
 	 * LINEユーザータグを取得

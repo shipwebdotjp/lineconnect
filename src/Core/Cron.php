@@ -24,6 +24,8 @@ use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\MessageBuilder;
 use Shipweb\LineConnect\Message\LINE\Builder as LineMessageBuilder;
 use Shipweb\LineConnect\Message\LINE\Sender;
+use Shipweb\LineConnect\PostType\Audience\Audience as Audience;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
 
 
 
@@ -78,8 +80,14 @@ class Cron {
             // error_log( 'trigger type match:' . print_r( $trigger, true ) );
 
             if (isset($trigger['action'])) {
-                $action_return = Action::do_action($trigger['action'], $trigger['chain']);
-                // error_log('trigger action result: ' . print_r($action_return, true));
+                $recepient = Audience::get_audience_by_condition($trigger['audience']['condition'] ?? []);
+                if (empty($recepient)) {
+                    $action_return = Action::do_action($trigger['action'], $trigger['chain']);
+                    // error_log('trigger action without audience result: ' . print_r($action_return, true));
+                } else {
+                    $action_return = ActionFlow::execute_actionflow_by_audience(['actions' => $trigger['action'], 'chains' => $trigger['chain']], $recepient);
+                    // error_log('trigger action with audience result: ' . print_r($action_return, true));
+                }
             }
         }
         //シナリオ実行

@@ -63,6 +63,20 @@ class Action {
 	public static function get_lineconnect_action_name_array(): array {
 		$actions = self::getAll();
 		$list    = apply_filters(lineconnect::FILTER_PREFIX . 'actions', $actions);
+		// Sort by 'order' if defined in action config. Actions without 'order' go to the end.
+		if (! empty($list) && is_array($list)) {
+			uasort($list, function ($a, $b) {
+				$oa = isset($a['order']) ? (int) $a['order'] : 9999;
+				$ob = isset($b['order']) ? (int) $b['order'] : 9999;
+				if ($oa === $ob) {
+					return 0;
+				}
+				return ($oa < $ob) ? -1 : 1;
+			});
+		}
+		// debug.log
+
+		error_log(print_r(array_keys($list), true));
 		$out     = [];
 		foreach ($list as $name => $cfg) {
 			$out[$name] = $cfg['title'] ?? $name;
@@ -77,7 +91,18 @@ class Action {
 	 */
 	public static function get_lineconnect_action_data_array(): array {
 		$actions = self::getAll();
-		return apply_filters(lineconnect::FILTER_PREFIX . 'actions', $actions);
+		$list = apply_filters(lineconnect::FILTER_PREFIX . 'actions', $actions);
+		if (! empty($list) && is_array($list)) {
+			uasort($list, function ($a, $b) {
+				$oa = isset($a['order']) ? (int) $a['order'] : 9999;
+				$ob = isset($b['order']) ? (int) $b['order'] : 9999;
+				if ($oa === $ob) {
+					return 0;
+				}
+				return ($oa < $ob) ? -1 : 1;
+			});
+		}
+		return $list;
 	}
 
 	/**

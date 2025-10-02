@@ -51,6 +51,8 @@ class AddUserTags extends AbstractActionDefinition {
 			),
 			'namespace'   => self::class,
 			'role'        => 'administrator',
+			'order'       => 2220,
+
 		);
 	}
 	/**

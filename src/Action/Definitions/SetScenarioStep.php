@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\Action\Definitions;
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Scenario\Scenario;
+
 /**
  * Definition for the get_my_user_info action.
  */
@@ -16,56 +17,58 @@ class SetScenarioStep extends AbstractActionDefinition {
 		$this->scenario_id = $scenario_id;
 	}
 
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'set_scenario_step';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'set_scenario_step';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Set LC Scenario Step', lineconnect::PLUGIN_NAME),
-				'description' => __('Set LINE Connect Scenario Step.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'slc_scenario',
-						'name' => 'slc_scenario_id',
-						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'step_id',
-						'description' => __('ID of the step to set.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'next_date',
-						'description' => __('Next date to execute the step. Absolute or relative.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Set LC Scenario Step', lineconnect::PLUGIN_NAME),
+			'description' => __('Set LINE Connect Scenario Step.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'slc_scenario',
+					'name' => 'slc_scenario_id',
+					'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'step_id',
+					'description' => __('ID of the step to set.', lineconnect::PLUGIN_NAME),
+				),
+				array(
+					'type' => 'string',
+					'name' => 'next_date',
+					'description' => __('Next date to execute the step. Absolute or relative.', lineconnect::PLUGIN_NAME),
+				),
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+				),
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 4010,
+
+		);
+	}
 
 	/**
 	 * 指定したステップへ移動

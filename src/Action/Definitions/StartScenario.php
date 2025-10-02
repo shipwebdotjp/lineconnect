@@ -5,70 +5,72 @@ namespace Shipweb\LineConnect\Action\Definitions;
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Scenario\Scenario;
+
 /**
  * Definition for the get_my_user_info action.
  */
 class StartScenario extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'start_scenario';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'start_scenario';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Start LC Scenario', lineconnect::PLUGIN_NAME),
-				'description' => __('Start LINE Connect Scenario.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'slc_scenario',
-						'name' => 'slc_scenario_id',
-						'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'flg',
-						'description' => __('Scenario restart flag', lineconnect::PLUGIN_NAME),
-						'oneOf'       => array(
-							array(
-								'const' => 'none',
-								'title' => __('Never restart', lineconnect::PLUGIN_NAME),
-							),
-							array(
-								'const' => 'completed',
-								'title' => __('Restart only completed', lineconnect::PLUGIN_NAME),
-							),
-							array(
-								'const' => 'always',
-								'title' => __('Always restart', lineconnect::PLUGIN_NAME),
-							),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Start LC Scenario', lineconnect::PLUGIN_NAME),
+			'description' => __('Start LINE Connect Scenario.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'slc_scenario',
+					'name' => 'slc_scenario_id',
+					'description' => __('Scenario ID', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+				array(
+					'type' => 'string',
+					'name' => 'flg',
+					'description' => __('Scenario restart flag', lineconnect::PLUGIN_NAME),
+					'oneOf'       => array(
+						array(
+							'const' => 'none',
+							'title' => __('Never restart', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'completed',
+							'title' => __('Restart only completed', lineconnect::PLUGIN_NAME),
+						),
+						array(
+							'const' => 'always',
+							'title' => __('Always restart', lineconnect::PLUGIN_NAME),
 						),
 					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('Line user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('Line user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 4000,
+		);
+	}
 
 	/**
 	 * シナリオを開始する

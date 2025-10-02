@@ -9,42 +9,44 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class SendMailToAdmin extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'send_mail_to_admin';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'send_mail_to_admin';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Send mail to admin', lineconnect::PLUGIN_NAME),
-				'description' => __('Send mail to admin.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'subject',
-						'description' => __('Mail subject', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'body',
-						'description' => __('Mail body', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Send mail to admin', lineconnect::PLUGIN_NAME),
+			'description' => __('Send mail to admin.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'string',
+					'name' => 'subject',
+					'description' => __('Mail subject', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'any',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'body',
+					'description' => __('Mail body', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'any',
+			'order'       => 6000,
+
+		);
+	}
 
 	public function send_mail_to_admin($subject, $body) {
 		$headers = array(

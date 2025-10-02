@@ -9,46 +9,47 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class GetUserProfileValue extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'get_user_profile_value';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'get_user_profile_value';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Get LINE user profile value', lineconnect::PLUGIN_NAME),
-				'description' => __('Get value from LINE user profile', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'string',
-						'name' => 'key',
-						'description' => __('Profile key to get', lineconnect::PLUGIN_NAME),
-						'required' => true,
-					),
-					array(
-						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Get LINE user profile value', lineconnect::PLUGIN_NAME),
+			'description' => __('Get value from LINE user profile', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'string',
+					'name' => 'key',
+					'description' => __('Profile key to get', lineconnect::PLUGIN_NAME),
+					'required' => true,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+				),
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2010,
+		);
+	}
 
 	/**
 	 * LINEユーザープロフィールに保存されている値を取得

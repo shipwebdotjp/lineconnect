@@ -9,30 +9,31 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class GetMyUserInfo extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'get_my_user_info';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'get_my_user_info';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return [
-            'title'       => __('Get my user information', lineconnect::PLUGIN_NAME),
-            'description' => 'Get my information. ID, name, email, link status, etc.',
-            'namespace'   => self::class,
-            'role'        => 'any',
-        ];
-    }
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return [
+			'title'       => __('Get my user information', lineconnect::PLUGIN_NAME),
+			'description' => 'Get my information. ID, name, email, link status, etc.',
+			'namespace'   => self::class,
+			'role'        => 'any',
+			'order'       => 2000,
+		];
+	}
 
-    // 自分のユーザー情報取得
+	// 自分のユーザー情報取得
 	public function get_my_user_info() {
 		// メタ情報からLINEユーザーIDでユーザー検索
 		$user = lineconnect::get_wpuser_from_line_id($this->secret_prefix, $this->event->source->userId);

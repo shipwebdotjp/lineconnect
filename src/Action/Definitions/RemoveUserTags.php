@@ -9,50 +9,52 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class RemoveUserTags extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'remove_user_tags';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'remove_user_tags';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Remove LINE user tags', lineconnect::PLUGIN_NAME),
-				'description' => __('Remove LINE user tags.', lineconnect::PLUGIN_NAME),
-				'parameters'  => array(
-					array(
-						'type' => 'array',
-						'name' => 'tags',
-						'description' => __('Array of tags to remove. If empty, tags will not be removed.', lineconnect::PLUGIN_NAME),
-						'items' => array(
-							'type' => 'string',
-						),
-						'required' => false,
-					),
-					array(
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Remove LINE user tags', lineconnect::PLUGIN_NAME),
+			'description' => __('Remove LINE user tags.', lineconnect::PLUGIN_NAME),
+			'parameters'  => array(
+				array(
+					'type' => 'array',
+					'name' => 'tags',
+					'description' => __('Array of tags to remove. If empty, tags will not be removed.', lineconnect::PLUGIN_NAME),
+					'items' => array(
 						'type' => 'string',
-						'name' => 'line_user_id',
-						'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
-						'required' => true,
 					),
-					array(
-						'type' => 'slc_channel',
-						'name' => 'channel',
-						'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
-					),
+					'required' => false,
 				),
-				'namespace'   => self::class,
-				'role'        => 'administrator',
-			);
-    }
+				array(
+					'type' => 'string',
+					'name' => 'line_user_id',
+					'description' => __('LINE user ID. Default value is LINE user ID of event source.', lineconnect::PLUGIN_NAME),
+					'required' => true,
+				),
+				array(
+					'type' => 'slc_channel',
+					'name' => 'channel',
+					'description' => __('First 4 characters of channel secret. Default value is channel of event source.', lineconnect::PLUGIN_NAME),
+				),
+			),
+			'namespace'   => self::class,
+			'role'        => 'administrator',
+			'order'       => 2230,
+
+		);
+	}
 
 	/**
 	 * LINEユーザータグからタグを削除
@@ -99,5 +101,4 @@ class RemoveUserTags extends AbstractActionDefinition {
 
 		return $result !== false;
 	}
-
 }

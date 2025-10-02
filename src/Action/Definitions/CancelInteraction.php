@@ -15,16 +15,14 @@ use Shipweb\LineConnect\Interaction\RunPolicyEnforcer;
 use Shipweb\LineConnect\Interaction\InteractionDefinition;
 use Shipweb\LineConnect\Interaction\InteractionSession;
 
-class CancelInteraction extends AbstractActionDefinition
-{
+class CancelInteraction extends AbstractActionDefinition {
 
     /**
      * Returns the action key.
      *
      * @return string
      */
-    public static function name(): string
-    {
+    public static function name(): string {
         return 'cancel_interaction';
     }
 
@@ -33,8 +31,7 @@ class CancelInteraction extends AbstractActionDefinition
      *
      * @return array
      */
-    public static function config(): array
-    {
+    public static function config(): array {
         return array(
             'title'       => __('Cancel Interaction', lineconnect::PLUGIN_NAME),
             'description' => __('Cancel LINE Connect Interaction.', lineconnect::PLUGIN_NAME),
@@ -84,6 +81,7 @@ class CancelInteraction extends AbstractActionDefinition
             ),
             'namespace'   => self::class,
             'role'        => 'administrator',
+            'order'       => 3010,
         );
     }
 
@@ -97,8 +95,7 @@ class CancelInteraction extends AbstractActionDefinition
      * @param ?string $secret_prefix チャネルシークレットの先頭4文字
      * @return \LINE\LINEBot\MessageBuilder\MultiMessageBuilder|null
      */
-    public function cancel_interaction(?int $interaction_id = null, ?string $cancelPolicy = 'force', ?array $status = null, ?string $line_user_id = null, ?string $secret_prefix = null): ?\LINE\LINEBot\MessageBuilder\MultiMessageBuilder
-    {
+    public function cancel_interaction(?int $interaction_id = null, ?string $cancelPolicy = 'force', ?array $status = null, ?string $line_user_id = null, ?string $secret_prefix = null): ?\LINE\LINEBot\MessageBuilder\MultiMessageBuilder {
         global $wpdb;
         $line_user_id = $line_user_id ?? $this->event->source->userId;
         $secret_prefix = $secret_prefix ?? $this->secret_prefix;
@@ -150,8 +147,8 @@ class CancelInteraction extends AbstractActionDefinition
         }
         $messages = [];
 
-        if(!empty($sessions)){
-            foreach($sessions as $session){
+        if (!empty($sessions)) {
+            foreach ($sessions as $session) {
                 $interaction_definition = InteractionDefinition::from_post(
                     $session->get_interaction_id(),
                     $session->get_interaction_version()

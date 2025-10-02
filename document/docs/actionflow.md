@@ -18,7 +18,10 @@ Actions are shared with the Function Calling feature used for AI responses.
 
 ### Return Value of Actions
 #### Send the return value as a response
-If checked, the return value of the action will be sent as a response message to the originator of the Webhook event.
+If checked, the action's return value will be sent as a LINE message to the event source.
+:::note
+The event source is the event sender user if the trigger type is a Webhook event; otherwise, it is the user specified in the audience.
+:::
 
 The type of message sent varies depending on the type of return value:
 - String: Sent as a LINE text message

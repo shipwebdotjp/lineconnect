@@ -9,89 +9,91 @@ use Shipweb\LineConnect\Core\LineConnect;
  * Definition for the get_my_user_info action.
  */
 class WPQuery extends AbstractActionDefinition {
-    /**
-     * Returns the action key.
-     *
-     * @return string
-     */
-    public static function name(): string {
-        return 'WP_Query';
-    }
+	/**
+	 * Returns the action key.
+	 *
+	 * @return string
+	 */
+	public static function name(): string {
+		return 'WP_Query';
+	}
 
-    /**
-     * Returns the action configuration.
-     *
-     * @return array
-     */
-    public static function config(): array {
-        return array(
-				'title'       => __('Search posts', lineconnect::PLUGIN_NAME),
-				'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
-				'parameters'  => array(
-					array(
-						'type'       => 'object',
-						'properties' => array(
-							'author_name' => array(
-								'type'        => 'string',
-								'title'       => __('Author Name', lineconnect::PLUGIN_NAME),
-								'description' => "Author's user_nicename. NOT display_name nor user_login.",
-							),
-							's'           => array(
-								'type'        => 'string',
-								'title'       => __('S', lineconnect::PLUGIN_NAME),
-								'description' => 'Search keyword.',
-							),
-							'p'           => array(
-								'type'        => 'integer',
-								'title'       => __('P', lineconnect::PLUGIN_NAME),
-								'description' => 'Use post ID',
-							),
-							'name'        => array(
-								'type'        => 'string',
-								'title'       => __('Name', lineconnect::PLUGIN_NAME),
-								'description' => 'Use post slug',
-							),
-							'order'       => array(
-								'type'    => 'string',
-								'title'       => __('Order', lineconnect::PLUGIN_NAME),
-								'enum'    => array('ASC', 'DESC'),
-								'default' => 'DESC',
-							),
-							'orderby'     => array(
-								'type'        => 'string',
-								'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
-								'description' => 'Sort retrieved posts by parameter.',
-								'default'     => 'date',
-							),
-							'offset'      => array(
-								'type'        => 'integer',
-								'title'       => __('Offset', lineconnect::PLUGIN_NAME),
-								'description' => 'number of post to displace or pass over.',
-							),
-							'year'        => array(
-								'type'        => 'integer',
-								'title'       => __('Year', lineconnect::PLUGIN_NAME),
-								'description' => '4 digit year',
-							),
-							'monthnum'    => array(
-								'type'        => 'integer',
-								'title'       => __('Monthnum', lineconnect::PLUGIN_NAME),
-								'description' => 'Month number (from 1 to 12).',
-							),
-							'day'         => array(
-								'type'        => 'integer',
-								'title'       => __('Day', lineconnect::PLUGIN_NAME),
-								'description' => 'Day of the month (from 1 to 31).',
-							),
+	/**
+	 * Returns the action configuration.
+	 *
+	 * @return array
+	 */
+	public static function config(): array {
+		return array(
+			'title'       => __('Search posts', lineconnect::PLUGIN_NAME),
+			'description' => 'Get posts with WP_Query. ID, type, title, date, excerpt or content, permalink',
+			'parameters'  => array(
+				array(
+					'type'       => 'object',
+					'properties' => array(
+						'author_name' => array(
+							'type'        => 'string',
+							'title'       => __('Author Name', lineconnect::PLUGIN_NAME),
+							'description' => "Author's user_nicename. NOT display_name nor user_login.",
+						),
+						's'           => array(
+							'type'        => 'string',
+							'title'       => __('S', lineconnect::PLUGIN_NAME),
+							'description' => 'Search keyword.',
+						),
+						'p'           => array(
+							'type'        => 'integer',
+							'title'       => __('P', lineconnect::PLUGIN_NAME),
+							'description' => 'Use post ID',
+						),
+						'name'        => array(
+							'type'        => 'string',
+							'title'       => __('Name', lineconnect::PLUGIN_NAME),
+							'description' => 'Use post slug',
+						),
+						'order'       => array(
+							'type'    => 'string',
+							'title'       => __('Order', lineconnect::PLUGIN_NAME),
+							'enum'    => array('ASC', 'DESC'),
+							'default' => 'DESC',
+						),
+						'orderby'     => array(
+							'type'        => 'string',
+							'title'       => __('Orderby', lineconnect::PLUGIN_NAME),
+							'description' => 'Sort retrieved posts by parameter.',
+							'default'     => 'date',
+						),
+						'offset'      => array(
+							'type'        => 'integer',
+							'title'       => __('Offset', lineconnect::PLUGIN_NAME),
+							'description' => 'number of post to displace or pass over.',
+						),
+						'year'        => array(
+							'type'        => 'integer',
+							'title'       => __('Year', lineconnect::PLUGIN_NAME),
+							'description' => '4 digit year',
+						),
+						'monthnum'    => array(
+							'type'        => 'integer',
+							'title'       => __('Monthnum', lineconnect::PLUGIN_NAME),
+							'description' => 'Month number (from 1 to 12).',
+						),
+						'day'         => array(
+							'type'        => 'integer',
+							'title'       => __('Day', lineconnect::PLUGIN_NAME),
+							'description' => 'Day of the month (from 1 to 31).',
 						),
 					),
 				),
-				'namespace'   => self::class,
-				'role'        => 'any',
-			);
-    }
+			),
+			'namespace'   => self::class,
+			'role'        => 'any',
+			'order'       => 5000,
 
-    // 記事検索
+		);
+	}
+
+	// 記事検索
 	public function WP_Query($args) {
 		// set not overwrite args
 		$args['has_password']   = false;      // パスワードが掛かっていない投稿のみ
