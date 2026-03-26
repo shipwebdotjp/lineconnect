@@ -5,20 +5,17 @@
 #	exit 1
 #fi
 
-export WP_CORE_DIR="/Users/ship/Sites/wp-test-suit/app/public"
-export WP_TESTS_DIR="/Users/ship/Sites/wp-test-suit/app/public/wptest-tests"
-
 DB_NAME=${1-local}
-DB_USER=${2-root}
-DB_PASS=${3-root}
-DB_HOST=${4-localhost:/Users/ship/Library/Application Support/Local/run/Q7xi0yX2k/mysql/mysqld.sock}
+DB_USER=${2-wpuser}
+DB_PASS=${3-password}
+DB_HOST=${4-db}
 WP_VERSION=${5-latest}
 SKIP_DB_CREATE=${6-true}
 
 TMPDIR=${TMPDIR-/tmp}
-TMPDIR=$(echo $TMPDIR | sed -e "s/\/$//")
-WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
-WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress}
+# Set WP_TESTS_DIR and WP_CORE_DIR to use the mounted volume path
+WP_TESTS_DIR=${WP_TESTS_DIR-/var/www/html/wp-tests}
+WP_CORE_DIR=${WP_CORE_DIR-/var/www/html}
 
 download() {
     if [ `which curl` ]; then

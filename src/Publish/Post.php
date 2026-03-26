@@ -127,7 +127,7 @@ class Post {
 						$all_roles = Audience::get_lineconnect_audience_name_array();
 					} else {
 						$all_roles = array("slc_all" => __('All Friends', lineconnect::PLUGIN_NAME), "slc_linked" => __('Linked Friends', lineconnect::PLUGIN_NAME));
-						foreach (wp_roles()->roles as $role_name => $role) {
+						foreach (LineConnect::get_roles() as $role_name => $role) {
 							$all_roles[esc_attr($role_name)] = translate_user_role($role['name']);
 						}
 					}

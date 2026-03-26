@@ -7,35 +7,39 @@ The official blog article is here -> [LINE Connect, a WordPress plugin to connec
 Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)  
 
 ## Features 
-### Linking function with Wordpress users
+### [Linking function with Wordpress users](./linking.md)
 * Using LINE Messaging API to link friends of LINE official accounts with accounts of Wordpress users
-### Update Notification
+### [Update Notification](./notification.md)
 * Send article update notifications via LINE to linked users, users in specific roles and audiences.
 * Notification messages are sent in a card-style layout including an futured image.
 * Notification message layout can be customized to original layout with Flex message.
 * When posts published, updated or future post is published can send notifications.
 * LINE notifications can be sent to posters when someone comment on thier articles.
-### Bulk message
+### [Bulk message](./bulkmessage.md)
 * Arbitrary LINE text messages can be sent to individual users
 * Save LINE messages and use them for messages sent by actions
 * Insert user's name etc. into the message and send it
-### Chat
+### [Chat](./chat.md)
 * Display messages history and sent to LINE users who have an event log, even if they are not connected to LINE.
 * Display LINE user profile and tag information.
-### Audience
+### [Audience](./audience.md)
 * Create audiences that narrow down users based on user attributes and call them when sending messages or executing actions
-### Scenario
+### [Scenario](./scenario.md)
 * Execute actions such as sending messages at specified time intervals
-### Action Flow
+### [Action Flow](./actionflow.md)
 * Execute actions in sequence
 * Action chain that uses the return value of the action in the next action
-### Trigger
+### [Trigger](./trigger.md)
 * Execute specified actions as triggers for specified dates and times and various Webhook events
-### Rich Menu
+### [Rich Menu](./richmenu.md)
 * Create a new rich menu based on existing rich menus and templates
 * Rich menu ID can be set for linked users, unlinked users, and roles
-### Chat Integration
-* Automatic response to messages using Chat GPT API (You can use your LINE official account as a AI chatbot)
-### Connectivity with WP LINE Login
+### [AI Chatbot](./aichatbot.md)
+* Automatic response to messages using Chat GPT API (You can use your LINE official account as an AI chatbot)
+### [Interaction](./interaction.md)
+* Conduct multi-step conversational interactions based on predefined flows.
+* Useful for surveys, appointment bookings, guiding user processes, and more.
+* Supports flexible flow design with per-step branching, validation, and action execution.
+### [Connectivity with WP LINE Login](./wplogin.md)
 * If WP LINE Login is installed and Messaging API is configured, login integration is possible at the same time as integration
 

@@ -4,7 +4,7 @@
 	Plugin Name: LINE Connect
 	Plugin URI: https://blog.shipweb.jp/lineconnect/
 	Description: Account link between WordPress user ID and LINE ID
-	Version: 4.5.0
+	Version: 4.6.0
 	Author: shipweb
 	Author URI: https://blog.shipweb.jp/about
 	License: GPLv3
@@ -18,11 +18,22 @@
 
 use Shipweb\LineConnect\Core\LineConnect;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // 直接アクセスを防ぐ
 }
+// if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+// add_filter(
+// 'gettext',
+// function ( $translated, $text, $domain ) {
+// if ( $domain === 'lineconnect' ) {
+// error_log( "[lc-debug] gettext called for domain 'lineconnect' on action='" . ( function_exists( 'current_action' ) ? current_action() : '' ) . "'\n" . print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ), true ) );
+// } return $translated;
+// },
+// 10,
+// 3
+// ); }
 
-require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 // require_once plugin_dir_path(__FILE__) . 'src/Core/LineConnect.php'; // namespace導入前の暫定処置
 // require_once plugin_dir_path(__FILE__) . 'include/richmenu.php';
@@ -53,9 +64,8 @@ function load_lineconnect_plugin() {
 	// namespace導入前の暫定処置
 	$plugin = LineConnect::get_instance();
 	// $test = new \Shipweb\LineConnect\Scenario\Admin();
-
 }
-add_action('plugins_loaded', 'load_lineconnect_plugin');
+add_action( 'plugins_loaded', 'load_lineconnect_plugin' );
 
 // プラグイン有効化時に呼び出し
-register_activation_hook(__FILE__, array(LineConnect::class, 'pluginActivation'));
+register_activation_hook( __FILE__, array( LineConnect::class, 'pluginActivation' ) );

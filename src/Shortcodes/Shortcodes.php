@@ -8,6 +8,7 @@
 namespace Shipweb\LineConnect\Shortcodes;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Core\UserProvider;
 
 class Shortcodes {
 	static function show_chat_log($atts, $content = null, $tag = '') {
@@ -52,16 +53,16 @@ EOL;
 			if ('current_user' === $atts['user_id']) {
 				if (is_user_logged_in()) {
 					// get line user id from current user's meta
-					$user_id = get_current_user_id();
-					$user    = get_user_by('id', $user_id);
+					$user_id = UserProvider::get_current_user_id();
+					// $user    = get_user_by('id', $user_id);
 					if ($user) {
 						if (isset($atts['bot_id'])) {
-							$line_user_id = lineconnect::get_line_id_from_wpuser($user, $atts['bot_id']);
+							$line_user_id = lineconnect::get_line_id_from_wpuserid($user_id, $atts['bot_id']);
 							if (! empty($line_user_id)) {
 								$line_user_ids[] = $line_user_id;
 							}
 						} else {
-							$line_user_ids = lineconnect::get_line_ids_from_wpuser($user);
+							$line_user_ids = lineconnect::get_line_ids_from_wpuserid($user_id);
 						}
 					} else {
 						exit;

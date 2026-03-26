@@ -39,9 +39,9 @@ jobs:
           extensions: mysql, mysqli
           coverage: none
 
-      - name: 'Why do not composer install'
+      - name: 'Composer install'
         run: |
-          : # Do not install Composer dependencies becuase we are included vendor dir
+          composer install
 
       - name: 'Install Subversion'
         run: |

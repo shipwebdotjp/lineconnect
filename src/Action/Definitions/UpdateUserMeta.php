@@ -4,7 +4,7 @@ namespace Shipweb\LineConnect\Action\Definitions;
 
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
-
+use Shipweb\LineConnect\Core\UserProvider;
 /**
  * Definition for the get_my_user_info action.
  */
@@ -62,8 +62,7 @@ class UpdateUserMeta extends AbstractActionDefinition {
 	 * @return bool 成功・失敗
 	 */
 	public function update_user_meta($user_id, $key, $value) {
-		$user = get_user_by('id', $user_id);
-		if (!$user) {
+		if (!UserProvider::is_user_id_valid($user_id)) {
 			return false;
 		}
 		if (!\Shipweb\LineConnect\Utilities\SimpleFunction::is_empty($value)) {

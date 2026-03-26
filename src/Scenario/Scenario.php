@@ -1399,7 +1399,7 @@ class Scenario {
 		}
 		*/
 		$all_roles = array();
-		foreach (wp_roles()->roles as $role_name => $role) {
+		foreach (LineConnect::get_roles() as $role_name => $role) {
 			$all_roles[] = array(
 				'const' => esc_attr($role_name),
 				'title' => translate_user_role($role['name']),

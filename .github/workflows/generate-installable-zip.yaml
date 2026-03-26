@@ -26,9 +26,13 @@ jobs:
       - name: Build project
         run: |
           mkdir build
-      - name: UnInstall dependencies
+      - name: Install dependencies
         run: |
-          composer remove --dev phpunit/phpunit yoast/phpunit-polyfills rector/rector
+          composer install --no-dev --optimize-autoloader --classmap-authoritative --no-scripts --prefer-dist
+      - name: Cleanup vendor
+        run: |
+          find vendor -type d \( -name "tests" -o -name "docs" -o -name "examples" \) -exec rm -rf {} +
+          find vendor -type f -name "*.md" -delete
       - name: Create artifact
         uses: montudor/action-zip@v0.1.0
         with:

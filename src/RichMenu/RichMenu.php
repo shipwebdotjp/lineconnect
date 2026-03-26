@@ -17,6 +17,8 @@ namespace Shipweb\LineConnect\RichMenu;
 use Shipweb\LineConnect\PostType\Message\Message as SLCMessage;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Core\UserProvider;
+
 
 class RichMenu {
 	/**
@@ -162,6 +164,7 @@ EOM;
 
 			$secret_prefix = substr($channel_secret, 0, 4);
 			//連携済みユーザーのリッチメニューIDを変更
+			/*
 			$args = array(
 				'meta_query' => array(
 					array(
@@ -175,10 +178,16 @@ EOM;
 			// $line_user_ids = array(); //変更するLINEユーザーIDの配列
 			$user_query = new \WP_User_Query($args); //条件を指定してWordpressからユーザーを検索
 			$users = $user_query->get_results(); //クエリ実行
-			if (!empty($users)) {  //マッチするユーザーが見つかれば
+			*/
+			$userids = UserProvider::get_linked_userids_by_roles();
+			if (!empty($userids)) {  //マッチするユーザーが見つかれば
 				//ユーザーのメタデータを取得
-				foreach ($users as $user) {
-					$user_meta_line = $user->get(lineconnect::META_KEY__LINE);
+				foreach ($userids as $userid) {
+					$user = UserProvider::get_userdata($userid);
+					if (!$user) {
+						continue;
+					}
+					$user_meta_line = UserProvider::get_user_meta($user->ID, lineconnect::META_KEY__LINE, true);
 					if ($user_meta_line && isset($user_meta_line[$secret_prefix])) {
 						// $line_user_ids[] = $user_meta_line[$secret_prefix]['id'];
 						// ユーザーのロールに応じてセットするリッチメニューIDを変える
@@ -271,10 +280,10 @@ EOM;
 
 			$secret_prefix = substr($channel_secret, 0, 4);
 
-			$user = get_userdata($userid);
+			$user = UserProvider::get_userdata($userid);
 			if ($user) {
 				$target_richmenu_id = "";
-				$user_meta_line = get_user_meta($userid, lineconnect::META_KEY__LINE, true);
+				$user_meta_line = UserProvider::get_user_meta($userid, lineconnect::META_KEY__LINE, true);
 				if (isset($user_meta_line[$secret_prefix]) && isset($user_meta_line[$secret_prefix]['id'])) {
 
 					foreach ($user->roles as $role) {
@@ -288,7 +297,7 @@ EOM;
 					}
 					if ($target_richmenu_id != "" && $user_meta_line[$secret_prefix]['id']) {
 						$response = $bot->linkRichMenu($user_meta_line[$secret_prefix]['id'], $target_richmenu_id);
-						// error_log("userid: " . $userid . " LINE userid: ". $user_meta_line[$secret_prefix]['id']. " richmenu:".$target_richmenu_id);
+						error_log("link_richmenu userid: " . $userid . " LINE userid: ". $user_meta_line[$secret_prefix]['id']. " richmenu:".$target_richmenu_id);
 					}
 				}
 			}
@@ -309,7 +318,7 @@ EOM;
 
 			//対象のチャンネルかどうかチェック
 			if ($target_secret_prefix == $secret_prefix || $target_secret_prefix == 'all') {
-				$user_meta_line = get_user_meta($userid, lineconnect::META_KEY__LINE, true);
+				$user_meta_line = UserProvider::get_user_meta($userid, lineconnect::META_KEY__LINE, true);
 				if (isset($user_meta_line[$secret_prefix])) {
 					if ($user_meta_line[$secret_prefix]['id']) {
 						$response = $bot->unlinkRichMenu($user_meta_line[$secret_prefix]['id']);

@@ -18,3 +18,4 @@ export_docs.sh
 exported_all_docs.md
 .clinerules
 rector.php
+vendor/

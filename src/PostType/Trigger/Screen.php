@@ -142,7 +142,7 @@ class Screen {
 		Action::build_action_schema_items($trigger_schema['properties']['action']['items']['oneOf']);
 
 		$all_roles = array();
-		foreach (wp_roles()->roles as $role_name => $role) {
+		foreach (LineConnect::get_roles() as $role_name => $role) {
 			$all_roles[] = array(
 				'const' => esc_attr($role_name),
 				'title' => translate_user_role($role['name']),

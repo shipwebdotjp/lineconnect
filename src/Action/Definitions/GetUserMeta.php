@@ -4,6 +4,7 @@ namespace Shipweb\LineConnect\Action\Definitions;
 
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Core\UserProvider;
 
 /**
  * Definition for the get_my_user_info action.
@@ -54,6 +55,6 @@ class GetUserMeta extends AbstractActionDefinition {
 	 * @return mixed メタの値
 	 */
 	public function get_user_meta($user_id, $key) {
-		return get_user_meta($user_id, $key, true);
+		return UserProvider::get_user_meta($user_id, $key, true);
 	}
 }

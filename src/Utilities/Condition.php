@@ -6,6 +6,8 @@
 namespace Shipweb\LineConnect\Utilities;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Core\UserProvider;
+
 use \lineconnectFunctions;
 
 /**
@@ -195,7 +197,7 @@ class Condition
 
         // 各メタデータの条件をチェック
         foreach ($usermeta_conditions as $condition) {
-            $meta_value = get_user_meta($user->ID, $condition['key'], true);
+            $meta_value = UserProvider::get_user_meta($user->ID, $condition['key'], true);
             
             // 比較演算子が指定されていない場合は=をデフォルトとする
             if (!isset($condition['compare'])) {

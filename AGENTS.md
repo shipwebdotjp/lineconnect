@@ -56,8 +56,11 @@ public function setUp(): void {
 ```
 
 ## テスト実行コマンド
+- Docker
+  - `.jules/setup-jules-environment.sh`
 - ローカル / CI:
   - `composer test -- --filter [TargetTestFile]`
+  - `composer test -- --filter SampleTest`
 - PHPUnit 設定はプロジェクトルートの `phpunit.xml` を参照
 
 ## ドキュメント・翻訳

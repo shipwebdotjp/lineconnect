@@ -1,0 +1,43 @@
+#version: '3'
+
+services:
+  db:
+    container_name: lineconnect-mysql
+    environment:
+      MYSQL_DATABASE: local
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: wpuser
+    image: mysql:8.0
+    platform: linux/amd64
+    volumes:
+      - type: volume
+        source: db
+        target: /var/lib/mysql
+        volume: {}
+  wordpress:
+    container_name: lineconnect-wordpress
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      WORDPRESS_DB_HOST: lineconnect-mysql
+      WORDPRESS_DB_NAME: local
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DEBUG: 1
+      WP_TESTS_DIR: /var/www/html/wp-tests
+    build: ./wordpress
+    ports:
+      - mode: ingress
+        target: 80
+        published: 80
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: ../
+        target: /app
+
+volumes:
+  db:
+    name: lineconnect-mysql

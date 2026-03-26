@@ -17,6 +17,7 @@
 namespace Shipweb\LineConnect\PostType\Audience;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Core\UserProvider;
 use Shipweb\LineConnect\Components\ReactJsonSchemaForm;
 
 class Audience {
@@ -55,7 +56,7 @@ class Audience {
     static function get_audience_schema() {
         $audience_schema = Schema::get_schema();
         $all_roles = array();
-        foreach (wp_roles()->roles as $role_name => $role) {
+        foreach (LineConnect::get_roles() as $role_name => $role) {
             $all_roles[] = array(
                 'const' => esc_attr($role_name),
                 'title' => translate_user_role($role['name']),
@@ -292,7 +293,7 @@ class Audience {
         if (! empty($users)) {   // マッチするユーザーが見つかれば
             // ユーザーのメタデータを取得
             foreach ($users as $user) {
-                $user_meta_line = $user->get(lineconnect::META_KEY__LINE);
+                $user_meta_line = UserProvider::get_user_meta($user->ID, lineconnect::META_KEY__LINE, true);
                 if ($user_meta_line) {
                     foreach ($user_meta_line as $secret_prefix => $user_meta_line_item) {
                         if (isset($user_meta_line_item['id'])) {
