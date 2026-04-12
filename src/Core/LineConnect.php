@@ -946,7 +946,7 @@ class LineConnect {
 		}
 		$wp_user = self::get_wpuser_from_line_id( $secret_prefix, $line_id );
 		if ( $wp_user ) {
-			$user_data = array_merge( $user_data, json_decode( json_encode( $wp_user ), true ) );
+			$user_data['data'] = json_decode( json_encode( $wp_user ), true );
 		} elseif ( $line_id_row && isset( $user_data['profile']['displayName'] ) ) {
 			$user_data['data'] = array(
 				'display_name' => $user_data['profile']['displayName'],

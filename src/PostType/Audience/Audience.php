@@ -277,7 +277,7 @@ class Audience {
      * @return array LINEユーザーIDの配列　['channel_prefix' => ['type' => 'multicast', 'line_user_ids' => [...]]]
      */
     static function get_line_ids_by_wpuserquery($args) {
-        $args['fields'] = 'all_with_meta';
+        $args['fields'] = 'ID'; // IDのみ取得
         $meta_query = array(
             'key'     => lineconnect::META_KEY__LINE,
             'compare' => 'EXISTS',
@@ -288,12 +288,20 @@ class Audience {
             $args['meta_query'] = array($meta_query);
         }
 
-        $user_query    = new \WP_User_Query($args); // 条件を指定してWordPressからユーザーを検索
-        $users         = $user_query->get_results(); // クエリ実行
-        if (! empty($users)) {   // マッチするユーザーが見つかれば
-            // ユーザーのメタデータを取得
-            foreach ($users as $user) {
-                $user_meta_line = UserProvider::get_user_meta($user->ID, lineconnect::META_KEY__LINE, true);
+        $is_alternative = apply_filters( LineConnect::FILTER_PREFIX . 'use_alternative_user_provider', false );
+
+        if ( $is_alternative ) {
+            $user_ids = apply_filters( LineConnect::FILTER_PREFIX . 'wp_user_query_alternative', $args );
+        } else {
+            $user_query = new \WP_User_Query($args);
+            $user_ids   = $user_query->get_results();
+        }
+
+        $line_user_ids_by_channel = array();
+
+        if (! empty($user_ids)) {
+            foreach ($user_ids as $user_id) {
+                $user_meta_line = UserProvider::get_user_meta($user_id, lineconnect::META_KEY__LINE, true);
                 if ($user_meta_line) {
                     foreach ($user_meta_line as $secret_prefix => $user_meta_line_item) {
                         if (isset($user_meta_line_item['id'])) {
@@ -310,7 +318,6 @@ class Audience {
             return array();
         }
     }
-
     /**
      * 未連携のLINEユーザーIDの配列を返す
      * @return array 未連携のLINEユーザーIDの配列 ['channel_prefix' => ['type' => 'multicast', 'line_user_ids' => [...]]]

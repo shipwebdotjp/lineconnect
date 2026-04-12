@@ -5,11 +5,11 @@
 set -e
 
 # Define variables
-COMPOSE_FILE=".jules/docker-compose.yml"
+COMPOSE_FILE=".wptests/docker-compose.yml"
 WP_CONTAINER_NAME="lineconnect-wordpress"
 WP_SERVICE_NAME="wordpress"
 
-echo "--- Setting up Jules' WordPress testing environment ---"
+echo "--- Setting up WordPress testing environment ---"
 
 # 1. Cleanup any previous Docker setup (optional, for a clean start)
 echo "1. Cleaning up previous Docker containers and volumes (if any)..."
@@ -23,13 +23,16 @@ docker compose -f "$COMPOSE_FILE" build
 echo "3. Starting Docker containers (db and wordpress)..."
 docker compose -f "$COMPOSE_FILE" up -d
 
-# Wait for MySQL to be ready
-echo "Waiting for MySQL database to be ready..."
-until docker compose -f "$COMPOSE_FILE" exec db mysqladmin ping -h"localhost" --silent; do
-  echo "MySQL is unavailable - sleeping"
+echo "Waiting for MySQL to be reachable from WordPress..."
+until docker compose -f "$COMPOSE_FILE" exec -T "$WP_SERVICE_NAME" php -r '
+mysqli_report(MYSQLI_REPORT_OFF);
+$db = @new mysqli("db", "wpuser", "password", "local", 3306);
+exit($db->connect_errno ? 1 : 0);
+'; do
+  echo "MySQL is unavailable from WordPress - sleeping"
   sleep 2
 done
-echo "MySQL is up and running!"
+echo "MySQL is reachable from WordPress!"
 
 # 4. Install WordPress via WP-CLI
 docker compose -f "$COMPOSE_FILE" exec -w /var/www/html/ "$WP_SERVICE_NAME" sh -lc "
@@ -48,10 +51,10 @@ docker compose -f "$COMPOSE_FILE" exec -w /var/www/html/ "$WP_SERVICE_NAME" sh -
   wp plugin delete akismet --allow-root
 "
 
-# 5. Execute install-wp-tests-for-jules.sh inside the wordpress container
-echo "5. Running install-wp-tests-for-jules.sh inside the wordpress container..."
+# 5. Execute install-wp-tests.sh inside the wordpress container
+echo "5. Running install-wp-tests.sh inside the wordpress container..."
 # The script expects to be run from the plugin root, which is /app in the container
-docker compose -f "$COMPOSE_FILE" exec -w /app "$WP_SERVICE_NAME" sh -lc "bash .jules/install-wp-tests-for-jules.sh"
+docker compose -f "$COMPOSE_FILE" exec -w /app "$WP_SERVICE_NAME" sh -lc "bash .wptests/install-wp-tests.sh"
 
 # 6. Install PHP dependencies with Composer (if needed)
 echo "6. Installing PHP dependencies with Composer..."
@@ -67,5 +70,5 @@ echo "--- Testing environment setup and tests completed ---"
 
 # Optional: Keep containers running for inspection or tear down immediately
 # If you want to keep them running, comment out the next line.
-# echo "7. Tearing down Docker containers..."
-# docker compose -f "$COMPOSE_FILE" down --volumes
+echo "8. Tearing down Docker containers..."
+docker compose -f "$COMPOSE_FILE" down --volumes
