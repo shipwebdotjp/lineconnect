@@ -2,7 +2,7 @@
 
 use Shipweb\LineConnect\Trigger\ActionHook;
 
-class TestActionHookWpLoginCondition extends WP_UnitTestCase {
+class ActionHookWpLoginConditionTest extends WP_UnitTestCase {
 	protected static $result;
 
 	public static function wpSetUpBeforeClass( $factory ) {
@@ -21,7 +21,10 @@ class TestActionHookWpLoginCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'wp_login',
-					'args' => array( $user->user_login, $user ),
+					'args' => array(
+						'user_login' => $user->user_login,
+						'user'       => $user,
+					),
 				)
 			)
 		);
@@ -35,7 +38,10 @@ class TestActionHookWpLoginCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook'    => 'wp_login',
-					'args'    => array( $user->user_login, $user ),
+					'args'    => array(
+						'user_login' => $user->user_login,
+						'user'       => $user,
+					),
 					'trigger' => array( 'wp_login' => array( 'role' => array( 'administrator' ) ) ),
 				)
 			)
@@ -54,7 +60,9 @@ class TestActionHookWpLoginCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook'    => 'wp_login',
-					'args'    => array( 'bob' ),
+					'args'    => array(
+						'user_login' => 'bob',
+					),
 					'trigger' => array( 'wp_login' => array( 'role' => array( 'administrator' ) ) ),
 				)
 			)

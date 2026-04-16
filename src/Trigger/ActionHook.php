@@ -11,10 +11,36 @@
 
 namespace Shipweb\LineConnect\Trigger;
 
+use Shipweb\LineConnect\Action\Action;
+use Shipweb\LineConnect\ActionFlow\ActionFlow;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Core\UserProvider;
+use Shipweb\LineConnect\PostType\Audience\Audience;
+use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 
 class ActionHook {
+	/**
+	 * 配列引数から連想配列キーを優先して値を取得する。
+	 *
+	 * 既存の数値添字形式も後方互換のために受け付ける。
+	 *
+	 * @param array      $args         引数配列。
+	 * @param string     $key          優先する連想配列キー。
+	 * @param int|null   $fallback_key 数値添字のフォールバックキー。
+	 * @param mixed|null  $default      取得できない場合の既定値。
+	 * @return mixed
+	 */
+	protected static function get_arg_value( array $args, $key, $fallback_key = null, $default = null ) {
+		if ( array_key_exists( $key, $args ) ) {
+			return $args[ $key ];
+		}
+
+		if ( null !== $fallback_key && array_key_exists( $fallback_key, $args ) ) {
+			return $args[ $fallback_key ];
+		}
+
+		return $default;
+	}
 
 	/**
 	 * エントリポイント
@@ -32,26 +58,160 @@ class ActionHook {
 		}
 
 		try {
-			// 条件チェック（デフォルト true）
-			$ok = self::check_condition( $action_hook_args );
-			if ( ! $ok ) {
+			$hook_name = $action_hook_args['hook'];
+			$triggers  = static::get_action_hook_triggers( $hook_name, $action_hook_args );
+
+			if ( empty( $triggers ) ) {
 				return false;
 			}
 
-			// 関連ユーザー解決（デフォルト null）
-			$related_user_id = self::resolve_related_user( $action_hook_args );
+			$has_executed = false;
 
-			// audience 条件構築（デフォルト []）
-			$audience_condition = self::build_audience_condition( $action_hook_args, $related_user_id );
+			foreach ( $triggers as $trigger_entry ) {
+				$trigger = isset( $trigger_entry['trigger'] ) && is_array( $trigger_entry['trigger'] ) ? $trigger_entry['trigger'] : array();
 
-			// 将来的に ActionFlow / Action を呼び出す場所
-			// 現在は骨格のためここでは実行しない
+				if ( empty( $trigger ) ) {
+					continue;
+				}
 
-			return true;
+				$trigger_action_hook_args         = $action_hook_args;
+				$trigger_action_hook_args['trigger'] = $trigger;
+
+				// 条件チェック（デフォルト true）
+				if ( ! static::check_condition( $trigger_action_hook_args ) ) {
+					continue;
+				}
+
+				// 関連ユーザー解決（デフォルト 0）
+				$related_user_id = static::resolve_related_user( $trigger_action_hook_args );
+
+				if ( empty( $related_user_id ) ) {
+					static::execute_direct_action( $trigger, $trigger_action_hook_args );
+					$has_executed = true;
+					continue;
+				}
+
+				// audience 条件構築（デフォルト []）
+				$audience_condition = static::build_audience_condition( $trigger_action_hook_args, $related_user_id );
+
+				// audience がなければ直接 Action を実行する
+				if ( empty( $audience_condition ) ) {
+					static::execute_direct_action( $trigger, $trigger_action_hook_args );
+					$has_executed = true;
+					continue;
+				}
+
+				$recepient = static::get_audience_by_condition( $audience_condition );
+
+				if ( empty( $recepient ) ) {
+					static::execute_direct_action( $trigger, $trigger_action_hook_args );
+				} else {
+					static::execute_audience_actionflow( $trigger, $recepient, $trigger_action_hook_args );
+				}
+
+				$has_executed = true;
+			}
+
+			return $has_executed;
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHook::process] ' . $e->getMessage() );
 			return false;
 		}
+	}
+
+	/**
+	 * action_hook のトリガー投稿を取得する。
+	 *
+	 * @param string $hook_name フック名。
+	 * @param array  $action_hook_args 元の引数。
+	 * @return array<int,array{post_id:int,trigger:array}>
+	 */
+	protected static function get_action_hook_triggers( $hook_name, array $action_hook_args = array() ): array {
+		if ( isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ) {
+			$trigger = $action_hook_args['trigger'];
+			if ( isset( $trigger['hook'] ) && $hook_name === $trigger['hook'] ) {
+				return array(
+					array(
+						'post_id' => 0,
+						'trigger' => $trigger,
+					),
+				);
+			}
+		}
+
+		$triggers = array();
+		$posts    = get_posts(
+			array(
+				'post_type'      => TriggerPostType::POST_TYPE,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+			)
+		);
+
+		foreach ( $posts as $post ) {
+			$form = get_post_meta( $post->ID, TriggerPostType::META_KEY_DATA, true );
+			if ( ! is_array( $form ) ) {
+				continue;
+			}
+			if ( empty( $form[0]['type'] ) || 'action_hook' !== $form[0]['type'] ) {
+				continue;
+			}
+			if ( empty( $form[1] ) || ! is_array( $form[1] ) ) {
+				continue;
+			}
+			if ( empty( $form[1]['hook'] ) || $hook_name !== $form[1]['hook'] ) {
+				continue;
+			}
+
+			$triggers[] = array(
+				'post_id' => (int) $post->ID,
+				'trigger' => $form[1],
+			);
+		}
+
+		return $triggers;
+	}
+
+	/**
+	 * audience ありのアクションフローを実行する。
+	 *
+	 * @param array $trigger トリガー設定。
+	 * @param array $recepient オーディエンス。
+	 * @param array $action_hook_args action hook 引数。
+	 * @return mixed
+	 */
+	protected static function execute_audience_actionflow( array $trigger, array $recepient, array $action_hook_args = array() ) {
+		$action_flow = array(
+			'actions' => $trigger['action'] ?? array(),
+			'chains'  => $trigger['chain'] ?? array(),
+		);
+
+		return ActionFlow::execute_actionflow_by_audience( $action_flow, $recepient, $action_hook_args );
+	}
+
+	/**
+	 * audience なしの直接アクションを実行する。
+	 *
+	 * @param array $trigger トリガー設定。
+	 * @param array $action_hook_args action hook 引数。
+	 * @return mixed
+	 */
+	protected static function execute_direct_action( array $trigger, array $action_hook_args = array() ) {
+		return Action::do_action( $trigger['action'] ?? array(), $trigger['chain'] ?? null, null, null, null, null, $action_hook_args );
+	}
+
+	/**
+	 * audience 条件から受信者を取得する。
+	 *
+	 * テストではこのメソッドをオーバーライドして分岐を検証できる。
+	 *
+	 * @param array $condition audience 条件。
+	 * @return array
+	 */
+	protected static function get_audience_by_condition( array $condition ): array {
+		return Audience::get_audience_by_condition( $condition );
 	}
 
 	/**
@@ -69,8 +229,8 @@ class ActionHook {
 
 			switch ( $hook ) {
 				case 'save_post':
-					$post_id = isset( $args[0] ) ? intval( $args[0] ) : 0;
-					$post    = $args[1] ?? null;
+					$post_id = absint( self::get_arg_value( $args, 'post_id', 0, 0 ) );
+					$post    = self::get_arg_value( $args, 'post', 1, null );
 					// 引数に post オブジェクトがなければ取得する
 					if ( is_null( $post ) && $post_id ) {
 						$post = get_post( $post_id );
@@ -114,7 +274,7 @@ class ActionHook {
 					return ( $post_type_ok && $post_status_ok );
 
 				case 'comment_post':
-					$comment_id = isset( $args[0] ) ? intval( $args[0] ) : 0;
+					$comment_id = absint( self::get_arg_value( $args, 'comment_id', 0, 0 ) );
 					if ( empty( $comment_id ) ) {
 						return false;
 					}
@@ -139,10 +299,14 @@ class ActionHook {
 				case 'wp_login':
 					// 引数: ($user_login, $user)
 					$user_obj = null;
-					if ( isset( $args[1] ) && is_object( $args[1] ) ) {
-						$user_obj = $args[1];
-					} elseif ( isset( $args[0] ) && is_string( $args[0] ) ) {
-						$user_obj = get_user_by( 'login', $args[0] );
+					$user_arg = self::get_arg_value( $args, 'user', 1, null );
+					if ( is_object( $user_arg ) ) {
+						$user_obj = $user_arg;
+					} else {
+						$user_login = self::get_arg_value( $args, 'user_login', 0, null );
+						if ( is_string( $user_login ) ) {
+							$user_obj = get_user_by( 'login', $user_login );
+						}
 					}
 
 					if ( empty( $user_obj ) ) {
@@ -190,11 +354,12 @@ class ActionHook {
 				case 'user_register':
 				case 'profile_update':
 				case 'delete_user':
-					return isset( $args[0] ) ? absint( $args[0] ) : 0;
+					return absint( self::get_arg_value( $args, 'user_id', 0, 0 ) );
 
 				case 'wp_login':
-					if ( isset( $args[1] ) && is_object( $args[1] ) && isset( $args[1]->ID ) ) {
-						return absint( $args[1]->ID );
+					$user = self::get_arg_value( $args, 'user', 1, null );
+					if ( is_object( $user ) && isset( $user->ID ) ) {
+						return absint( $user->ID );
 					}
 					return 0;
 
@@ -205,11 +370,12 @@ class ActionHook {
 					return UserProvider::get_current_user_id();
 
 				case 'save_post':
-					if ( isset( $args[1] ) && is_object( $args[1] ) && isset( $args[1]->post_author ) ) {
-						return absint( $args[1]->post_author );
+					$post = self::get_arg_value( $args, 'post', 1, null );
+					if ( is_object( $post ) && isset( $post->post_author ) ) {
+						return absint( $post->post_author );
 					}
-					if ( isset( $args[0] ) ) {
-						$post_id = absint( $args[0] );
+					$post_id = absint( self::get_arg_value( $args, 'post_id', 0, 0 ) );
+					if ( $post_id ) {
 						if ( $post_id ) {
 							$post = get_post( $post_id );
 							if ( $post && ! empty( $post->post_author ) ) {
@@ -220,19 +386,18 @@ class ActionHook {
 					return 0;
 
 				case 'comment_post':
-					if ( isset( $args[0] ) ) {
-						$comment_id = absint( $args[0] );
+					$comment_id = absint( self::get_arg_value( $args, 'comment_id', 0, 0 ) );
+					if ( $comment_id ) {
 						$comment    = get_comment( $comment_id );
 						if ( $comment && ! empty( $comment->user_id ) ) {
 							return absint( $comment->user_id );
 						}
 					}
 
-					if ( isset( $args[3] ) && is_array( $args[3] ) ) {
-						if ( ! empty( $args[3]['user_id'] ) ) {
-							return absint( $args[3]['user_id'] );
+					$comment_context = self::get_arg_value( $args, 'comment_context', 3, array() );
+					if ( is_array( $comment_context ) && ! empty( $comment_context['user_id'] ) ) {
+						return absint( $comment_context['user_id'] );
 						}
-					}
 
 					return 0;
 
@@ -252,7 +417,47 @@ class ActionHook {
 	 * @return array
 	 */
 	public static function build_audience_condition( array $action_hook_args, $related_user_id = null ): array {
-		// TODO: current_user モードや standard モードの分岐を実装
-		return array();
+		$trigger = isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ? $action_hook_args['trigger'] : array();
+		$audience_mode = isset( $trigger['audience_mode'] ) ? $trigger['audience_mode'] : '';
+
+		if ( 'standard' === $audience_mode ) {
+			if ( isset( $trigger['audience']['condition'] ) && is_array( $trigger['audience']['condition'] ) ) {
+				return $trigger['audience']['condition'];
+			}
+
+			return array();
+		}
+
+		if ( 'current_user' !== $audience_mode ) {
+			return array();
+		}
+
+		$related_user_id = absint( $related_user_id );
+		if ( empty( $related_user_id ) ) {
+			return array();
+		}
+
+		$conditions = array(
+			array(
+				'type'     => 'wpUserId',
+				'wpUserId' => array( $related_user_id ),
+			),
+		);
+
+		$current_user_channels = isset( $trigger['current_user_channels'] ) && is_array( $trigger['current_user_channels'] )
+			? array_values( array_filter( $trigger['current_user_channels'] ) )
+			: array();
+
+		if ( ! empty( $current_user_channels ) ) {
+			$conditions[] = array(
+				'type'          => 'channel',
+				'secret_prefix' => $current_user_channels,
+			);
+		}
+
+		return array(
+			'conditions' => $conditions,
+			'operator'   => 'and',
+		);
 	}
 }

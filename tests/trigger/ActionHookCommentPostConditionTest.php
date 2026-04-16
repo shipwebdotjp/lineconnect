@@ -2,7 +2,7 @@
 
 use Shipweb\LineConnect\Trigger\ActionHook;
 
-class TestActionHookCommentPostCondition extends WP_UnitTestCase {
+class ActionHookCommentPostConditionTest extends WP_UnitTestCase {
 	protected static $result;
 
 	public static function wpSetUpBeforeClass( $factory ) {
@@ -21,7 +21,10 @@ class TestActionHookCommentPostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'comment_post',
-					'args' => array( $comment_id, 1 ),
+					'args' => array(
+						'comment_id'       => $comment_id,
+						'comment_approved' => 1,
+					),
 				)
 			)
 		);
@@ -35,7 +38,10 @@ class TestActionHookCommentPostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook'    => 'comment_post',
-					'args'    => array( $comment_id, 1 ),
+					'args'    => array(
+						'comment_id'       => $comment_id,
+						'comment_approved' => 1,
+					),
 					'trigger' => array( 'comment_post' => array( 'post_type' => array( 'post' ) ) ),
 				)
 			)

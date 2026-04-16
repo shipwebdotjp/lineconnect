@@ -3,7 +3,7 @@
 use Shipweb\LineConnect\Trigger\ActionHook;
 use Shipweb\LineConnect\Core\LineConnect;
 
-class TestActionHookSavePostCondition extends WP_UnitTestCase {
+class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 	protected static $result;
 
 	public static function wpSetUpBeforeClass( $factory ) {
@@ -27,7 +27,11 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'save_post',
-					'args' => array( $post_id, $post, false ),
+					'args' => array(
+						'post_id' => $post_id,
+						'post'    => $post,
+						'update'  => false,
+					),
 				)
 			)
 		);
@@ -44,7 +48,11 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'save_post',
-					'args' => array( $page_id, $page, false ),
+					'args' => array(
+						'post_id' => $page_id,
+						'post'    => $page,
+						'update'  => false,
+					),
 				)
 			)
 		);
@@ -63,7 +71,11 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'save_post',
-					'args' => array( $attach_id, $attach, false ),
+					'args' => array(
+						'post_id' => $attach_id,
+						'post'    => $attach,
+						'update'  => false,
+					),
 				)
 			)
 		);
@@ -80,7 +92,43 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook' => 'save_post',
-					'args' => array( $trash_id, $trash, false ),
+					'args' => array(
+						'post_id' => $trash_id,
+						'post'    => $trash,
+						'update'  => false,
+					),
+				)
+			)
+		);
+	}
+
+	public function test_rejects_revision_posts() {
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			)
+		);
+
+		$revision_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'revision',
+				'post_status' => 'inherit',
+				'post_parent' => $post_id,
+			)
+		);
+
+		$revision = get_post( $revision_id );
+
+		$this->assertFalse(
+			ActionHook::check_condition(
+				array(
+					'hook' => 'save_post',
+					'args' => array(
+						'post_id' => $revision_id,
+						'post'    => $revision,
+						'update'  => false,
+					),
 				)
 			)
 		);
@@ -100,7 +148,11 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook'    => 'save_post',
-					'args'    => array( $post_id, $post, false ),
+					'args'    => array(
+						'post_id' => $post_id,
+						'post'    => $post,
+						'update'  => false,
+					),
 					'trigger' => array( 'save_post' => array( 'post_type' => array( 'page' ) ) ),
 				)
 			)
@@ -111,7 +163,11 @@ class TestActionHookSavePostCondition extends WP_UnitTestCase {
 			ActionHook::check_condition(
 				array(
 					'hook'    => 'save_post',
-					'args'    => array( $post_id, $post, false ),
+					'args'    => array(
+						'post_id' => $post_id,
+						'post'    => $post,
+						'update'  => false,
+					),
 					'trigger' => array(
 						'save_post' => array(
 							'post_type'   => array( 'post' ),
