@@ -74,7 +74,7 @@ class ActionHooks {
 					break;
 				default:
 					// カスタムフックを文字列で渡された場合は汎用ハンドラを登録（引数は可変）
-					add_action( $hook, array( self::class, 'handle_custom_hook' ), 10, 99 );
+					// add_action( $hook, array( self::class, 'handle_custom_hook' ), 10, 99 );
 					break;
 			}
 		}
