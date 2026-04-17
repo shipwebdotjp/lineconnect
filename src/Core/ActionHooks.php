@@ -57,7 +57,7 @@ class ActionHooks {
 					add_action( 'delete_user', array( self::class, 'on_delete_user' ), 10, 1 );
 					break;
 				case 'save_post':
-					// save_post の引数は環境により2 or 3だが、ここでは3を受け取る想定で登録
+					// save_post の引数は環境により 2 or 3 だが、ここでは 3 を受け取る想定で登録
 					add_action( 'save_post', array( self::class, 'on_save_post' ), 10, 3 );
 					break;
 				case 'comment_post':
@@ -73,14 +73,14 @@ class ActionHooks {
 					add_action( 'switch_theme', array( self::class, 'on_switch_theme' ), 10, 1 );
 					break;
 				default:
-					// カスタムフックを文字列で渡された場合は汎用ハンドラを登録（引数は可変）
-					// add_action( $hook, array( self::class, 'handle_custom_hook' ), 10, 99 );
+					add_action( $hook, array( self::class, 'handle_general_hook' ), 10, 99 );
 					break;
 			}
 		}
 
 		add_action( 'lineconnect_custom_hook', array( self::class, 'handle_custom_hook' ), 10, 2 );
 	}
+
 	/**
 	 * ユーザー登録後
 	 */
@@ -175,14 +175,24 @@ class ActionHooks {
 	}
 
 	/**
-	 * カスタムフックハンドラ（汎用）
+	 * カスタムフックハンドラ（名前付き引数）
 	 */
 	public static function handle_custom_hook( string $hook_name, array $args = array() ): void {
-		$action_hook_args = array(
-			'hook_name' => $hook_name,  // ← do_actionの第1引数が正しく入る
-			'args'      => $args,
-		);
+		$action_hook_args = self::normalize_hook_args( $hook_name, $args, false );
 		self::dispatch( $hook_name, $action_hook_args );
+	}
+
+	/**
+	 * 一般ハンドラ（カスタムフック用）
+	 */
+	public static function handle_general_hook( ...$args ): void {
+		try {
+			$hook_name = current_filter();
+			$action_hook_args = self::normalize_hook_args( $hook_name, $args );
+			self::dispatch( $hook_name, $action_hook_args );
+		} catch ( \Throwable $e ) {
+			error_log( '[ActionHooks::handle_general_hook] ' . $e->getMessage() );
+		}
 	}
 
 	protected static function normalize_user_register_args( $user_id ): array {
@@ -248,10 +258,18 @@ class ActionHooks {
 		);
 	}
 
-	protected static function normalize_custom_hook_args( $hook, array $args ): array {
+	/**
+	 * フック引数を正規化する。
+	 *
+	 * @param string $hook フック名。
+	 * @param array  $args 引数配列。
+	 * @param bool   $numeric 数値添字を強制するか（一般ハンドラ用）。
+	 * @return array
+	 */
+	protected static function normalize_hook_args( $hook, array $args, bool $numeric = true ): array {
 		return array(
 			'hook_name' => $hook,
-			'args'      => $args,
+			'args'      => $numeric ? array_values( $args ) : $args,
 		);
 	}
 
