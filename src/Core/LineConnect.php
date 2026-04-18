@@ -18,6 +18,7 @@ use Shipweb\LineConnect\Utilities\StreamConnector;
 use Shipweb\LineConnect\DirectMessage\Screen as DirectMessageScreen;
 use Shipweb\LineConnect\Core\Cron;
 use Shipweb\LineConnect\Core\UserProvider;
+use Shipweb\LineConnect\Core\ActionHooks;
 use Shipweb\LineConnect\PostType\Trigger\Trigger as TriggerPostType;
 use Shipweb\LineConnect\PostType\Trigger\Screen as TriggerScreen;
 use Shipweb\LineConnect\PostType\Audience\Screen as AudienceScreen;
@@ -711,6 +712,9 @@ class LineConnect {
 
 		// Rest APIエンドポイントの追加
 		add_action( 'rest_api_init', array( BotRESTAPI::class, 'register_routes' ) );
+
+		// カスタムフック
+		ActionHooks::init();
 	}
 
 	/*

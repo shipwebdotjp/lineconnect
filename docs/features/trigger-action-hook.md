@@ -444,9 +444,9 @@ do_action('lineconnect_custom_hook', 'my_custom_hook', [
 アクションチェーンやメッセージテンプレート内で以下のように参照可能：
 
 ```
-{{$.action_hook.post_id}}           ← save_postの場合
-{{$.action_hook.user_login}}        ← wp_loginの場合
-{{$.action_hook.comment_id}}        ← comment_postの場合
+{{$.action_hook.args.post_id}}           ← save_postの場合
+{{$.action_hook.args.user_login}}        ← wp_loginの場合
+{{$.action_hook.args.comment_id}}        ← comment_postの場合
 ```
 
 ## 今後の拡張

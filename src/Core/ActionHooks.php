@@ -14,6 +14,7 @@
 namespace Shipweb\LineConnect\Core;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Trigger\ActionHook;
 
 class ActionHooks {
 
@@ -42,35 +43,35 @@ class ActionHooks {
 		foreach ( $hooks as $hook ) {
 			switch ( $hook ) {
 				case 'user_register':
-					add_action( 'user_register', array( self::class, 'on_user_register' ), 10, 1 );
+					add_action( 'user_register', array( self::class, 'on_user_register' ), 10, 2 );
 					break;
 				case 'wp_login':
 					add_action( 'wp_login', array( self::class, 'on_wp_login' ), 10, 2 );
 					break;
 				case 'wp_logout':
-					add_action( 'wp_logout', array( self::class, 'on_wp_logout' ), 10, 0 );
+					add_action( 'wp_logout', array( self::class, 'on_wp_logout' ), 10, 1 );
 					break;
 				case 'profile_update':
-					add_action( 'profile_update', array( self::class, 'on_profile_update' ), 10, 2 );
+					add_action( 'profile_update', array( self::class, 'on_profile_update' ), 10, 3 );
 					break;
 				case 'delete_user':
-					add_action( 'delete_user', array( self::class, 'on_delete_user' ), 10, 1 );
+					add_action( 'delete_user', array( self::class, 'on_delete_user' ), 10, 3 );
 					break;
 				case 'save_post':
 					// save_post の引数は環境により 2 or 3 だが、ここでは 3 を受け取る想定で登録
 					add_action( 'save_post', array( self::class, 'on_save_post' ), 10, 3 );
 					break;
 				case 'comment_post':
-					add_action( 'comment_post', array( self::class, 'on_comment_post' ), 10, 2 );
+					add_action( 'comment_post', array( self::class, 'on_comment_post' ), 10, 3 );
 					break;
 				case 'activated_plugin':
-					add_action( 'activated_plugin', array( self::class, 'on_activated_plugin' ), 10, 1 );
+					add_action( 'activated_plugin', array( self::class, 'on_activated_plugin' ), 10, 2 );
 					break;
 				case 'deactivated_plugin':
-					add_action( 'deactivated_plugin', array( self::class, 'on_deactivated_plugin' ), 10, 1 );
+					add_action( 'deactivated_plugin', array( self::class, 'on_deactivated_plugin' ), 10, 2 );
 					break;
 				case 'switch_theme':
-					add_action( 'switch_theme', array( self::class, 'on_switch_theme' ), 10, 1 );
+					add_action( 'switch_theme', array( self::class, 'on_switch_theme' ), 10, 3 );
 					break;
 				default:
 					add_action( $hook, array( self::class, 'handle_general_hook' ), 10, 99 );
@@ -78,16 +79,21 @@ class ActionHooks {
 			}
 		}
 
-		add_action( 'lineconnect_custom_hook', array( self::class, 'handle_custom_hook' ), 10, 2 );
+		add_action( LineConnect::ACTION_PREFIX . 'custom_hook', array( self::class, 'handle_custom_hook' ), 10, 2 );
 	}
 
 	/**
 	 * ユーザー登録後
 	 */
-	public static function on_user_register( $user_id ) {
+	public static function on_user_register( $user_id, $userdata ) {
 		try {
-			$action_hook_args = self::normalize_user_register_args( $user_id );
-			self::dispatch( 'user_register', $action_hook_args );
+			self::dispatch(
+				'user_register',
+				array(
+					'user_id'  => $user_id,
+					'userdata' => $userdata,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_user_register] ' . $e->getMessage() );
 		}
@@ -95,35 +101,51 @@ class ActionHooks {
 
 	public static function on_wp_login( $user_login, $user ) {
 		try {
-			$action_hook_args = self::normalize_wp_login_args( $user_login, $user );
-			self::dispatch( 'wp_login', $action_hook_args );
+			self::dispatch(
+				'wp_login',
+				array(
+					'user_login' => $user_login,
+					'user'       => $user,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_wp_login] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_wp_logout() {
+	public static function on_wp_logout( $user_id ) {
 		try {
-			$action_hook_args = self::normalize_wp_logout_args();
-			self::dispatch( 'wp_logout', $action_hook_args );
+			self::dispatch( 'wp_logout', array( 'user_id' => $user_id ) );
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_wp_logout] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_profile_update( $user_id, $old_user_data ) {
+	public static function on_profile_update( $user_id, $old_user_data, $userdata ) {
 		try {
-			$action_hook_args = self::normalize_profile_update_args( $user_id, $old_user_data );
-			self::dispatch( 'profile_update', $action_hook_args );
+			self::dispatch(
+				'profile_update',
+				array(
+					'user_id'       => $user_id,
+					'old_user_data' => $old_user_data,
+					'userdata'      => $userdata,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_profile_update] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_delete_user( $user_id ) {
+	public static function on_delete_user( $id, $reassign, $user ) {
 		try {
-			$action_hook_args = self::normalize_delete_user_args( $user_id );
-			self::dispatch( 'delete_user', $action_hook_args );
+			self::dispatch(
+				'delete_user',
+				array(
+					'id'       => $id,
+					'reassign' => $reassign,
+					'user'     => $user,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_delete_user] ' . $e->getMessage() );
 		}
@@ -131,44 +153,73 @@ class ActionHooks {
 
 	public static function on_save_post( $post_id, $post = null, $update = null ) {
 		try {
-			$action_hook_args = self::normalize_save_post_args( $post_id, $post, $update );
-			self::dispatch( 'save_post', $action_hook_args );
+			self::dispatch(
+				'save_post',
+				array(
+					'post_id' => $post_id,
+					'post'    => $post,
+					'update'  => $update,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_save_post] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_comment_post( $comment_id, $comment_approved ) {
+	public static function on_comment_post( $comment_id, $comment_approved, $commentdata ) {
 		try {
-			$action_hook_args = self::normalize_comment_post_args( $comment_id, $comment_approved );
-			self::dispatch( 'comment_post', $action_hook_args );
+			self::dispatch(
+				'comment_post',
+				array(
+					'comment_id'       => $comment_id,
+					'comment_approved' => $comment_approved,
+					'commentdata'      => $commentdata,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_comment_post] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_activated_plugin( $plugin ) {
+	public static function on_activated_plugin( $plugin, $network_wide ) {
 		try {
-			$action_hook_args = self::normalize_activated_plugin_args( $plugin );
-			self::dispatch( 'activated_plugin', $action_hook_args );
+			self::dispatch(
+				'activated_plugin',
+				array(
+					'plugin'       => $plugin,
+					'network_wide' => $network_wide,
+
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_activated_plugin] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_deactivated_plugin( $plugin ) {
+	public static function on_deactivated_plugin( $plugin, $network_wide ) {
 		try {
-			$action_hook_args = self::normalize_deactivated_plugin_args( $plugin );
-			self::dispatch( 'deactivated_plugin', $action_hook_args );
+			self::dispatch(
+				'deactivated_plugin',
+				array(
+					'plugin'       => $plugin,
+					'network_wide' => $network_wide,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_deactivated_plugin] ' . $e->getMessage() );
 		}
 	}
 
-	public static function on_switch_theme( $new_name ) {
+	public static function on_switch_theme( $new_name, $new_theme, $old_theme ) {
 		try {
-			$action_hook_args = self::normalize_switch_theme_args( $new_name );
-			self::dispatch( 'switch_theme', $action_hook_args );
+			self::dispatch(
+				'switch_theme',
+				array(
+					'new_name'  => $new_name,
+					'new_theme' => $new_theme,
+					'old_theme' => $old_theme,
+				)
+			);
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::on_switch_theme] ' . $e->getMessage() );
 		}
@@ -187,75 +238,12 @@ class ActionHooks {
 	 */
 	public static function handle_general_hook( ...$args ): void {
 		try {
-			$hook_name = current_filter();
+			$hook_name        = current_filter();
 			$action_hook_args = self::normalize_hook_args( $hook_name, $args );
 			self::dispatch( $hook_name, $action_hook_args );
 		} catch ( \Throwable $e ) {
 			error_log( '[ActionHooks::handle_general_hook] ' . $e->getMessage() );
 		}
-	}
-
-	protected static function normalize_user_register_args( $user_id ): array {
-		return array(
-			'user_id' => $user_id,
-		);
-	}
-
-	protected static function normalize_wp_login_args( $user_login, $user ): array {
-		return array(
-			'user_login' => $user_login,
-			'user'       => $user,
-		);
-	}
-
-	protected static function normalize_wp_logout_args(): array {
-		return array();
-	}
-
-	protected static function normalize_profile_update_args( $user_id, $old_user_data ): array {
-		return array(
-			'user_id'       => $user_id,
-			'old_user_data' => $old_user_data,
-		);
-	}
-
-	protected static function normalize_delete_user_args( $user_id ): array {
-		return array(
-			'user_id' => $user_id,
-		);
-	}
-
-	protected static function normalize_save_post_args( $post_id, $post = null, $update = null ): array {
-		return array(
-			'post_id' => $post_id,
-			'post'    => $post,
-			'update'  => $update,
-		);
-	}
-
-	protected static function normalize_comment_post_args( $comment_id, $comment_approved ): array {
-		return array(
-			'comment_id'       => $comment_id,
-			'comment_approved' => $comment_approved,
-		);
-	}
-
-	protected static function normalize_activated_plugin_args( $plugin ): array {
-		return array(
-			'plugin' => $plugin,
-		);
-	}
-
-	protected static function normalize_deactivated_plugin_args( $plugin ): array {
-		return array(
-			'plugin' => $plugin,
-		);
-	}
-
-	protected static function normalize_switch_theme_args( $new_name ): array {
-		return array(
-			'new_name' => $new_name,
-		);
 	}
 
 	/**
@@ -284,15 +272,11 @@ class ActionHooks {
 			'hook' => $hook_name,
 			'args' => $args,
 		);
-
-		// 呼び出し先のクラスが存在すれば process を呼ぶ
-		$target = '\\Shipweb\\LineConnect\\Trigger\\ActionHook';
-		if ( class_exists( $target ) && is_callable( array( $target, 'process' ) ) ) {
-			try {
-				$target::process( $payload );
-			} catch ( \Throwable $e ) {
-				error_log( '[ActionHooks::dispatch] process error: ' . $e->getMessage() );
-			}
+		error_log( '[ActionHooks::dispatch] Dispatching hook: ' . $hook_name . ' with args: ' . json_encode( $args ) );
+		try {
+			ActionHook::process( $payload );
+		} catch ( \Throwable $e ) {
+			error_log( '[ActionHooks::dispatch] process error: ' . $e->getMessage() );
 		}
 	}
 }

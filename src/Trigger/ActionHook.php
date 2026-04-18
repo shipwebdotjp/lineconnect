@@ -27,7 +27,7 @@ class ActionHook {
 	 * @param array      $args         引数配列。
 	 * @param string     $key          優先する連想配列キー。
 	 * @param int|null   $fallback_key 数値添字のフォールバックキー。
-	 * @param mixed|null  $default      取得できない場合の既定値。
+	 * @param mixed|null $default      取得できない場合の既定値。
 	 * @return mixed
 	 */
 	protected static function get_arg_value( array $args, $key, $fallback_key = null, $default = null ) {
@@ -62,51 +62,55 @@ class ActionHook {
 			$triggers  = static::get_action_hook_triggers( $hook_name, $action_hook_args );
 
 			if ( empty( $triggers ) ) {
+				error_log( '[ActionHook::process] no triggers found for hook: ' . $hook_name );
 				return false;
 			}
 
 			$has_executed = false;
 
 			foreach ( $triggers as $trigger_entry ) {
-				$trigger = isset( $trigger_entry['trigger'] ) && is_array( $trigger_entry['trigger'] ) ? $trigger_entry['trigger'] : array();
+				$triggers = isset( $trigger_entry['triggers'] ) && is_array( $trigger_entry['triggers'] ) ? $trigger_entry['triggers'] : array();
 
-				if ( empty( $trigger ) ) {
+				if ( empty( $triggers ) ) {
+					error_log( '[ActionHook::process] no valid triggers in entry for hook: ' . $hook_name );
+					continue;
+				}
+				$matched_array = array();
+
+				$trigger_action_hook_args = $action_hook_args;
+
+				foreach ( $triggers as $trigger ) {
+					// 条件チェック（デフォルト true）
+					$matched_array[] = static::check_condition( $trigger_action_hook_args, $trigger );
+				}
+
+				if ( ! in_array( true, $matched_array, true ) ) {
+					error_log( '[ActionHook::process] no conditions matched for hook: ' . $hook_name );
 					continue;
 				}
 
-				$trigger_action_hook_args         = $action_hook_args;
-				$trigger_action_hook_args['trigger'] = $trigger;
-
-				// 条件チェック（デフォルト true）
-				if ( ! static::check_condition( $trigger_action_hook_args ) ) {
-					continue;
-				}
-
-				// 関連ユーザー解決（デフォルト 0）
-				$related_user_id = static::resolve_related_user( $trigger_action_hook_args );
-
-				if ( empty( $related_user_id ) ) {
-					static::execute_direct_action( $trigger, $trigger_action_hook_args );
-					$has_executed = true;
-					continue;
-				}
+				error_log( '[ActionHook::process] conditions matched for hook: ' . $hook_name );
 
 				// audience 条件構築（デフォルト []）
-				$audience_condition = static::build_audience_condition( $trigger_action_hook_args, $related_user_id );
+				$audience_condition = static::build_audience_condition( $trigger_action_hook_args, $trigger_entry );
 
+				error_log( '[ActionHook::process] audience condition for hook: ' . $hook_name . ' condition: ' . json_encode( $audience_condition ) );
 				// audience がなければ直接 Action を実行する
 				if ( empty( $audience_condition ) ) {
-					static::execute_direct_action( $trigger, $trigger_action_hook_args );
+					static::execute_direct_action( $trigger_entry, $trigger_action_hook_args );
 					$has_executed = true;
 					continue;
 				}
 
 				$recepient = static::get_audience_by_condition( $audience_condition );
 
+				error_log(
+					'[ActionHook::process] audience for hook: ' . $hook_name . ' audience: ' . json_encode( $recepient )
+				);
 				if ( empty( $recepient ) ) {
-					static::execute_direct_action( $trigger, $trigger_action_hook_args );
+					static::execute_direct_action( $trigger_entry, $trigger_action_hook_args );
 				} else {
-					static::execute_audience_actionflow( $trigger, $recepient, $trigger_action_hook_args );
+					static::execute_audience_actionflow( $trigger_entry, $recepient, $trigger_action_hook_args );
 				}
 
 				$has_executed = true;
@@ -161,14 +165,8 @@ class ActionHook {
 			if ( empty( $form[1] ) || ! is_array( $form[1] ) ) {
 				continue;
 			}
-			if ( empty( $form[1]['hook'] ) || $hook_name !== $form[1]['hook'] ) {
-				continue;
-			}
 
-			$triggers[] = array(
-				'post_id' => (int) $post->ID,
-				'trigger' => $form[1],
-			);
+			$triggers[] = $form[1];
 		}
 
 		return $triggers;
@@ -218,14 +216,17 @@ class ActionHook {
 	 * 条件チェックのスタブ
 	 *
 	 * @param array $action_hook_args
+	 * @param array $trigger トリガー設定
 	 * @return bool
 	 */
-	public static function check_condition( array $action_hook_args ): bool {
+	public static function check_condition( array $action_hook_args, array $trigger ): bool {
 		try {
 			$hook = isset( $action_hook_args['hook'] ) ? $action_hook_args['hook'] : '';
 			$args = isset( $action_hook_args['args'] ) && is_array( $action_hook_args['args'] ) ? $action_hook_args['args'] : array();
-			// トリガーの設定が渡される場合に備える（process から trigger 情報を付与する想定）
-			$trigger = isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ? $action_hook_args['trigger'] : null;
+
+			if ( empty( $trigger[ 'hook' ] ) || $trigger['hook'] !== $hook ) {
+				return false;
+			}
 
 			switch ( $hook ) {
 				case 'save_post':
@@ -388,7 +389,7 @@ class ActionHook {
 				case 'comment_post':
 					$comment_id = absint( self::get_arg_value( $args, 'comment_id', 0, 0 ) );
 					if ( $comment_id ) {
-						$comment    = get_comment( $comment_id );
+						$comment = get_comment( $comment_id );
 						if ( $comment && ! empty( $comment->user_id ) ) {
 							return absint( $comment->user_id );
 						}
@@ -397,7 +398,7 @@ class ActionHook {
 					$comment_context = self::get_arg_value( $args, 'comment_context', 3, array() );
 					if ( is_array( $comment_context ) && ! empty( $comment_context['user_id'] ) ) {
 						return absint( $comment_context['user_id'] );
-						}
+					}
 
 					return 0;
 
@@ -413,11 +414,11 @@ class ActionHook {
 	 * audience 条件構築のスタブ
 	 *
 	 * @param array    $action_hook_args
-	 * @param int|null $related_user_id
+	 * @param array   $trigger トリガー設定
 	 * @return array
 	 */
-	public static function build_audience_condition( array $action_hook_args, $related_user_id = null ): array {
-		$trigger = isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ? $action_hook_args['trigger'] : array();
+	public static function build_audience_condition( array $action_hook_args, $trigger = null ): array {
+		// $trigger       = isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ? $action_hook_args['trigger'] : array();
 		$audience_mode = isset( $trigger['audience_mode'] ) ? $trigger['audience_mode'] : '';
 
 		if ( 'standard' === $audience_mode ) {
@@ -431,6 +432,10 @@ class ActionHook {
 		if ( 'current_user' !== $audience_mode ) {
 			return array();
 		}
+
+		// 関連ユーザー解決（デフォルト 0）
+		$related_user_id = static::resolve_related_user( $trigger_action_hook_args );
+
 
 		$related_user_id = absint( $related_user_id );
 		if ( empty( $related_user_id ) ) {
