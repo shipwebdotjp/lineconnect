@@ -25,7 +25,8 @@ class ActionHookCommentPostConditionTest extends WP_UnitTestCase {
 						'comment_id'       => $comment_id,
 						'comment_approved' => 1,
 					),
-				)
+				),
+				array( 'hook' => 'comment_post' )
 			)
 		);
 	}
@@ -37,12 +38,15 @@ class ActionHookCommentPostConditionTest extends WP_UnitTestCase {
 		$this->assertFalse(
 			ActionHook::check_condition(
 				array(
-					'hook'    => 'comment_post',
-					'args'    => array(
+					'hook' => 'comment_post',
+					'args' => array(
 						'comment_id'       => $comment_id,
 						'comment_approved' => 1,
 					),
-					'trigger' => array( 'comment_post' => array( 'post_type' => array( 'post' ) ) ),
+				),
+				array(
+					'hook'        => 'comment_post',
+					'comment_post' => array( 'post_type' => array( 'post' ) ),
 				)
 			)
 		);

@@ -43,6 +43,88 @@ class ActionHook {
 	}
 
 	/**
+	 * 配列条件のいずれかに一致するか判定する。
+	 *
+	 * @param array $candidates 判定対象の値一覧。
+	 * @param array $targets    条件値一覧。
+	 * @param bool  $strict     厳密比較を行うか。
+	 * @return bool
+	 */
+	protected static function matches_any_value( array $candidates, array $targets, bool $strict = true ): bool {
+		if ( empty( $candidates ) || empty( $targets ) ) {
+			return false;
+		}
+
+		foreach ( $candidates as $candidate ) {
+			if ( in_array( $candidate, $targets, $strict ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * ユーザーIDからロール一覧を取得する。
+	 *
+	 * @param int $user_id ユーザーID。
+	 * @return array
+	 */
+	protected static function get_user_roles_by_id( $user_id ): array {
+		$user = get_userdata( absint( $user_id ) );
+		if ( empty( $user ) || ! is_object( $user ) || ! property_exists( $user, 'roles' ) || ! is_array( $user->roles ) ) {
+			return array();
+		}
+
+		return $user->roles;
+	}
+
+	/**
+	 * ユーザーオブジェクトからロール一覧を取得する。
+	 *
+	 * @param mixed $user ユーザーオブジェクト。
+	 * @return array
+	 */
+	protected static function get_user_roles_from_user( $user ): array {
+		if ( empty( $user ) || ! is_object( $user ) || ! property_exists( $user, 'roles' ) || ! is_array( $user->roles ) ) {
+			return array();
+		}
+
+		return $user->roles;
+	}
+
+	/**
+	 * トリガー設定配列から対象値を取得する。
+	 *
+	 * @param array  $trigger トリガー設定。
+	 * @param string $hook    フック名。
+	 * @param string $key     設定キー。
+	 * @return array
+	 */
+	protected static function get_trigger_values( array $trigger, $hook, $key ): array {
+		if ( empty( $trigger[ $hook ][ $key ] ) || ! is_array( $trigger[ $hook ][ $key ] ) ) {
+			return array();
+		}
+
+		return $trigger[ $hook ][ $key ];
+	}
+
+	/**
+	 * 設定ロールとユーザーのロールが一致するか判定する。
+	 *
+	 * @param array $configured_roles 設定ロール一覧。
+	 * @param array $user_roles       ユーザーロール一覧。
+	 * @return bool
+	 */
+	protected static function matches_user_roles( array $configured_roles, array $user_roles ): bool {
+		if ( empty( $configured_roles ) ) {
+			return true;
+		}
+
+		return static::matches_any_value( $user_roles, $configured_roles, true );
+	}
+
+	/**
 	 * エントリポイント
 	 *
 	 * @param array $action_hook_args ['hook' => string, 'args' => array]
@@ -53,7 +135,7 @@ class ActionHook {
 		$action_hook_args = apply_filters( LineConnect::FILTER_PREFIX . 'preprocess_action_hook', $action_hook_args );
 
 		if ( ! isset( $action_hook_args['hook'] ) ) {
-			error_log( '[ActionHook::process] missing hook name' );
+			// error_log( '[ActionHook::process] missing hook name' );
 			return false;
 		}
 
@@ -69,23 +151,26 @@ class ActionHook {
 			$has_executed = false;
 
 			foreach ( $triggers as $trigger_entry ) {
-				$triggers = isset( $trigger_entry['triggers'] ) && is_array( $trigger_entry['triggers'] ) ? $trigger_entry['triggers'] : array();
+				$entry_triggers = isset( $trigger_entry['triggers'] ) && is_array( $trigger_entry['triggers'] ) ? $trigger_entry['triggers'] : array();
 
-				if ( empty( $triggers ) ) {
+				if ( empty( $entry_triggers ) ) {
 					error_log( '[ActionHook::process] no valid triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
-				$matched_array = array();
+				$matched_trigger = null;
 
 				$trigger_action_hook_args = $action_hook_args;
 
-				foreach ( $triggers as $trigger ) {
+				foreach ( $entry_triggers as $trigger ) {
 					// 条件チェック（デフォルト true）
-					$matched_array[] = static::check_condition( $trigger_action_hook_args, $trigger );
+					if ( static::check_condition( $trigger_action_hook_args, $trigger ) ) {
+						$matched_trigger = $trigger;
+						break;
+					}
 				}
 
-				if ( ! in_array( true, $matched_array, true ) ) {
-					error_log( '[ActionHook::process] no conditions matched for hook: ' . $hook_name );
+				if ( empty( $matched_trigger ) ) {
+					error_log( '[ActionHook::process] no matched triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
 
@@ -104,9 +189,8 @@ class ActionHook {
 
 				$recepient = static::get_audience_by_condition( $audience_condition );
 
-				error_log(
-					'[ActionHook::process] audience for hook: ' . $hook_name . ' audience: ' . json_encode( $recepient )
-				);
+				error_log( '[ActionHook::process] audience for hook: ' . $hook_name . ' recepient: ' . json_encode( $recepient ) );
+
 				if ( empty( $recepient ) ) {
 					static::execute_direct_action( $trigger_entry, $trigger_action_hook_args );
 				} else {
@@ -224,11 +308,38 @@ class ActionHook {
 			$hook = isset( $action_hook_args['hook'] ) ? $action_hook_args['hook'] : '';
 			$args = isset( $action_hook_args['args'] ) && is_array( $action_hook_args['args'] ) ? $action_hook_args['args'] : array();
 
-			if ( empty( $trigger[ 'hook' ] ) || $trigger['hook'] !== $hook ) {
+			if ( empty( $trigger['hook'] ) || $trigger['hook'] !== $hook ) {
 				return false;
 			}
 
 			switch ( $hook ) {
+				case 'user_register':
+				case 'profile_update':
+				case 'delete_user':
+					$cfg_roles = static::get_trigger_values( $trigger, $hook, 'role' );
+
+					if ( empty( $cfg_roles ) ) {
+						return true;
+					}
+
+					$user_id = 0;
+					if ( 'delete_user' === $hook ) {
+						$user_obj = self::get_arg_value( $args, 'user', 2, null );
+						if ( is_object( $user_obj ) ) {
+							return static::matches_user_roles( $cfg_roles, static::get_user_roles_from_user( $user_obj ) );
+						}
+
+						$user_id = absint( self::get_arg_value( $args, 'id', 0, 0 ) );
+					} else {
+						$user_id = absint( self::get_arg_value( $args, 'user_id', 0, 0 ) );
+					}
+
+					if ( empty( $user_id ) ) {
+						return false;
+					}
+
+					return static::matches_user_roles( $cfg_roles, static::get_user_roles_by_id( $user_id ) );
+
 				case 'save_post':
 					$post_id = absint( self::get_arg_value( $args, 'post_id', 0, 0 ) );
 					$post    = self::get_arg_value( $args, 'post', 1, null );
@@ -315,19 +426,61 @@ class ActionHook {
 						return true;
 					}
 
-					$cfg_roles = $trigger['wp_login']['role'] ?? null;
+					$cfg_roles = static::get_trigger_values( $trigger, 'wp_login', 'role' );
 					if ( is_array( $cfg_roles ) && count( $cfg_roles ) > 0 ) {
-						$user_roles = property_exists( $user_obj, 'roles' ) ? $user_obj->roles : array();
-						foreach ( $user_roles as $r ) {
-							if ( in_array( $r, $cfg_roles, true ) ) {
-								return true;
-							}
-						}
-						return false;
+						$user_roles = property_exists( $user_obj, 'roles' ) && is_array( $user_obj->roles ) ? $user_obj->roles : array();
+						return static::matches_user_roles( $cfg_roles, $user_roles );
 					}
 
 					// デフォルトは全件対象
 					return true;
+
+				case 'wp_logout':
+					$cfg_roles = static::get_trigger_values( $trigger, 'wp_logout', 'role' );
+					if ( empty( $cfg_roles ) ) {
+						return true;
+					}
+
+					$target_user_id = absint( self::get_arg_value( $args, 'user_id', 0, 0 ) );
+					if ( empty( $target_user_id ) ) {
+						$target_user_id = UserProvider::get_current_user_id();
+					}
+
+					if ( empty( $target_user_id ) ) {
+						return false;
+					}
+
+					return static::matches_user_roles( $cfg_roles, static::get_user_roles_by_id( $target_user_id ) );
+
+				case 'activated_plugin':
+					$cfg_plugins = static::get_trigger_values( $trigger, 'activated_plugin', 'plugin' );
+					if ( empty( $cfg_plugins ) ) {
+						return true;
+					}
+
+					$plugin = (string) self::get_arg_value( $args, 'plugin', 0, '' );
+
+					return static::matches_any_value( array( $plugin ), $cfg_plugins, true );
+
+				case 'deactivated_plugin':
+					$cfg_plugins = static::get_trigger_values( $trigger, 'deactivated_plugin', 'plugin' );
+					if ( empty( $cfg_plugins ) ) {
+						return true;
+					}
+
+					$plugin = (string) self::get_arg_value( $args, 'plugin', 0, '' );
+
+					return static::matches_any_value( array( $plugin ), $cfg_plugins, true );
+
+				case 'switch_theme':
+					$cfg_themes = static::get_trigger_values( $trigger, 'switch_theme', 'theme' );
+					if ( empty( $cfg_themes ) ) {
+						return true;
+					}
+
+					$theme_name = (string) self::get_arg_value( $args, 'new_name', 0, '' );
+
+					return static::matches_any_value( array( $theme_name ), $cfg_themes, true );
 
 				default:
 					// その他のフックはデフォルトで実行
@@ -354,9 +507,10 @@ class ActionHook {
 			switch ( $hook ) {
 				case 'user_register':
 				case 'profile_update':
-				case 'delete_user':
+				case 'wp_logout':
 					return absint( self::get_arg_value( $args, 'user_id', 0, 0 ) );
 
+				case 'delete_user':
 				case 'wp_login':
 					$user = self::get_arg_value( $args, 'user', 1, null );
 					if ( is_object( $user ) && isset( $user->ID ) ) {
@@ -364,7 +518,6 @@ class ActionHook {
 					}
 					return 0;
 
-				case 'wp_logout':
 				case 'activated_plugin':
 				case 'deactivated_plugin':
 				case 'switch_theme':
@@ -413,12 +566,11 @@ class ActionHook {
 	/**
 	 * audience 条件構築のスタブ
 	 *
-	 * @param array    $action_hook_args
-	 * @param array   $trigger トリガー設定
+	 * @param array $action_hook_args
+	 * @param array $trigger トリガー設定
 	 * @return array
 	 */
 	public static function build_audience_condition( array $action_hook_args, $trigger = null ): array {
-		// $trigger       = isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ? $action_hook_args['trigger'] : array();
 		$audience_mode = isset( $trigger['audience_mode'] ) ? $trigger['audience_mode'] : '';
 
 		if ( 'standard' === $audience_mode ) {
@@ -434,8 +586,7 @@ class ActionHook {
 		}
 
 		// 関連ユーザー解決（デフォルト 0）
-		$related_user_id = static::resolve_related_user( $trigger_action_hook_args );
-
+		$related_user_id = static::resolve_related_user( $action_hook_args );
 
 		$related_user_id = absint( $related_user_id );
 		if ( empty( $related_user_id ) ) {

@@ -32,7 +32,8 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $post,
 						'update'  => false,
 					),
-				)
+				),
+				array( 'hook' => 'save_post' )
 			)
 		);
 
@@ -53,7 +54,8 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $page,
 						'update'  => false,
 					),
-				)
+				),
+				array( 'hook' => 'save_post' )
 			)
 		);
 	}
@@ -76,7 +78,8 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $attach,
 						'update'  => false,
 					),
-				)
+				),
+				array( 'hook' => 'save_post' )
 			)
 		);
 
@@ -97,7 +100,8 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $trash,
 						'update'  => false,
 					),
-				)
+				),
+				array( 'hook' => 'save_post' )
 			)
 		);
 	}
@@ -129,7 +133,8 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $revision,
 						'update'  => false,
 					),
-				)
+				),
+				array()
 			)
 		);
 	}
@@ -153,7 +158,10 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $post,
 						'update'  => false,
 					),
-					'trigger' => array( 'save_post' => array( 'post_type' => array( 'page' ) ) ),
+				),
+				array(
+					'hook'      => 'save_post',
+					'save_post' => array( 'post_type' => array( 'page' ) ),
 				)
 			)
 		);
@@ -168,11 +176,12 @@ class ActionHookSavePostConditionTest extends WP_UnitTestCase {
 						'post'    => $post,
 						'update'  => false,
 					),
-					'trigger' => array(
-						'save_post' => array(
-							'post_type'   => array( 'post' ),
-							'post_status' => array( 'publish' ),
-						),
+				),
+				array(
+					'hook'      => 'save_post',
+					'save_post' => array(
+						'post_type'   => array( 'post' ),
+						'post_status' => array( 'publish' ),
 					),
 				)
 			)

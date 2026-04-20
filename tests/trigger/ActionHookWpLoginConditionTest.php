@@ -25,7 +25,8 @@ class ActionHookWpLoginConditionTest extends WP_UnitTestCase {
 						'user_login' => $user->user_login,
 						'user'       => $user,
 					),
-				)
+				),
+				array( 'hook' => 'wp_login' )
 			)
 		);
 	}
@@ -42,7 +43,10 @@ class ActionHookWpLoginConditionTest extends WP_UnitTestCase {
 						'user_login' => $user->user_login,
 						'user'       => $user,
 					),
-					'trigger' => array( 'wp_login' => array( 'role' => array( 'administrator' ) ) ),
+				),
+				array(
+					'hook'     => 'wp_login',
+					'wp_login' => array( 'role' => array( 'administrator' ) ),
 				)
 			)
 		);
@@ -63,7 +67,10 @@ class ActionHookWpLoginConditionTest extends WP_UnitTestCase {
 					'args'    => array(
 						'user_login' => 'bob',
 					),
-					'trigger' => array( 'wp_login' => array( 'role' => array( 'administrator' ) ) ),
+				),
+				array(
+					'hook'     => 'wp_login',
+					'wp_login' => array( 'role' => array( 'administrator' ) ),
 				)
 			)
 		);
