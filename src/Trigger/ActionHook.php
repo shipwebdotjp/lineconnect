@@ -140,61 +140,61 @@ class ActionHook {
 		}
 
 		try {
-			$hook_name = $action_hook_args['hook'];
-			$triggers  = static::get_action_hook_triggers( $hook_name, $action_hook_args );
+			$hook_name       = $action_hook_args['hook'];
+			$trigger_entries = static::get_action_hook_triggers( $hook_name, $action_hook_args );
 
-			if ( empty( $triggers ) ) {
-				error_log( '[ActionHook::process] no triggers found for hook: ' . $hook_name );
+			if ( empty( $trigger_entries ) ) {
+				// error_log( '[ActionHook::process] no triggers found for hook: ' . $hook_name );
 				return false;
 			}
 
 			$has_executed = false;
 
-			foreach ( $triggers as $trigger_entry ) {
-				$entry_triggers = isset( $trigger_entry['triggers'] ) && is_array( $trigger_entry['triggers'] ) ? $trigger_entry['triggers'] : array();
+			foreach ( $trigger_entries as $trigger_definition ) {
+				$trigger_conditions = isset( $trigger_definition['triggers'] ) && is_array( $trigger_definition['triggers'] ) ? $trigger_definition['triggers'] : array();
 
-				if ( empty( $entry_triggers ) ) {
+				if ( empty( $trigger_conditions ) ) {
 					error_log( '[ActionHook::process] no valid triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
-				$matched_trigger = null;
+				$matched_trigger_condition = null;
 
 				$trigger_action_hook_args = $action_hook_args;
 
-				foreach ( $entry_triggers as $trigger ) {
+				foreach ( $trigger_conditions as $trigger_condition ) {
 					// 条件チェック（デフォルト true）
-					if ( static::check_condition( $trigger_action_hook_args, $trigger ) ) {
-						$matched_trigger = $trigger;
+					if ( static::check_condition( $trigger_action_hook_args, $trigger_condition ) ) {
+						$matched_trigger_condition = $trigger_condition;
 						break;
 					}
 				}
 
-				if ( empty( $matched_trigger ) ) {
+				if ( empty( $matched_trigger_condition ) ) {
 					error_log( '[ActionHook::process] no matched triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
 
-				error_log( '[ActionHook::process] conditions matched for hook: ' . $hook_name );
+				// error_log( '[ActionHook::process] conditions matched for hook: ' . $hook_name );
 
 				// audience 条件構築（デフォルト []）
-				$audience_condition = static::build_audience_condition( $trigger_action_hook_args, $trigger_entry );
+				$audience_condition = static::build_audience_condition( $trigger_action_hook_args, $trigger_definition );
 
-				error_log( '[ActionHook::process] audience condition for hook: ' . $hook_name . ' condition: ' . json_encode( $audience_condition ) );
+				// error_log( '[ActionHook::process] audience condition for hook: ' . $hook_name . ' condition: ' . json_encode( $audience_condition ) );
 				// audience がなければ直接 Action を実行する
 				if ( empty( $audience_condition ) ) {
-					static::execute_direct_action( $trigger_entry, $trigger_action_hook_args );
+					static::execute_direct_action( $trigger_definition, $trigger_action_hook_args );
 					$has_executed = true;
 					continue;
 				}
 
 				$recepient = static::get_audience_by_condition( $audience_condition );
 
-				error_log( '[ActionHook::process] audience for hook: ' . $hook_name . ' recepient: ' . json_encode( $recepient ) );
+				// error_log( '[ActionHook::process] audience for hook: ' . $hook_name . ' recepient: ' . json_encode( $recepient ) );
 
 				if ( empty( $recepient ) ) {
-					static::execute_direct_action( $trigger_entry, $trigger_action_hook_args );
+					static::execute_direct_action( $trigger_definition, $trigger_action_hook_args );
 				} else {
-					static::execute_audience_actionflow( $trigger_entry, $recepient, $trigger_action_hook_args );
+					static::execute_audience_actionflow( $trigger_definition, $recepient, $trigger_action_hook_args );
 				}
 
 				$has_executed = true;
@@ -216,19 +216,19 @@ class ActionHook {
 	 */
 	protected static function get_action_hook_triggers( $hook_name, array $action_hook_args = array() ): array {
 		if ( isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ) {
-			$trigger = $action_hook_args['trigger'];
-			if ( isset( $trigger['hook'] ) && $hook_name === $trigger['hook'] ) {
+			$trigger_definition = $action_hook_args['trigger'];
+			if ( isset( $trigger_definition['hook'] ) && $hook_name === $trigger_definition['hook'] ) {
 				return array(
 					array(
 						'post_id' => 0,
-						'trigger' => $trigger,
+						'trigger' => $trigger_definition,
 					),
 				);
 			}
 		}
 
-		$triggers = array();
-		$posts    = get_posts(
+		$trigger_entries = array();
+		$posts           = get_posts(
 			array(
 				'post_type'      => TriggerPostType::POST_TYPE,
 				'post_status'    => 'publish',
@@ -239,35 +239,35 @@ class ActionHook {
 		);
 
 		foreach ( $posts as $post ) {
-			$form = get_post_meta( $post->ID, TriggerPostType::META_KEY_DATA, true );
-			if ( ! is_array( $form ) ) {
+			$trigger_form = get_post_meta( $post->ID, TriggerPostType::META_KEY_DATA, true );
+			if ( ! is_array( $trigger_form ) ) {
 				continue;
 			}
-			if ( empty( $form[0]['type'] ) || 'action_hook' !== $form[0]['type'] ) {
+			if ( empty( $trigger_form[0]['type'] ) || 'action_hook' !== $trigger_form[0]['type'] ) {
 				continue;
 			}
-			if ( empty( $form[1] ) || ! is_array( $form[1] ) ) {
+			if ( empty( $trigger_form[1] ) || ! is_array( $trigger_form[1] ) ) {
 				continue;
 			}
 
-			$triggers[] = $form[1];
+			$trigger_entries[] = $trigger_form[1];
 		}
 
-		return $triggers;
+		return $trigger_entries;
 	}
 
 	/**
 	 * audience ありのアクションフローを実行する。
 	 *
-	 * @param array $trigger トリガー設定。
+	 * @param array $trigger_definition トリガー設定。
 	 * @param array $recepient オーディエンス。
 	 * @param array $action_hook_args action hook 引数。
 	 * @return mixed
 	 */
-	protected static function execute_audience_actionflow( array $trigger, array $recepient, array $action_hook_args = array() ) {
+	protected static function execute_audience_actionflow( array $trigger_definition, array $recepient, array $action_hook_args = array() ) {
 		$action_flow = array(
-			'actions' => $trigger['action'] ?? array(),
-			'chains'  => $trigger['chain'] ?? array(),
+			'actions' => $trigger_definition['action'] ?? array(),
+			'chains'  => $trigger_definition['chain'] ?? array(),
 		);
 
 		return ActionFlow::execute_actionflow_by_audience( $action_flow, $recepient, $action_hook_args );
@@ -276,12 +276,12 @@ class ActionHook {
 	/**
 	 * audience なしの直接アクションを実行する。
 	 *
-	 * @param array $trigger トリガー設定。
+	 * @param array $trigger_definition トリガー設定。
 	 * @param array $action_hook_args action hook 引数。
 	 * @return mixed
 	 */
-	protected static function execute_direct_action( array $trigger, array $action_hook_args = array() ) {
-		return Action::do_action( $trigger['action'] ?? array(), $trigger['chain'] ?? null, null, null, null, null, $action_hook_args );
+	protected static function execute_direct_action( array $trigger_definition, array $action_hook_args = array() ) {
+		return Action::do_action( $trigger_definition['action'] ?? array(), $trigger_definition['chain'] ?? null, null, null, null, null, $action_hook_args );
 	}
 
 	/**
@@ -300,15 +300,15 @@ class ActionHook {
 	 * 条件チェックのスタブ
 	 *
 	 * @param array $action_hook_args
-	 * @param array $trigger トリガー設定
+	 * @param array $trigger_condition トリガー条件
 	 * @return bool
 	 */
-	public static function check_condition( array $action_hook_args, array $trigger ): bool {
+	public static function check_condition( array $action_hook_args, array $trigger_condition ): bool {
 		try {
 			$hook = isset( $action_hook_args['hook'] ) ? $action_hook_args['hook'] : '';
 			$args = isset( $action_hook_args['args'] ) && is_array( $action_hook_args['args'] ) ? $action_hook_args['args'] : array();
 
-			if ( empty( $trigger['hook'] ) || $trigger['hook'] !== $hook ) {
+			if ( empty( $trigger_condition['hook'] ) || $trigger_condition['hook'] !== $hook ) {
 				return false;
 			}
 
@@ -316,7 +316,7 @@ class ActionHook {
 				case 'user_register':
 				case 'profile_update':
 				case 'delete_user':
-					$cfg_roles = static::get_trigger_values( $trigger, $hook, 'role' );
+					$cfg_roles = static::get_trigger_values( $trigger_condition, $hook, 'role' );
 
 					if ( empty( $cfg_roles ) ) {
 						return true;
@@ -363,8 +363,8 @@ class ActionHook {
 					}
 
 					// トリガー設定があればそれを利用、なければドキュメントのデフォルトを適用
-					$cfg_post_types  = $trigger['save_post']['post_type'] ?? null;
-					$cfg_post_status = $trigger['save_post']['post_status'] ?? null;
+					$cfg_post_types  = $trigger_condition['save_post']['post_type'] ?? null;
+					$cfg_post_status = $trigger_condition['save_post']['post_status'] ?? null;
 
 					$post_type_ok = true;
 					if ( is_array( $cfg_post_types ) ) {
@@ -400,7 +400,7 @@ class ActionHook {
 					}
 
 					// トリガー設定に post_type がある場合はフィルタする
-					$cfg_post_types = $trigger['comment_post']['post_type'] ?? null;
+					$cfg_post_types = $trigger_condition['comment_post']['post_type'] ?? null;
 					if ( is_array( $cfg_post_types ) && count( $cfg_post_types ) > 0 ) {
 						return in_array( $post->post_type, $cfg_post_types, true );
 					}
@@ -426,7 +426,7 @@ class ActionHook {
 						return true;
 					}
 
-					$cfg_roles = static::get_trigger_values( $trigger, 'wp_login', 'role' );
+					$cfg_roles = static::get_trigger_values( $trigger_condition, 'wp_login', 'role' );
 					if ( is_array( $cfg_roles ) && count( $cfg_roles ) > 0 ) {
 						$user_roles = property_exists( $user_obj, 'roles' ) && is_array( $user_obj->roles ) ? $user_obj->roles : array();
 						return static::matches_user_roles( $cfg_roles, $user_roles );
@@ -436,7 +436,7 @@ class ActionHook {
 					return true;
 
 				case 'wp_logout':
-					$cfg_roles = static::get_trigger_values( $trigger, 'wp_logout', 'role' );
+					$cfg_roles = static::get_trigger_values( $trigger_condition, 'wp_logout', 'role' );
 					if ( empty( $cfg_roles ) ) {
 						return true;
 					}
@@ -453,7 +453,7 @@ class ActionHook {
 					return static::matches_user_roles( $cfg_roles, static::get_user_roles_by_id( $target_user_id ) );
 
 				case 'activated_plugin':
-					$cfg_plugins = static::get_trigger_values( $trigger, 'activated_plugin', 'plugin' );
+					$cfg_plugins = static::get_trigger_values( $trigger_condition, 'activated_plugin', 'plugin' );
 					if ( empty( $cfg_plugins ) ) {
 						return true;
 					}
@@ -463,7 +463,7 @@ class ActionHook {
 					return static::matches_any_value( array( $plugin ), $cfg_plugins, true );
 
 				case 'deactivated_plugin':
-					$cfg_plugins = static::get_trigger_values( $trigger, 'deactivated_plugin', 'plugin' );
+					$cfg_plugins = static::get_trigger_values( $trigger_condition, 'deactivated_plugin', 'plugin' );
 					if ( empty( $cfg_plugins ) ) {
 						return true;
 					}
@@ -473,7 +473,7 @@ class ActionHook {
 					return static::matches_any_value( array( $plugin ), $cfg_plugins, true );
 
 				case 'switch_theme':
-					$cfg_themes = static::get_trigger_values( $trigger, 'switch_theme', 'theme' );
+					$cfg_themes = static::get_trigger_values( $trigger_condition, 'switch_theme', 'theme' );
 					if ( empty( $cfg_themes ) ) {
 						return true;
 					}
@@ -567,15 +567,15 @@ class ActionHook {
 	 * audience 条件構築のスタブ
 	 *
 	 * @param array $action_hook_args
-	 * @param array $trigger トリガー設定
+	 * @param array $trigger_definition トリガー設定
 	 * @return array
 	 */
-	public static function build_audience_condition( array $action_hook_args, $trigger = null ): array {
-		$audience_mode = isset( $trigger['audience_mode'] ) ? $trigger['audience_mode'] : '';
+	public static function build_audience_condition( array $action_hook_args, $trigger_definition = null ): array {
+		$audience_mode = isset( $trigger_definition['audience_mode'] ) ? $trigger_definition['audience_mode'] : '';
 
 		if ( 'standard' === $audience_mode ) {
-			if ( isset( $trigger['audience']['condition'] ) && is_array( $trigger['audience']['condition'] ) ) {
-				return $trigger['audience']['condition'];
+			if ( isset( $trigger_definition['audience']['condition'] ) && is_array( $trigger_definition['audience']['condition'] ) ) {
+				return $trigger_definition['audience']['condition'];
 			}
 
 			return array();
@@ -600,8 +600,8 @@ class ActionHook {
 			),
 		);
 
-		$current_user_channels = isset( $trigger['current_user_channels'] ) && is_array( $trigger['current_user_channels'] )
-			? array_values( array_filter( $trigger['current_user_channels'] ) )
+		$current_user_channels = isset( $trigger_definition['current_user_channels'] ) && is_array( $trigger_definition['current_user_channels'] )
+			? array_values( array_filter( $trigger_definition['current_user_channels'] ) )
 			: array();
 
 		if ( ! empty( $current_user_channels ) ) {

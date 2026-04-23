@@ -2067,9 +2067,7 @@ class Trigger {
 										'type'       => 'object',
 										'properties' => array(
 											'role' => array(
-												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
-												'items' => array( 'type' => 'string' ),
+												'$ref' => '#/definitions/role',
 											),
 										),
 									),
@@ -2082,9 +2080,7 @@ class Trigger {
 										'type'       => 'object',
 										'properties' => array(
 											'role' => array(
-												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
-												'items' => array( 'type' => 'string' ),
+												'$ref' => '#/definitions/role',
 											),
 										),
 									),
@@ -2097,9 +2093,7 @@ class Trigger {
 										'type'       => 'object',
 										'properties' => array(
 											'role' => array(
-												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
-												'items' => array( 'type' => 'string' ),
+												'$ref' => '#/definitions/role',
 											),
 										),
 									),
@@ -2112,9 +2106,7 @@ class Trigger {
 										'type'       => 'object',
 										'properties' => array(
 											'role' => array(
-												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
-												'items' => array( 'type' => 'string' ),
+												'$ref' => '#/definitions/role',
 											),
 										),
 									),
@@ -2127,9 +2119,7 @@ class Trigger {
 										'type'       => 'object',
 										'properties' => array(
 											'role' => array(
-												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
-												'items' => array( 'type' => 'string' ),
+												'$ref' => '#/definitions/role',
 											),
 										),
 									),

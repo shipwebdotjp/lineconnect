@@ -16,19 +16,21 @@ class ActionHookProcessAudienceBranchTestDouble extends ActionHook {
 		self::$audience_condition   = null;
 		self::$audience_result      = array();
 		self::$audience_flow_called = false;
-		self::$direct_action_called = false;
-		self::$related_user_calls   = 0;
-		self::$related_user_id      = 0;
-		self::$audience_flow_args   = array();
-		self::$direct_action_args   = array();
+		self::$direct_action_called  = false;
+		self::$related_user_calls    = 0;
+		self::$related_user_id       = 0;
+		self::$audience_flow_args    = array();
+		self::$direct_action_args    = array();
 	}
 
 	protected static function get_action_hook_triggers( $hook_name, array $action_hook_args = array() ): array {
-		if ( isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) ) {
+		if ( isset( $action_hook_args['trigger'] ) && is_array( $action_hook_args['trigger'] ) && isset( $action_hook_args['trigger']['triggers'] ) && is_array( $action_hook_args['trigger']['triggers'] ) ) {
 			return array(
-				array(
-					'post_id' => 1,
-					'triggers' => array( $action_hook_args['trigger'] ),
+				array_merge(
+					array(
+						'post_id' => 1,
+					),
+					$action_hook_args['trigger']
 				),
 			);
 		}
@@ -110,19 +112,26 @@ class ActionHookProcessAudienceBranchTest extends WP_UnitTestCase {
 
 		$result = ActionHookProcessAudienceBranchTestDouble::process(
 			array(
-				'hook'    => 'save_post',
-				'args'    => array(
+				'hook' => 'save_post',
+				'args' => array(
 					'post_id' => $post_id,
 					'post'    => $post,
 					'update'  => false,
 				),
 				'trigger' => array(
-					'hook'                  => 'save_post',
-					'audience_mode'         => 'current_user',
-					'current_user_channels' => array( 'abcd' ),
-					'save_post'             => array(),
+					'triggers' => array(
+						array(
+							'hook' => 'save_post',
+							'save_post' => array(
+								'post_type'   => array( 'post', 'page', 'slc_trigger' ),
+								'post_status' => array( 'publish', 'draft', 'pending' ),
+							),
+						),
+					),
 					'action'                => array(),
 					'chain'                 => array(),
+					'current_user_channels' => array( 'abcd' ),
+					'audience_mode'         => 'current_user',
 				),
 			)
 		);
@@ -164,22 +173,26 @@ class ActionHookProcessAudienceBranchTest extends WP_UnitTestCase {
 
 		$result = ActionHookProcessAudienceBranchTestDouble::process(
 			array(
-				'hook'    => 'wp_login',
-				'args'    => array(
+				'hook' => 'wp_login',
+				'args' => array(
 					'user_login' => 'missing-user',
 					'user'       => null,
 				),
 				'trigger' => array(
-					'hook'          => 'wp_login',
+					'triggers' => array(
+						array(
+							'hook'    => 'wp_login',
+							'wp_login' => array(
+								'role' => array(),
+							),
+						),
+					),
 					'audience_mode' => 'standard',
 					'audience'      => array(
 						'condition' => $saved_condition,
 					),
-					'wp_login'      => array(
-						'role' => array(),
-					),
-					'action'        => array(),
-					'chain'         => array(),
+					'action' => array(),
+					'chain'  => array(),
 				),
 			)
 		);
@@ -194,14 +207,21 @@ class ActionHookProcessAudienceBranchTest extends WP_UnitTestCase {
 	public function test_current_user_mode_falls_back_to_direct_action_when_related_user_is_zero() {
 		$result = ActionHookProcessAudienceBranchTestDouble::process(
 			array(
-				'hook'    => 'wp_logout',
-				'args'    => array(),
+				'hook' => 'wp_logout',
+				'args' => array(),
 				'trigger' => array(
-					'hook'                  => 'wp_logout',
+					'triggers' => array(
+						array(
+							'hook' => 'wp_logout',
+							'wp_logout' => array(
+								'role' => array(),
+							),
+						),
+					),
 					'audience_mode'         => 'current_user',
 					'current_user_channels' => array( 'abcd' ),
-					'action'                => array(),
-					'chain'                 => array(),
+					'action' => array(),
+					'chain'  => array(),
 				),
 			)
 		);
@@ -226,48 +246,49 @@ class ActionHookProcessAudienceBranchTest extends WP_UnitTestCase {
 				'post_author' => $user_id,
 			)
 		);
-		$post    = get_post( $post_id );
+		$post = get_post( $post_id );
 
 		ActionHookProcessAudienceBranchTestDouble::$audience_result = array();
 
 		$result = ActionHookProcessAudienceBranchTestDouble::process(
 			array(
-				'hook'    => 'save_post',
-				'args'    => array(
+				'hook' => 'save_post',
+				'args' => array(
 					'post_id' => $post_id,
 					'post'    => $post,
 					'update'  => false,
 				),
 				'trigger' => array(
-					'hook'     => 'save_post',
 					'triggers' => array(
 						array(
-							'hook'          => 'save_post',
-							'audience_mode' => 'standard',
-							'audience'      => array(
-								'condition' => array(
-									'conditions' => array(
-										array(
-											'type'          => 'channel',
-											'secret_prefix' => array( 'abcd' ),
-										),
-									),
-									'operator'   => 'or',
-								),
+							'hook' => 'save_post',
+							'save_post' => array(
+								'post_type'   => array( 'page' ),
+								'post_status' => array( 'publish' ),
 							),
-							'save_post'     => array(),
-							'action'        => array(),
-							'chain'         => array(),
 						),
 						array(
-							'hook'          => 'save_post',
-							'audience_mode' => 'current_user',
-							'current_user_channels' => array( 'abcd' ),
-							'save_post'     => array(),
-							'action'        => array(),
-							'chain'         => array(),
+							'hook' => 'save_post',
+							'save_post' => array(
+								'post_type'   => array( 'post' ),
+								'post_status' => array( 'publish', 'draft', 'pending' ),
+							),
 						),
 					),
+					'audience_mode' => 'standard',
+					'audience'      => array(
+						'condition' => array(
+							'conditions' => array(
+								array(
+									'type'          => 'channel',
+									'secret_prefix' => array( 'abcd' ),
+								),
+							),
+							'operator'   => 'or',
+						),
+					),
+					'action' => array(),
+					'chain'  => array(),
 				),
 			)
 		);

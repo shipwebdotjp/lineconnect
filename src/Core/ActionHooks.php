@@ -272,7 +272,7 @@ class ActionHooks {
 			'hook' => $hook_name,
 			'args' => $args,
 		);
-		error_log( '[ActionHooks::dispatch] Dispatching hook: ' . $hook_name . ' with args: ' . json_encode( $args ) );
+		// error_log( '[ActionHooks::dispatch] Dispatching hook: ' . $hook_name . ' with args: ' . json_encode( $args ) );
 		try {
 			ActionHook::process( $payload );
 		} catch ( \Throwable $e ) {

@@ -15,7 +15,7 @@ class ActionHookResolveRelatedUserTest extends WP_UnitTestCase {
 
 	public function test_returns_user_id_for_user_register_like_hooks() {
 		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-
+		$user    = get_user_by( 'id', $user_id );
 		$this->assertSame(
 			$user_id,
 			ActionHook::resolve_related_user(
@@ -46,7 +46,7 @@ class ActionHookResolveRelatedUserTest extends WP_UnitTestCase {
 				array(
 					'hook' => 'delete_user',
 					'args' => array(
-						'user_id' => $user_id,
+						'user' => $user,
 					),
 				)
 			)
@@ -116,7 +116,7 @@ class ActionHookResolveRelatedUserTest extends WP_UnitTestCase {
 		$comment_id      = $this->factory->comment->create(
 			array(
 				'comment_post_ID' => $post_id,
-				'user_id'        => $comment_user_id,
+				'user_id'         => $comment_user_id,
 			)
 		);
 
@@ -157,7 +157,9 @@ class ActionHookResolveRelatedUserTest extends WP_UnitTestCase {
 			ActionHook::resolve_related_user(
 				array(
 					'hook' => 'wp_logout',
-					'args' => array(),
+					'args' => array(
+						'user_id' => $user_id,
+					),
 				)
 			)
 		);
