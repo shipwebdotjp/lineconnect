@@ -67,7 +67,7 @@ class GenerateImage extends AbstractActionDefinition {
 			'model'        => 'gpt-image-2',
 			'prompt'       => stripslashes($prompt),
 			'size'         => 'auto',
-			'quality'      => 'low',
+			'quality'      => 'medium',
 			'background'   => 'auto',
 			'output_format' => 'png',
 		);
