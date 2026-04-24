@@ -164,6 +164,9 @@ class OpenAi {
 						$message = $normalized_messages[0];
 					} elseif ( ! empty( $normalized_messages ) ) {
 						$message = \Shipweb\LineConnect\Message\LINE\Builder::createMultiMessage( $normalized_messages );
+					} else {
+						// Fallback if all messages were filtered out
+						$message = \Shipweb\LineConnect\Message\LINE\Builder::createTextMessage( __( 'No response available', 'lineconnect' ) );
 					}
 					$responseByAi = true;
 					return array(

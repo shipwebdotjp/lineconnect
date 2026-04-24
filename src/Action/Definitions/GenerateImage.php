@@ -102,7 +102,7 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		if (isset($response['error'])) {
-			$error_message = $response['error']['message'] ?? print_r($response['error'], true);
+			$error_message = $response['error']['message'] ?? json_encode($response['error']) ?: 'Unknown error from API';
 			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $error_message));
 		}
 
@@ -119,6 +119,12 @@ class GenerateImage extends AbstractActionDefinition {
 		$saved = File::saveGeneratedImage($this->getSecretPrefix(), $binary, 'image/png', 'png');
 		if (! $saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
+		}
+
+		// Check if preview is within LINE's 1MB limit
+		$file_size = strlen($binary);
+		if ($file_size > 1048576) {
+			return $this->build_direct_error_response(__( 'Error: Generated image exceeds 1MB preview size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
 		}
 
 		$image_message = Builder::createImageMessage($saved['url'], $saved['url']);
@@ -181,8 +187,10 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		$path = $parsed['path'] ?? '';
-		if (preg_match('#/v\d+/(chat/completions|responses|completions)$#', $path)) {
-			return preg_replace('#/v\d+/(chat/completions|responses|completions)$#', '/v1/images/generations', $endpoint);
+		// Extract version from the original path and preserve it
+		if (preg_match('#/(v\d+)/(chat/completions|responses|completions)$#', $path, $matches)) {
+			$version = $matches[1];
+			return preg_replace('#/(v\d+)/(chat/completions|responses|completions)$#', '/' . $version . '/images/generations', $endpoint);
 		}
 
 		$base = $parsed['scheme'] . '://' . $parsed['host'];

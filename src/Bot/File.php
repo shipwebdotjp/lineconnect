@@ -278,9 +278,42 @@ class File {
                 $random = wp_generate_password(8, false, false);
             }
             $file_name = 'gpt-image-2-' . $timestamp . '-' . $random . '.' . ltrim($extension, '.');
+        } else {
+            // Sanitize caller-provided filename to prevent path traversal
+            // Remove null bytes
+            $file_name = str_replace("\0", '', $file_name);
+            // Get the basename to strip any directory components
+            $file_name = basename($file_name);
+            // Remove directory traversal sequences
+            $file_name = str_replace(array('..', '/', '\\'), '', $file_name);
+            // Enforce whitelist pattern: only letters, numbers, dot, underscore, hyphen
+            if (!preg_match('/^[A-Za-z0-9._-]+$/', $file_name)) {
+                return false;
+            }
+            // Ensure the extension matches the intended extension
+            $expected_ext = '.' . ltrim($extension, '.');
+            if (!str_ends_with($file_name, $expected_ext)) {
+                return false;
+            }
         }
 
         $full_path = trailingslashit($target_dir_path) . $file_name;
+
+        // Verify the resulting path does not escape target directory
+        $real_target_dir = realpath($target_dir_path);
+        $real_full_path = realpath(dirname($full_path));
+        if ($real_target_dir === false || $real_full_path === false || strpos($real_full_path, $real_target_dir) !== 0) {
+            // Also check before file creation if realpath fails (file doesn't exist yet)
+            $parent_dir = dirname($full_path);
+            if (!file_exists($parent_dir)) {
+                return false;
+            }
+            $real_parent = realpath($parent_dir);
+            if ($real_parent === false || strpos($real_parent, $real_target_dir) !== 0) {
+                return false;
+            }
+        }
+
         if (file_put_contents($full_path, $content) === false) {
             return false;
         }
