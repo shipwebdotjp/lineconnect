@@ -433,7 +433,7 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
-		error_log( "messages: " . print_r( $messages, true ) );
+		// error_log( "messages: " . print_r( $messages, true ) );
 
 		// Define data
 		$data                = array();

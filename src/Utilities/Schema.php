@@ -26,6 +26,9 @@ class Schema {
         if (! empty($parameter['description'])) {
             $schema['description'] = $parameter['description'];
         }
+        if (array_key_exists('default', $parameter)) {
+            $schema['default'] = $parameter['default'];
+        }
         if (! empty($parameter['oneOf'])) {
             $schema['oneOf'] = $parameter['oneOf'];
         }
