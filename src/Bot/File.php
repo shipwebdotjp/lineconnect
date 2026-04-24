@@ -7,6 +7,7 @@
 namespace Shipweb\LineConnect\Bot;
 
 use Shipweb\LineConnect\Core\LineConnect;
+use Shipweb\LineConnect\Utilities\FileSystem;
 
 class File {
     const MIME_MAP = array(
@@ -228,7 +229,7 @@ class File {
             // set user directory
             $user_dir = substr($userId, 1, 4);
             // make directory
-            $target_dir_path = \Shipweb\LineConnect\Utilities\FileSystem::make_lineconnect_dir($user_dir);
+            $target_dir_path = FileSystem::make_lineconnect_dir($user_dir);
             if ($target_dir_path) {
                 // make file path
                 $file_path = $target_dir_path . '/' . $file_name;
@@ -239,189 +240,6 @@ class File {
             }
         }
         return false;
-    }
-
-    /**
-     * 生成画像を公開用ディレクトリへ保存する
-     *
-     * 保存先は uploads/lineconnect-generated/{channel_prefix}/{Y/m}/
-     *
-     * @param string $secret_prefix
-     * @param string $content
-     * @param string $mime_type
-     * @param string $extension
-     * @param string|null $file_name
-     * @return array{file_path:string,full_path:string,url:string,mime_type:string}|false
-     */
-    public static function saveGeneratedImage($secret_prefix, $content, $mime_type = 'image/png', $extension = 'png', $file_name = null) {
-        $upload_dir = wp_upload_dir();
-        if (empty($upload_dir['basedir']) || empty($upload_dir['baseurl'])) {
-            return false;
-        }
-
-        $channel_prefix = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $secret_prefix);
-        if (empty($channel_prefix)) {
-            $channel_prefix = '_none';
-        }
-
-        $relative_dir = 'lineconnect-generated/' . $channel_prefix . '/' . gmdate('Y/m');
-        $target_dir_path = self::make_public_lineconnect_dir($relative_dir);
-        if (! $target_dir_path) {
-            return false;
-        }
-
-        if (empty($file_name)) {
-            $timestamp = gmdate('Ymd-His');
-            try {
-                $random = bin2hex(random_bytes(4));
-            } catch (\Exception $e) {
-                $random = wp_generate_password(8, false, false);
-            }
-            $file_name = 'gpt-image-2-' . $timestamp . '-' . $random . '.' . ltrim($extension, '.');
-        } else {
-            // Sanitize caller-provided filename to prevent path traversal
-            // Remove null bytes
-            $file_name = str_replace("\0", '', $file_name);
-            // Get the basename to strip any directory components
-            $file_name = basename($file_name);
-            // Remove directory traversal sequences
-            $file_name = str_replace(array('..', '/', '\\'), '', $file_name);
-            // Enforce whitelist pattern: only letters, numbers, dot, underscore, hyphen
-            if (!preg_match('/^[A-Za-z0-9._-]+$/', $file_name)) {
-                return false;
-            }
-            // Ensure the extension matches the intended extension
-            $expected_ext = '.' . ltrim($extension, '.');
-            if (!str_ends_with($file_name, $expected_ext)) {
-                return false;
-            }
-        }
-
-        $full_path = trailingslashit($target_dir_path) . $file_name;
-
-        // Verify the resulting path does not escape target directory
-        $real_target_dir = realpath($target_dir_path);
-        $real_full_path = realpath(dirname($full_path));
-        if ($real_target_dir === false || $real_full_path === false || strpos($real_full_path, $real_target_dir) !== 0) {
-            // Also check before file creation if realpath fails (file doesn't exist yet)
-            $parent_dir = dirname($full_path);
-            if (!file_exists($parent_dir)) {
-                return false;
-            }
-            $real_parent = realpath($parent_dir);
-            if ($real_parent === false || strpos($real_parent, $real_target_dir) !== 0) {
-                return false;
-            }
-        }
-
-        if (file_put_contents($full_path, $content) === false) {
-            return false;
-        }
-
-        $relative_path = $relative_dir . '/' . $file_name;
-        $url = trailingslashit($upload_dir['baseurl']) . $relative_path;
-
-        return array(
-            'file_path' => $relative_path,
-            'full_path' => $full_path,
-            'url'       => $url,
-            'mime_type' => $mime_type,
-        );
-    }
-
-    /**
-     * オリジナル画像からサムネイルを生成する
-     *
-     * @param string $original_full_path
-     * @param int $max_edge
-     * @param int $quality
-     * @return array{file_path:string,full_path:string,url:string}|false
-     */
-    public static function generateThumbnail($original_full_path, $max_edge = 1024, $quality = 60) {
-        $editor = wp_get_image_editor($original_full_path);
-        if (is_wp_error($editor)) {
-            return false;
-        }
-
-        $size = $editor->get_size();
-        if (!$size) {
-            return false;
-        }
-
-        $width = $size['width'];
-        $height = $size['height'];
-
-        if ($width > $max_edge || $height > $max_edge) {
-            $editor->resize($max_edge, $max_edge, false);
-        }
-
-        $editor->set_quality($quality);
-
-        $path_info = pathinfo($original_full_path);
-        $thumb_dir = trailingslashit($path_info['dirname']) . 'thumbnails';
-        if (!file_exists($thumb_dir)) {
-            if (!wp_mkdir_p($thumb_dir)) {
-                return false;
-            }
-            // Add index.php for security
-            file_put_contents(trailingslashit($thumb_dir) . 'index.php', '<?php http_response_code(404);');
-        }
-
-        $thumb_filename = $path_info['filename'] . '.jpg';
-        $thumb_full_path = trailingslashit($thumb_dir) . $thumb_filename;
-
-        $saved = $editor->save($thumb_full_path, 'image/jpeg');
-        if (is_wp_error($saved)) {
-            return false;
-        }
-
-        $actual_thumb_path = $saved['path'];
-        $upload_dir = wp_upload_dir();
-        $relative_path = str_replace(trailingslashit($upload_dir['basedir']), '', $actual_thumb_path);
-        $url = trailingslashit($upload_dir['baseurl']) . $relative_path;
-
-        return array(
-            'file_path' => $relative_path,
-            'full_path' => $actual_thumb_path,
-            'url'       => $url,
-        );
-    }
-
-    /**
-     * 公開用の lineconnect ディレクトリを作成する
-     *
-     * @param string $relative_dir uploads 配下からの相対パス
-     * @return string|false
-     */
-    private static function make_public_lineconnect_dir($relative_dir) {
-        $upload_dir = wp_upload_dir();
-        if (empty($upload_dir['basedir'])) {
-            return false;
-        }
-
-        $relative_dir = trim($relative_dir, '/');
-        $target_dir_path = trailingslashit($upload_dir['basedir']) . $relative_dir;
-        if (! file_exists($target_dir_path)) {
-            if (! wp_mkdir_p($target_dir_path)) {
-                return false;
-            }
-        }
-
-        $segments = explode('/', $relative_dir);
-        $current_path = trailingslashit($upload_dir['basedir']);
-        foreach ($segments as $segment) {
-            if (empty($segment)) {
-                continue;
-            }
-            $current_path .= $segment;
-            $index_file_path = trailingslashit($current_path) . 'index.php';
-            if (! file_exists($index_file_path)) {
-                file_put_contents($index_file_path, '<?php http_response_code(404);');
-            }
-            $current_path = trailingslashit($current_path);
-        }
-
-        return $target_dir_path;
     }
 
     // MIME type to file Extension

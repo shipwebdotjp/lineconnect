@@ -5,6 +5,7 @@ namespace Shipweb\LineConnect\Action\Definitions;
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Bot\File;
+use Shipweb\LineConnect\Bot\Media\Image;
 use Shipweb\LineConnect\Message\LINE\Builder;
 
 /**
@@ -66,7 +67,7 @@ class GenerateImage extends AbstractActionDefinition {
 			'model'        => 'gpt-image-2',
 			'prompt'       => stripslashes($prompt),
 			'size'         => 'auto',
-			'quality'      => 'auto',
+			'quality'      => 'low',
 			'background'   => 'auto',
 			'output_format' => 'png',
 		);
@@ -122,13 +123,13 @@ class GenerateImage extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: Generated image exceeds 10MB size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$saved = File::saveGeneratedImage($this->getSecretPrefix(), $binary, 'image/png', 'png');
+		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $binary, 'image/png', 'png');
 		if (! $saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
 		}
 
 		// Generate thumbnail
-		$thumb = File::generateThumbnail($saved['full_path']);
+		$thumb = Image::generateThumbnail($saved['full_path']);
 		if (!$thumb) {
 			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {

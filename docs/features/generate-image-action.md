@@ -19,8 +19,8 @@
       - messages: LINE 返信に積むビルダー配列
       - data: 保存パスやメタ情報などの補助情報
   - 画像保存パス
-      - root: uploads/lineconnect-generated/
-      - directory: {channel_prefix}/{Y/m}/
+      - root: uploads/lineconnect/generated/
+      - directory: {channel_prefix}/{Y/m}/image/
       - filename: gpt-image-2-{Ymd-His}-{uuid8}.png
       - MIME / 拡張子: 固定で image/png / .png
   - 生成パラメータ固定値
@@ -39,7 +39,7 @@
 ## Test Plan
 
   - 画像生成 Action が gpt-image-2 に固定パラメータでリクエストすること。
-  - 画像保存先が uploads/lineconnect-generated/{channel_prefix}/{Y/m}/ になること。
+  - 画像保存先が uploads/lineconnect/generated/{channel_prefix}/{Y/m}/image/ になること。
   - 生成結果が .png として保存され、公開URLから ImageMessageBuilder を作れること。
   - response_mode = direct のとき OpenAi.php が再LLMせず、その messages を返すこと。
   - 失敗時は画像を返さず、テキストエラーに落ちること。

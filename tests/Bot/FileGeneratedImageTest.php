@@ -1,6 +1,7 @@
 <?php
 
 use Shipweb\LineConnect\Bot\File;
+use Shipweb\LineConnect\Bot\Media\Image;
 
 class FileGeneratedImageTest extends WP_UnitTestCase {
 	public static function wpSetUpBeforeClass( $factory ) {
@@ -11,12 +12,12 @@ class FileGeneratedImageTest extends WP_UnitTestCase {
 		$secret_prefix = 'testprefix';
 		$file_name     = 'sample.png';
 
-		$result = File::saveGeneratedImage( $secret_prefix, 'binary-content', 'image/png', 'png', $file_name );
+		$result = Image::saveGeneratedImage( $secret_prefix, 'binary-content', 'image/png', 'png', $file_name );
 
 		$this->assertIsArray( $result );
 		$this->assertSame( 'sample.png', basename( $result['file_path'] ) );
-		$this->assertStringContainsString( 'lineconnect-generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/', $result['file_path'] );
-		$this->assertStringContainsString( '/lineconnect-generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/', $result['url'] );
+		$this->assertStringContainsString( 'lineconnect/generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/image/', $result['file_path'] );
+		$this->assertStringContainsString( '/lineconnect/generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/image/', $result['url'] );
 		$this->assertFileExists( $result['full_path'] );
 
 		if ( file_exists( $result['full_path'] ) ) {
