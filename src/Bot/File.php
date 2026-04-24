@@ -241,6 +241,98 @@ class File {
         return false;
     }
 
+    /**
+     * 生成画像を公開用ディレクトリへ保存する
+     *
+     * 保存先は uploads/lineconnect-generated/{channel_prefix}/{Y/m}/
+     *
+     * @param string $secret_prefix
+     * @param string $content
+     * @param string $mime_type
+     * @param string $extension
+     * @param string|null $file_name
+     * @return array{file_path:string,full_path:string,url:string,mime_type:string}|false
+     */
+    public static function saveGeneratedImage($secret_prefix, $content, $mime_type = 'image/png', $extension = 'png', $file_name = null) {
+        $upload_dir = wp_upload_dir();
+        if (empty($upload_dir['basedir']) || empty($upload_dir['baseurl'])) {
+            return false;
+        }
+
+        $channel_prefix = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $secret_prefix);
+        if (empty($channel_prefix)) {
+            $channel_prefix = '_none';
+        }
+
+        $relative_dir = 'lineconnect-generated/' . $channel_prefix . '/' . gmdate('Y/m');
+        $target_dir_path = self::make_public_lineconnect_dir($relative_dir);
+        if (! $target_dir_path) {
+            return false;
+        }
+
+        if (empty($file_name)) {
+            $timestamp = gmdate('Ymd-His');
+            try {
+                $random = bin2hex(random_bytes(4));
+            } catch (\Exception $e) {
+                $random = wp_generate_password(8, false, false);
+            }
+            $file_name = 'gpt-image-2-' . $timestamp . '-' . $random . '.' . ltrim($extension, '.');
+        }
+
+        $full_path = trailingslashit($target_dir_path) . $file_name;
+        if (file_put_contents($full_path, $content) === false) {
+            return false;
+        }
+
+        $relative_path = $relative_dir . '/' . $file_name;
+        $url = trailingslashit($upload_dir['baseurl']) . $relative_path;
+
+        return array(
+            'file_path' => $relative_path,
+            'full_path' => $full_path,
+            'url'       => $url,
+            'mime_type' => $mime_type,
+        );
+    }
+
+    /**
+     * 公開用の lineconnect ディレクトリを作成する
+     *
+     * @param string $relative_dir uploads 配下からの相対パス
+     * @return string|false
+     */
+    private static function make_public_lineconnect_dir($relative_dir) {
+        $upload_dir = wp_upload_dir();
+        if (empty($upload_dir['basedir'])) {
+            return false;
+        }
+
+        $relative_dir = trim($relative_dir, '/');
+        $target_dir_path = trailingslashit($upload_dir['basedir']) . $relative_dir;
+        if (! file_exists($target_dir_path)) {
+            if (! wp_mkdir_p($target_dir_path)) {
+                return false;
+            }
+        }
+
+        $segments = explode('/', $relative_dir);
+        $current_path = trailingslashit($upload_dir['basedir']);
+        foreach ($segments as $segment) {
+            if (empty($segment)) {
+                continue;
+            }
+            $current_path .= $segment;
+            $index_file_path = trailingslashit($current_path) . 'index.php';
+            if (! file_exists($index_file_path)) {
+                file_put_contents($index_file_path, '<?php http_response_code(404);');
+            }
+            $current_path = trailingslashit($current_path);
+        }
+
+        return $target_dir_path;
+    }
+
     // MIME type to file Extension
     public static function get_file_extention($mime_type) {
         return self::MIME_MAP[$mime_type] ?? 'bin';

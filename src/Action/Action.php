@@ -203,10 +203,20 @@ class Action {
 							$response = call_user_func_array($function_name, $arguments_array); // $response = $function_name( $arguments_array );
 						}
 						$injection_data['return'][$action_idx + 1] = $response;
-						// error_log("val" . ($action['response_return_value'] === true ? 'true' : 'false'));
-						if (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
-							// error_log(print_r($response, true));
-							// error_log(print_r($action['response_return_value'], true));
+						$response_mode = $action['response_mode'] ?? null;
+						if (is_array($response) && isset($response['response_mode']) && $response['response_mode'] === 'direct') {
+							$direct_messages = $response['messages'] ?? array();
+							if (! is_array($direct_messages)) {
+								$direct_messages = array($direct_messages);
+							}
+							foreach ($direct_messages as $direct_message) {
+								if ($direct_message) {
+									$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($direct_message);
+								}
+							}
+						} elseif ($response_mode === 'direct') {
+							$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
+						} elseif (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
 							$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
 						}
 					} else {
@@ -270,6 +280,13 @@ class Action {
 						'type'    => 'string',
 						'const'   => $name,
 						'default' => $name,
+					),
+					'response_mode' => array(
+						'type'        => 'string',
+						'enum'        => array('llm', 'direct'),
+						'default'     => 'llm',
+						'title'       => __('Response mode', lineconnect::PLUGIN_NAME),
+						'description' => __('Direct mode returns the action result directly to LINE. LLM mode sends the result back to the model first.', lineconnect::PLUGIN_NAME),
 					),
 					'response_return_value' => array(
 						'type'    => 'boolean',

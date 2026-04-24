@@ -44,6 +44,8 @@ class OpenAi {
 			}
 			if ( is_array( $AiMessage['choices'][0]['message']['tool_calls'] ) ) {
 				$prompts            = array();
+				$direct_messages    = array();
+				$direct_response    = null;
 				$callable_functions = \Shipweb\LineConnect\Action\Action::get_callable_functions( true );
 				foreach ( $AiMessage['choices'][0]['message']['tool_calls'] as $tool_call ) {
 					if ( $tool_call['type'] == 'function' && isset( $tool_call['function'] ) ) {
@@ -140,11 +142,36 @@ class OpenAi {
 								'name'         => $function_name,
 								'content'      => json_encode( $response ),
 							);
+							if ( is_array( $response ) && isset( $response['response_mode'] ) && $response['response_mode'] === 'direct' ) {
+								$direct_response = $response;
+								$direct_messages = $response['messages'] ?? array();
+								break;
+							}
 						} else {
 							$message      = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( $error['error'] );
 							$responseByAi = false;
 						}
 					}
+				}
+				if ( ! empty( $direct_messages ) ) {
+					$normalized_messages = array();
+					foreach ( $direct_messages as $direct_message ) {
+						if ( $direct_message ) {
+							$normalized_messages[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder( $direct_message );
+						}
+					}
+					if ( count( $normalized_messages ) === 1 ) {
+						$message = $normalized_messages[0];
+					} elseif ( ! empty( $normalized_messages ) ) {
+						$message = \Shipweb\LineConnect\Message\LINE\Builder::createMultiMessage( $normalized_messages );
+					}
+					$responseByAi = true;
+					return array(
+						'message'      => $message,
+						'responseByAi' => $responseByAi,
+						'rowResponse'  => $AiMessage,
+						'toolResponse' => $direct_response,
+					);
 				}
 				$addtional_messages[] = $AiMessage['choices'][0]['message'];
 				return $this->getResponseByChatGPT( $event, $bot_id, $prompts, $addtional_messages );
