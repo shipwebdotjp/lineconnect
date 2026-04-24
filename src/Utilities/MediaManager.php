@@ -40,7 +40,7 @@ class MediaManager {
             $channel_prefix = '_none';
         }
 
-        $relative_dir    = 'lineconnect/generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/' . $media_type;
+        $relative_dir    = 'generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/' . $media_type;
         $target_dir_path = FileSystem::make_lineconnect_dir($relative_dir, false);
         if (! $target_dir_path) {
             return false;
@@ -88,7 +88,8 @@ class MediaManager {
         }
 
         $relative_path = $relative_dir . '/' . $file_name;
-        $url           = trailingslashit($upload_dir['baseurl']) . $relative_path;
+        $relative_path     = str_replace(trailingslashit($upload_dir['basedir']), '', $full_path);
+        $url               = trailingslashit($upload_dir['baseurl']) . $relative_path;
 
         return array(
             'file_path' => $relative_path,

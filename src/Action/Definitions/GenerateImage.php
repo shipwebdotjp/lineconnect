@@ -129,7 +129,7 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		// Generate thumbnail
-		$thumb = Image::generateThumbnail($saved['full_path']);
+		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix());
 		if (!$thumb) {
 			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {

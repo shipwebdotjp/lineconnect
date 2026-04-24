@@ -43,7 +43,7 @@ class Image {
      * @param int    $quality
      * @return array{file_path:string,full_path:string,url:string}|false
      */
-    public static function generateThumbnail($original_full_path, $max_edge = 1024, $quality = 60) {
+    public static function generateThumbnail($original_full_path, $secret_prefix, $max_edge = 1024, $quality = 60) {
         $editor = wp_get_image_editor($original_full_path);
         if (is_wp_error($editor)) {
             return false;
@@ -61,8 +61,13 @@ class Image {
         $editor->set_quality($quality);
 
         $path_info = pathinfo($original_full_path);
+        $channel_prefix = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $secret_prefix);
+        if (empty($channel_prefix)) {
+            $channel_prefix = '_none';
+        }
+
         $thumb_dir = FileSystem::make_lineconnect_dir(
-            trailingslashit($path_info['dirname']) . 'thumbnails',
+            'generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/image/thumbnails',
             false
         );
         if (! $thumb_dir) {

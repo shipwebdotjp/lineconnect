@@ -13,10 +13,10 @@ class FileGeneratedImageTest extends WP_UnitTestCase {
 		$file_name     = 'sample.png';
 
 		$result = Image::saveGeneratedImage( $secret_prefix, 'binary-content', 'image/png', 'png', $file_name );
-
+		var_dump( $result );
 		$this->assertIsArray( $result );
 		$this->assertSame( 'sample.png', basename( $result['file_path'] ) );
-		$this->assertStringContainsString( 'lineconnect/generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/image/', $result['file_path'] );
+		$this->assertStringContainsString( 'generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/image/', $result['file_path'] );
 		$this->assertStringContainsString( '/lineconnect/generated/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/image/', $result['url'] );
 		$this->assertFileExists( $result['full_path'] );
 
