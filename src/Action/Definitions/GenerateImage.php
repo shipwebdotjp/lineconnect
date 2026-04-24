@@ -121,21 +121,39 @@ class GenerateImage extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
 		}
 
-		// Check if preview is within LINE's 1MB limit
+		// Check if original image is within LINE's 10MB limit
 		$file_size = strlen($binary);
-		if ($file_size > 1048576) {
-			return $this->build_direct_error_response(__( 'Error: Generated image exceeds 1MB preview size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
+		if ($file_size > 10485760) {
+			return $this->build_direct_error_response(__( 'Error: Generated image exceeds 10MB size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$image_message = Builder::createImageMessage($saved['url'], $saved['url']);
+		// Generate thumbnail
+		$thumb = File::generateThumbnail($saved['full_path']);
+		if (!$thumb) {
+			// Fallback to original if thumbnail generation fails, but check size
+			if ($file_size > 1048576) {
+				return $this->build_direct_error_response(__( 'Error: Failed to generate thumbnail and original image exceeds 1MB preview size limit.', LineConnect::PLUGIN_NAME ));
+			}
+			$preview_url = $saved['url'];
+		} else {
+			// Verify thumbnail size
+			if (filesize($thumb['full_path']) > 1048576) {
+				return $this->build_direct_error_response(__( 'Error: Generated thumbnail exceeds 1MB preview size limit.', LineConnect::PLUGIN_NAME ));
+			}
+			$preview_url = $thumb['url'];
+		}
+
+		$image_message = Builder::createImageMessage($saved['url'], $preview_url);
 
 		return array(
 			'success'        => true,
 			'response_mode'  => 'direct',
 			'messages'       => array($image_message),
 			'data'           => array(
-				'file_path' => $saved['file_path'],
-				'file_url'  => $saved['url'],
+				'file_path'      => $saved['file_path'],
+				'file_url'       => $saved['url'],
+				'thumb_path'     => $thumb ? $thumb['file_path'] : null,
+				'thumb_url'      => $thumb ? $thumb['url'] : null,
 			),
 		);
 	}

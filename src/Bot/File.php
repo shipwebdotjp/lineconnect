@@ -330,6 +330,63 @@ class File {
     }
 
     /**
+     * オリジナル画像からサムネイルを生成する
+     *
+     * @param string $original_full_path
+     * @param int $max_edge
+     * @param int $quality
+     * @return array{file_path:string,full_path:string,url:string}|false
+     */
+    public static function generateThumbnail($original_full_path, $max_edge = 1024, $quality = 60) {
+        $editor = wp_get_image_editor($original_full_path);
+        if (is_wp_error($editor)) {
+            return false;
+        }
+
+        $size = $editor->get_size();
+        if (!$size) {
+            return false;
+        }
+
+        $width = $size['width'];
+        $height = $size['height'];
+
+        if ($width > $max_edge || $height > $max_edge) {
+            $editor->resize($max_edge, $max_edge, false);
+        }
+
+        $editor->set_quality($quality);
+
+        $path_info = pathinfo($original_full_path);
+        $thumb_dir = trailingslashit($path_info['dirname']) . 'thumbnails';
+        if (!file_exists($thumb_dir)) {
+            if (!wp_mkdir_p($thumb_dir)) {
+                return false;
+            }
+            // Add index.php for security
+            file_put_contents(trailingslashit($thumb_dir) . 'index.php', '<?php http_response_code(404);');
+        }
+
+        $thumb_filename = $path_info['filename'] . '.jpg';
+        $thumb_full_path = trailingslashit($thumb_dir) . $thumb_filename;
+
+        $saved = $editor->save($thumb_full_path, 'image/jpeg');
+        if (is_wp_error($saved)) {
+            return false;
+        }
+
+        $upload_dir = wp_upload_dir();
+        $relative_path = str_replace(trailingslashit($upload_dir['basedir']), '', $thumb_full_path);
+        $url = trailingslashit($upload_dir['baseurl']) . $relative_path;
+
+        return array(
+            'file_path' => $relative_path,
+            'full_path' => $thumb_full_path,
+            'url'       => $url,
+        );
+    }
+
+    /**
      * 公開用の lineconnect ディレクトリを作成する
      *
      * @param string $relative_dir uploads 配下からの相対パス
