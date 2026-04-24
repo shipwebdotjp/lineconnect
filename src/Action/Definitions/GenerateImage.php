@@ -116,15 +116,15 @@ class GenerateImage extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: Failed to decode image data.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$saved = File::saveGeneratedImage($this->getSecretPrefix(), $binary, 'image/png', 'png');
-		if (! $saved) {
-			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
-		}
-
-		// Check if original image is within LINE's 10MB limit
+		// Check if original image is within LINE's 10MB limit before saving
 		$file_size = strlen($binary);
 		if ($file_size > 10485760) {
 			return $this->build_direct_error_response(__( 'Error: Generated image exceeds 10MB size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
+		}
+
+		$saved = File::saveGeneratedImage($this->getSecretPrefix(), $binary, 'image/png', 'png');
+		if (! $saved) {
+			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
 		}
 
 		// Generate thumbnail
@@ -132,12 +132,21 @@ class GenerateImage extends AbstractActionDefinition {
 		if (!$thumb) {
 			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {
+				if (file_exists($saved['full_path'])) {
+					unlink($saved['full_path']);
+				}
 				return $this->build_direct_error_response(__( 'Error: Failed to generate thumbnail and original image exceeds 1MB preview size limit.', LineConnect::PLUGIN_NAME ));
 			}
 			$preview_url = $saved['url'];
 		} else {
 			// Verify thumbnail size
 			if (filesize($thumb['full_path']) > 1048576) {
+				if (file_exists($thumb['full_path'])) {
+					unlink($thumb['full_path']);
+				}
+				if (file_exists($saved['full_path'])) {
+					unlink($saved['full_path']);
+				}
 				return $this->build_direct_error_response(__( 'Error: Generated thumbnail exceeds 1MB preview size limit.', LineConnect::PLUGIN_NAME ));
 			}
 			$preview_url = $thumb['url'];

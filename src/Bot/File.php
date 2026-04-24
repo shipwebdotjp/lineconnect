@@ -375,13 +375,14 @@ class File {
             return false;
         }
 
+        $actual_thumb_path = $saved['path'];
         $upload_dir = wp_upload_dir();
-        $relative_path = str_replace(trailingslashit($upload_dir['basedir']), '', $thumb_full_path);
+        $relative_path = str_replace(trailingslashit($upload_dir['basedir']), '', $actual_thumb_path);
         $url = trailingslashit($upload_dir['baseurl']) . $relative_path;
 
         return array(
             'file_path' => $relative_path,
-            'full_path' => $thumb_full_path,
+            'full_path' => $actual_thumb_path,
             'url'       => $url,
         );
     }
