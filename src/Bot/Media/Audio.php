@@ -15,7 +15,7 @@ class Audio{
      * @param string      $extension
      * @param string      $model_slug
      * @param string|null $file_name
-     * @return array{file_path:string,full_path:string,url:string,mime_type:string}|false
+     * @return array{file_path:string,full_path:string,url:string,mime_type:string,duration_ms:int}|false
      */
     public static function saveGeneratedAudio(
         $secret_prefix,
@@ -25,7 +25,7 @@ class Audio{
         $model_slug = 'tts-1',
         $file_name = null
     ) {
-        return MediaManager::saveGeneratedMedia(
+        $saved = MediaManager::saveGeneratedMedia(
             $secret_prefix,
             $content,
             'audio',          // $media_type
@@ -34,5 +34,35 @@ class Audio{
             $model_slug,
             $file_name
         );
+
+        if ( $saved && ! empty( $saved['full_path'] ) ) {
+            $saved['duration_ms'] = self::getAudioDurationMs( $saved['full_path'] );
+        }
+
+        return $saved;
+    }
+
+    /**
+     * 音声ファイルのデュレーション（ミリ秒）を取得する
+     *
+     * @param string $file_path
+     * @return int
+     */
+    public static function getAudioDurationMs( $file_path ) {
+        if ( ! file_exists( $file_path ) ) {
+            return 0;
+        }
+
+        if ( ! function_exists( 'wp_read_audio_metadata' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/media.php';
+        }
+
+        $metadata = wp_read_audio_metadata( $file_path );
+
+        if ( ! empty( $metadata['length'] ) ) {
+            return (int) round( $metadata['length'] * 1000 );
+        }
+
+        return 0;
     }
 }
