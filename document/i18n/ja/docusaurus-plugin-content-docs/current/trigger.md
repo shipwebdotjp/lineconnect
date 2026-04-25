@@ -49,12 +49,140 @@ Webhookイベントの発行元としてLINEグループを条件として設定
 条件をグループ化します。グループ内のソース条件がすべて一致する場合(AND)やいずれかが一致する場合(OR)に全体を一致とみなすように複数の条件を設定できます。
 ##### 論理否定
 「否定」のチェックを入れると、条件の判定が反転します。具体的には、次のように動作します：
-- 条件に一致する場合は、一致しないとみなされます。
-- 条件に一致しない場合は、一致するとみなされます。
-##### 演算子
-複数の条件がある場合に、それらの条件をどのように扱うかを指定します。
-- And: すべての条件が一致する場合にのみ、全体として一致するとみなされます。
-- Or: 条件のうち少なくとも1つが一致する場合に、全体として一致するとみなされます。
+WordPress のアクションフックをトリガーとして、特定の WordPress イベント発生時にアクションを実行します。\
+たとえば、ユーザー登録、ログイン、投稿保存、コメント投稿、プラグイン有効化、テーマ切り替えなどに合わせて、LINE 通知やアクションフローの実行を行えます。
+
+#### 使えるフック
+実装では、次の主要フックを事前定義しています。また、必要に応じてフィルターで拡張できます。
+
+| 表示名 | フック名 | 主な引数 |
+|---|---|---|
+| ユーザー登録 | `user_register` | `($user_id, $userdata)` |
+| ログイン | `wp_login` | `($user_login, $user)` |
+| ログアウト | `wp_logout` | `($user_id)` |
+| プロフィール更新 | `profile_update` | `($user_id, $old_user_data, $userdata)` |
+| ユーザー削除 | `delete_user` | `($id, $reassign, $user)` |
+| 投稿保存 | `save_post` | `($post_id, $post, $update)` |
+| コメント投稿 | `comment_post` | `($comment_id, $comment_approved, $commentdata)` |
+| プラグイン有効化 | `activated_plugin` | `($plugin, $network_wide)` |
+| プラグイン無効化 | `deactivated_plugin` | `($plugin, $network_wide)` |
+| テーマ切り替え | `switch_theme` | `($new_name, $new_theme, $old_theme)` |
+
+サイト独自のフックを使いたい場合は、`slc_filter_predefined_action_hooks` フィルターでフック名を追加できます。\
+さらに、`slc_action_custom_hook` を使うと、任意のフック名と引数配列を渡して Action Hook として扱えます。
+
+#### 条件
+選択したフックに応じて、さらに発火条件を絞り込めます。条件を設定しない場合は、フックが発火した時点でトリガー条件を満たしたものとして扱われます。
+
+- `save_post`
+  - 投稿タイプで絞り込みできます。
+  - 投稿ステータスで絞り込みできます。
+  - `revision` や autosave のような不要な保存を除外したい場合に便利です。
+- `wp_login`
+  - 対象ユーザーのロールで絞り込みできます。
+- `comment_post`
+  - 対象投稿タイプで絞り込みできます。
+- その他のフック
+  - フック固有の条件が用意されていない場合は、フックが発火したイベントそのものを対象にします。
+
+#### オーディエンス
+Action Hook のトリガーでは、実行対象となるユーザーを選べます。
+
+- `現在の関連ユーザーを使う`
+  - フックに関連するユーザーを自動で対象にします。
+  - 例: `user_register` なら登録されたユーザー、`wp_login` ならログインしたユーザー、`save_post` なら投稿者を対象にできます。
+- `オーディエンスを指定する`
+  - 通常のオーディエンス条件を使います。
+
+`現在の関連ユーザーを使う` を選んだ場合でも、フックからユーザーを特定できないときは、オーディエンスなしでアクションが実行されます。\
+たとえば、`activated_plugin` や `switch_theme` のように「ユーザーとは直接結びつかない」フックでは、管理画面での実行ユーザーが取得できない場合があります。
+
+#### フックごとの関連ユーザーの考え方
+`現在の関連ユーザーを使う` は、フック引数から意味的に最も自然なユーザーを推論します。
+
+| フック名 | 関連ユーザー |
+|---|---|
+| `user_register` | 登録されたユーザー |
+| `wp_login` | ログインしたユーザー |
+| `wp_logout` | ログアウトしたユーザー |
+| `profile_update` | 更新されたユーザー |
+| `delete_user` | 削除されるユーザー |
+| `save_post` | 投稿者 |
+| `comment_post` | コメント投稿者 |
+| `activated_plugin` | 現在の管理者 |
+| `deactivated_plugin` | 現在の管理者 |
+| `switch_theme` | 現在の管理者 |
+
+#### アクションで使える値
+Action Hook で受け取ったフック引数は、アクションやメッセージテンプレート内で参照できます。\
+実際には `action_hook.args` 配下に格納されるため、次のように参照します。
+
+- `{{$.action_hook.args.user_id}}`
+- `{{$.action_hook.args.user_login}}`
+- `{{$.action_hook.args.post_id}}`
+- `{{$.action_hook.args.comment_id}}`
+- `{{$.action_hook.args.plugin}}`
+- `{{$.action_hook.args.new_theme}}`
+
+フック別の代表的な値は次のとおりです。
+
+| フック名 | 参照例 |
+|---|---|
+| `user_register` | `{{$.action_hook.args.user_id}}`, `{{$.action_hook.args.userdata}}` |
+| `wp_login` | `{{$.action_hook.args.user_login}}`, `{{$.action_hook.args.user}}` |
+| `wp_logout` | `{{$.action_hook.args.user_id}}` |
+| `profile_update` | `{{$.action_hook.args.user_id}}`, `{{$.action_hook.args.old_user_data}}`, `{{$.action_hook.args.userdata}}` |
+| `delete_user` | `{{$.action_hook.args.id}}`, `{{$.action_hook.args.reassign}}`, `{{$.action_hook.args.user}}` |
+| `save_post` | `{{$.action_hook.args.post_id}}`, `{{$.action_hook.args.post}}`, `{{$.action_hook.args.update}}` |
+| `comment_post` | `{{$.action_hook.args.comment_id}}`, `{{$.action_hook.args.comment_approved}}`, `{{$.action_hook.args.commentdata}}` |
+| `activated_plugin` / `deactivated_plugin` | `{{$.action_hook.args.plugin}}`, `{{$.action_hook.args.network_wide}}` |
+| `switch_theme` | `{{$.action_hook.args.new_name}}`, `{{$.action_hook.args.new_theme}}`, `{{$.action_hook.args.old_theme}}` |
+
+#### カスタムフックの使い方
+サイト独自のイベントを Action Hook として使いたい場合は、次の手順を踏みます。
+
+1. **事前定義フック一覧に追加したいフックを追加**
+
+```php
+add_filter( 'slc_filter_predefined_action_hooks', function( $hooks ) {
+	$hooks[] = 'my_custom_hook';
+	return $hooks;
+} );
+```
+
+2. **追加したフックを指定したトリガーを作成**
+
+
+3. **カスタムフック受け口を呼び出す**
+
+```php
+do_action( 'slc_action_custom_hook', 'my_custom_hook', array(
+	'arg1' => 'a',
+	'arg2' => 1,
+) );
+```
+
+アクション側では `{{$.action_hook.args.arg1}}` のように参照できます。
+
+#### 使い方の例
+1. トリガータイプで `Action Hook` を選択します。
+2. 発火させたいフックを選択します。
+3. 必要に応じて条件を設定します。
+4. 必要に応じてオーディエンスを設定します。
+5. 実行したいアクションフローを組み立てます。
+
+#### 活用例
+
+- 投稿が保存されたら、管理者に通知する
+- ユーザーがログインしたら、本人へメッセージを送る
+- コメントが投稿されたら、投稿者や担当者に通知する
+- プラグインやテーマの変更時に、運用担当へアラートを送る
+- サイト独自のイベントを `lineconnect_custom_hook` から通知する
+
+#### 補足
+Action Hook は WordPress の標準フックに加えて、サイト実装側で追加されたカスタムフックにも対応できます。\
+ただし、どのフックでどの値が `action_hook.args` に入るかは、フックの引数構造に依存します。必要に応じて、`ActionHooks` の実装やカスタムフックの定義を確認してください。
+
 ### スケジュール
 指定した日付や時刻、曜日などをトリガーとしてアクションを実行します。
 #### 一度

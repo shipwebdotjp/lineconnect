@@ -19,7 +19,7 @@ use Shipweb\LineConnect\Core\LineConnect;
 
 class OpenAi {
 
-	function getResponseByChatGPT( $event, $bot_id, $prompt, $addtional_messages = null ) {
+	function getResponseByChatGPT( $event, $bot_id, $prompt, $addtional_messages = null, $direct_messages = array() ) {
 		$user_id = $event->{'source'}->{'userId'};
 		// OpenAI APIにリクエストを送信
 		$AiMessage = $this->getResponse( $event, $user_id, $bot_id, $prompt, $addtional_messages );
@@ -44,6 +44,7 @@ class OpenAi {
 			}
 			if ( is_array( $AiMessage['choices'][0]['message']['tool_calls'] ) ) {
 				$prompts            = array();
+				$direct_response    = null;
 				$callable_functions = \Shipweb\LineConnect\Action\Action::get_callable_functions( true );
 				foreach ( $AiMessage['choices'][0]['message']['tool_calls'] as $tool_call ) {
 					if ( $tool_call['type'] == 'function' && isset( $tool_call['function'] ) ) {
@@ -98,16 +99,6 @@ class OpenAi {
 									'abort' => true,
 								);
 							}
-
-							/*
-							if ( $function_schema['namespace'] === 'lineconnectFunctions' ) {
-							$class_name = new lineconnectFunctions( $user_id, $bot_id );
-							} else {
-							$class_name = new $function_schema['namespace']();
-							}
-							*/
-							// check if function exists
-
 							// parse arguments
 							try {
 								$arguments_parsed = json_decode( $arguments, true, 512, JSON_THROW_ON_ERROR );
@@ -134,29 +125,62 @@ class OpenAi {
 
 							}
 							// error_log( 'function response:' . print_r( $response, true ) );
-							$prompts[] = array(
-								'tool_call_id' => $tool_call['id'],
-								'role'         => 'tool',
-								'name'         => $function_name,
-								'content'      => json_encode( $response ),
-							);
+
+							if ( is_array( $response ) && isset( $response['response_mode'] ) && $response['response_mode'] === 'direct' ) {
+								$direct_response = $response;
+								if ( isset( $response['messages'] ) && is_array( $response['messages'] ) ) {
+									$direct_messages = array_merge( $direct_messages, $response['messages'] );
+								}
+							}else{
+								$prompts[] = array(
+									'tool_call_id' => $tool_call['id'],
+									'role'         => 'tool',
+									'name'         => $function_name,
+									'content'      => json_encode( $response ),
+								);
+							}
+							$responseByAi = true;
 						} else {
 							$message      = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( $error['error'] );
 							$responseByAi = false;
 						}
 					}
 				}
-				$addtional_messages[] = $AiMessage['choices'][0]['message'];
-				return $this->getResponseByChatGPT( $event, $bot_id, $prompts, $addtional_messages );
+				// ツールコールを行った後、ダイレクト応答でないものがある場合のみ、再度ChatGPTにプロンプトを投げる
+				if ( ! empty( $prompts ) && ! $direct_response ) {
+					$addtional_messages[] = $AiMessage['choices'][0]['message'];
+					return $this->getResponseByChatGPT( $event, $bot_id, $prompts, $addtional_messages, $direct_messages );
+				}
 			}
-		} elseif ( isset( $AiMessage['choices'][0]['message']['content'] ) ) {
-			$message      = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder_from_string( $AiMessage['choices'][0]['message']['content'] );
+		} elseif ( isset( $AiMessage['choices'][0]['message']['content'] )) {
+			$content	   = $AiMessage['choices'][0]['message']['content'];
 			$responseByAi = true;
 		}
+
+		$normalized_messages = array();
+		if ( ! empty( $direct_messages ) ) {
+			foreach ( $direct_messages as $direct_message ) {
+				if ( $direct_message ) {
+					$normalized_messages[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder( $direct_message );
+				}
+			}
+		}
+		if ( ! empty( $content ) ) {
+			$normalized_messages[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder_from_string( $content );
+		}
+
+		if ( count( $normalized_messages ) === 1 ) {
+			$message = $normalized_messages[0];
+		} elseif ( ! empty( $normalized_messages ) ) {
+			$message = \Shipweb\LineConnect\Message\LINE\Builder::createMultiMessage( $normalized_messages );
+		} 
+		
+
 		return array(
 			'message'      => $message,
 			'responseByAi' => $responseByAi,
 			'rowResponse'  => $AiMessage,
+			'toolResponse' => $direct_response ?? null,
 		);
 	}
 
@@ -179,9 +203,9 @@ class OpenAi {
 			'webhook' => self::merge_postback_data_to_params( json_decode( json_encode( $event ), true ) ),
 			'user'    => $event ? lineconnect::get_userdata_from_line_id( $bot_id, $event->{'source'}->{'userId'} ) : array(),
 		);
-		error_log("injection_data: ". print_r($injection_data, true));
+		// error_log("injection_data: ". print_r($injection_data, true));
 		$system_content = \Shipweb\LineConnect\Utilities\PlaceholderReplacer::replace_object_placeholder( stripslashes( lineconnect::get_option( 'openai_system' ) ), $injection_data );
-		error_log( 'system_content:' . $system_content );
+		// error_log( 'system_content:' . $system_content );
 		if ( lineconnect::get_option( 'openai_system' ) ) {
 			$system_message = array(
 				'role'    => 'system',
@@ -213,7 +237,6 @@ class OpenAi {
 						)
 					)
 				);
-				// error_log("convasation_count: " . $convasation_count);
 				// メタ情報からLINEユーザーIDでユーザー検索
 				$user = lineconnect::get_wpuser_from_line_id( $bot_id, $user_id );
 				if ( $user ) { // ユーザーが見つかればすでに連携されている
@@ -221,6 +244,7 @@ class OpenAi {
 				} else {
 					$limit_count = $limit_normal;
 				}
+				error_log("convasation_count: " . $convasation_count . " limit_count: " . $limit_count);
 				if ( $limit_count != -1 && $convasation_count >= $limit_count ) {
 					return array(
 						'error' => array(
@@ -267,11 +291,22 @@ class OpenAi {
 					)
 				);
 			}
-			error_log( print_r( $convasations, true ) );
+			error_log( "convasations: " . print_r( $convasations, true ) );
 
-			$image_array = array();
+			$image_array  = array();
+			$current_role = null;
 			foreach ( array_reverse( $convasations ) as $convasation ) {
-				$role           = $convasation->source_type < 11 ? 'user' : 'assistant';
+				$role = $convasation->source_type < 11 ? 'user' : 'assistant';
+
+				if ( $current_role !== null && $current_role !== $role && ! empty( $image_array ) ) {
+					$messages[]  = array(
+						'role'    => $current_role,
+						'content' => $image_array,
+					);
+					$image_array = array();
+				}
+				$current_role = $role;
+
 				$message_object = json_decode( $convasation->message, false );
 				if ( json_last_error() == JSON_ERROR_NONE ) {
 					if ( $convasation->message_type == 1 ) {
@@ -282,7 +317,7 @@ class OpenAi {
 							continue;
 						}
 
-						if ( empty( $image_array ) || $role == 'assistant' ) {
+						if ( empty( $image_array ) ) {
 							$content = $message_object->text;
 						} else {
 							$content = array(
@@ -301,21 +336,45 @@ class OpenAi {
 							'role'    => $role,
 							'content' => $content,
 						);
-					} elseif ( $convasation->message_type == 2 && isset( $message_object->file_path ) ) {
-						$full_file_path = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_path( $message_object->file_path );
+					} elseif ( $convasation->message_type == 2 ) {
+						$full_file_path = false;
+						if ( isset( $message_object->file_path ) ) {
+							$full_file_path = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_path( $message_object->file_path );
+						} elseif ( isset( $message_object->originalContentUrl ) ) {
+							// Check if it's a local file URL
+							$upload_dir = wp_upload_dir();
+							$base_url   = $upload_dir['baseurl'];
+							if ( strpos( $message_object->originalContentUrl, $base_url ) === 0 ) {
+								$relative_path  = str_replace( $base_url, '', $message_object->originalContentUrl );
+								$full_file_path = $upload_dir['basedir'] . $relative_path;
+								if ( ! file_exists( $full_file_path ) ) {
+									$full_file_path = false;
+								}
+							}
+						}
+
 						if ( $full_file_path ) {
 							// Base64エンコード
 							$base64_file = \Shipweb\LineConnect\Utilities\FileSystem::get_base64_encoded_file( $full_file_path );
 
-							$image_array[] = array(
-								'type'      => 'image_url',
-								'image_url' => array(
-									'url' => $base64_file,
-								),
-							);
+							if ( ! empty( $base64_file ) ) {
+								$image_array[] = array(
+									'type'      => 'image_url',
+									'image_url' => array(
+										'url' => $base64_file,
+									),
+								);
+							}
 						}
 					}
 				}
+			}
+			if ( ! empty( $image_array ) ) {
+				$messages[]  = array(
+					'role'    => $current_role,
+					'content' => $image_array,
+				);
+				$image_array = array();
 			}
 		}
 		// function callが合った場合、ユーザーからの当初のプロンプトと、モデルからのfunction call呼出しメッセージを追加
@@ -375,7 +434,7 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
-		error_log( print_r( $messages, true ) );
+		// error_log( "messages: " . print_r( $messages, true ) );
 
 		// Define data
 		$data                = array();
@@ -410,7 +469,7 @@ class OpenAi {
 			$responce = json_decode( $result, true );
 		}
 		curl_close( $curl );
-		error_log( print_r( $responce, true ) );
+		error_log( "responce: " . print_r( $responce, true ) );
 		return $responce;
 	}
 

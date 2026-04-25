@@ -24,6 +24,9 @@
 ## テスト方針
 - テスト配置:
   - `tests/` 配下にカテゴリ別ディレクトリを作成しテストファイルを配置する
+  - テストファイル名とクラス名は原則として `*Test.php` / `*Test` の形式に統一する
+    - 例: `ActionHookBuildAudienceConditionTest.php` / `ActionHookBuildAudienceConditionTest`
+    - 既存の `TestFooBar.php` のような命名がある場合は、追加・更新時に順次統一する
 - テスト実行環境:
   - テストはテスト用 WordPress 上で実行される
   - テストデータは `tests/testdata/` に置く
@@ -78,5 +81,4 @@ public function setUp(): void {
 ## 追加メモ
 - テストデータ例や雛形は `tests/testdata/` を参照する
 - `lineconnectTest::init();` がテストユーティリティの初期化エントリとなるため、テストセットアップで必ず呼び出す
-- 変更は可能な限り WP コーディング規約に従うこと
 

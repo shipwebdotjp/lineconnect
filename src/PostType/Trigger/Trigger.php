@@ -2062,6 +2062,71 @@ class Trigger {
 						'oneOf' => array(
 							array(
 								'properties' => array(
+									'hook'          => array( 'const' => 'user_register' ),
+									'user_register' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'role' => array(
+												'$ref' => '#/definitions/role',
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'     => array( 'const' => 'wp_login' ),
+									'wp_login' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'role' => array(
+												'$ref' => '#/definitions/role',
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'      => array( 'const' => 'wp_logout' ),
+									'wp_logout' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'role' => array(
+												'$ref' => '#/definitions/role',
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'           => array( 'const' => 'profile_update' ),
+									'profile_update' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'role' => array(
+												'$ref' => '#/definitions/role',
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'        => array( 'const' => 'delete_user' ),
+									'delete_user' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'role' => array(
+												'$ref' => '#/definitions/role',
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
 									'hook'      => array( 'const' => 'save_post' ),
 									'save_post' => array(
 										'type'       => 'object',
@@ -2099,13 +2164,43 @@ class Trigger {
 							),
 							array(
 								'properties' => array(
-									'hook'     => array( 'const' => 'wp_login' ),
-									'wp_login' => array(
+									'hook'             => array( 'const' => 'activated_plugin' ),
+									'activated_plugin' => array(
 										'type'       => 'object',
 										'properties' => array(
-											'role' => array(
+											'plugin' => array(
 												'type'  => 'array',
-												'title' => __( 'Target user roles', lineconnect::PLUGIN_NAME ),
+												'title' => __( 'Target plugins', lineconnect::PLUGIN_NAME ),
+												'items' => array( 'type' => 'string' ),
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'               => array( 'const' => 'deactivated_plugin' ),
+									'deactivated_plugin' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'plugin' => array(
+												'type'  => 'array',
+												'title' => __( 'Target plugins', lineconnect::PLUGIN_NAME ),
+												'items' => array( 'type' => 'string' ),
+											),
+										),
+									),
+								),
+							),
+							array(
+								'properties' => array(
+									'hook'         => array( 'const' => 'switch_theme' ),
+									'switch_theme' => array(
+										'type'       => 'object',
+										'properties' => array(
+											'theme' => array(
+												'type'  => 'array',
+												'title' => __( 'Target themes', lineconnect::PLUGIN_NAME ),
 												'items' => array( 'type' => 'string' ),
 											),
 										),
