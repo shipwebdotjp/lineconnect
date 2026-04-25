@@ -39,7 +39,7 @@ class GenerateSpeech extends AbstractActionDefinition {
 				array(
 					'type'        => 'string',
 					'name'        => 'voice',
-					'description' => __( 'The voice to use for generating the audio. Available values: alloy, ash, ballad, coral, echo, fable, nova, onyx, sage, shimmer, verse, marin, cedar.', LineConnect::PLUGIN_NAME ),
+					'description' => __( 'The voice to use for generating the audio.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'marin',
 					'enum'        => array( 'alloy', 'ash', 'ballad', 'coral', 'echo', 'fable', 'nova', 'onyx', 'sage', 'shimmer', 'verse', 'marin', 'cedar' ),
 					'required'    => false,
@@ -50,6 +50,7 @@ class GenerateSpeech extends AbstractActionDefinition {
 					'description' => __( 'Optional instructions to influence the style of the generated audio.', LineConnect::PLUGIN_NAME ),
 					'required'    => false,
 				),
+				/*
 				array(
 					'type'        => 'string',
 					'name'        => 'response_format',
@@ -58,6 +59,7 @@ class GenerateSpeech extends AbstractActionDefinition {
 					'enum'        => array( 'mp3' ),
 					'required'    => false,
 				),
+				*/
 			),
 			'namespace'   => self::class,
 			'role'        => 'any',
