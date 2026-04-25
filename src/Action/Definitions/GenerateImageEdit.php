@@ -102,7 +102,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			),
 			'namespace'   => self::class,
 			'role'        => 'any',
-			'order'       => 8060,
+			'order'       => 8070,
 		);
 	}
 
@@ -297,6 +297,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			'model'  => 'gpt-image-1.5',
 			'prompt' => stripslashes($prompt),
 			'images' => $images,
+			'response_format' => 'b64_json',
 			'size'   => $size,
 			'quality' => $quality,
 			'background' => $background,

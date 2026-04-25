@@ -8,7 +8,7 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 
 		$this->assertSame('edit_image', GenerateImageEdit::name());
 		$this->assertSame('Edit image', $config['title']);
-		$this->assertSame(8060, $config['order']);
+		$this->assertSame(8070, $config['order']);
 		$this->assertCount(9, $config['parameters']);
 		$this->assertSame('prompt', $config['parameters'][0]['name']);
 		$this->assertSame('images', $config['parameters'][1]['name']);

@@ -15,11 +15,10 @@ class GenerateSpeechTest extends WP_UnitTestCase {
 		$this->assertSame('generate_speech', GenerateSpeech::name());
 		$this->assertSame('Generate speech', $config['title']);
 		$this->assertSame(8060, $config['order']);
-		$this->assertCount(4, $config['parameters']);
+		$this->assertCount(3, $config['parameters']);
 		$this->assertSame('input', $config['parameters'][0]['name']);
 		$this->assertTrue($config['parameters'][0]['required']);
 		$this->assertSame('marin', $config['parameters'][1]['default']);
-		$this->assertSame('mp3', $config['parameters'][3]['default']);
 	}
 
 	public function test_build_speech_request_data_uses_defaults() {
