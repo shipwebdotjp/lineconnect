@@ -498,15 +498,43 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			return $src;
 		}
 
-		// Try as local file path first
-		if (file_exists($src) && is_readable($src)) {
-			return FileSystem::get_base64_encoded_file($src);
+		// Security check: reject NUL bytes and parent-traversal segments
+		if (strpos($src, "\0") !== false || strpos($src, '..') !== false) {
+			return false;
 		}
 
-		// Try as relative path to lineconnect dir
-		$full_path = FileSystem::get_lineconnect_file_path($src);
-		if ($full_path && file_exists($full_path) && is_readable($full_path)) {
-			return FileSystem::get_base64_encoded_file($full_path);
+		$allowed_mimes = array('image/png', 'image/jpeg', 'image/webp');
+
+		// Try as local file path
+		$file_path = false;
+		if (file_exists($src) && is_readable($src)) {
+			$file_path = $src;
+		} else {
+			// Try as relative path to lineconnect dir
+			$candidate = FileSystem::get_lineconnect_file_path($src);
+			if ($candidate && file_exists($candidate) && is_readable($candidate)) {
+				$file_path = $candidate;
+			}
+		}
+
+		if ($file_path) {
+			$real_path = realpath($file_path);
+			$upload_dir = wp_upload_dir();
+			$allowed_base = realpath($upload_dir['basedir'] . '/lineconnect');
+
+			// Ensure the file is within the allowed lineconnect directory
+			if ($real_path === false || $allowed_base === false || strpos($real_path, $allowed_base) !== 0) {
+				return false;
+			}
+
+			// Validate MIME type
+			$finfo = new \finfo(FILEINFO_MIME_TYPE);
+			$mime_type = $finfo->file($real_path);
+			if (!in_array($mime_type, $allowed_mimes, true)) {
+				return false;
+			}
+
+			return FileSystem::get_base64_encoded_file($real_path);
 		}
 
 		// Try as URL
@@ -517,14 +545,18 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			}
 
 			$body = wp_remote_retrieve_body($response);
-			$mime_type = wp_remote_retrieve_header($response, 'content-type');
 			if (empty($body)) {
 				return false;
 			}
 
-			if (empty($mime_type)) {
+			$mime_type = wp_remote_retrieve_header($response, 'content-type');
+			if (empty($mime_type) || strpos($mime_type, ';') !== false) {
 				$finfo = new \finfo(FILEINFO_MIME_TYPE);
 				$mime_type = $finfo->buffer($body);
+			}
+
+			if (!in_array($mime_type, $allowed_mimes, true)) {
+				return false;
 			}
 
 			return 'data:' . $mime_type . ';base64,' . base64_encode($body);
