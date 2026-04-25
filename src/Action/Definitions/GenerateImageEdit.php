@@ -137,60 +137,87 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: OpenAI API Key or Endpoint is not configured.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$request_images = array();
+		$temp_files = array();
+		$post_fields = array(
+			'model'             => 'gpt-image-1.5',
+			'prompt'            => stripslashes($prompt),
+			'size'              => $this->normalize_size_option($size),
+			'quality'           => $this->normalize_quality_option($quality),
+			'background'        => $this->normalize_background_option($background),
+			'output_format'     => $this->normalize_output_format($output_format),
+			'output_compression' => $this->normalize_output_compression($output_compression),
+			'input_fidelity'    => $input_fidelity,
+			'response_format'   => 'b64_json',
+		);
+
+		if (isset($this->event) && isset($this->event->source) && isset($this->event->source->userId)) {
+			$post_fields['user'] = $this->event->source->userId;
+		}
+
+		// Handle input images
+		$image_count = 0;
 		foreach ($images as $img_src) {
 			$encoded = $this->resolve_image_to_base64($img_src);
 			if (!$encoded) {
+				$this->cleanup_temp_files($temp_files);
 				return $this->build_direct_error_response(sprintf(__( 'Error: Failed to process input image: %s', LineConnect::PLUGIN_NAME ), $img_src));
 			}
-			$request_images[] = array('image_url' => $encoded);
+
+			$temp_file = $this->create_temp_file_from_data_url($encoded);
+			if (!$temp_file) {
+				$this->cleanup_temp_files($temp_files);
+				return $this->build_direct_error_response(__( 'Error: Failed to create temporary file for input image.', LineConnect::PLUGIN_NAME ));
+			}
+			$temp_files[] = $temp_file;
+
+			// PHP cURL uses array for multiple values with the same key if it supports it,
+			// but for multipart/form-data with "image[]", we can use indices or multiple entries.
+			// The standard way for image[] in cURL is to use a flat array with indices or just key names.
+			$post_fields['image[' . $image_count . ']'] = curl_file_create($temp_file['path'], $temp_file['mime_type'], basename($temp_file['path']));
+			$image_count++;
 		}
 
-		$request_mask = null;
+		// Handle mask
 		if (!empty($mask)) {
 			$encoded_mask = $this->resolve_image_to_base64($mask);
 			if (!$encoded_mask) {
+				$this->cleanup_temp_files($temp_files);
 				return $this->build_direct_error_response(sprintf(__( 'Error: Failed to process mask image: %s', LineConnect::PLUGIN_NAME ), $mask));
 			}
-			$request_mask = array('image_url' => $encoded_mask);
-		}
 
-		$data = apply_filters(LineConnect::FILTER_PREFIX . 'edit_image_request_data', $this->build_image_edit_request_data($prompt, $request_images, $request_mask, $size, $quality, $background, $output_format, $output_compression, $input_fidelity));
-
-		$log_data = $data;
-		if (isset($log_data['images'])) {
-			foreach ($log_data['images'] as &$img) {
-				if (isset($img['image_url']) && strlen($img['image_url']) > 100) {
-					$img['image_url'] = substr($img['image_url'], 0, 50) . '... (base64 data)';
-				}
+			$temp_mask = $this->create_temp_file_from_data_url($encoded_mask);
+			if (!$temp_mask) {
+				$this->cleanup_temp_files($temp_files);
+				return $this->build_direct_error_response(__( 'Error: Failed to create temporary file for mask image.', LineConnect::PLUGIN_NAME ));
 			}
+			$temp_files[] = $temp_mask;
+			$post_fields['mask'] = curl_file_create($temp_mask['path'], $temp_mask['mime_type'], basename($temp_mask['path']));
 		}
-		if (isset($log_data['mask']['image_url']) && strlen($log_data['mask']['image_url']) > 100) {
-			$log_data['mask']['image_url'] = substr($log_data['mask']['image_url'], 0, 50) . '... (base64 data)';
-		}
-		error_log("Requesting image edit with data: " . print_r($log_data, true));
+
+		$post_fields = apply_filters(LineConnect::FILTER_PREFIX . 'edit_image_request_post_fields', $post_fields);
+		error_log("Requesting image edit with multipart data (files omitted)");
 
 		$headers = array(
 			"Authorization: Bearer {$apiKey}",
-			'Content-Type: application/json',
 		);
 
 		$curl = curl_init($endpoint);
 		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $post_fields);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_TIMEOUT, 300);
 
 		$result = curl_exec($curl);
-		if (curl_errno($curl)) {
-			$error_message = curl_error($curl);
-			curl_close($curl);
-			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $error_message));
+		$curl_error = curl_errno($curl) ? curl_error($curl) : null;
+		curl_close($curl);
+		$this->cleanup_temp_files($temp_files);
+
+		if ($curl_error) {
+			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $curl_error));
 		}
 
 		$response = json_decode($result, true);
-		curl_close($curl);
 
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			return $this->build_direct_error_response(__( 'Error: Failed to parse response from OpenAI.', LineConnect::PLUGIN_NAME ));
@@ -217,7 +244,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: Edited image exceeds 10MB size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$output_spec = $this->resolve_output_spec($data['output_format']);
+		$output_spec = $this->resolve_output_spec($post_fields['output_format']);
 		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $binary, $output_spec['mime_type'], $output_spec['extension']);
 		if (! $saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save edited image.', LineConnect::PLUGIN_NAME ));
@@ -563,5 +590,51 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Create a temporary file from a data URL.
+	 *
+	 * @param string $data_url
+	 * @return array{path:string,mime_type:string}|false
+	 */
+	private function create_temp_file_from_data_url(string $data_url) {
+		if (preg_match('/^data:([^;]+);base64,(.+)$/', $data_url, $matches)) {
+			$mime_type = $matches[1];
+			$data = base64_decode($matches[2]);
+			if ($data === false) {
+				return false;
+			}
+
+			$temp_file = tempnam(sys_get_temp_dir(), 'lc_edit_');
+			if (!$temp_file) {
+				return false;
+			}
+
+			if (file_put_contents($temp_file, $data) === false) {
+				unlink($temp_file);
+				return false;
+			}
+
+			return array(
+				'path'      => $temp_file,
+				'mime_type' => $mime_type,
+			);
+		}
+		return false;
+	}
+
+	/**
+	 * Cleanup temporary files.
+	 *
+	 * @param array $temp_files
+	 * @return void
+	 */
+	private function cleanup_temp_files(array $temp_files): void {
+		foreach ($temp_files as $temp_file) {
+			if (isset($temp_file['path']) && file_exists($temp_file['path'])) {
+				unlink($temp_file['path']);
+			}
+		}
 	}
 }
