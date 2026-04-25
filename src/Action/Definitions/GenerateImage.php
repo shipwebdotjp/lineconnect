@@ -48,6 +48,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'name'        => 'quality',
 					'description' => __( 'Rendering quality. Available values: auto, low, medium, high.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
+					'enum'        => array('auto', 'low', 'medium', 'high'),
 					'required'    => false,
 				),
 				array(
@@ -55,6 +56,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'name'        => 'background',
 					'description' => __( 'Background handling. Available values: auto, opaque. Transparent backgrounds are not supported by gpt-image-2.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
+					'enum'        => array('auto', 'opaque'),
 					'required'    => false,
 				),
 				array(
@@ -62,6 +64,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'name'        => 'output_format',
 					'description' => __( 'Output format. Available values: png, jpeg, webp.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'png',
+					'enum'        => array('png', 'jpeg', 'webp'),
 					'required'    => false,
 				),
 				array(
@@ -107,7 +110,8 @@ class GenerateImage extends AbstractActionDefinition {
 			return $this->build_direct_error_response($size_validation['error']);
 		}
 
-		$data = $this->build_image_request_data($prompt, $size_validation['value'], $quality, $background, $output_format, $output_compression);
+		$data = apply_filters(LineConnect::FILTER_PREFIX . 'generate_image_request_data', $this->build_image_request_data($prompt, $size_validation['value'], $quality, $background, $output_format, $output_compression));
+		error_log("Requesting image generation with data: " . print_r($data, true));
 
 		$headers = array(
 			"Authorization: Bearer {$apiKey}",

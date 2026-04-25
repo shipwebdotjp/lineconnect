@@ -139,6 +139,7 @@ class OpenAi {
 									'content'      => json_encode( $response ),
 								);
 							}
+							$responseByAi = true;
 						} else {
 							$message      = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder( $error['error'] );
 							$responseByAi = false;
