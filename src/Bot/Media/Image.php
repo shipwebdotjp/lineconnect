@@ -66,10 +66,7 @@ class Image {
             $channel_prefix = '_none';
         }
 
-        $thumb_dir = FileSystem::make_lineconnect_dir(
-            'generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/image/thumbnails',
-            false
-        );
+        $thumb_dir = FileSystem::make_lineconnect_dir('generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/image/thumbnails');
         if (! $thumb_dir) {
             return false;
         }

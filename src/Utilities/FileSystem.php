@@ -9,45 +9,30 @@ class FileSystem {
      * @param string $dir_name 作成するディレクトリ名
      * @return string $dir_path 作成されたディレクトリのパス
      */
-    public static function make_lineconnect_dir($dir_name, $deny_from_all = true) {
+    public static function make_lineconnect_dir($dir_name) {
         $upload_dir = wp_upload_dir();
         $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
-        // check if root dir exists
+
         if (! file_exists($root_dir_path)) {
-            // make root dir
-            if (mkdir($root_dir_path, 0777, true)) {
-                // put index.php file to root dir
-                $index_file_path    = $root_dir_path . '/index.php';
-                $index_file_content = '<?php http_response_code(404);';
-                file_put_contents($index_file_path, $index_file_content);
-                // put .htaccess file to root dir
-                $htaccess_file_path    = $root_dir_path . '/.htaccess';
-                $htaccess_file_content = 'deny from all';
-                file_put_contents($htaccess_file_path, $htaccess_file_content);
-            }
-        }
-        $target_dir_path = $root_dir_path . '/' . $dir_name;
-        // check if target dir exists
-        if (! file_exists($target_dir_path)) {
-            // make target dir
-            if (mkdir($target_dir_path, 0777, true)) {
-                // put index.php file to target dir
-                $index_file_path    = $target_dir_path . '/index.php';
-                $index_file_content = '<?php http_response_code(404);';
-                file_put_contents($index_file_path, $index_file_content);
-                // put .htaccess file to target dir
-                $htaccess_file_path    = $target_dir_path . '/.htaccess';
-                if ($deny_from_all) {
-                    $htaccess_file_content = 'deny from all';
-                } else {
-                    $htaccess_file_content = 'allow from all';
-                }
-                file_put_contents($htaccess_file_path, $htaccess_file_content);
-                return $target_dir_path;
-            } else {
+            if (! mkdir($root_dir_path, 0777, true)) {
                 return false;
             }
+            file_put_contents($root_dir_path . '/index.php', '<?php http_response_code(404);');
         }
+        // 既存サーバーの古い deny from all を上書きするため毎回書き込む
+        file_put_contents($root_dir_path . '/.htaccess', 'Options -Indexes');
+
+        $target_dir_path = $root_dir_path . '/' . $dir_name;
+
+        if (! file_exists($target_dir_path)) {
+            if (! mkdir($target_dir_path, 0777, true)) {
+                return false;
+            }
+            file_put_contents($target_dir_path . '/index.php', '<?php http_response_code(404);');
+        }
+        // 既存サーバーの古い deny from all を上書きするため毎回書き込む
+        file_put_contents($target_dir_path . '/.htaccess', 'Options -Indexes');
+
         return $target_dir_path;
     }
 

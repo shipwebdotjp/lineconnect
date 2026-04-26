@@ -3,6 +3,7 @@
 namespace Shipweb\LineConnect\Action\Definitions;
 
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
+use Shipweb\LineConnect\Action\Traits\ImageGenerationTrait;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Bot\Media\Image;
 use Shipweb\LineConnect\Message\LINE\Builder;
@@ -47,13 +48,13 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'required'    => true,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'mask',
 					'description' => __( 'Optional mask image URL or file path.', LineConnect::PLUGIN_NAME ),
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'size',
 					'description' => __( 'Image size. Available values: auto, 1024x1024, 1536x1024, 1024x1536.', LineConnect::PLUGIN_NAME ),
 					'default'     => '1024x1024',
@@ -61,7 +62,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'quality',
 					'description' => __( 'Rendering quality. Available values: auto, low, medium, high.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
@@ -69,7 +70,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'background',
 					'description' => __( 'Background handling. Available values: auto, transparent, opaque.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
@@ -77,7 +78,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'output_format',
 					'description' => __( 'Output format. Available values: png, jpeg, webp.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'png',
@@ -85,14 +86,14 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'integer',
+					'type'        => array('integer', 'null'),
 					'name'        => 'output_compression',
 					'description' => __( 'Compression level for jpeg and webp output. Range: 0-100.', LineConnect::PLUGIN_NAME ),
 					'default'     => 75,
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'input_fidelity',
 					'description' => __( 'Controls fidelity to the original input image(s). Available values: high, low.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'high',
@@ -106,21 +107,17 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		);
 	}
 
-	/**
-	 * Edit image.
-	 *
-	 * @param string $prompt
-	 * @param array $images
-	 * @param string|null $mask
-	 * @param string|null $size
-	 * @param string|null $quality
-	 * @param string|null $background
-	 * @param string|null $output_format
-	 * @param int|null $output_compression
-	 * @param string|null $input_fidelity
-	 * @return array
-	 */
-	public function edit_image($prompt, array $images, $mask = null, $size = '1024x1024', $quality = 'auto', $background = 'auto', $output_format = 'png', $output_compression = 75, $input_fidelity = 'high'): array {
+	public function edit_image(
+		$prompt,
+		array $images,
+		$mask = null,
+		$size = '1024x1024',
+		$quality = 'auto',
+		$background = 'auto',
+		$output_format = 'png',
+		$output_compression = 75,
+		$input_fidelity = 'high'
+	): array {
 		$prompt = trim((string) $prompt);
 		if ($prompt === '') {
 			return $this->build_direct_error_response(__( 'Error: Prompt is required.', LineConnect::PLUGIN_NAME ));
@@ -131,79 +128,124 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		$apiKey = LineConnect::get_option('openai_secret');
-		$endpoint = $this->resolve_image_edit_endpoint(LineConnect::get_option('openai_endpoint'));
+		$baseEndpoint = LineConnect::get_option('openai_endpoint');
+		$responsesEndpoint = $this->resolve_responses_endpoint($baseEndpoint);
 
-		if (empty($apiKey) || empty($endpoint)) {
+		if (empty($apiKey) || empty($responsesEndpoint)) {
 			return $this->build_direct_error_response(__( 'Error: OpenAI API Key or Endpoint is not configured.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$temp_files = array();
-		$post_fields = array(
-			'model'             => 'gpt-image-1.5',
-			'prompt'            => stripslashes($prompt),
-			'size'              => $this->normalize_size_option($size),
-			'quality'           => $this->normalize_quality_option($quality),
-			'background'        => $this->normalize_background_option($background),
-			'output_format'     => $this->normalize_output_format($output_format),
-			'output_compression' => $this->normalize_output_compression($output_compression),
-			'input_fidelity'    => $input_fidelity,
-			'response_format'   => 'b64_json',
-		);
+		$normalized_size = $this->normalize_size_option($size);
+		$normalized_quality = $this->normalize_quality_option($quality);
+		$normalized_background = $this->normalize_background_option($background);
+		$normalized_format = $this->normalize_output_format($output_format);
+		$normalized_compression = $this->normalize_output_compression($output_compression);
 
-		if (isset($this->event) && isset($this->event->source) && isset($this->event->source->userId)) {
-			$post_fields['user'] = $this->event->source->userId;
+		// gpt-image-2 は transparent background 未対応
+		if ($normalized_background === 'transparent') {
+			return $this->build_direct_error_response(
+				__( 'Error: Transparent background is not supported in the Responses API flow for GPT Image 2.', LineConnect::PLUGIN_NAME )
+			);
 		}
 
-		// Handle input images
-		$image_count = 0;
+		$content = array(
+			array(
+				'type' => 'input_text',
+				'text' => stripslashes($prompt),
+			),
+		);
+
+		// Input images -> data URL として直接投入
 		foreach ($images as $img_src) {
 			$encoded = $this->resolve_image_to_base64($img_src);
 			if (!$encoded) {
-				$this->cleanup_temp_files($temp_files);
-				return $this->build_direct_error_response(sprintf(__( 'Error: Failed to process input image: %s', LineConnect::PLUGIN_NAME ), $img_src));
+				return $this->build_direct_error_response(
+					sprintf(__( 'Error: Failed to process input image: %s', LineConnect::PLUGIN_NAME ), $img_src)
+				);
 			}
 
-			$temp_file = $this->create_temp_file_from_data_url($encoded);
-			if (!$temp_file) {
-				$this->cleanup_temp_files($temp_files);
-				return $this->build_direct_error_response(__( 'Error: Failed to create temporary file for input image.', LineConnect::PLUGIN_NAME ));
-			}
-			$temp_files[] = $temp_file;
-
-			// PHP cURL uses array for multiple values with the same key if it supports it,
-			// but for multipart/form-data with "image[]", we can use indices or multiple entries.
-			// The standard way for image[] in cURL is to use a flat array with indices or just key names.
-			$post_fields['image[' . $image_count . ']'] = curl_file_create($temp_file['path'], $temp_file['mime_type'], basename($temp_file['path']));
-			$image_count++;
+			$content[] = array(
+				'type'      => 'input_image',
+				'image_url' => $encoded,
+				// detail は vision 側の処理レベル。省略でもよいが明示するなら high。
+				'detail'    => 'high',
+			);
 		}
 
-		// Handle mask
+		$tool = array(
+			array_filter(array(
+				'type'               => 'image_generation',
+				'action'             => 'edit',
+				'model'              => 'gpt-image-2',
+				'size'               => $normalized_size,
+				'quality'            => $normalized_quality,
+				'background'         => $normalized_background,
+				'output_format'      => $normalized_format,
+				'output_compression' => in_array($normalized_format, array('jpeg', 'jpg', 'webp'), true) ? $normalized_compression : null,
+				// gpt-image-2 では input_fidelity は送らない
+			), static function ($value) {
+				return $value !== null && $value !== '';
+			}),
+		);
+
+		// Mask -> data URL として直接投入
 		if (!empty($mask)) {
 			$encoded_mask = $this->resolve_image_to_base64($mask);
 			if (!$encoded_mask) {
-				$this->cleanup_temp_files($temp_files);
-				return $this->build_direct_error_response(sprintf(__( 'Error: Failed to process mask image: %s', LineConnect::PLUGIN_NAME ), $mask));
+				return $this->build_direct_error_response(
+					sprintf(__( 'Error: Failed to process mask image: %s', LineConnect::PLUGIN_NAME ), $mask)
+				);
 			}
 
-			$temp_mask = $this->create_temp_file_from_data_url($encoded_mask);
-			if (!$temp_mask) {
-				$this->cleanup_temp_files($temp_files);
-				return $this->build_direct_error_response(__( 'Error: Failed to create temporary file for mask image.', LineConnect::PLUGIN_NAME ));
-			}
-			$temp_files[] = $temp_mask;
-			$post_fields['mask'] = curl_file_create($temp_mask['path'], $temp_mask['mime_type'], basename($temp_mask['path']));
+			$tool[0]['input_image_mask'] = array(
+				'image_url' => $encoded_mask,
+			);
 		}
 
-		$post_fields = apply_filters(LineConnect::FILTER_PREFIX . 'edit_image_request_post_fields', $post_fields);
-		error_log("Requesting image edit with multipart data (files omitted)");
-
-		$headers = array(
-			"Authorization: Bearer {$apiKey}",
+		$request_body = array(
+			'model' => $this->resolve_responses_model(LineConnect::get_option('openai_responses_model')),
+			'input' => array(
+				array(
+					'role'    => 'user',
+					'content' => $content,
+				),
+			),
+			'tools' => $tool,
 		);
 
-		$curl = curl_init($endpoint);
+		if (isset($this->event) && isset($this->event->source) && isset($this->event->source->userId)) {
+			// Responses API のトップレベル user が必要なら filter で差し込めるようにする
+			$request_body['metadata'] = array(
+				'line_user_id' => (string) $this->event->source->userId,
+			);
+		}
+
+		$request_body = apply_filters(
+			LineConnect::FILTER_PREFIX . 'edit_image_response_request_body',
+			$request_body,
+			array(
+				'prompt'             => $prompt,
+				'images'             => $images,
+				'mask'               => $mask,
+				'size'               => $normalized_size,
+				'quality'            => $normalized_quality,
+				'background'         => $normalized_background,
+				'output_format'      => $normalized_format,
+				'output_compression' => $normalized_compression,
+			)
+		);
+
+		error_log('Responses API endpoint for image edit: ' . $responsesEndpoint);
+		error_log('Requesting image edit via Responses API: ' . wp_json_encode($this->redact_image_data_urls_for_log($request_body)));
+
+		$headers = array(
+			'Authorization: Bearer ' . $apiKey,
+			'Content-Type: application/json',
+		);
+
+		$curl = curl_init($responsesEndpoint);
 		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $post_fields);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, wp_json_encode($request_body));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_TIMEOUT, 300);
@@ -211,7 +253,8 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		$result = curl_exec($curl);
 		$curl_error = curl_errno($curl) ? curl_error($curl) : null;
 		curl_close($curl);
-		$this->cleanup_temp_files($temp_files);
+
+		error_log('Received response from Responses API image edit: ' . wp_json_encode($this->redact_image_data_urls_for_log(json_decode($result, true))));
 
 		if ($curl_error) {
 			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $curl_error));
@@ -228,9 +271,10 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $error_message));
 		}
 
-		$image_data = $response['data'][0]['b64_json'] ?? '';
+		$image_data = $this->extract_responses_image_base64($response);
 		if (empty($image_data)) {
-			return $this->build_direct_error_response(__( 'Error: Unexpected response format from OpenAI.', LineConnect::PLUGIN_NAME ));
+			$error_message = $this->extract_responses_error_message($response);
+			return $this->build_direct_error_response(sprintf(__( 'Error: %s', LineConnect::PLUGIN_NAME ), $error_message));
 		}
 
 		$binary = base64_decode($image_data, true);
@@ -238,22 +282,19 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			return $this->build_direct_error_response(__( 'Error: Failed to decode image data.', LineConnect::PLUGIN_NAME ));
 		}
 
-		// Check if original image is within LINE's 10MB limit before saving
 		$file_size = strlen($binary);
 		if ($file_size > 10485760) {
 			return $this->build_direct_error_response(__( 'Error: Edited image exceeds 10MB size limit for LINE messages.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$output_spec = $this->resolve_output_spec($post_fields['output_format']);
+		$output_spec = $this->resolve_output_spec($normalized_format);
 		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $binary, $output_spec['mime_type'], $output_spec['extension']);
-		if (! $saved) {
+		if (!$saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save edited image.', LineConnect::PLUGIN_NAME ));
 		}
 
-		// Generate thumbnail
 		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix());
 		if (!$thumb) {
-			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {
 				if (file_exists($saved['full_path'])) {
 					unlink($saved['full_path']);
@@ -262,7 +303,6 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			}
 			$preview_url = $saved['url'];
 		} else {
-			// Verify thumbnail size
 			if (filesize($thumb['full_path']) > 1048576) {
 				if (file_exists($thumb['full_path'])) {
 					unlink($thumb['full_path']);
@@ -275,77 +315,157 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			$preview_url = $thumb['url'];
 		}
 
+		$thumb_data = is_array($thumb) ? $thumb : null;
+
+		return $this->build_image_response(
+			$prompt,
+			$response,
+			$saved,
+			$thumb_data,
+			$preview_url
+		);
+	}
+
+	/**
+	 * Build the edit-image response in the same shape as generate_image().
+	 *
+	 * @param string $prompt
+	 * @param array $response
+	 * @param array $saved
+	 * @param array|null $thumb
+	 * @param string $preview_url
+	 * @return array
+	 */
+	private function build_image_response($prompt, array $response, array $saved, ?array $thumb, $preview_url): array {
 		$image_message = Builder::createImageMessage($saved['url'], $preview_url);
 
 		return array(
-			'success'        => true,
-			'response_mode'  => 'direct',
-			'messages'       => array($image_message),
-			'data'           => array(
-				'file_path'      => $saved['file_path'],
-				'file_url'       => $saved['url'],
-				'thumb_path'     => $thumb ? $thumb['file_path'] : null,
-				'thumb_url'      => $thumb ? $thumb['url'] : null,
+			'success'       => true,
+			'response_mode' => 'direct',
+			'messages'      => array( $image_message ),
+			'data'          => array(
+				'file_path'       => $saved['file_path'],
+				'file_url'        => $saved['url'],
+				'thumb_path'      => $thumb ? $thumb['file_path'] : null,
+				'thumb_url'       => $thumb ? $thumb['url'] : null,
+				'original_prompt' => $prompt,
+				'revised_prompt'   => $this->extract_responses_revised_prompt($response),
+				'original_url'     => $saved['url'],
+				'preview_url'      => $preview_url,
 			),
 		);
 	}
 
-	/**
-	 * Get secret prefix safely.
-	 *
-	 * @return string
-	 */
-	private function getSecretPrefix(): string {
-		return isset($this->secret_prefix) && !empty($this->secret_prefix) ? $this->secret_prefix : '_none';
+	private function resolve_responses_model($model): string {
+		$model = trim((string) $model);
+
+		// Responses API の画像生成ツールは gpt-5 以降の対応モデルで使う。
+		if ($model === '' || $model === 'gpt-image-2') {
+			return 'gpt-5.5';
+		}
+
+		return $model;
 	}
 
-	/**
-	 * Build the OpenAI image edit request payload.
-	 *
-	 * @param string $prompt
-	 * @param array $images
-	 * @param array|null $mask
-	 * @param string|null $size
-	 * @param string|null $quality
-	 * @param string|null $background
-	 * @param string|null $output_format
-	 * @param int|null $output_compression
-	 * @param string|null $input_fidelity
-	 * @return array
-	 */
-	private function build_image_edit_request_data($prompt, array $images, $mask, $size, $quality, $background, $output_format, $output_compression, $input_fidelity): array {
-		$size = $this->normalize_size_option($size);
-		$quality = $this->normalize_quality_option($quality);
-		$background = $this->normalize_background_option($background);
-		$output_format = $this->normalize_output_format($output_format);
-		$output_compression = $this->normalize_output_compression($output_compression);
+	private function resolve_responses_endpoint($endpoint): string {
+		$endpoint = trim((string) $endpoint);
+		if ($endpoint === '') {
+			return 'https://api.openai.com/v1/responses';
+		}
 
-		$data = array(
-			'model'  => 'gpt-image-1.5',
-			'prompt' => stripslashes($prompt),
-			'images' => $images,
-			'response_format' => 'b64_json',
-			'size'   => $size,
-			'quality' => $quality,
-			'background' => $background,
-			'output_format' => $output_format,
-			'input_fidelity' => $input_fidelity,
+		$endpoint = rtrim($endpoint, '/');
+
+		$fragments = array(
+			'/responses',
+			'/chat/completions',
+			'/completions',
+			'/images/edits',
+			'/images/generations',
 		);
 
-		if ($mask) {
-			$data['mask'] = $mask;
+		foreach ($fragments as $fragment) {
+			if (substr($endpoint, -strlen($fragment)) === $fragment) {
+				$endpoint = substr($endpoint, 0, -strlen($fragment));
+				break;
+			}
 		}
 
-		if ($output_format === 'jpeg' || $output_format === 'webp') {
-			$data['output_compression'] = $output_compression;
+		if (preg_match('#/v\d+$#', $endpoint)) {
+			return $endpoint . '/responses';
 		}
 
-		if (isset($this->event) && isset($this->event->source) && isset($this->event->source->userId)) {
-			$data['user'] = $this->event->source->userId;
-		}
-
-		return $data;
+		return $endpoint . '/v1/responses';
 	}
+
+	private function extract_responses_image_base64(array $response): string {
+		if (empty($response['output']) || !is_array($response['output'])) {
+			return '';
+		}
+
+		foreach ($response['output'] as $item) {
+			if (($item['type'] ?? '') === 'image_generation_call' && !empty($item['result'])) {
+				return (string) $item['result'];
+			}
+		}
+
+		return '';
+	}
+
+	private function extract_responses_revised_prompt(array $response): string {
+		if (empty($response['output']) || !is_array($response['output'])) {
+			return '';
+		}
+
+		foreach ($response['output'] as $item) {
+			if (($item['type'] ?? '') === 'image_generation_call' && !empty($item['revised_prompt'])) {
+				return (string) $item['revised_prompt'];
+			}
+		}
+
+		return '';
+	}
+
+	private function extract_responses_error_message(array $response): string {
+		if (!empty($response['error']['message'])) {
+			return (string) $response['error']['message'];
+		}
+
+		if (!empty($response['output']) && is_array($response['output'])) {
+			foreach ($response['output'] as $item) {
+				if (($item['type'] ?? '') === 'message' && !empty($item['content']) && is_array($item['content'])) {
+					foreach ($item['content'] as $content) {
+						if (!empty($content['text'])) {
+							return (string) $content['text'];
+						}
+					}
+				}
+
+				if (($item['type'] ?? '') === 'image_generation_call' && !empty($item['error']['message'])) {
+					return (string) $item['error']['message'];
+				}
+			}
+		}
+
+		return 'Unexpected response format from OpenAI.';
+	}
+
+	private function redact_image_data_urls_for_log(array $payload): array {
+		$walker = function (&$value, $key) {
+			if (($key === 'image_url') && is_string($value) && strpos($value, 'data:image/') === 0) {
+				$value = preg_replace('#^data:image/[^;]+;base64,.*$#', 'data:image/***;base64,[redacted]', $value);
+			}
+			if($key=='result' && is_string($value)){
+				$value = '(redacted)'; // 画像生成の結果はログに残さない
+			}
+		};
+
+		array_walk_recursive($payload, $walker);
+
+		return $payload;
+	}
+
+	use ImageGenerationTrait;
+
 
 	/**
 	 * Normalize the requested size.
@@ -364,22 +484,6 @@ class GenerateImageEdit extends AbstractActionDefinition {
 	}
 
 	/**
-	 * Normalize the requested quality.
-	 *
-	 * @param string|null $quality
-	 * @return string
-	 */
-	private function normalize_quality_option($quality): string {
-		$quality = strtolower(trim((string) $quality));
-		$allowed = array('auto', 'low', 'medium', 'high');
-		if (! in_array($quality, $allowed, true)) {
-			return 'auto';
-		}
-
-		return $quality;
-	}
-
-	/**
 	 * Normalize the requested background.
 	 *
 	 * @param string|null $background
@@ -393,125 +497,6 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		return $background;
-	}
-
-	/**
-	 * Normalize the requested output format.
-	 *
-	 * @param string|null $output_format
-	 * @return string
-	 */
-	private function normalize_output_format($output_format): string {
-		$output_format = strtolower(trim((string) $output_format));
-		$allowed = array('png', 'jpeg', 'webp');
-		if (! in_array($output_format, $allowed, true)) {
-			return 'png';
-		}
-
-		return $output_format;
-	}
-
-	/**
-	 * Normalize the requested output compression.
-	 *
-	 * @param int|null $output_compression
-	 * @return int
-	 */
-	private function normalize_output_compression($output_compression): int {
-		if ($output_compression === null || $output_compression === '') {
-			return 75;
-		}
-
-		$output_compression = intval($output_compression);
-		if ($output_compression < 0) {
-			return 0;
-		}
-
-		if ($output_compression > 100) {
-			return 100;
-		}
-
-		return $output_compression;
-	}
-
-	/**
-	 * Resolve the storage format for the generated image.
-	 *
-	 * @param string $output_format
-	 * @return array
-	 */
-	private function resolve_output_spec($output_format): array {
-		$output_format = $this->normalize_output_format($output_format);
-		if ($output_format === 'jpeg') {
-			return array(
-				'mime_type' => 'image/jpeg',
-				'extension' => 'jpg',
-			);
-		}
-
-		if ($output_format === 'webp') {
-			return array(
-				'mime_type' => 'image/webp',
-				'extension' => 'webp',
-			);
-		}
-
-		return array(
-			'mime_type' => 'image/png',
-			'extension' => 'png',
-		);
-	}
-
-	/**
-	 * Build direct error response.
-	 *
-	 * @param string $message
-	 * @return array
-	 */
-	private function build_direct_error_response($message): array {
-		return array(
-			'success'       => false,
-			'response_mode' => 'direct',
-			'messages'      => array(
-				Builder::createTextMessage($message),
-			),
-			'data'          => array(),
-		);
-	}
-
-	/**
-	 * Resolve the image edit endpoint from the configured endpoint.
-	 *
-	 * @param string|null $endpoint
-	 * @return string
-	 */
-	private function resolve_image_edit_endpoint($endpoint): string {
-		if (empty($endpoint)) {
-			return 'https://api.openai.com/v1/images/edits';
-		}
-
-		if (preg_match('#/images/edits$#', $endpoint)) {
-			return $endpoint;
-		}
-
-		$parsed = parse_url($endpoint);
-		if (! is_array($parsed) || empty($parsed['scheme']) || empty($parsed['host'])) {
-			return 'https://api.openai.com/v1/images/edits';
-		}
-
-		$path = $parsed['path'] ?? '';
-		// Extract version from the original path and preserve it
-		if (preg_match('#/(v\d+)/(chat/completions|responses|completions|images/generations)$#', $path, $matches)) {
-			$version = $matches[1];
-			return preg_replace('#/(v\d+)/(chat/completions|responses|completions|images/generations)$#', '/' . $version . '/images/edits', $endpoint);
-		}
-
-		$base = $parsed['scheme'] . '://' . $parsed['host'];
-		if (! empty($parsed['port'])) {
-			$base .= ':' . $parsed['port'];
-		}
-
-		return rtrim($base, '/') . '/v1/images/edits';
 	}
 
 	/**
@@ -566,6 +551,36 @@ class GenerateImageEdit extends AbstractActionDefinition {
 
 		// Try as URL
 		if (filter_var($src, FILTER_VALIDATE_URL)) {
+			// Check if this URL points to the local upload_dir - if so, read as file
+			$upload_dir = wp_upload_dir();
+			$upload_base_url = $upload_dir['baseurl'];
+
+			// Parse the URL and check if it starts with the upload base URL
+			if (strpos($src, $upload_base_url) === 0) {
+				// Extract the relative path from the URL
+				$relative_path = substr($src, strlen($upload_base_url));
+				// Decode URL-encoded characters and strip query string
+				$relative_path = parse_url($relative_path, PHP_URL_PATH);
+				$relative_path = rawurldecode($relative_path);
+
+				// Build the local file path
+				$local_file_path = $upload_dir['basedir'] . $relative_path;
+
+				// Verify the resolved path is still within upload_dir (security check)
+				$real_path = realpath($local_file_path);
+				$allowed_base = realpath($upload_dir['basedir']);
+
+				if ($real_path !== false && $allowed_base !== false && strpos($real_path, $allowed_base) === 0) {
+					// Validate MIME type
+					$finfo = new \finfo(FILEINFO_MIME_TYPE);
+					$mime_type = $finfo->file($real_path);
+					if (in_array($mime_type, $allowed_mimes, true)) {
+						return FileSystem::get_base64_encoded_file($real_path);
+					}
+				}
+			}
+
+			// Fall back to remote fetch if not a local upload URL
 			$response = wp_remote_get($src, array('timeout' => 30));
 			if (is_wp_error($response)) {
 				return false;
@@ -592,49 +607,4 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		return false;
 	}
 
-	/**
-	 * Create a temporary file from a data URL.
-	 *
-	 * @param string $data_url
-	 * @return array{path:string,mime_type:string}|false
-	 */
-	private function create_temp_file_from_data_url(string $data_url) {
-		if (preg_match('/^data:([^;]+);base64,(.+)$/', $data_url, $matches)) {
-			$mime_type = $matches[1];
-			$data = base64_decode($matches[2]);
-			if ($data === false) {
-				return false;
-			}
-
-			$temp_file = tempnam(sys_get_temp_dir(), 'lc_edit_');
-			if (!$temp_file) {
-				return false;
-			}
-
-			if (file_put_contents($temp_file, $data) === false) {
-				unlink($temp_file);
-				return false;
-			}
-
-			return array(
-				'path'      => $temp_file,
-				'mime_type' => $mime_type,
-			);
-		}
-		return false;
-	}
-
-	/**
-	 * Cleanup temporary files.
-	 *
-	 * @param array $temp_files
-	 * @return void
-	 */
-	private function cleanup_temp_files(array $temp_files): void {
-		foreach ($temp_files as $temp_file) {
-			if (isset($temp_file['path']) && file_exists($temp_file['path'])) {
-				unlink($temp_file['path']);
-			}
-		}
-	}
 }

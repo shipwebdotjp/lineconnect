@@ -203,21 +203,20 @@ class Action {
 							$response = call_user_func_array($function_name, $arguments_array); // $response = $function_name( $arguments_array );
 						}
 						$injection_data['return'][$action_idx + 1] = $response;
-						$response_mode = $action['response_mode'] ?? null;
-						if (is_array($response) && isset($response['response_mode']) && $response['response_mode'] === 'direct') {
-							$direct_messages = $response['messages'] ?? array();
-							if (! is_array($direct_messages)) {
-								$direct_messages = array($direct_messages);
-							}
-							foreach ($direct_messages as $direct_message) {
-								if ($direct_message) {
-									$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($direct_message);
+						if (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
+							if (is_array($response) && isset($response['messages'])) {
+								$direct_messages = $response['messages'] ?? array();
+								if (! is_array($direct_messages)) {
+									$direct_messages = array($direct_messages);
 								}
+								foreach ($direct_messages as $direct_message) {
+									if ($direct_message) {
+										$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($direct_message);
+									}
+								}
+							} else{
+								$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
 							}
-						} elseif ($response_mode === 'direct') {
-							$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
-						} elseif (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
-							$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
 						}
 					} else {
 						// $message[] = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($error['error']);

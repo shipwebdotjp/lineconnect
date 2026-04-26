@@ -3,6 +3,7 @@
 namespace Shipweb\LineConnect\Action\Definitions;
 
 use Shipweb\LineConnect\Action\AbstractActionDefinition;
+use Shipweb\LineConnect\Action\Traits\ImageGenerationTrait;
 use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Bot\Media\Image;
 use Shipweb\LineConnect\Message\LINE\Builder;
@@ -37,14 +38,14 @@ class GenerateImage extends AbstractActionDefinition {
 					'required'    => true,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'size',
 					'description' => __( 'Image size. Use auto or WIDTHxHEIGHT. Both edges must be multiples of 16px, max edge length must be 3840px or less, the long edge to short edge ratio must be 3:1 or less, and total pixels must be between 655,360 and 8,294,400.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'quality',
 					'description' => __( 'Rendering quality. Available values: auto, low, medium, high.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
@@ -52,7 +53,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'background',
 					'description' => __( 'Background handling. Available values: auto, opaque. Transparent backgrounds are not supported by gpt-image-2.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'auto',
@@ -60,7 +61,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'string',
+					'type'        => array('string', 'null'),
 					'name'        => 'output_format',
 					'description' => __( 'Output format. Available values: png, jpeg, webp.', LineConnect::PLUGIN_NAME ),
 					'default'     => 'png',
@@ -68,7 +69,7 @@ class GenerateImage extends AbstractActionDefinition {
 					'required'    => false,
 				),
 				array(
-					'type'        => 'integer',
+					'type'        => array('integer', 'null'),
 					'name'        => 'output_compression',
 					'description' => __( 'Compression level for jpeg and webp output. Range: 0-100.', LineConnect::PLUGIN_NAME ),
 					'default'     => 75,
@@ -206,14 +207,7 @@ class GenerateImage extends AbstractActionDefinition {
 		);
 	}
 
-	/**
-	 * Get secret prefix safely.
-	 *
-	 * @return string
-	 */
-	private function getSecretPrefix(): string {
-		return isset($this->secret_prefix) && !empty($this->secret_prefix) ? $this->secret_prefix : '_none';
-	}
+	use ImageGenerationTrait;
 
 	/**
 	 * Build the OpenAI image request payload.
@@ -356,22 +350,6 @@ class GenerateImage extends AbstractActionDefinition {
 	}
 
 	/**
-	 * Normalize the requested quality.
-	 *
-	 * @param string|null $quality
-	 * @return string
-	 */
-	private function normalize_quality_option($quality): string {
-		$quality = strtolower(trim((string) $quality));
-		$allowed = array('auto', 'low', 'medium', 'high');
-		if (! in_array($quality, $allowed, true)) {
-			return 'auto';
-		}
-
-		return $quality;
-	}
-
-	/**
 	 * Normalize the requested background.
 	 *
 	 * @param string|null $background
@@ -385,90 +363,6 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		return $background;
-	}
-
-	/**
-	 * Normalize the requested output format.
-	 *
-	 * @param string|null $output_format
-	 * @return string
-	 */
-	private function normalize_output_format($output_format): string {
-		$output_format = strtolower(trim((string) $output_format));
-		$allowed = array('png', 'jpeg', 'webp');
-		if (! in_array($output_format, $allowed, true)) {
-			return 'png';
-		}
-
-		return $output_format;
-	}
-
-	/**
-	 * Normalize the requested output compression.
-	 *
-	 * @param int|null $output_compression
-	 * @return int
-	 */
-	private function normalize_output_compression($output_compression): int {
-		if ($output_compression === null || $output_compression === '') {
-			return 75;
-		}
-
-		$output_compression = intval($output_compression);
-		if ($output_compression < 0) {
-			return 0;
-		}
-
-		if ($output_compression > 100) {
-			return 100;
-		}
-
-		return $output_compression;
-	}
-
-	/**
-	 * Resolve the storage format for the generated image.
-	 *
-	 * @param string $output_format
-	 * @return array
-	 */
-	private function resolve_output_spec($output_format): array {
-		$output_format = $this->normalize_output_format($output_format);
-		if ($output_format === 'jpeg') {
-			return array(
-				'mime_type' => 'image/jpeg',
-				'extension' => 'jpg',
-			);
-		}
-
-		if ($output_format === 'webp') {
-			return array(
-				'mime_type' => 'image/webp',
-				'extension' => 'webp',
-			);
-		}
-
-		return array(
-			'mime_type' => 'image/png',
-			'extension' => 'png',
-		);
-	}
-
-	/**
-	 * Build direct error response.
-	 *
-	 * @param string $message
-	 * @return array
-	 */
-	private function build_direct_error_response($message): array {
-		return array(
-			'success'       => false,
-			'response_mode' => 'direct',
-			'messages'      => array(
-				Builder::createTextMessage($message),
-			),
-			'data'          => array(),
-		);
 	}
 
 	/**

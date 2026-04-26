@@ -15,7 +15,7 @@
 namespace Shipweb\LineConnect\Bot\Provider;
 
 use Shipweb\LineConnect\Core\LineConnect;
-
+use Shipweb\LineConnect\Utilities\Logging;
 
 class OpenAi {
 
@@ -244,7 +244,7 @@ class OpenAi {
 				} else {
 					$limit_count = $limit_normal;
 				}
-				error_log("convasation_count: " . $convasation_count . " limit_count: " . $limit_count);
+				// error_log("convasation_count: " . $convasation_count . " limit_count: " . $limit_count);
 				if ( $limit_count != -1 && $convasation_count >= $limit_count ) {
 					return array(
 						'error' => array(
@@ -291,7 +291,7 @@ class OpenAi {
 					)
 				);
 			}
-			error_log( "convasations: " . print_r( $convasations, true ) );
+			// error_log( "convasations: " . print_r( $convasations, true ) );
 
 			$image_array  = array();
 			$current_role = null;
@@ -434,7 +434,12 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
-		// error_log( "messages: " . print_r( $messages, true ) );
+		Logging::logging_with_redact(
+			array(
+				'messages' => $messages,
+			),
+			array( 'url' )
+		);
 
 		// Define data
 		$data                = array();
@@ -469,7 +474,12 @@ class OpenAi {
 			$responce = json_decode( $result, true );
 		}
 		curl_close( $curl );
-		error_log( "responce: " . print_r( $responce, true ) );
+		Logging::logging_with_redact(
+			array(
+				'response' => $responce,
+			),
+			array( 'url' )
+		);
 		return $responce;
 	}
 
