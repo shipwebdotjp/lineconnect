@@ -288,12 +288,12 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		$output_spec = $this->resolve_output_spec($normalized_format);
-		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $binary, $output_spec['mime_type'], $output_spec['extension']);
+		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $this->getLineUserId(), $binary, $output_spec['mime_type'], $output_spec['extension']);
 		if (!$saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save edited image.', LineConnect::PLUGIN_NAME ));
 		}
 
-		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix());
+		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix(), $this->getLineUserId());
 		if (!$thumb) {
 			if ($file_size > 1048576) {
 				if (file_exists($saved['full_path'])) {

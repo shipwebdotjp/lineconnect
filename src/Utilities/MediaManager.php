@@ -13,6 +13,7 @@ class MediaManager {
 	 * 保存先は uploads/lineconnect/generated/{channel_prefix}/{Y/m}/{media_type}/
 	 *
 	 * @param string      $secret_prefix
+	 * @param string      $line_user_id
 	 * @param string      $content        バイナリ or テキストコンテンツ
 	 * @param string      $media_type     サブディレクトリ名 例: 'image', 'audio'
 	 * @param string      $mime_type      例: 'image/png', 'audio/mpeg'
@@ -23,6 +24,7 @@ class MediaManager {
 	 */
 	public static function saveGeneratedMedia(
 		$secret_prefix,
+		$line_user_id,
 		$content,
 		$media_type,
 		$mime_type,
@@ -39,8 +41,8 @@ class MediaManager {
 		if ( empty( $channel_prefix ) ) {
 			$channel_prefix = '_none';
 		}
-
-		$relative_dir    = 'generated/' . $channel_prefix . '/' . gmdate( 'Y/m' ) . '/' . $media_type;
+		$user_dir        = substr( $line_user_id, 1, 4 );
+		$relative_dir    = 'generated/' . $channel_prefix . '/' . gmdate( 'Y/m' ) . '/' . $user_dir . '/' . $media_type;
 		$target_dir_path = FileSystem::make_lineconnect_dir( $relative_dir );
 		if ( ! $target_dir_path ) {
 			return false;
@@ -87,7 +89,7 @@ class MediaManager {
 			return false;
 		}
 
-		$relative_path = $relative_dir . '/' . $file_name;
+		// $relative_path = $relative_dir . '/' . $file_name;
 		$relative_path = str_replace( trailingslashit( $upload_dir['basedir'] ), '', $full_path );
 		$url           = trailingslashit( $upload_dir['baseurl'] ) . $relative_path;
 

@@ -62,7 +62,7 @@ class OpenAi {
 							if ( isset( $function_schema['role'] ) && $function_schema['role'] != 'any' ) {
 								// check if user has capability
 								$user = lineconnect::get_wpuser_from_line_id( $bot_id, $user_id );
-								if ( empty( $user ) || ! $user->exists() || ! user_can( $user, $function_schema['role'] ) ) {
+					if ( empty( $user ) || ! $user->exists() || ! function_exists( 'current_user_can' ) || ! \current_user_can( $function_schema['role'] ) ) {
 									$error = array( 'error' => "PermissionError: you have no permission to call function '$function_name'" );
 								}
 							}
@@ -131,7 +131,7 @@ class OpenAi {
 								if ( isset( $response['messages'] ) && is_array( $response['messages'] ) ) {
 									$direct_messages = array_merge( $direct_messages, $response['messages'] );
 								}
-							}else{
+							} else {
 								$prompts[] = array(
 									'tool_call_id' => $tool_call['id'],
 									'role'         => 'tool',
@@ -152,8 +152,8 @@ class OpenAi {
 					return $this->getResponseByChatGPT( $event, $bot_id, $prompts, $addtional_messages, $direct_messages );
 				}
 			}
-		} elseif ( isset( $AiMessage['choices'][0]['message']['content'] )) {
-			$content	   = $AiMessage['choices'][0]['message']['content'];
+		} elseif ( isset( $AiMessage['choices'][0]['message']['content'] ) ) {
+			$content      = $AiMessage['choices'][0]['message']['content'];
 			$responseByAi = true;
 		}
 
@@ -173,8 +173,7 @@ class OpenAi {
 			$message = $normalized_messages[0];
 		} elseif ( ! empty( $normalized_messages ) ) {
 			$message = \Shipweb\LineConnect\Message\LINE\Builder::createMultiMessage( $normalized_messages );
-		} 
-		
+		}
 
 		return array(
 			'message'      => $message,
@@ -291,6 +290,7 @@ class OpenAi {
 					)
 				);
 			}
+
 			// error_log( "convasations: " . print_r( $convasations, true ) );
 
 			$image_array  = array();
@@ -337,34 +337,20 @@ class OpenAi {
 							'content' => $content,
 						);
 					} elseif ( $convasation->message_type == 2 ) {
-						$full_file_path = false;
+						$image_url = false;
 						if ( isset( $message_object->file_path ) ) {
-							$full_file_path = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_path( $message_object->file_path );
+							$image_url = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_url( $message_object->file_path );
 						} elseif ( isset( $message_object->originalContentUrl ) ) {
-							// Check if it's a local file URL
-							$upload_dir = wp_upload_dir();
-							$base_url   = $upload_dir['baseurl'];
-							if ( strpos( $message_object->originalContentUrl, $base_url ) === 0 ) {
-								$relative_path  = str_replace( $base_url, '', $message_object->originalContentUrl );
-								$full_file_path = $upload_dir['basedir'] . $relative_path;
-								if ( ! file_exists( $full_file_path ) ) {
-									$full_file_path = false;
-								}
-							}
+							$image_url = $message_object->originalContentUrl;
 						}
 
-						if ( $full_file_path ) {
-							// Base64エンコード
-							$base64_file = \Shipweb\LineConnect\Utilities\FileSystem::get_base64_encoded_file( $full_file_path );
-
-							if ( ! empty( $base64_file ) ) {
-								$image_array[] = array(
-									'type'      => 'image_url',
-									'image_url' => array(
-										'url' => $base64_file,
-									),
-								);
-							}
+						if ( ! empty( $image_url ) ) {
+							$image_array[] = array(
+								'type'      => 'image_url',
+								'image_url' => array(
+									'url' => $image_url,
+								),
+							);
 						}
 					}
 				}
@@ -382,15 +368,17 @@ class OpenAi {
 			// merge addtional_messages to messages
 			$messages = array_merge( $messages, $addtional_messages );
 		}
-
+		$quoted_contexts        = null;
+		$quoted_message_context = $this->get_quoted_message_context( $event, $bot_id, $table_name );
+		if ( ! empty( $quoted_message_context ) ) {
+			$quoted_contexts = $quoted_message_context->content;
+		}
 		// 今回の質問
 		if ( is_array( $prompt ) ) {
 			foreach ( $prompt as $p ) {
-				if ( $p['role'] == 'user' && ! empty( $image_array ) ) {
+				if ( $p['role'] == 'user' ) {
 					if ( is_array( $p['content'] ) ) {
-						$content = array(
-							$p['content'],
-						);
+						$content = $p['content'];
 					} else {
 						$content = array(
 							array(
@@ -402,7 +390,9 @@ class OpenAi {
 					foreach ( $image_array as $image ) {
 						$content[] = $image;
 					}
-					// clear image array
+					if ( isset( $quoted_contexts ) ) {
+						$content = array_merge( $content, $quoted_contexts );
+					}
 					$image_array = array();
 					$messages[]  = array(
 						'role'    => 'user',
@@ -414,20 +404,24 @@ class OpenAi {
 			}
 			// $messages = array_merge($messages, $prompt);
 		} else {
-			if ( empty( $image_array ) ) {
+			if ( empty( $image_array ) && ! isset( $quoted_contexts ) ) {
 				$content = $prompt;
 			} else {
-				$content = array(
-					array(
+				$content = array();
+				if ( is_array( $prompt ) ) {
+					$content = $prompt;
+				} else {
+					$content[] = array(
 						'type' => 'text',
 						'text' => $prompt,
-					),
-				);
+					);
+				}
 				foreach ( $image_array as $image ) {
 					$content[] = $image;
 				}
-				// clear image array
-				// $image_array = [];
+				if ( isset( $quoted_contexts ) ) {
+					$content = array_merge( $content, $quoted_contexts );
+				}
 			}
 			$messages[] = array(
 				'role'    => 'user',
@@ -438,7 +432,7 @@ class OpenAi {
 			array(
 				'messages' => $messages,
 			),
-			array( 'url' )
+			array()
 		);
 
 		// Define data
@@ -483,6 +477,80 @@ class OpenAi {
 		return $responce;
 	}
 
+	/**
+	 * 返信元メッセージをログから取得して、OpenAI向けコンテキストに変換する。
+	 *
+	 * @param object $event イベントオブジェクト
+	 * @param string $bot_id ボットID
+	 * @param string $table_name ログテーブル名
+	 * @return object|false
+	 */
+	function get_quoted_message_context( $event, $bot_id, $table_name ) {
+		global $wpdb;
+
+		$quoted_message_id = $event->{'message'}->{'quotedMessageId'} ?? null;
+		if ( empty( $quoted_message_id ) ) {
+			return false;
+		}
+
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT event_type,source_type,message_type,message FROM {$table_name} WHERE bot_id = %s AND JSON_UNQUOTE(JSON_EXTRACT(message, '$.id')) = %s ORDER BY id DESC LIMIT 1",
+				array( $bot_id, $quoted_message_id )
+			)
+		);
+		if ( empty( $row ) ) {
+			return false;
+		}
+
+		$message_object = json_decode( $row->message, false );
+		if ( json_last_error() !== JSON_ERROR_NONE || empty( $message_object ) ) {
+			return false;
+		}
+
+		$context = array();
+		if ( $row->message_type == 1 ) {
+			if ( is_array( $message_object ) ) {
+				$message_object = $message_object[0];
+			}
+			if ( isset( $message_object->text ) && $message_object->text !== '' ) {
+				$context[] = array(
+					'type' => 'text',
+					'text' => $message_object->text,
+				);
+			}
+		} elseif ( $row->message_type == 2 ) {
+			$image_url = false;
+			if ( isset( $message_object->file_path ) ) {
+				$image_url = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_url( $message_object->file_path );
+			} elseif ( isset( $message_object->originalContentUrl ) ) {
+				$image_url = $message_object->originalContentUrl;
+			}
+
+			if ( ! empty( $image_url ) ) {
+				$context[] = array(
+					'type'      => 'image_url',
+					'image_url' => array(
+						'url' => $image_url,
+					),
+				);
+			}
+		}
+
+		if ( empty( $context ) ) {
+			return false;
+		}
+
+		return (object) array(
+			'event_type'   => $row->event_type,
+			'source_type'  => $row->source_type,
+			'message_type' => $row->message_type,
+			'message'      => json_encode( $message_object ),
+			'role'         => $row->source_type < 11 ? 'user' : 'assistant',
+			'content'      => $context,
+		);
+	}
+
 	function get_callable_functions( $user ) {
 		$callable_functions = array();
 		// $enabled_functions  = lineconnect::get_option( ( 'openai_enabled_functions' ) );
@@ -491,7 +559,7 @@ class OpenAi {
 			if (
 				! isset( $function_schema['role'] ) ||
 				$function_schema['role'] === 'any' ||
-				( ! empty( $user ) && $user->exists() && user_can( $user, $function_schema['role'] ) )
+				( ! empty( $user ) && $user->exists() && function_exists( 'current_user_can' ) && \current_user_can( $function_schema['role'] ) )
 			) {
 				$func = array(
 					'type'     => 'function',

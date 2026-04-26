@@ -221,20 +221,24 @@ class File {
 
 			// 取得したファイル形式から適切なファイル拡張子を選択
 			$file_extention = self::get_file_extention( $contentType );
-
-			// make file name from message id and file extention
-			$file_name = bin2hex( random_bytes( 16 ) ) . '.' . $file_extention;
+			$timestamp = gmdate( 'Ymd-His' );
+			try {
+				$random = bin2hex( random_bytes( 4 ) );
+			} catch ( \Exception $e ) {
+				$random = wp_generate_password( 8, false, false );
+			}
+			$file_name = $timestamp . '-' . $random . '.' . ltrim( $file_extention, '.' );
 			// set user directory
 			$user_dir = substr( $userId, 1, 4 );
-			// make directory
-			$target_dir_path = FileSystem::make_lineconnect_dir( $user_dir );
+			$relative_dir = 'attachments/'.$secret_prefix.'/'. gmdate( 'Y/m' ) . '/' . $user_dir;
+			$target_dir_path = FileSystem::make_lineconnect_dir( $relative_dir );
 			if ( $target_dir_path ) {
 				// make file path
 				$file_path = $target_dir_path . '/' . $file_name;
 				// write file
 				file_put_contents( $file_path, $content );
 				// return file path
-				return $user_dir . '/' . $file_name;
+				return $relative_dir . '/' . $file_name;
 			}
 		}
 		return false;

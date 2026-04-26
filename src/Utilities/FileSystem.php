@@ -10,7 +10,7 @@ class FileSystem {
      * @return string $dir_path 作成されたディレクトリのパス
      */
     public static function make_lineconnect_dir($dir_name) {
-        $upload_dir = wp_upload_dir();
+        $upload_dir = \wp_upload_dir();
         $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
 
         if (! file_exists($root_dir_path)) {
@@ -42,7 +42,7 @@ class FileSystem {
      * @return string $file_path ファイルパス
      */
     public static function get_lineconnect_file_path($file_path) {
-        $upload_dir = wp_upload_dir();
+        $upload_dir = \wp_upload_dir();
         $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
         $full_path = $root_dir_path . '/' . $file_path;
         if (file_exists($full_path)) {
@@ -50,6 +50,23 @@ class FileSystem {
         } else {
             return false;
         }
+    }
+
+    /**
+     * lineconnect用の指定されたフォルダにアップロードされたファイルの公開URLを取得する
+     * @param string $file_path ファイルパス
+     * @return string|false ファイルの公開URL、存在しない場合は false
+     */
+    public static function get_lineconnect_file_url($file_path) {
+        $upload_dir = \wp_upload_dir();
+        $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
+        $full_path = $root_dir_path . '/' . $file_path;
+
+        if (! file_exists($full_path)) {
+            return false;
+        }
+
+        return \trailingslashit($upload_dir['baseurl']) . 'lineconnect/' . ltrim($file_path, '/');
     }
 
     /**

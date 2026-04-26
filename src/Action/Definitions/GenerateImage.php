@@ -162,13 +162,13 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		$output_spec = $this->resolve_output_spec($data['output_format']);
-		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $binary, $output_spec['mime_type'], $output_spec['extension']);
+		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $this->getLineUserId(), $binary, $output_spec['mime_type'], $output_spec['extension']);
 		if (! $saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
 		}
 
 		// Generate thumbnail
-		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix());
+		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix(), $this->getLineUserId());
 		if (!$thumb) {
 			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {
