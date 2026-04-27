@@ -228,9 +228,9 @@ class File {
 				$random = wp_generate_password( 8, false, false );
 			}
 			$file_name = $timestamp . '-' . $random . '.' . ltrim( $file_extention, '.' );
-			// set user directory
-			$user_dir = substr( $userId, 1, 4 );
-			$relative_dir = 'attachments/'.$secret_prefix.'/'. gmdate( 'Y/m' ) . '/' . $user_dir;
+			// set user shard (4-char shard)
+			$user_shard = substr( $userId, 1, 4 );
+			$relative_dir = 'attachments/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/' . $user_shard;
 			$target_dir_path = FileSystem::make_lineconnect_dir( $relative_dir );
 			if ( $target_dir_path ) {
 				// make file path

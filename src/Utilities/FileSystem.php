@@ -17,10 +17,18 @@ class FileSystem {
             if (! mkdir($root_dir_path, 0777, true)) {
                 return false;
             }
-            file_put_contents($root_dir_path . '/index.php', '<?php http_response_code(404);');
+            if (file_put_contents($root_dir_path . '/index.php', '<?php http_response_code(404);') === false) {
+                return false;
+            }
         }
         // 既存サーバーの古い deny from all を上書きするため毎回書き込む
-        file_put_contents($root_dir_path . '/.htaccess', 'Options -Indexes');
+        $htaccess_path = $root_dir_path . '/.htaccess';
+        $htaccess_content = 'Options -Indexes';
+        if (! file_exists($htaccess_path) || file_get_contents($htaccess_path) !== $htaccess_content) {
+            if (file_put_contents($htaccess_path, $htaccess_content) === false) {
+                return false;
+            }
+        }
 
         $target_dir_path = $root_dir_path . '/' . $dir_name;
 
@@ -28,10 +36,17 @@ class FileSystem {
             if (! mkdir($target_dir_path, 0777, true)) {
                 return false;
             }
-            file_put_contents($target_dir_path . '/index.php', '<?php http_response_code(404);');
+            if (file_put_contents($target_dir_path . '/index.php', '<?php http_response_code(404);') === false) {
+                return false;
+            }
         }
         // 既存サーバーの古い deny from all を上書きするため毎回書き込む
-        file_put_contents($target_dir_path . '/.htaccess', 'Options -Indexes');
+        $target_htaccess_path = $target_dir_path . '/.htaccess';
+        if (! file_exists($target_htaccess_path) || file_get_contents($target_htaccess_path) !== $htaccess_content) {
+            if (file_put_contents($target_htaccess_path, $htaccess_content) === false) {
+                return false;
+            }
+        }
 
         return $target_dir_path;
     }
@@ -42,9 +57,14 @@ class FileSystem {
      * @return string $file_path ファイルパス
      */
     public static function get_lineconnect_file_path($file_path) {
+        // Defensive check: reject paths containing directory traversal segments
+        if (strpos($file_path, '..') !== false) {
+            return false;
+        }
+
         $upload_dir = \wp_upload_dir();
         $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
-        $full_path = $root_dir_path . '/' . $file_path;
+        $full_path = $root_dir_path . '/' . ltrim($file_path, '/');
         if (file_exists($full_path)) {
             return $full_path;
         } else {
@@ -58,9 +78,14 @@ class FileSystem {
      * @return string|false ファイルの公開URL、存在しない場合は false
      */
     public static function get_lineconnect_file_url($file_path) {
+        // Defensive check: reject paths containing directory traversal segments
+        if (strpos($file_path, '..') !== false) {
+            return false;
+        }
+
         $upload_dir = \wp_upload_dir();
         $root_dir_path = $upload_dir['basedir'] . '/lineconnect';
-        $full_path = $root_dir_path . '/' . $file_path;
+        $full_path = $root_dir_path . '/' . ltrim($file_path, '/');
 
         if (! file_exists($full_path)) {
             return false;
