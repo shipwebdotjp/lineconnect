@@ -205,16 +205,16 @@ class Action {
 						$injection_data['return'][$action_idx + 1] = $response;
 						if (isset($action['response_return_value']) && filter_var($action['response_return_value'], FILTER_VALIDATE_BOOLEAN)) {
 							if (is_array($response) && isset($response['messages'])) {
-								$direct_messages = $response['messages'] ?? array();
+								$direct_messages = $response['messages'];
 								if (! is_array($direct_messages)) {
 									$direct_messages = array($direct_messages);
 								}
 								foreach ($direct_messages as $direct_message) {
-									if ($direct_message) {
+									if ($direct_message !== null && $direct_message !== '') {
 										$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($direct_message);
 									}
 								}
-							} else{
+							} else {
 								$message[] = \Shipweb\LineConnect\Message\LINE\Builder::get_line_message_builder($response);
 							}
 						}
