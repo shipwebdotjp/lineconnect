@@ -136,7 +136,7 @@ class GenerateSpeech extends AbstractActionDefinition {
 		}
 
 		$output_spec = $this->resolve_audio_output_spec( $response_format );
-		$saved       = Audio::saveGeneratedAudio( $this->getSecretPrefix(), $result, $output_spec['mime_type'], $output_spec['extension'], 'gpt-4o-mini-tts' );
+		$saved       = Audio::saveGeneratedAudio( $this->getSecretPrefix(), $this->getLineUserId(), $result, $output_spec['mime_type'], $output_spec['extension'], 'gpt-4o-mini-tts' );
 
 		if ( ! $saved ) {
 			return $this->build_direct_error_response( __( 'Error: Failed to save generated audio.', LineConnect::PLUGIN_NAME ) );
@@ -161,6 +161,15 @@ class GenerateSpeech extends AbstractActionDefinition {
 				'response_format' => $response_format,
 			),
 		);
+	}
+
+	/**
+	 * Get LINE user ID safely.
+	 *
+	 * @return string
+	 */
+	private function getLineUserId(): string {
+		return isset( $this->event->source->userId ) && ! empty( $this->event->source->userId ) ? $this->event->source->userId : '_unknown';
 	}
 
 	/**

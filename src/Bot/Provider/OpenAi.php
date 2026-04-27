@@ -214,8 +214,9 @@ class OpenAi {
 			$messages[] = $system_message;
 		}
 
+		$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
+
 		if ( isset( $user_id ) ) {
-			$table_name  = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 			$context_num = intval( lineconnect::get_option( 'openai_context' ) * 2 );
 
 			$limit_normal = intval( lineconnect::get_option( 'openai_limit_normal' ) );
@@ -418,7 +419,11 @@ class OpenAi {
 	function get_quoted_message_context( $event, $bot_id, $table_name ) {
 		global $wpdb;
 
-		$quoted_message_id = $event->{'message'}->{'quotedMessageId'} ?? null;
+		if ( ! is_object( $event ) || ! isset( $event->message ) || ! is_object( $event->message ) || empty( $table_name ) ) {
+			return false;
+		}
+
+		$quoted_message_id = $event->message->quotedMessageId ?? null;
 		if ( empty( $quoted_message_id ) ) {
 			return false;
 		}
