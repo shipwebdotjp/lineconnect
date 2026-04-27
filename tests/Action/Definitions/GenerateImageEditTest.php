@@ -18,7 +18,6 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('background', $config['parameters'][5]['name']);
 		$this->assertSame('output_format', $config['parameters'][6]['name']);
 		$this->assertSame('output_compression', $config['parameters'][7]['name']);
-		$this->assertSame('input_fidelity', $config['parameters'][8]['name']);
 	}
 
 	public function test_resolve_responses_endpoint_normalizes_chat_completions() {
