@@ -229,7 +229,11 @@ class File {
 			}
 			$file_name = $timestamp . '-' . $random . '.' . ltrim( $file_extention, '.' );
 			// set user shard (4-char shard)
-			$user_shard = substr( $userId, 1, 4 );
+			if ( preg_match( '/^[URC][0-9a-f]{32}$/i', (string) $userId ) ) {
+				$user_shard = substr( $userId, 1, 4 );
+			} else {
+				$user_shard = 'none';
+			}
 			$relative_dir = 'attachments/' . $secret_prefix . '/' . gmdate( 'Y/m' ) . '/' . $user_shard;
 			$target_dir_path = FileSystem::make_lineconnect_dir( $relative_dir );
 			if ( $target_dir_path ) {
