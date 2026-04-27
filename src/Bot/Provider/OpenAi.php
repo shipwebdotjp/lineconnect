@@ -62,7 +62,7 @@ class OpenAi {
 							if ( isset( $function_schema['role'] ) && $function_schema['role'] != 'any' ) {
 								// check if user has capability
 								$user = lineconnect::get_wpuser_from_line_id( $bot_id, $user_id );
-					if ( empty( $user ) || ! $user->exists() || ! function_exists( 'current_user_can' ) || ! \current_user_can( $function_schema['role'] ) ) {
+								if ( empty( $user ) || ! $user->exists() || ! function_exists( 'current_user_can' ) || ! \current_user_can( $function_schema['role'] ) ) {
 									$error = array( 'error' => "PermissionError: you have no permission to call function '$function_name'" );
 								}
 							}
@@ -292,20 +292,8 @@ class OpenAi {
 			}
 
 			// error_log( "convasations: " . print_r( $convasations, true ) );
-
-			$image_array  = array();
-			$current_role = null;
 			foreach ( array_reverse( $convasations ) as $convasation ) {
 				$role = $convasation->source_type < 11 ? 'user' : 'assistant';
-
-				if ( $current_role !== null && $current_role !== $role && ! empty( $image_array ) ) {
-					$messages[]  = array(
-						'role'    => $current_role,
-						'content' => $image_array,
-					);
-					$image_array = array();
-				}
-				$current_role = $role;
 
 				$message_object = json_decode( $convasation->message, false );
 				if ( json_last_error() == JSON_ERROR_NONE ) {
@@ -317,50 +305,12 @@ class OpenAi {
 							continue;
 						}
 
-						if ( empty( $image_array ) ) {
-							$content = $message_object->text;
-						} else {
-							$content = array(
-								array(
-									'type' => 'text',
-									'text' => $message_object->text,
-								),
-							);
-							foreach ( $image_array as $image ) {
-								$content[] = $image;
-							}
-							// clear image array
-							$image_array = array();
-						}
 						$messages[] = array(
 							'role'    => $role,
-							'content' => $content,
+							'content' => $message_object->text,
 						);
-					} elseif ( $convasation->message_type == 2 ) {
-						$image_url = false;
-						if ( isset( $message_object->file_path ) ) {
-							$image_url = \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_url( $message_object->file_path );
-						} elseif ( isset( $message_object->originalContentUrl ) ) {
-							$image_url = $message_object->originalContentUrl;
-						}
-
-						if ( ! empty( $image_url ) ) {
-							$image_array[] = array(
-								'type'      => 'image_url',
-								'image_url' => array(
-									'url' => $image_url,
-								),
-							);
-						}
 					}
 				}
-			}
-			if ( ! empty( $image_array ) ) {
-				$messages[]  = array(
-					'role'    => $current_role,
-					'content' => $image_array,
-				);
-				$image_array = array();
 			}
 		}
 		// function callが合った場合、ユーザーからの当初のプロンプトと、モデルからのfunction call呼出しメッセージを追加
@@ -387,14 +337,10 @@ class OpenAi {
 							),
 						);
 					}
-					foreach ( $image_array as $image ) {
-						$content[] = $image;
-					}
 					if ( isset( $quoted_contexts ) ) {
 						$content = array_merge( $content, $quoted_contexts );
 					}
-					$image_array = array();
-					$messages[]  = array(
+					$messages[] = array(
 						'role'    => 'user',
 						'content' => $content,
 					);
@@ -402,26 +348,10 @@ class OpenAi {
 					$messages[] = $p;
 				}
 			}
-			// $messages = array_merge($messages, $prompt);
 		} else {
-			if ( empty( $image_array ) && ! isset( $quoted_contexts ) ) {
-				$content = $prompt;
-			} else {
-				$content = array();
-				if ( is_array( $prompt ) ) {
-					$content = $prompt;
-				} else {
-					$content[] = array(
-						'type' => 'text',
-						'text' => $prompt,
-					);
-				}
-				foreach ( $image_array as $image ) {
-					$content[] = $image;
-				}
-				if ( isset( $quoted_contexts ) ) {
-					$content = array_merge( $content, $quoted_contexts );
-				}
+			$content = $prompt;
+			if ( isset( $quoted_contexts ) ) {
+				$content = array_merge( array( $content ), $quoted_contexts );
 			}
 			$messages[] = array(
 				'role'    => 'user',
@@ -528,6 +458,11 @@ class OpenAi {
 			}
 
 			if ( ! empty( $image_url ) ) {
+				// 画像URLをtextとしてコンテキストに追加
+				$context[] = array(
+					'type' => 'text',
+					'text' => 'Image URL: ' . $image_url,
+				);
 				$context[] = array(
 					'type'      => 'image_url',
 					'image_url' => array(

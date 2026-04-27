@@ -26,6 +26,7 @@ The event source is the event sender user if the trigger type is a Webhook event
 The type of message sent varies depending on the type of return value:
 - String: Sent as a LINE text message
 - Instance of LINE\LINEBot\MessageBuilder: Sent as a LINE message object
+- Array: If the array contains `messages`, each item is sent as a LINE message. This is used by actions that return direct responses such as image generation.
 - Others: Sent as a dumped LINE text message
 
 ### Embedding Variables
