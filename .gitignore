@@ -19,3 +19,4 @@ exported_all_docs.md
 .clinerules
 rector.php
 vendor/
+.claude/

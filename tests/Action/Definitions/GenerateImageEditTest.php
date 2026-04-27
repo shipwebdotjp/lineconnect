@@ -9,7 +9,7 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('edit_image', GenerateImageEdit::name());
 		$this->assertSame('Edit image', $config['title']);
 		$this->assertSame(8070, $config['order']);
-		$this->assertCount(9, $config['parameters']);
+		$this->assertCount(8, $config['parameters']);
 		$this->assertSame('prompt', $config['parameters'][0]['name']);
 		$this->assertSame('images', $config['parameters'][1]['name']);
 		$this->assertSame('mask', $config['parameters'][2]['name']);
@@ -18,57 +18,27 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('background', $config['parameters'][5]['name']);
 		$this->assertSame('output_format', $config['parameters'][6]['name']);
 		$this->assertSame('output_compression', $config['parameters'][7]['name']);
-		$this->assertSame('input_fidelity', $config['parameters'][8]['name']);
 	}
 
-	public function test_build_image_edit_request_data_uses_defaults() {
+	public function test_resolve_responses_endpoint_normalizes_chat_completions() {
 		$definition = new GenerateImageEdit();
-		$method = new ReflectionMethod(GenerateImageEdit::class, 'build_image_edit_request_data');
+		$method = new ReflectionMethod(GenerateImageEdit::class, 'resolve_responses_endpoint');
 
-		$images = array(array('image_url' => 'data:image/png;base64,xxxx'));
-		$data = $method->invoke($definition, 'add a cat', $images, null, '1024x1024', 'auto', 'auto', 'png', 75, 'high');
-
-		$this->assertSame('gpt-image-1.5', $data['model']);
-		$this->assertSame('add a cat', $data['prompt']);
-		$this->assertSame($images, $data['images']);
-		$this->assertSame('1024x1024', $data['size']);
-		$this->assertSame('auto', $data['quality']);
-		$this->assertSame('auto', $data['background']);
-		$this->assertSame('png', $data['output_format']);
-		$this->assertSame('high', $data['input_fidelity']);
-		$this->assertArrayNotHasKey('mask', $data);
-	}
-
-	public function test_build_image_edit_request_data_includes_mask_and_compression() {
-		$definition = new GenerateImageEdit();
-		$method = new ReflectionMethod(GenerateImageEdit::class, 'build_image_edit_request_data');
-
-		$images = array(array('image_url' => 'data:image/png;base64,xxxx'));
-		$mask = array('image_url' => 'data:image/png;base64,yyyy');
-		$data = $method->invoke($definition, 'change color', $images, $mask, '1536x1024', 'high', 'transparent', 'jpeg', 80, 'low');
-
-		$this->assertSame($mask, $data['mask']);
-		$this->assertSame('1536x1024', $data['size']);
-		$this->assertSame('high', $data['quality']);
-		$this->assertSame('transparent', $data['background']);
-		$this->assertSame('jpeg', $data['output_format']);
-		$this->assertSame(80, $data['output_compression']);
-		$this->assertSame('low', $data['input_fidelity']);
+		$this->assertSame('https://api.openai.com/v1/responses', $method->invoke($definition, 'https://api.openai.com/v1/chat/completions'));
+		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/chat/completions'));
+		$this->assertSame('https://myproxy.com/v2/responses', $method->invoke($definition, 'https://myproxy.com/v2/chat/completions'));
+		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/responses'));
 	}
 
 	public function test_resolve_image_edit_endpoint() {
 		$definition = new GenerateImageEdit();
-		$method = new ReflectionMethod(GenerateImageEdit::class, 'resolve_image_edit_endpoint');
+		$method = new ReflectionMethod(GenerateImageEdit::class, 'resolve_responses_endpoint');
 
-		$this->assertSame('https://api.openai.com/v1/images/edits', $method->invoke($definition, null));
-		$this->assertSame('https://api.openai.com/v1/images/edits', $method->invoke($definition, ''));
-
-		// Standard OpenAI-like custom endpoint
-		$this->assertSame('https://myproxy.com/v1/images/edits', $method->invoke($definition, 'https://myproxy.com/v1/chat/completions'));
-		$this->assertSame('https://myproxy.com/v1/images/edits', $method->invoke($definition, 'https://myproxy.com/v1/images/generations'));
-
-		// If it's already edits endpoint
-		$this->assertSame('https://myproxy.com/v1/images/edits', $method->invoke($definition, 'https://myproxy.com/v1/images/edits'));
+		$this->assertSame('https://api.openai.com/v1/responses', $method->invoke($definition, null));
+		$this->assertSame('https://api.openai.com/v1/responses', $method->invoke($definition, ''));
+		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/chat/completions'));
+		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/images/generations'));
+		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/responses'));
 	}
 
 	public function test_normalize_size_option() {
@@ -79,5 +49,41 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('1024x1024', $method->invoke($definition, '1024x1024'));
 		$this->assertSame('1024x1024', $method->invoke($definition, 'invalid'));
 		$this->assertSame('1536x1024', $method->invoke($definition, '1536x1024'));
+	}
+
+	public function test_build_image_response_matches_generate_image_shape() {
+		$definition = new GenerateImageEdit();
+		$method = new ReflectionMethod(GenerateImageEdit::class, 'build_image_response');
+
+		$response = array(
+			'output' => array(
+				array(
+					'type'           => 'image_generation_call',
+					'revised_prompt' => 'revised prompt',
+				),
+			),
+		);
+		$saved = array(
+			'file_path' => '/tmp/generated-image.png',
+			'url'       => 'https://example.com/generated-image.png',
+		);
+		$thumb = array(
+			'file_path' => '/tmp/generated-image-thumb.png',
+			'url'       => 'https://example.com/generated-image-thumb.png',
+		);
+
+		$result = $method->invoke($definition, 'original prompt', $response, $saved, $thumb, $thumb['url']);
+
+		$this->assertTrue($result['success']);
+		$this->assertSame('direct', $result['response_mode']);
+		$this->assertCount(1, $result['messages']);
+		$this->assertSame('/tmp/generated-image.png', $result['data']['file_path']);
+		$this->assertSame('https://example.com/generated-image.png', $result['data']['file_url']);
+		$this->assertSame('/tmp/generated-image-thumb.png', $result['data']['thumb_path']);
+		$this->assertSame('https://example.com/generated-image-thumb.png', $result['data']['thumb_url']);
+		$this->assertSame('original prompt', $result['data']['original_prompt']);
+		$this->assertSame('revised prompt', $result['data']['revised_prompt']);
+		$this->assertSame('https://example.com/generated-image.png', $result['data']['original_url']);
+		$this->assertSame('https://example.com/generated-image-thumb.png', $result['data']['preview_url']);
 	}
 }

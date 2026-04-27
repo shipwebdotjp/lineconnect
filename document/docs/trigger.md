@@ -83,12 +83,12 @@ Checking `Not` inverts the condition result. Specifically:
 - If the condition matches, it is treated as not matching.
 - If the condition does not match, it is treated as matching.
 
-#### Action Hook
+### Action Hook
 
 Use a WordPress action hook as the trigger to run actions when specific WordPress events occur.  
 For example, you can send LINE notifications or run action flows when a user registers, logs in, saves a post, submits a comment, activates a plugin, or switches themes.
 
-##### Available hooks
+#### Available hooks
 
 The following major hooks are predefined in the implementation. You can also extend them with a filter when needed.
 
@@ -108,7 +108,7 @@ The following major hooks are predefined in the implementation. You can also ext
 If you want to use a site-specific hook, you can add it through the `slc_filter_predefined_action_hooks` filter.  \
 You can also use `slc_action_custom_hook` to pass any hook name and its argument array and treat it as an Action Hook.
 
-##### Conditions
+#### Conditions
 
 You can further narrow the trigger conditions based on the selected hook. If no condition is set, the trigger is considered valid as soon as the hook fires.
 
@@ -123,7 +123,7 @@ You can further narrow the trigger conditions based on the selected hook. If no 
 - Other hooks
   - If there are no hook-specific conditions, the event itself becomes the target.
 
-##### Audience
+#### Audience
 
 For Action Hook triggers, you can choose the user that will be targeted by the action.
 
@@ -136,7 +136,7 @@ For Action Hook triggers, you can choose the user that will be targeted by the a
 Even if you choose `Use the current related user`, if the user cannot be identified from the hook, the action runs without an audience.  \
 For example, hooks such as `activated_plugin` or `switch_theme`, which are not directly tied to a user, may not be able to obtain the current administrator in admin screens.
 
-##### How related users are determined per hook
+#### How related users are determined per hook
 
 `Use the current related user` infers the most natural user from the hook arguments.
 
@@ -153,7 +153,7 @@ For example, hooks such as `activated_plugin` or `switch_theme`, which are not d
 | `deactivated_plugin` | Current administrator |
 | `switch_theme` | Current administrator |
 
-##### Values available in actions
+#### Values available in actions
 
 Hook arguments received by Action Hook can be referenced in actions and message templates.  \
 In practice, they are stored under `action_hook.args`, so reference them like this:
@@ -179,7 +179,7 @@ Typical values by hook are listed below.
 | `activated_plugin` / `deactivated_plugin` | `{{$.action_hook.args.plugin}}`, `{{$.action_hook.args.network_wide}}` |
 | `switch_theme` | `{{$.action_hook.args.new_name}}`, `{{$.action_hook.args.new_theme}}`, `{{$.action_hook.args.old_theme}}` |
 
-##### How to use custom hooks
+#### How to use custom hooks
 
 If you want to use a site-specific event as an Action Hook, follow these steps:
 
@@ -205,7 +205,7 @@ do_action( 'slc_action_custom_hook', 'my_custom_hook', array(
 
 On the action side, you can reference values like `{{$.action_hook.args.arg1}}`.
 
-##### Example usage
+#### Example usage
 
 1. Select `Action Hook` as the trigger type.
 2. Select the hook you want to fire.
@@ -213,7 +213,7 @@ On the action side, you can reference values like `{{$.action_hook.args.arg1}}`.
 4. Configure the audience if needed.
 5. Build the action flow you want to run.
 
-##### Use cases
+#### Use cases
 
 - Notify administrators when a post is saved
 - Send a message to the user when they log in
@@ -221,7 +221,7 @@ On the action side, you can reference values like `{{$.action_hook.args.arg1}}`.
 - Send alerts to operators when plugins or themes are changed
 - Notify from site-specific events via `lineconnect_custom_hook`
 
-##### Notes
+#### Notes
 
 Action Hook supports not only WordPress standard hooks but also custom hooks added by the site implementation.  \
 However, which values are stored in `action_hook.args` depends on the hook argument structure. If needed, check the `ActionHooks` implementation or the custom hook definition.

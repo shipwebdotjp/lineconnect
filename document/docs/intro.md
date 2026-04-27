@@ -36,6 +36,7 @@ Demo site here -> [SHIP LAB](https://gpt.shipweb.jp/) (Japanese)
 * Rich menu ID can be set for linked users, unlinked users, and roles
 ### [AI Chatbot](./aichatbot.md)
 * Automatic response to messages using Chat GPT API (You can use your LINE official account as an AI chatbot)
+* Supports image creation and image editing
 ### [Interaction](./interaction.md)
 * Conduct multi-step conversational interactions based on predefined flows.
 * Useful for surveys, appointment bookings, guiding user processes, and more.

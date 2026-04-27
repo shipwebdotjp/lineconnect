@@ -10,6 +10,7 @@ class Audio{
      * 生成音声を公開用ディレクトリへ保存する（将来用）
      *
      * @param string      $secret_prefix
+     * @param string      $line_user_id
      * @param string      $content
      * @param string      $mime_type
      * @param string      $extension
@@ -19,6 +20,7 @@ class Audio{
      */
     public static function saveGeneratedAudio(
         $secret_prefix,
+        $line_user_id,
         $content,
         $mime_type = 'audio/mpeg',
         $extension = 'mp3',
@@ -27,6 +29,7 @@ class Audio{
     ) {
         $saved = MediaManager::saveGeneratedMedia(
             $secret_prefix,
+            $line_user_id,
             $content,
             'audio',          // $media_type
             $mime_type,

@@ -43,5 +43,7 @@ Email address: {{ user.data.user_email }}
 ```
 
 ## Multimodal Input
-- Supports image input. After sending an image, you can ask questions about the image by sending text.
+- Supports image messages.
+- To ask about an image, reply to that image message and send your text question.
+- Sending plain text without replying to the image will not use the image as context.
 - Does not support image output (generation).

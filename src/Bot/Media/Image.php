@@ -11,6 +11,7 @@ class Image {
      * 生成画像を公開用ディレクトリへ保存する
      *
      * @param string      $secret_prefix
+     * @param string      $line_user_id
      * @param string      $content
      * @param string      $mime_type
      * @param string      $extension
@@ -19,6 +20,7 @@ class Image {
      */
     public static function saveGeneratedImage(
         $secret_prefix,
+        $line_user_id,
         $content,
         $mime_type = 'image/png',
         $extension = 'png',
@@ -26,6 +28,7 @@ class Image {
     ) {
         return MediaManager::saveGeneratedMedia(
             $secret_prefix,
+            $line_user_id,
             $content,
             'image',          // $media_type
             $mime_type,
@@ -39,11 +42,13 @@ class Image {
      * オリジナル画像からサムネイルを生成する
      *
      * @param string $original_full_path
+     * @param string $secret_prefix
+     * @param string $line_user_id
      * @param int    $max_edge
      * @param int    $quality
      * @return array{file_path:string,full_path:string,url:string}|false
      */
-    public static function generateThumbnail($original_full_path, $secret_prefix, $max_edge = 1024, $quality = 60) {
+    public static function generateThumbnail($original_full_path, $secret_prefix, $line_user_id, $max_edge = 1024, $quality = 60) {
         $editor = wp_get_image_editor($original_full_path);
         if (is_wp_error($editor)) {
             return false;
@@ -65,11 +70,8 @@ class Image {
         if (empty($channel_prefix)) {
             $channel_prefix = '_none';
         }
-
-        $thumb_dir = FileSystem::make_lineconnect_dir(
-            'generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/image/thumbnails',
-            false
-        );
+		$user_dir = substr( $line_user_id, 1, 4 );
+        $thumb_dir = FileSystem::make_lineconnect_dir('generated/' . $channel_prefix . '/' . gmdate('Y/m') . '/' . $user_dir . '/image/thumbnails');
         if (! $thumb_dir) {
             return false;
         }
