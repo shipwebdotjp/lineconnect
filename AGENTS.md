@@ -61,7 +61,7 @@ public function setUp(): void {
 ## テスト実行コマンド
 - Docker
   - `.jules/setup-jules-environment.sh`
-- ローカル / CI:
+- ローカル / CI: (サンドボックス外で実行する必要あり。サンドボックス内ではDB接続に失敗する)
   - `composer test -- --filter [TargetTestFile]`
   - `composer test -- --filter SampleTest`
 - PHPUnit 設定はプロジェクトルートの `phpunit.xml` を参照

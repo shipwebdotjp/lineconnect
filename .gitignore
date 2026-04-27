@@ -20,3 +20,5 @@ exported_all_docs.md
 rector.php
 vendor/
 .claude/
+__pycache__/
+.venv/

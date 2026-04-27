@@ -38,6 +38,11 @@ cd frontend/dashboard
 npm run build
 cd $WORKING_DIR
 
+# chatのビルド
+cd frontend/chat
+npm run build
+cd $WORKING_DIR
+
 ## documentのビルド
 cd document
 npm run build

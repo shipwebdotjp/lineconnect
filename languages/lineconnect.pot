@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LINE Connect 4.4.0\n"
+"Project-Id-Version: LINE Connect 4.7.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-13 22:26+0900\n"
+"POT-Creation-Date: 2026-04-27 20:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -637,6 +637,21 @@ msgid "Login page URL"
 msgstr ""
 
 msgid "Enter the URL of the login page as a path relative to the site URL."
+msgstr ""
+
+msgid "Redirect page method"
+msgstr ""
+
+msgid "Select the method for handling redirects after login."
+msgstr ""
+
+msgid "Direct file access"
+msgstr ""
+
+msgid "Admin Post"
+msgstr ""
+
+msgid "REST API"
 msgstr ""
 
 msgid "Automatically initiate linkage"
@@ -1405,6 +1420,14 @@ msgstr ""
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr ""
 
+msgid "Response mode"
+msgstr ""
+
+msgid ""
+"Direct mode returns the action result directly to LINE. LLM mode sends the "
+"result back to the model first."
+msgstr ""
+
 msgid "Send the return value as a response"
 msgstr ""
 
@@ -1419,6 +1442,24 @@ msgid "Please add action first"
 msgstr ""
 
 msgid "Get the current date and time"
+msgstr ""
+
+msgid "Request LLM (AI)"
+msgstr ""
+
+msgid "Send a request to an LLM (OpenAI) and get the response text."
+msgstr ""
+
+msgid "Prompt (required)"
+msgstr ""
+
+msgid "System message (optional)"
+msgstr ""
+
+msgid "Model (optional)"
+msgstr ""
+
+msgid "Error: OpenAI API Key or Endpoint is not configured."
 msgstr ""
 
 msgid "Search users"
@@ -1531,6 +1572,83 @@ msgstr ""
 msgid "Mail body"
 msgstr ""
 
+msgid "Edit image"
+msgstr ""
+
+msgid ""
+"Edit an image with gpt-image-1.5 and return it as a LINE image message. You "
+"can provide multiple input images and an optional mask."
+msgstr ""
+
+msgid "Image editing prompt"
+msgstr ""
+
+msgid ""
+"Array of image URLs(Fully qualified HTTPS URL or data URL) to edit. Max 16 "
+"images."
+msgstr ""
+
+msgid "Optional mask image URL or file path."
+msgstr ""
+
+msgid "Image size. Available values: auto, 1024x1024, 1536x1024, 1024x1536."
+msgstr ""
+
+msgid "Rendering quality. Available values: auto, low, medium, high."
+msgstr ""
+
+msgid "Background handling. Available values: auto, transparent, opaque."
+msgstr ""
+
+msgid "Output format. Available values: png, jpeg, webp."
+msgstr ""
+
+msgid "Compression level for jpeg and webp output. Range: 0-100."
+msgstr ""
+
+msgid "Error: Prompt is required."
+msgstr ""
+
+msgid "Error: At least one input image is required."
+msgstr ""
+
+msgid ""
+"Error: Transparent background is not supported in the Responses API flow for "
+"GPT Image 2."
+msgstr ""
+
+#, php-format
+msgid "Error: Failed to process input image: %s"
+msgstr ""
+
+#, php-format
+msgid "Error: Failed to process mask image: %s"
+msgstr ""
+
+#, php-format
+msgid "Error: %s"
+msgstr ""
+
+msgid "Error: Failed to parse response from OpenAI."
+msgstr ""
+
+msgid "Error: Failed to decode image data."
+msgstr ""
+
+msgid "Error: Edited image exceeds 10MB size limit for LINE messages."
+msgstr ""
+
+msgid "Error: Failed to save edited image."
+msgstr ""
+
+msgid ""
+"Error: Failed to generate thumbnail and original image exceeds 1MB preview "
+"size limit."
+msgstr ""
+
+msgid "Error: Generated thumbnail exceeds 1MB preview size limit."
+msgstr ""
+
 msgid "Get user meta"
 msgstr ""
 
@@ -1544,6 +1662,41 @@ msgid "Get LINE message from Raw JSON."
 msgstr ""
 
 msgid "Single raw Message JSON object"
+msgstr ""
+
+msgid "Generate speech"
+msgstr ""
+
+msgid ""
+"Convert text to speech using OpenAI TTS and return it as a LINE audio "
+"message."
+msgstr ""
+
+msgid "The text to generate audio for."
+msgstr ""
+
+msgid "The voice to use for generating the audio."
+msgstr ""
+
+msgid "Optional instructions to influence the style of the generated audio."
+msgstr ""
+
+msgid "Error: Input text is required."
+msgstr ""
+
+msgid "Error: Invalid voice option."
+msgstr ""
+
+msgid "Error: Invalid response format option."
+msgstr ""
+
+msgid "Error: Received empty response from OpenAI."
+msgstr ""
+
+msgid "Error: Failed to save generated audio."
+msgstr ""
+
+msgid "Error: Failed to determine audio duration."
 msgstr ""
 
 msgid "Remove LINE user tags"
@@ -1791,6 +1944,44 @@ msgid "Update or delete WordPress user meta value"
 msgstr ""
 
 msgid "Meta value. If empty, meta will be deleted."
+msgstr ""
+
+msgid "Generate image"
+msgstr ""
+
+msgid ""
+"Generate an image with gpt-image-2 and return it as a LINE image message. "
+"You can optionally configure size, quality, background, output format, and "
+"compression."
+msgstr ""
+
+msgid "Image generation prompt"
+msgstr ""
+
+msgid ""
+"Image size. Use auto or WIDTHxHEIGHT. Both edges must be multiples of 16px, "
+"max edge length must be 3840px or less, the long edge to short edge ratio "
+"must be 3:1 or less, and total pixels must be between 655,360 and 8,294,400."
+msgstr ""
+
+msgid ""
+"Background handling. Available values: auto, opaque. Transparent backgrounds "
+"are not supported by gpt-image-2."
+msgstr ""
+
+msgid "Error: Unexpected response format from OpenAI."
+msgstr ""
+
+msgid "Error: Generated image exceeds 10MB size limit for LINE messages."
+msgstr ""
+
+msgid "Error: Failed to save generated image."
+msgstr ""
+
+msgid ""
+"Error: Invalid size. Use auto or WIDTHxHEIGHT where both edges are multiples "
+"of 16px, the max edge is 3840px or less, the aspect ratio is 3:1 or less, "
+"and total pixels are between 655,360 and 8,294,400."
 msgstr ""
 
 msgid "Steps"
@@ -3045,6 +3236,18 @@ msgstr ""
 msgid "DateTime: YYYY-MM-DDThh:mm"
 msgstr ""
 
+msgid "Audience mode"
+msgstr ""
+
+msgid "Choose recipients for LINE messages"
+msgstr ""
+
+msgid "Use related user"
+msgstr ""
+
+msgid "Specify audience"
+msgstr ""
+
 msgid "Webhook"
 msgstr ""
 
@@ -3246,6 +3449,51 @@ msgstr ""
 msgid "Week number"
 msgstr ""
 
+msgid "WordPress action hook to trigger on"
+msgstr ""
+
+msgid "User registration"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Profile update"
+msgstr ""
+
+msgid "User deletion"
+msgstr ""
+
+msgid "Post saved"
+msgstr ""
+
+msgid "Comment posted"
+msgstr ""
+
+msgid "Plugin activated"
+msgstr ""
+
+msgid "Plugin deactivated"
+msgstr ""
+
+msgid "Theme switched"
+msgstr ""
+
+msgid "Post status"
+msgstr ""
+
+msgid "Target post types"
+msgstr ""
+
+msgid "Target plugins"
+msgstr ""
+
+msgid "Target themes"
+msgstr ""
+
 msgid "Add source condition"
 msgstr ""
 
@@ -3271,6 +3519,9 @@ msgid "Add trigger"
 msgstr ""
 
 msgid "Trigger type"
+msgstr ""
+
+msgid "Action Hook"
 msgstr ""
 
 msgid "Choose trigger type."
@@ -3871,6 +4122,9 @@ msgid "Add email"
 msgstr ""
 
 msgid "Add username"
+msgstr ""
+
+msgid "Add display name"
 msgstr ""
 
 msgid "Add profile data"

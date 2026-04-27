@@ -33,7 +33,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 	public static function config(): array {
 		return array(
 			'title'       => __( 'Edit image', LineConnect::PLUGIN_NAME ),
-			'description' => __( 'Edit an image with gpt-image-1.5 and return it as a LINE image message. You can provide multiple input images and an optional mask.', LineConnect::PLUGIN_NAME ),
+			'description' => __( 'Edit an image with gpt-image-2.0 and return it as a LINE image message. You can provide multiple input images and an optional mask.', LineConnect::PLUGIN_NAME ),
 			'parameters'  => array(
 				array(
 					'type'        => 'string',
@@ -200,7 +200,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		$request_body = array(
-			'model' => $this->resolve_responses_model( LineConnect::get_option( 'openai_responses_model' ) ),
+			'model' => $this->resolve_responses_model( LineConnect::get_option( 'openai_model' ) ),
 			'input' => array(
 				array(
 					'role'    => 'user',
@@ -232,8 +232,8 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			)
 		);
 
-		Logging::logging_with_redact( array( 'endpoint' => $responsesEndpoint ) );
-		Logging::logging_with_redact( array( 'request' => $request_body ), array( 'result' ) );
+		// Logging::logging_with_redact( array( 'endpoint' => $responsesEndpoint ) );
+		// Logging::logging_with_redact( array( 'request' => $request_body ), array( 'result' ) );
 
 		$headers = array(
 			'Authorization: Bearer ' . $apiKey,
@@ -251,7 +251,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		$curl_error = curl_errno( $curl ) ? curl_error( $curl ) : null;
 		curl_close( $curl );
 
-		Logging::logging_with_redact( array( 'response' => json_decode( $result, true ) ), array( 'result' ) );
+		// Logging::logging_with_redact( array( 'response' => json_decode( $result, true ) ), array( 'result' ) );
 
 		if ( $curl_error ) {
 			return $this->build_direct_error_response( sprintf( __( 'Error: %s', LineConnect::PLUGIN_NAME ), $curl_error ) );

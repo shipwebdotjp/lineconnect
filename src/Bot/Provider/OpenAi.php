@@ -294,24 +294,7 @@ class OpenAi {
 
 			// error_log( "convasations: " . print_r( $convasations, true ) );
 			foreach ( array_reverse( $convasations ) as $convasation ) {
-				$role = $convasation->source_type < 11 ? 'user' : 'assistant';
-
-				$message_object = json_decode( $convasation->message, false );
-				if ( json_last_error() == JSON_ERROR_NONE ) {
-					if ( $convasation->message_type == 1 ) {
-						if ( is_array( $message_object ) ) {
-							$message_object = $message_object[0];
-						}
-						if ( ! isset( $message_object->text ) ) {
-							continue;
-						}
-
-						$messages[] = array(
-							'role'    => $role,
-							'content' => $message_object->text,
-						);
-					}
-				}
+				$messages = array_merge( $messages, $this->build_context_messages_from_conversation( $convasation ) );
 			}
 		}
 		// function callが合った場合、ユーザーからの当初のプロンプトと、モデルからのfunction call呼出しメッセージを追加
@@ -364,12 +347,7 @@ class OpenAi {
 				'content' => $content,
 			);
 		}
-		Logging::logging_with_redact(
-			array(
-				'messages' => $messages,
-			),
-			array()
-		);
+		// Logging::logging_with_redact(            array(              'messages' => $messages,            ),          array()     );
 
 		// Define data
 		$data                = array();
@@ -404,13 +382,140 @@ class OpenAi {
 			$responce = json_decode( $result, true );
 		}
 		curl_close( $curl );
-		Logging::logging_with_redact(
-			array(
-				'response' => $responce,
-			),
-			array( 'url' )
-		);
+		// Logging::logging_with_redact(            array(              'response' => $responce,            ),          array( 'url' )      );
 		return $responce;
+	}
+
+	/**
+	 * 会話ログ1件をOpenAIのmessages形式に変換する。
+	 *
+	 * @param object $conversation 会話ログ
+	 * @return array
+	 */
+	function build_context_messages_from_conversation( $conversation ) {
+		if ( ! is_object( $conversation ) || ! isset( $conversation->message ) ) {
+			return array();
+		}
+
+		$role = $conversation->source_type < 11 ? 'user' : 'assistant';
+
+		$message_object = json_decode( $conversation->message, false );
+		if ( json_last_error() !== JSON_ERROR_NONE || empty( $message_object ) ) {
+			return array();
+		}
+
+		if ( ! is_array( $message_object ) ) {
+			$message_object = array( $message_object );
+		}
+
+		$user_content       = array();
+		$assistant_contents = array();
+
+		foreach ( $message_object as $message_item ) {
+			if ( ! is_object( $message_item ) || ! isset( $message_item->type ) ) {
+				continue;
+			}
+
+			if ( $message_item->type === 'text' ) {
+				if ( isset( $message_item->text ) && $message_item->text !== '' ) {
+					if ( $role === 'user' ) {
+						$user_content[] = array(
+							'type' => 'text',
+							'text' => $message_item->text,
+						);
+					} else {
+						$assistant_contents[] = $message_item->text;
+					}
+				}
+				continue;
+			}
+
+			if ( $message_item->type === 'image' ) {
+				$image_url = $this->get_message_item_url( $message_item );
+				if ( empty( $image_url ) ) {
+					continue;
+				}
+
+				if ( $role === 'user' ) {
+					$user_content[] = array(
+						'type' => 'text',
+						'text' => 'Image URL: ' . $image_url,
+					);
+					$user_content[] = array(
+						'type'      => 'image_url',
+						'image_url' => array(
+							'url' => $image_url,
+						),
+					);
+				} else {
+					$assistant_contents[] = 'Image URL: ' . $image_url;
+				}
+				continue;
+			}
+
+			if ( $message_item->type === 'audio' ) {
+				$audio_url = $this->get_message_item_url( $message_item );
+				if ( empty( $audio_url ) ) {
+					continue;
+				}
+
+				$audio_text = 'Audio URL: ' . $audio_url;
+				if ( $role === 'user' ) {
+					$user_content[] = array(
+						'type' => 'text',
+						'text' => $audio_text,
+					);
+				} else {
+					$assistant_contents[] = $audio_text;
+				}
+			}
+		}
+
+		if ( $role === 'user' ) {
+			if ( empty( $user_content ) ) {
+				return array();
+			}
+
+			return array(
+				array(
+					'role'    => 'user',
+					'content' => $user_content,
+				),
+			);
+		}
+
+		if ( empty( $assistant_contents ) ) {
+			return array();
+		}
+
+		return array(
+			array(
+				'role'    => 'assistant',
+				'content' => implode( "\n", $assistant_contents ),
+			),
+		);
+	}
+
+	/**
+	 * メッセージ要素からURLを取得する。
+	 *
+	 * @param object $message_item メッセージ要素
+	 * @return string|false
+	 */
+	function get_message_item_url( $message_item ) {
+		if ( ! is_object( $message_item ) ) {
+			return false;
+		}
+
+		if ( isset( $message_item->file_path ) ) {
+			return \Shipweb\LineConnect\Utilities\FileSystem::get_lineconnect_file_url( $message_item->file_path );
+		}
+
+		if ( isset( $message_item->originalContentUrl ) ) {
+			return $message_item->originalContentUrl;
+		}
+
+		return false;
 	}
 
 	/**

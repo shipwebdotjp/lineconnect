@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LINE Connect 2.6.0\n"
 "Report-Msgid-Bugs-To: shipwebdotjp@gmail.com\n"
-"POT-Creation-Date: 2025-09-13 22:26+0900\n"
-"PO-Revision-Date: 2023-08-05 23:17+0900\n"
+"POT-Creation-Date: 2026-04-27 20:32+0900\n"
+"PO-Revision-Date: 2026-04-27 21:24+0900\n"
 "Last-Translator: ship <shipwebdotjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
@@ -28,7 +28,7 @@ msgid "Teacher"
 msgstr "先生"
 
 msgid "Student"
-msgstr ""
+msgstr "学生"
 
 msgid "Channel prefix is required."
 msgstr "チャネルプレフィックスが必要です。"
@@ -73,7 +73,7 @@ msgid "Channel or User is not set."
 msgstr "チャネルかユーザーがセットされていません"
 
 msgid "Failed to execute scenario"
-msgstr ""
+msgstr "シナリオの実行に失敗しました"
 
 #, php-format
 msgid "This session will time out in %s minutes."
@@ -539,13 +539,13 @@ msgid "Failed to retrieve messages."
 msgstr "メッセージの取得に失敗しました。"
 
 msgid "User is not logged in."
-msgstr ""
+msgstr "ユーザーはログインしていません。"
 
 msgid "User is not authorized."
-msgstr ""
+msgstr "ユーザーは認証されていません。"
 
 msgid "Nonce is not set."
-msgstr ""
+msgstr "Nonce が設定されていません。"
 
 msgid "Profile"
 msgstr "プロフィール"
@@ -640,6 +640,21 @@ msgstr "ログインページURL"
 msgid "Enter the URL of the login page as a path relative to the site URL."
 msgstr "ログインページのURLをサイトURLからの相対パスで入力してください。"
 
+msgid "Redirect page method"
+msgstr "ページのリダイレクト方法"
+
+msgid "Select the method for handling redirects after login."
+msgstr "ログイン後のリダイレクトの処理方法を選択してください。"
+
+msgid "Direct file access"
+msgstr "直接ファイルアクセス"
+
+msgid "Admin Post"
+msgstr "管理者投稿"
+
+msgid "REST API"
+msgstr "REST API"
+
 msgid "Automatically initiate linkage"
 msgstr "自動連携開始"
 
@@ -652,9 +667,7 @@ msgstr "有効"
 msgid ""
 "This setting determines whether or not to automatically initiate linkage "
 "When user add an official account as a friend."
-msgstr ""
-"公式アカウントを友だち追加した際に自動的にアカウント連携開始メッセージを表示"
-"するかどうかの設定です。"
+msgstr "公式アカウントを友だち追加した際に自動的にアカウント連携開始メッセージを表示するかどうかの設定です。"
 
 msgid "Account link/unlink start keywords"
 msgstr "アカウント連携／解除開始キーワード"
@@ -732,11 +745,9 @@ msgid "Page"
 msgstr "固定ページ"
 
 msgid ""
-"The post type to be notified. The Send LINE checkbox will appear on the edit "
-"screen of the selected post type."
-msgstr ""
-"通知する対象の投稿タイプです。選んだ投稿タイプの編集画面にLINE送信チェック"
-"ボックスが表示されます。"
+"The post type to be notified. The Send LINE checkbox will appear on the edit"
+" screen of the selected post type."
+msgstr "通知する対象の投稿タイプです。選んだ投稿タイプの編集画面にLINE送信チェックボックスが表示されます。"
 
 msgid "Default value of \"Send update notification\" checkbox"
 msgstr "「更新通知を送信する」チェックボックスのデフォルト値"
@@ -753,8 +764,7 @@ msgstr "公開済みの場合はチェックなし"
 msgid ""
 "Default value setting for the \"Send update notification\" check box when "
 "editing an article."
-msgstr ""
-"記事編集時、「更新通知を送信する」チェックボックスのデフォルト値設定です。"
+msgstr "記事編集時、「更新通知を送信する」チェックボックスのデフォルト値設定です。"
 
 msgid "Default template of notification message."
 msgstr "通知メッセージテンプレートのデフォルト値"
@@ -765,9 +775,7 @@ msgstr "デフォルトテンプレート"
 msgid ""
 "Default value setting for the \"Message template\" select box when editing "
 "an article."
-msgstr ""
-"記事編集時、「メッセージテンプレート」セレクトボックスのデフォルト値設定で"
-"す。"
+msgstr "記事編集時、「メッセージテンプレート」セレクトボックスのデフォルト値設定です。"
 
 msgid "\"More\" link label"
 msgstr "リンクラベル"
@@ -781,9 +789,7 @@ msgstr "コメントがあった時に投稿者へLINE通知を行う"
 msgid ""
 "This setting determines whether or not to notify the poster of an article "
 "when there is a comment on the article."
-msgstr ""
-"記事にコメントがあった場合に、その記事の投稿者へコメントがあったことを通知す"
-"るかどうかの設定です。"
+msgstr "記事にコメントがあった場合に、その記事の投稿者へコメントがあったことを通知するかどうかの設定です。"
 
 msgid "\"Read comment\" link label"
 msgstr "コメントリンクラベル"
@@ -812,8 +818,7 @@ msgid ""
 "while preserving its aspect ratio, so the image will be \"letterboxed\" if "
 "its aspect ratio does not match the aspect ratio of the area."
 msgstr ""
-"領域全体：領域に合わせて画像が拡大されます。画像周囲が切り取られる場合があり"
-"ます。画像全体：画像の周囲に余白を追加して画像全体を表示します。"
+"領域全体：領域に合わせて画像が拡大されます。画像周囲が切り取られる場合があります。画像全体：画像の周囲に余白を追加して画像全体を表示します。"
 
 msgid "Image area aspect ratio"
 msgstr "画像領域アクペクト比"
@@ -851,8 +856,7 @@ msgid "HTML Link"
 msgstr "文字リンク"
 
 msgid "Button: button style. Link: HTML link style"
-msgstr ""
-"もっと読むリンクをボタンにするか、文字列のリンクで表示するかの設定です。"
+msgstr "もっと読むリンクをボタンにするか、文字列のリンクで表示するかの設定です。"
 
 msgid "Link text color"
 msgstr "リンク文字色"
@@ -870,8 +874,8 @@ msgid "Max title lines"
 msgstr "タイトル最大行数"
 
 msgid ""
-"This is the setting for the maximum number of lines of title to be displayed "
-"in the notification message."
+"This is the setting for the maximum number of lines of title to be displayed"
+" in the notification message."
 msgstr "通知メッセージでタイトルを最大何行まで表示するかの設定です。"
 
 msgid "Max body lines"
@@ -881,9 +885,7 @@ msgid ""
 "This is the setting for the maximum number of lines of text to be displayed "
 "in the notification message. Apart from this, it can be truncated to a "
 "maximum of 500 characters."
-msgstr ""
-"通知メッセージで本文を最大何行まで表示するかの設定です。これとは別に、最大500"
-"文字に切り詰められます。"
+msgstr "通知メッセージで本文を最大何行まで表示するかの設定です。これとは別に、最大500文字に切り詰められます。"
 
 msgid "AI Chat"
 msgstr "AI応答"
@@ -894,8 +896,7 @@ msgstr "AIによる自動応答"
 msgid ""
 "This setting determines whether or not to use AI auto-response for messages "
 "sent to official line account."
-msgstr ""
-"送られてきたメッセージに対してAIによる自動応答を利用するかどうかの設定です。"
+msgstr "送られてきたメッセージに対してAIによる自動応答を利用するかどうかの設定です。"
 
 msgid "OpenAI API Endpoint"
 msgstr "OpenAI APIエンドポイント"
@@ -913,7 +914,7 @@ msgid "Model"
 msgstr "使用モデル"
 
 msgid "This is a setting for which model to use. Such as gpt-4o-mini"
-msgstr ""
+msgstr "これは、使用するモデルを指定する設定です。たとえば gpt-4o-mini です"
 
 msgid "System prompt"
 msgstr "システムプロンプト"
@@ -921,9 +922,7 @@ msgstr "システムプロンプト"
 msgid ""
 "The initial text or instruction provided to the language model before "
 "interacting with it in a conversational manner."
-msgstr ""
-"AIに最初に与える命令です。例えば「あなたは優秀なWebサイト管理者です。お客様か"
-"らの問い合わせに丁寧に回答してください。」など"
+msgstr "AIに最初に与える命令です。例えば「あなたは優秀なWebサイト管理者です。お客様からの問い合わせに丁寧に回答してください。」など"
 
 msgid "Function Calling"
 msgstr "Function Calling"
@@ -943,9 +942,7 @@ msgstr "使用する文脈数"
 msgid ""
 "This is a setting for how many conversation histories to use in order to "
 "have the AI understand the context and respond."
-msgstr ""
-"文脈を理解してAIが回答をするよう、会話履歴をいくつまで使用するかの設定です。"
-"数値が大きくなると使用トークン数が増加します。"
+msgstr "文脈を理解してAIが回答をするよう、会話履歴をいくつまで使用するかの設定です。数値が大きくなると使用トークン数が増加します。"
 
 msgid "Max tokens"
 msgstr "最大トークン数"
@@ -959,25 +956,19 @@ msgstr "サンプリング温度"
 msgid ""
 "This is the temperature parameter. The higher the value, the more diverse "
 "words are likely to be selected. Between 0 and 1."
-msgstr ""
-"temperatureパラメータです。数値が高いほどより多様な単語が選ばれやすくなりま"
-"す。0～1の範囲で指定してください。"
+msgstr "temperatureパラメータです。数値が高いほどより多様な単語が選ばれやすくなります。0～1の範囲で指定してください。"
 
 msgid "Limit for unlinked users"
 msgstr "未連携ユーザーが1日に使用できる回数"
 
 msgid "Number of times an unlinked user can use it per day. -1 is unlimited."
-msgstr ""
-"サイトアカウントと未連携のユーザーが1日に何回まで使用できるかの設定です。-1で"
-"制限なしになります。"
+msgstr "サイトアカウントと未連携のユーザーが1日に何回まで使用できるかの設定です。-1で制限なしになります。"
 
 msgid "Limit for linked users"
 msgstr "連携済みユーザーが1日に使用できる回数"
 
 msgid "Number of times an linked user can use it per day. -1 is unlimited."
-msgstr ""
-"サイトアカウント連携済みのユーザーが1日に何回まで使用できるかの設定です。-1で"
-"制限なしになります。"
+msgstr "サイトアカウント連携済みのユーザーが1日に何回まで使用できるかの設定です。-1で制限なしになります。"
 
 msgid "Limit message"
 msgstr "制限回数を超えた場合のメッセージ"
@@ -985,16 +976,12 @@ msgstr "制限回数を超えた場合のメッセージ"
 msgid ""
 "The number of times you can use it in a day (%limit% times) has been "
 "exceeded. Please try again after the date changes."
-msgstr ""
-"1日に使用できる回数（%limit%回）を超えました。日付が変わってからお試しくださ"
-"い。"
+msgstr "1日に使用できる回数（%limit%回）を超えました。日付が変わってからお試しください。"
 
 msgid ""
 "This message is displayed when the number of times the limit can be used in "
 "a day is exceeded. The %limit% is replaced by the limit number of times."
-msgstr ""
-"1日に使用できる回数を超えた場合に表示するメッセージです。%limit%は制限回数に"
-"置き換えられます。"
+msgstr "1日に使用できる回数を超えた場合に表示するメッセージです。%limit%は制限回数に置き換えられます。"
 
 msgid "Data"
 msgstr "データ"
@@ -1034,13 +1021,10 @@ msgid "Delete all plugin data"
 msgstr "プラグインデータの削除"
 
 msgid "Delete all plugin data."
-msgstr ""
-"このプラグインが使用しているデータをすべて(データベース、アップロードファイル"
-"など)削除します"
+msgstr "このプラグインが使用しているデータをすべて(データベース、アップロードファイルなど)削除します"
 
 msgid "Are you sure you want to delete all plugin data?"
-msgstr ""
-"プラグインデータを本当に削除してよろしいですか？この操作は取り消せません。"
+msgstr "プラグインデータを本当に削除してよろしいですか？この操作は取り消せません。"
 
 msgid "LINE Connect settings"
 msgstr "LINE Connect 設定"
@@ -1053,9 +1037,8 @@ msgid ""
 "database. It is recommended that you make a backup of the database before "
 "updating."
 msgstr ""
-"LINE Connectのデータベースが最新ではありません。保存ボタンをクリックすると、"
-"データベースのアップデートが行われます。アップデートの前にデータベースのバッ"
-"クアップを取得することをお勧めします。"
+"LINE "
+"Connectのデータベースが最新ではありません。保存ボタンをクリックすると、データベースのアップデートが行われます。アップデートの前にデータベースのバックアップを取得することをお勧めします。"
 
 msgid "Channel settings"
 msgstr "チャネル設定"
@@ -1101,18 +1084,12 @@ msgid "Copy"
 msgstr "コピー"
 
 msgid ""
-"Please create a Messaging API channel for your official account on LINE "
-"Developers beforehand.\n"
-"Channel secrets can be obtained from the Channel Basic Settings page, and "
-"channel access tokens can be obtained from the Messaging API Settings page.\n"
-"If you wish to use Webhook, please set the Webhook URL to the following "
-"value."
+"Please create a Messaging API channel for your official account on LINE Developers beforehand.\n"
+"Channel secrets can be obtained from the Channel Basic Settings page, and channel access tokens can be obtained from the Messaging API Settings page.\n"
+"If you wish to use Webhook, please set the Webhook URL to the following value."
 msgstr ""
-"あらかじめ<a href=\"https://developers.line.biz/ja/\" target=\"_blank\">LINE "
-"Developers</a>にて、公式アカウントのMessaging APIチャネルを作成しておいてくだ"
-"さい。\n"
-"チャネルシークレットはチャネル基本設定ページから、チャネルアクセストークンは"
-"Messaging API設定ページから取得できます。\n"
+"あらかじめ<a href=\"https://developers.line.biz/ja/\" target=\"_blank\">LINE Developers</a>にて、公式アカウントのMessaging APIチャネルを作成しておいてください。\n"
+"チャネルシークレットはチャネル基本設定ページから、チャネルアクセストークンはMessaging API設定ページから取得できます。\n"
 "Webhookを利用する場合は、Webhook URLを下記の値に設定してください。"
 
 msgid "Save"
@@ -1279,8 +1256,8 @@ msgstr "アクション実行"
 
 #, php-format
 msgid ""
-"A new version %1$s is available. <a href=\"%2$s\" target=\"_blank\">Download "
-"from GitHub</a>"
+"A new version %1$s is available. <a href=\"%2$s\" target=\"_blank\">Download"
+" from GitHub</a>"
 msgstr ""
 "LINE Connectの新しいバージョン(%1$s)が利用可能です。<a href=\"%2$s\" "
 "target=\"_blank\">GitHubからダウンロード</a>"
@@ -1444,11 +1421,18 @@ msgid "Unsupported field schema: <em>%1</em>."
 msgstr "サポートされていないフィールドスキーマです: <em>%1</em>."
 
 msgid "Unsupported field schema for field <code>%1</code>: <em>%2</em>."
-msgstr ""
-"サポートされていないフィールドスキーマです: <code>%1</code>: <em>%2</em>."
+msgstr "サポートされていないフィールドスキーマです: <code>%1</code>: <em>%2</em>."
 
 msgid "<strong>%1</strong> (%2, %3 bytes)"
 msgstr "<strong>%1</strong> (%2, %3 バイト)"
+
+msgid "Response mode"
+msgstr "応答モード"
+
+msgid ""
+"Direct mode returns the action result directly to LINE. LLM mode sends the "
+"result back to the model first."
+msgstr "ダイレクトモードでは、アクションの結果が直接LINEに返されます。LLMモードでは、結果はまずモデルに返されます。"
 
 msgid "Send the return value as a response"
 msgstr "戻り値をLINEメッセージで送信"
@@ -1466,6 +1450,24 @@ msgstr "アクションを追加してください"
 msgid "Get the current date and time"
 msgstr "現在日時取得"
 
+msgid "Request LLM (AI)"
+msgstr "AIリクエスト"
+
+msgid "Send a request to an LLM (OpenAI) and get the response text."
+msgstr "AIにリクエストを送信し、応答テキストを取得します。"
+
+msgid "Prompt (required)"
+msgstr "プロンプト（必須）"
+
+msgid "System message (optional)"
+msgstr "システムメッセージ（任意）"
+
+msgid "Model (optional)"
+msgstr "モデル（オプション）"
+
+msgid "Error: OpenAI API Key or Endpoint is not configured."
+msgstr "エラー: OpenAI APIキーまたはエンドポイントが設定されていません。"
+
 msgid "Search users"
 msgstr "ユーザー検索"
 
@@ -1479,13 +1481,13 @@ msgid "Include"
 msgstr "含む"
 
 msgid "Order"
-msgstr ""
+msgstr "注文"
 
 msgid "Orderby"
-msgstr ""
+msgstr "並び順"
 
 msgid "Offset"
-msgstr ""
+msgstr "オフセット"
 
 msgid "Meta Key"
 msgstr "メタキー"
@@ -1576,6 +1578,83 @@ msgstr "メール件名"
 msgid "Mail body"
 msgstr "メール本文"
 
+msgid "Edit image"
+msgstr "画像編集"
+
+msgid ""
+"Edit an image with gpt-image-2.0 and return it as a LINE image message. You "
+"can provide multiple input images and an optional mask."
+msgstr "gpt-image-2.0 を使って画像を編集し、LINE の画像メッセージとして返します。複数の入力画像と、任意のマスクを指定できます。"
+
+msgid "Image editing prompt"
+msgstr "画像編集プロンプト"
+
+msgid ""
+"Array of image URLs(Fully qualified HTTPS URL or data URL) to edit. Max 16 "
+"images."
+msgstr "編集する画像URLの配列（完全修飾されたHTTPS URLまたはデータURL）。最大16枚の画像。"
+
+msgid "Optional mask image URL or file path."
+msgstr "オプションのマスク画像URLまたはファイルパス。"
+
+msgid "Image size. Available values: auto, 1024x1024, 1536x1024, 1024x1536."
+msgstr "画像サイズ。利用可能な値: auto, 1024x1024, 1536x1024, 1024x1536。"
+
+msgid "Rendering quality. Available values: auto, low, medium, high."
+msgstr "レンダリング品質。使用可能な値: auto, low, medium, high."
+
+msgid "Background handling. Available values: auto, transparent, opaque."
+msgstr "背景の処理。使用可能な値: auto, transparent, opaque."
+
+msgid "Output format. Available values: png, jpeg, webp."
+msgstr "出力形式。使用可能な値: png, jpeg, webp."
+
+msgid "Compression level for jpeg and webp output. Range: 0-100."
+msgstr "jpeg および webp 出力の圧縮レベル。範囲: 0-100。"
+
+msgid "Error: Prompt is required."
+msgstr "エラー: プロンプトは必須です。"
+
+msgid "Error: At least one input image is required."
+msgstr "エラー: 少なくとも1つの入力画像が必要です。"
+
+msgid ""
+"Error: Transparent background is not supported in the Responses API flow for"
+" GPT Image 2."
+msgstr "エラー: GPT Image 2 の Responses API フローでは透明な背景はサポートされていません。"
+
+#, php-format
+msgid "Error: Failed to process input image: %s"
+msgstr "エラー: 入力画像の処理に失敗しました: %s"
+
+#, php-format
+msgid "Error: Failed to process mask image: %s"
+msgstr "エラー: マスク画像の処理に失敗しました: %s"
+
+#, php-format
+msgid "Error: %s"
+msgstr "エラー: %s"
+
+msgid "Error: Failed to parse response from OpenAI."
+msgstr "エラー: OpenAI からの応答の解析に失敗しました。"
+
+msgid "Error: Failed to decode image data."
+msgstr "エラー: 画像データのデコードに失敗しました。"
+
+msgid "Error: Edited image exceeds 10MB size limit for LINE messages."
+msgstr "エラー: 編集済みの画像はLINEメッセージの10MBサイズ制限を超えています。"
+
+msgid "Error: Failed to save edited image."
+msgstr "エラー: 編集した画像の保存に失敗しました。"
+
+msgid ""
+"Error: Failed to generate thumbnail and original image exceeds 1MB preview "
+"size limit."
+msgstr "エラー: サムネイルの生成に失敗し、元画像が1MBのプレビューサイズ上限を超えています。"
+
+msgid "Error: Generated thumbnail exceeds 1MB preview size limit."
+msgstr "エラー: 生成されたサムネイルが1MBのプレビューサイズ上限を超えています。"
+
 msgid "Get user meta"
 msgstr "ユーザーメタ取得"
 
@@ -1590,6 +1669,41 @@ msgstr "LINEメッセージをJSON形式で指定します。"
 
 msgid "Single raw Message JSON object"
 msgstr "単一のメッセージJSONオブジェクト"
+
+msgid "Generate speech"
+msgstr "音声生成"
+
+msgid ""
+"Convert text to speech using OpenAI TTS and return it as a LINE audio "
+"message."
+msgstr "OpenAI TTS を使用してテキストを音声に変換し、LINE の音声メッセージとして返します。"
+
+msgid "The text to generate audio for."
+msgstr "音声を生成するテキスト。"
+
+msgid "The voice to use for generating the audio."
+msgstr "音声を生成するために使用する音声。"
+
+msgid "Optional instructions to influence the style of the generated audio."
+msgstr "生成される音声のスタイルに影響を与えるための任意の指示。"
+
+msgid "Error: Input text is required."
+msgstr "エラー: 入力テキストが必要です。"
+
+msgid "Error: Invalid voice option."
+msgstr "エラー: 無効な音声オプションです。"
+
+msgid "Error: Invalid response format option."
+msgstr "エラー: 無効な応答形式オプションです。"
+
+msgid "Error: Received empty response from OpenAI."
+msgstr "エラー: OpenAI から空の応答を受信しました。"
+
+msgid "Error: Failed to save generated audio."
+msgstr "エラー: 生成された音声の保存に失敗しました。"
+
+msgid "Error: Failed to determine audio duration."
+msgstr "エラー: 音声の再生時間を判定できませんでした。"
 
 msgid "Remove LINE user tags"
 msgstr "LINEユーザータグ削除    "
@@ -1637,10 +1751,10 @@ msgid "Author Name"
 msgstr "投稿者名"
 
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "Name"
 msgstr "名前"
@@ -1649,7 +1763,7 @@ msgid "Year"
 msgstr "年"
 
 msgid "Monthnum"
-msgstr ""
+msgstr "月番号"
 
 msgid "Day"
 msgstr "曜日"
@@ -1700,7 +1814,7 @@ msgid "LINE user id. Default value is LINE user id of event source."
 msgstr "LINEユーザーID。デフォルトは送信元ユーザーID。"
 
 msgid "Error: Secret prefix is not set."
-msgstr ""
+msgstr "エラー: シークレットのプレフィックスが設定されていません。"
 
 msgid "Get LINE Connect message"
 msgstr "LINE Connectメッセージ取得"
@@ -1792,9 +1906,7 @@ msgstr "LINE Connectインタラクションをキャンセルします。"
 msgid ""
 "Interaction ID. If not specified, the current active interaction will be "
 "targeted."
-msgstr ""
-"インタラクションID。指定されていない場合、現在アクティブなインタラクションが"
-"対象となります。"
+msgstr "インタラクションID。指定されていない場合、現在アクティブなインタラクションが対象となります。"
 
 msgid "Cancel policy. force=delete immediately, confirm=show confirmation"
 msgstr "キャンセルポリシー。force=即座に削除、confirm=確認画面を表示"
@@ -1808,9 +1920,7 @@ msgstr "確認画面を表示"
 msgid ""
 "Status to cancel. active=active, paused=paused, completed=completed, "
 "timeout=timeout"
-msgstr ""
-"キャンセル対象のステータス。active=アクティブ、paused=一時停止、completed=完"
-"了、timeout=タイムアウト"
+msgstr "キャンセル対象のステータス。active=アクティブ、paused=一時停止、completed=完了、timeout=タイムアウト"
 
 msgid "Active"
 msgstr "アクティブ"
@@ -1842,6 +1952,49 @@ msgstr "WordPressユーザーのメタ値を更新または削除"
 msgid "Meta value. If empty, meta will be deleted."
 msgstr "メタ値。空の場合はメタが削除されます。"
 
+msgid "Generate image"
+msgstr "画像生成"
+
+msgid ""
+"Generate an image with gpt-image-2 and return it as a LINE image message. "
+"You can optionally configure size, quality, background, output format, and "
+"compression."
+msgstr ""
+"gpt-image-2 を使用して画像を生成し、LINE の画像メッセージとして返します。サイズ、品質、背景、出力形式、圧縮を任意で設定できます。"
+
+msgid "Image generation prompt"
+msgstr "画像生成プロンプト"
+
+msgid ""
+"Image size. Use auto or WIDTHxHEIGHT. Both edges must be multiples of 16px, "
+"max edge length must be 3840px or less, the long edge to short edge ratio "
+"must be 3:1 or less, and total pixels must be between 655,360 and 8,294,400."
+msgstr ""
+"画像サイズ。auto または WIDTHxHEIGHT を使用してください。両辺は 16px の倍数である必要があり、最大辺の長さは 3840px "
+"以下、長辺と短辺の比率は 3:1 以下、総ピクセル数は 655,360 から 8,294,400 の間でなければなりません。"
+
+msgid ""
+"Background handling. Available values: auto, opaque. Transparent backgrounds"
+" are not supported by gpt-image-2."
+msgstr "背景の処理。使用可能な値: auto, opaque。透明な背景は gpt-image-2 ではサポートされていません。"
+
+msgid "Error: Unexpected response format from OpenAI."
+msgstr "エラー: OpenAI からの予期しない応答形式です。"
+
+msgid "Error: Generated image exceeds 10MB size limit for LINE messages."
+msgstr "エラー: 生成された画像はLINEメッセージの10MBサイズ制限を超えています。"
+
+msgid "Error: Failed to save generated image."
+msgstr "エラー: 生成された画像の保存に失敗しました。"
+
+msgid ""
+"Error: Invalid size. Use auto or WIDTHxHEIGHT where both edges are multiples"
+" of 16px, the max edge is 3840px or less, the aspect ratio is 3:1 or less, "
+"and total pixels are between 655,360 and 8,294,400."
+msgstr ""
+"エラー: 無効なサイズです。auto または WIDTHxHEIGHT を使用してください。両辺が 16px の倍数で、最大辺が 3840px "
+"以下、アスペクト比が 3:1 以下、総ピクセル数が 655,360 から 8,294,400 の範囲である必要があります。"
+
 msgid "Steps"
 msgstr "ステップ"
 
@@ -1866,9 +2019,7 @@ msgstr "注入先引数パス。例としてアクション-2のmessageを指定
 msgid ""
 "Injection Data. You can use return value of previous action. e.g. "
 "{{$.return.1}}"
-msgstr ""
-"注入するデータ。前のアクションの返り値を利用可能。例としてアクション-1の戻り"
-"値を使用する場合: {{$.return.1}}"
+msgstr "注入するデータ。前のアクションの返り値を利用可能。例としてアクション-1の戻り値を使用する場合: {{$.return.1}}"
 
 msgid "Finish scenario execution"
 msgstr "このステップでシナリオを終了する"
@@ -1930,9 +2081,7 @@ msgid ""
 "Choose whether to execute the step immediately after the exact interval "
 "elapses or to align the execution to a specified minute marker within the "
 "next hour."
-msgstr ""
-"ステップを、設定した間隔値が経過した後ぴったりに実行するか、経過後指定したタ"
-"イミングで実行するかを選択します。"
+msgstr "ステップを、設定した間隔値が経過した後ぴったりに実行するか、経過後指定したタイミングで実行するかを選択します。"
 
 msgid "Exact Interval Execution"
 msgstr "間隔値経過後ピッタリに実行"
@@ -1940,9 +2089,7 @@ msgstr "間隔値経過後ピッタリに実行"
 msgid ""
 "The step executes precisely after the full interval has elapsed (for "
 "example, if the interval is 1 hour, it runs exactly 1 hour later)."
-msgstr ""
-"ステップは、設定した間隔値が経過した後ぴったりの時刻に実行されます（例えば、"
-"間隔が1時間の場合、ぴったり1時間後に実行されます）。"
+msgstr "ステップは、設定した間隔値が経過した後ぴったりの時刻に実行されます（例えば、間隔が1時間の場合、ぴったり1時間後に実行されます）。"
 
 msgid "Align to Minute Marker"
 msgstr "実行する分を指定する"
@@ -1951,9 +2098,7 @@ msgid ""
 "After advancing by the specified number of hours, the step executes at the "
 "designated minute mark (for example, if set to minute 05, it executes at "
 "HH:05)."
-msgstr ""
-"指定された時間数が経過した後、設定された分に実行されます（例：05分に設定した"
-"場合、HH:05に実行）。"
+msgstr "指定された時間数が経過した後、設定された分に実行されます（例：05分に設定した場合、HH:05に実行）。"
 
 msgid "Minute"
 msgstr "分"
@@ -1964,16 +2109,12 @@ msgstr "時刻の「分」を指定してください（例：HH:05の場合は5
 msgid ""
 "Choose whether to execute the step immediately after the exact interval "
 "elapses or to align the execution to a specific time on subsequent days."
-msgstr ""
-"設定した間隔値が経過した後ぴったりに実行するか、特定の時刻に実行するかを選択"
-"してください。"
+msgstr "設定した間隔値が経過した後ぴったりに実行するか、特定の時刻に実行するかを選択してください。"
 
 msgid ""
 "The step executes precisely after the full interval has elapsed (for "
 "example, if the interval is 2 days, it runs exactly 48 hours later)."
-msgstr ""
-"設定した間隔値が経過した後ぴったりに実行されます（例：間隔が2日の場合、ちょう"
-"ど48時間後に実行）。"
+msgstr "設定した間隔値が経過した後ぴったりに実行されます（例：間隔が2日の場合、ちょうど48時間後に実行）。"
 
 msgid "Specific Daily Time"
 msgstr "指定日時"
@@ -1981,9 +2122,7 @@ msgstr "指定日時"
 msgid ""
 "After advancing by the specified number of days, the step executes at the "
 "designated time (e.g., 14:30 would trigger at 2:30 PM on the target day)."
-msgstr ""
-"指定された分の日数を加えた日の、設定された時刻に実行されます（例：14:30と設定"
-"した場合、該当日の午後2時30分に実行）。"
+msgstr "指定された分の日数を加えた日の、設定された時刻に実行されます（例：14:30と設定した場合、該当日の午後2時30分に実行）。"
 
 msgid "Time (HH:mm)"
 msgstr "時刻(HH:mm)"
@@ -1994,9 +2133,7 @@ msgstr "時刻をHH:mm形式で指定してください（例：12:10）。"
 msgid ""
 "Choose whether to execute the step at a specific time within the week or to "
 "align execution to a specific weekday and time."
-msgstr ""
-"設定された週数が経過した後の特定の時刻に実行するか、特定の曜日と時刻に合わせ"
-"て実行するかを選択してください。"
+msgstr "設定された週数が経過した後の特定の時刻に実行するか、特定の曜日と時刻に合わせて実行するかを選択してください。"
 
 msgid "Exact Time Execution"
 msgstr "実行する時刻を指定する"
@@ -2004,16 +2141,14 @@ msgstr "実行する時刻を指定する"
 msgid ""
 "The step executes at a specified time within the week (e.g., 12:10 on any "
 "day of the week)."
-msgstr ""
-"設定された週数が経過した後、指定された時刻に実行されます（例：その週の"
-"12:10）。"
+msgstr "設定された週数が経過した後、指定された時刻に実行されます（例：その週の12:10）。"
 
 msgid "Align to Weekday and Time"
 msgstr "曜日と時刻を指定する"
 
 msgid ""
-"The step executes on a specified weekday at a specified time (e.g., Saturday "
-"at 12:10)."
+"The step executes on a specified weekday at a specified time (e.g., Saturday"
+" at 12:10)."
 msgstr "指定された曜日の指定時刻に実行されます（例：土曜日の12:10）。"
 
 msgid "Sunday"
@@ -2044,28 +2179,22 @@ msgid "Specify the day of the week (e.g., Saturday)."
 msgstr "曜日を指定してください（例：土曜日）。"
 
 msgid ""
-"Choose whether to execute the step at a specific time within the month or to "
-"align execution to a specific day and time."
-msgstr ""
-"指定された月数が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせ"
-"て実行するかを選択してください。"
+"Choose whether to execute the step at a specific time within the month or to"
+" align execution to a specific day and time."
+msgstr "指定された月数が経過した日の特定の時刻に実行するか、特定の日付と時刻に合わせて実行するかを選択してください。"
 
 msgid ""
 "The step executes at a specified time within the month (e.g., 12:10 on any "
 "day of the month)."
-msgstr ""
-"指定された月数が経過した後、指定された時刻に実行されます（例：その日の"
-"12:10）。"
+msgstr "指定された月数が経過した後、指定された時刻に実行されます（例：その日の12:10）。"
 
 msgid "Align to Day and Time"
 msgstr "日付と時刻を指定する"
 
 msgid ""
-"The step executes on a specified day of the month at a specified time (e.g., "
-"the 15th at 12:10)."
-msgstr ""
-"指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の"
-"12:10）。"
+"The step executes on a specified day of the month at a specified time (e.g.,"
+" the 15th at 12:10)."
+msgstr "指定された月数が経過した月の、指定された日付と時刻に実行されます（例：15日の12:10）。"
 
 msgid "1st"
 msgstr "1"
@@ -2172,16 +2301,12 @@ msgstr "日付を指定してください（例：15）。"
 msgid ""
 "Choose whether to execute the step at a specific time within the year or to "
 "align execution to a specific month, day, and time."
-msgstr ""
-"ぴったり間隔値が経過した日の指定された時刻に実行するか、特定の月日と時刻に合"
-"わせて実行するかを選択してください。"
+msgstr "ぴったり間隔値が経過した日の指定された時刻に実行するか、特定の月日と時刻に合わせて実行するかを選択してください。"
 
 msgid ""
 "The step executes at a specified time within the year (e.g., 12:10 on any "
 "date)."
-msgstr ""
-"ぴったり間隔値が経過した日の指定された時刻に実行されます（例：任意の日の"
-"12:10）。"
+msgstr "ぴったり間隔値が経過した日の指定された時刻に実行されます（例：任意の日の12:10）。"
 
 msgid "Align to Month, Day, and Time"
 msgstr "月、日、時刻を指定する"
@@ -2372,24 +2497,23 @@ msgid "No regular expression match"
 msgstr "正規表現に一致しない"
 
 msgid ""
-"Determines whether the step is executed exactly after the interval or at the "
-"next standard time reference."
-msgstr ""
-"ステップを間隔がちょうど経過した後に実行するか、次の基準となるタイミングに実"
-"行するかを決定します。"
+"Determines whether the step is executed exactly after the interval or at the"
+" next standard time reference."
+msgstr "ステップを間隔がちょうど経過した後に実行するか、次の基準となるタイミングに実行するかを決定します。"
 
 msgid "Exact After Interval"
 msgstr "間隔がちょうど経過した後に実行"
 
-msgid "Executes the step immediately after the specified interval has elapsed."
+msgid ""
+"Executes the step immediately after the specified interval has elapsed."
 msgstr "指定された間隔がちょうど経過した後にステップを実行します。"
 
 msgid "Base Time Reference"
 msgstr "基準タイミング"
 
 msgid ""
-"Executes the step at the next base time reference (e.g., the next hour, day, "
-"etc.)."
+"Executes the step at the next base time reference (e.g., the next hour, day,"
+" etc.)."
 msgstr "次の基準となるタイミング（次の時間、日など）にステップを実行します。"
 
 msgid "Add LINE user ID"
@@ -2485,6 +2609,7 @@ msgid ""
 "Failed to send a LINE message due to Channel access token or Channel secret "
 "not set."
 msgstr ""
+"Channel access token または Channel secret が設定されていないため、LINEメッセージの送信に失敗しました。"
 
 # php-format
 #, php-format
@@ -2646,9 +2771,7 @@ msgstr "サイズ"
 msgid ""
 "The width and height of the rich menu displayed in the chat. The aspect "
 "ratio (width / height) must be at least 1.45."
-msgstr ""
-"チャットに表示されるリッチメニューの幅と高さ。アスペクト比（幅/高さ）は1.45以"
-"上である必要があります。"
+msgstr "チャットに表示されるリッチメニューの幅と高さ。アスペクト比（幅/高さ）は1.45以上である必要があります。"
 
 msgid "Width"
 msgstr "幅"
@@ -2850,22 +2973,16 @@ msgid "Invalid Japanese phone number format."
 msgstr "日本の電話番号の形式が正しくありません。"
 
 msgid "Invalid date format. Please use YYYY-MM-DD or YYYY/MM/DD."
-msgstr ""
-"日付の形式が正しくありません。YYYY-MM-DD または YYYY/MM/DD の形式で入力してく"
-"ださい。"
+msgstr "日付の形式が正しくありません。YYYY-MM-DD または YYYY/MM/DD の形式で入力してください。"
 
 msgid "Invalid date."
 msgstr "日付が正しくありません。"
 
 msgid "Invalid time format. Use HH:MM or HH:MM:SS."
-msgstr ""
-"時刻の形式が正しくありません。HH:MM または HH:MM:SS の形式で入力してくださ"
-"い。"
+msgstr "時刻の形式が正しくありません。HH:MM または HH:MM:SS の形式で入力してください。"
 
 msgid "Invalid datetime format. Use YYYY-MM-DD HH:MM or YYYY-MM-DDTHH:MM."
-msgstr ""
-"日時の形式が正しくありません。YYYY-MM-DD HH:MM または YYYY-MM-DDTHH:MM の形式"
-"で入力してください。"
+msgstr "日時の形式が正しくありません。YYYY-MM-DD HH:MM または YYYY-MM-DDTHH:MM の形式で入力してください。"
 
 msgid "Invalid datetime format."
 msgstr "日時の形式が正しくありません。"
@@ -3134,6 +3251,18 @@ msgstr "日付時刻"
 msgid "DateTime: YYYY-MM-DDThh:mm"
 msgstr "日付時刻: YYYY-MM-DDThh:mm"
 
+msgid "Audience mode"
+msgstr "オーディエンスモード"
+
+msgid "Choose recipients for LINE messages"
+msgstr "LINEメッセージの受信者を選択"
+
+msgid "Use related user"
+msgstr "関連ユーザーを使用"
+
+msgid "Specify audience"
+msgstr "オーディエンスを指定"
+
 msgid "Webhook"
 msgstr "Webhook"
 
@@ -3168,7 +3297,7 @@ msgid "Unsend"
 msgstr "送信取り消し"
 
 msgid "Membership"
-msgstr ""
+msgstr "会員登録"
 
 msgid "Message type"
 msgstr "メッセージタイプ"
@@ -3201,13 +3330,13 @@ msgid "Add Freind"
 msgstr "友だち追加"
 
 msgid "Joined"
-msgstr ""
+msgstr "参加済み"
 
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 msgid "Renewed"
-msgstr ""
+msgstr "更新済み"
 
 msgid "Schedule"
 msgstr "スケジュール"
@@ -3243,8 +3372,7 @@ msgid "Beforehand notice (min)"
 msgstr "事前通知(分)"
 
 msgid "How many minutes in advance notice"
-msgstr ""
-"入力すると、対象となる時刻よりも指定した分だけ事前にトリガーが発動します。"
+msgstr "入力すると、対象となる時刻よりも指定した分だけ事前にトリガーが発動します。"
 
 msgid "0 am"
 msgstr "0時"
@@ -3336,6 +3464,51 @@ msgstr "週の最初の曜日"
 msgid "Week number"
 msgstr "週番号"
 
+msgid "WordPress action hook to trigger on"
+msgstr "WordPress のアクションフック。トリガー対象:"
+
+msgid "User registration"
+msgstr "ユーザー登録"
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Profile update"
+msgstr "プロフィールの更新"
+
+msgid "User deletion"
+msgstr "ユーザーの削除"
+
+msgid "Post saved"
+msgstr "投稿保存"
+
+msgid "Comment posted"
+msgstr "コメント投稿"
+
+msgid "Plugin activated"
+msgstr "プラグイン有効化"
+
+msgid "Plugin deactivated"
+msgstr "プラグイン無効化"
+
+msgid "Theme switched"
+msgstr "テーマ切り替え"
+
+msgid "Post status"
+msgstr "投稿ステータス"
+
+msgid "Target post types"
+msgstr "対象の投稿タイプ"
+
+msgid "Target plugins"
+msgstr "対象プラグイン"
+
+msgid "Target themes"
+msgstr "対象テーマ"
+
 msgid "Add source condition"
 msgstr "ソース条件追加"
 
@@ -3362,6 +3535,9 @@ msgstr "トリガー追加"
 
 msgid "Trigger type"
 msgstr "トリガータイプ"
+
+msgid "Action Hook"
+msgstr "アクションフック"
 
 msgid "Choose trigger type."
 msgstr "何をトリガーとするかの選択"
@@ -3397,9 +3573,7 @@ msgid "Sender name"
 msgstr "送信者名"
 
 msgid "Display name. Certain words such as LINE may not be used."
-msgstr ""
-"表示名。LINEなど弊社のサービスと誤認される可能性があるワードは使用できませ"
-"ん。"
+msgstr "表示名。LINEなど弊社のサービスと誤認される可能性があるワードは使用できません。"
 
 msgid "Sender icon URL"
 msgstr "アイコン画像URL"
@@ -3407,19 +3581,16 @@ msgstr "アイコン画像URL"
 msgid ""
 "URL of the image to display as an icon when sending a message.HTTPS, PNG, "
 "1:1, 1MB"
-msgstr ""
-"メッセージ送信時にアイコンとして表示する画像のURL。画像フォーマット：PNG、ア"
-"スペクト比：1:1、最大ファイルサイズ：1MB"
+msgstr "メッセージ送信時にアイコンとして表示する画像のURL。画像フォーマット：PNG、アスペクト比：1:1、最大ファイルサイズ：1MB"
 
 msgid "Thumbnail image url"
 msgstr "サムネイル画像URL"
 
 msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1.51:1 ,Max width: 1024px, Max file size: 10 MB"
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1.51:1 "
+",Max width: 1024px, Max file size: 10 MB"
 msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
-"1.51:1、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
+"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比：1.51:1、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
 
 msgid "Image background color"
 msgstr "画像背景色"
@@ -3433,19 +3604,15 @@ msgstr "メッセージテキスト"
 msgid ""
 "Max character limit: 120 (no image or title) 60 (message with an image or "
 "title)"
-msgstr ""
-"画像もタイトルも指定しない場合の最大文字数：120、画像またはタイトルを指定する"
-"場合の最大文字数：60"
+msgstr "画像もタイトルも指定しない場合の最大文字数：120、画像またはタイトルを指定する場合の最大文字数：60"
 
 msgid "Image url"
 msgstr "画像URL"
 
 msgid ""
-"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: "
-"1:1 ,Max width: 1024px, Max file size: 10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比："
-"1:1、最大横幅サイズ：1024px、"
+"Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Aspect ratio: 1:1 "
+",Max width: 1024px, Max file size: 10 MB"
+msgstr "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、アスペクト比：1:1、最大横幅サイズ：1024px、"
 
 msgid "Select message type"
 msgstr "メッセージタイプを選択"
@@ -3501,33 +3668,27 @@ msgstr "オリジナルファイルURL"
 msgid ""
 "Image file URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file size: "
 "10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサ"
-"イズ：10MB"
+msgstr "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：10MB"
 
 msgid "Preview Image Url"
 msgstr "プレビュー画像URL"
 
 msgid "Preview image URL. Image format: JPEG or PNG, Max file size: 1 MB"
-msgstr ""
-"プレビュー画像のURL。画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
+msgstr "プレビュー画像のURL。画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
 
 msgid "Video message"
 msgstr "動画メッセージ"
 
 msgid ""
-"If the video isn't playing properly, make sure the video is a supported file "
-"type and the HTTP server hosting the video supports HTTP range requests."
+"If the video isn't playing properly, make sure the video is a supported file"
+" type and the HTTP server hosting the video supports HTTP range requests."
 msgstr ""
-"動画が正しく再生できない場合、動画が再生可能なファイル形式であることと、動画"
-"をホストしているHTTPサーバーが、HTTPの範囲リクエスト（Range request）に対応し"
-"ていることを確認してください。"
+"動画が正しく再生できない場合、動画が再生可能なファイル形式であることと、動画をホストしているHTTPサーバーが、HTTPの範囲リクエスト（Range "
+"request）に対応していることを確認してください。"
 
 msgid ""
 "Video file URL. Protocol: HTTPS, Video format: MP4, Max file size: 200 MB"
-msgstr ""
-"動画ファイルのURL。プロトコル：HTTPS、動画フォーマット：mp4、最大ファイルサイ"
-"ズ：200MB"
+msgstr "動画ファイルのURL。プロトコル：HTTPS、動画フォーマット：mp4、最大ファイルサイズ：200MB"
 
 msgid "Preview image URL"
 msgstr "プレビュー画像URL"
@@ -3535,9 +3696,7 @@ msgstr "プレビュー画像URL"
 msgid ""
 "Preview image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max file "
 "size: 1 MB"
-msgstr ""
-"プレビュー画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大"
-"ファイルサイズ：1MB"
+msgstr "プレビュー画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大ファイルサイズ：1MB"
 
 msgid "Tracking ID"
 msgstr "トラッキングID"
@@ -3545,9 +3704,7 @@ msgstr "トラッキングID"
 msgid ""
 "ID used to identify the video when Video viewing complete event occurs. You "
 "can use the same ID in multiple messages."
-msgstr ""
-"動画視聴完了イベントが発生したときに、動画を識別するためのID。複数のメッセー"
-"ジで同じIDを使用することができます。"
+msgstr "動画視聴完了イベントが発生したときに、動画を識別するためのID。複数のメッセージで同じIDを使用することができます。"
 
 msgid "Audio message"
 msgstr "音声メッセージ"
@@ -3555,9 +3712,7 @@ msgstr "音声メッセージ"
 msgid ""
 "Audio file URL. Protocol: HTTPS, Audio format: MP3 or MP4, Max file size: "
 "200 MB"
-msgstr ""
-"音声ファイルのURL。プロトコル：HTTPS、音声フォーマット：mp3またはm4a、最大"
-"ファイルサイズ：200MB"
+msgstr "音声ファイルのURL。プロトコル：HTTPS、音声フォーマット：mp3またはm4a、最大ファイルサイズ：200MB"
 
 msgid "Duration"
 msgstr "継続時間"
@@ -3585,9 +3740,7 @@ msgid ""
 "tappable areas. You can assign one tappable area for the entire image or "
 "different tappable areas on divided areas of the image."
 msgstr ""
-"イメージマップメッセージは、複数のタップ領域を設定した画像を送信できるメッ"
-"セージです。画像全体に1つのタップ領域を割り当てることも、画像を区切って複数の"
-"タップ領域を設定することもできます。"
+"イメージマップメッセージは、複数のタップ領域を設定した画像を送信できるメッセージです。画像全体に1つのタップ領域を割り当てることも、画像を区切って複数のタップ領域を設定することもできます。"
 
 msgid "Base Url"
 msgstr "ベースURL"
@@ -3601,9 +3754,7 @@ msgstr "代替テキスト"
 msgid ""
 "Alternative text. When a user receives a message, it will appear as an "
 "alternative to the image in the notification or chat list of their device."
-msgstr ""
-"代替テキスト。ユーザーがメッセージを受信した際に、端末の通知やトークリストで"
-"画像の代替として表示されます。"
+msgstr "代替テキスト。ユーザーがメッセージを受信した際に、端末の通知やトークリストで画像の代替として表示されます。"
 
 msgid "Base Size"
 msgstr "ベースサイズ"
@@ -3616,9 +3767,7 @@ msgstr "基本画像の幅を1040pxとした場合の高さ"
 msgid ""
 "You can also play a video on the image and display a label with a hyperlink "
 "after the video is finished."
-msgstr ""
-"画像の上で動画を再生したり、動画再生後にリンク先を設定したラベルを表示したり"
-"できます。"
+msgstr "画像の上で動画を再生したり、動画再生後にリンク先を設定したラベルを表示したりできます。"
 
 msgid "Image map area"
 msgstr "イメージマップ領域"
@@ -3626,16 +3775,12 @@ msgstr "イメージマップ領域"
 msgid ""
 "Horizontal position of the video area relative to the left edge of the "
 "imagemap area. Value must be 0 or higher."
-msgstr ""
-"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
-"てください。"
+msgstr "領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定してください。"
 
 msgid ""
-"Vertical position of the video area relative to the top edge of the imagemap "
-"area. Value must be 0 or higher."
-msgstr ""
-"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
-"てください。"
+"Vertical position of the video area relative to the top edge of the imagemap"
+" area. Value must be 0 or higher."
+msgstr "領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定してください。"
 
 msgid "External link"
 msgstr "外部リンク"
@@ -3647,8 +3792,7 @@ msgid ""
 "Webpage URL. Called when the label displayed after the video is tapped. The "
 "available schemes are http, https, line, and tel"
 msgstr ""
-"ウェブページのURL。動画再生後に表示されるラベルをタップしたときに呼び出されま"
-"す。使用できるスキームは、http、https、line、およびtelです。"
+"ウェブページのURL。動画再生後に表示されるラベルをタップしたときに呼び出されます。使用できるスキームは、http、https、line、およびtelです。"
 
 msgid "Displayed after the video is finished."
 msgstr "動画の再生が終了した後に表示されます。"
@@ -3668,35 +3812,27 @@ msgstr "URL"
 msgid ""
 "Label for the action. Spoken when the accessibility feature is enabled on "
 "the client device."
-msgstr ""
-"アクションのラベル。ユーザーデバイスのアクセシビリティ機能が有効な場合に読み"
-"上げられます。"
+msgstr "アクションのラベル。ユーザーデバイスのアクセシビリティ機能が有効な場合に読み上げられます。"
 
 msgid ""
 "Defines the size of a tappable area. The top left is used as the origin of "
 "the area. Set these properties based on the baseSize.width property and the "
 "baseSize.height property."
 msgstr ""
-"タップ領域のサイズを表すオブジェクトです。画像の左上が座標の原点です。"
-"baseSize.widthプロパティとbaseSize.heightプロパティに基づいて指定します。"
+"タップ領域のサイズを表すオブジェクトです。画像の左上が座標の原点です。baseSize.widthプロパティとbaseSize.heightプロパティに基づいて指定します。"
 
 msgid ""
 "Horizontal position relative to the left edge of the area. Value must be 0 "
 "or higher."
-msgstr ""
-"領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定し"
-"てください。"
+msgstr "領域の左端を基準としたタップ領域の位置（横方向の相対位置）。0以上の値を設定してください。"
 
 msgid ""
 "Vertical position relative to the top edge of the area. Value must be 0 or "
 "higher."
-msgstr ""
-"領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定し"
-"てください。"
+msgstr "領域の上端を基準としたタップ領域の位置（縦方向の相対位置）。0以上の値を設定してください。"
 
 msgid "Webpage URL. The available schemes are http, https, line, and tel"
-msgstr ""
-"ウェブページのURL。使用できるスキームは、http、https、line、およびtelです。"
+msgstr "ウェブページのURL。使用できるスキームは、http、https、line、およびtelです。"
 
 msgid "Button Template message"
 msgstr "ボタンテンプレートメッセージ"
@@ -3707,9 +3843,7 @@ msgstr "代替テキスト"
 msgid ""
 "Image URL. Protocol: HTTPS, Image format: JPEG or PNG, Max width: 1024px, "
 "Max file size: 10 MB"
-msgstr ""
-"画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大横幅サイ"
-"ズ：1024px、最大ファイルサイズ：10MB"
+msgstr "画像のURL。プロトコル：HTTPS、画像フォーマット：JPEGまたはPNG、最大横幅サイズ：1024px、最大ファイルサイズ：10MB"
 
 msgid "Image aspect ratio"
 msgstr "画像アスペクト比"
@@ -3733,10 +3867,9 @@ msgid "Cover"
 msgstr "領域全体に表示"
 
 msgid ""
-"The image fills the entire image area. Parts of the image that do not fit in "
-"the area are not displayed."
-msgstr ""
-"画像領域全体に画像を表示します。画像領域に収まらない部分は切り詰められます。"
+"The image fills the entire image area. Parts of the image that do not fit in"
+" the area are not displayed."
+msgstr "画像領域全体に画像を表示します。画像領域に収まらない部分は切り詰められます。"
 
 msgid "Contain"
 msgstr "画像全体を表示"
@@ -3745,16 +3878,12 @@ msgid ""
 "The entire image is displayed in the image area. A background is displayed "
 "in the unused areas to the left and right of vertical images and in the "
 "areas above and below horizontal images."
-msgstr ""
-"画像領域に画像全体を表示します。縦長の画像では左右に、横長の画像では上下に余"
-"白が表示されます。"
+msgstr "画像領域に画像全体を表示します。縦長の画像では左右に、横長の画像では上下に余白が表示されます。"
 
 msgid ""
 "Max character limit: 160 (no image or title) 60 (message with an image or "
 "title)"
-msgstr ""
-"画像もタイトルも指定しない場合の最大文字数：160,画像またはタイトルを指定する"
-"場合の最大文字数：60"
+msgstr "画像もタイトルも指定しない場合の最大文字数：160,画像またはタイトルを指定する場合の最大文字数：60"
 
 msgid "Confirm template message"
 msgstr "確認テンプレート"
@@ -3771,14 +3900,10 @@ msgstr "カルーセルテンプレート"
 msgid ""
 "Template with multiple columns which can be cycled like a carousel. The "
 "columns are shown in order when scrolling horizontally."
-msgstr ""
-"複数のカラムを表示するテンプレートです。カラムは横にスクロールして順番に表示"
-"できます。"
+msgstr "複数のカラムを表示するテンプレートです。カラムは横にスクロールして順番に表示できます。"
 
 msgid "Size of the image. One of: cover, contain. Applies to all columns."
-msgstr ""
-"画像の表示形式。領域全体に表示または画像全体を表示から選択します。すべてのカ"
-"ラムに適用されます。"
+msgstr "画像の表示形式。領域全体に表示または画像全体を表示から選択します。すべてのカラムに適用されます。"
 
 msgid "Columns"
 msgstr "カラム"
@@ -3786,9 +3911,7 @@ msgstr "カラム"
 msgid ""
 "Keep the number of actions consistent for all columns. If you use an image "
 "or title for a column, make sure to do the same for all other columns."
-msgstr ""
-"各カラムのアクションの数は同じにします。画像またはタイトルの有無も、各カラム"
-"で統一してください。"
+msgstr "各カラムのアクションの数は同じにします。画像またはタイトルの有無も、各カラムで統一してください。"
 
 msgid "Image carousel template message"
 msgstr "画像カルーセルテンプレートメッセージ"
@@ -3796,9 +3919,7 @@ msgstr "画像カルーセルテンプレートメッセージ"
 msgid ""
 "Template with multiple images which can be cycled like a carousel. The "
 "images are shown in order when scrolling horizontally."
-msgstr ""
-"複数の画像を表示するテンプレートです。画像は横にスクロールして順番に表示でき"
-"ます。"
+msgstr "複数の画像を表示するテンプレートです。画像は横にスクロールして順番に表示できます。"
 
 msgid "Flex message"
 msgstr "Flex message"
@@ -3807,11 +3928,11 @@ msgid "Flex message object"
 msgstr "Flex Messageオブジェクト"
 
 msgid ""
-"Flex Messages are messages with a customizable layout. You can customize the "
-"layout freely based on the specification for CSS Flexible Box."
+"Flex Messages are messages with a customizable layout. You can customize the"
+" layout freely based on the specification for CSS Flexible Box."
 msgstr ""
-"Flex Messageは、CSS Flexible Box（CSS Flexbox）の基礎知識を使って、レイアウト"
-"を自由にカスタマイズできるメッセージです。"
+"Flex Messageは、CSS Flexible Box（CSS "
+"Flexbox）の基礎知識を使って、レイアウトを自由にカスタマイズできるメッセージです。"
 
 msgid "Flex message JSON object"
 msgstr "Flex message JSON"
@@ -3846,9 +3967,7 @@ msgstr "ポストバックアクション"
 msgid ""
 "String returned via webhook in the postback.data property of the postback "
 "event"
-msgstr ""
-"Webhookを介して、ポストバックイベントのpostback.dataプロパティで返される文字"
-"列"
+msgstr "Webhookを介して、ポストバックイベントのpostback.dataプロパティで返される文字列"
 
 msgid "Display text"
 msgstr "表示テキスト"
@@ -3858,9 +3977,7 @@ msgid ""
 "performed. Required for quick reply buttons. Optional for the other message "
 "types."
 msgstr ""
-"アクションの実行時に、ユーザーのメッセージとしてLINEのトーク画面に表示される"
-"テキスト。クイックリプライボタンでは必須です。それ以外のメッセージタイプでは"
-"省略可能です。"
+"アクションの実行時に、ユーザーのメッセージとしてLINEのトーク画面に表示されるテキスト。クイックリプライボタンでは必須です。それ以外のメッセージタイプでは省略可能です。"
 
 msgid "Input option"
 msgstr "入力オプション"
@@ -3886,9 +4003,7 @@ msgstr "事前入力テキスト"
 msgid ""
 "String to be pre-filled in the input field when the keyboard is opened. "
 "Valid only when the inputOption property is set to openKeyboard."
-msgstr ""
-"キーボードを開いたときに、入力欄にあらかじめ入力しておく文字列。入力オプショ"
-"ンがキーボードを開くの場合にのみ有効です。"
+msgstr "キーボードを開いたときに、入力欄にあらかじめ入力しておく文字列。入力オプションがキーボードを開くの場合にのみ有効です。"
 
 msgid "Message action"
 msgstr "メッセージアクション"
@@ -3899,9 +4014,7 @@ msgstr "URIアクション"
 msgid ""
 "URI opened when the action is performed. The available schemes are http, "
 "https, line, and tel"
-msgstr ""
-"アクションの実行時に開かれるURI。使用できるスキームは、http、https、line、お"
-"よびtelです。"
+msgstr "アクションの実行時に開かれるURI。使用できるスキームは、http、https、line、およびtelです。"
 
 msgid "Datetime picker action"
 msgstr "日時選択アクション"
@@ -3954,9 +4067,7 @@ msgstr "クリップボードアクション"
 msgid ""
 "When a user taps a control associated with this action, the text specified "
 "in the clipboardText property is copied to the device clipboard."
-msgstr ""
-"クリップボードテキストに指定されたテキストが、端末のクリップボードにコピーさ"
-"れます。"
+msgstr "クリップボードテキストに指定されたテキストが、端末のクリップボードにコピーされます。"
 
 msgid "Clipboard"
 msgstr "クリップボード"
@@ -4036,6 +4147,9 @@ msgstr "メールアドレスを追加"
 
 msgid "Add username"
 msgstr "ユーザー名を追加"
+
+msgid "Add display name"
+msgstr "表示名を追加"
 
 msgid "Add profile data"
 msgstr "プロフィールデータを追加"
@@ -4218,11 +4332,9 @@ msgid "Branches"
 msgstr "分岐"
 
 msgid ""
-"Define conditional branches based on user input. If no conditions match, the "
-"default Next Step ID will be used."
-msgstr ""
-"ユーザー入力に基づく条件分岐を定義します。どの条件にも一致しない場合は、デ"
-"フォルトの次のステップIDが使用されます。"
+"Define conditional branches based on user input. If no conditions match, the"
+" default Next Step ID will be used."
+msgstr "ユーザー入力に基づく条件分岐を定義します。どの条件にも一致しない場合は、デフォルトの次のステップIDが使用されます。"
 
 msgid "Branch"
 msgstr "分岐"
@@ -4267,8 +4379,8 @@ msgid "Timeout (minutes)"
 msgstr "タイムアウト（分）"
 
 msgid ""
-"The number of minutes from the last update to the timeout. If 0, there is no "
-"timeout."
+"The number of minutes from the last update to the timeout. If 0, there is no"
+" timeout."
 msgstr "最後の更新からタイムアウトまでの分数。0の場合、タイムアウトしません。"
 
 msgid "Send timeout reminder"
@@ -4277,8 +4389,7 @@ msgstr "タイムアウト通知を送信"
 msgid ""
 "Set how many minutes before the timeout to send a reminder. 0 means no "
 "reminder."
-msgstr ""
-"タイムアウトの何分前に通知を送信するかを設定します。0の場合は通知しません。"
+msgstr "タイムアウトの何分前に通知を送信するかを設定します。0の場合は通知しません。"
 
 msgid "On Timeout"
 msgstr "タイムアウト時"
@@ -4296,7 +4407,8 @@ msgid "Interaction Run Policy"
 msgstr "実行ポリシー"
 
 msgid ""
-"Defines how to handle repeated runs of the same interaction by the same user."
+"Defines how to handle repeated runs of the same interaction by the same "
+"user."
 msgstr "同じユーザーが同じインタラクションを繰り返し実行しようとした場合の処理方法を定義します。"
 
 msgid "Do not allow (block new runs if one exists)"
@@ -4332,11 +4444,9 @@ msgid "Stack (pause current, start new, then resume)"
 msgstr "スタック（一時停止して新規開始、完了後に再開）"
 
 msgid ""
-"The version of the interaction form. If you need to make changes to the form "
-"structure, increment this version number."
-msgstr ""
-"インタラクションフォームのバージョン。フォーム構造を変更する必要がある場合"
-"は、このバージョン番号を増やしてください。"
+"The version of the interaction form. If you need to make changes to the form"
+" structure, increment this version number."
+msgstr "インタラクションフォームのバージョン。フォーム構造を変更する必要がある場合は、このバージョン番号を増やしてください。"
 
 msgid "Storage"
 msgstr "ストレージ"
@@ -4354,7 +4464,8 @@ msgid ""
 "Input values for the step IDs defined here will not be displayed on the "
 "confirmation screen and will not be saved. Use this for steps that do not "
 "collect user data, such as consent or simple explanations."
-msgstr "ここで設定したステップIDの入力値は確認画面に表示されず、保存もされません。同意や単なる説明ステップなど、ユーザーデータを収集しないステップに設定します。"
+msgstr ""
+"ここで設定したステップIDの入力値は確認画面に表示されず、保存もされません。同意や単なる説明ステップなど、ユーザーデータを収集しないステップに設定します。"
 
 msgid "Cancel Words"
 msgstr "キャンセルワード"
@@ -4398,418 +4509,3 @@ msgstr "ユニークユーザー"
 
 msgid "View Sessions"
 msgstr "セッションを表示"
-
-#~ msgid "Run Policy"
-#~ msgstr "実行ポリシー"
-
-#~ msgid "Don't allow"
-#~ msgstr "許可しない"
-
-#~ msgid "Allow (keep latest only)"
-#~ msgstr "許可（最新のみ保持）"
-
-#~ msgid "Reject"
-#~ msgstr "拒否"
-
-#~ msgid "Restart only same"
-#~ msgstr "同じもののみ再開"
-
-#~ msgid "Restart only different"
-#~ msgstr "異なるもののみ再開"
-
-#~ msgid "Stack"
-#~ msgstr "スタック"
-
-#, php-format
-#~ msgid "Invalid timestamp format. %s"
-#~ msgstr "無効なタイムスタンプ形式です。%s"
-
-#~ msgid "LINE Connect Audience Download"
-#~ msgstr "LINE Connect オーディエンスダウンロード"
-
-#~ msgid "Download Audiences"
-#~ msgstr "ダウンロードオーディエンス"
-
-#~ msgid "Function name"
-#~ msgstr "関数名"
-
-#~ msgid "Function name to be called"
-#~ msgstr "呼び出される関数名"
-
-#~ msgid "Namespace"
-#~ msgstr "名前空間"
-
-#~ msgid "Namespace of the function"
-#~ msgstr "関数が属する名前空間"
-
-#~ msgid "Description of the action"
-#~ msgstr "アクションの説明"
-
-#~ msgid "User role to execute this function by AI Chat"
-#~ msgstr "AI応答時にこの関数を実行可能なユーザー権限"
-
-#~ msgid "Anyone"
-#~ msgstr "誰でも"
-
-#~ msgid "Parameters of the function"
-#~ msgstr "関数のパラメーター"
-
-#~ msgid "Description of the parameter"
-#~ msgstr "パラメーターの説明"
-
-#~ msgid "Whether the parameter is required"
-#~ msgstr "パラメーターが必須かどうか"
-
-#~ msgid "Object"
-#~ msgstr "オブジェクト型(Object)"
-
-#~ msgid "Object property"
-#~ msgstr "オブジェクトプロパティ"
-
-#~ msgid "Array"
-#~ msgstr "配列(Array)"
-
-#~ msgid "Array element"
-#~ msgstr "配列の要素"
-
-#~ msgid "Object properties when data type is object"
-#~ msgstr "データ型がオブジェクトの場合のプロパティ"
-
-#~ msgid "String"
-#~ msgstr "文字列(String)"
-
-#~ msgid "Enum list"
-#~ msgstr "Enumリスト"
-
-#~ msgid "List of enum value"
-#~ msgstr "Enum値のリスト"
-
-#~ msgid "Addtional Property"
-#~ msgstr "追加プロパティ"
-
-#~ msgid "Data Type"
-#~ msgstr "データ型"
-
-#~ msgid "Integer"
-#~ msgstr "整数(Integer)"
-
-#~ msgid "Boolean"
-#~ msgstr "論理型(Boolean)"
-
-#~ msgid "Null"
-#~ msgstr "NULL"
-
-#~ msgid "LINE Messaging API Channel"
-#~ msgstr "LINEメッセージングAPIチャネル"
-
-#~ msgid "Richmenu Alias"
-#~ msgstr "エイリアス"
-
-#~ msgid "Data type of each array element"
-#~ msgstr "配列の各要素のデータ型"
-
-#~ msgid "Check All"
-#~ msgstr "全て選択"
-
-#~ msgid "UnCheck All"
-#~ msgstr "全て選択解除"
-
-#~ msgid "Select options"
-#~ msgstr "未選択"
-
-#~ msgid "# checked"
-#~ msgstr "# 個選択"
-
-#~ msgid "Copied!"
-#~ msgstr "コピーしました！"
-
-#~ msgid "Enter your OpenAI API Key."
-#~ msgstr "OpenAIのAPI Keyを入力してください。"
-
-#~ msgid "This is a setting for which model to use."
-#~ msgstr "どのモデルを使用するかの設定です。"
-
-#~ msgid "Replacement Arguments"
-#~ msgstr "置換引数"
-
-#~ msgid "Body"
-#~ msgstr "本文"
-
-#~ msgid "Thumb"
-#~ msgstr "サムネイル"
-
-#~ msgid "Raw Json"
-#~ msgstr "生JSON"
-
-#~ msgid "Raw Message JSON"
-#~ msgstr "生LINEメッセージJSON"
-
-#~ msgid "LC message, message text or message object"
-#~ msgstr "LCメッセージ、メッセージテキストまたはオブジェクト"
-
-#~ msgid "LC message, text or message object"
-#~ msgstr "LCメッセージ、メッセージテキストまたはオブジェクト"
-
-#~ msgid "LC Audience or object"
-#~ msgstr "LCオーディエンスオブジェクト"
-
-#~ msgid "Message's Replacement Arguments"
-#~ msgstr "メッセージ中の置換引数"
-
-#~ msgid "Audience's Replacement Arguments"
-#~ msgstr "オーディエンス中の置換引数"
-
-#~ msgid "Subject"
-#~ msgstr "件名"
-
-#~ msgid "Line User Id"
-#~ msgstr "LINEユーザーID"
-
-#~ msgid "When restart a scenario."
-#~ msgstr "シナリオがすでに開始されている場合の動作を設定します。"
-
-#~ msgid "Template"
-#~ msgstr "テンプレート"
-
-#~ msgid "Execute Action Flow"
-#~ msgstr "アクションフローを実行"
-
-#~ msgid "Count Recipients"
-#~ msgstr "受信者の数をカウント"
-
-#~ msgid "Execute"
-#~ msgstr "実行"
-
-#~ msgid "Students"
-#~ msgstr "生徒"
-
-#~ msgid "Arguments to insert message"
-#~ msgstr "メッセージ置換用引数"
-
-#~ msgid "Send LINE message with line user ID and Channel."
-#~ msgstr "LINEユーザーIDとチャネルを指定してLINEメッセージを送信します。"
-
-#~ msgid "LINE message text or object"
-#~ msgstr "LINEメッセージ本文またはLINEメッセージJSON"
-
-#~ msgid "LINE user id"
-#~ msgstr "LINEユーザーID"
-
-#~ msgid "First 4 characters of channel secret."
-#~ msgstr "チャネルシークレットの先頭4文字"
-
-#~ msgid "All freinds(Broadcast)"
-#~ msgstr "すべての友だち（ブロードキャスト）"
-
-#~ msgid "All recognized freinds(Multicast)"
-#~ msgstr "認識済みのすべての友だち（マルチキャスト）"
-
-#~ msgid "All"
-#~ msgstr "全て"
-
-#~ msgid "Roles"
-#~ msgstr "ロール"
-
-#~ msgid "Users"
-#~ msgstr "ユーザー"
-
-#~ msgid "Failed to send a LINE message to selected users. "
-#~ msgstr "選択されたユーザーへのLINE送信に失敗しました"
-
-#~ msgid "No users matched."
-#~ msgstr "条件にマッチするユーザーがいませんでした"
-
-#~ msgid "No user selected."
-#~ msgstr "ユーザーが選択されていません。"
-
-#~ msgid "Failed to send a LINE message to selected roles. "
-#~ msgstr "指定されたロールのユーザーへのLINE送信に失敗しました"
-
-#~ msgid "To"
-#~ msgstr "送信先"
-
-#~ msgid ""
-#~ "To specify individual users, use the check link on the User List page, or "
-#~ "check the check boxes for the target users and \"Apply\" the \"Send LINE "
-#~ "Messages\" option in the batch operation."
-#~ msgstr ""
-#~ "ユーザーを個別に指定するには、ユーザー一覧ページでLINE連携の「連携済」リン"
-#~ "クを利用するか、対象ユーザーにチェックを入れて一括操作で「LINEメッセージ送"
-#~ "信」を「適用」してください。"
-
-#~ msgid "New message"
-#~ msgstr "新規メッセージ"
-
-#~ msgid "LINE message object"
-#~ msgstr "LINEメッセージオブジェクト"
-
-#, php-format
-#~ msgid "Injection data path of %s"
-#~ msgstr "%sの値として使用する式"
-
-#~ msgid ""
-#~ "The return value of the previous action can be used as a parameter. ex: "
-#~ "$.return.0 to use return value of action 0"
-#~ msgstr ""
-#~ "「$.return.アクション番号」とすることで、前のアクションの戻り値を引数の値"
-#~ "として使用できます。例えば、最初のアクションの戻り値を使用する場合"
-#~ "「$.return.0」と入力して下さい。"
-
-#~ msgid "Source conditions"
-#~ msgstr "ソース条件グループ"
-
-#~ msgid "Source condition Group"
-#~ msgstr "ソース条件グループ"
-
-#~ msgid "Keyword conditions"
-#~ msgstr "キーワード条件グループ"
-
-#~ msgid "Condition Group"
-#~ msgstr "条件グループ"
-
-#~ msgid "Condition"
-#~ msgstr "条件"
-
-#~ msgid "Conditions"
-#~ msgstr "条件"
-
-#~ msgid "Keyword object"
-#~ msgstr "キーワードオブジェクト"
-
-#~ msgid "Query object"
-#~ msgstr "クエリオブジェクト"
-
-#~ msgid "Original Content Url"
-#~ msgstr "画像URL"
-
-#~ msgid "Please add action"
-#~ msgstr "アクションを追加して下さい"
-
-#~ msgid "LINE Connect Action"
-#~ msgstr "LINE Connect アクション"
-
-#~ msgid "Action used in LINE Connect"
-#~ msgstr "LINE Connectで使われるアクション"
-
-#~ msgid "Property Name"
-#~ msgstr "プロパティ名"
-
-#~ msgid "LC Actions"
-#~ msgstr "LCアクション"
-
-#~ msgid "LC Action"
-#~ msgstr "LCアクション"
-
-#~ msgid "Add New Action"
-#~ msgstr "新しいアクションを追加"
-
-#~ msgid "Edit Action"
-#~ msgstr "アクションを編集"
-
-#~ msgid "New Action"
-#~ msgstr "新しいアクション"
-
-#~ msgid "View Action"
-#~ msgstr "アクションを表示"
-
-#~ msgid "Search Actions"
-#~ msgstr "アクションを検索"
-
-#~ msgid "No Actions found"
-#~ msgstr "アクションが見つかりません"
-
-#~ msgid "No Actions found in Trash"
-#~ msgstr "ゴミ箱にアクションが見つかりません"
-
-#~ msgid "All Actions"
-#~ msgstr "全てのアクション"
-
-#~ msgid "Action Archives"
-#~ msgstr "アクションアーカイブ"
-
-#~ msgid "Action Attributes"
-#~ msgstr "アクション属性"
-
-#~ msgid "Insert into Action"
-#~ msgstr "アクションに挿入"
-
-#~ msgid "Uploaded to this Action"
-#~ msgstr "このアクションにアップロードしました"
-
-#~ msgid "Filter Actions list"
-#~ msgstr "アクションの絞り込み"
-
-#~ msgid "Actions list navigation"
-#~ msgstr "アクションのナビゲーション"
-
-#~ msgid "Actions list"
-#~ msgstr "アクション一覧"
-
-#~ msgid "Action published."
-#~ msgstr "アクションを登録しました。"
-
-#~ msgid "Action published privately."
-#~ msgstr "アクションを非公開で登録しました。"
-
-#~ msgid "Action reverted to draft."
-#~ msgstr "アクションを下書きに戻しました。"
-
-#~ msgid "Action scheduled."
-#~ msgstr "アクションが予約投稿されました。"
-
-#~ msgid "Action updated."
-#~ msgstr "アクションが更新されました。"
-
-#~ msgid "LINE Connect Actions"
-#~ msgstr "LINE Connect アクション"
-
-#~ msgid "Array items"
-#~ msgstr "配列の要素"
-
-#~ msgid "Description of the property"
-#~ msgstr "プロパティの説明"
-
-#~ msgid "Property Type"
-#~ msgstr "プロパティの型"
-
-#~ msgid "Type of the property"
-#~ msgstr "プロパティの型"
-
-#~ msgid "Parameter name"
-#~ msgstr "パラメーター名"
-
-#~ msgid "Name of the parameter"
-#~ msgstr "パラメーターの名前"
-
-#~ msgid "Title of the action"
-#~ msgstr "アクションタイトル"
-
-#~ msgid "Parameter Type"
-#~ msgstr "パラメーターの型"
-
-#~ msgid "Type of the parameter"
-#~ msgstr "パラメーターの型(Objectのみに対応)"
-
-#~ msgid "Properties"
-#~ msgstr "プロパティ"
-
-#~ msgid "Properties of the parameter"
-#~ msgstr "パラメーター(Object)のプロパティ"
-
-#~ msgid "Required properties of the parameter"
-#~ msgstr "必須プロパティ"
-
-#, php-format
-#~ msgid "Sent a LINE message to %s."
-#~ msgstr "%sさんへLINEメッセージを送信しました。"
-
-#~ msgid "LINE Chat"
-#~ msgstr "LINE チャット"
-
-#~ msgid "LINE GPT Log"
-#~ msgstr "LINE BOTログ"
-
-#~ msgid "The database version is not up to date. Please re-activate plugin."
-#~ msgstr ""
-#~ "データベースの更新が必要です。プラグイン「LINE Connect」を一旦無効化し、再"
-#~ "度有効化してください。"

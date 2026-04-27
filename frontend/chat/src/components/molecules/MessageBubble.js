@@ -22,7 +22,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             case 'textV2':
                 return <MessageBubbleText text={message.text} className={defaultClass} />;
             case 2:
-                return <MessageBubbleImage file={message.file_path} className={defaultClass} />;
+                return <MessageBubbleImage url={message.originalContentUrl ?? ''} file={message.file_path ?? ''} className={defaultClass} />;
             case 'image':
                 return <MessageBubbleImage url={message.originalContentUrl} className={defaultClass} />;
             case 91:
@@ -33,7 +33,7 @@ const MessageBubble = ({ type, message, date, isMe }) => {
             case 'video':
                 return <MessageBubbleVideo url={message.originalContentUrl} className={defaultClass} />;
             case 4:
-                return <MessageBubbleAudio file={message.file_path} className={defaultClass} />;
+                return <MessageBubbleAudio url={message.originalContentUrl ?? ''} file={message.file_path ?? ''} className={defaultClass} />;
             case 'audio':
                 return <MessageBubbleAudio url={message.originalContentUrl} className={defaultClass} />;
             case 5:
