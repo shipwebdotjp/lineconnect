@@ -16,13 +16,17 @@ trait ImageGenerationTrait {
 	 *
 	 * @return string
 	 */
-	private function getSecretPrefix(): string {
-		return isset( $this->secret_prefix ) && ! empty( $this->secret_prefix ) ? $this->secret_prefix : '_none';
+	private function get_secret_prefix(): string {
+		return ! empty( $this->secret_prefix ) ? $this->secret_prefix : '_none';
 	}
 
-	private function getLineUserId(): string {
-		// $this->event->source->userId
-		return isset( $this->event->source->userId ) && ! empty( $this->event->source->userId ) ? $this->event->source->userId : '_unknown';
+	/**
+	 * Get LINE user ID safely.
+	 *
+	 * @return string
+	 */
+	private function get_line_user_id(): string {
+		return ! empty( $this->event->source->userId ) ? $this->event->source->userId : '_unknown';
 	}
 
 	/**

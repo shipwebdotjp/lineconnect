@@ -8,11 +8,14 @@ use Shipweb\LineConnect\Core\LineConnect;
 use Shipweb\LineConnect\Bot\Media\Image;
 use Shipweb\LineConnect\Message\LINE\Builder;
 use Shipweb\LineConnect\Utilities\FileSystem;
+use Shipweb\LineConnect\Utilities\Logging;
 
 /**
  * Definition for the edit_image action.
  */
 class GenerateImageEdit extends AbstractActionDefinition {
+	use ImageGenerationTrait;
+
 	/**
 	 * Returns the action key.
 	 *
@@ -238,8 +241,8 @@ class GenerateImageEdit extends AbstractActionDefinition {
 			)
 		);
 
-		error_log( 'Responses API endpoint for image edit: ' . $responsesEndpoint );
-		error_log( 'Requesting image edit via Responses API: ' . wp_json_encode( $this->redact_image_data_urls_for_log( $request_body ) ) );
+		Logging::logging_with_redact( array( 'endpoint' => $responsesEndpoint ) );
+		Logging::logging_with_redact( array( 'request' => $request_body ), array( 'result' ) );
 
 		$headers = array(
 			'Authorization: Bearer ' . $apiKey,
@@ -257,7 +260,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		$curl_error = curl_errno( $curl ) ? curl_error( $curl ) : null;
 		curl_close( $curl );
 
-		error_log( 'Received response from Responses API image edit: ' . wp_json_encode( $this->redact_image_data_urls_for_log( json_decode( $result, true ) ) ) );
+		Logging::logging_with_redact( array( 'response' => json_decode( $result, true ) ), array( 'result' ) );
 
 		if ( $curl_error ) {
 			return $this->build_direct_error_response( sprintf( __( 'Error: %s', LineConnect::PLUGIN_NAME ), $curl_error ) );
@@ -291,12 +294,12 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		}
 
 		$output_spec = $this->resolve_output_spec( $normalized_format );
-		$saved       = Image::saveGeneratedImage( $this->getSecretPrefix(), $this->getLineUserId(), $binary, $output_spec['mime_type'], $output_spec['extension'] );
+		$saved       = Image::saveGeneratedImage( $this->get_secret_prefix(), $this->get_line_user_id(), $binary, $output_spec['mime_type'], $output_spec['extension'] );
 		if ( ! $saved ) {
 			return $this->build_direct_error_response( __( 'Error: Failed to save edited image.', LineConnect::PLUGIN_NAME ) );
 		}
 
-		$thumb = Image::generateThumbnail( $saved['full_path'], $this->getSecretPrefix(), $this->getLineUserId() );
+		$thumb = Image::generateThumbnail( $saved['full_path'], $this->get_secret_prefix(), $this->get_line_user_id() );
 		if ( ! $thumb ) {
 			if ( $file_size > 1048576 ) {
 				if ( file_exists( $saved['full_path'] ) ) {
@@ -451,24 +454,6 @@ class GenerateImageEdit extends AbstractActionDefinition {
 
 		return 'Unexpected response format from OpenAI.';
 	}
-
-	private function redact_image_data_urls_for_log( array $payload ): array {
-		$walker = function ( &$value, $key ) {
-			if ( ( $key === 'image_url' ) && is_string( $value ) && strpos( $value, 'data:image/' ) === 0 ) {
-				$value = preg_replace( '#^data:image/[^;]+;base64,.*$#', 'data:image/***;base64,[redacted]', $value );
-			}
-			if ( $key == 'result' && is_string( $value ) ) {
-				$value = '(redacted)'; // 画像生成の結果はログに残さない
-			}
-		};
-
-		array_walk_recursive( $payload, $walker );
-
-		return $payload;
-	}
-
-	use ImageGenerationTrait;
-
 
 	/**
 	 * Normalize the requested size.
