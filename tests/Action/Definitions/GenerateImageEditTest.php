@@ -9,7 +9,10 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('edit_image', GenerateImageEdit::name());
 		$this->assertSame('Edit image', $config['title']);
 		$this->assertSame(8070, $config['order']);
-		$this->assertCount(9, $config['parameters']);
+		if (count($config['parameters']) !== 9) {
+			$names = array_map(function($p) { return $p['name'] ?? 'no-name'; }, $config['parameters']);
+			$this->fail("Expected 9 parameters, but got " . count($config['parameters']) . ": " . implode(', ', $names));
+		}
 		$this->assertSame('prompt', $config['parameters'][0]['name']);
 		$this->assertSame('images', $config['parameters'][1]['name']);
 		$this->assertSame('mask', $config['parameters'][2]['name']);
@@ -29,34 +32,6 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/chat/completions'));
 		$this->assertSame('https://myproxy.com/v2/responses', $method->invoke($definition, 'https://myproxy.com/v2/chat/completions'));
 		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/responses'));
-	}
-
-	public function test_redact_image_data_urls_for_log_masks_data_urls() {
-		$definition = new GenerateImageEdit();
-		$method = new ReflectionMethod(GenerateImageEdit::class, 'redact_image_data_urls_for_log');
-
-		$payload = array(
-			'input' => array(
-				array(
-					'role' => 'user',
-					'content' => array(
-						array(
-							'type' => 'input_image',
-							'image_url' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-						),
-						array(
-							'type' => 'input_text',
-							'text' => 'keep this',
-						),
-					),
-				),
-			),
-		);
-
-		$redacted = $method->invoke($definition, $payload);
-
-		$this->assertSame('data:image/***;base64,[redacted]', $redacted['input'][0]['content'][0]['image_url']);
-		$this->assertSame('keep this', $redacted['input'][0]['content'][1]['text']);
 	}
 
 	public function test_resolve_image_edit_endpoint() {

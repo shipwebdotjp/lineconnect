@@ -12,6 +12,8 @@ use Shipweb\LineConnect\Message\LINE\Builder;
  * Definition for the generate_image action.
  */
 class GenerateImage extends AbstractActionDefinition {
+	use ImageGenerationTrait;
+
 	/**
 	 * Returns the action key.
 	 *
@@ -162,13 +164,13 @@ class GenerateImage extends AbstractActionDefinition {
 		}
 
 		$output_spec = $this->resolve_output_spec($data['output_format']);
-		$saved = Image::saveGeneratedImage($this->getSecretPrefix(), $this->getLineUserId(), $binary, $output_spec['mime_type'], $output_spec['extension']);
+		$saved = Image::saveGeneratedImage($this->get_secret_prefix(), $this->get_line_user_id(), $binary, $output_spec['mime_type'], $output_spec['extension']);
 		if (! $saved) {
 			return $this->build_direct_error_response(__( 'Error: Failed to save generated image.', LineConnect::PLUGIN_NAME ));
 		}
 
 		// Generate thumbnail
-		$thumb = Image::generateThumbnail($saved['full_path'], $this->getSecretPrefix(), $this->getLineUserId());
+		$thumb = Image::generateThumbnail($saved['full_path'], $this->get_secret_prefix(), $this->get_line_user_id());
 		if (!$thumb) {
 			// Fallback to original if thumbnail generation fails, but check size
 			if ($file_size > 1048576) {
@@ -206,8 +208,6 @@ class GenerateImage extends AbstractActionDefinition {
 			),
 		);
 	}
-
-	use ImageGenerationTrait;
 
 	/**
 	 * Build the OpenAI image request payload.
