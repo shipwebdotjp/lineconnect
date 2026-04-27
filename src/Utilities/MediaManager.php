@@ -10,7 +10,7 @@ class MediaManager {
 	/**
 	 * 生成メディアファイルを公開用ディレクトリへ保存する（共通処理）
 	 *
-	 * 保存先は uploads/lineconnect/generated/{channel_prefix}/{Y/m}/{media_type}/
+	 * 保存先は uploads/lineconnect/generated/{channel_prefix}/{Y/m}/{user_dir}/{media_type}/
 	 *
 	 * @param string      $secret_prefix
 	 * @param string      $line_user_id
@@ -41,7 +41,11 @@ class MediaManager {
 		if ( empty( $channel_prefix ) ) {
 			$channel_prefix = '_none';
 		}
-		$user_dir        = substr( $line_user_id, 1, 4 );
+		if ( preg_match( '/^[URC][0-9a-f]{32}$/i', $line_user_id ) ) {
+			$user_dir = substr( $line_user_id, 1, 4 );
+		} else {
+			$user_dir = '_unknown';
+		}
 		$relative_dir    = 'generated/' . $channel_prefix . '/' . gmdate( 'Y/m' ) . '/' . $user_dir . '/' . $media_type;
 		$target_dir_path = FileSystem::make_lineconnect_dir( $relative_dir );
 		if ( ! $target_dir_path ) {
@@ -73,8 +77,12 @@ class MediaManager {
 
 		// パストラバーサル防止
 		$real_target_dir = realpath( $target_dir_path );
-		$real_full_path  = realpath( dirname( $full_path ) );
-		if ( $real_target_dir === false || $real_full_path === false || strpos( $real_full_path, $real_target_dir ) !== 0 ) {
+		if ( $real_target_dir === false ) {
+			return false;
+		}
+
+		$real_full_path = realpath( dirname( $full_path ) );
+		if ( $real_full_path === false || strpos( $real_full_path, $real_target_dir ) !== 0 ) {
 			$parent_dir = dirname( $full_path );
 			if ( ! file_exists( $parent_dir ) ) {
 				return false;
