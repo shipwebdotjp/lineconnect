@@ -236,7 +236,10 @@ class File {
 				// make file path
 				$file_path = $target_dir_path . '/' . $file_name;
 				// write file
-				file_put_contents( $file_path, $content );
+				if ( file_put_contents( $file_path, $content ) === false ) {
+					error_log( "LineConnect Error: Failed to write file to {$file_path}" );
+					return false;
+				}
 				// return file path
 				return $relative_dir . '/' . $file_name;
 			}
@@ -254,7 +257,7 @@ class File {
 		global $wpdb;
 		$table_name = $wpdb->prefix . lineconnect::TABLE_BOT_LOGS;
 		// get row from log table
-		$row = $wpdb->get_row( "SELECT * FROM {$table_name} WHERE id = {$logId}" );
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE id = %d", $logId ) );
 		if ( $row ) {
 			// message column is JSON string, so decode to object
 			$message = json_decode( $row->message );

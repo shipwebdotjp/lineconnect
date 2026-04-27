@@ -350,9 +350,14 @@ class OpenAi {
 				}
 			}
 		} else {
-			$content = $prompt;
+			$content = array(
+				array(
+					'type' => 'text',
+					'text' => $prompt,
+				),
+			);
 			if ( isset( $quoted_contexts ) ) {
-				$content = array_merge( array( $content ), $quoted_contexts );
+				$content = array_merge( $content, $quoted_contexts );
 			}
 			$messages[] = array(
 				'role'    => 'user',

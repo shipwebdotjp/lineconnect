@@ -92,14 +92,6 @@ class GenerateImageEdit extends AbstractActionDefinition {
 					'default'     => 75,
 					'required'    => false,
 				),
-				array(
-					'type'        => array( 'string', 'null' ),
-					'name'        => 'input_fidelity',
-					'description' => __( 'Controls fidelity to the original input image(s). Available values: high, low.', LineConnect::PLUGIN_NAME ),
-					'default'     => 'high',
-					'enum'        => array( 'high', 'low' ),
-					'required'    => false,
-				),
 			),
 			'namespace'   => self::class,
 			'role'        => 'any',
@@ -115,8 +107,7 @@ class GenerateImageEdit extends AbstractActionDefinition {
 		$quality = 'auto',
 		$background = 'auto',
 		$output_format = 'png',
-		$output_compression = 75,
-		$input_fidelity = 'high'
+		$output_compression = 75
 	): array {
 		$prompt = trim( (string) $prompt );
 		if ( $prompt === '' ) {

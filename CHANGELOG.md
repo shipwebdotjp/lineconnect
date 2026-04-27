@@ -15,7 +15,8 @@
 -
 
 ## [4.7.0] - 2026-04-27
-### Changes
+### Changed
+- Action::do_actionにおいて、アクションがmessagesキーを含む配列を返す場合、その配列の各アイテムが個別のLINEメッセージとして送信されるようになりました。この変更はメッセージ配列を返すカスタムアクションに影響します。詳細はドキュメント(document/docs/actionflow.md および document/i18n/ja/docusaurus-plugin-content-docs/current/actionflow.md)を参照してください。
 - Webhookをbot.phpファイルで直接受けていたのを、REST API経由で受けるように変更(https://example.com/wp-json/lineconnect/v1/webhook)
 - WP標準のユーザー機能をフィルターフックで拡張して、独自のユーザー管理システムを使っているプラグインでも連携できるように
 - WPのアクションフックをトリガーとして、アクションフローを実行する新たなトリガータイプを追加(ログイン,ログアウト時に通知を送信するなどができます)
