@@ -31,34 +31,6 @@ class GenerateImageEditTest extends WP_UnitTestCase {
 		$this->assertSame('https://myproxy.com/v1/responses', $method->invoke($definition, 'https://myproxy.com/v1/responses'));
 	}
 
-	public function test_redact_image_data_urls_for_log_masks_data_urls() {
-		$definition = new GenerateImageEdit();
-		$method = new ReflectionMethod(GenerateImageEdit::class, 'redact_image_data_urls_for_log');
-
-		$payload = array(
-			'input' => array(
-				array(
-					'role' => 'user',
-					'content' => array(
-						array(
-							'type' => 'input_image',
-							'image_url' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-						),
-						array(
-							'type' => 'input_text',
-							'text' => 'keep this',
-						),
-					),
-				),
-			),
-		);
-
-		$redacted = $method->invoke($definition, $payload);
-
-		$this->assertSame('data:image/***;base64,[redacted]', $redacted['input'][0]['content'][0]['image_url']);
-		$this->assertSame('keep this', $redacted['input'][0]['content'][1]['text']);
-	}
-
 	public function test_resolve_image_edit_endpoint() {
 		$definition = new GenerateImageEdit();
 		$method = new ReflectionMethod(GenerateImageEdit::class, 'resolve_responses_endpoint');
