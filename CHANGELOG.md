@@ -14,6 +14,11 @@
 ### Security
 -
 
+## [4.7.1] - 2026-05-08
+### Fixed
+- Action Schemaから`response_mode`を削除
+- audience Schemaの不備を修正し、`user_meta` / `profile` のパラメーターが複数値または空でも保存できるように修正
+
 ## [4.7.0] - 2026-04-27
 ### Changed
 - Action::do_actionにおいて、アクションがmessagesキーを含む配列を返す場合、その配列の各アイテムが個別のLINEメッセージとして送信されるようになりました。この変更はメッセージ配列を返すカスタムアクションに影響します。詳細はドキュメント(document/docs/actionflow.md および document/i18n/ja/docusaurus-plugin-content-docs/current/actionflow.md)を参照してください。
