@@ -24,7 +24,7 @@ LINE公式アカウントが必要になりますので、お持ちでない場�
 3. この時点ではLINE Connectでチャネルを設定していないため「検証」は失敗します。
 URLの例: 
 ```
-https://{your-domain}/wp-content/plugins/lineconnect/bot.php
+https://{your-domain}/wp-json/lineconnect/v1/webhook
 ```
 ※your-domainの部分はご自分のドメイン名が入ります。  
 もしWordpressのURLがドメイン直下でない場合(サブディレクトリにインストールしている場合など)はWordpressディレクトリのパスが追加されます。  

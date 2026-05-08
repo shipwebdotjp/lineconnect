@@ -25,7 +25,7 @@ The Channel Secret and Channel Access Token (long-lived) will be required in the
 
 Example URL: 
 ```
-https://{your-domain}/wp-content/plugins/lineconnect/bot.php
+https://{your-domain}/wp-json/lineconnect/v1/webhook
 ```
 ※ Replace `{your-domain}` with your actual domain name.  
 ※ If WordPress is installed in a subdirectory (not at root), append the WordPress directory path after the domain.
