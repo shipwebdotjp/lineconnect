@@ -14,6 +14,34 @@
 ### Security
 -
 
+## [4.7.2] - 2026-05-12
+### Changes
+- フィルターフック名の変更
+  - `slc_lineconnect_*` 系のフィルターフック名を `slc_*` に変更しました。
+  - 変更対象一覧:
+    - `slc_lineconnect_actionflow_schema` → `slc_actionflow_schema`
+    - `slc_lineconnect_actionflow_uischema` → `slc_actionflow_uischema`
+    - `slc_lineconnect_audience_schema` → `slc_audience_schema`
+    - `slc_lineconnect_audience_uischema` → `slc_audience_uischema`
+    - `slc_lineconnect_interaction_schema` → `slc_interaction_schema`
+    - `slc_lineconnect_interaction_uischema` → `slc_interaction_uischema`
+    - `slc_lineconnect_message_schema` → `slc_message_schema`
+    - `slc_lineconnect_message_type_schema` → `slc_message_type_schema`
+    - `slc_lineconnect_message_type_uischema` → `slc_message_type_uischema`
+    - `slc_lineconnect_message_uischema` → `slc_message_uischema`
+    - `slc_lineconnect_richmenu_schema` → `slc_richmenu_schema`
+    - `slc_lineconnect_richmenu_uischema` → `slc_richmenu_uischema`
+    - `slc_lineconnect_rjsf_translate_string` → `slc_rjsf_translate_string`
+    - `slc_lineconnect_trigger_schema` → `slc_trigger_schema`
+    - `slc_lineconnect_trigger_type_schema` → `slc_trigger_type_schema`
+    - `slc_lineconnect_trigger_type_uischema` → `slc_trigger_type_uischema`
+    - `slc_lineconnect_trigger_uischema` → `slc_trigger_uischema`
+    - `slc_lineconnect_scenario_schema` → `slc_scenario_schema`
+    - `slc_lineconnect_scenario_uischema` → `slc_scenario_uischema`
+### Fixed
+- ユーザーデータの埋め込みが正しくできていなかった不具合を修正。現在は`{{ user.data.display_name }}` の形で表示名を取得できます。
+- `{{$.action_hook.*}}` トリガーで、アクションフックを起点とした場合、ドキュメントに記載されていたパラメータが埋め込めなかった不具合を修正。
+
 ## [4.7.1] - 2026-05-08
 ### Fixed
 - Action Schemaから`response_mode`を削除
