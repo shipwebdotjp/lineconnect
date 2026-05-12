@@ -1,6 +1,10 @@
 # Rich Menu
 You can set different rich menus for linked users, unlinked users, and users with different roles.
 
+The Rich Menu screen has a channel selector at the top and two tabs:
+- Richmenu
+- Richmenu alias
+
 ## Managing Rich Menus
 The Rich Menu page displays a list of created rich menus.
 On the Rich Menu list page, you can perform the following operations:
@@ -20,11 +24,11 @@ You can also use tools like [Rich Menu Editor](https://richmenu.app.e-chan.me/).
 
 1. Open the "Rich Menu" page from the admin menu.
 2. To create from an empty layout, click "Create New from Template".
-3. Alternatively, click "Use as Template" from the Rich Menu list.
+3. Alternatively, click "Use as Template" from the Rich Menu list to start from an existing rich menu.
 4. Set the rich menu properties and save.
 
 ## Setting Images for Rich Menus
-5. Upload an image file.
+5. Upload an image file by drag and drop or by clicking the upload area.
 If you used an existing rich menu as a template, its image will be initially set.
 
 ### Rich Menu Image Requirements
@@ -39,6 +43,10 @@ Images set in rich menus cannot be replaced later. To update a rich menu image, 
 :::
 
 ## Rich Menu Properties
+### Rich Menu ID
+Unique identifier for the rich menu. It is not shown to users.
+Maximum length: 100 characters.
+
 ### Name
 The name of the rich menu. Not displayed to users.
 We recommend using unique titles for easy identification.
@@ -50,12 +58,14 @@ However, the aspect ratio (width ÷ height) must be 1.45 or higher.
 ### Tap Areas
 Coordinates and sizes of tap areas.
 Maximum: 20
+Use the "Add tap areas" button to add more areas.
 
 ### Display Rich Menu by Default
 Whether to display the rich menu by default.
 
 ### Chat Bar Text
 Text displayed in the chat room menu.
+Maximum length: 14 characters.
 
 ## Displaying Rich Menus
 1. Select the created rich menu in the Channel tab of LINE Connect settings.
@@ -72,10 +82,12 @@ Registered rich menus are displayed in a list.
 - Image
 - Use as Template
 - Delete
+The list is shown for the currently selected channel.
 
 ## Aliases
 Screen for creating and managing rich menu aliases.
 By setting created aliases in rich menu switch actions, you can switch rich menus.
+Alias management is also scoped to the currently selected channel.
 ### Creating Aliases
 1. Enter any ID in "Alias ID". Maximum 32 characters, using only alphanumeric characters, hyphens, and underscores.
 2. Select the rich menu to associate with the alias.

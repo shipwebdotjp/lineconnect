@@ -6,6 +6,7 @@ Action flows are called from the following functions
 - When a trigger is fired
 - When an action is immediately executed
 - During scenario execution
+- During interaction execution
 
 ## Actions
 The following types of actions are available. It is also possible to add custom actions using filter hooks.
@@ -68,11 +69,26 @@ Select "Update LINE User Profile" as the action and input `{{ webhook.postback.p
 You can use the data of the user who sent the Webhook event.  
 `{{ user.WPUser object properties }}`  
 Example: Using the display name of a user  
- If the user is already linked to a WordPress user, you can get the display name of the WordPress user; if not, you can get the display name of the LINE user.  
+If the user is already linked to a WordPress user, you can get the display name of the WordPress user; if not, you can get the display name of the LINE user.  
 `{{ user.data.display_name }}`  
 The profile of the LINE user (profile image URL, etc.) can be used in `{{ user.profile.profileProperty }}`.  
 The standard available values for profile properties are `displayName`, `pictureUrl`, `language`, and `statusMessage`.  
 In addition, you can use your own item names set in the profile update action. 
+
+Here is a summary of commonly used `user.data` fields.
+Note: WordPress user-derived fields in `user.data` are available only when the user is linked to a WordPress user. When not linked, only `user.data.display_name` is populated.
+
+| Field | Description | Example |
+| --- | --- | --- |
+| `user.data.ID` | WordPress user ID | `{{ user.data.ID }}` |
+| `user.data.user_login` | Login name | `{{ user.data.user_login }}` |
+| `user.data.user_email` | Email address | `{{ user.data.user_email }}` |
+| `user.data.display_name` | Display name | `{{ user.data.display_name }}` |
+| `user.data.user_nicename` | URL-friendly user name | `{{ user.data.user_nicename }}` |
+| `user.data.user_registered` | Registration date/time | `{{ user.data.user_registered }}` |
+| `user.data.user_url` | Website URL | `{{ user.data.user_url }}` |
+| `user.roles` | List of roles | `{{ user.roles }}` |
+| `user.caps` | List of capabilities | `{{ user.caps }}` |
 
 ## Action Chain
 If the argument of an action is in the form of an object or a predetermined constant to be selected from, embedding variables is not possible.  

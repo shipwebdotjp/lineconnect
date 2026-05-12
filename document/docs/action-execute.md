@@ -15,8 +15,8 @@ This can be used when you need to test action execution, modify user states, or 
 ### How to Use
 1. Open "Action Execution" from the LINE Connect menu in the WordPress admin panel
 2. Select a saved audience from the list or create a new one
-3. Select a saved action from the list or create a new one
-4. Click the "Execute" button to run the action
+3. Select a saved action flow from the list or create a new one
+4. Click the "Execute" button to run the action flow
 
 ## Audience
 

@@ -9,7 +9,7 @@ Messages can be used by creating a new LC message or recalling a saved message.
 
 The extraction criteria for target users are called "audiences."  
 Note that these audiences are different from the ones in the official LINE account.  
-To distinguish them, we refer to the extraction criteria created in LINE Connect as **LC audiences** and those in the official LINE account as **LINE audiences**.  
+In this document, the extraction criteria created in LINE Connect are called **LC audiences**, and those in the official LINE account are called **LINE audiences**. Unless otherwise noted, "audiences" refers to LC audiences.  
 
 In the template selection box, you can choose to create a new audience or recall an existing one.  
 If you want to create a new one, select **New Audience**.  

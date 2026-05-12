@@ -14,5 +14,13 @@
   "sidebar.tutorialSidebar.category.Tutorial - Extras": {
     "message": "Tutorial - Extras",
     "description": "The label for category Tutorial - Extras in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Filter hooks": {
+    "message": "Filter hooks",
+    "description": "The label for category Filter hooks in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.WPユーザー代替フィルター": {
+    "message": "WP user alternative filters",
+    "description": "The label for category WPユーザー代替フィルター in sidebar tutorialSidebar"
   }
 }

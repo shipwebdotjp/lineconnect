@@ -950,12 +950,16 @@ class LineConnect {
 		}
 		$wp_user = self::get_wpuser_from_line_id( $secret_prefix, $line_id );
 		if ( $wp_user ) {
-			$user_data['data'] = json_decode( json_encode( $wp_user ), true );
+			$user_data['data']  = (array) $wp_user->data;
+			$user_data['ID']    = $wp_user->ID;
+			$user_data['roles'] = $wp_user->roles;
+			$user_data['caps']  = $wp_user->caps;
 		} elseif ( $line_id_row && isset( $user_data['profile']['displayName'] ) ) {
 			$user_data['data'] = array(
 				'display_name' => $user_data['profile']['displayName'],
 			);
 		}
+		// error_log( 'get_userdata_from_line_id: ' . print_r( $user_data, true ) );
 		return $user_data;
 	}
 

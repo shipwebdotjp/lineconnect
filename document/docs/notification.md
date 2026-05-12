@@ -12,7 +12,7 @@ This is a way to send LINE users notifications of updates to articles posted on 
 2. To include an image in the notification, set a featured image for the post.
 3. Choose the recipients from the "Send target:" list.
    - For regular channels, you can choose "All Friends", "Linked Friends", or users in specific WordPress roles (multiple selection supported).
-   - At the end of the channel list you will see "Audience". When you select Audience, the options shown are posts saved under the custom post type "Audience". Selecting multiple audiences will send the message to each specified audience separately (if the same user belongs to multiple audiences they may receive duplicate messages).
+   - At the end of the list you will see "Audience". When you select Audience, the options shown are posts saved under the custom post type "Audience". Selecting multiple audiences will send the message to each specified audience separately (if the same user belongs to multiple audiences they may receive duplicate messages).
 4. From the "Message Template" list, select the template to use. For the default template you can adjust general design and colors in the settings screen. For other LC message templates, you can fully customize the message content.
 
 ### Variables available when using LC messages as templates

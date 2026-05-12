@@ -20,9 +20,9 @@ Add args (message replacement argument) and set name as the key and `{{$.user.da
 This will cause `{{name}}` in the message text to be replaced by the `user's display name` and sent.  
 
 ## Insertion when sending a push message
-Only when sending a push message, you can insert user data and send it.  
+When sending a push message, you can insert user data and send it.  
 For example, by embedding `{{$.user.data.display_name}}` in the message text, you can insert the user's display name.
 
 ### Bulk Sending by filtering the Audience
 **For Broadcast Sending**: User data cannot be inserted.  
-**For other cases**: If the message contains placeholders, it can switch to sending as a push message, allowing for user data insertion.
+**For other cases**: If the message contains placeholders, it switches to push message sending, allowing user data to be inserted.

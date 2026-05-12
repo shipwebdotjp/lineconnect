@@ -16,7 +16,7 @@ Specify the ID of the scenario to start.
 Specify the behavior when the scenario is already started.
 - **Never restart**: Does nothing if the scenario is already started
 - **Restart only completed**: Only restarts from the beginning if the scenario is completed.
-- **Always restart**: Always restarts the scenario regardless of its status.
+- **Always restart**: Always starts the scenario from the beginning regardless of its status.
 
 ### LINE User ID
 LINE User ID. The default value is the LINE user ID of the event source if not specified.
