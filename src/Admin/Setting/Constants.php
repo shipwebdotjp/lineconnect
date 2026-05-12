@@ -437,21 +437,24 @@ class Constants {
 	}
 
 	public static function get_management_command() {
-		return array(
-			'clear_richmenu_cache' => array(
-				'type'        => 'button',
-				'label'       => __( 'Clear the rich menu cache', lineconnect::PLUGIN_NAME ),
-				'description' => __( 'Clear the cache of the rich menu list.', lineconnect::PLUGIN_NAME ),
-				'class'       => 'button-secondary',
-				'confirm'     => __( 'Are you sure you want to clear the rich menu cache?', lineconnect::PLUGIN_NAME ),
-			),
-			'delete_all_data'      => array(
-				'type'        => 'button',
-				'label'       => __( 'Delete all plugin data', lineconnect::PLUGIN_NAME ),
-				'description' => __( 'Delete all plugin data.', lineconnect::PLUGIN_NAME ),
-				'class'       => 'button-danger',
-				'confirm'     => __( 'Are you sure you want to delete all plugin data?', lineconnect::PLUGIN_NAME ),
-			),
+		return apply_filters(
+			lineconnect::FILTER_PREFIX . 'management_command',
+				array(
+				'clear_richmenu_cache' => array(
+					'type'        => 'button',
+					'label'       => __( 'Clear the rich menu cache', lineconnect::PLUGIN_NAME ),
+					'description' => __( 'Clear the cache of the rich menu list.', lineconnect::PLUGIN_NAME ),
+					'class'       => 'button-secondary',
+					'confirm'     => __( 'Are you sure you want to clear the rich menu cache?', lineconnect::PLUGIN_NAME ),
+				),
+				'delete_all_data'      => array(
+					'type'        => 'button',
+					'label'       => __( 'Delete all plugin data', lineconnect::PLUGIN_NAME ),
+					'description' => __( 'Delete all plugin data.', lineconnect::PLUGIN_NAME ),
+					'class'       => 'button-danger',
+					'confirm'     => __( 'Are you sure you want to delete all plugin data?', lineconnect::PLUGIN_NAME ),
+				),
+			)
 		);
 	}
 }

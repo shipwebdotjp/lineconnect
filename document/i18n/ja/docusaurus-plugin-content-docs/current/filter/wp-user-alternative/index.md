@@ -333,3 +333,5 @@ class MyCustomUser {
     }
 }
 ```
+
+### slc_wp_user_query_alternative

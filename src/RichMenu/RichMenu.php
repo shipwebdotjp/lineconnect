@@ -78,8 +78,8 @@ class RichMenu {
 		$formData = [];
 		$form = array(
 			'id' => 'richmenu',
-			'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_schema', Schema::get_richmenu_schema()),
-			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_richmenu_uischema',  Schema::get_richmenu_uischema()),
+			'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'richmenu_schema', Schema::get_richmenu_schema()),
+			'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'richmenu_uischema',  Schema::get_richmenu_uischema()),
 			'formData' => $formData,
 			'props' => new \stdClass(),
 		);

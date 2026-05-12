@@ -33,7 +33,7 @@ class Message {
 	public static function get_message_schema() {
 		$message_schema = array();
 		foreach (Schema::get_message_type_items() as $type => $schema) {
-			$message_schema[$type] = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_schema', Schema::get_message_schema());
+			$message_schema[$type] = apply_filters(lineconnect::FILTER_PREFIX . 'message_schema', Schema::get_message_schema());
 			$message_schema[$type]['properties']['message'] = $schema; //['properties']['messages']['items']
 		}
 		return $message_schema;

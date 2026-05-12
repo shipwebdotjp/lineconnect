@@ -29,7 +29,7 @@ function my_filter_publish_postmeta_is_send_line($is_send_line, $post_ID) {
         foreach (lineconnect::get_all_channels() as $channel_id => $channel) {
             $is_send_line[$channel['prefix']] = array(
                 'role' => array('slc_all'), // すべての友達に送信
-                'template' => 113, // 得敵の投稿タイプ用のテンプレートID(LCメッセージの投稿ID)を設定
+                'template' => 113, // 特定の投稿タイプ用のテンプレートID(LCメッセージの投稿ID)を設定
                 'isSend' => 'ON', // デフォルトで予約投稿時に送信するのチェックボックスをON
             );
         }

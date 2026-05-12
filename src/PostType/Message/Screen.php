@@ -92,15 +92,15 @@ class Screen {
 			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
 			$form[] = array(
 				'id' => 'type',
-				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', Schema::get_message_type_uischema()),
+				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_type_schema', $type_schema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_type_uischema', Schema::get_message_type_uischema()),
 				'formData' => Message::get_form_type_data($formData[$i] ?? null, $schema_version),
 				'props' => new \stdClass(),
 			);
 			$form[] = array(
 				'id' => 'message',
 				'schema' => ! empty($formData[$i]["type"]) ? $subSchema[$formData[$i]["type"]] : new \stdClass(),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', Schema::get_message_uischema()),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_uischema', Schema::get_message_uischema()),
 				'formData' => Message::get_form_message_data($formData[$i + 1] ?? null, $schema_version),
 				'props' => new \stdClass(),
 			);

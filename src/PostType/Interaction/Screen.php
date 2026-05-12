@@ -58,7 +58,7 @@ class Screen {
         $form = array(
             'id' => 'interaction',
             'schema' => Interaction::get_schema(),
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_interaction_uischema', Schema::get_uischema()),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'interaction_uischema', Schema::get_uischema()),
             'formData' => Interaction::get_form_data(get_the_ID(), $schema_version, $latest_form_version),
             'props' => new \stdClass(),
         );

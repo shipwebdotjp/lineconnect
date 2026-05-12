@@ -1422,7 +1422,7 @@ class Scenario {
 		}
 		$step_schema['definitions']['secret_prefix']['items']['oneOf'] = $all_channels;
 
-		$schema = apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_schema', $step_schema);
+		$schema = apply_filters(lineconnect::FILTER_PREFIX . self::NAME . '_schema', $step_schema);
 		return $schema;
 	}
 
@@ -1546,7 +1546,7 @@ class Scenario {
 			),
 		);
 
-		return apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_uischema', $uiSchema);
+		return apply_filters(lineconnect::FILTER_PREFIX . self::NAME . '_uischema', $uiSchema);
 	}
 
 	/**

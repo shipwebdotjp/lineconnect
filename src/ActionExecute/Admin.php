@@ -94,7 +94,7 @@ class Admin {
         $audience_form = array(
             'id' => 'audience',
             'schema' => $audience_schema,
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', AudienceSchema::get_uischema()),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'audience_uischema', AudienceSchema::get_uischema()),
             'formData' => $audience_form_data,
             'props' => new \stdClass(),
         );
@@ -114,8 +114,8 @@ class Admin {
             array(
                 array(
                     'id' => 'actionexecute',
-                    'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_schema', ActionFlow::getSchema()),
-                    'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_' . ActionExecute::NAME . '_uischema', ActionFlow::getUiSchema()),
+                    'schema' => apply_filters(lineconnect::FILTER_PREFIX . ActionExecute::NAME . '_schema', ActionFlow::getSchema()),
+                    'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . ActionExecute::NAME . '_uischema', ActionFlow::getUiSchema()),
                     'formData' => [],
                     'props' => new \stdClass(),
                 )

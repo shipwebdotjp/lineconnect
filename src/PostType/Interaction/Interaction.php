@@ -16,7 +16,7 @@ class Interaction {
 
     public static function get_schema() {
         return apply_filters(
-            LineConnect::FILTER_PREFIX . 'lineconnect_interaction_schema',
+            LineConnect::FILTER_PREFIX . 'interaction_schema',
             Schema::get_schema()
         );
     }

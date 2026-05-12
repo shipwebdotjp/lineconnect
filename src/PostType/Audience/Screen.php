@@ -73,7 +73,7 @@ class Screen {
         $form = array(
             'id' => 'audience',
             'schema' => Audience::get_audience_schema(),
-            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_uischema', Schema::get_uischema()),
+            'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'audience_uischema', Schema::get_uischema()),
             'formData' => !empty($formData[0]) ? Audience::get_form_audience_data($formData[0], $schema_version) : new \stdClass(),
             'props' => new \stdClass(),
         );

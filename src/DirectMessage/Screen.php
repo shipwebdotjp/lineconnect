@@ -88,15 +88,15 @@ class Screen {
 			$type_schema['title'] = sprintf('%s (%d/%d)', __('Message', lineconnect::PLUGIN_NAME), ($i / 2) + 1, 5);
 			$messageForm[] = array(
 				'id' => 'type',
-				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_schema', $type_schema),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_type_uischema', SLCMessageSchema::get_message_type_uischema()),
+				'schema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_type_schema', $type_schema),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_type_uischema', SLCMessageSchema::get_message_type_uischema()),
 				'formData' => SLCMessage::get_form_type_data($messageFormData[$i] ?? null, null),
 				'props' => new \stdClass(),
 			);
 			$messageForm[] = array(
 				'id' => 'message',
 				'schema' => ! empty($messageFormData[$i]["type"]) ? $messageSubSchema[$messageFormData[$i]["type"]] : new \stdClass(),
-				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_message_uischema', SLCMessageSchema::get_message_uischema()),
+				'uiSchema' => apply_filters(lineconnect::FILTER_PREFIX . 'message_uischema', SLCMessageSchema::get_message_uischema()),
 				'formData' => SLCMessage::get_form_message_data($messageFormData[$i + 1] ?? null, null),
 				'props' => new \stdClass(),
 			);

@@ -86,7 +86,7 @@ class ActionFlow {
 			),
 		);
 		Action::build_action_schema_items( $schema['properties']['actions']['items']['oneOf'] );
-		$schema = apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_schema', $schema );
+		$schema = apply_filters( lineconnect::FILTER_PREFIX . self::NAME . '_schema', $schema );
 		return $schema;
 	}
 
@@ -133,7 +133,7 @@ class ActionFlow {
 				),
 			),
 		);
-		return apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_' . self::NAME . '_uischema', $uiSchema );
+		return apply_filters( lineconnect::FILTER_PREFIX . self::NAME . '_uischema', $uiSchema );
 	}
 
 	static function get_lineconnect_actionflow_name_array() {

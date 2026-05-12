@@ -73,7 +73,7 @@ EOM;
 
 	public static function get_translate_string() {
 		return apply_filters(
-			lineconnect::FILTER_PREFIX . 'lineconnect_rjsf_translate_string',
+			lineconnect::FILTER_PREFIX . 'rjsf_translate_string',
 			array(
 				'Item'                                   => __('Item', lineconnect::PLUGIN_NAME),
 				/** Missing items reason, used by ArrayField */

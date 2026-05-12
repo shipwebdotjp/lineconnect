@@ -77,7 +77,7 @@ class Audience {
             );
         }
         $audience_schema['definitions']['secret_prefix']['items']['oneOf'] = $all_channels;
-        return apply_filters(lineconnect::FILTER_PREFIX . 'lineconnect_audience_schema', $audience_schema);
+        return apply_filters(lineconnect::FILTER_PREFIX . 'audience_schema', $audience_schema);
     }
 
     /** 

@@ -81,19 +81,19 @@ class Screen {
 		$ary_init_data['formName']        = $formName;
 		$schema_version                   = get_post_meta( get_the_ID(), lineconnect::META_KEY__SCHEMA_VERSION, true );
 		$formData                         = get_post_meta( get_the_ID(), Trigger::META_KEY_DATA, true );
-		$subSchema                        = apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_schema', Trigger::get_schema() );
+		$subSchema                        = apply_filters( lineconnect::FILTER_PREFIX . 'trigger_schema', Trigger::get_schema() );
 		$form                             = array(
 			array(
 				'id'       => 'type',
-				'schema'   => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_schema', Trigger::get_type_schema() ),
-				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_type_uischema', Trigger::get_type_uischema() ),
+				'schema'   => apply_filters( lineconnect::FILTER_PREFIX . 'trigger_type_schema', Trigger::get_type_schema() ),
+				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'trigger_type_uischema', Trigger::get_type_uischema() ),
 				'formData' => self::get_form_type_data( $formData[0] ?? null, $schema_version ),
 				'props'    => new \stdClass(),
 			),
 			array(
 				'id'       => 'trigger',
 				'schema'   => ! empty( $formData[0]['type'] ) ? $subSchema[ $formData[0]['type'] ] : new \stdClass(),
-				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'lineconnect_trigger_uischema', Trigger::get_uischema() ),
+				'uiSchema' => apply_filters( lineconnect::FILTER_PREFIX . 'trigger_uischema', Trigger::get_uischema() ),
 				'formData' => self::get_form_trigger_data( $formData[1] ?? null, $schema_version ),
 				'props'    => new \stdClass(),
 			),

@@ -303,7 +303,8 @@ class ListTable extends \WP_List_Table {
 
 
 	public function column_message( $item ) {
-		$message = json_decode( $item['message'] ?: '{}', true );
+		$msg_text = '';
+		$message  = json_decode( $item['message'] ?: '{}', true );
 		if ( json_last_error() == JSON_ERROR_NONE ) {
 			if ( $item['message_type'] == 1 ) {
 				if ( is_array( $message ) && isset( $message[0] ) ) {
@@ -367,9 +368,11 @@ class ListTable extends \WP_List_Table {
 
 			return $this->row_actions( $actions );
 		} elseif ( $column_name === 'user_id' ) {
-			$chat_url = admin_url( 'admin.php?page=' . LineConnect::SLUG__CHAT_SCREEN ) . '#/channel/' . $item['bot_id'] . '/user/' . $item['user_id'];
+			$chat_url = admin_url( 'admin.php?page=' . LineConnect::SLUG__CHAT_SCREEN ) .
+				'#/channel/' . rawurlencode( (string) $item['bot_id'] ) .
+				'/user/' . rawurlencode( (string) $item['user_id'] );
 			$actions  = array(
-				'message' => sprintf( '<a href="%s">%s</a>', $chat_url, __( 'Message', lineconnect::PLUGIN_NAME ) ),
+				'message' => sprintf( '<a href="%s">%s</a>', esc_url( $chat_url ), esc_html__( 'Message', lineconnect::PLUGIN_NAME ) ),
 			);
 			return $this->row_actions( $actions );
 		}
@@ -391,7 +394,9 @@ class ListTable extends \WP_List_Table {
 					<option value=""><?php echo __( 'All Channels', lineconnect::PLUGIN_NAME ); ?></option>
 					<?php
 					foreach ( lineconnect::get_all_channels() as $key => $value ) {
-						echo '<option value="' . $value['prefix'] . '" ' . ( isset( $_REQUEST['bot_id'] ) && $value['prefix'] === $_REQUEST['bot_id'] ? 'selected="selected"' : '' ) . '>' . $value['name'] . '</option>';
+						echo '<option value="' . esc_attr( $value['prefix'] ) . '" ' .
+							selected( $_REQUEST['bot_id'] ?? '', $value['prefix'], false ) . '>' .
+							esc_html( $value['name'] ) . '</option>';
 					}
 					?>
 				</select>
