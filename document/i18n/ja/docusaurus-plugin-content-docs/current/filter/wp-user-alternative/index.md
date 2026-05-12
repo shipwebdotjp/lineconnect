@@ -17,6 +17,9 @@ LINE Connect が WordPress のユーザー関連処理を代替実装へ切り�
 - [slc_filter_is_user_id_valid](#slc_filter_is_user_id_valid): 通常モードでユーザーIDの妥当性判定を変更します。
 - [slc_filter_is_user_id_valid_alternative](#slc_filter_is_user_id_valid_alternative): 代替モードでユーザーIDの妥当性を判定します。
 - [slc_filter_get_linked_userids_by_roles_alternative](#slc_filter_get_linked_userids_by_roles_alternative): 代替モードで指定ロールに紐づくユーザーIDを返します。
+- [slc_wp_user_query_alternative](#slc_wp_user_query_alternative): 代替モードで `WP_User_Query` 相当のユーザー検索結果を返します。
+- [slc_get_user_from_line_id](#slc_get_user_from_line_id): LINE ID からユーザーデータを取得します。
+- [slc_roles](#slc_roles): ロール一覧に独自のステータスや疑似ロールを追加します。
 
 ## 制御用フィルター
 
@@ -305,6 +308,76 @@ add_filter('slc_filter_get_linked_userids_by_roles_alternative', function($roles
 });
 ```
 
+
+### slc_wp_user_query_alternative
+代替モードで `WP_User_Query` 相当の検索結果を返します。WordPress の `wp_users` とは別の保存先や、独自のユーザー管理システムに合わせて検索条件を解釈できます。
+
+#### 引数
+
+- `$args`: (array) `WP_User_Query` と同様の検索条件。
+
+#### 補足
+
+コールバック側で `role__in`、`role__not_in`、`include`、`search`、`search_columns`、`meta_query` を解釈し、ユーザー ID の配列を返してください。
+
+#### 使用例
+
+```php
+add_filter('slc_wp_user_query_alternative', function($args) {
+    // $args を使って独自に検索し、該当するユーザーID配列を返す
+    $query_args = $args;
+    $query_args['fields'] = 'ID';
+
+    return get_users($query_args);
+});
+```
+
+### slc_get_user_from_line_id
+LINE ID をキーに保存先を検索し、該当するユーザーを返します。
+
+#### 引数
+
+- `$user`: (false|object) フィルターに渡される初期値です。通常は `false` が渡されるため、見つかったユーザーオブジェクトで置き換えてください。
+- `$secret_prefix`: (string) LINE チャンネルを識別するプレフィックス。
+- `$line_id`: (string) LINE ユーザー ID。
+
+#### 補足
+
+LINE ID とチャネル固有の識別子を使って保存先を検索し、見つかったユーザーを返してください。該当がなければ `false` を返します。
+
+#### 使用例
+
+```php
+add_filter('slc_get_user_from_line_id', function($user, $secret_prefix, $line_id) {
+    // LINE ID で保存先を検索し、見つかったユーザーオブジェクト、または false を返す
+    return /* 見つかったユーザーオブジェクト、または false */;
+}, 10, 3);
+```
+
+### slc_roles
+ロール一覧に独自のステータスや疑似ロールを追加します。
+
+#### 引数
+
+- `$roles`: (array) 既存のロール一覧。
+
+#### 補足
+
+独自のステータスは WordPress のロールと 1 対 1 で対応しなくても構いませんが、このフックにより `member_status_0` のような疑似ロールをロール一覧へ追加できます。
+
+#### 使用例
+
+```php
+add_filter('slc_roles', function($roles) {
+    // 独自のステータス表示名を追加・調整する
+    $roles['member_status_99'] = [
+        'name' => 'VIP メンバー',
+    ];
+
+    return $roles;
+});
+```
+
 ## カスタムユーザーオブジェクトの例
 
 代替モードを使用する場合、`slc_filter_get_userdata_alternative` は `WP_User` を模倣したオブジェクトを返す必要があります。最低限、`ID` プロパティと `roles` 配列を持っている必要があります。
@@ -333,7 +406,3 @@ class MyCustomUser {
     }
 }
 ```
-
-### slc_wp_user_query_alternative
-### slc_get_user_from_line_id
-### slc_roles

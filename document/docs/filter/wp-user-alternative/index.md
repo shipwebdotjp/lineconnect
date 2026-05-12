@@ -305,6 +305,76 @@ add_filter('slc_filter_get_linked_userids_by_roles_alternative', function($roles
 });
 ```
 
+
+### slc_wp_user_query_alternative
+Returns a `WP_User_Query`-like result in alternative mode. Use this hook when user records live outside `wp_users`, or when a custom user management system needs to map query arguments to its own lookup logic.
+
+#### Arguments
+
+- `$args`: (array) Query arguments compatible with `WP_User_Query`.
+
+#### Notes
+
+Your callback can interpret `role__in`, `role__not_in`, `include`, `search`, `search_columns`, and `meta_query`, then return an array of user IDs.
+
+#### Example
+
+```php
+add_filter('slc_wp_user_query_alternative', function($args) {
+    // Use $args to run your own query and return the matching user ID array.
+    $query_args = $args;
+    $query_args['fields'] = 'ID';
+
+    return get_users($query_args);
+});
+```
+
+### slc_get_user_from_line_id
+Returns a user resolved from a LINE ID. It is intended for adapters that need to map a LINE user ID to their own stored user data.
+
+#### Arguments
+
+- `$user`: (false|object) The initial result passed into the filter. It is typically `false`, and should be replaced with a matched user object when found.
+- `$secret_prefix`: (string) The prefix that identifies the LINE channel.
+- `$line_id`: (string) The LINE user ID.
+
+#### Notes
+
+The hook should search your storage using the LINE ID and any channel-specific identifier, then return the matching user object. If no match is found, return `false`.
+
+#### Example
+
+```php
+add_filter('slc_get_user_from_line_id', function($user, $secret_prefix, $line_id) {
+    // Search your storage by LINE ID and return the matched user object, or false.
+    return /* matched user object or false */;
+}, 10, 3);
+```
+
+### slc_roles
+Adds custom statuses or pseudo roles to the role list.
+
+#### Arguments
+
+- `$roles`: (array) The existing role list.
+
+#### Notes
+
+Custom statuses do not need to map 1:1 to WordPress roles, but this hook lets you register pseudo roles such as `member_status_0` in the role list.
+
+#### Example
+
+```php
+add_filter('slc_roles', function($roles) {
+    // Add or adjust a custom status label
+    $roles['member_status_99'] = [
+        'name' => 'VIP Member',
+    ];
+
+    return $roles;
+});
+```
+
 ## Custom User Object example
 
 When using alternative mode, `slc_filter_get_userdata_alternative` should return an object that mimics `WP_User`. At a minimum, it should have an `ID` property and a `roles` array.
