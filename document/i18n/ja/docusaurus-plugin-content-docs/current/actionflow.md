@@ -71,6 +71,21 @@ LINEユーザーのプロフィール（プロフィール画像URLなど）は`
 プロフィールプロパティとして使える値は`displayName`、`pictureUrl`、`language`、`statusMessage`が標準で用意されています。  
 加えて、プロフィール更新アクションで設定した独自の項目名も使用可能です。    
 
+よく使う`user.data`の項目を以下にまとめます。  
+※ `user.data` のうち WordPressユーザー由来の項目は、WordPressユーザーと連携済みの場合に使用できます。未連携の場合は `user.data.display_name` のみが入ります。
+
+| 項目 | 説明 | 例 |
+| --- | --- | --- |
+| `user.data.ID` | WordPressユーザーID | `{{ user.data.ID }}` |
+| `user.data.user_login` | ログイン名 | `{{ user.data.user_login }}` |
+| `user.data.user_email` | メールアドレス | `{{ user.data.user_email }}` |
+| `user.data.display_name` | 表示名 | `{{ user.data.display_name }}` |
+| `user.data.user_nicename` | URL向けのユーザー名 | `{{ user.data.user_nicename }}` |
+| `user.data.user_registered` | 登録日時 | `{{ user.data.user_registered }}` |
+| `user.data.user_url` | WebサイトURL | `{{ user.data.user_url }}` |
+| `user.roles` | ロール一覧 | `{{ user.roles }}` |
+| `user.caps` | 権限一覧 | `{{ user.caps }}` |
+
 ## アクションチェイン
 アクションの引数がオブジェクトやあらかじめ決められた定数から選択する形式の場合は変数の埋め込みが行えません。  
 その場合、チェインルールを追加することで、任意のアクションの戻り値をそれ以降のアクションの引数に注入することができます。

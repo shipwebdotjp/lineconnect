@@ -9,7 +9,7 @@ flowchart LR
 ## トリガータイプ
 
 ### Webhook
-条件に一致するwebhookイベントをトリガーとしてアクションを実行します。
+条件に一致するWebhookイベントをトリガーとしてアクションを実行します。
 #### イベントタイプ
 メッセージ/ポストバック/アカウント連携/友だち追加(フォロー)/ブロック(フォロー解除)などWebhookイベントの種類です。  
 イベントタイプについて詳しくは[メッセージ（Webhook）を受信する | LINE Developers](https://developers.line.biz/ja/docs/messaging-api/receiving-messages/#webhook-event-types)をご覧ください。  
@@ -70,7 +70,7 @@ WordPressのフックをトリガーとして、アクションを実行しま�
 | プラグイン無効化 | `deactivated_plugin` | `($plugin, $network_wide)` |
 | テーマ切り替え | `switch_theme` | `($new_name, $new_theme, $old_theme)` |
 
-サイト独自のフックを使いたい場合は、`slc_filter_predefined_action_hooks` フィルターでフック名を追加できます。\
+サイト独自のフックを使いたい場合は、`slc_filter_predefined_action_hooks` フィルターでフック名を追加できます。
 さらに、`slc_action_custom_hook` を使うと、任意のフック名と引数配列を渡して Action Hook として扱えます。
 
 #### 条件
@@ -116,7 +116,7 @@ Action Hook のトリガーでは、実行対象となるユーザーを選べ�
 | `switch_theme` | 現在の管理者 |
 
 #### アクションで使える値
-Action Hook で受け取ったフック引数は、アクションやメッセージテンプレート内で参照できます。\
+Action Hook で受け取ったフック引数は、アクションやメッセージテンプレート内で参照できます。
 実際には `action_hook.args` 配下に格納されるため、次のように参照します。
 
 - `{{$.action_hook.args.user_id}}`
@@ -182,7 +182,7 @@ do_action( 'slc_action_custom_hook', 'my_custom_hook', array(
 - サイト独自のイベントを `lineconnect_custom_hook` から通知する
 
 #### 補足
-Action Hook は WordPress の標準フックに加えて、サイト実装側で追加されたカスタムフックにも対応できます。\
+Action Hook は WordPress の標準フックに加えて、サイト実装側で追加されたカスタムフックにも対応できます。
 ただし、どのフックでどの値が `action_hook.args` に入るかは、フックの引数構造に依存します。必要に応じて、`ActionHooks` の実装やカスタムフックの定義を確認してください。
 
 ### スケジュール

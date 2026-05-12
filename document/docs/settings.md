@@ -9,7 +9,7 @@ The channel referred to here is the Messaging API channel of the LINE Official A
 |item name|description|
 |----:|----|
 |Channel name|Channel name|
-|Channel access token|channel access token (long-lived)||
+|Channel access token|channel access token (long-lived)|
 |Channel Secret|Channel Secret|
 |Default target role|Default selected role in the Send LINE meta box|
 |The number of people|Number of people to be notified by the selected role or setting|
@@ -17,12 +17,44 @@ The channel referred to here is the Messaging API channel of the LINE Official A
 |Rich menu ID for unlinked users|Rich menu for unlinked friends|
 |Rich menu ID for (role name)|Rich menu for Role name|
 
+### Webhook settings
+The webhook settings box shows the Webhook URL to use with your LINE Developers Messaging API channel.
+The channel secret can be obtained from the Channel Basic Settings page, and the channel access token can be obtained from the Messaging API Settings page.
+If you use Webhook, set the webhook URL to the displayed value.
+
 ## Link
-You can change the login page URL, keywords for starting or canceling the linking, and messages when starting or canceling the linking.
+You can change the login page URL, redirect behavior, keywords for starting or canceling the linking, and the messages shown when linking or unlinking starts or completes.
 ### Login page URL
 The URL of the page to which you will be redirected when you tap the link to start linking. This is usually the login page URL.
+### Redirect page method
+Choose how the redirect page is handled after login.
+- Direct file access
+- Admin Post
+- REST API
 ### Automatically initiate linkage
 Automatically initiate linkage When user add an official account as a friend.
+### Account link/unlink start keywords
+Keywords used to start account linking or unlinking.
+### Message title for account linkage initiation
+The title shown in the message that starts account linking.
+### Message body for account linkage initiation
+The body shown in the message that starts account linking.
+### Message button label to start account linkage
+The button label shown in the message that starts account linking.
+### Account Linkage Completion Message
+The message shown when account linking has completed.
+### Account Linkage Failure Messages
+The message shown when account linking fails.
+### Message title for account unlinking initiation
+The title shown in the message that starts account unlinking.
+### Message body for account unlinking initiation
+The body shown in the message that starts account unlinking.
+### Message button label to start account unlinking
+The button label shown in the message that starts account unlinking.
+### Account Unlinking Completion Message
+The message shown when account unlinking has completed.
+### Account Unlinking Failure Message
+The message shown when account unlinking fails.
 ## Update Notification
 ### Post types
 Select the post type for which you wish to display the Send Line meta box: in addition to the "Post" and "Page" that exist by default in Wordpress, you can also select a custom post type added by Custom Post Type UI or yourself.
@@ -58,7 +90,7 @@ Even if the maximum number of lines is not exceeded, the part exceeding 500 char
 Using the Chat GPT API, you can set up AI to automatically respond to messages sent to LINE official accounts. 
 ### Auto response by AI
 Whether or not to use AI auto-response. Enable to use.
-### OpenAI API URL
+### OpenAI API Endpoint
 The URL of the OpenAI or OpenAI-compatible API. The default is the OpenAI API URL.
 ### OpenAI API Key
 Enter your OpenAI or OpenAI-compatible API key to use the Chat GPT API, which can be obtained [Open AI website](https://platform.openai.com/). 
@@ -91,5 +123,7 @@ Number of times an linked user can use it per day. -1 is unlimited.
 ### Limit message
 This message is displayed when the number of times the limit can be used in a day is exceeded. The `%limit%` is replaced by the limit number of times.
 ## Data
-### Update Rich Menu List
-This button is used when updating the rich menu list via the API or other means, and deleting the cache of the rich menu list held by LINE Connect to reflect the update.
+### Clear the rich menu cache
+This button clears the rich menu cache held by LINE Connect so updates made through the API are reflected.
+### Delete all plugin data
+Delete all plugin data stored by LINE Connect.

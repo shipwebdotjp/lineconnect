@@ -13,12 +13,14 @@ Chat with users who have added your LINE Official Account as a friend or sent me
 ### 1. Channel/User Selection Area (Left Panel)
 - Switch between multiple channels (for multi-channel management)
 - Display user list for selected channel
+- Load additional users in batches with **Load more users**
 
 ### 2. Message Area (Center Panel)
 #### Message Display
-- Supported formats: Text, Images, Videos, Location, Flex Messages
-- Unsupported formats: Stickers, Template Messages
+- Supported formats: Text, Images, Videos, Audio, Files, Location, Image Maps, Flex Messages
+- Sticker messages and template messages are displayed as placeholder bubbles
 - Message bubbles (Left: Received, Right: Sent)
+- System events such as follow/unfollow, join/leave, postbacks, beacon detection, and account-linking events are shown as system bubbles
 
 #### Action Buttons
 - **Load Older Messages**: Load historical messages
@@ -34,6 +36,7 @@ Chat with users who have added your LINE Official Account as a friend or sent me
 - **Edit Profile**: Display user profile edit form
 - **Edit Tags**: Display tag management form (add/edit/delete)
 - **Scenarios**: Display scenario configuration form linked to user
+- **Interactions**: Open linked interaction sessions in a new tab
 
 ## Message Sending Procedure
 1. Click "Open Message Input Form" button at bottom of message area
@@ -55,7 +58,6 @@ When checked: Push notifications will not appear on the user's smartphone.
 3. Click **Save** to apply changes
 
 ## Current Limitations
-- Unsupported message formats: Stickers, Template Messages
 - No message editing/deletion functionality
 - No user/message search functionality
 - No auto message refresh functionality

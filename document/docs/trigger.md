@@ -105,7 +105,7 @@ The following major hooks are predefined in the implementation. You can also ext
 | Deactivate plugin | `deactivated_plugin` | `($plugin, $network_wide)` |
 | Switch theme | `switch_theme` | `($new_name, $new_theme, $old_theme)` |
 
-If you want to use a site-specific hook, you can add it through the `slc_filter_predefined_action_hooks` filter.  \
+If you want to use a site-specific hook, you can add it through the `slc_filter_predefined_action_hooks` filter.
 You can also use `slc_action_custom_hook` to pass any hook name and its argument array and treat it as an Action Hook.
 
 #### Conditions
@@ -155,7 +155,7 @@ For example, hooks such as `activated_plugin` or `switch_theme`, which are not d
 
 #### Values available in actions
 
-Hook arguments received by Action Hook can be referenced in actions and message templates.  \
+Hook arguments received by Action Hook can be referenced in actions and message templates.
 In practice, they are stored under `action_hook.args`, so reference them like this:
 
 - `{{$.action_hook.args.user_id}}`
@@ -223,7 +223,7 @@ On the action side, you can reference values like `{{$.action_hook.args.arg1}}`.
 
 #### Notes
 
-Action Hook supports not only WordPress standard hooks but also custom hooks added by the site implementation.  \
+Action Hook supports not only WordPress standard hooks but also custom hooks added by the site implementation.
 However, which values are stored in `action_hook.args` depends on the hook argument structure. If needed, check the `ActionHooks` implementation or the custom hook definition.
 
 ### Schedule

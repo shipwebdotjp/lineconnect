@@ -50,7 +50,20 @@ const sidebars = {
       collapsed: true,
       items: [
         'hook',
-        'filter',
+        {
+          type: 'category',
+          label: 'Filter hooks',
+          link: {
+            type: 'doc',
+            id: 'filter/index',
+          },
+          items: [
+            'filter/actions/index',
+            'filter/post-notification/index',
+            'filter/message-sending/index',
+            'filter/wp-user-alternative/index',
+          ],
+        },
         'store'
       ],
     },

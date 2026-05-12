@@ -10,5 +10,14 @@
   "sidebar.tutorialSidebar.category.For developers": {
     "message": "開発者向け",
     "description": "The label for category For developers in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Filter hooks": {
+    "message": "フィルターフック",
+    "description": "The label for category Filter hooks in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.WP User Alternative": {
+    "message": "WP User 代替",
+    "description": "The label for category WP User Alternative in sidebar tutorialSidebar"
   }
+
 }
