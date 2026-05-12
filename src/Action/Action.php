@@ -120,9 +120,10 @@ class Action {
 	 * @param string             $secret_prefix Channel secret prefix.
 	 * @param string             $scenario_id   Scenario ID.
 	 * @param InteractionSession $session
+	 * @param array              $action_hook_args Additional arguments from action hook context.
 	 * @return array{success:bool,messages:array,results:array}
 	 */
-	static function do_action( $actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null, ?InteractionSession $session = null ) {
+	static function do_action( $actions, $chains, $event = null, $secret_prefix = null, $scenario_id = null, ?InteractionSession $session = null, ?array $action_hook_args = array() ) {
 		// require_once plugin_dir_path(__FILE__) . '../vendor/autoload.php';
 		$results        = array();
 		$message        = array();
@@ -131,6 +132,7 @@ class Action {
 			'webhook' => self::merge_postback_data_to_params( json_decode( json_encode( $event ), true ) ),
 			'user'    => $event ? lineconnect::get_userdata_from_line_id( $secret_prefix, $event->{'source'}->{'userId'} ) : array(),
 			'session' => $session ? $session->get_answers() : array(),
+			'action_hook' => $action_hook_args,
 		);
 		// error_log(print_r($injection_data['user'], true));
 		foreach ( $actions as $action_idx => $action ) {

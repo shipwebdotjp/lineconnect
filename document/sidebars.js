@@ -62,6 +62,12 @@ const sidebars = {
             'filter/post-notification/index',
             'filter/message-sending/index',
             'filter/wp-user-alternative/index',
+            'filter/schema-related/index',
+            'filter/settings-related/index',
+            'filter/translation-related/index',
+            'filter/trigger-related/index',
+            'filter/interaction-related/index',
+            'filter/http-client-related/index',
           ],
         },
         'store'

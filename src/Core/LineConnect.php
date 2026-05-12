@@ -1093,7 +1093,7 @@ class LineConnect {
 	 */
 	static function get_roles() {
 		$all_roles = wp_roles()->roles;
-		return apply_filters( lineconnect::FILTER_PREFIX . 'roles', $all_roles );
+		return apply_filters( self::FILTER_PREFIX . 'roles', $all_roles );
 	}
 
 	/**

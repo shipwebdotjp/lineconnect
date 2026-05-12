@@ -51,6 +51,8 @@ add_filter('slc_filter_actions', 'my_filter_actions');
   - `name`: (string) パラメータの名前。
   - `description`: (string) パラメータの説明。
   - `required`: (boolean) パラメータが必須かどうか。
+  - `default`: (mixed) 入力がないときに使われる初期値です。省略した場合は空の状態から始まります。
+  - `enum`: (array) パラメータに許可する値の一覧です。指定すると、一覧に含まれる値だけを選べます。
 - `namespace`: (string) アクションが属する名前空間。クラス名など。
 - `role`: (string) アクションを実行できるユーザーロール。Function CallingでChat GPTから呼ばれる場合に適用されます。トリガーから呼び出される場合は無視されます。`any` はすべてのユーザーを意味します。
 
@@ -96,6 +98,6 @@ $GLOBALS['LineConnectDemo'] = new LineConnectDemo();
 
 #### トリガーで使う場合
 1. 適切なトリガーを指定します。
-2. アクション-1に、「天気予報を取得」をセットし、locationに「東京」などと入力します。
+2. アクション-1に、「天気予報を取得」をセットし、locationに「東京」などと入力します。「戻り値をLINEメッセージで送信」のチェックは外します。
 3. アクション-2で、「LINEテキストメッセージ取得」とし、「戻り値をLINEメッセージで送信」にチェックを入れます。
-4. parametersのbodyに`{{$.return.1.weather.0.description}}`と入力します。
+4. parametersのbodyに`{{$.return[1].weather[0].description}}`と入力します。

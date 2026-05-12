@@ -51,6 +51,8 @@ The data about the action in an associative array format.
   - `name`: (string) The name of the parameter.
   - `description`: (string) The parameter description.
   - `required`: (boolean) Whether the parameter is required or not.
+  - `default`: (mixed) The default value used when no input is provided. If omitted, the parameter starts empty.
+  - `enum`: (array) A list of allowed values for the parameter. When set, users can only choose one of the listed values.
 - `namespace`: (string) The namespace to which the action belongs. For example, a class name.
 - `role`: (string) The user role that can execute the action, applicable when called from a Chat GPT with Function Calling. Ignored if called from a trigger. 'any' means all users.
 
@@ -98,4 +100,4 @@ Then try sending “Tell me the weather forecast for London".
 1. specify an appropriate trigger
 2. set “Get weather forecast” in action-1, and enter London or something similar in location. 
 3. In action-2, set “Get LINE text message” and check “Send return value as LINE message”.
-4. enter `{{$.return.1.weather.0.description}}` in the body of parameters.
+4. enter `{{$.return[1].weather[0].description}}` in the body of parameters.

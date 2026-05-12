@@ -335,3 +335,5 @@ class MyCustomUser {
 ```
 
 ### slc_wp_user_query_alternative
+### slc_get_user_from_line_id
+### slc_roles
