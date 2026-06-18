@@ -1,14 +1,15 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Translate, { translate } from '@docusaurus/Translate';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 
+const INTRO_VIDEO_URL = 'https://gpt.shipweb.jp/assets/lineconnect_intro.mp4';
+const INTRO_VIDEO_POSTER_URL = 'https://gpt.shipweb.jp/assets/lineconnect_intro.png';
+
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
@@ -35,8 +36,30 @@ function HomepageHeader() {
   );
 }
 
+function HomepageIntroVideo() {
+  return (
+    <section className={styles.videoSection} aria-label="Introduction video">
+      <div className="container">
+        <div className={styles.videoWrap}>
+          <div className={styles.videoFrame}>
+            <video
+              className={styles.video}
+              controls
+              playsInline
+              preload="metadata"
+              poster={INTRO_VIDEO_POSTER_URL}
+              aria-label="LINE Connect introduction video">
+              <source src={INTRO_VIDEO_URL} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={translate({
@@ -47,6 +70,7 @@ export default function Home() {
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <main>
+        <HomepageIntroVideo />
         <HomepageFeatures />
       </main>
     </Layout>

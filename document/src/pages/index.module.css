@@ -21,3 +21,35 @@
   align-items: center;
   justify-content: center;
 }
+
+.videoSection {
+  padding: 2.5rem 0 1rem;
+}
+
+.videoWrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.videoFrame {
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 1rem;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14);
+  aspect-ratio: 16 / 9;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+@media screen and (max-width: 996px) {
+  .videoSection {
+    padding: 1.5rem 0 0.5rem;
+  }
+}

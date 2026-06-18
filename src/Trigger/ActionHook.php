@@ -154,7 +154,7 @@ class ActionHook {
 				$trigger_conditions = isset( $trigger_definition['triggers'] ) && is_array( $trigger_definition['triggers'] ) ? $trigger_definition['triggers'] : array();
 
 				if ( empty( $trigger_conditions ) ) {
-					error_log( '[ActionHook::process] no valid triggers in entry for hook: ' . $hook_name );
+					// error_log( '[ActionHook::process] no valid triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
 				$matched_trigger_condition = null;
@@ -170,7 +170,7 @@ class ActionHook {
 				}
 
 				if ( empty( $matched_trigger_condition ) ) {
-					error_log( '[ActionHook::process] no matched triggers in entry for hook: ' . $hook_name );
+					// error_log( '[ActionHook::process] no matched triggers in entry for hook: ' . $hook_name );
 					continue;
 				}
 
@@ -202,7 +202,7 @@ class ActionHook {
 
 			return $has_executed;
 		} catch ( \Throwable $e ) {
-			error_log( '[ActionHook::process] ' . $e->getMessage() );
+			// error_log( '[ActionHook::process] ' . $e->getMessage() );
 			return false;
 		}
 	}
@@ -487,7 +487,7 @@ class ActionHook {
 					return true;
 			}
 		} catch ( \Throwable $e ) {
-			error_log( '[ActionHook::check_condition] ' . $e->getMessage() );
+			// error_log( '[ActionHook::check_condition] ' . $e->getMessage() );
 			return false;
 		}
 	}
@@ -559,7 +559,7 @@ class ActionHook {
 					return UserProvider::get_current_user_id();
 			}
 		} catch ( \Throwable $e ) {
-			error_log( '[ActionHook::resolve_related_user] ' . $e->getMessage() );
+			// error_log( '[ActionHook::resolve_related_user] ' . $e->getMessage() );
 			return 0;
 		}
 	}

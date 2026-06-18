@@ -21,17 +21,31 @@ use Shipweb\LineConnect\Core\LineConnect;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // 直接アクセスを防ぐ
 }
+
 // if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 // add_filter(
 // 'gettext',
 // function ( $translated, $text, $domain ) {
-// if ( $domain === 'lineconnect' ) {
-// error_log( "[lc-debug] gettext called for domain 'lineconnect' on action='" . ( function_exists( 'current_action' ) ? current_action() : '' ) . "'\n" . print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ), true ) );
-// } return $translated;
+// if ( $domain !== 'cocoon' ) {
+// return $translated;
+// }
+
+// $action    = function_exists( 'current_action' ) ? current_action() : '';
+// $backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 12 );
+// error_log(
+// '[lineconnect debug] early gettext call for cocoon' .
+// ' action=' . $action .
+// ' text=' . $text .
+// ' translated=' . $translated .
+// ' backtrace=' . print_r( $backtrace, true )
+// );
+
+// return $translated;
 // },
 // 10,
 // 3
-// ); }
+// );
+// }
 
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
@@ -63,6 +77,12 @@ function load_lineconnect_plugin() {
 	// $plugin = Shipweb\LineConnect\Core\LineConnect::get_instance();
 	// namespace導入前の暫定処置
 	$plugin = LineConnect::get_instance();
+	// if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	// error_log(
+	// '[lineconnect debug] load_lineconnect_plugin executed action=' .
+	// ( function_exists( 'current_action' ) ? current_action() : '' )
+	// );
+	// }
 	// $test = new \Shipweb\LineConnect\Scenario\Admin();
 }
 add_action( 'plugins_loaded', 'load_lineconnect_plugin' );
